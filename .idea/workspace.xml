@@ -55,10 +55,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="companies_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="companies_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/companies_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="60" selection-start="862" selection-end="862" vertical-scroll-proportion="0.8433049">
+            <state line="37" column="60" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="77" column="2" selection-start="823" selection-end="823" vertical-scroll-proportion="0.5349544">
               <folding />
             </state>
           </provider>
@@ -113,7 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/elephant_admin/index.html.erb" />
@@ -129,6 +137,7 @@
         <option value="$PROJECT_DIR$/app/views/companies/show.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/companies_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
       </list>
     </option>
   </component>
@@ -947,13 +956,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/db/migrate/20120914191528_add_password_digest_to_users.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/static_pages/help.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="29" vertical-scroll-proportion="-0.0">
@@ -1054,7 +1056,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/companies_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="60" selection-start="862" selection-end="862" vertical-scroll-proportion="0.8433049">
+        <state line="37" column="60" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="2" selection-start="823" selection-end="823" vertical-scroll-proportion="0.5349544">
           <folding />
         </state>
       </provider>
