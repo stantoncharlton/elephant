@@ -1,0 +1,15 @@
+<% if signed_in? %>
+    <% provide(:title, 'Home | ' + current_user.name) %>
+    <p>Logged in</p>
+
+<% else %>
+
+    <% provide(:title, 'Home') %>
+
+    <div>
+      <%= render 'sessions/signin' %>
+    </div>
+
+
+<% end %>
+
