@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_filter :signed_in_user, only: [:settings]
+    before_filter :signed_in_user, only: [:show, :settings]
     before_filter :current_company, only: [:show]
 
     def settings
