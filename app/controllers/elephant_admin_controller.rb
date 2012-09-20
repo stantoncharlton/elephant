@@ -1,15 +1,10 @@
 class ElephantAdminController < ApplicationController
-    before_filter :elephant_admin_user, only: [:index, :new_company, :new_user]
+    before_filter :elephant_admin_user, only: [:index]
 
   def index
 
   end
 
-  def new_company
-  end
-
-  def new_user
-  end
 
 
 private

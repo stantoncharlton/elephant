@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     before_filter :signed_in_user, only: [:show, :settings]
-    before_filter :current_company, only: [:show]
+    #before_filter :current_company, only: [:show]
 
     def settings
         @user = current_user
@@ -19,8 +19,8 @@ private
         end
     end
 
-    def current_company
-        @user = User.find(params[:id])
-        redirect_to(root_path) unless current_user.company_id == @user.company_id
-    end
+    #def current_company
+    #    @user = User.find(params[:id])
+    #    redirect_to(root_path) unless current_user.company_id == @user.company_id
+    #end
 end
