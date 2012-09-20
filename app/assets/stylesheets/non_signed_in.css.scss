@@ -1,0 +1,195 @@
+.body-non-signed-in {
+  background: #000000 url(image_path('background.jpg')) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 0px;
+  padding-top: 140px;
+
+  .container-reset {
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+.non-signed-in-header {
+  font-size: 15px;
+  margin-right: 10px;
+}
+
+.login {
+  background: url(image_path('login_box.png')) no-repeat;
+  padding: 40px;
+  width: 513px;
+  height: 514px;
+  margin-top: 0px;
+  margin-left: 50%;
+}
+
+.login h1 {
+  text-align: left;
+  font-family: "gothamboldregular";
+  font-size: 32px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px #000000;
+  margin-bottom: 10px;
+}
+
+.login h2 {
+  text-align: left;
+  font-family: "gothamlightregular";
+  font-size: 17px;
+  color: #cccccc;
+  margin-bottom: 56px;
+}
+
+.login a {
+  display: inline;
+  color: #b9b9b9;
+  float: right;
+  margin-right: 86px;
+
+  &:link, &:visited {
+    color: #b9b9b9;
+  }
+  &:hover {
+    background: transparent;
+    color: #81c0f9;
+  }
+}
+
+.login label {
+  font-family: "gothamboldregular";
+  font-size: 18px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px #000000;
+  margin-bottom: 10px;
+  display: inline;
+}
+
+.login input[type=text],
+       input[type=password] {
+  border-radius: 0px;
+  height: 48px;
+  width: 405px;
+  padding: 0px 10px 0px 10px;
+  background: rgba(255, 255, 255, 1.0);
+  margin-top: 10px;
+  margin-bottom: 25px;
+  display: block;
+
+  color: #1e1e1e;
+  font-size: 16px;
+  font-family: "gothammediumregular";
+
+}
+
+.login .checkbox {
+  border-radius: 0px;
+  height: 27px;
+  width: 27px;
+  background: #FFFFFF;
+  margin-right: 0px;
+
+}
+
+.login .checkbox-label {
+  display: inline;
+  font-size: 16px;
+  color: #FFFFFF;
+  font-family: "gothamlightregular";
+}
+
+.login input::-webkit-input-placeholder {
+  color: #aaabab;
+  font-size: 15px;
+  font-style: italic;
+  font-family: "gothambookregular";
+}
+
+.login input:-moz-placeholder {
+  color: #aaabab;
+  font-size: 15px;
+  font-style: italic;
+  font-family: "gothambookregular";
+}
+
+.login input:-ms-input-placeholder {
+  color: #aaabab;
+  font-size: 15px;
+  font-style: italic;
+  font-family: "gothambookregular";
+}
+
+
+.bluebtn {
+  min-width: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
+  min-height: 50px;
+  color: #FFF;
+  text-shadow: 1px 1px 1px #000000;
+  background: #0058a8;
+  border-radius: 0px;
+  border-width: 1px;
+  border-color: #014583;
+  font-size: 17px;
+  font-family: "gothamboldregular";
+
+  &:hover {
+    background: #3790e0;
+    border-color: #6cb4f6;
+  }
+}
+
+.loginright {
+  float: right;
+  margin-right: 86px;
+}
+
+.loginrightmargin {
+  margin-right: 86px;
+}
+
+
+.quote {
+  max-width: 420px;
+  margin-left: 50px;
+  position: absolute;
+  bottom: 70px;
+}
+
+.quote p {
+  text-align: left;
+  color: #FFF;
+  text-shadow: 1px 1px 1px #000000;
+  font-size: 32px;
+  line-height: 40px;
+  font-family: "gothamboldregular";
+}
+
+.quote a {
+  text-align: left;
+  color: #FFFFFF;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-shadow: 1px 1px 1px #000000;
+  font-size: 22px;
+  font-family: "gothambookregular";
+  text-decoration: underline;
+
+  &:link, &:visited {
+    background: transparent;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px #000000;
+    text-decoration: underline;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, .4);
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px #000000;
+    text-decoration: underline;
+  }
+}

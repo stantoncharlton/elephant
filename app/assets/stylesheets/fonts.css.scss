@@ -1,0 +1,51 @@
+
+
+@font-face {
+  font-family: 'gothamboldregular';
+  src: url(asset-path('Gotham/gothambold-webfont.eot', font));
+  src: url(asset-path('Gotham/gothambold-webfont.eot?#iefix', font)) format('embedded-opentype'),
+  url(asset-path('Gotham/gothambold-webfont.woff', font)) format('woff'),
+  url(asset-path('Gotham/gothambold-webfont.ttf', font)) format('truetype'),
+  url(asset-path('Gotham/gothambold-webfont.svg#gothamboldregular', font)) format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'gothambookregular';
+  src: url(asset-path('Gotham/gothambook-webfont.eot', font));
+  src: url(asset-path('Gotham/gothambook-webfont.eot?#iefix', font)) format('embedded-opentype'),
+  url(asset-path('Gotham/gothambook-webfont.woff', font)) format('woff'),
+  url(asset-path('Gotham/gothambook-webfont.ttf', font)) format('truetype'),
+  url(asset-path('Gotham/gothambook-webfont.svg#gothambookregular', font)) format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'gothammediumregular';
+  src: url(asset-path('Gotham/gothammedium-webfont.eot', font));
+  src: url(asset-path('Gotham/gothammedium-webfont.eot?#iefix', font)) format('embedded-opentype'),
+  url(asset-path('Gotham/gothammedium-webfont.woff', font)) format('woff'),
+  url(asset-path('Gotham/gothammedium-webfont.ttf', font)) format('truetype'),
+  url(asset-path('Gotham/gothammedium-webfont.svg#gothammediumregular', font)) format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'gothamlightregular';
+  src: url(asset-path('Gotham/gothamlight-webfont.eot', font));
+  src: url(asset-path('Gotham/gothamlight-webfont.eot?#iefix', font)) format('embedded-opentype'),
+  url(asset-path('Gotham/gothamlight-webfont.woff', font)) format('woff'),
+  url(asset-path('Gotham/gothamlight-webfont.ttf', font)) format('truetype'),
+  url(asset-path('Gotham/gothamlight-webfont.svg#gothamlightregular', font)) format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}

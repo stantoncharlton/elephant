@@ -7,9 +7,11 @@
   <%= csrf_meta_tags %>
   <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
   <![endif]-->
 </head>
-<body>
+<% if signed_in? || request.path != root_path %>
+    <body>
     <%= render 'layouts/header' %>
 
     <div class="container">
@@ -24,5 +26,17 @@
 
       <%= debug(params) if Rails.env.development? %>
     </div>
-</body>
+    </body>
+<% else %>
+
+    <body class="body-non-signed-in">
+
+    <%= render 'layouts/header' %>
+
+    <div class="container-reset">
+
+      <%= yield %>
+    </div>
+    </body>
+<% end %>
 </html>

@@ -1,10 +1,27 @@
-<%= form_for(:session, url: sessions_path) do |f| %>
+<div class="login">
 
-    <%= f.label :email %>
-    <%= f.text_field :email %>
+  <h1>LOGIN</h1>
+  <h2>To your Elephant Account</h2>
 
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+  <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %> loginrightmargin"><%= value %></div>
+  <% end %>
 
-    <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
-<% end %>
+  <%= form_for(:session, url: sessions_path) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.text_field :email, placeholder: "Type Email" %>
+
+      <%= f.label :password %>
+      <%= link_to "Forgot Password?", root_path, tabindex: "4" %>
+      <%= f.password_field :password, placeholder: "Type Password" %>
+
+      <div class="lastrow">
+
+        <%=  check_box_tag "Stay", "Stay Logged In", true, class: "checkbox" %>
+        <%=  f.label "Stay Logged In", class: "checkbox-label" %>
+        <%= f.submit "LOGIN", class: "bluebtn loginright" %>
+      </div>
+
+  <% end %>
+</div>

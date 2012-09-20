@@ -18,9 +18,19 @@
                   </li>
                 </ul>
               </li>
+
+              <li><%= link_to "Help", help_path %></li>
+          <% else %>
+
+              <li class="non-signed-in-header"><%= link_to "What is Elephant?", about_path %></li>
+
+              <li class="non-signed-in-header"><%= link_to "Sales", sales_path %></li>
+
+              <li class="non-signed-in-header"><%= link_to "Help", help_path %></li>
           <% end %>
 
-          <li><%= link_to "Help", help_path %></li>
+
+
         </ul>
       </nav>
     </div>
