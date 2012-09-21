@@ -3,7 +3,19 @@ class CompaniesController < ApplicationController
     before_filter :signed_in_user, only: [:show]
 
     def show
-        @company = Company.find(current_user.company_id)
+        store_location
+
+        if current_user.elephant_admin?
+              @company = Company.find(params[:id])
+              @users = User.find_all_by_company_id(@company.id)
+        else
+            if params[:id] && params[:id] != current_user.company_id
+               redirect_to company_path
+            else
+                @company = Company.find(current_user.company_id)
+                @users = User.find_all_by_company_id(@company.id)
+            end
+        end
     end
 
     def new
@@ -11,18 +23,16 @@ class CompaniesController < ApplicationController
     end
 
     def destroy
-        @company = Company.find(params[:id])
-
         Company.find(params[:id]).destroy
         flash[:success] = "Company destroyed."
-        redirect_to companies_url
+        redirect_to elephant_admin_path
     end
 
     def create
         @company = Company.new(params[:company])
         if @company.save
             flash[:success] = "Company created"
-            redirect_to companies_url
+            redirect_to elephant_admin_path
         else
             render 'new'
         end

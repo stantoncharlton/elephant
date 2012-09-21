@@ -128,7 +128,8 @@
   min-width: 60px;
   padding-left: 40px;
   padding-right: 40px;
-  min-height: 50px;
+  height: 40px;
+  line-height: 40px;
   color: #FFF;
   text-shadow: 1px 1px 1px #000000;
   background: #0058a8;
@@ -138,9 +139,15 @@
   font-size: 17px;
   font-family: "gothamboldregular";
 
+  &:link, &:visited, &:active {
+    color: #FFF;
+    background: #0058a8;
+    text-decoration: none;
+  }
   &:hover {
     background: #3790e0;
     border-color: #6cb4f6;
+    text-decoration: none;
   }
 }
 

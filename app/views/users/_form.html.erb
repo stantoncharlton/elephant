@@ -1,57 +1,65 @@
-<%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<%= form_for(@user, url: {action: :create, controller: :users, company: params[:company]}) do |f| %>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+
+    <%= f.hidden_field :company, value: params[:company] %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <br/>
+      <%= f.text_field :name %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :admin %><br />
-    <%= f.check_box :admin %>
-  </div>
-  <div class="field">
-    <%= f.label :create_access %><br />
-    <%= f.check_box :create_access %>
-  </div>
-  <div class="field">
-    <%= f.label :write_access %><br />
-    <%= f.check_box :write_access %>
-  </div>
-  <div class="field">
-    <%= f.label :company_id %><br />
-    <%= f.number_field :company_id %>
-  </div>
-  <div class="field">
-    <%= f.label :district_id %><br />
-    <%= f.number_field :district_id %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.text_field :location %>
-  </div>
-  <div class="field">
-    <%= f.label :position_title %><br />
-    <%= f.text_field :position_title %>
-  </div>
-  <div class="field">
-    <%= f.label :phone_number %><br />
-    <%= f.text_field :phone_number %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="field">
+      <%= f.label :email %>
+      <br/>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :admin %>
+      <br/>
+      <%= f.check_box :admin %>
+    </div>
+    <div class="field">
+      <%= f.label :create_access %>
+      <br/>
+      <%= f.check_box :create_access %>
+    </div>
+    <div class="field">
+      <%= f.label :write_access %>
+      <br/>
+      <%= f.check_box :write_access %>
+    </div>
+    <div class="field">
+      <%= f.label :district_id %>
+      <br/>
+      <%= f.number_field :district_id %>
+    </div>
+    <div class="field">
+      <%= f.label :location %>
+      <br/>
+      <%= f.text_field :location %>
+    </div>
+    <div class="field">
+      <%= f.label :position_title %>
+      <br/>
+      <%= f.text_field :position_title %>
+    </div>
+    <div class="field">
+      <%= f.label :phone_number %>
+      <br/>
+      <%= f.text_field :phone_number %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
 <% end %>

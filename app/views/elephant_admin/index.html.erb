@@ -1,1 +1,17 @@
-<h1>ElephantAdmin#index</h1>
+<div class="page_header">
+  <h1>Companies</h1>
+
+  <h2><%= @companies.count() %></h2>
+  <%= link_to "+ Add New Company", new_company_path, class: "bluebtn page_header_button" %>
+</div>
+
+<% @companies.each do |company| %>
+
+    <div>
+      <%= link_to company.name, "companies/#{company.id}" %>
+      <%= link_to "delete", "companies/#{company.id}", method: :delete,
+                  data: { confirm: "You sure?" },
+                  title: company.name %>
+    </div>
+
+<% end %>

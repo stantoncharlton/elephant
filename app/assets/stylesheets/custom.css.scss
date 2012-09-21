@@ -75,13 +75,14 @@ p {
 /* header */
 
 #logo {
-  background-image: url(image_path('elephant-logo.png'));
+  //background-image: url(image_path('elephant-logo.png'));
   background-repeat:no-repeat;
   background-position: 9px 2px;
   width: 140px;
   height: 46px;
   float: left;
   margin-right: 10px;
+  margin-top: -10px;
   font-size: 1.7em;
   color: #fff;
   text-transform: uppercase;
@@ -143,4 +144,31 @@ footer ul li {
   width: 100%;
   margin-top: 45px;
   @include box_sizing;
+}
+
+.page_header  {
+  width: 100%;
+  border-style:solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: #e6e6e6;
+  margin: 10px 0px 10px 0px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  text-align: left;
+  line-height: 17px;
+
+  h1 {
+    display: inline;
+  }
+
+  h2 {
+    display: inline;
+    margin-left: 20px;
+    font-style: italic;
+  }
+}
+
+.page_header_button {
+  margin-top: 5px;
+  float:right;
 }

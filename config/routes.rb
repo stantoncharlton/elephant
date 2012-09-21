@@ -7,7 +7,7 @@ ElephantWebApp::Application.routes.draw do
     match '/about', to: 'static_pages#about'
     match '/sales', to: 'static_pages#sales'
 
-    resources :users, only: [:show]
+    resources :users, only: [:show, :new, :create]
 
     get 'settings', to: 'users#settings', as: 'settings'
 
@@ -18,8 +18,8 @@ ElephantWebApp::Application.routes.draw do
     match '/signout', to: 'sessions#destroy', via: :delete
 
     resources :elephant_admin, only: [:index]
+    match '/elephant_admin',  to: 'elephant_admin#index'
 
-    resources :companies, only: [:new, :destroy, :create]
-
+    resources :companies, only: [:new, :destroy, :create, :show]
     get 'company', to: 'companies#show', as: 'company'
 end
