@@ -30,6 +30,17 @@
 
     <br/>
 
+    <div id="documents">
+      <h3>Documents</h3><br/>
+
+      <%= f.fields_for :documents, @fields do |builder| %>
+          <%= render 'document_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "Add Document", f, :documents %>
+    </div>
+
+    <br/>
+
     <div class="actions">
       <%= f.submit "Create Job template", class: "btn btn-large btn-primary" %>
     </div>

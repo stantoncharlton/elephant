@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121009004109) do
+ActiveRecord::Schema.define(:version => 20121010031801) do
 
   create_table "clients", :force => true do |t|
     t.string   "name"
@@ -50,6 +50,21 @@ ActiveRecord::Schema.define(:version => 20121009004109) do
   end
 
   add_index "districts", ["company_id"], :name => "index_districts_on_company_id"
+
+  create_table "documents", :force => true do |t|
+    t.integer  "job_template_id"
+    t.integer  "job_id"
+    t.string   "category"
+    t.string   "name"
+    t.string   "url"
+    t.string   "status"
+    t.boolean  "template",        :default => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "documents", ["job_id"], :name => "index_documents_on_job_id"
+  add_index "documents", ["job_template_id"], :name => "index_documents_on_job_template_id"
 
   create_table "dynamic_fields", :force => true do |t|
     t.integer  "job_template_id"

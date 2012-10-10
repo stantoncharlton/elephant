@@ -1,0 +1,8 @@
+
+<fieldset>
+  <%= f.text_field :name, placeholder: "Name of Document" %>
+  <%= f.file_field :url %>
+  <%= f.hidden_field :template, value: true %>
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "remove", "#", class: "remove_fields" %>
+</fieldset>

@@ -10,6 +10,10 @@ gem "tabs_on_rails"
 gem "mail", "2.4.4"
 gem 'jquery-rails'
 gem "nested_form"
+gem 'carrierwave'
+gem 'carrierwave_direct'
+gem 'sidekiq'
+gem 'fog'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

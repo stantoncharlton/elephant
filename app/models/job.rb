@@ -23,4 +23,5 @@ class Job < ActiveRecord::Base
     belongs_to :well
 
     has_many :dynamic_fields
+    has_many :documents
 end
