@@ -42,6 +42,42 @@ textarea {
   padding-top: 10px;
 }
 
+.inline {
+  display: inline;
+}
+
+.search-box {
+  line-height: 50px;
+  margin-right: 20px;
+  float: right;
+}
+
+
+.field {
+  line-height: 60px;
+
+  margin: 0px;
+  padding: 0px;
+
+  border-style: dashed;
+  border-width: 0px 0px 1px 0px;
+  border-color: #ebebeb;
+
+  label {
+    font-size: 15px;
+    display: inline;
+    padding: 10px;
+    margin: 0px;
+  }
+
+  input, select {
+    margin-left: 10px;
+  }
+}
+
+.field:nth-child(odd) {
+  background: #fAfAfA;
+}
 
 
 /* typography */
@@ -75,7 +111,7 @@ p {
 /* header */
 
 #logo {
-  //background-image: url(image_path('elephant-logo.png'));
+  background-image: url(image_path('elephant-logo.png'));
   background-repeat:no-repeat;
   background-position: 9px 2px;
   width: 140px;
@@ -101,6 +137,24 @@ p {
   text-decoration: none;
 }
 
+
+.admin_tab {
+  margin-left: 40px;
+  display: inline;
+}
+
+.admin_tab li {
+  display: inline;
+  line-height: 35px;
+  margin-right: 30px;
+}
+
+.admin_tab a {
+
+  &:link, &:visited, &:active  {
+    color: #FFFFFF;
+  }
+}
 
 
 /* footer */

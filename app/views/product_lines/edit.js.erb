@@ -1,0 +1,5 @@
+$('#product_line_<%= @product_line.id %>_header').hide().after('<%= j render("edit_form")  %>');
+
+$('#cancel_rename').click( function () {
+    $('#product_line_<%= @product_line.id %>_header').show().next().remove();
+});

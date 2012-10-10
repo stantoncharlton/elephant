@@ -1,0 +1,3 @@
+$('#product_line_<%= @product_line.id %>_header').html('<%= @product_line.name %> <b class="caret"></b>');
+$('#product_line_<%= @product_line.id %>_header').show();
+$('#product_line_<%= @product_line.id %>_header').next().remove();

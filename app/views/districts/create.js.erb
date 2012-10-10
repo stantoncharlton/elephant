@@ -1,0 +1,5 @@
+$('#new_district_link').hide();
+$('#new_district').show();
+$('#districts_list').append($("<option></option>")
+        .attr("value", '<%= @district.id %>')
+        .text('<%= @district.name %>'));

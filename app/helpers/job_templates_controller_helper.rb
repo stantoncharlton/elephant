@@ -1,0 +1,2 @@
+module JobTemplatesControllerHelper
+end

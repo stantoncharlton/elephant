@@ -1,0 +1,21 @@
+<% provide(:title, 'Customers') %>
+
+
+<div class="page_header">
+  <h1>Customers</h1>
+
+  <h2><%= @clients.count() %></h2>
+
+  <% if signed_in_admin? %>
+      <%= link_to "+ Add New Customer", new_client_path, class: "bluebtn page_header_button" %>
+  <% end %>
+</div>
+
+
+<%= will_paginate %>
+
+<ul class="clients">
+  <%= render @clients %>
+</ul>
+
+<%= will_paginate %>

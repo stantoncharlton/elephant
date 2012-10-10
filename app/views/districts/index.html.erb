@@ -1,0 +1,20 @@
+<% provide(:title, 'Districts') %>
+
+<div class="page_header">
+  <h1>Districts</h1>
+
+  <h2><%= @districts.count() %></h2>
+
+  <% if signed_in_admin? %>
+      <%= link_to "+ Add New District", new_district_path, class: "bluebtn page_header_button" %>
+  <% end %>
+</div>
+
+
+<%= will_paginate %>
+
+<ul class="districts">
+  <%= render @districts %>
+</ul>
+
+<%= will_paginate %>

@@ -1,0 +1,5 @@
+$('#new_product_line').hide();
+$('#new_product_line_link').show();
+$('#product_lines').append($("<div id='product_line_<%= @product_line.id %>'></div>"))
+                    .append($("<h2></h2>")
+                    .text('<%= @product_line.name %>'));

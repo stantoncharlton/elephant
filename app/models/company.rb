@@ -5,4 +5,11 @@ class Company < ActiveRecord::Base
 
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 
+    has_many :users, dependent: :destroy
+    has_many :districts, dependent: :destroy
+    has_many :clients, dependent: :destroy
+    has_many :fields, dependent: :destroy
+    has_many :wells, dependent: :destroy
+    has_many :product_lines, dependent: :destroy
+    has_many :job_templates, dependent: :destroy
 end

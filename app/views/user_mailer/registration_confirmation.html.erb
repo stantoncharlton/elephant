@@ -1,0 +1,10 @@
+<p>Welcome to <b>Elephant</b>!</p>
+
+<p>You have been added to your company account at <b><%=  @user.company.name %></b></p>
+
+<p>Login using your email: <%= @user.email %></p>
+<p>...and this temporary password: <%= @user.password %></p>
+
+<p>Once you login you will be prompted to create a new password.</p>
+
+<p><%= link_to "Login Now", root_url %></p>

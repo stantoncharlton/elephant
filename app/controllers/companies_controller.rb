@@ -5,14 +5,14 @@ class CompaniesController < ApplicationController
     def show
         store_location
 
-        if current_user.elephant_admin?
+        if current_user.elephant_admin? && request.path != company_path
               @company = Company.find(params[:id])
               @users = User.find_all_by_company_id(@company.id)
         else
-            if params[:id] && params[:id] != current_user.company_id
+            if params[:id].present? && params[:id] != current_user.company.id.to_s
                redirect_to company_path
             else
-                @company = Company.find(current_user.company_id)
+                @company = current_user.company
                 @users = User.find_all_by_company_id(@company.id)
             end
         end
@@ -42,6 +42,6 @@ class CompaniesController < ApplicationController
 private
 
     def elephant_admin_user
-        redirect_to(root_path) unless signed_in? && current_user.elephant_admin?
+        redirect_to root_path unless signed_in? && current_user.elephant_admin?
     end
 end

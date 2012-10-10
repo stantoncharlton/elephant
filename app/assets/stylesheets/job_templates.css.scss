@@ -1,0 +1,69 @@
+// Place all the styles related to the job_templates_controller controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.product-line {
+
+  margin-top: 20px;
+  line-height: 35px;
+
+
+  li {
+    list-style: none;
+  }
+
+  width: 100%;
+  border-style:solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: #e6e6e6;
+
+}
+
+
+.product-line-header {
+
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: transparent;
+  border-width: 0px;
+  font-size: 30px;
+  box-shadow: 0;
+}
+
+.job-type-count {
+  vertical-align: 87%;
+  margin-left: 25px;
+  display: inline;
+  font-style: italic;
+  color: #ababab;
+}
+
+.job-template {
+  list-style: none;
+  margin-left: 40px;
+  margin-top: 20px;
+  line-height: 30px;
+}
+
+.add-job-type {
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-bottom: 20px;
+  color: white;
+
+  &:active, &:link, &:visited {
+    color: white;
+  }
+}
+
+.job-type-header {
+  background: transparent;
+  font-size: 18px;
+
+  &:active, &:link, &:visited {
+    color: #1059bd;
+    background: transparent;
+  }
+}

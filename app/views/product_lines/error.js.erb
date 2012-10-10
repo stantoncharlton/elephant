@@ -1,0 +1,2 @@
+$('#error_explanation').remove();
+$('#fieldset').before('<%= j render("shared/error_messages", object: @product_line)  %>');

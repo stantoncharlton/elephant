@@ -1,0 +1,8 @@
+
+  <fieldset>
+    <%= f.text_field :name, placeholder: "Name of field" %>
+    <%= f.select :value_type_conversion, options_for_select([["String", "to_s"], ["Number", "to_f"], ["Boolean", "to_s"]]) %>
+    <%= f.hidden_field :template, value: true %>
+    <%= f.hidden_field :_destroy %>
+    <%= link_to "remove", "#", class: "remove_fields" %>
+  </fieldset>

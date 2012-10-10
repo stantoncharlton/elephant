@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120920215218) do
+ActiveRecord::Schema.define(:version => 20121009004109) do
+
+  create_table "clients", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "clients", ["company_id"], :name => "index_clients_on_company_id"
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -32,6 +41,86 @@ ActiveRecord::Schema.define(:version => 20120920215218) do
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
 
+  create_table "districts", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "location"
+  end
+
+  add_index "districts", ["company_id"], :name => "index_districts_on_company_id"
+
+  create_table "dynamic_fields", :force => true do |t|
+    t.integer  "job_template_id"
+    t.integer  "job_id"
+    t.string   "name",                                      :null => false
+    t.string   "value"
+    t.string   "value_type_conversion", :default => "to_s"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "template"
+  end
+
+  add_index "dynamic_fields", ["job_id"], :name => "index_dynamic_fields_on_job_id"
+  add_index "dynamic_fields", ["job_template_id"], :name => "index_dynamic_fields_on_job_template_id"
+  add_index "dynamic_fields", ["name"], :name => "index_dynamic_fields_on_name"
+
+  create_table "fields", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.integer  "district_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "location"
+  end
+
+  add_index "fields", ["company_id"], :name => "index_fields_on_company_id"
+  add_index "fields", ["district_id"], :name => "index_fields_on_district_id"
+
+  create_table "job_templates", :force => true do |t|
+    t.string   "name"
+    t.integer  "product_line_id"
+    t.integer  "company_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "job_templates", ["company_id"], :name => "index_job_templates_on_company_id"
+  add_index "job_templates", ["product_line_id"], :name => "index_job_templates_on_product_line_id"
+
+  create_table "jobs", :force => true do |t|
+    t.integer  "job_template_id"
+    t.integer  "field_id"
+    t.integer  "well_id"
+    t.integer  "district_id"
+    t.integer  "client_id"
+    t.string   "client_contact_name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "district_manager_id"
+    t.integer  "sales_engineer_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.integer  "company_id"
+  end
+
+  add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"
+  add_index "jobs", ["company_id"], :name => "index_jobs_on_company_id"
+  add_index "jobs", ["district_id"], :name => "index_jobs_on_district_id"
+  add_index "jobs", ["field_id"], :name => "index_jobs_on_field_id"
+  add_index "jobs", ["job_template_id"], :name => "index_jobs_on_job_template_id"
+  add_index "jobs", ["well_id"], :name => "index_jobs_on_well_id"
+
+  create_table "product_lines", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "product_lines", ["company_id"], :name => "index_product_lines_on_company_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
@@ -48,9 +137,34 @@ ActiveRecord::Schema.define(:version => 20120920215218) do
     t.string   "password_digest"
     t.boolean  "elephant_admin",  :default => false
     t.string   "remember_token"
+    t.boolean  "create_password", :default => false
   end
 
+  add_index "users", ["company_id"], :name => "index_users_on_company_id"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "wells", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.integer  "field_id"
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
+    t.float    "measured_depth"
+    t.float    "true_vertical_depth"
+    t.float    "water_depth"
+    t.boolean  "offshore",                       :default => false
+    t.float    "bottom_hole_temperature"
+    t.float    "bottom_hole_formation_pressure"
+    t.float    "frac_pressure"
+    t.string   "fuild_type"
+    t.float    "fluid_weight"
+    t.float    "max_deviation"
+    t.float    "bottom_deviation"
+    t.string   "rig_name"
+  end
+
+  add_index "wells", ["company_id"], :name => "index_wells_on_company_id"
+  add_index "wells", ["field_id"], :name => "index_wells_on_field_id"
 
 end

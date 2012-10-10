@@ -1,0 +1,6 @@
+<%= tabs_tag :open_tabs => {:class => "admin_tab"} do |tab| %>
+    <%= tab.users 'Users', users_path %>
+    <%= tab.job_templates 'Product Lines', job_templates_path %>
+    <%= tab.clients 'Customers', clients_path %>
+    <%= tab.districts 'Districts', districts_path %>
+<% end %>

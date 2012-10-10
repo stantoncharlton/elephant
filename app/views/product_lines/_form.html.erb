@@ -1,0 +1,11 @@
+<%= form_for @product_line, remote: true do |f| %>
+
+    <div id="fieldset">
+      <div class="field">
+        <%= f.text_field :name, placeholder: "Product Line Name" %>
+        <%= f.submit "Add", class: "btn btn-large btn-primary" %>
+      </div>
+    </div>
+
+
+<% end %>

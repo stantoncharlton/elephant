@@ -1,0 +1,20 @@
+<% provide(:title, 'Users') %>
+
+<div class="page_header">
+  <h1>Users</h1>
+
+  <h2><%= @users.count() %></h2>
+
+  <% if signed_in_admin? %>
+      <%= link_to "+ Add New User", new_user_path, class: "bluebtn page_header_button" %>
+  <% end %>
+
+  <%= form_tag users_path, :method => 'get', :id => "users_search", class: "inline search-box" do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search users", class: "search-query" %>
+  <% end %>
+</div>
+
+
+<div id="users">
+  <%= render 'users' %>
+</div>

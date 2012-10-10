@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-    attr_accessible :district_id, :email, :location, :name,
+    attr_accessible :email, :location, :name,
                     :phone_number, :position_title,
                     :password, :password_confirmation,
                     :admin, :write_access, :create_access
@@ -8,7 +8,10 @@ class User < ActiveRecord::Base
     before_save { |user| user.email = email.downcase }
     before_save :create_remember_token
 
+    after_create :send_welcome_email
+
     validates :name, presence: true, length: {maximum: 50}
+    validates :district, presence: true
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, presence: true,
               length: {maximum: 50},
@@ -20,11 +23,30 @@ class User < ActiveRecord::Base
 
 
     belongs_to :company
+    belongs_to :district
 
 
-    private
+
+    def self.from_company(company)
+        where("company_id = :company_id", company_id: company.id).order("name ASC")
+    end
+
+    def self.search(search)
+        if search
+            where('name LIKE ?', "%#{search}%")
+        else
+            scoped
+        end
+    end
+
+
+private
 
     def create_remember_token
         self.remember_token = SecureRandom.urlsafe_base64
+    end
+
+    def send_welcome_email
+        UserMailer.registration_confirmation(self).deliver
     end
 end

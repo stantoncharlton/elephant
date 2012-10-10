@@ -7,6 +7,9 @@ gem 'faker', '1.0.1'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem "tabs_on_rails"
+gem "mail", "2.4.4"
+gem 'jquery-rails'
+gem "nested_form"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -32,7 +35,6 @@ group :assets do
     gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
 
 group :test do
     gem 'capybara', '1.1.2'

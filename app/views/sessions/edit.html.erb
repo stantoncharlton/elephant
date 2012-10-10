@@ -1,0 +1,30 @@
+<% provide(:title, 'Create Password') %>
+<div>
+
+  <h1>CREATE PASSWORD</h1>
+
+  <%= form_for(:session, url: create_password_path) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.text_field :email, placeholder: "Type Email", value: params[:email] %>
+
+      <div class="field">
+        <%= f.label :current_password %>
+        <%= f.password_field :current_password %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </div>
+      <div class="field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation %>
+      </div>
+
+      <div>
+        <%= f.submit "LOGIN", class: "bluebtn" %>
+      </div>
+
+  <% end %>
+</div>

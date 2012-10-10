@@ -1,0 +1,8 @@
+<li>
+  <%= link_to user.name, user, class: "user-header" %>
+  <% if signed_in_admin? && !current_user?(user) %>
+    | <%= link_to "delete", user, method: :delete,
+                                  data: { confirm: "You sure?" } %>
+    | <%= link_to "update", edit_user_path(user) %>
+  <% end %>
+</li>

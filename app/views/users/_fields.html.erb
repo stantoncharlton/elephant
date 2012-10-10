@@ -1,0 +1,36 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<div class="field">
+  <%= f.text_field :name, placeholder: "Full Name" %>
+</div>
+<div class="field">
+  <%= f.text_field :email, placeholder: "Email Address" %>
+</div>
+<div class="field">
+  <%= f.label :admin %>
+  <%= f.check_box :admin %>
+</div>
+<div class="field">
+  <%= f.label :create_access %>
+  <%= f.check_box :create_access %>
+</div>
+<div class="field">
+  <%= f.label :write_access %>
+  <%= f.check_box :write_access %>
+</div>
+<div class="field">
+  <%= f.label :district_id %>
+  <br />
+  <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] }, id: "districts_list" %>
+
+  <%= link_to "New", new_district_path, class: "btn" %>
+</div>
+<div class="field">
+  <%= f.text_field :location, placeholder: "Location" %>
+</div>
+<div class="field">
+  <%= f.text_field :position_title, placeholder: "Position Title" %>
+</div>
+<div class="field">
+  <%= f.text_field :phone_number, placeholder: "Phone Number" %>
+</div>
