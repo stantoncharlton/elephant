@@ -9,11 +9,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem "tabs_on_rails"
 gem "mail", "2.4.4"
 gem 'jquery-rails'
-gem "nested_form"
-gem 'carrierwave'
-gem 'carrierwave_direct'
-gem 'sidekiq'
-gem 'fog'
+gem 'aws-sdk'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -37,6 +33,7 @@ group :assets do
     # gem 'therubyracer', :platforms => :ruby
 
     gem 'uglifier', '>= 1.0.3'
+    gem 'jquery-fileupload-rails'
 end
 
 

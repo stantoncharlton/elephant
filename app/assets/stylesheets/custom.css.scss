@@ -22,6 +22,10 @@ body {
   padding-top: 80px;
 }
 
+.body {
+  background: #FFFFFF;
+}
+
 section {
   overflow: auto;
 }
@@ -52,32 +56,6 @@ textarea {
   float: right;
 }
 
-
-.field {
-  line-height: 60px;
-
-  margin: 0px;
-  padding: 0px;
-
-  border-style: dashed;
-  border-width: 0px 0px 1px 0px;
-  border-color: #ebebeb;
-
-  label {
-    font-size: 15px;
-    display: inline;
-    padding: 10px;
-    margin: 0px;
-  }
-
-  input, select {
-    margin-left: 10px;
-  }
-}
-
-/*.field:nth-child(odd) {
-  background: #fAfAfA;
-}  */
 
 
 /* typography */
@@ -160,9 +138,8 @@ p {
 /* footer */
 
 footer {
-  margin-top: 45px;
-  padding-top: 5px;
-  border-top: 1px solid #eaeaea;
+  margin-top: 150px;
+  border-bottom: 1px solid #eaeaea;
   color: #999;
 }
 
@@ -200,29 +177,6 @@ footer ul li {
   @include box_sizing;
 }
 
-.page_header  {
-  width: 100%;
-  border-style:solid;
-  border-width: 0px 0px 1px 0px;
-  border-color: #e6e6e6;
-  margin: 10px 0px 10px 0px;
-  padding-top: 10px;
-  padding-bottom: 15px;
-  text-align: left;
-  line-height: 17px;
 
-  h1 {
-    display: inline;
-  }
 
-  h2 {
-    display: inline;
-    margin-left: 20px;
-    font-style: italic;
-  }
-}
 
-.page_header_button {
-  margin-top: 5px;
-  float:right;
-}

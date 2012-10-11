@@ -41,6 +41,6 @@ class ProductLinesController < ApplicationController
         @product_line = ProductLine.find(params[:id])
         @product_line.destroy
         flash[:success] = "Product Line deleted."
-        #redirect_to job_templates_path
+
     end
 end

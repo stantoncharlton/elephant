@@ -21,6 +21,8 @@ class JobTemplatesController < ApplicationController
         @job_template.product_line = ProductLine.find_by_id(params[:product_line])
         @product_lines = ProductLine.from_company(current_user.company)
 
+        @documents = Array.new
+
         @value_types = Array.new
         @value_types << "String"
         @value_types << "Number"
@@ -67,6 +69,7 @@ class JobTemplatesController < ApplicationController
         @job_template = JobTemplate.find(params[:id])
 
         @fields = params[:job_template][:dynamic_fields]
+        @documents = params[:job_template][:document_fields]
 
         @job_template.company = current_user.company
         @job_template.product_line = ProductLine.find(product_line_id)

@@ -1,0 +1,35 @@
+<div class="header">
+  <h2 class="header-title">Information</h2>
+</div>
+
+<div class="content">
+
+  <div class="field">
+    <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: "Job Type Name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :product_line_id, class: "field-title" %>
+    <%= f.select :product_line_id, @product_lines.collect { |p| [p.name, p.id] },
+                 value: @job_template.product_line %>
+
+    <%= link_to "New", new_district_path, class: "bluebtn btnsmall" %>
+  </div>
+
+</div>
+
+
+
+<div class="header">
+  <h2 class="header-title">Custom data</h2>
+
+  <p class="header-subtitle">Job type specifics</p>
+</div>
+
+<div class="content" id="dynamic_fields">
+
+  <%= f.fields_for :dynamic_fields, @fields do |builder| %>
+      <%= render 'dynamic_field_fields', f: builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Field", f, :dynamic_fields %>
+</div>

@@ -1,10 +1,8 @@
-<%= form_for @product_line, remote: true do |f| %>
+<%= form_for @product_line, remote: true, class: "new-product-line" do |f| %>
 
-    <div id="fieldset">
-      <div class="field">
-        <%= f.text_field :name, placeholder: "Product Line Name" %>
-        <%= f.submit "Add", class: "btn btn-large btn-primary" %>
-      </div>
+    <div class="new-product-line">
+        <%= f.text_field :name, placeholder: "New Product Line Name", class: "txtfield", autofocus: true %>
+        <%= f.submit "Add", class: "bluebtn btnsmall" %>
     </div>
 
 

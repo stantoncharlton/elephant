@@ -1,8 +1,18 @@
+<fieldset id="fileupload">
 
-<fieldset>
-  <%= f.text_field :name, placeholder: "Name of Document" %>
-  <%= f.file_field :url %>
+  <script id="template-upload" type="text/x-tmpl">
+    <div class="upload">
+      <div class="progress">
+        <div class="bar" style="width: 0%"></div>
+      </div>
+    </div>
+  </script>
+
+  <%= f.text_field :name, placeholder: "Name of Document", id: "fileupload-name" %>
   <%= f.hidden_field :template, value: true %>
   <%= f.hidden_field :_destroy %>
   <%= link_to "remove", "#", class: "remove_fields" %>
+
+
 </fieldset>
+

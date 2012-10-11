@@ -1,14 +1,20 @@
-<h1>New Customer</h1>
+<h1 class="page-title">New Customer</h1>
 
 <%= form_for(@client) do |f| %>
 
     <%= render 'shared/error_messages', object: f.object %>
 
-    <div class="field">
-      <%= f.text_field :name, placeholder: "Customer Name" %>
+    <div class="header">
+      <h2>Information</h2>
     </div>
 
-    <div class="actions">
-      <%= f.submit "Create Customer", class: "btn btn-large btn-primary" %>
+    <div class="content">
+      <div class="field">
+        <%= f.text_field :name, placeholder: "Customer Name" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Create Customer", class: "bluebtn pull-right" %>
+      </div>
     </div>
 <% end %>

@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
                     :admin, :write_access, :create_access
     has_secure_password
 
+    after_initialize :init
+
     before_save { |user| user.email = email.downcase }
     before_save :create_remember_token
 
@@ -26,6 +28,9 @@ class User < ActiveRecord::Base
     belongs_to :district
 
 
+    def init
+        self.write_access  ||= true
+    end
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")

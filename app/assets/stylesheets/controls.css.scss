@@ -1,0 +1,71 @@
+
+
+.txtfield {
+  min-height: 30px;
+  min-width: 350px;
+  padding-left: 15px;
+  font-weight: bold;
+  font-size: 16px;
+
+  &::-webkit-input-placeholder {
+    color: #aaabab;
+    font-size: 13px;
+    font-weight: normal;
+    font-family: "gothambookregular";
+  }
+  &:-moz-placeholder, -ms-input-placeholder {
+    color: #aaabab;
+    font-size: 13px;
+    font-weight: normal;
+    font-family: "gothambookregular";
+  }
+}
+
+
+.bluebtn {
+  min-width: 60px;
+  padding: 5px 20px 5px 20px;
+  height: 40px;
+  line-height: 40px;
+  color: #FFF;
+  text-shadow: 1px 1px 1px #000000;
+  background: #0058a8;
+  border-radius: 0px;
+  border-width: 1px;
+  border-color: #014583;
+  font-size: 17px;
+  font-family: "gothamboldregular";
+  text-transform: uppercase;
+  display: inline;
+
+
+  &:link, &:visited, &:active {
+    color: #FFF;
+    background: #0058a8;
+    text-decoration: none;
+  }
+  &:hover {
+    background: #3790e0;
+    border-color: #6cb4f6;
+    text-decoration: none;
+  }
+}
+
+.btnsmall {
+  height: 30px;
+  line-height: 30px;
+  padding: 7px 20px 7px 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background: #5696d0;
+  font-size: 14px;
+  font-weight: normal;
+
+  &:link, &:visited, &:active {
+    background: #5696d0;
+  }
+  &:hover {
+    background: #3790e0;
+    border-color: #6cb4f6;
+  }
+}

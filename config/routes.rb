@@ -33,4 +33,6 @@ ElephantWebApp::Application.routes.draw do
 
     resources :product_lines, only: [:new, :create, :edit, :update, :destroy]
 
+    resources :documents, only: [:new, :create]
+
 end

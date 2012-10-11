@@ -124,33 +124,6 @@
 }
 
 
-.bluebtn {
-  min-width: 60px;
-  padding-left: 40px;
-  padding-right: 40px;
-  height: 40px;
-  line-height: 40px;
-  color: #FFF;
-  text-shadow: 1px 1px 1px #000000;
-  background: #0058a8;
-  border-radius: 0px;
-  border-width: 1px;
-  border-color: #014583;
-  font-size: 17px;
-  font-family: "gothamboldregular";
-
-  &:link, &:visited, &:active {
-    color: #FFF;
-    background: #0058a8;
-    text-decoration: none;
-  }
-  &:hover {
-    background: #3790e0;
-    border-color: #6cb4f6;
-    text-decoration: none;
-  }
-}
-
 .loginright {
   float: right;
   margin-right: 86px;

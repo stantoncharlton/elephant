@@ -1,47 +1,19 @@
-<h1>New Job Template</h1>
+<h1 class="page-title">Create New Job Type</h1>
 
 <%= form_for(@job_template) do |f| %>
 
     <%= render 'shared/error_messages', object: f.object %>
 
-    <div class="field">
-      <%= f.label :name %>
-      <br/>
-      <%= f.text_field :name, value: @job_template.name %>
-    </div>
+    <%= render 'fields', f: f %>
 
-    <div class="field">
-      <%= f.label :product_line_id %>
-      <br/>
-      <%= f.select :product_line_id, @product_lines.collect { |p| [p.name, p.id] },
-                   value: @job_template.product_line %>
-
-      <%= link_to "New", new_district_path, class: "btn" %>
-    </div>
-
-    <div id="dynamic_fields">
-      <h3>Custom data</h3><br/>
-
-      <%= f.fields_for :dynamic_fields, @fields do |builder| %>
-          <%= render 'dynamic_field_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "Add Field", f, :dynamic_fields %>
-    </div>
-
-    <br/>
-
-    <div id="documents">
-      <h3>Documents</h3><br/>
-
-      <%= f.fields_for :documents, @fields do |builder| %>
-          <%= render 'document_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "Add Document", f, :documents %>
-    </div>
-
-    <br/>
 
     <div class="actions">
-      <%= f.submit "Create Job template", class: "btn btn-large btn-primary" %>
+      <%= f.submit "Create Job type", class: "bluebtn pull-right" %>
     </div>
+
+
 <% end %>
+
+
+
+

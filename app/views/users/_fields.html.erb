@@ -1,36 +1,54 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<div class="field">
-  <%= f.text_field :name, placeholder: "Full Name" %>
+<div class="header">
+  <h2>Information</h2>
 </div>
-<div class="field">
-  <%= f.text_field :email, placeholder: "Email Address" %>
-</div>
-<div class="field">
-  <%= f.label :admin %>
-  <%= f.check_box :admin %>
-</div>
-<div class="field">
-  <%= f.label :create_access %>
-  <%= f.check_box :create_access %>
-</div>
-<div class="field">
-  <%= f.label :write_access %>
-  <%= f.check_box :write_access %>
-</div>
-<div class="field">
-  <%= f.label :district_id %>
-  <br />
-  <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] }, id: "districts_list" %>
 
-  <%= link_to "New", new_district_path, class: "btn" %>
+<div class="content">
+
+  <div class="field stripe">
+    <%= f.text_field :name, placeholder: "Full Name", class: "txtfield" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :email, placeholder: "Email Address", class: "txtfield" %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.label :district_id, class: "field-title" %>
+    <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] }, id: "districts_list" %>
+    <%= link_to "New", new_district_path, class: "bluebtn btnsmall" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :position_title, placeholder: "Position Title", class: "txtfield" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :location, placeholder: "Location", class: "txtfield" %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield" %>
+  </div>
+
 </div>
-<div class="field">
-  <%= f.text_field :location, placeholder: "Location" %>
+
+
+<div class="header">
+  <h2>Permissions</h2>
+  <p>Company access</p>
 </div>
-<div class="field">
-  <%= f.text_field :position_title, placeholder: "Position Title" %>
-</div>
-<div class="field">
-  <%= f.text_field :phone_number, placeholder: "Phone Number" %>
+<div class="content">
+  <div class="field">
+    <%= f.label "Participate in Jobs (comment/upload, etc)" %>
+    <%= f.check_box :write_access %>
+
+    <div class="push-right">
+      <%= f.label "Create Jobs" %>
+      <%= f.check_box :create_access %>
+
+      <div class="push-right">
+        <%= f.label "Admin (all access)" %>
+        <%= f.check_box :admin %>
+      </div>
+    </div>
+  </div>
 </div>
