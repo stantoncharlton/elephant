@@ -1,9 +1,50 @@
+.bluebtn {
+  min-width: 60px;
+  padding: 5px 20px 5px 20px;
+  height: 40px;
+  line-height: 40px;
+  color: #FFF;
+  text-shadow: 1px 1px 1px #000000;
+  background: #0058a8;
+  border-radius: 0px;
+  border-width: 1px;
+  border-color: #014583;
+  font-size: 17px;
+  font-family: "gothamboldregular";
+  text-transform: uppercase;
+  display: inline;
 
+  &:link, &:visited, &:active {
+    color: #FFF;
+    background: #0058a8;
+    text-decoration: none;
+  }
+  &:hover {
+    background: #3790e0;
+    border-color: #6cb4f6;
+    text-decoration: none;
+  }
+}
+
+.btnsmall {
+  height: 30px;
+  line-height: 30px;
+  padding: 3px 20px 3px 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+input[type=text] {
+  padding-left: 10px;
+}
 
 .txtfield {
   min-height: 30px;
   min-width: 350px;
   padding-left: 15px;
+  margin-right: 10px;
   font-weight: bold;
   font-size: 16px;
 
@@ -21,51 +62,40 @@
   }
 }
 
+.small {
+  min-width: 200px;
+}
 
-.bluebtn {
-  min-width: 60px;
-  padding: 5px 20px 5px 20px;
-  height: 40px;
-  line-height: 40px;
-  color: #FFF;
-  text-shadow: 1px 1px 1px #000000;
-  background: #0058a8;
-  border-radius: 0px;
-  border-width: 1px;
-  border-color: #014583;
-  font-size: 17px;
-  font-family: "gothamboldregular";
-  text-transform: uppercase;
-  display: inline;
-
+.delete-button {
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  text-indent: -999px;
+  display: inline-block;
+  background: url(image_path('delete_up.png')) no-repeat 0 0;
 
   &:link, &:visited, &:active {
-    color: #FFF;
-    background: #0058a8;
-    text-decoration: none;
+    background: url(image_path('delete_up.png')) no-repeat 0 0;
   }
   &:hover {
-    background: #3790e0;
-    border-color: #6cb4f6;
-    text-decoration: none;
+    background: url(image_path('delete_hover.png')) no-repeat 0 0;
   }
 }
 
-.btnsmall {
-  height: 30px;
-  line-height: 30px;
-  padding: 7px 20px 7px 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  background: #5696d0;
-  font-size: 14px;
-  font-weight: normal;
 
-  &:link, &:visited, &:active {
-    background: #5696d0;
-  }
-  &:hover {
-    background: #3790e0;
-    border-color: #6cb4f6;
-  }
+select {
+  width: 160px !important;
+  height: 40px !important;
+  background: #ffffff !important;
+  color: #4e4e4e !important;
+
+  padding-left: 30px !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+
+  text-indent: 5px !important;
 }
+

@@ -1,5 +1,5 @@
 <li class="job-template field">
-  <%= link_to job_template.name, edit_job_template_path(job_template), class: "job-type-header" %>
+  <%= link_to job_template.name, job_template, class: "job-type-header" %>
   <% if signed_in? && current_user.admin? %>
       | <%= link_to "delete", job_template, method: :delete,
                     data: {confirm: "You sure?"} %>

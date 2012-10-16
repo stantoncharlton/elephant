@@ -1,0 +1,6 @@
+<% if @dynamic_field.new_record? %>
+    alert("Failed to upload document: <%= j @dynamic_field.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+    $("#dynamic_fields").append("<%= j render(@dynamic_field) %>");
+    $('#new_dynamic_field_name').val('');
+<% end %>

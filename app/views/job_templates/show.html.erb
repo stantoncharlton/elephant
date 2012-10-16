@@ -1,0 +1,33 @@
+<h1 class="page-title"><%= @job_template.product_line.name %> / <%= @job_template.name %></h1>
+
+
+
+<div class="header">
+  <h2 class="header-title">Custom data</h2>
+
+  <p class="header-subtitle">Job type specifics</p>
+</div>
+
+<div class="content" id="dynamic_fields">
+  <%= render @job_template.dynamic_fields %>
+</div>
+
+<div class="content">
+  <%= render 'dynamic_field_fields' %>
+</div>
+
+<div class="header">
+  <h2 class="header-title">Documents</h2>
+
+  <p class="header-subtitle">Document Templates</p>
+</div>
+
+<div class="content" id="documents">
+  <%= render @job_template.documents %>
+</div>
+
+<div class="content">
+  <%= render 'document_fields' %>
+</div>
+
+

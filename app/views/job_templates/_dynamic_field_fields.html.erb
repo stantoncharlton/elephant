@@ -1,8 +1,14 @@
+<%= form_for @new_dynamic_field, remote: true do |f| %>
 
-  <fieldset class="field">
-    <%= f.text_field :name, placeholder: "Name of field" %>
-    <%= f.select :value_type_conversion, options_for_select([["String", "to_s"], ["Number", "to_f"], ["Boolean", "to_s"]]) %>
-    <%= f.hidden_field :template, value: true %>
-    <%= f.hidden_field :_destroy %>
-    <%= link_to "remove", "#", class: "remove_fields" %>
-  </fieldset>
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <div class="inline-form">
+
+      <%= f.text_field :name, placeholder: "Name of Field", class: "txtfield small", id: "new_dynamic_field_name" %>
+      <%= f.select :value_type_conversion, options_for_select([["String", "to_s"], ["Number", "to_f"], ["Boolean", "to_b"]]) %>
+      <%= f.hidden_field :template, value: true %>
+      <%= f.hidden_field :job_template_id, value: @job_template.id %>
+      <%= f.submit "add", class: "bluebtn btnsmall" %>
+
+    </div>
+<% end %>

@@ -13,3 +13,7 @@ $ ->
     $(this).before($(this).data('fields').replace(regexp, time))
 
     event.preventDefault()
+
+
+  $('#upload_document').click ->
+    $('#upload_document_browse').trigger "click"

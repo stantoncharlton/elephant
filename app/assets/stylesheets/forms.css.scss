@@ -105,9 +105,7 @@
   }
 }
 
-.field:last-child {
-  border-width: 0px 0px 0px 0px;
-}
+
 
 /*.stripe:nth-child(even) {
   background: #fAfAfA;
@@ -121,4 +119,15 @@
 
 .inline {
   display: inline;
+}
+
+.inline-form form {
+  display: inline;
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.inline-form {
+  line-height: 50px;
 }

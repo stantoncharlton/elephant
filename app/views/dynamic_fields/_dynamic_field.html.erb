@@ -1,0 +1,15 @@
+<fieldset id="dynamic_field_<%= dynamic_field.id %>">
+  <div class="field inline-form">
+
+    <div class="dynamic-field-name">
+      <%= label_tag dynamic_field.name, nil, class: "" %>
+    </div>
+
+    <div class="dynamic-field-type">
+      <%= label_tag dynamic_field.value_type, nil, class: "" %>
+    </div>
+
+    <%= link_to "remove", dynamic_field, method: :delete, remote: true, data: {confirm: "You sure?"}, class: "delete-button" %>
+  </div>
+</fieldset>
+

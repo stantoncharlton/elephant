@@ -14,6 +14,9 @@ class JobTemplatesController < ApplicationController
 
     def show
         @job_template = JobTemplate.find(params[:id])
+
+        @new_document = Document.new
+        @new_dynamic_field = DynamicField.new
     end
 
     def new
@@ -43,7 +46,7 @@ class JobTemplatesController < ApplicationController
 
         if @job_template.save
             flash[:success] = "Job Template created - #{@job_template.name}"
-            redirect_to job_templates_path
+            redirect_to @job_template
         else
             @product_lines = ProductLine.from_company(current_user.company)
             render 'new'

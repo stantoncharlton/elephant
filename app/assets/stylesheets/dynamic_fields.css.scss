@@ -1,0 +1,27 @@
+// Place all the styles related to the dynamic_fields controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.dynamic-field-name {
+  width: 235px;
+  display: inline-block;
+
+  label {
+    color: #0058a8;
+    font-size: 19px !important;
+  }
+}
+
+
+.dynamic-field-type {
+  width: 180px;
+  display: inline-block;
+
+  label {
+    color: #868686;
+    font-size: 16px !important;
+  }
+}
+

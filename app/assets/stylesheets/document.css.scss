@@ -1,3 +1,110 @@
-// Place all the styles related to the document controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.upload-document-container {
+  position: static;
+  display: inline;
+}
+
+.file-input {
+  position: absolute;
+  -moz-opacity: 0;
+  opacity: 0;
+  z-index: 1;
+  width: 1px;
+  height: 1px;
+}
+
+.browse-doc {
+  position: absolute;
+  z-index: 2;
+}
+
+.document-name {
+  color: #0058a8;
+  font-size: 21px !important;
+  display: inline-block;
+  min-width: 300px;
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: underline;
+  }
+  &:hover {
+    background: transparent;
+    color: #273542;
+  }
+}
+
+.document-name-container {
+  color: #0058a8;
+  font-size: 21px;
+  display: inline-block;
+  min-width: 300px;
+}
+
+.document-file-name {
+  color: #666666;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: lighter;
+}
+
+.document-file-name-box {
+  min-width: 200px;
+  display: inline-block;
+}
+
+.document-upload-button {
+  color: #0058a8;
+  font-size: 15px;
+  margin-left: 25px;
+  margin-right: 20px;
+  text-decoration: none;
+  padding-right: 20px;
+  background: url(image_path('upload_arrow.png')) no-repeat center right;
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: none;
+    background: url(image_path('upload_arrow.png')) no-repeat center right;
+  }
+  &:hover {
+    background: transparent;
+    color: #273542;
+    text-decoration: none;
+    background: url(image_path('upload_arrow.png')) no-repeat center right;
+  }
+}
+
+#document_type_select {
+
+  padding: 0px;
+  padding-right: 20px;
+  margin: 0px;
+  margin-left: 15px;
+  border-radius: 3px;
+  border-color: #bbbbbb;
+  border-width: 1px;
+  border-style: solid;
+  background: #FFFFFF url(image_path('drop_down_arrow.png')) no-repeat center right;
+  text-indent:10px;
+
+  height: 38px;
+  line-height: 43px;
+  width: 150px;
+
+
+  display: inline-block;
+}
+
+#document_type_select select {
+  opacity: 0;
+}
+
+
+.upload {
+  width: 300px;
+}

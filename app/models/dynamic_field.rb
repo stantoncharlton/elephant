@@ -4,13 +4,24 @@ class DynamicField < ActiveRecord::Base
                     :template
 
     validates_presence_of :name
-    validates_inclusion_of :value_type_conversion, :in => %w(to_s to_i to_f)
+    validates_inclusion_of :value_type_conversion, :in => %w(to_s to_i to_f to_b)
     validate :value_or_attachment
 
     before_save :value_or_attachment
 
     def value
         read_attribute(:value).send(value_type_conversion)
+    end
+
+    def value_type
+        if  value_type_conversion == 'to_s'
+            return "String"
+        elsif  value_type_conversion == 'to_i' || value_type_conversion == 'to_f'
+            return "Number"
+        else
+            return "Boolean"
+        end
+
     end
 
 

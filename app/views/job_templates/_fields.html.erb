@@ -17,19 +17,3 @@
   </div>
 
 </div>
-
-
-
-<div class="header">
-  <h2 class="header-title">Custom data</h2>
-
-  <p class="header-subtitle">Job type specifics</p>
-</div>
-
-<div class="content" id="dynamic_fields">
-
-  <%= f.fields_for :dynamic_fields, @fields do |builder| %>
-      <%= render 'dynamic_field_fields', f: builder %>
-  <% end %>
-  <%= link_to_add_fields "Add Field", f, :dynamic_fields %>
-</div>

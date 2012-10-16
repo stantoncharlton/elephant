@@ -2,6 +2,7 @@ class Document < ActiveRecord::Base
     attr_accessible :category,
                     :name,
                     :status,
+                    :document_type,
                     :template,
                     :url
 
@@ -17,6 +18,26 @@ class Document < ActiveRecord::Base
 
     def default_name
         self.name ||= File.basename(url, '.*').titleize if url
+    end
+
+    def file_name
+        File.basename(url).titleize if url
+    end
+
+    def document_type_string
+        if self.document_type == 0
+            "Document"
+        else
+            "Checklist"
+        end
+    end
+
+    def full_url
+        s3 = AWS::S3.new
+        puts "sdfs"
+        puts self.url
+        obj = s3.buckets['elephant-docs'].objects[self.url].url_for(:read)
+        obj.to_s;
     end
 
 
