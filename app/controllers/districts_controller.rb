@@ -9,6 +9,7 @@ class DistrictsController < ApplicationController
 
     def show
         @district = District.find(params[:id])
+        not_found unless @district.company == current_user.company
     end
 
     def new
@@ -37,12 +38,14 @@ class DistrictsController < ApplicationController
 
     def edit
         @district = District.find(params[:id])
+        not_found unless @district.company == current_user.company
         @company = current_user.company
     end
 
     def update
 
         @district = District.find(params[:id])
+        not_found unless @district.company == current_user.company
 
         if @district.update_attributes(params[:district])
 
@@ -56,6 +59,7 @@ class DistrictsController < ApplicationController
 
     def destroy
         @district = District.find(params[:id])
+        not_found unless @district.company == current_user.company
         @district.destroy
         flash[:success] = "District destroyed."
         redirect_to districts_path

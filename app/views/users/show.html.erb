@@ -9,7 +9,7 @@
 
   <div class="field">
     <b class="b-label">Email</b>
-    <%= @user.email %>
+    <%= link_to @user.email, "mailto:" + @user.email %>
   </div>
 
   <div class="field">

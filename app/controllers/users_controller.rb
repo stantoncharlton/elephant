@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
     def index
 
-        @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page])
+        @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10)
     end
 
     def settings
@@ -13,28 +13,33 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        not_found unless @user.company == current_user.company
     end
 
 
     def edit
         @user = User.find(params[:id])
+        not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
     end
 
     def update
 
         @user = User.find(params[:id])
+        not_found unless @user.company == current_user.company
 
-        if @user.update_attribute(:location, params[:user][:location])
-            @user.update_attribute(:position_title, params[:user][:position_title])
-            @user.update_attribute(:phone_number, params[:user][:phone_number])
-            @user.update_attribute(:district_id, params[:user][:district_id])
+        User.transaction do
+            if @user.update_attribute(:location, params[:user][:location])
+                @user.update_attribute(:position_title, params[:user][:position_title])
+                @user.update_attribute(:phone_number, params[:user][:phone_number])
+                @user.update_attribute(:district_id, params[:user][:district_id])
 
-            flash[:success] = "User updated"
-            redirect_to users_path
-        else
-            @districts = current_user.company.districts
-            render 'edit'
+                flash[:success] = "User updated"
+                redirect_to users_path
+            else
+                @districts = current_user.company.districts
+                render 'edit'
+            end
         end
     end
 
@@ -60,7 +65,7 @@ class UsersController < ApplicationController
 
         if @user.save
             flash[:success] = "User created - #{@user.email}"
-            redirect_back_or users_path
+            redirect_to users_path
         else
             render 'new'
         end
@@ -68,14 +73,15 @@ class UsersController < ApplicationController
 
     def destroy
         @user = User.find(params[:id])
+        not_found unless @user.company == current_user.company
 
         if !current_user?(@user)
             User.find(params[:id]).destroy
             flash[:success] = "User destroyed."
-            redirect_to company_path
+            redirect_to users_path
         else
             flash[:error] = "Can't delete yourself."
-            redirect_to company_path
+            redirect_to users_path
         end
     end
 end

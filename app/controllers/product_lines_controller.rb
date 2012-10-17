@@ -22,11 +22,13 @@ class ProductLinesController < ApplicationController
 
     def edit
         @product_line = ProductLine.find(params[:id])
+        not_found unless @product_line.company == current_user.company
     end
 
     def update
 
         @product_line = ProductLine.find(params[:id])
+        not_found unless @product_line.company == current_user.company
 
         if @product_line.update_attributes(params[:product_line])
 
@@ -39,8 +41,8 @@ class ProductLinesController < ApplicationController
 
     def destroy
         @product_line = ProductLine.find(params[:id])
+        not_found unless @product_line.company == current_user.company
         @product_line.destroy
         flash[:success] = "Product Line deleted."
-
     end
 end

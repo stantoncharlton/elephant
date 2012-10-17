@@ -13,6 +13,7 @@ class DynamicFieldsController < ApplicationController
         params[:dynamic_field].delete(:job_template_id)
 
         @dynamic_field = DynamicField.new(params[:dynamic_field])
+        @dynamic_field.company = current_user.company
         @dynamic_field.job_template_id = job_template_id
 
         if !@dynamic_field.save
@@ -22,6 +23,7 @@ class DynamicFieldsController < ApplicationController
 
     def update
         @dynamic_field = DynamicField.find(params[:id])
+        not_found unless @document.company == current_user.company
 
         # todo
     end
@@ -29,6 +31,7 @@ class DynamicFieldsController < ApplicationController
 
     def destroy
         @dynamic_field = DynamicField.find(params[:id])
+        not_found unless @document.company == current_user.company
         @dynamic_field.destroy
 
         if !@dynamic_field.destroy

@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
     belongs_to :company
     belongs_to :district
 
+    has_many :activities
+
 
     def init
         self.write_access  ||= true

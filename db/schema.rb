@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121015190719) do
+ActiveRecord::Schema.define(:version => 20121017163829) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.integer  "activity_type"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "activities", ["company_id"], :name => "index_activities_on_company_id"
+  add_index "activities", ["target_id", "target_type"], :name => "index_activities_on_target_id_and_target_type"
+  add_index "activities", ["user_id"], :name => "index_activities_on_user_id"
 
   create_table "clients", :force => true do |t|
     t.string   "name"
@@ -62,8 +76,10 @@ ActiveRecord::Schema.define(:version => 20121015190719) do
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
     t.integer  "document_type"
+    t.integer  "company_id"
   end
 
+  add_index "documents", ["company_id"], :name => "index_documents_on_company_id"
   add_index "documents", ["job_id"], :name => "index_documents_on_job_id"
   add_index "documents", ["job_template_id"], :name => "index_documents_on_job_template_id"
 
@@ -76,8 +92,10 @@ ActiveRecord::Schema.define(:version => 20121015190719) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.boolean  "template"
+    t.integer  "company_id"
   end
 
+  add_index "dynamic_fields", ["company_id"], :name => "index_dynamic_fields_on_company_id"
   add_index "dynamic_fields", ["job_id"], :name => "index_dynamic_fields_on_job_id"
   add_index "dynamic_fields", ["job_template_id"], :name => "index_dynamic_fields_on_job_template_id"
   add_index "dynamic_fields", ["name"], :name => "index_dynamic_fields_on_name"

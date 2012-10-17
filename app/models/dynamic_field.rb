@@ -9,6 +9,10 @@ class DynamicField < ActiveRecord::Base
 
     before_save :value_or_attachment
 
+    belongs_to :job_template, :conditions => ['dynamic_fields.template = ?', true]
+    belongs_to :job
+    belongs_to :company
+
     def value
         read_attribute(:value).send(value_type_conversion)
     end

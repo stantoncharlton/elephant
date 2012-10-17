@@ -15,6 +15,7 @@ class DocumentsController < ApplicationController
         params[:document].delete(:job_template_id)
 
         @document = Document.new(params[:document])
+        @document.company = current_user.company
         @document.job_template = JobTemplate.find_by_id(job_template_id)
 
         if !@document.save
@@ -24,12 +25,14 @@ class DocumentsController < ApplicationController
 
     def update
         @document = Document.find(params[:id])
+        not_found unless @document.company == current_user.company
         @document.update_attribute(:url, params[:document][:url])
     end
 
 
     def destroy
         @document = Document.find(params[:id])
+        not_found unless @document.company == current_user.company
         @document.destroy
 
         if !@document.destroy

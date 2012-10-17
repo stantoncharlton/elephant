@@ -10,6 +10,7 @@ class ClientsController < ApplicationController
 
     def show
         @client = Client.find(params[:id])
+        not_found unless @client.company == current_user.company
     end
 
     def new
@@ -30,11 +31,13 @@ class ClientsController < ApplicationController
 
     def edit
         @client = Client.find(params[:id])
+        not_found unless @client.company == current_user.company
     end
 
     def update
 
         @client = Client.find(params[:id])
+        not_found unless @client.company == current_user.company
 
         if @client.update_attributes(params[:client])
 
@@ -47,6 +50,7 @@ class ClientsController < ApplicationController
 
     def destroy
         @client = Client.find(params[:id])
+        not_found unless @client.company == current_user.company
         @client.destroy
         flash[:success] = "Customer deleted."
         redirect_to clients_path

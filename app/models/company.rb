@@ -12,4 +12,7 @@ class Company < ActiveRecord::Base
     has_many :wells, dependent: :destroy
     has_many :product_lines, dependent: :destroy
     has_many :job_templates, dependent: :destroy
+
+    has_many :activities
+
 end

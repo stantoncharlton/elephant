@@ -14,6 +14,7 @@ class JobTemplatesController < ApplicationController
 
     def show
         @job_template = JobTemplate.find(params[:id])
+        not_found unless @job_template.company == current_user.company
 
         @new_document = Document.new
         @new_dynamic_field = DynamicField.new
@@ -55,6 +56,8 @@ class JobTemplatesController < ApplicationController
 
     def edit
         @job_template = JobTemplate.find(params[:id])
+        not_found unless @job_template.company == current_user.company
+
 
         @product_lines = ProductLine.from_company(current_user.company)
 
@@ -70,6 +73,7 @@ class JobTemplatesController < ApplicationController
         params[:job_template].delete(:product_line_id)
 
         @job_template = JobTemplate.find(params[:id])
+        not_found unless @job_template.company == current_user.company
 
         @fields = params[:job_template][:dynamic_fields]
         @documents = params[:job_template][:document_fields]
@@ -89,6 +93,8 @@ class JobTemplatesController < ApplicationController
 
     def destroy
         @job_template = JobTemplate.find(params[:id])
+        not_found unless @job_template.company == current_user.company
+
         @job_template.destroy
         flash[:success] = "Job Template deleted."
         redirect_to job_templates_path
