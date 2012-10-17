@@ -1,6 +1,6 @@
-.page_header  {
+.page_header {
   width: 100%;
-  border-style:solid;
+  border-style: solid;
   border-width: 0px 0px 1px 0px;
   border-color: #e6e6e6;
   margin: 10px 0px 10px 0px;
@@ -23,7 +23,7 @@
 
 .page_header_button {
   margin-top: 0px;
-  float:right;
+  float: right;
 }
 
 .page-title {
@@ -82,11 +82,13 @@
   display: inline;
 }
 
-
 .field {
   line-height: 60px;
 
+  font-size: 21px;
+
   margin: 0px;
+  margin-top: 3px;
   padding: 0px;
 
   border-style: dashed;
@@ -105,12 +107,16 @@
   }
 }
 
+.b-label {
+  color: #0058a8;
+  width: 150px;
+  display: inline-block;
 
+}
 
 /*.stripe:nth-child(even) {
   background: #fAfAfA;
 } */
-
 
 .push-right {
   margin-left: 50px;
@@ -130,4 +136,50 @@
 
 .inline-form {
   line-height: 50px;
+}
+
+.list {
+  margin: 0px;
+  list-style: none;
+}
+
+.list-item-header {
+  width: 97%;
+  height: 50px;
+  font-size: 26px;
+  line-height: 45px;
+  padding: 5px 15px 5px 15px;
+
+  &:active, &:link, &:visited {
+    color: #666;
+    background: transparent;
+    text-decoration: no-underline;
+  }
+  &:hover {
+    background: #0058a8;
+    border-radius: 5px;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+}
+
+.list-item-header-text {
+  font-size: 26px;
+  line-height: 45px;
+
+}
+
+.list-item-column {
+  width: 400px;
+  display: inline-block;
+}
+
+.list-item-column2 {
+  width: 200px;
+  display: inline-block;
+}
+
+.list-item-text {
+  font-size: 18px;
+  display: inline-block;
 }

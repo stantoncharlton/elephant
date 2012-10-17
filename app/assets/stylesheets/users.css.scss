@@ -2,22 +2,9 @@
 
 .users {
   list-style: none;
+  margin: 0px;
+}
 
-  .user-header {
-    font-size: 20px;
-    line-height: 45px;
-    padding: 5px 15px 5px 15px;
-
-    &:active, &:link, &:visited {
-      color: #666;
-      background: transparent;
-      text-decoration: no-underline;
-    }
-    &:hover {
-      background: #1b65c1;
-      border-radius: 5px;
-      color: #FFFFFF;
-      text-decoration: none;
-    }
-  }
+.user-header {
+  display: inline-block;
 }

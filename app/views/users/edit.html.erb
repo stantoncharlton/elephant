@@ -3,5 +3,11 @@
 
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+    <%= f.submit "Save User", class: "bluebtn pull-right" %>
+<% end %>
+
+
+<% if signed_in_admin? %>
+    <%= link_to "Delete", @user, method: :delete,
+                data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
 <% end %>

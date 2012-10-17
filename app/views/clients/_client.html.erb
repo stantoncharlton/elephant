@@ -1,7 +1,6 @@
-<li>
-  <%= link_to client.name, edit_client_path(client), class: "client-header" %>
-  <% if signed_in_admin? %>
-    | <%= link_to "delete", client, method: :delete,
-                                  data: { confirm: "You sure?" } %>
+<li class="field">
+  <%= link_to edit_client_path(client), class: "list-item-header user-header" do %>
+    <%=  client.name %>
+
   <% end %>
 </li>

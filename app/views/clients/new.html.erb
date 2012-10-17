@@ -2,19 +2,9 @@
 
 <%= form_for(@client) do |f| %>
 
-    <%= render 'shared/error_messages', object: f.object %>
+    <%= render "form", f: f %>
 
-    <div class="header">
-      <h2>Information</h2>
-    </div>
-
-    <div class="content">
-      <div class="field">
-        <%= f.text_field :name, placeholder: "Customer Name" %>
-      </div>
-
-      <div class="actions">
-        <%= f.submit "Create Customer", class: "bluebtn pull-right" %>
-      </div>
+    <div class="actions">
+      <%= f.submit "Create Customer", class: "bluebtn pull-right" %>
     </div>
 <% end %>

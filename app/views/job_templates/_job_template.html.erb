@@ -1,7 +1,3 @@
-<li class="job-template field">
-  <%= link_to job_template.name, job_template, class: "job-type-header" %>
-  <% if signed_in? && current_user.admin? %>
-      | <%= link_to "delete", job_template, method: :delete,
-                    data: {confirm: "You sure?"} %>
-  <% end %>
-</li>
+<div class="field">
+  <%= link_to job_template.name, job_template, class: "list-item-header user-header job-type-header" %>
+</div>

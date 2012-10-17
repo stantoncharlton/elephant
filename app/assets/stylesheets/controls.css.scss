@@ -36,6 +36,31 @@
   font-weight: normal;
 }
 
+.red {
+
+  color: #FFF;
+  background: #ea4848;
+  border-width: 1px;
+  border-color: #a50a0a;
+
+  &:link, &:visited, &:active {
+    color: #FFF;
+    background: #ea4848;
+    text-decoration: none;
+
+  }
+  &:hover {
+    background: #f71818;
+    border-color: #a50a0a;
+    text-decoration: none;
+  }
+}
+
+.pull-right-button {
+  float: right;
+  margin-right: 20px;
+}
+
 input[type=text] {
   padding-left: 10px;
 }
@@ -103,4 +128,34 @@ select {
 
 .warning-text {
   color: #c71a1a !important;
+}
+
+
+
+.add-button {
+  color: #595959;
+  display: inline-block;
+  heght: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 30px;
+  margin-right: 20px;
+  text-decoration: none;
+  padding-left: 50px;
+  background: url(image_path('delete_up.png')) no-repeat center left;
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #595959;
+    text-decoration: none;
+    background: url(image_path('delete_up.png')) no-repeat center left;
+  }
+  &:hover {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: none;
+    background: url(image_path('delete_hover.png')) no-repeat center left;
+  }
 }

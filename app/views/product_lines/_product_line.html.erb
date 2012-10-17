@@ -16,8 +16,6 @@
 
       <p class="job-type-count"><%= pluralize(product_line.job_templates.count, "job type") %></p>
 
-      <%= link_to "+ New Job Type", new_job_template_path(product_line: product_line),
-                  class: "bluebtn btnsmall pull-right btnheader  inline" %>
     </div>
 
 
@@ -28,6 +26,8 @@
     <%= render product_line.job_templates %>
 
 
+    <%= link_to "Add Job Type", new_job_template_path(product_line: product_line),
+                class: "add-button" %>
 
   </div>
 

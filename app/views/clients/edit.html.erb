@@ -1,16 +1,16 @@
-<h1>Update Customer</h1>
+<h1 class="page-title">Update Customer</h1>
 
 <%= form_for(@client) do |f| %>
 
-    <%= render 'shared/error_messages', object: f.object %>
-
-    <div class="field">
-      <%= f.label :name %>
-      <br/>
-      <%= f.text_field :name %>
-    </div>
+    <%= render "form", f: f %>
 
     <div class="actions">
-      <%= f.submit "Update Customer" %>
+      <%= f.submit "Save Customer", class: "bluebtn pull-right" %>
     </div>
+<% end %>
+
+
+<% if signed_in_admin? %>
+    <%= link_to "Delete", @client, method: :delete,
+                data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
 <% end %>

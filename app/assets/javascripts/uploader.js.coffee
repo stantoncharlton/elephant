@@ -1,12 +1,13 @@
 jQuery ->
-  $('#fileupload').fileupload
+  $('[id=fileupload]').fileupload
     add: (e, data) ->
       types = /(\.|\/)(gif|jpe?g|png)$/i
       file = data.files[0]
       if types.test(file.type) || types.test(file.name)
-        $('#file_uploads').hide()
+        $(e.target).find(".document-file-name-box").hide()
+        $(e.target).find(".upload-controls").hide()
         data.context = $(tmpl("template-upload", file))
-        $('#fileupload').append(data.context)
+        $(e.target).append(data.context)
         data.submit()
       else
         alert("#{file.name} is not a gif, jpeg, or png image file")
@@ -17,13 +18,14 @@ jQuery ->
         data.context.find('.bar').css('width', progress + '%')
 
     done: (e, data) ->
-      $('#file_uploads').show()
+      $(e.target).find('.document-file-name-box').show()
+      $(e.target).find(".upload-controls").show()
       file = data.files[0]
-      domain = $('#fileupload').attr('action')
-      path = $('#fileupload input[name=key]').val().replace('${filename}', file.name)
-      to = $('#fileupload').data('post')
+      domain = $(e.target).attr('action')
+      path = $(e.target).find('input[name=key]').val().replace('${filename}', file.name)
+      to = $(e.target).data('post')
       content = {}
-      content[$('#fileupload').data('as')] = path
+      content[$(e.target).data('as')] = path
 
       $.ajax
         url: to
@@ -36,7 +38,9 @@ jQuery ->
       data.context.remove() if data.context # remove progress bar
 
     fail: (e, data) ->
-      $('#file_uploads').show()
+      $(e.target).find('.document-file-name-box').show()
+      $(e.target).find(".upload-controls").show()
+      alert("#{data.files[0].name} failed to upload.")
       alert("#{data.files[0].name} failed to upload.")
       console.log("Upload failed:")
       console.log(data)

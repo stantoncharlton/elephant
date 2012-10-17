@@ -1,8 +1,18 @@
-<li>
-  <%= link_to user.name, user, class: "user-header" %>
-  <% if signed_in_admin? && !current_user?(user) %>
-    | <%= link_to "delete", user, method: :delete,
-                                  data: { confirm: "You sure?" } %>
-    | <%= link_to "update", edit_user_path(user) %>
+<li class="field">
+  <%= link_to user, class: "list-item-header user-header" do %>
+
+      <p class="list-item-header-text list-item-column">
+        <%= user.name %>
+      </p>
+
+      <p class="list-item-text list-item-column2">
+        <%= user.location %>
+      </p>
+
+      <p class="list-item-text list-item-column2">
+        <%= user.position_title %>
+      </p>
   <% end %>
+
+
 </li>

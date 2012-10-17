@@ -21,8 +21,10 @@
   padding-bottom: 15px;
   background: transparent;
   border-width: 0px;
-  font-size: 30px;
+  font-size: 25px;
   box-shadow: 0;
+  color: #0058a8 !important;
+  font-weight: bold;
 }
 
 .job-type-count {
@@ -63,13 +65,7 @@
 }
 
 .job-type-header {
-  background: transparent;
-  font-size: 18px;
-
-  &:active, &:link, &:visited {
-    color: #1059bd;
-    background: transparent;
-  }
+  padding-left: 35px;
 }
 
 .push-right-delete {

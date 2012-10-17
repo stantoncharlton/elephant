@@ -1,7 +1,5 @@
-<li>
-  <%= link_to district.name, edit_district_path(district), class: "district-header" %>
-  <% if signed_in? && current_user.admin? %>
-    | <%= link_to "delete", district, method: :delete,
-                                  data: { confirm: "You sure?" } %>
+<li class="field">
+  <%= link_to edit_district_path(district), class: "list-item-header user-header" do %>
+    <%= district.name %>
   <% end %>
 </li>

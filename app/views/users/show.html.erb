@@ -1,41 +1,40 @@
-<p id="notice"><%= notice %></p>
+<h1 class="page-title"><%= @user.name %></h1>
 
-<p>
-  <b>Name:</b>
-  <%= @user.name %>
-</p>
+<div class="header">
+  <h2 class="header-title">Information</h2>
+</div>
 
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
 
-<p>
-  <b>Admin:</b>
-  <%= @user.admin %>
-</p>
+<div class="content">
 
-<p>
-  <b>Company:</b>
-  <%= @user.company.name %>
-</p>
+  <div class="field">
+    <b class="b-label">Email</b>
+    <%= @user.email %>
+  </div>
 
-<p>
-  <b>District:</b>
-  <%= @user.district_id %>
-</p>
+  <div class="field">
+    <b class="b-label">Admin</b>
+    <%= @user.admin %>
+  </div>
 
-<p>
-  <b>Location:</b>
-  <%= @user.location %>
-</p>
+  <div class="field">
+    <b class="b-label">District</b>
+    <%= @user.district_id %>
+  </div>
 
-<p>
-  <b>Position title:</b>
-  <%= @user.position_title %>
-</p>
+  <div class="field">
+    <b class="b-label">Location</b>
+    <%= @user.location %>
+  </div>
 
-<p>
-  <b>Phone number:</b>
-  <%= @user.phone_number %>
-</p>
+  <div class="field">
+    <b class="b-label">Position title</b>
+    <%= @user.position_title %>
+  </div>
+
+  <div class="field">
+    <b class="b-label">Phone number</b>
+    <%= @user.phone_number %>
+  </div>
+
+</div>
