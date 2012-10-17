@@ -202,7 +202,7 @@ DEPENDENCIES
   jquery-fileupload-rails
   jquery-rails
   mail (= 2.4.4)
-  pg
+  pg (= 0.12.2)
   rails (= 3.2.8)
   rb-fsevent (= 0.9.1)
   rspec-rails (= 2.10.0)
