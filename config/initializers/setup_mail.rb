@@ -9,5 +9,5 @@ ActionMailer::Base.smtp_settings = {
 }
 
 ActionMailer::Base.default_url_options[:host] = "go-elephant.herokuapp.com"
-#ActionMailer::Base.default_url_options[:host] = "localhost:3000" if Rails.env.development?
+ActionMailer::Base.default_url_options[:host] = "localhost:3000" if Rails.env.development?
 #Mail.register_interceptor(DevelopmentMailInterceptor) if Rails.env.development?
