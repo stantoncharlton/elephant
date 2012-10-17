@@ -15,5 +15,5 @@ $ ->
     event.preventDefault()
 
 
-  $('#upload_document').click ->
-    $('#upload_document_browse').trigger "click"
+  $('.document-upload-button').click ->
+    $(event.target).prev().trigger "click"

@@ -14,7 +14,7 @@
       <% if !document.url.nil? %>
           <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
       <% else %>
-          <%= label_tag "no document uploaded", nil, class: "document-file-name" %>
+          <%= label_tag "no document uploaded", nil, class: "document-file-name warning-text" %>
       <% end %>
     </div>
 
