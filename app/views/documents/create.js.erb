@@ -1,6 +1,9 @@
 <% if @document.new_record? %>
 alert("Failed to upload document: <%= j @document.errors.full_messages.join(', ').html_safe %>");
 <% else %>
+
 $("#documents").append("<%= j render(@document) %>");
 $('#new_document_name').val('');
+
+
 <% end %>

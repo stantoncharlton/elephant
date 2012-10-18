@@ -144,18 +144,18 @@ select {
   margin-right: 20px;
   text-decoration: none;
   padding-left: 50px;
-  background: url(image_path('delete_up.png')) no-repeat center left;
+  background: url(image_path('add_up.png')) no-repeat center left;
 
   &:link, &:visited, &:active {
     background: transparent;
     color: #595959;
     text-decoration: none;
-    background: url(image_path('delete_up.png')) no-repeat center left;
+    background: url(image_path('add_up.png')) no-repeat center left;
   }
   &:hover {
     background: transparent;
     color: #0058a8;
     text-decoration: none;
-    background: url(image_path('delete_hover.png')) no-repeat center left;
+    background: url(image_path('add_hover.png')) no-repeat center left;
   }
 }

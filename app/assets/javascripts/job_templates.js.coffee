@@ -1,4 +1,8 @@
+
+
+
 $ ->
+
   $('form').on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
     $(this).closest('fieldset').hide()
@@ -14,6 +18,5 @@ $ ->
 
     event.preventDefault()
 
-
-  $('.document-upload-button').click ->
-    $(event.target).prev().trigger "click"
+  $('.document-upload-button').live "click", ->
+      $(event.target).prev().trigger "click"
