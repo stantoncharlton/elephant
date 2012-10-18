@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
     after_create :send_welcome_email
 
     validates :name, presence: true, length: {maximum: 50}
-    validates :district, presence: true
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, presence: true,
               length: {maximum: 50},
@@ -22,6 +21,8 @@ class User < ActiveRecord::Base
     validates :company, presence: true
     validates :password, presence: true, length: {minimum: 6}
     validates :password_confirmation, presence: true
+
+    validates_presence_of :district, unless: Proc.new { |ex| ex.admin == true }
 
 
     belongs_to :company
