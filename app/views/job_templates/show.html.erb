@@ -31,9 +31,16 @@
 </div>
 
 
-<% if signed_in_admin? %>
-    <%= link_to "Delete", @job_template, method: :delete,
-                data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button content" %>
-<% end %>
+<div class="actions">
+  <%= link_to "Done", job_templates_path, class: "bluebtn pull-right" %>
+
+  <% if signed_in_admin? %>
+      <%= link_to "Delete", @job_template, method: :delete,
+                  data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
+  <% end %>
+</div>
+
+
+
 
 
