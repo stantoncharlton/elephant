@@ -1,7 +1,16 @@
 <div>
   <div class="header">
     <h2><%= activity.message %></h2>
+
     <div class="pull-right"><%= activity.created_at.to_formatted_s(:long) %></div>
   </div>
-  <%= render activity.target %>
+  <% if !activity.target.nil? %>
+      <%= render activity.target %>
+  <% else %>
+      <div class="field ">
+        <div class="push-right">
+          ID: <%= activity.target_id %> - DELETED
+        </div>
+      </div>
+  <% end %>
 </div>

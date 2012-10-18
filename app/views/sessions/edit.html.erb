@@ -1,12 +1,13 @@
 <% provide(:title, 'Create Password') %>
 <div>
 
-  <h1>CREATE PASSWORD</h1>
+  <h1 class="page-title">Create Password</h1>
 
   <%= form_for(:session, url: create_password_path) do |f| %>
 
-      <%= f.label :email %>
-      <%= f.text_field :email, placeholder: "Type Email", value: params[:email] %>
+      <div class="field">
+        <%= f.text_field :email, placeholder: "Type Email", value: params[:email], class: "txtfield" %>
+      </div>
 
       <div class="field">
         <%= f.label :current_password %>

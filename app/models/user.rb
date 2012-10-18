@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
     validates :password, presence: true, length: {minimum: 6}
     validates :password_confirmation, presence: true
 
-    validates_presence_of :district, unless: Proc.new { |ex| ex.admin == true }
+    #validates_presence_of :district, unless: Proc.new { |ex| ex.admin == true }
 
 
     belongs_to :company

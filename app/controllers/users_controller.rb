@@ -54,20 +54,22 @@ class UsersController < ApplicationController
         district_id = params[:user][:district_id]
         params[:user].delete(:district_id)
 
-        @user = User.new(params[:user])
-        @districts = current_user.company.districts
-        @user.company = current_user.company
-        @user.district = District.find(district_id)
-        password = SecureRandom.urlsafe_base64[1..7]
-        @user.password = password
-        @user.password_confirmation = password
-        @user.create_password = true
+        User.transaction do
+            @user = User.new(params[:user])
+            @districts = current_user.company.districts
+            @user.company = current_user.company
+            @user.district = District.find(district_id)
+            password = SecureRandom.urlsafe_base64[1..7]
+            @user.password = password
+            @user.password_confirmation = password
+            @user.create_password = true
 
-        if @user.save
-            flash[:success] = "User created - #{@user.email}"
-            redirect_to users_path
-        else
-            render 'new'
+            if @user.save
+                flash[:success] = "User created - #{@user.email}"
+                redirect_to users_path
+            else
+                render 'new'
+            end
         end
     end
 
