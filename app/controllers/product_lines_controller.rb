@@ -13,6 +13,9 @@ class ProductLinesController < ApplicationController
         @product_line.company = current_user.company
 
         if @product_line.save
+
+            Activity.add(self.current_user, Activity::PRODUCT_LINE_CREATED, @product_line, @product_line.name)
+
             flash[:success] = "Product Line created - #{@product_line.name}"
             #redirect_to job_template_path_path
         else
@@ -32,6 +35,8 @@ class ProductLinesController < ApplicationController
 
         if @product_line.update_attributes(params[:product_line])
 
+            Activity.add(self.current_user, Activity::PRODUCT_LINE_UPDATED, @product_line, @product_line.name)
+
             flash[:success] = "Product Line updated"
             #redirect_to job_templates_path
         else
@@ -43,6 +48,9 @@ class ProductLinesController < ApplicationController
         @product_line = ProductLine.find(params[:id])
         not_found unless @product_line.company == current_user.company
         @product_line.destroy
+
+        Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
+
         flash[:success] = "Product Line deleted."
     end
 end

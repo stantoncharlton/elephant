@@ -22,6 +22,8 @@ class ClientsController < ApplicationController
         @client.company = current_user.company
 
         if @client.save
+
+            Activity.add(self.current_user, Activity::CLIENT_CREATED, @client, @client.name)
             flash[:success] = "Customer created - #{@client.name}"
             redirect_to clients_path
         else
@@ -41,6 +43,7 @@ class ClientsController < ApplicationController
 
         if @client.update_attributes(params[:client])
 
+            Activity.add(self.current_user, Activity::CLIENT_UPDATED, @client, @client.name)
             flash[:success] = "Customer updated"
             redirect_to clients_path
         else
@@ -51,6 +54,8 @@ class ClientsController < ApplicationController
     def destroy
         @client = Client.find(params[:id])
         not_found unless @client.company == current_user.company
+
+        Activity.add(self.current_user, Activity::CLIENT_DESTROYED, @client, @client.name)
         @client.destroy
         flash[:success] = "Customer deleted."
         redirect_to clients_path

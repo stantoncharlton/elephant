@@ -46,6 +46,9 @@ class JobTemplatesController < ApplicationController
         @job_template.product_line = ProductLine.find(product_line_id)
 
         if @job_template.save
+
+            Activity.add(self.current_user, Activity::JOB_TEMPLATE_CREATED, @job_template, @job_template.name)
+
             flash[:success] = "Job Template created - #{@job_template.name}"
             redirect_to @job_template
         else
@@ -83,6 +86,8 @@ class JobTemplatesController < ApplicationController
 
         if @job_template.update_attributes(params[:job_template])
 
+            Activity.add(self.current_user, Activity::JOB_TEMPLATE_UPDATED, @job_template, @job_template.name)
+
             flash[:success] = "Job Template updated"
             redirect_to job_templates_path
         else
@@ -96,6 +101,9 @@ class JobTemplatesController < ApplicationController
         not_found unless @job_template.company == current_user.company
 
         @job_template.destroy
+
+        Activity.add(self.current_user, Activity::JOB_TEMPLATE_DESTROYED, @job_template, @job_template.name)
+
         flash[:success] = "Job Template deleted."
         redirect_to job_templates_path
     end

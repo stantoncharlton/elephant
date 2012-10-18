@@ -26,6 +26,9 @@ class DistrictsController < ApplicationController
         respond_to do |format|
             format.html {
                 if saved
+
+                    Activity.add(self.current_user, Activity::DISTRICT_CREATED, @district, @district.name)
+
                     flash[:success] = "District created - #{@district.name}"
                     redirect_to districts_path
                 else
@@ -49,6 +52,8 @@ class DistrictsController < ApplicationController
 
         if @district.update_attributes(params[:district])
 
+            Activity.add(self.current_user, Activity::DISTRICT_UPDATED, @district, @district.name)
+
             flash[:success] = "District updated"
             redirect_to districts_path
         else
@@ -61,6 +66,9 @@ class DistrictsController < ApplicationController
         @district = District.find(params[:id])
         not_found unless @district.company == current_user.company
         @district.destroy
+
+        Activity.add(self.current_user, Activity::DISTRICT_DESTROYED, @district, @district.name)
+
         flash[:success] = "District destroyed."
         redirect_to districts_path
     end

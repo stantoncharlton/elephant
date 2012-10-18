@@ -21,6 +21,9 @@ class DocumentsController < ApplicationController
         if !@document.save
             render 'error'
         end
+
+        Activity.add(self.current_user, Activity::DOCUMENT_CREATED, @document, @document.name)
+
     end
 
     def update
@@ -38,6 +41,9 @@ class DocumentsController < ApplicationController
         if !@document.destroy
             render 'error'
         end
+
+        Activity.add(self.current_user, Activity::DOCUMENT_DESTROYED, @document, @document.name)
+
     end
 
 end

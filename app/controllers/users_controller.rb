@@ -34,6 +34,7 @@ class UsersController < ApplicationController
                 @user.update_attribute(:phone_number, params[:user][:phone_number])
                 @user.update_attribute(:district_id, params[:user][:district_id])
 
+                Activity.add(self.current_user, Activity::USER_UPDATED, @user, @user.name)
                 flash[:success] = "User updated"
                 redirect_to users_path
             else
@@ -54,22 +55,23 @@ class UsersController < ApplicationController
         district_id = params[:user][:district_id]
         params[:user].delete(:district_id)
 
-        User.transaction do
-            @user = User.new(params[:user])
-            @districts = current_user.company.districts
-            @user.company = current_user.company
-            @user.district = District.find(district_id)
-            password = SecureRandom.urlsafe_base64[1..7]
-            @user.password = password
-            @user.password_confirmation = password
-            @user.create_password = true
+        @user = User.new(params[:user])
+        @districts = current_user.company.districts
+        @user.company = current_user.company
+        @user.district = District.find(district_id)
+        password = SecureRandom.urlsafe_base64[1..7]
+        @user.password = password
+        @user.password_confirmation = password
+        @user.create_password = true
 
-            if @user.save
-                flash[:success] = "User created - #{@user.email}"
-                redirect_to users_path
-            else
-                render 'new'
-            end
+        if @user.save
+
+            Activity.add(self.current_user, Activity::USER_CREATED, @user, @user.name)
+
+            flash[:success] = "User created - #{@user.email}"
+            redirect_to users_path
+        else
+            render 'new'
         end
     end
 
@@ -79,6 +81,8 @@ class UsersController < ApplicationController
 
         if !current_user?(@user)
             User.find(params[:id]).destroy
+
+            Activity.add(self.current_user, Activity::USER_DESTROYED, @user, @user.name)
             flash[:success] = "User destroyed."
             redirect_to users_path
         else

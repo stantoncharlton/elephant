@@ -19,6 +19,9 @@ class DynamicFieldsController < ApplicationController
         if !@dynamic_field.save
             render 'error'
         end
+
+        Activity.add(self.current_user, Activity::DYNAMIC_FIELD_CREATED, @dynamic_field, @dynamic_field.name)
+
     end
 
     def update
@@ -31,12 +34,15 @@ class DynamicFieldsController < ApplicationController
 
     def destroy
         @dynamic_field = DynamicField.find(params[:id])
-        not_found unless @document.company == current_user.company
+        not_found unless @dynamic_field.company == current_user.company
         @dynamic_field.destroy
 
         if !@dynamic_field.destroy
             render 'error'
         end
+
+        Activity.add(self.current_user, Activity::DYNAMIC_FIELD_DESTROYED, @dynamic_field, @dynamic_field.name)
+
     end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121017163829) do
+ActiveRecord::Schema.define(:version => 20121018025541) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20121017163829) do
     t.string   "target_type"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "metadata"
   end
 
   add_index "activities", ["company_id"], :name => "index_activities_on_company_id"
