@@ -1,6 +1,6 @@
 class JobTemplatesController < ApplicationController
     before_filter :signed_in_admin, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-
+    set_tab :job_templates
 
     def index
         @product_lines = ProductLine.from_company(current_user.company)

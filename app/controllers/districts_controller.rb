@@ -1,7 +1,7 @@
 class DistrictsController < ApplicationController
     before_filter :signed_in_user, only: [:index]
     before_filter :signed_in_admin, only: [:index]
-
+    set_tab :districts
 
     def index
         @districts = District.from_company(current_user.company).paginate(page: params[:page])
