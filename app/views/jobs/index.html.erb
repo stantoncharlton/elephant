@@ -1,0 +1,21 @@
+<% provide(:title, 'Jobs') %>
+
+<div class="page_header">
+  <h1>Jobs</h1>
+
+  <h2><%= @jobs.count() %></h2>
+
+  <% if signed_in? %>
+      <%= link_to "+ Add New Job", new_job_path, class: "bluebtn page_header_button" %>
+  <% end %>
+
+</div>
+
+
+<%= will_paginate %>
+
+<div id="jobs" class="list">
+  <%= render @jobs %>
+</div>
+
+<%= will_paginate %>

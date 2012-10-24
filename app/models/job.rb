@@ -24,4 +24,20 @@ class Job < ActiveRecord::Base
 
     has_many :dynamic_fields
     has_many :documents
+
+    has_many :job_memberships, foreign_key: "job_id"
+    has_many :users, through: :job_memberships, source: :user
+
+
+    def add_user!(user)
+        membership = job_memberships.new
+        membership.user = user
+        membership.job = self
+        membership.save
+    end
+
+    def remove_user(user)
+        job_memberships.find_by_user_id(user.id).destroy
+    end
+
 end

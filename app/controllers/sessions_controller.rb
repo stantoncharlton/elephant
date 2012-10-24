@@ -5,13 +5,13 @@ class SessionsController < ApplicationController
         user = User.find_by_email(params[:session][:email].downcase)
         if user && user.authenticate(params[:session][:password])
             if user.create_password?
-                redirect_to update_password_path(email: user.email), :flash => { :error => "Please create a password" }
+                redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
             else
                 sign_in user
                 redirect_to root_path
             end
         else
-            redirect_to root_path, :flash => { :error => "Invalid email/password combination" }
+            redirect_to root_path, :flash => {:error => "Invalid email/password combination"}
         end
     end
 
@@ -38,11 +38,36 @@ class SessionsController < ApplicationController
                 sign_in user
                 redirect_to root_path
             else
-                redirect_to update_password_path(email: user.email), :flash => { :error => "Passwords do not match" }
+                redirect_to update_password_path(email: user.email), :flash => {:error => "Passwords do not match"}
             end
         else
-            render "edit", :flash => { :error => "Invalid email/password combination" }
+            render "edit", :flash => {:error => "Invalid email/password combination"}
         end
     end
+
+    def reset_password
+        if params[:session]
+            @email = params[:session][:email]
+            @user = User.find_by_email(@email)
+
+            if @user
+
+                password = SecureRandom.urlsafe_base64[1..7]
+                @user.password = password
+                @user.password_confirmation = password
+                @user.create_password = true
+
+                if @user.save
+                    UserMailer.reset_password(@user).deliver
+                    flash[:success] = "Email sent to " + @email
+                end
+            else
+                flash[:error] = "Could not find user with that email"
+            end
+
+            redirect_to reset_password_path
+        end
+    end
+
 
 end

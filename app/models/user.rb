@@ -24,6 +24,13 @@ class User < ActiveRecord::Base
 
     #validates_presence_of :district, unless: Proc.new { |ex| ex.admin == true }
 
+    has_many :job_memberships, foreign_key: "user_id"
+    has_many :jobs, through: :job_memberships, source: :job
+    has_many :reverse_relationships, foreign_key: "followed_id",
+             class_name:  "Relationship",
+             dependent:   :destroy
+    has_many :followers, through: :reverse_relationships, source: :follower
+
 
     belongs_to :company
     belongs_to :district
@@ -46,7 +53,6 @@ class User < ActiveRecord::Base
             scoped
         end
     end
-
 
 private
 

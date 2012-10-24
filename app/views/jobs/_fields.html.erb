@@ -1,0 +1,37 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<div class="header">
+  <h2>Information</h2>
+</div>
+
+<div class="content">
+
+  <div class="field stripe sfk">
+    <%= f.label :district_id, class: "field-title" %>
+    <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] },
+                 value: current_user.district.id %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.label :field_id, class: "field-title" %>
+    <%= f.select :field_id, @fields.collect { |p| [p.name, p.id] },
+                 prompt: "Select a Field" %>
+    <%= link_to "New", new_field_path, remote: true, class: "add-button", id: "new_field_link" %>
+  </div>
+
+  <script type="text/javascript" charset="utf-8">
+      $().ready(function(){
+          $('#new_field_link').click(function(){
+              $(this).attr('href', $(this).attr('href') + '?district_id=' + $('#job_district_id').val());
+          });
+      });
+  </script>
+
+  <div class="field stripe">
+    <%= f.label :well_id, class: "field-title" %>
+    <%= f.select :well_id, @wells.collect { |p| [p.name, p.id] },
+                 prompt: "Select a Well"%>
+    <%= link_to "New", new_district_path, remote: true, class: "add-button" %>
+  </div>
+
+</div>

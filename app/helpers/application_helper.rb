@@ -18,4 +18,27 @@ module ApplicationHelper
         end
         link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
     end
+
+
+
+    class MenuTabBuilder < TabsOnRails::Tabs::Builder
+        def open_tabs(options = {})
+            @context.tag("ul", options, open = true)
+        end
+
+        def close_tabs(options = {})
+            "</ul>".html_safe
+        end
+
+        def tab_for(tab, name, options, item_options = {})
+            item_options[:class] = (current_tab?(tab) ? 'current' : '')
+            @context.content_tag(:li, item_options) do
+                @context.link_to(name, options)
+            end
+        end
+    end
+
+    def my_tabs_tag(options = {})
+        tabs_tag(options.merge(:builder => MenuTabBuilder))
+    end
 end

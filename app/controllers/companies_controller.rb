@@ -1,6 +1,7 @@
 class CompaniesController < ApplicationController
     before_filter :elephant_admin_user, only: [:new, :destroy, :create]
     before_filter :signed_in_user, only: [:show]
+    before_filter :signed_in_admin, only: [:edit, :update]
 
     def show
         store_location
@@ -35,6 +36,24 @@ class CompaniesController < ApplicationController
             redirect_to elephant_admin_path
         else
             render 'new'
+        end
+    end
+
+    def edit
+        @company = Company.find(params[:id])
+    end
+
+    def update
+        @company = Company.find(params[:id])
+        not_found unless @company == current_user.company
+
+        Company.transaction do
+            if @company.update_attribute(params[:company])
+                flash[:success] = "Company updated"
+                redirect_to root_path
+            else
+                render 'edit'
+            end
         end
     end
 

@@ -14,6 +14,9 @@ class Well < ActiveRecord::Base
                     :bottom_deviation
 
 
+    validates :name, presence: true, length: {maximum: 50}
+    validates_uniqueness_of :name, :case_sensitive => false
+
     belongs_to :company
     belongs_to :field
 

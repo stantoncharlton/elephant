@@ -1,0 +1,31 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<div class="header">
+  <h2>Information</h2>
+</div>
+
+<div class="content">
+
+  <div class="field stripe">
+    <%= f.text_field :address_line_1, placeholder: "Address", class: "txtfield" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "txtfield" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :state, placeholder: "State", class: "txtfield small" %>
+    <%= f.text_field :postal_code, placeholder: "Postal Code", class: "txtfield small push-right" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :country, placeholder: "Country", class: "txtfield" %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield" %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.text_field :support_email, placeholder: "Support Email", class: "txtfield" %>
+  </div>
+
+</div>

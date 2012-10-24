@@ -1,0 +1,5 @@
+$('#modal_popup').css('visibility', 'hidden');
+$('#fields_list').append($("<option></option>")
+        .attr("value", '<%= @field.id %>')
+        .text('<%= @field.name %>'));
+$('#fields_list').find("option[value='<%= @field.id %>']").attr('selected','selected');

@@ -94,6 +94,13 @@ p {
 
 /* header */
 
+.header-v-center {
+  height: 58px;
+  line-height: 58px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 #logo {
   background-image: url(image_path('elephant-logo.png'));
   background-repeat:no-repeat;
@@ -159,7 +166,7 @@ p {
 
 .admin_tab a {
 
-  background: transparent;
+  padding: 20px 0px 20px 0px;
   height: 58px;
   line-height: 58px;
   text-transform: none;
@@ -172,13 +179,6 @@ p {
   &:hover {
     background: #0058a8;
     text-decoration: none;
-  }
-
-  .current {
-    background: Red;
-    border-radius: 5px;
-    color: white;
-    text-transform: none;
   }
 }
 

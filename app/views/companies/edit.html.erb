@@ -1,0 +1,7 @@
+<% provide(:title, "Update Company") %>
+<h1>Update Company</h1>
+
+<%= form_for(@company) do |f| %>
+    <%= render 'fields', f: f %>
+    <%= f.submit "Save Company", class: "bluebtn pull-right" %>
+<% end %>

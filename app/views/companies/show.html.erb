@@ -1,25 +1,18 @@
 <h1><%= @company.name %></h1>
 <div class="page_header">
-  <h1>Users</h1>
+  <h1>Company Directory</h1>
 
   <h2><%= @users.count() %></h2>
-
-  <% if current_user.admin? || current_user.elephant_admin? %>
-      <%= link_to "+ Add New User", new_user_path(company: @company), class: "bluebtn page_header_button" %>
-  <% end %>
 </div>
 
-<% @users.each do |user| %>
+<% if signed_in_admin? %>
 
-    <div>
-      <%= link_to user.name + "    (" + user.email + ")", user %>
+<% else %>
+    <% @users.each do |user| %>
 
+        <div>
+          <%= link_to user.name + "    (" + user.email + ")", user %>
+        </div>
 
-      <% if current_user.admin? %>
-          <%= link_to "delete", user, method: :delete,
-                      data: {confirm: "You sure?"},
-                      title: user.name %>
-      <% end %>
-    </div>
-
+    <% end %>
 <% end %>

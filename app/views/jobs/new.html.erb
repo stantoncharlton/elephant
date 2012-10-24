@@ -1,0 +1,20 @@
+<h1 class="page-title">New Job</h1>
+
+
+<%= form_for(@job) do |f| %>
+    <%= render 'fields', f: f %>
+    <%= f.submit "Create Job", class: "bluebtn pull-right" %>
+<% end %>
+
+
+
+<div id="modal_popup" class="modal-popup-background">
+  <div class="modal-popup">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+
+    <div class="modal-content">
+
+    </div>
+
+  </div>
+</div>
