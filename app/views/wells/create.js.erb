@@ -1,0 +1,5 @@
+$('#modal_popup').css('visibility', 'hidden');
+$('#job_well_id').append($("<option></option>")
+        .attr("value", '<%= @well.id %>')
+        .text('<%= @well.name %>'));
+$('#job_well_id').find("option[value='<%= @well.id %>']").attr('selected','selected');

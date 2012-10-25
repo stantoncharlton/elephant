@@ -1,8 +1,19 @@
 class ProductLinesController < ApplicationController
+    before_filter :signed_in_user, only: [:index]
     before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
 
     respond_to :js
 
+    def index
+        @job_templates = []
+
+        if params[:product_line_id].present?
+            product_line = ProductLine.find_by_id(params[:product_line_id])
+            if product_line.company == current_user.company
+                @job_templates = product_line.job_templates
+            end
+        end
+    end
 
     def new
         @product_line = ProductLine.new

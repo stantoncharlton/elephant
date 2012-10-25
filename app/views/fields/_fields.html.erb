@@ -10,10 +10,12 @@
   <div class="field">
     <%= f.label :district, class: "field-title" %>
     <%= f.label @district.name %>
+    <%= f.hidden_field :district_id, value: @district.id %>
   </div>
 
   <div class="field">
     <%= f.text_field :name, placeholder: "Field Name", class: "txtfield" %>
   </div>
+
 </div>
 

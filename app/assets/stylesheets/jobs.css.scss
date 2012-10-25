@@ -1,3 +1,38 @@
-// Place all the styles related to the jobs controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.job-title {
+  color: #0058a8;
+}
+
+.job-field-title {
+  color: #b9b9b9;
+  font-size: 12px;
+  display: inline-block;
+  font-style: italic;
+  min-width: 140px;
+  margin-right: 0px;
+}
+
+.job-field-value {
+  display: inline-block;
+  min-width: 230px;
+  margin-right: 0px;
+}
+
+
+.job-link {
+  background: transparent;
+  width: 97%;
+  padding: 5px 15px 5px 15px;
+  display: block;
+
+  &:active, &:link, &:visited {
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #000000;
+    background: #deebf7;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+}

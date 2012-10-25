@@ -1,0 +1,59 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<div class="header">
+  <h2>Information</h2>
+</div>
+
+<div class="content">
+
+
+  <div class="field">
+    <%= f.label :field, class: "field-title" %>
+    <%= f.label @field.name %>
+    <%= f.hidden_field :field_id, value: @field.id %>
+  </div>
+
+  <div class="field">
+    <%= f.text_field :name, placeholder: "Well Name", class: "txtfield" %>
+  </div>
+
+  <div class="field striped">
+    <%= f.text_field :rig_name, placeholder: "Rig Name", class: "txtfield" %>
+  </div>
+
+  <div class="field striped">
+    <%= f.label "Offshore?" %>
+    <%= f.check_box :offshore %>
+
+    <%= f.text_field :water_depth, placeholder: "Water Depth", class: "txtfield small" %>
+
+  </div>
+
+  <div class="field striped">
+    <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield small" %>
+    <%= f.text_field :true_vertical_depth, placeholder: "True Vertical Depth", class: "txtfield small" %>
+  </div>
+
+  <div class="field striped">
+    <%= f.text_field :bottom_hole_temperature, placeholder: "Bottom Hole Temperature", class: "txtfield small" %>
+    <%= f.text_field :bottom_hole_formation_pressure, placeholder: "Bottom Hole Formation Pressure", class: "txtfield small" %>
+  </div>
+
+  <div class="field striped">
+    <%= f.text_field :frac_pressure, placeholder: "Frac Pressure", class: "txtfield small" %>
+  </div>
+
+  <div class="field striped">
+    <%= f.text_field :fuild_type, placeholder: "Fluid Type", class: "txtfield small" %>
+    <%= f.text_field :fluid_weight, placeholder: "Fluid Weight", class: "txtfield small" %>
+  </div>
+
+
+  <div class="field striped">
+    <%= f.text_field :max_deviation, placeholder: "Max Deviation", class: "txtfield small" %>
+    <%= f.text_field :bottom_deviation, placeholder: "Bottom Deviation", class: "txtfield small" %>
+  </div>
+
+
+</div>
+

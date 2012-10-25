@@ -1,0 +1,15 @@
+$('#job_job_template_id').find('option').remove();
+
+$('<option>').val('-1').text('Select a Job Type...').appendTo('#job_job_template_id');
+
+<% @job_templates.each do |w| %>
+    $('<option>').val('<%= w.id %>').text('<%= w.name %>').appendTo('#job_job_template_id');
+<% end %>
+
+<% if @job_templates.count == 0 %>
+    $('#job_job_template_id').attr("disabled", "disabled");
+    $('#job_job_template_id').css("opacity", ".3");
+<% else %>
+    $('#job_job_template_id').removeAttribute("disabled");
+    $('#job_job_template_id').css("opacity", "1");
+<% end %>

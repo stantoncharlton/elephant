@@ -1,0 +1,11 @@
+<h1 class="page-title">New Well</h1>
+
+<%= form_for @well, remote: true do |f| %>
+
+    <%= render "fields", f: f %>
+
+    <div class="content actions">
+      <%= f.submit "Create Well", class: "bluebtn pull-right" %>
+    </div>
+
+<% end %>

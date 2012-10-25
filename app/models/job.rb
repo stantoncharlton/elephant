@@ -15,12 +15,11 @@ class Job < ActiveRecord::Base
     validates_presence_of :job_template_id
 
     belongs_to :company
-    has_one :client, through: :company
-    has_one :district, through: :company
-    has_one :field, through: :company
-    has_one :job_template, through: :company
-
+    belongs_to :client
+    belongs_to :district
+    belongs_to :field
     belongs_to :well
+    belongs_to :job_template
 
     has_many :dynamic_fields
     has_many :documents

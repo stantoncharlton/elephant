@@ -1,12 +1,27 @@
 <%= render 'shared/error_messages', object: f.object %>
 
 <div class="header">
-  <h2>Information</h2>
+  <h2>Required Information</h2>
 </div>
 
 <div class="content">
 
-  <div class="field stripe sfk">
+  <div class="field stripe">
+    <%= f.label "Job Type", class: "field-title" %>
+    <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }),
+        prompt: "Select a Product Line...", id: "job_product_line_id" %>
+
+    <%= f.select :job_template_id, @job_templates.collect { |p| [p.name, p.id] },
+                 prompt: "Select a Type..."%>
+  </div>
+
+  <div class="field stripe">
+    <%= f.label :client_id, class: "field-title" %>
+    <%= f.select :client_id, @clients.collect { |p| [p.name, p.id] },
+                 prompt: "Selected a Client..." %>
+  </div>
+
+  <div class="field stripe">
     <%= f.label :district_id, class: "field-title" %>
     <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] },
                  value: current_user.district.id %>
@@ -19,19 +34,11 @@
     <%= link_to "New", new_field_path, remote: true, class: "add-button", id: "new_field_link" %>
   </div>
 
-  <script type="text/javascript" charset="utf-8">
-      $().ready(function(){
-          $('#new_field_link').click(function(){
-              $(this).attr('href', $(this).attr('href') + '?district_id=' + $('#job_district_id').val());
-          });
-      });
-  </script>
-
   <div class="field stripe">
     <%= f.label :well_id, class: "field-title" %>
     <%= f.select :well_id, @wells.collect { |p| [p.name, p.id] },
                  prompt: "Select a Well"%>
-    <%= link_to "New", new_district_path, remote: true, class: "add-button" %>
+    <%= link_to "New", new_well_path, remote: true, class: "add-button", id: "new_well_link" %>
   </div>
 
 </div>

@@ -1,0 +1,36 @@
+<%= link_to job, class: "job-link" do %>
+
+  <div class="field">
+    <h3 class="job-title inline"><%= job.field.name %></h3>
+    | <h3 class="job-title inline"><%= job.well.name %></h3>
+  </div>
+
+  <div class="">
+    <p class="job-field-title">Status</p>
+
+    <h3 class="job-field-value">Pre-Job</h3>
+  </div>
+
+  <div class="">
+    <p class="job-field-title">Type</p>
+
+    <div class="job-field-value">
+      <h3 class="inline"><%= job.job_template.product_line.name %></h3>
+      | <h3 class="inline"><%= job.job_template.name %></h3>
+    </div>
+  </div>
+
+  <div class="">
+    <p class="job-field-title">Location</p>
+
+    <p class="job-field-value"><%= job.district.name %></p>
+
+    <div class="inline push-right">
+      <p class="job-field-title">Client</p>
+
+      <p class="job-field-value"><%= job.client.name %></p>
+    </div>
+  </div>
+
+
+<% end %>
