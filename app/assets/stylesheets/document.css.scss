@@ -2,8 +2,7 @@
 
 
 .upload-document-container {
-  position: static;
-  display: inline;
+  display: inline-block;
 }
 
 .file-input {
@@ -24,7 +23,7 @@
   color: #0058a8;
   font-size: 21px !important;
   display: inline-block;
-  min-width: 300px;
+  min-width: 250px;
 
   &:link, &:visited, &:active {
     background: transparent;
@@ -40,8 +39,20 @@
 .document-name-container {
   color: #0058a8;
   font-size: 21px;
+  margin: 0px;
+  padding: 0px;
   display: inline-block;
-  min-width: 300px;
+  text-indent: 0px;
+  min-width: 250px;
+}
+
+.document-modified {
+  font-size: 14px;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  text-indent: 0px;
+  min-width: 200px;
 }
 
 .document-file-name {
@@ -110,3 +121,4 @@
   width: 300px;
   height: 15px;
 }
+

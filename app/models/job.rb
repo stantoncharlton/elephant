@@ -1,9 +1,7 @@
 class Job < ActiveRecord::Base
     attr_accessible :client_contact_name,
-                    :district_manager_id,
                     :start_date,
-                    :end_date,
-                    :sales_engineer_id
+                    :end_date
 
 
 
@@ -25,7 +23,10 @@ class Job < ActiveRecord::Base
     has_many :documents
 
     has_many :job_memberships, foreign_key: "job_id"
-    has_many :users, through: :job_memberships, source: :user
+    has_many :participants, through: :job_memberships, source: :user
+
+    has_one :district_manager, class_name: "User", foreign_key: "id"
+    has_one :sales_engineer, class_name: "User", foreign_key: "id"
 
 
     def add_user!(user)

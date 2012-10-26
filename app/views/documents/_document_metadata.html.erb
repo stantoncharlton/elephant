@@ -2,17 +2,21 @@
   <% if document.url %>
       <%= link_to document.name, document.full_url, class: "document-name" %>
   <% else %>
-      <div class="document-name-container">
-        <%= label_tag document.name, nil, class: "document-name" %>
-      </div>
+      <p class="document-name document-name-container"><%= document.name %></p>
   <% end %>
 
+
+  <div class="document-modified">
+    <% if document.updated_at != document.created_at %>
+        <p class="inline"><%= document.updated_at.getlocal.strftime("%m/%d/%Y %l:%M %p") %></p>
+    <% end %>
+  </div>
 
   <div class="document-file-name-box">
     <% if !document.url.nil? %>
         <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
     <% else %>
-        <%= label_tag "no document uploaded", nil, class: "document-file-name warning-text" %>
+        <%= label_tag "no document uploaded", nil, class: "warning-text" %>
     <% end %>
   </div>
 </div>
