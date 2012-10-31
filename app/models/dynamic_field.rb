@@ -1,15 +1,17 @@
 class DynamicField < ActiveRecord::Base
     attr_accessible :name,
                     :value_type_conversion,
-                    :template
+                    :template,
+                    :priority
 
     validates_presence_of :name
     validates_inclusion_of :value_type_conversion, :in => %w(to_s to_i to_f to_b)
-    validate :value_or_attachment
+    #validate :value_or_attachment
 
-    before_save :value_or_attachment
+    #before_save :value_or_attachment
 
     belongs_to :job_template, :conditions => ['dynamic_fields.template = ?', true]
+    belongs_to :dynamic_field_template, class_name: "DynamicField"
     belongs_to :job
     belongs_to :company
 
@@ -27,7 +29,6 @@ class DynamicField < ActiveRecord::Base
         end
 
     end
-
 
 private
 

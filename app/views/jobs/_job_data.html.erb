@@ -5,8 +5,7 @@
 
 <div class="">
   <p class="job-field-title">Status</p>
-
-  <h3 class="job-field-value">Pre-Job</h3>
+  <p class="job-field-value status-good">Pre-Job</p>
 </div>
 
 <div class="">
@@ -19,15 +18,20 @@
 </div>
 
 <div class="">
+  <% job.dynamic_fields.select { |field| field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+      <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
+      <p class="job-field-value"><%= dynamic_field.value %></p>
+  <% end %>
+</div>
+
+<div class="">
   <p class="job-field-title">Location</p>
 
   <p class="job-field-value"><%= job.district.name %></p>
 
-  <div class="inline push-right">
-    <p class="job-field-title">Start Date</p>
+  <p class="job-field-title">Start Date</p>
 
-    <p class="job-field-value">12/7/12</p>
-  </div>
+  <p class="job-field-value">12/7/12</p>
 </div>
 
 <div class="">
@@ -35,21 +39,17 @@
 
   <p class="job-field-value"><%= job.client.name %></p>
 
-  <div class="inline push-right">
-    <p class="job-field-title">End Date</p>
+  <p class="job-field-title">End Date</p>
 
-    <p class="job-field-value">12/10/12</p>
-  </div>
+  <p class="job-field-value">12/10/12</p>
 </div>
 
 <div class="">
   <p class="job-field-title">District Manager</p>
 
-  <p class="job-field-value"><%= !job.district_manager ? job.district_manager.name : '-' %></p>
+  <p class="job-field-value"><%= job.district_manager ? job.district_manager.name : '-' %></p>
 
-  <div class="inline push-right">
-    <p class="job-field-title">Sales Engineer</p>
+  <p class="job-field-title">Sales Engineer</p>
 
-    <p class="job-field-value"><%= !job.sales_engineer ? job.sales_engineer.name : '-' %></p>
-  </div>
+  <p class="job-field-value"><%= job.sales_engineer ? job.sales_engineer.name : '-' %></p>
 </div>

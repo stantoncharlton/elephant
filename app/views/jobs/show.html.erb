@@ -3,20 +3,35 @@
 </div>
 
 <div class="content">
-  <% @job.job_template.dynamic_fields.each do |df| %>
-      <div class="field striped">
-        <p class="job-field-title"><%= df.name  %></p>
-        <p class="job-field-value">-</p>
-      </div>
-  <% end %>
+  <div class="">
+    <a href="#" id="custom_data_toggle" class="custom-data-toggle">Custom Data</a>
+
+    <div class="custom-data-closed" id="custom_data">
+      <% @job.job_template.dynamic_fields.each do |df| %>
+          <% if !df.priority? %>
+              <p class="job-field-title"><%= df.name %></p>
+
+              <p class="job-field-value">-</p>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <div class="header">
   <h2>Documents</h2>
 </div>
 
-<div class="content">
-  <% @job.job_template.documents.each do |d| %>
+<h3 class="document-section-header">Pre-Job</h3>
+<div class="content" id="documents">
+  <% @job.documents.select {|item| item.category == "Pre-Job" }.each do |d| %>
+      <%= render 'documents/document', document: d %>
+  <% end %>
+</div>
+
+<h3 class="document-section-header">Pre-Job</h3>
+<div class="content" id="documents2">
+  <% @job.documents.select {|item| item.category == "Post-Job" }.each do |d| %>
       <%= render 'documents/document', document: d %>
   <% end %>
 </div>

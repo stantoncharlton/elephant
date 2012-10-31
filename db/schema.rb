@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121023001628) do
+ActiveRecord::Schema.define(:version => 20121031160451) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -56,15 +56,26 @@ ActiveRecord::Schema.define(:version => 20121023001628) do
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
 
+  create_table "countries", :force => true do |t|
+    t.string   "iso"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.integer  "company_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "location"
+    t.integer  "country_id"
+    t.integer  "state_id"
   end
 
   add_index "districts", ["company_id"], :name => "index_districts_on_company_id"
+  add_index "districts", ["country_id"], :name => "index_districts_on_country_id"
+  add_index "districts", ["state_id"], :name => "index_districts_on_state_id"
 
   create_table "documents", :force => true do |t|
     t.integer  "job_template_id"
@@ -73,30 +84,35 @@ ActiveRecord::Schema.define(:version => 20121023001628) do
     t.string   "name"
     t.string   "url"
     t.string   "status"
-    t.boolean  "template",        :default => false
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.boolean  "template",             :default => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "document_type"
     t.integer  "company_id"
+    t.integer  "document_template_id"
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"
+  add_index "documents", ["document_template_id"], :name => "index_documents_on_document_template_id"
   add_index "documents", ["job_id"], :name => "index_documents_on_job_id"
   add_index "documents", ["job_template_id"], :name => "index_documents_on_job_template_id"
 
   create_table "dynamic_fields", :force => true do |t|
     t.integer  "job_template_id"
     t.integer  "job_id"
-    t.string   "name",                                      :null => false
+    t.string   "name",                                          :null => false
     t.string   "value"
-    t.string   "value_type_conversion", :default => "to_s"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.string   "value_type_conversion",     :default => "to_s"
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.boolean  "template"
     t.integer  "company_id"
+    t.boolean  "priority"
+    t.integer  "dynamic_field_template_id"
   end
 
   add_index "dynamic_fields", ["company_id"], :name => "index_dynamic_fields_on_company_id"
+  add_index "dynamic_fields", ["dynamic_field_template_id"], :name => "index_dynamic_fields_on_dynamic_field_template_id"
   add_index "dynamic_fields", ["job_id"], :name => "index_dynamic_fields_on_job_id"
   add_index "dynamic_fields", ["job_template_id"], :name => "index_dynamic_fields_on_job_template_id"
   add_index "dynamic_fields", ["name"], :name => "index_dynamic_fields_on_name"
@@ -166,6 +182,16 @@ ActiveRecord::Schema.define(:version => 20121023001628) do
   end
 
   add_index "product_lines", ["company_id"], :name => "index_product_lines_on_company_id"
+
+  create_table "states", :force => true do |t|
+    t.string   "iso"
+    t.string   "name"
+    t.integer  "country_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "states", ["country_id"], :name => "index_states_on_country_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

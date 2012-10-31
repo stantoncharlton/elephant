@@ -9,7 +9,13 @@
       <%= label_tag dynamic_field.value_type, nil, class: "" %>
     </div>
 
+    <%= label_tag "Important data", nil, class: "" %>
+    <%= check_box_tag "Important data", dynamic_field.priority, dynamic_field.priority %>
+
+    <div class="push-right">
     <%= link_to "remove", dynamic_field, method: :delete, remote: true, data: {confirm: "You sure?"}, class: "delete-button" %>
+    </div>
+
   </div>
 </fieldset>
 

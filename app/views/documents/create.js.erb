@@ -2,7 +2,12 @@
 alert("Failed to upload document: <%= j @document.errors.full_messages.join(', ').html_safe %>");
 <% else %>
 
-$("#documents").append("<%= j render(@document) %>");
+<% if @document.category == "Pre-Job" %>
+    $("#documents").append("<%= j render(@document) %>");
+<% else %>
+    $("#documents2").append("<%= j render(@document) %>");
+<% end %>
+
 $('#new_document_name').val('');
 
 

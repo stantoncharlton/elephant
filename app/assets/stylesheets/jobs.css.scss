@@ -14,7 +14,7 @@
 
 .job-field-value {
   display: inline-block;
-  min-width: 230px;
+  min-width: 250px;
   margin-right: 0px;
 }
 
@@ -35,4 +35,38 @@
     border-radius: 5px;
     text-decoration: none;
   }
+}
+
+.status-good {
+  color: #2fad1e;
+}
+
+.custom-data-toggle {
+  color: #0058a8;
+  background: transparent;
+  padding: 5px 20px 5px 0px;
+  display: inline-block;
+  background: url(image_path('drop_arrow.png')) no-repeat center right;
+
+  &:active, &:link, &:visited {
+    color: #0058a8;
+    background: transparent;
+    text-decoration: none;
+    background: url(image_path('drop_arrow.png')) no-repeat center right;
+  }
+  &:hover {
+    color: #000000;
+    background: #deebf7;
+    border-radius: 5px;
+    text-decoration: none;
+    background: url(image_path('drop_arrow.png')) no-repeat center right;
+  }
+}
+
+.custom-data-open {
+
+}
+
+.custom-data-closed {
+  display: none;
 }

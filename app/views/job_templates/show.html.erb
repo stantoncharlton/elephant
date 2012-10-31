@@ -22,13 +22,24 @@
   <p class="header-subtitle">Document Templates</p>
 </div>
 
+<h3 class="document-section-header">Pre-Job</h3>
 <div class="content" id="documents">
-  <%= render @job_template.documents %>
+  <%= render @job_template.documents.select {|item| item.category == "Pre-Job" } %>
 </div>
 
 <div class="content">
-  <%= render 'document_fields' %>
+  <%= render 'document_fields', category_name: "Pre-Job" %>
 </div>
+
+<h3 class="document-section-header">Post-Job</h3>
+<div class="content" id="documents2">
+  <%= render @job_template.documents.select {|item| item.category == "Post-Job" } %>
+</div>
+
+<div class="content">
+  <%= render 'document_fields', category_name: "Post-Job" %>
+</div>
+
 
 
 <div class="actions">
@@ -36,7 +47,7 @@
 
   <% if signed_in_admin? %>
       <%= link_to "Delete", @job_template, method: :delete,
-                  data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
+                  data: {confirm: "You sure?"}, class: "bluebtn red pull-right-button" %>
   <% end %>
 </div>
 

@@ -15,11 +15,24 @@ class DistrictsController < ApplicationController
     def new
         @district = District.new
         @company = current_user.company
+
+        @countries = Country.all
+        @states = State.all
     end
 
     def create
+        country_id = params[:district][:country_id]
+        params[:district].delete(:country_id)
+
+        state_id = params[:district][:state_id]
+        params[:district].delete(:state_id)
+
         @district = District.new(params[:district])
         @district.company = current_user.company
+        @district.country = Country.find_by_id(country_id)
+        if state_id.present?
+            @district.state = State.find_by_id(state_id)
+        end
 
         saved = @district.save
 
