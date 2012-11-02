@@ -40,4 +40,27 @@ class Job < ActiveRecord::Base
         job_memberships.find_by_user_id(user.id).destroy
     end
 
+    def self.from_user(user)
+        #where("jobs.company_id = :company_id", company_id: user.company.id).order("jobs.created_at DESC")
+    end
+
+    def self.from_company(company)
+        where("jobs.company_id = :company_id", company_id: company.id).order("jobs.created_at DESC")
+    end
+
+    def self.from_field(field)
+        where("jobs.field_id = :field_id", field_id: field.id).order("jobs.created_at DESC")
+    end
+
+    def self.search(search)
+        if search
+            find(:all,
+                 :conditions => ['wells.name LIKE ?', "%#{search}%"],
+                 :select => "wells.name",
+                 :joins => :well)
+        else
+            find(:all)
+        end
+    end
+
 end

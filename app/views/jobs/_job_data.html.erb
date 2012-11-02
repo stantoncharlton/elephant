@@ -1,10 +1,19 @@
 <div class="field">
-  <h3 class="job-title inline"><%= job.field.name %></h3>
-  | <h3 class="job-title inline"><%= job.well.name %></h3>
+  <% if form_editable %>
+      <%= link_to job.field.name, job.field, class: "job-title inline" %>
+  <% else %>
+      <h2 class="job-title inline"><%= job.field.name %></h2>
+  <% end %>
+
+
+  <p class="job-title-divider">|</p>
+
+  <h2 class="job-title inline"><%= job.well.name %></h2>
 </div>
 
 <div class="">
   <p class="job-field-title">Status</p>
+
   <p class="job-field-value status-good">Pre-Job</p>
 </div>
 
@@ -20,14 +29,24 @@
 <div class="">
   <% job.dynamic_fields.select { |field| field.dynamic_field_template.priority? }.each do |dynamic_field| %>
       <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
-      <p class="job-field-value"><%= dynamic_field.value %></p>
+
+      <% if form_editable %>
+          <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
+                 value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
+      <% else %>
+          <p class="job-field-value"><%= dynamic_field.value %></p>
+      <% end %>
   <% end %>
 </div>
 
 <div class="">
-  <p class="job-field-title">Location</p>
+  <p class="job-field-title">District</p>
 
-  <p class="job-field-value"><%= job.district.name %></p>
+  <% if form_editable %>
+      <%= link_to job.district.name, job.district, class: "job-field-value-link" %>
+  <% else %>
+      <p class="job-field-value"><%= job.district.name %></p>
+  <% end %>
 
   <p class="job-field-title">Start Date</p>
 
@@ -37,7 +56,11 @@
 <div class="">
   <p class="job-field-title">Client name</p>
 
-  <p class="job-field-value"><%= job.client.name %></p>
+  <% if form_editable %>
+      <%= link_to job.client.name, job.client, class: "job-field-value-link" %>
+  <% else %>
+      <p class="job-field-value"><%= job.client.name %></p>
+  <% end %>
 
   <p class="job-field-title">End Date</p>
 
@@ -47,9 +70,31 @@
 <div class="">
   <p class="job-field-title">District Manager</p>
 
-  <p class="job-field-value"><%= job.district_manager ? job.district_manager.name : '-' %></p>
+  <% if job.district_manager.present? %>
+      <p class="job-field-value"><%= job.district_manager.name %></p>
+  <% else %>
+      <% if form_editable %>
+          <%= form_for(job, :html => { :class => "inline"}) do |f| %>
+              <%= f.text_field :district_manager_id, data: {autocomplete_source: users_path},
+                               id: "district_manager_id", class: "job-field-value-editable custom-data-input" %>
+          <% end %>
+      <% else %>
+          <p class="job-field-value">-</p>
+      <% end %>
+  <% end %>
 
   <p class="job-field-title">Sales Engineer</p>
 
-  <p class="job-field-value"><%= job.sales_engineer ? job.sales_engineer.name : '-' %></p>
+  <% if job.sales_engineer.present? %>
+      <p class="job-field-value"><%= job.sales_engineer.name %></p>
+  <% else %>
+      <% if form_editable %>
+          <%= form_for(job, :html => { :class => "inline"}) do |f| %>
+              <%= f.text_field :sales_engineer_id, data: {autocomplete_source: users_path},
+                               id: "sales_engineer_id", class: "job-field-value-editable custom-data-input" %>
+          <% end %>
+      <% else %>
+          <p class="job-field-value">-</p>
+      <% end %>
+  <% end %>
 </div>

@@ -1,5 +1,6 @@
 class DynamicFieldsController < ApplicationController
-    before_filter :signed_in_admin, only: [:new, :create, :update, :destroy]
+    before_filter :signed_in_admin, only: [:new, :create, :destroy]
+    before_filter :signed_in_user, only: [:update]
 
     respond_to :js
 
@@ -26,9 +27,10 @@ class DynamicFieldsController < ApplicationController
 
     def update
         @dynamic_field = DynamicField.find(params[:id])
-        not_found unless @document.company == current_user.company
+        not_found unless @dynamic_field.company == current_user.company
 
-        # todo
+        @dynamic_field.value = params[:value]
+        @dynamic_field.save
     end
 
 

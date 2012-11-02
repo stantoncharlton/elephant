@@ -48,4 +48,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :wells, only: [:index, :show, :new, :create]
 
+
+    resources :search
+
 end

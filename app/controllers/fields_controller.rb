@@ -3,23 +3,32 @@ class FieldsController < ApplicationController
     before_filter :signed_in_user, only: [:new, :create]
 
     def index
-        @fields = []
 
-        if params[:district_id].present?
-            district = District.find_by_id(params[:district_id])
-            if district.company == current_user.company
-                @fields = district.fields
-            end
+        respond_to do |format|
+            format.js {
+                @fields = []
+
+                if params[:district_id].present?
+                    district = District.find_by_id(params[:district_id])
+                    if district.company == current_user.company
+                        @fields = district.fields
+                    end
+                end
+            }
+            format.html {
+                @fields = Field.from_company(current_user.company)
+            }
         end
     end
 
     def show
-
+        @field = Field.find_by_id(params[:id])
+        @jobs = Job.from_field(@field)
     end
 
     def new
         @field = Field.new
-        @district  = District.find_by_id(params[:district_id])
+        @district = District.find_by_id(params[:district_id])
     end
 
     def create
@@ -31,8 +40,6 @@ class FieldsController < ApplicationController
         @field.district = District.find_by_id(district_id)
         @field.save
     end
-
-
 
 
 end

@@ -5,7 +5,7 @@ class JobsController < ApplicationController
 
     def index
 
-        @jobs = Job.paginate(page: params[:page], limit: 10)
+        @jobs = Job.from_user(current_user).paginate(page: params[:page], limit: 10)
 
     end
 

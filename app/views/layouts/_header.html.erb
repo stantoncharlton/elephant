@@ -9,7 +9,7 @@
         <% elsif signed_in? %>
             <%= render 'layouts/user_tab' %>
 
-            <%= form_tag users_path, :method => 'get', :id => "users_search", class: "inline" do %>
+            <%= form_tag search_index_path, :method => 'get', :id => "users_search", class: "inline" do %>
                 <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query" %>
             <% end %>
         <% end %>

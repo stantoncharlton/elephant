@@ -9,4 +9,9 @@ class Field < ActiveRecord::Base
 
     has_many :wells
 
+
+    def self.from_company(company)
+        where("company_id = :company_id", company_id: company.id).order("name ASC")
+    end
+
 end

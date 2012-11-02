@@ -1,17 +1,17 @@
 <div class="content">
-  <%= render 'job_data', job: @job %>
+  <%= render 'job_data', job: @job, form_editable: true %>
 </div>
 
 <div class="content">
   <div class="">
-    <a href="#" id="custom_data_toggle" class="custom-data-toggle">Custom Data</a>
+    <a href="#" id="custom_data_toggle" class="custom-data-toggle">More Job Details</a>
 
     <div class="custom-data-closed" id="custom_data">
-      <% @job.job_template.dynamic_fields.each do |df| %>
-          <% if !df.priority? %>
-              <p class="job-field-title"><%= df.name %></p>
-
-              <p class="job-field-value">-</p>
+      <% @job.dynamic_fields.each do |df| %>
+          <% if !df.dynamic_field_template.priority? %>
+              <p class="job-field-title"><%= df.dynamic_field_template.name %></p>
+              <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
+                     value="<%= df.value.present? ? df.value : "-" %>">
           <% end %>
       <% end %>
     </div>
@@ -36,3 +36,12 @@
   <% end %>
 </div>
 
+
+<div class="header">
+  <h2>Notes/Comments</h2>
+</div>
+
+
+<div class="header">
+  <h2>Activity</h2>
+</div>

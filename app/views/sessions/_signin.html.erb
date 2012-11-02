@@ -7,7 +7,7 @@
       <div class="alert alert-<%= key %> loginrightmargin"><%= value %></div>
   <% end %>
 
-  <%= form_for(:session, url: sessions_path) do |f| %>
+  <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
 
       <%= f.label :email %>
       <%= f.text_field :email, placeholder: "Type Email" %>

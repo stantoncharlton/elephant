@@ -1,11 +1,17 @@
 class UsersController < ApplicationController
-    before_filter :signed_in_user, only: [:show, :settings]
-    before_filter :signed_in_admin, only: [:index, :new, :create, :destroy, :edit, :update]
+    before_filter :signed_in_user, only: [:index, :show, :settings]
+    before_filter :signed_in_admin, only: [:new, :create, :destroy, :edit, :update]
     set_tab :users
 
     def index
 
-        @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10)
+        respond_to do |format|
+            format.html { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
+            format.json {
+                @users = User.from_company(current_user.company).order(:name).where("name like ?", "%#{params[:term]}%")
+                render json: @users.map(&:name)
+            }
+        end
     end
 
     def settings
