@@ -29,6 +29,19 @@ class Job < ActiveRecord::Base
     has_one :sales_engineer, class_name: "User", foreign_key: "id"
 
 
+    searchable do
+        text :field_name do
+            field.name
+        end
+        text :well_name do
+            well.name
+        end
+
+        time :created_at
+        time :updated_at
+    end
+
+
     def add_user!(user)
         membership = job_memberships.new
         membership.user = user
@@ -41,7 +54,7 @@ class Job < ActiveRecord::Base
     end
 
     def self.from_user(user)
-        #where("jobs.company_id = :company_id", company_id: user.company.id).order("jobs.created_at DESC")
+        where("jobs.company_id = :company_id", company_id: user.company.id).order("jobs.created_at DESC")
     end
 
     def self.from_company(company)
@@ -52,15 +65,5 @@ class Job < ActiveRecord::Base
         where("jobs.field_id = :field_id", field_id: field.id).order("jobs.created_at DESC")
     end
 
-    def self.search(search)
-        if search
-            find(:all,
-                 :conditions => ['wells.name LIKE ?', "%#{search}%"],
-                 :select => "wells.name",
-                 :joins => :well)
-        else
-            find(:all)
-        end
-    end
 
 end
