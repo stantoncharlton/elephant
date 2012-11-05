@@ -28,7 +28,7 @@ class Job < ActiveRecord::Base
     has_one :district_manager, class_name: "User", foreign_key: "id"
     has_one :sales_engineer, class_name: "User", foreign_key: "id"
 
-
+=begin
     searchable do
         text :field_name do
             field.name
@@ -40,6 +40,7 @@ class Job < ActiveRecord::Base
         time :created_at
         time :updated_at
     end
+=end
 
 
     def add_user!(user)
