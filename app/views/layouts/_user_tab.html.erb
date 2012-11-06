@@ -1,5 +1,5 @@
 <%= tabs_tag :builder => ApplicationHelper::MenuTabBuilder, open_tabs: {class: "admin_tab"} do |tab| %>
-    <%= tab.alerts 'Alerts', jobs_path %>
+    <%= tab.alerts 'Alerts', alerts_path %>
     <%= tab.jobs 'Jobs', jobs_path %>
-    <%= tab.history 'History', jobs_path %>
+    <%= tab.history 'History', history_index_path %>
 <% end %>

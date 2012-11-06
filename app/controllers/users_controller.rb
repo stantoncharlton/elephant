@@ -9,7 +9,7 @@ class UsersController < ApplicationController
             format.html { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
             format.json {
                 @users = User.from_company(current_user.company).order(:name).where("name like ?", "%#{params[:term]}%")
-                render json: @users.map(&:name)
+                render json: @users.map { |user| { :label => user.name, :position_title => user.position_title, :district => user.district.name, :id => user.id } }
             }
         end
     end
@@ -21,6 +21,9 @@ class UsersController < ApplicationController
     def show
         @user = User.find(params[:id])
         not_found unless @user.company == current_user.company
+
+        @activities = Activity.activities_for_user(@user)
+
     end
 
 

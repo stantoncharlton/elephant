@@ -42,7 +42,6 @@
 
 .job-field-value-link {
   display: inline-block;
-  min-width: 250px;
   margin-right: 0px;
 
   &:active, &:link, &:visited {
@@ -54,6 +53,14 @@
     color: #0058a8;
     background: transparent;
     text-decoration: underline;
+  }
+}
+
+.blue {
+  color: #0058a8;
+
+  &:active, &:link, &:visited {
+    color: #0058a8;
   }
 }
 
@@ -103,8 +110,10 @@
 .job-link {
   background: transparent;
   width: 97%;
-  padding: 0px 15px 15px 15px;
+  padding: 5px 15px 15px 15px;
   display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
   &:active, &:link, &:visited {
     background: transparent;
@@ -156,6 +165,7 @@
 
 ul.ui-autocomplete {
   position: absolute;
+  min-width: 500px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -172,7 +182,21 @@ ul.ui-autocomplete {
       padding: 3px;
     }
     a.ui-state-hover, a.ui-state-active {
-      background-color: #FFFCB2;
+      background-color: #e5f2ff;
     }
+
   }
+}
+
+.job-user {
+  margin-left: 8px;
+}
+
+.job-user-title {
+  display: inline-block;
+  width: 300px;
+}
+
+.job-user-district {
+  display: inline-block;
 }

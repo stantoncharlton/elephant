@@ -1,0 +1,30 @@
+<div class="activity">
+  <div class="activity-avatar-box-small">
+    <%= image_tag "user_avatar_small.png" %>
+  </div>
+
+  <div class="activity-content">
+    <%= link_to activity.user.name, activity.user, class: "activity-user-link" %>
+    <p class="activity-date"><%= activity.created_at.to_formatted_s(:long) %></p>
+
+    <div>
+      <% if activity.activity_type == Activity::JOB_CREATED %>
+          <p class="activity-message">Created <%= link_to "job", activity.target %>
+            (<%= activity.target.job_template.product_line.name %>
+            | <%= activity.target.job_template.name %>
+            on <%= link_to activity.target.field.name, activity.target.field %>
+            | <%= link_to activity.target.well.name, activity.target.well %>).</p>
+      <% end %>
+      <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
+          <p class="activity-message"><%= link_to activity.target.name, activity.target.full_url %>
+            uploaded to <%= link_to "job", activity.job %>
+            (<%= activity.job.job_template.product_line.name %>
+            | <%= activity.job.job_template.name %>
+            job on <%= link_to activity.job.field.name, activity.job.field %>
+            | <%= link_to activity.job.well.name, activity.job.well %>).</p>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>

@@ -87,12 +87,12 @@
 }
 
 .field {
-  line-height: 60px;
+  line-height: 40px;
+  min-height: 40px;
 
   font-size: 21px;
 
   margin: 0px;
-  margin-top: 0px;
   padding: 0px;
 
   border-style: dashed;
@@ -136,12 +136,10 @@
 .inline-form form {
   display: inline;
   width: 200px;
-  height: 50px;
-  line-height: 50px;
 }
 
 .inline-form {
-  line-height: 50px;
+  line-height: 40px;
 }
 
 .list {
@@ -233,4 +231,9 @@
 .disabled {
   pointer-events: none;
   opacity: .3;
+}
+
+
+.hidden {
+  display: none;
 }

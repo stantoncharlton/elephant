@@ -1,5 +1,6 @@
 class DocumentsController < ApplicationController
-    before_filter :signed_in_admin, only: [:new, :create, :update, :destroy]
+    before_filter :signed_in_admin, only: [:new, :create, :destroy]
+    before_filter :signed_in_user, only: [:update]
 
     respond_to :js
 
@@ -29,7 +30,18 @@ class DocumentsController < ApplicationController
     def update
         @document = Document.find(params[:id])
         not_found unless @document.company == current_user.company
-        @document.update_attribute(:url, params[:document][:url])
+        not_found unless (@document.template? && signed_in_admin) || !@document.template?
+
+        @document.user = current_user
+        @document.url = params[:document][:url]
+
+
+        @document.save
+
+        if !@document.template?
+            Activity.add(current_user, Activity::DOCUMENT_UPLOADED, @document, @document.file_name, @document.job)
+        end
+
     end
 
 

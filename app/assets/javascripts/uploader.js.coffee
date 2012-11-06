@@ -8,7 +8,7 @@ connectUploadEvents = ->
         types = /(\.|\/)(gif|jpe?g|png)$/i
         file = data.files[0]
         if types.test(file.type) || types.test(file.name)
-          $(e.target).find(".document-file-name-box").hide()
+          $(e.target).find(".document-info").hide()
           $(e.target).find(".upload-controls").hide()
           data.context = $(tmpl("template-upload", file))
           $(e.target).append(data.context)
@@ -22,7 +22,7 @@ connectUploadEvents = ->
           data.context.find('.bar').css('width', progress + '%')
 
       done: (e, data) ->
-        $(e.target).find('.document-file-name-box').show()
+        $(e.target).find('.document-info').show()
         $(e.target).find(".upload-controls").show()
         file = data.files[0]
         domain = $(e.target).attr('action')
@@ -42,7 +42,7 @@ connectUploadEvents = ->
         data.context.remove() if data.context # remove progress bar
 
       fail: (e, data) ->
-        $(e.target).find('.document-file-name-box').show()
+        $(e.target).find('.document-info').show()
         $(e.target).find(".upload-controls").show()
         alert("#{data.files[0].name} failed to upload.")
         alert("#{data.files[0].name} failed to upload.")

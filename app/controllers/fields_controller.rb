@@ -23,6 +23,8 @@ class FieldsController < ApplicationController
 
     def show
         @field = Field.find_by_id(params[:id])
+        not_found unless @field.company == current_user.company
+
         @jobs = Job.from_field(@field)
     end
 

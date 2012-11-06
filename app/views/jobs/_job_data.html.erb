@@ -8,7 +8,12 @@
 
   <p class="job-title-divider">|</p>
 
-  <h2 class="job-title inline"><%= job.well.name %></h2>
+  <% if form_editable %>
+      <%= link_to job.well.name, edit_well_path(job.well), class: "job-title inline" %>
+  <% else %>
+      <h2 class="job-title inline"><%= job.well.name %></h2>
+  <% end %>
+
 </div>
 
 <div class="">
@@ -43,7 +48,7 @@
   <p class="job-field-title">District</p>
 
   <% if form_editable %>
-      <%= link_to job.district.name, job.district, class: "job-field-value-link" %>
+      <%= link_to job.district.name, job.district, class: "job-field-value job-field-value-link" %>
   <% else %>
       <p class="job-field-value"><%= job.district.name %></p>
   <% end %>
@@ -57,7 +62,7 @@
   <p class="job-field-title">Client name</p>
 
   <% if form_editable %>
-      <%= link_to job.client.name, job.client, class: "job-field-value-link" %>
+      <%= link_to job.client.name, job.client, class: "job-field-value job-field-value-link" %>
   <% else %>
       <p class="job-field-value"><%= job.client.name %></p>
   <% end %>
@@ -69,32 +74,11 @@
 
 <div class="">
   <p class="job-field-title">District Manager</p>
-
-  <% if job.district_manager.present? %>
-      <p class="job-field-value"><%= job.district_manager.name %></p>
-  <% else %>
-      <% if form_editable %>
-          <%= form_for(job, :html => { :class => "inline"}) do |f| %>
-              <%= f.text_field :district_manager_id, data: {autocomplete_source: users_path},
-                               id: "district_manager_id", class: "job-field-value-editable custom-data-input" %>
-          <% end %>
-      <% else %>
-          <p class="job-field-value">-</p>
-      <% end %>
-  <% end %>
+  <%=  render 'jobs/user_field', job: job, form_editable: form_editable,
+              user: job.district_manager, tag_name: "district_manager" %>
 
   <p class="job-field-title">Sales Engineer</p>
+  <%=  render 'jobs/user_field', job: job, form_editable: form_editable,
+              user: job.sales_engineer, tag_name: "sales_engineer" %>
 
-  <% if job.sales_engineer.present? %>
-      <p class="job-field-value"><%= job.sales_engineer.name %></p>
-  <% else %>
-      <% if form_editable %>
-          <%= form_for(job, :html => { :class => "inline"}) do |f| %>
-              <%= f.text_field :sales_engineer_id, data: {autocomplete_source: users_path},
-                               id: "sales_engineer_id", class: "job-field-value-editable custom-data-input" %>
-          <% end %>
-      <% else %>
-          <p class="job-field-value">-</p>
-      <% end %>
-  <% end %>
 </div>

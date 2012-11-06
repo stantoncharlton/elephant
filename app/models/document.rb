@@ -15,6 +15,8 @@ class Document < ActiveRecord::Base
     belongs_to :job
     belongs_to :company
 
+    belongs_to :user, class_name: "User"
+
     before_create :default_name
 
 
@@ -36,10 +38,8 @@ class Document < ActiveRecord::Base
 
     def full_url
         s3 = AWS::S3.new
-        puts "sdfs"
-        puts self.url
         obj = s3.buckets['elephant-docs'].objects[self.url].url_for(:read)
-        obj.to_s;
+        obj.to_s
     end
 
 

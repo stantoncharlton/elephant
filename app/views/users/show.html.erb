@@ -1,40 +1,48 @@
-<h1 class="page-title"><%= @user.name %></h1>
+<div class="content">
 
-<div class="header">
-  <h2 class="header-title">Information</h2>
+  <div class="avatar-box">
+    <%= image_tag "user_avatar.png" %>
+  </div>
+
+  <div class="users-info">
+    <h1 class="page-title users-info"><%= @user.name %></h1>
+
+    <h2 class="users-info"><%= @user.position_title %></h2>
+
+    <%= link_to @user.district.name, @user.district, class: "user-info-link" %>
+
+    <%= link_to @user.email, "mailto:" + @user.email, class: "user-info-link" %>
+
+    <h3><%= @user.phone_number %></h3>
+
+    <div class="message-box">
+      <%= link_to "SEND MESSAGE", new_user_path, class: "bluebtn" %>
+    </div>
+  </div>
+
 </div>
 
 
+<div class="header">
+  <h2 class="header-title">Jobs</h2>
+</div>
+
 <div class="content">
-
-  <div class="field">
-    <b class="b-label">Email</b>
-    <%= link_to @user.email, "mailto:" + @user.email %>
+  <div id="jobs" class="list">
+    <% @user.jobs.each do |job| %>
+        <%= link_to job, class: "job-link" do %>
+            <%= render 'jobs/job_data', job: job, form_editable: false %>
+        <% end %>
+    <% end %>
   </div>
+</div>
 
-  <div class="field">
-    <b class="b-label">Admin</b>
-    <%= @user.admin %>
-  </div>
 
-  <div class="field">
-    <b class="b-label">District</b>
-    <%= @user.district_id %>
-  </div>
-
-  <div class="field">
-    <b class="b-label">Location</b>
-    <%= @user.location %>
-  </div>
-
-  <div class="field">
-    <b class="b-label">Position title</b>
-    <%= @user.position_title %>
-  </div>
-
-  <div class="field">
-    <b class="b-label">Phone number</b>
-    <%= @user.phone_number %>
-  </div>
-
+<div class="header">
+  <h2 class="header-title">Activity</h2>
+</div>
+<div id="activities" class="list">
+  <% @activities.each do |activity| %>
+      <%= render 'activities/job_activity', activity: activity %>
+  <% end %>
 </div>

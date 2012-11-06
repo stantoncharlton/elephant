@@ -5,6 +5,7 @@ class Activity < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :user
+    belongs_to :job
     belongs_to :target, :polymorphic => true
 
     #default_scope :order => 'activities.created_at DESC', :limit => 10
@@ -29,6 +30,12 @@ class Activity < ActiveRecord::Base
     DISTRICT_CREATED = 17
     DISTRICT_UPDATED = 18
     DISTRICT_DESTROYED = 19
+
+
+    JOB_CREATED = 100
+
+    DOCUMENT_UPLOADED = 110
+
 
     def message
         case self.activity_type
@@ -70,15 +77,19 @@ class Activity < ActiveRecord::Base
                 "District updated"
             when DISTRICT_DESTROYED
                 "District deleted"
+
+
+
         end
     end
 
-    def self.add(user, activity_type, target, metadata = "")
+    def self.add(user, activity_type, target, metadata = "", job = nil)
         return false if user.nil? or user.company.nil? or activity_type.blank? or target.blank?
 
         activity = Activity.new(activity_type: activity_type, target: target, metadata: metadata)
         activity.user = user
         activity.company = user.company
+        activity.job = job
 
         activity.save!
     end
@@ -86,6 +97,18 @@ class Activity < ActiveRecord::Base
     def self.admin_activities_for_company(company)
         where("company_id = :company_id", company_id: company.id)
         .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 1, end_range: 100)
+        .order("created_at DESC")
+    end
+
+    def self.activities_for_job(job)
+        where("job_id = :job_id", job_id: job.id)
+        .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200)
+        .order("created_at DESC")
+    end
+
+    def self.activities_for_user(user)
+        where("user_id = :user_id", user_id: user.id)
+        .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200)
         .order("created_at DESC")
     end
 end

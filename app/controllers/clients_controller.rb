@@ -11,6 +11,8 @@ class ClientsController < ApplicationController
     def show
         @client = Client.find(params[:id])
         not_found unless @client.company == current_user.company
+
+        @jobs = Job.from_client(@client)
     end
 
     def new

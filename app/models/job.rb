@@ -25,10 +25,11 @@ class Job < ActiveRecord::Base
     has_many :job_memberships, foreign_key: "job_id"
     has_many :participants, through: :job_memberships, source: :user
 
-    has_one :district_manager, class_name: "User", foreign_key: "id"
-    has_one :sales_engineer, class_name: "User", foreign_key: "id"
+    belongs_to :district_manager, class_name: "User", primary_key: "id", foreign_key: "district_manager_id"
+    belongs_to :sales_engineer, class_name: "User", primary_key: "id", foreign_key: "sales_engineer_id"
 
-=begin
+#=begin
+if Rails.env.development?
     searchable do
         text :field_name do
             field.name
@@ -40,18 +41,23 @@ class Job < ActiveRecord::Base
         time :created_at
         time :updated_at
     end
-=end
+end
+#=end
 
 
     def add_user!(user)
+
         membership = job_memberships.new
         membership.user = user
         membership.job = self
         membership.save
     end
 
-    def remove_user(user)
-        job_memberships.find_by_user_id(user.id).destroy
+    def remove_user!(user)
+        user = job_memberships.find_by_user_id(user.id)
+        if user.present?
+            user.destroy
+        end
     end
 
     def self.from_user(user)
@@ -64,6 +70,14 @@ class Job < ActiveRecord::Base
 
     def self.from_field(field)
         where("jobs.field_id = :field_id", field_id: field.id).order("jobs.created_at DESC")
+    end
+
+    def self.from_district(district)
+        where("jobs.district_id = :district_id", district_id: district.id).order("jobs.created_at DESC")
+    end
+
+    def self.from_client(client)
+        where("jobs.client_id = :client_id", client_id: client.id).order("jobs.created_at DESC")
     end
 
 

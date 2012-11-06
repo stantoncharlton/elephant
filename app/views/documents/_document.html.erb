@@ -1,7 +1,6 @@
 <fieldset id="document_<%= document.id %>">
-  <div class="field inline-form">
+  <div class="field inline-form document-field">
     <%= s3_uploader_form post: "/documents/" + document.id.to_s, as: "document[url]", class: "inline" do %>
-
 
         <%= render 'documents/document_metadata', document: document %>
 
@@ -13,7 +12,9 @@
           </div>
 
 
-          <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "You sure?"}, class: "delete-button" %>
+          <% if editable %>
+              <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "You sure?"}, class: "delete-button" %>
+          <% end %>
         </div>
 
     <% end %>

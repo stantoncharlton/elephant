@@ -50,4 +50,8 @@ module SessionsHelper
         session[:return_to] = request.url
     end
 
+    def store_last_location
+        session[:return_to] = request.referer
+    end
+
 end

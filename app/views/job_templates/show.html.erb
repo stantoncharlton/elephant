@@ -24,7 +24,9 @@
 
 <h3 class="document-section-header">Pre-Job</h3>
 <div class="content" id="documents">
-  <%= render @job_template.documents.select {|item| item.category == "Pre-Job" } %>
+  <% @job_template.documents.select {|item| item.category == "Pre-Job" }.each do |d| %>
+      <%= render 'documents/document', document: d, editable: true %>
+  <% end %>
 </div>
 
 <div class="content">
@@ -33,7 +35,9 @@
 
 <h3 class="document-section-header">Post-Job</h3>
 <div class="content" id="documents2">
-  <%= render @job_template.documents.select {|item| item.category == "Post-Job" } %>
+  <% @job_template.documents.select {|item| item.category == "Post-Job" }.each do |d| %>
+      <%= render 'documents/document', document: d, editable: true %>
+  <% end %>
 </div>
 
 <div class="content">

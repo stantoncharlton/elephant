@@ -1,0 +1,23 @@
+<% provide(:title, @client.name) %>
+
+<div class="page_header">
+  <h1><%= @client.name %></h1>
+
+  <h2>Jobs: <%= @jobs.count() %></h2>
+
+  <% if signed_in? %>
+      <%= link_to "+ Add New Job", new_job_path, class: "bluebtn page_header_button" %>
+  <% end %>
+
+</div>
+
+
+<div id="jobs" class="list">
+  <% @jobs.each do |job| %>
+      <%= link_to job, class: "job-link" do %>
+          <%= render 'jobs/job_data', job: job, form_editable: false %>
+      <% end %>
+  <% end %>
+</div>
+
+

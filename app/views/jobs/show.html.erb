@@ -24,15 +24,15 @@
 
 <h3 class="document-section-header">Pre-Job</h3>
 <div class="content" id="documents">
-  <% @job.documents.select {|item| item.category == "Pre-Job" }.each do |d| %>
-      <%= render 'documents/document', document: d %>
+  <% @job.documents.select { |item| item.category == "Pre-Job" }.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false %>
   <% end %>
 </div>
 
 <h3 class="document-section-header">Pre-Job</h3>
 <div class="content" id="documents2">
-  <% @job.documents.select {|item| item.category == "Post-Job" }.each do |d| %>
-      <%= render 'documents/document', document: d %>
+  <% @job.documents.select { |item| item.category == "Post-Job" }.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false %>
   <% end %>
 </div>
 
@@ -44,4 +44,9 @@
 
 <div class="header">
   <h2>Activity</h2>
+</div>
+<div id="activities" class="list">
+  <% @activities.each do |activity| %>
+      <%= render 'activities/job_activity', activity: activity %>
+  <% end %>
 </div>

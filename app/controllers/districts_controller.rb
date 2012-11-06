@@ -10,6 +10,8 @@ class DistrictsController < ApplicationController
     def show
         @district = District.find(params[:id])
         not_found unless @district.company == current_user.company
+
+        @jobs = Job.from_district(@district)
     end
 
     def new

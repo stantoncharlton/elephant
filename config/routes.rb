@@ -46,9 +46,14 @@ ElephantWebApp::Application.routes.draw do
 
     resources :fields, only: [:index, :show, :new, :create]
 
-    resources :wells, only: [:index, :show, :new, :create]
+    resources :wells, only: [:index, :show, :new, :create, :edit, :update]
+
 
 
     resources :search
+
+    resources :history, only: [:index]
+
+    resources :alerts, only: [:index]
 
 end

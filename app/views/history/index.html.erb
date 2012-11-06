@@ -1,0 +1,14 @@
+<% provide(:title, 'History') %>
+
+<div class="page_header">
+  <h1>History</h1>
+
+  <h2><%= @activities.count() %></h2>
+</div>
+
+
+<div id="activities" class="list">
+  <% @activities.each do |activity| %>
+      <%= render 'activities/job_activity', activity: activity %>
+  <% end %>
+</div>

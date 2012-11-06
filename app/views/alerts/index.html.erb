@@ -1,0 +1,20 @@
+<% provide(:title, 'Alerts') %>
+
+<div class="page_header">
+  <h1>Alerts</h1>
+
+  <h2><%= @alerts.count() %></h2>
+</div>
+
+
+<div id="alerts" class="list">
+  <% @alerts.each do |alerts| %>
+  <% end %>
+</div>
+
+<% if @alerts.nil? || @alerts.empty? %>
+    <div class="no-alerts">
+      <p class="center">You don't have any alerts right now...</p>
+    </div>
+
+<% end %>

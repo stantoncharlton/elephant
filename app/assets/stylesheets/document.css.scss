@@ -21,7 +21,7 @@
 
 .document-name {
   color: #0058a8;
-  font-size: 21px !important;
+  font-size: 18px !important;
   display: inline-block;
   min-width: 250px;
 
@@ -53,6 +53,24 @@
   display: inline-block;
   text-indent: 0px;
   min-width: 200px;
+}
+
+.document-modified2 {
+  font-size: 14px;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  text-indent: 0px;
+  min-width: 250px;
+}
+
+.document-user {
+  font-size: 14px;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  text-indent: 0px;
+  min-width: 100px;
 }
 
 .document-file-name {
@@ -122,3 +140,39 @@
   height: 15px;
 }
 
+.upload-metadata {
+  margin-left: 0px;
+}
+
+.document-field {
+  height: 35px;
+  margin-bottom: 0px !important;
+}
+
+.document-status {
+  display: inline-block;
+  width: 30px;
+}
+
+.document-info {
+  display: inline-block;
+  min-width: 450px !important;
+}
+
+
+.document-user-link {
+  display: inline-block;
+  margin-right: 0px;
+  font-size: 14px;
+
+  &:active, &:link, &:visited {
+    color: #0058a8;
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #0058a8;
+    background: transparent;
+    text-decoration: underline;
+  }
+}

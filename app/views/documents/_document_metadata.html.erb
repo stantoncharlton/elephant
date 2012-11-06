@@ -1,22 +1,59 @@
 <div class="upload-metadata inline">
-  <% if document.url %>
-      <%= link_to document.name, document.full_url, class: "document-name" %>
-  <% else %>
-      <p class="document-name document-name-container"><%= document.name %></p>
+
+  <% if document.document_template.present? %>
+      <div class="document-status">
+        <% if document.url.present? %>
+            <%= image_tag "document_complete.png", class: "" %>
+        <% end %>
+      </div>
   <% end %>
 
+  <% if document.document_template.present? %>
+      <% if document.url.present? %>
+          <%= link_to document.name, document.full_url, class: "document-name" %>
+      <% else %>
+          <%= link_to document.name, document.document_template.full_url, class: "document-name" %>
+      <% end %>
+  <% else %>
+      <% if document.url.present? %>
+          <%= link_to document.name, document.full_url, class: "document-name" %>
+      <% else %>
+          <p class="document-name document-name-container"><%= document.name %></p>
+      <% end %>
+  <% end %>
 
-  <div class="document-modified">
-    <% if document.updated_at != document.created_at %>
-        <p class="inline"><%= document.updated_at.getlocal.strftime("%m/%d/%Y %l:%M %p") %></p>
-    <% end %>
-  </div>
+  <div class="document-info">
+    <% if !document.template? %>
+        <div class="document-modified2">
+          <% if document.updated_at != document.created_at %>
+              <p class="inline"><%= document.updated_at.getlocal.strftime("%m/%d/%Y %l:%M %p") %></p>
+          <% else %>
+              <p class="warning-text">No Document Uploaded</p>
+          <% end %>
+        </div>
 
-  <div class="document-file-name-box">
-    <% if !document.url.nil? %>
-        <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
+        <div class="document-file-name-box">
+          <% if document.user.present? %>
+              <%= link_to document.user.name, document.user, class: "document-user-link" %>
+          <% end %>
+        </div>
     <% else %>
-        <%= label_tag "no document uploaded", nil, class: "warning-text" %>
+        <% if document.updated_at != document.created_at %>
+            <div class="document-modified">
+              <p class="inline"><%= document.updated_at.getlocal.strftime("%m/%d/%Y %l:%M %p") %></p>
+            </div>
+        <% end %>
+
+
+        <div class="document-file-name-box">
+          <% if !document.url.nil? %>
+              <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
+          <% else %>
+              <%= label_tag "no document uploaded", nil, class: "warning-text" %>
+          <% end %>
+        </div>
     <% end %>
   </div>
+
+
 </div>

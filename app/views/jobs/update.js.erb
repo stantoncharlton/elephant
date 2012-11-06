@@ -1,0 +1,7 @@
+
+$('#<%= @tag_name %>_div').css('display', 'inline-block');
+$('#<%= @tag_name %>_form').css('display', 'none');
+
+$('#<%= @tag_name %>_link').replaceWith('<%= j link_to @user.name, @user,
+        class: "job-field-value-link",
+      id: @tag_name + "_link" %>');
