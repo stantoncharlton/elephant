@@ -73,3 +73,36 @@
   font-size: 13px;
   color: #555555;
 }
+
+
+.activity-document-name {
+}
+
+
+.activity-user-link-hover  {
+  display: none;
+
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0058a8;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.activity-user-link:hover + .activity-user-link-hover {
+  width: 200px;
+  height: 45px;
+  margin-left: 80px;
+  margin-top: -5px;
+  padding: 5px;
+  padding-left: 20px;
+  background: #deebf7;
+  box-shadow: 4px 4px 5px #888;;
+  display: block;
+  position: absolute;
+}

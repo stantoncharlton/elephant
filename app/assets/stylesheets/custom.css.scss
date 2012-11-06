@@ -166,7 +166,7 @@ p {
 
 .admin_tab a {
 
-  padding: 20px 0px 20px 0px;
+  padding: 0px 0px 20px 0px;
   height: 58px;
   line-height: 58px;
   text-transform: none;
@@ -204,6 +204,22 @@ p {
   }
 }
 
+
+.messages-link {
+  width: 45px;
+  height: 58px;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  text-indent: -10000px;
+
+  background: url(image_path('messages.png')) center center no-repeat;
+}
+
+
+.right-menu {
+  float: right;
+}
 
 
 /* footer */

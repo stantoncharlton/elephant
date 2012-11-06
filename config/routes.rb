@@ -56,4 +56,6 @@ ElephantWebApp::Application.routes.draw do
 
     resources :alerts, only: [:index]
 
+
+    resources :job_notes, only: [:new, :create, :destroy]
 end

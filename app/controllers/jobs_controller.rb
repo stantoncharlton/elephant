@@ -14,6 +14,8 @@ class JobsController < ApplicationController
         not_found unless @job.company == current_user.company
 
         @activities = Activity.activities_for_job(@job)
+
+        @job_note = JobNote.new
     end
 
     def new

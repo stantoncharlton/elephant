@@ -1,8 +1,10 @@
 class AlertsController < ApplicationController
-        set_tab :alerts
+    before_filter :signed_in_user, only: [:index]
+
+    set_tab :alerts
 
 
-        def index
-            @alerts = []
-        end
+    def index
+        @alerts = []
+    end
 end

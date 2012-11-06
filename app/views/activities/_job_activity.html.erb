@@ -5,7 +5,12 @@
 
   <div class="activity-content">
     <%= link_to activity.user.name, activity.user, class: "activity-user-link" %>
-    <p class="activity-date"><%= activity.created_at.to_formatted_s(:long) %></p>
+    <div class="activity-user-link-hover">
+      <h2><%= activity.user.position_title %></h2>
+
+      <p><%= activity.user.district.name %></p>
+    </div>
+    <p class="activity-date"><%= activity.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
 
     <div>
       <% if activity.activity_type == Activity::JOB_CREATED %>
@@ -16,12 +21,19 @@
             | <%= link_to activity.target.well.name, activity.target.well %>).</p>
       <% end %>
       <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
-          <p class="activity-message"><%= link_to activity.target.name, activity.target.full_url %>
+          <p class="activity-message">
+            Document
             uploaded to <%= link_to "job", activity.job %>
             (<%= activity.job.job_template.product_line.name %>
             | <%= activity.job.job_template.name %>
             job on <%= link_to activity.job.field.name, activity.job.field %>
-            | <%= link_to activity.job.well.name, activity.job.well %>).</p>
+            | <%= link_to activity.job.well.name, activity.job.well %>).
+          </p>
+
+          <div class="activity-document-name">
+            <%= image_tag "document_icon.png" %>
+            <%= link_to activity.target.name, activity.target.full_url %>
+          </div>
       <% end %>
     </div>
 

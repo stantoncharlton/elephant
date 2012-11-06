@@ -1,4 +1,6 @@
 class HistoryController < ApplicationController
+    before_filter :signed_in_user, only: [:index]
+
     set_tab :history
 
 

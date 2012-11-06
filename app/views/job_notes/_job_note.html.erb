@@ -1,0 +1,21 @@
+<div class="activity">
+  <div class="activity-avatar-box-small">
+    <%= image_tag "user_avatar_small.png" %>
+  </div>
+
+  <div class="activity-content">
+    <%= link_to job_note.user.name, job_note.user, class: "activity-user-link" %>
+    <div class="activity-user-link-hover">
+      <h2><%= job_note.user.position_title %></h2>
+
+      <p><%= job_note.user.district.name %></p>
+    </div>
+    <p class="activity-date"><%= job_note.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+
+    <div>
+      <p class="activity-message"><%= job_note.text %>).</p>
+    </div>
+
+  </div>
+
+</div>

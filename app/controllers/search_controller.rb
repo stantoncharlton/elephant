@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+    before_filter :signed_in_user, only: [:index]
+
 
     require 'will_paginate/array'
 

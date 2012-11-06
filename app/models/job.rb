@@ -21,6 +21,7 @@ class Job < ActiveRecord::Base
 
     has_many :dynamic_fields
     has_many :documents
+    has_many :job_notes
 
     has_many :job_memberships, foreign_key: "job_id"
     has_many :participants, through: :job_memberships, source: :user

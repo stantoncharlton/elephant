@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121106182800) do
+ActiveRecord::Schema.define(:version => 20121106220746) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -142,6 +142,16 @@ ActiveRecord::Schema.define(:version => 20121106182800) do
   add_index "job_memberships", ["job_id"], :name => "index_job_memberships_on_job_id"
   add_index "job_memberships", ["user_id", "job_id"], :name => "index_job_memberships_on_user_id_and_job_id", :unique => true
   add_index "job_memberships", ["user_id"], :name => "index_job_memberships_on_user_id"
+
+  create_table "job_notes", :force => true do |t|
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.integer  "company_id"
+    t.string   "text"
+    t.integer  "note_type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "job_templates", :force => true do |t|
     t.string   "name"
