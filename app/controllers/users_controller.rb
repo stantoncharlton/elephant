@@ -8,8 +8,9 @@ class UsersController < ApplicationController
         respond_to do |format|
             format.html { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
             format.json {
-                @users = User.from_company(current_user.company).order(:name).where("name like ?", "%#{params[:term]}%")
-                render json: @users.map { |user| { :label => user.name, :position_title => user.position_title, :district => user.district.name, :id => user.id } }
+                @users = User.from_company(current_user.company).where("name like ?", "%#{params[:term]}%")
+                puts @users.last.name + "......................."
+                render json: @users.map { |user| { :label => user.name, :position_title => user.position_title, :district => user.district.present? ? user.district.name : "", :id => user.id } }
             }
         end
     end
