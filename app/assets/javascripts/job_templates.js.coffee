@@ -1,6 +1,4 @@
 
-
-
 $ ->
 
   $('form').on 'click', '.remove_fields', (event) ->

@@ -3,6 +3,27 @@
 </div>
 
 <div class="content">
+  <p class="job-field-title pull-left">Project Members</p>
+
+  <div class="job-members-div pull-left">
+    <ul class="job-members-list" id="job_members_list">
+      <% @job.job_memberships.each do |jm| %>
+           <%=  render 'jobs/member', job_membership: jm %>
+      <% end %>
+    </ul>
+
+    <%= form_for(@job_member, :html => {:class => "inline ", id: "new_member_form"}, remote: true) do |f| %>
+        <%= f.hidden_field :job_id, id: "new_member_job_id", value: @job.id %>
+        <%= f.hidden_field :user_id, id: "new_member_id" %>
+        <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                           placeholder: "Type a name...",
+                           id: "new_member_name", class: "job-field-value-editable custom-data-input" %>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="content">
   <div class="">
     <a href="#" id="custom_data_toggle" class="custom-data-toggle">More Job Details</a>
 
@@ -41,20 +62,20 @@
   <h2>Notes/Comments</h2>
 </div>
 <div class="content">
-  <%= form_for @job_note, remote: true, class: "" do |f| %>
+  <%= form_for @job_note, remote: true, class: "", autofocus: false do |f| %>
       <div class="new-product-line">
         <%= f.hidden_field :job_id, value: @job.id %>
         <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: true,
-                id: "new_note_id" %>
+                        id: "new_note_id" %>
         <%= f.select :note_type, options_for_select([["Note", 1], ["Warning", 2], ["Problem", 3]]) %>
         <%= f.submit "Add", class: "bluebtn btnsmall" %>
       </div>
   <% end %>
 </div>
 <div id="job_notes" class="content">
-    <% @job.job_notes.each do |job_note| %>
-        <%= render 'job_notes/job_note', job_note: job_note %>
-    <% end %>
+  <% @job.job_notes.each do |job_note| %>
+      <%= render 'job_notes/job_note', job_note: job_note %>
+  <% end %>
 </div>
 
 
@@ -67,3 +88,6 @@
       <%= render 'activities/job_activity', activity: activity %>
   <% end %>
 </div>
+
+
+

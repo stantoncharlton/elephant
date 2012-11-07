@@ -16,6 +16,7 @@ class JobsController < ApplicationController
         @activities = Activity.activities_for_job(@job)
 
         @job_note = JobNote.new
+        @job_member = JobMembership.new
     end
 
     def new

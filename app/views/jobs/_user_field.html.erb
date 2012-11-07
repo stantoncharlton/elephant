@@ -1,24 +1,10 @@
 <% if form_editable %>
-    <div id="<%= tag_name %>_div" class="job-field-value">
-      <% if user.present? %>
-          <%= link_to user.name, user, class: "job-field-value-link",
-                      id: tag_name + "_link" %>
-      <% else %>
-          <p class="inline warning-text">Please set</p>
-      <% end %>
 
-      <%= link_to "change", "#", id: "change_" + tag_name, class: "job-field-value-link blue push-right" %>
-    </div>
-    <%= form_for(job, :html => {:class => "inline hidden", id: tag_name + "_form"}, remote: true) do |f| %>
-        <%= f.hidden_field (tag_name + "_id").to_sym, id: tag_name + "_id" %>
-        <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                           placeholder: "Type a name...",
-                           id: tag_name + "_name", class: "job-field-value-editable custom-data-input" %>
-    <% end %>
-<% else %>
     <% if user.present? %>
         <p class="job-field-value"><%= user.name %></p>
     <% else %>
         <p class="job-field-value">-</p>
     <% end %>
+
+
 <% end %>

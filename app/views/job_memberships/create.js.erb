@@ -1,0 +1,6 @@
+<% if @job_membership.new_record? %>
+alert("Failed to add to job: <%= j @job_membership.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+$("#job_members_list").append("<%= j render 'jobs/member', job_membership: @job_membership %>");
+$('#new_member_name').val('');
+<% end %>

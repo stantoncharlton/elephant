@@ -7,3 +7,19 @@
   height: 30px;
   font-size: 14px;
 }
+
+
+.job-note-warning {
+  float: left;
+  height: 100px;
+  width: 10px;
+  background: #eace35;
+}
+
+.job-note-error {
+  float: left;
+  height: 100px;
+  width: 10px;
+  background: #f0210b;
+  margin-left: -25px;
+}

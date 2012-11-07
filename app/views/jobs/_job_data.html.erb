@@ -72,13 +72,13 @@
   <p class="job-field-value">12/10/12</p>
 </div>
 
-<div class="">
-  <p class="job-field-title">District Manager</p>
-  <%=  render 'jobs/user_field', job: job, form_editable: form_editable,
-              user: job.district_manager, tag_name: "district_manager" %>
+<% if !form_editable %>
 
-  <p class="job-field-title">Sales Engineer</p>
-  <%=  render 'jobs/user_field', job: job, form_editable: form_editable,
-              user: job.sales_engineer, tag_name: "sales_engineer" %>
+    <div class="">
+      <p class="job-field-title pull-left">Project Members</p>
 
-</div>
+
+
+    </div>
+<% end %>
+
