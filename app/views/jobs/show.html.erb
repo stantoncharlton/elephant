@@ -8,7 +8,7 @@
   <div class="job-members-div pull-left">
     <ul class="job-members-list" id="job_members_list">
       <% @job.job_memberships.each do |jm| %>
-           <%=  render 'jobs/member', job_membership: jm %>
+          <%= render 'jobs/member', job_membership: jm %>
       <% end %>
     </ul>
 
@@ -43,16 +43,24 @@
   <h2>Documents</h2>
 </div>
 
-<h3 class="document-section-header">Pre-Job</h3>
+<% if @pre_job_documents.all? {|d| d.url.present? } %>
+    <h3 class="document-section-header status-good">Pre-Job</h3>
+<% else %>
+    <h3 class="document-section-header">Pre-Job</h3>
+<% end %>
 <div class="content" id="documents">
-  <% @job.documents.select { |item| item.category == "Pre-Job" }.each do |d| %>
+  <% @pre_job_documents.each do |d| %>
       <%= render 'documents/document', document: d, editable: false %>
   <% end %>
 </div>
 
-<h3 class="document-section-header">Pre-Job</h3>
+<% if @post_job_documents.all? {|d| d.url.present? } %>
+    <h3 class="document-section-header status-good">Post-Job</h3>
+<% else %>
+    <h3 class="document-section-header">Post-Job</h3>
+<% end %>
 <div class="content" id="documents2">
-  <% @job.documents.select { |item| item.category == "Post-Job" }.each do |d| %>
+  <% @post_job_documents.each do |d| %>
       <%= render 'documents/document', document: d, editable: false %>
   <% end %>
 </div>

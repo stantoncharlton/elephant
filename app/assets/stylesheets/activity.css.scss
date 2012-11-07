@@ -12,6 +12,7 @@
 .activity-content {
   text-align: left;
   min-height: 100px;
+  display: inline-block;
 
   a {
     font-size: 13px;
@@ -76,6 +77,12 @@
   margin-top: 10px;
   font-size: 13px;
   color: #555555;
+  max-width: 600px;
+}
+
+.activity-note {
+  font-size: 13px;
+  font-weight: bold;
   max-width: 600px;
 }
 

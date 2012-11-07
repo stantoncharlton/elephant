@@ -9,7 +9,7 @@
     </div>
     <p class="activity-date"><%= activity.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
 
-    <div>
+    <div class="">
       <% if activity.activity_type == Activity::JOB_CREATED %>
           <p class="activity-message">Created <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %></p>
       <% end %>
@@ -22,7 +22,7 @@
             <%= image_tag "document_icon.png" %>
             <%= link_to activity.target.name, activity.target.full_url %>
             <p class="activity-message">
-            (<%= activity.target.file_name %>)
+              (<%= activity.target.file_name %>)
             </p>
           </div>
       <% end %>
@@ -30,11 +30,17 @@
           <p class="activity-message">
             Added
             <%= render 'activities/user', user: activity.target.user %>
+
           <p class="activity-message">to</p> <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %></p>
       <% end %>
       <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
           <p class="activity-message">
-            Added note: <br><br>"<%= activity.target.text %>"</p>
+            Added note: <br>
+            <% if activity.target.note_type == 3 %>
+                <%= image_tag "error_red.png" %>
+            <% end %>
+
+          <p class="activity-note">"<%= activity.target.text %>"</p></p>
       <% end %>
     </div>
 

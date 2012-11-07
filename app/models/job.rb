@@ -20,7 +20,7 @@ class Job < ActiveRecord::Base
     belongs_to :job_template
 
     has_many :dynamic_fields
-    has_many :documents
+    has_many :documents, order: "created_at DESC"
     has_many :job_notes, order: "created_at DESC"
 
     has_many :job_memberships, foreign_key: "job_id"

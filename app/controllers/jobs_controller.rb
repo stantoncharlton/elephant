@@ -17,6 +17,9 @@ class JobsController < ApplicationController
 
         @job_note = JobNote.new
         @job_member = JobMembership.new
+
+        @pre_job_documents = @job.documents.select { |item| item.category == "Pre-Job" }
+        @post_job_documents = @job.documents.select { |item| item.category == "Post-Job" }
     end
 
     def new
