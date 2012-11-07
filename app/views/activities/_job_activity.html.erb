@@ -4,36 +4,37 @@
   </div>
 
   <div class="activity-content">
-    <%= link_to activity.user.name, activity.user, class: "activity-user-link" %>
-    <div class="activity-user-link-hover">
-      <h2><%= activity.user.position_title %></h2>
-
-      <p><%= activity.user.district.name %></p>
+    <div class="activity-user-link-div">
+      <%= render 'activities/user', user: activity.user %>
     </div>
     <p class="activity-date"><%= activity.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
 
     <div>
       <% if activity.activity_type == Activity::JOB_CREATED %>
-          <p class="activity-message">Created <%= link_to "job", activity.target %>
-            (<%= activity.target.job_template.product_line.name %>
-            | <%= activity.target.job_template.name %>
-            on <%= link_to activity.target.field.name, activity.target.field %>
-            | <%= link_to activity.target.well.name, activity.target.well %>).</p>
+          <p class="activity-message">Created <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %></p>
       <% end %>
       <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
           <p class="activity-message">
-            Document
-            uploaded to <%= link_to "job", activity.job %>
-            (<%= activity.job.job_template.product_line.name %>
-            | <%= activity.job.job_template.name %>
-            job on <%= link_to activity.job.field.name, activity.job.field %>
-            | <%= link_to activity.job.well.name, activity.job.well %>).
+            Added document to <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %>
           </p>
 
           <div class="activity-document-name">
             <%= image_tag "document_icon.png" %>
             <%= link_to activity.target.name, activity.target.full_url %>
+            <p class="activity-message">
+            (<%= activity.target.file_name %>)
+            </p>
           </div>
+      <% end %>
+      <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
+          <p class="activity-message">
+            Added
+            <%= render 'activities/user', user: activity.target.user %>
+          <p class="activity-message">to</p> <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %></p>
+      <% end %>
+      <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
+          <p class="activity-message">
+            Added note: <br><br>"<%= activity.target.text %>"</p>
       <% end %>
     </div>
 

@@ -36,6 +36,10 @@ class Activity < ActiveRecord::Base
 
     DOCUMENT_UPLOADED = 110
 
+    JOB_MEMBER_ADDED = 120
+
+    JOB_NOTE_ADDED = 130
+
 
     def message
         case self.activity_type

@@ -1,6 +1,6 @@
 <% if @job_note.new_record? %>
 alert("Failed to create note: <%= j @job_note.errors.full_messages.join(', ').html_safe %>");
 <% else %>
-$("#job_notes").append("<%= j render 'job_notes/job_note', job_note: @job_note %>");
+$("#job_notes").prepend("<%= j render 'job_notes/job_note', job_note: @job_note %>");
 $('#new_note_id').val('');
 <% end %>

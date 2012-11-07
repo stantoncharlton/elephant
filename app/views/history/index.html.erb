@@ -9,6 +9,6 @@
 
 <div id="activities" class="list">
   <% @activities.each do |activity| %>
-      <%= render 'activities/job_activity', activity: activity %>
+      <%= render 'activities/job_activity', activity: activity, inside_job: false %>
   <% end %>
 </div>

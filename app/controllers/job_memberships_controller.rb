@@ -18,6 +18,9 @@ class JobMembershipsController < ApplicationController
         @job_membership.job = @job
         @job_membership.save
 
+        Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, nil, @job)
+
+
     end
 
     def destroy

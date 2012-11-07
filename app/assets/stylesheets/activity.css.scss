@@ -43,7 +43,6 @@
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: bold;
-  min-width: 200px;
 
   &:active, &:link, &:visited {
     color: #0058a8;
@@ -55,6 +54,11 @@
     background: transparent;
     text-decoration: underline;
   }
+}
+
+.activity-user-link-div {
+  display: inline-block;
+  min-width: 200px;
 }
 
 .activity-date {
@@ -72,6 +76,7 @@
   margin-top: 10px;
   font-size: 13px;
   color: #555555;
+  max-width: 600px;
 }
 
 
@@ -97,7 +102,7 @@
 .activity-user-link:hover + .activity-user-link-hover {
   width: 200px;
   height: 45px;
-  margin-left: 80px;
+  margin-left: -20px;
   margin-top: -5px;
   padding: 5px;
   padding-left: 20px;

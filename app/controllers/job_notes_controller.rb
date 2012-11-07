@@ -18,7 +18,8 @@ class JobNotesController < ApplicationController
 
         @job_note.save
 
-            #Activity.add(self.current_user, Activity::CLIENT_CREATED, @client, @client.name)
+        Activity.add(self.current_user, Activity::JOB_NOTE_ADDED, @job_note, nil, @job_note.job)
+
     end
 
     def destroy

@@ -1,0 +1,7 @@
+<%= link_to "job", job %>
+<% if !inside_job %>
+(<%= job.job_template.product_line.name %>
+| <%= job.job_template.name %>
+on <%= link_to job.field.name, job.field %>
+| <%= link_to job.well.name, job.well %>)
+<% end %>

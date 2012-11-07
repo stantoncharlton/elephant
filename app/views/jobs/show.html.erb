@@ -62,10 +62,10 @@
   <h2>Notes/Comments</h2>
 </div>
 <div class="content">
-  <%= form_for @job_note, remote: true, class: "", autofocus: false do |f| %>
+  <%= form_for @job_note, remote: true, class: "" do |f| %>
       <div class="new-product-line">
         <%= f.hidden_field :job_id, value: @job.id %>
-        <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: true,
+        <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: false,
                         id: "new_note_id" %>
         <%= f.select :note_type, options_for_select([["Note", 1], ["Warning", 2], ["Problem", 3]]) %>
         <%= f.submit "Add", class: "bluebtn btnsmall" %>
@@ -85,7 +85,7 @@
 </div>
 <div id="activities" class="list">
   <% @activities.each do |activity| %>
-      <%= render 'activities/job_activity', activity: activity %>
+      <%= render 'activities/job_activity', activity: activity, inside_job: true %>
   <% end %>
 </div>
 
