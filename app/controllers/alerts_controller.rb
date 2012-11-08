@@ -3,8 +3,7 @@ class AlertsController < ApplicationController
 
     set_tab :alerts
 
-
     def index
-        @alerts = []
+        @alerts = current_user.alerts.paginate(page: params[:page], limit: 10)
     end
 end

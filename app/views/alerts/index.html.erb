@@ -8,8 +8,7 @@
 
 
 <div id="alerts" class="list">
-  <% @alerts.each do |alerts| %>
-  <% end %>
+    <%= render @alerts %>
 </div>
 
 <% if @alerts.nil? || @alerts.empty? %>

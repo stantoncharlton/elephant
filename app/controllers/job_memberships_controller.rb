@@ -20,6 +20,7 @@ class JobMembershipsController < ApplicationController
 
         Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, nil, @job)
 
+        Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
 
     end
 

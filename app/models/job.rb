@@ -61,10 +61,6 @@ end
         end
     end
 
-    def self.from_user(user)
-        where("jobs.company_id = :company_id", company_id: user.company.id).order("jobs.created_at DESC")
-    end
-
     def self.from_company(company)
         where("jobs.company_id = :company_id", company_id: company.id).order("jobs.created_at DESC")
     end
