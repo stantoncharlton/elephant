@@ -21,3 +21,5 @@ $ ->
   #if $('#job_activities')
   #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'
 
+
+
