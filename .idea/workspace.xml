@@ -41,15 +41,19 @@
         <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="6" column="12" selection-start="118" selection-end="118" vertical-scroll-proportion="-3.84">
-              <folding />
+              <folding>
+                <marker date="1352401826000" expanded="true" signature="57:117" placeholder="..." />
+                <marker date="1352401826000" expanded="true" signature="150:181" placeholder="..." />
+                <marker date="1352401826000" expanded="true" signature="250:328" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_alert.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_alert.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/alerts/_alert.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="84" selection-start="434" selection-end="434" vertical-scroll-proportion="0.3072378">
+            <state line="13" column="84" selection-start="434" selection-end="434" vertical-scroll-proportion="-8.32">
               <folding />
             </state>
           </provider>
@@ -76,7 +80,25 @@
       <file leaf-file-name="_job_note.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="563" selection-end="704" vertical-scroll-proportion="-13.44">
+            <state line="30" column="49" selection-start="921" selection-end="921" vertical-scroll-proportion="-19.2">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="73" column="67" selection-start="2473" selection-end="2486" vertical-scroll-proportion="-8.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jobs.js.coffee" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="23" selection-start="493" selection-end="493" vertical-scroll-proportion="0.32248062">
               <folding />
             </state>
           </provider>
@@ -104,11 +126,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/db/migrate/20121108182715_add_assign_to_job_notes.rb" />
         <option value="$PROJECT_DIR$/app/models/job_note.rb" />
         <option value="$PROJECT_DIR$/app/controllers/job_notes_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/jobs/_member.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/activities/index.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/activities_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/job_notes.css.scss" />
@@ -120,6 +140,8 @@
         <option value="$PROJECT_DIR$/app/models/alert.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20121108191759_rename_created_by_on_alerts.rb" />
         <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee" />
       </list>
     </option>
   </component>
@@ -1143,20 +1165,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="38" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="21" selection-start="3730" selection-end="3730" vertical-scroll-proportion="-19.28">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/activities/index.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="22" selection-start="158" selection-end="158" vertical-scroll-proportion="-1.28">
@@ -1178,13 +1186,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="563" selection-end="704" vertical-scroll-proportion="-13.44">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/activity.css.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="11" selection-start="181" selection-end="181" vertical-scroll-proportion="0.0">
@@ -1195,7 +1196,11 @@
     <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="12" selection-start="118" selection-end="118" vertical-scroll-proportion="-3.84">
-          <folding />
+          <folding>
+            <marker date="1352401826000" expanded="true" signature="57:117" placeholder="..." />
+            <marker date="1352401826000" expanded="true" signature="150:181" placeholder="..." />
+            <marker date="1352401826000" expanded="true" signature="250:328" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1236,7 +1241,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/alerts/_alert.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="84" selection-start="434" selection-end="434" vertical-scroll-proportion="0.3072378">
+        <state line="13" column="84" selection-start="434" selection-end="434" vertical-scroll-proportion="-8.32">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="49" selection-start="921" selection-end="921" vertical-scroll-proportion="-19.2">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="67" selection-start="2473" selection-end="2486" vertical-scroll-proportion="-8.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="23" selection-start="493" selection-end="493" vertical-scroll-proportion="0.32248062">
           <folding />
         </state>
       </provider>

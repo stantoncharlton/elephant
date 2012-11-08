@@ -71,15 +71,13 @@
 </div>
 <div class="content">
   <div class="field">
-    <%= form_for(@job_note, :html => {class: "", id: "new_name_form"}, remote: true) do |f| %>
+    <%= form_for(@job_note, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
         <div class="new-product-line">
           <%= f.hidden_field :job_id, value: @job.id %>
           <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
 
-
           <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: false,
                           id: "new_note_id" %>
-
 
           <div class="job-note-options">
             <%= f.select :note_type, options_for_select([["Note", 1], ["Task", 4], ["Warning", 2], ["Problem", 3]]),
