@@ -3,9 +3,14 @@ class ApplicationController < ActionController::Base
     include SessionsHelper
 
     before_filter :set_current_user_for_observer
+    #before_filter :set_time_zone
 
     def set_current_user_for_observer
         UserObserver.current_user = current_user
+    end
+
+    def set_time_zone
+        Time.zone = "Central Time (US & Canada)"
     end
 
 
