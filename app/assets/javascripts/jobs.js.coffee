@@ -7,9 +7,6 @@ $ ->
       $( "#new_member_id" ).val( ui.item.id )
       $( "#new_member_form" ).submit()
 
-  $('#new_member_name').data("autocomplete")._renderItem = (ul, item) ->
-    return $("<li></li>").data("item.autocomplete", item).append(
-      "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
 
 
   $('.job-member-list-item').live "mouseenter", ->

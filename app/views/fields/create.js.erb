@@ -1,5 +1,12 @@
 $('#modal_popup').css('visibility', 'hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').height(0);
+
 $('#job_field_id').append($("<option></option>")
         .attr("value", '<%= @field.id %>')
         .text('<%= @field.name %>'));
 $('#job_field_id').find("option[value='<%= @field.id %>']").attr('selected','selected');
+
+$('#job_field_id').removeAttr("disabled");
+$('#job_field_id').css("opacity", "1");
+
