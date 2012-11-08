@@ -49,7 +49,7 @@
       <file leaf-file-name="_document_metadata.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="101" selection-start="1652" selection-end="1652" vertical-scroll-proportion="0.4698795">
+            <state line="43" column="129" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.4698795">
               <folding />
             </state>
           </provider>
@@ -1236,7 +1236,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="101" selection-start="1652" selection-end="1652" vertical-scroll-proportion="0.4698795">
+        <state line="43" column="129" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.4698795">
           <folding />
         </state>
       </provider>

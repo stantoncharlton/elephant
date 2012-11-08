@@ -41,7 +41,7 @@
 
         <% if document.updated_at != document.created_at %>
             <div class="document-modified">
-              <p class="inline"><%= Time.use_zone("Central Time (US & Canada)") { document.updated_at.strftime("%m/%d/%Y %l:%M %p") } %></p>
+              <p class="inline"><%=  document.updated_at.in_time_zone("Central Time (US & Canada)").strftime("%m/%d/%Y %l:%M %p") %></p>
             </div>
         <% end %>
 
