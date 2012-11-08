@@ -19,15 +19,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="job_notes.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_notes.css.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="1" selection-start="358" selection-end="372" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="_job_activity.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/activities/_job_activity.html.erb">
           <provider selected="true" editor-type-id="text-editor">
@@ -95,10 +86,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jobs.js.coffee" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="jobs.js.coffee" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="23" selection-start="493" selection-end="493" vertical-scroll-proportion="0.32248062">
+            <state line="13" column="23" selection-start="493" selection-end="493" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users_controller.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="0" selection-start="432" selection-end="432" vertical-scroll-proportion="0.2322206">
               <folding />
             </state>
           </provider>
@@ -126,7 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/models/job_note.rb" />
         <option value="$PROJECT_DIR$/app/controllers/job_notes_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/jobs/_member.html.erb" />
         <option value="$PROJECT_DIR$/app/views/activities/index.js.erb" />
@@ -142,6 +141,7 @@
         <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee" />
+        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
       </list>
     </option>
   </component>
@@ -1151,13 +1151,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="69" selection-start="1200" selection-end="1200" vertical-scroll-proportion="-4.8">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="0" selection-start="468" selection-end="488" vertical-scroll-proportion="-10.88">
@@ -1262,7 +1255,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="23" selection-start="493" selection-end="493" vertical-scroll-proportion="0.32248062">
+        <state line="13" column="23" selection-start="493" selection-end="493" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="432" selection-end="432" vertical-scroll-proportion="0.2322206">
           <folding />
         </state>
       </provider>
