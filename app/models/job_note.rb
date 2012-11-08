@@ -11,6 +11,7 @@ class JobNote < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :user
+    belongs_to :assign_to, class_name: "User"
     belongs_to :job
 
 

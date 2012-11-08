@@ -10,6 +10,7 @@ class Alert < ActiveRecord::Base
 
 
     ADDED_TO_JOB = 1
+    TASK_ASSIGNED = 2
 
 
 

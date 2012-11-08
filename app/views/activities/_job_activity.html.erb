@@ -1,51 +1,89 @@
 <% if activity.target.present? %>
-<div class="activity">
-  <div class="activity-avatar-box-small">
-    <%= image_tag "user_avatar_small.png" %>
-  </div>
+    <div class="activity">
 
-  <div class="activity-content">
-    <div class="activity-user-link-div">
-      <%= render 'activities/user', user: activity.user %>
-    </div>
-    <p class="activity-date"><%= activity.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
-
-    <div class="">
-      <% if activity.activity_type == Activity::JOB_CREATED %>
-          <p class="activity-message">Created <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %></p>
-      <% end %>
-      <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
-          <p class="activity-message">
-            Added document to <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %>
-          </p>
-
-          <div class="activity-document-name">
-            <%= image_tag "document_icon.png" %>
-            <%= link_to activity.target.name, activity.target.full_url %>
-            <p class="activity-message">
-              (<%= activity.target.file_name %>)
-            </p>
-          </div>
-      <% end %>
-      <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
-          <p class="activity-message">
-            Added
-            <%= render 'activities/user', user: activity.target.user %>
-
-          <p class="activity-message">to</p> <%= render 'activities/job_description', job: activity.job, inside_job: inside_job %></p>
-      <% end %>
       <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
-          <p class="activity-message">
-            Added note: <br><br>
-            <% if activity.target.note_type == 3 %>
-                <%= image_tag "error_red.png", class: "inline" %>
-            <% end %>
-
-          <p class="activity-note">"<%= activity.target.text %>"</p></p>
+          <% if activity.target.note_type == 2 %>
+              <div class="job-note-warning"></div>
+          <% end %>
+          <% if activity.target.note_type == 3 %>
+              <div class="job-note-error"></div>
+          <% end %>
+          <% if activity.target.note_type == 4 %>
+              <div class="job-note-task"></div>
+          <% end %>
       <% end %>
+
+      <div class="activity-avatar-box-small">
+        <%= image_tag "user_avatar_small.png" %>
+      </div>
+
+      <div class="activity-content">
+
+        <% if !inside_job %>
+            <div class="pull-right">
+              <%= render 'activities/job_description', job: activity.job, inside_job: true %></p>
+            </div>
+        <% end %>
+
+        <div class="activity-user-link-div">
+          <%= render 'activities/user', user: activity.user %>
+
+          <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
+              <% if activity.target.assign_to.present? %>
+                  <%= image_tag "to_arrow.png", class: "job-note-assign-arrow" %>
+                  <%= render 'activities/user', user: activity.target.assign_to %>
+              <% end %>
+          <% end %>
+        </div>
+        <p class="activity-date"><%= activity.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+
+        <div class="">
+          <% if activity.activity_type == Activity::JOB_CREATED %>
+              <p class="activity-message">Created job</p>
+          <% end %>
+          <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
+              <p class="activity-message">
+                Added document
+              </p>
+
+              <div class="activity-document-name">
+                <%= image_tag "document_icon.png" %>
+                <%= link_to activity.target.name, activity.target.full_url %>
+                <p class="activity-message">
+                  (<%= activity.target.file_name %>)
+                </p>
+              </div>
+          <% end %>
+          <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
+              <p class="activity-message">
+                Added
+                <%= render 'activities/user', user: activity.target.user %>
+              </p>
+          <% end %>
+          <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
+              <p class="activity-message">
+                <% if activity.target.note_type == 1 %>
+                    Added note:
+                <% end %>
+                <% if activity.target.note_type == 2 %>
+                    Added warning:
+                <% end %>
+                <% if activity.target.note_type == 3 %>
+                    Added problem:
+                <% end %>
+                <% if activity.target.note_type == 4 %>
+                    Assigned task:
+                <% end %>
+                <br><br>
+                <% if activity.target.note_type == 3 %>
+                    <%= image_tag "error_red.png", class: "inline" %>
+                <% end %>
+
+              <p class="activity-note">"<%= activity.target.text %>"</p></p>
+          <% end %>
+        </div>
+
+      </div>
+
     </div>
-
-  </div>
-
-</div>
 <% end %>

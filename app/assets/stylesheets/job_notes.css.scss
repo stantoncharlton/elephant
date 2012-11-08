@@ -4,15 +4,38 @@
 .job-notes-text {
   margin-left: 10px;
   width: 500px;
-  height: 60px;
+  height: 65px;
   font-size: 14px;
 }
 
-.job-notes-data {
-
-
+.job-note-options {
+  width: 50px;
+  display: inline-block;
+  margin-top: -5px;
 }
 
+
+.job-notes-type {
+  display: block;
+  float: right
+}
+
+.job-note-assign {
+  margin-top: -10px !important;
+}
+
+.job-note-assign-arrow {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.job-note-task {
+  float: left;
+  height: 100px;
+  width: 10px;
+  background: #deebf7;
+  margin-left: -25px;
+}
 
 .job-note-warning {
   float: left;

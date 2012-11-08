@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121108015420) do
+ActiveRecord::Schema.define(:version => 20121108182715) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -167,8 +167,9 @@ ActiveRecord::Schema.define(:version => 20121108015420) do
     t.integer  "company_id"
     t.string   "text"
     t.integer  "note_type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "assign_to_id"
   end
 
   create_table "job_templates", :force => true do |t|
