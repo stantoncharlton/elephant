@@ -1,6 +1,6 @@
 <li class="job-member-list-item" id="job_membership_<%= job_membership.id %>">
   <div class="activity-user-link-div-short">
-    <%= link_to job_membership.user.name, job_membership.user, class: "activity-user-link " %>
+    <%= render 'activities/user', user: job_membership.user %>
   </div>
   <p class="job-members-position-title"><%= job_membership.user.position_title %></p>
 

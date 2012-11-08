@@ -34,7 +34,7 @@
 
         <div class="document-file-name-box">
           <% if document.user.present? %>
-              <%= link_to document.user.name, document.user, class: "document-user-link" %>
+              <%= render 'activities/user', user: document.user %>
           <% end %>
         </div>
     <% else %>

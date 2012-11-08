@@ -3,7 +3,11 @@ class StaticPagesController < ApplicationController
         if signed_in_admin?
             redirect_to users_path
         elsif signed_in?
-            redirect_to jobs_path
+            if current_user.alerts.any?
+                redirect_to alerts_path
+            else
+                redirect_to jobs_path
+            end
         end
     end
 

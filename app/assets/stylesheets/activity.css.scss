@@ -124,3 +124,35 @@
   display: block;
   position: absolute;
 }
+
+.light-text {
+  font-weight: normal !important;
+  opacity: .6;
+}
+
+.activity-tooltip {
+
+  padding: 8px;
+
+  h2 {
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 14px;
+    height: auto;
+    font-weight: bold;
+    display: block;
+    margin: 0px;
+    margin-bottom: 8px;
+    opacity:  1.0;
+  }
+
+  p {
+    color: #64a2da;
+    font-size: 13px;
+    line-height: 13px;
+    height: auto;
+    font-weight: normal;
+    display: block;
+    margin: 0px;
+  }
+}
