@@ -43,7 +43,7 @@
   <h2>Documents</h2>
 </div>
 
-<% if @pre_job_documents.all? {|d| d.url.present? } %>
+<% if @pre_job_documents.all? { |d| d.url.present? } %>
     <h3 class="document-section-header status-good">Pre-Job</h3>
 <% else %>
     <h3 class="document-section-header">Pre-Job</h3>
@@ -54,7 +54,7 @@
   <% end %>
 </div>
 
-<% if @post_job_documents.all? {|d| d.url.present? } %>
+<% if @post_job_documents.all? { |d| d.url.present? } %>
     <h3 class="document-section-header status-good">Post-Job</h3>
 <% else %>
     <h3 class="document-section-header">Post-Job</h3>
@@ -91,11 +91,21 @@
 <div class="header">
   <h2>Activity</h2>
 </div>
-<div id="activities" class="list">
-  <% @activities.each do |activity| %>
-      <%= render 'activities/job_activity', activity: activity, inside_job: true %>
-  <% end %>
+<div id="job_activities" class="list">
+
 </div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $.ajax({
+                type:"get",
+                url:"/activities?job_id=<%= @job.id %>",
+                dataType:'script'
+            });
+        });
+    }(jQuery));
+</script>
 
 
 

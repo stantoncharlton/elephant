@@ -35,9 +35,9 @@
       <% end %>
       <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
           <p class="activity-message">
-            Added note: <br>
+            Added note: <br><br>
             <% if activity.target.note_type == 3 %>
-                <%= image_tag "error_red.png" %>
+                <%= image_tag "error_red.png", class: "inline" %>
             <% end %>
 
           <p class="activity-note">"<%= activity.target.text %>"</p></p>

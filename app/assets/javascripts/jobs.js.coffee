@@ -21,3 +21,6 @@ $ ->
   $('.custom-data-input').change ->
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_", "") + '?value=' + $(this).val(), type: 'put', dataType: 'script'
 
+  #if $('#job_activities')
+  #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'
+
