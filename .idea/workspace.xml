@@ -49,7 +49,25 @@
       <file leaf-file-name="_document_metadata.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="129" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.4698795">
+            <state line="31" column="69" selection-start="1200" selection-end="1200" vertical-scroll-proportion="0.18072289">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job_notes.css.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_notes.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="2" selection-start="115" selection-end="115" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="84" column="17" selection-start="3227" selection-end="3227" vertical-scroll-proportion="-14.72">
               <folding />
             </state>
           </provider>
@@ -82,15 +100,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="global.js.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/global.js.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="2" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -104,11 +113,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/controllers/alerts_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/activities/_job_activity.html.erb" />
         <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
         <option value="$PROJECT_DIR$/app/views/alerts/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/fields/new.js.erb" />
         <option value="$PROJECT_DIR$/app/views/fields/create.js.erb" />
         <option value="$PROJECT_DIR$/app/views/wells/create.js.erb" />
@@ -119,6 +126,8 @@
         <option value="$PROJECT_DIR$/config/environment.rb" />
         <option value="$PROJECT_DIR$/config/environments/production.rb" />
         <option value="$PROJECT_DIR$/config/environments/development.rb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/job_notes.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb" />
       </list>
     </option>
@@ -1129,34 +1138,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/fields/create.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="137" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="65" selection-start="2942" selection-end="2942" vertical-scroll-proportion="-14.8">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_templates.js.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/global.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="2" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
@@ -1234,9 +1215,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/controls.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.517647">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_notes.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="2" selection-start="115" selection-end="115" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/schema.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="17" selection-start="3227" selection-end="3227" vertical-scroll-proportion="-14.72">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="129" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.4698795">
+        <state line="31" column="69" selection-start="1200" selection-end="1200" vertical-scroll-proportion="0.18072289">
           <folding />
         </state>
       </provider>

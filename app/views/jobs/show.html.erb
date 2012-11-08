@@ -74,9 +74,14 @@
     <%= form_for @job_note, remote: true, class: "" do |f| %>
         <div class="new-product-line">
           <%= f.hidden_field :job_id, value: @job.id %>
+          <%= f.hidden_field :user_id, id: "new_member_id" %>
           <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: false,
                           id: "new_note_id" %>
-          <%= f.select :note_type, options_for_select([["Note", 1], ["Warning", 2], ["Problem", 3]]) %>
+          <%= f.select :note_type, options_for_select([["Note", 1], ["Warning", 2], ["Problem", 3]]),
+                       class: "job-note-type" %>
+          <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                             placeholder: "Type a name to assign...",
+                             id: "new_member_name", class: "job-field-value-editable custom-data-input" %>
           <%= f.submit "Add", class: "bluebtn btnsmall" %>
         </div>
     <% end %>
