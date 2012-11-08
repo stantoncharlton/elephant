@@ -5,13 +5,7 @@ class HistoryController < ApplicationController
 
 
     def index
-        @activities = []
-
-        current_user.jobs.each do |job|
-            Activity.activities_for_job(job).each do |activity|
-                @activities << activity
-            end
-        end
+        @activities = Activity.activities_for_jobs(current_user.jobs).paginate(page: params[:page], limit: 10)
     end
 
 end

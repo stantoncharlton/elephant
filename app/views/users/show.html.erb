@@ -38,11 +38,4 @@
 </div>
 
 
-<div class="header">
-  <h2 class="header-title">Activity</h2>
-</div>
-<div id="activities" class="list">
-  <% @activities.each do |activity| %>
-      <%= render 'activities/job_activity', activity: activity, inside_job: false %>
-  <% end %>
-</div>
+<%= render 'activities/paginated_activity', activities: @activities, inside_job: false %>

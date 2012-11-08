@@ -20,6 +20,8 @@ class JobsController < ApplicationController
 
         @pre_job_documents = @job.documents.select { |item| item.category == "Pre-Job" }
         @post_job_documents = @job.documents.select { |item| item.category == "Post-Job" }
+
+        @activities = Activity.activities_for_job(@job).paginate(page: params[:page], limit: 10)
     end
 
     def new

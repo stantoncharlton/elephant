@@ -103,21 +103,16 @@
 
 
 
-<div class="header">
-  <h2>Activity</h2>
-</div>
-<div id="job_activities" class="list">
-
-</div>
+<%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
 
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
-            $.ajax({
-                type:"get",
-                url:"/activities?job_id=<%= @job.id %>",
-                dataType:'script'
-            });
+            //$.ajax({
+            //    type:"get",
+            //    url:"/activities?job_id=<%= @job.id %>",
+            //    dataType:'script'
+            //});
 
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
             $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {

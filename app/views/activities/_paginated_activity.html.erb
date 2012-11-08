@@ -1,0 +1,40 @@
+<div class="header">
+  <h2>Activity</h2>
+
+  <p>
+    <% if activities.count > 0 %>
+        <% if params[:page].present? %>
+            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, activities.count].min %> of <%= activities.count.to_s %>
+        <% else %>
+            1 - 10 of <%= activities.count.to_s %>
+        <% end %>
+    <% end %>
+  </p>
+</div>
+
+<div id="job_activities" class="list">
+  <% activities.each do |activity| %>
+      <%= render 'activities/job_activity', activity: activity, inside_job: inside_job %>
+  <% end %>
+</div>
+<div class="content">
+  <%= will_paginate activities %>
+</div>
+
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+
+            if (getParam("page")) {
+                var new_position = $('#job_activities').offset();
+                window.scrollTo(new_position.left, new_position.top - 150);
+            }
+
+            function getParam(key) {
+                var value = RegExp("" + key + "[^&]+").exec(window.location.search);
+                return unescape(!!value ? value.toString().replace(/^[^=]+/, "").replace("=", "") : "");
+            }
+        });
+    }(jQuery));
+</script>

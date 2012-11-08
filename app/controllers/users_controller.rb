@@ -22,8 +22,7 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         not_found unless @user.company == current_user.company
 
-        @activities = Activity.activities_for_user(@user)
-
+        @activities = Activity.activities_for_user(@user).paginate(page: params[:page], limit: 10)
     end
 
 
