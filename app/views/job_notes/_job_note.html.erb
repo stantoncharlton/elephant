@@ -40,10 +40,21 @@
     </div>
 
     <br>
-    <%= text_field_tag "", "",
-                       placeholder: "Type to add a comment...",
-                       id: "new_note_name",
-                       class: "job-field-value-editable custom-data-input light-text" %>
+
+    <div id="job_note_comments_<%= job_note.id %>" class="all-comments-box ">
+      <% job_note.comments.each do |comment| %>
+        <%=  render 'job_note_comments/comment', comment: comment %>
+      <% end %>
+    </div>
+
+    <%= form_for JobNoteComment.new, remote: true do |f| %>
+        <%= f.hidden_field :job_note_id, value: job_note.id %>
+        <%= f.text_field :text,
+                           placeholder: "Type to add a comment...",
+                           id: "job_note_comment_text_" + job_note.id.to_s,
+                           class: "job-field-value-editable custom-data-input light-text note-comment" %>
+    <% end %>
+
   </ul>
 
 </div>

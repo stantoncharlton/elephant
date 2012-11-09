@@ -176,3 +176,30 @@
     text-decoration: underline;
   }
 }
+
+
+.add-custom-document {
+  color: #bfccd7;
+  display: inline-block;
+  heght: 40px;
+  line-height: 40px;
+  font-size: 13px;
+  margin: 0px;
+  margin-right: 10px;
+  text-decoration: none;
+  padding-right: 50px;
+  background: url(image_path('add_up.png')) no-repeat center right;
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #bfccd7;
+    text-decoration: none;
+    background: url(image_path('add_up.png')) no-repeat center right;
+  }
+  &:hover {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: none;
+    background: url(image_path('add_hover.png')) no-repeat center right;
+  }
+}

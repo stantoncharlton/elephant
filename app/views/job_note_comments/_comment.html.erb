@@ -1,0 +1,24 @@
+<div class="comment">
+
+  <div class="comment-avatar-box-tiny">
+    <%= image_tag "user_avatar_small.png", class: "comment-image" %>
+  </div>
+
+  <ul class="comment-content">
+    <div>
+      <div class="comment-user-link-div">
+        <%= render 'activities/user', user: comment.user %>
+      </div>
+
+      <p class="activity-date inline"><%= comment.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+    </div>
+
+    <div class="">
+      <p class="activity-message">
+        <%= comment.text %>
+      </p>
+    </div>
+
+  </ul>
+
+</div>

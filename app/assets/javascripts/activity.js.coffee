@@ -1,3 +1,5 @@
 $ ->
 
   $('.activity-user-link').tooltip()
+
+

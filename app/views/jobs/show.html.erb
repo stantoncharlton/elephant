@@ -41,6 +41,11 @@
 
 <div class="header">
   <h2>Documents</h2>
+
+  <div class="pull-right">
+    <%= link_to "Add Custom Document", "#",
+                class: "add-custom-document" %>
+  </div>
 </div>
 
 <% if @pre_job_documents.all? { |d| d.url.present? } %>

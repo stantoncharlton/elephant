@@ -1,0 +1,6 @@
+<% if @comment.new_record? %>
+alert("Failed to add comment: <%= j @comment.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+$("#job_note_comments_<%= @job_note.id %>").append("<%= j render 'job_note_comments/comment', comment: @comment %>");
+$('#job_note_comment_text_<%= @job_note.id %>').val('');
+<% end %>
