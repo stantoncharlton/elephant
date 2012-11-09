@@ -28,10 +28,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_job_note.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_job_note.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="30" selection-start="1525" selection-end="1525" vertical-scroll-proportion="0.7679389">
+            <state line="51" column="30" selection-start="1525" selection-end="1525" vertical-scroll-proportion="-20.12">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job_note.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/models/job_note.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="76" selection-start="461" selection-end="461" vertical-scroll-proportion="0.4">
               <folding />
             </state>
           </provider>
@@ -119,7 +128,6 @@
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20121108225955_create_job_note_comments.rb" />
         <option value="$PROJECT_DIR$/app/models/job_note_comment.rb" />
-        <option value="$PROJECT_DIR$/app/models/job_note.rb" />
         <option value="$PROJECT_DIR$/app/controllers/job_note_comment_controller.rb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/views/job_note_comment/create.js.erb" />
@@ -129,6 +137,7 @@
         <option value="$PROJECT_DIR$/app/assets/stylesheets/job_note_comment.css.scss" />
         <option value="$PROJECT_DIR$/app/views/job_note_comments/_comment.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/job_note.rb" />
       </list>
     </option>
   </component>
@@ -902,13 +911,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job_note.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="56" selection-start="444" selection-end="444" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/routes.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="56" column="62" selection-start="1773" selection-end="1773" vertical-scroll-proportion="0.0">
@@ -981,7 +983,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="30" selection-start="1525" selection-end="1525" vertical-scroll-proportion="0.7679389">
+        <state line="51" column="30" selection-start="1525" selection-end="1525" vertical-scroll-proportion="-20.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_note.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="76" selection-start="461" selection-end="461" vertical-scroll-proportion="0.4">
           <folding />
         </state>
       </provider>
