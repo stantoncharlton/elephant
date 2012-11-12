@@ -30,7 +30,10 @@ class DocumentsController < ApplicationController
     def update
         @document = Document.find(params[:id])
         not_found unless @document.company == current_user.company
-        not_found unless (@document.template? && signed_in_admin) || !@document.template?
+
+        if @document.template?
+            not_found unless signed_in_admin?
+        end
 
         @document.user = current_user
         @document.url = params[:document][:url]

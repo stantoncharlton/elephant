@@ -6,7 +6,11 @@
       </p>
 
       <p class="list-item-text list-item-column2">
-        <%= user.district.name %>
+        <% if user.district.present? %>
+            <%= user.district.name %>
+        <% else %>
+            -
+        <% end %>
       </p>
 
       <p class="list-item-text list-item-column2">

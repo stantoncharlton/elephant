@@ -35,7 +35,7 @@
         </div>
 
         <div class="document-file-name-box">
-          <% if document.user.present? %>
+          <% if document.url.present? && document.user.present? %>
               <%= render 'activities/user', user: document.user %>
           <% end %>
         </div>
