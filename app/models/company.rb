@@ -6,6 +6,7 @@ class Company < ActiveRecord::Base
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 
     has_many :users, dependent: :destroy
+    has_many :roles, dependent: :destroy, class_name: "UserRole"
     has_many :districts, dependent: :destroy
     has_many :clients, dependent: :destroy
     has_many :fields, dependent: :destroy

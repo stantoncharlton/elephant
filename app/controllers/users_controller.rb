@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
         respond_to do |format|
             format.html { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
+            format.js { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
             format.json {
                 @users = User.where("company_id = :company_id", company_id: current_user.company.id).where("lower(name) like ?", "%#{params[:term].downcase}%").order("name desc")
                 render json: @users.map { |user| { :label => user.name, :position_title => user.position_title, :district => user.district.present? ? user.district.name : "", :id => user.id } }
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find(params[:id])
+        @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
 
         @activities = Activity.activities_for_user(@user).paginate(page: params[:page], limit: 10)
@@ -27,9 +28,10 @@ class UsersController < ApplicationController
 
 
     def edit
-        @user = User.find(params[:id])
+        @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
+        @roles = current_user.company.roles
     end
 
     def update
@@ -39,15 +41,16 @@ class UsersController < ApplicationController
 
         User.transaction do
             if @user.update_attribute(:location, params[:user][:location])
-                @user.update_attribute(:position_title, params[:user][:position_title])
                 @user.update_attribute(:phone_number, params[:user][:phone_number])
                 @user.update_attribute(:district_id, params[:user][:district_id])
+                @user.update_attribute(:role_id, params[:user][:role_id])
 
                 Activity.add(self.current_user, Activity::USER_UPDATED, @user, @user.name)
                 flash[:success] = "User updated"
                 redirect_to users_path
             else
                 @districts = current_user.company.districts
+                @roles = @roles = current_user.company.roles
                 render 'edit'
             end
         end
@@ -58,16 +61,21 @@ class UsersController < ApplicationController
 
         @user = User.new
         @districts = current_user.company.districts
+        @roles = current_user.company.roles
     end
 
     def create
         district_id = params[:user][:district_id]
         params[:user].delete(:district_id)
 
+        role_id = params[:user][:role_id]
+        params[:user].delete(:role_id)
+
         @user = User.new(params[:user])
         @districts = current_user.company.districts
         @user.company = current_user.company
-        @user.district = District.find(district_id)
+        @user.district = District.find_by_id(district_id)
+        @user.role = UserRole.find_by_id(role_id)
         password = SecureRandom.urlsafe_base64[1..7]
         @user.password = password
         @user.password_confirmation = password
@@ -80,18 +88,20 @@ class UsersController < ApplicationController
             flash[:success] = "User created - #{@user.email}"
             redirect_to users_path
         else
+            @districts = current_user.company.districts
+            @roles = @roles = current_user.company.roles
             render 'new'
         end
     end
 
     def destroy
-        @user = User.find(params[:id])
+        @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
 
         if !current_user?(@user)
-            User.find(params[:id]).destroy
+            @user.destroy
 
-            Activity.add(self.current_user, Activity::USER_DESTROYED, @user, @user.name)
+            Activity.add(current_user, Activity::USER_DESTROYED, @user, @user.name)
             flash[:success] = "User destroyed."
             redirect_to users_path
         else

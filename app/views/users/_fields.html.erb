@@ -15,12 +15,19 @@
 
   <div class="field stripe">
     <%= f.label :district_id, class: "field-title" %>
-    <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] }, id: "districts_list" %>
+    <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] },
+                 id: "districts_list",
+                 prompt: "Select a District..." %>
     <%= link_to "New", new_district_path, class: "bluebtn btnsmall" %>
   </div>
   <div class="field stripe">
-    <%= f.text_field :position_title, placeholder: "Position Title", class: "txtfield" %>
+    <%= f.label "Role", class: "field-title" %>
+    <%= f.select :role_id, @roles.collect { |p| [p.title, p.id] },
+                 id: "roles_list",
+                 prompt: "Select a Role..." %>
+    <%= link_to "New", new_user_role_path, class: "bluebtn btnsmall" %>
   </div>
+
   <div class="field stripe">
     <%= f.text_field :location, placeholder: "Location", class: "txtfield" %>
   </div>
@@ -29,26 +36,4 @@
     <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield" %>
   </div>
 
-</div>
-
-
-<div class="header">
-  <h2>Permissions</h2>
-  <p>Company access</p>
-</div>
-<div class="content">
-  <div class="field">
-    <%= f.label "Participate in Jobs (comment/upload, etc)" %>
-    <%= f.check_box :write_access %>
-
-    <div class="push-right">
-      <%= f.label "Create Jobs" %>
-      <%= f.check_box :create_access %>
-
-      <div class="push-right">
-        <%= f.label "Admin (all access)" %>
-        <%= f.check_box :admin %>
-      </div>
-    </div>
-  </div>
 </div>

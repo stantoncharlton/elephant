@@ -8,7 +8,7 @@ class DistrictsController < ApplicationController
     end
 
     def show
-        @district = District.find(params[:id])
+        @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
         @jobs = Job.from_district(@district)
@@ -47,6 +47,8 @@ class DistrictsController < ApplicationController
                     flash[:success] = "District created - #{@district.name}"
                     redirect_to districts_path
                 else
+                    @countries = Country.all
+                    @states = State.all
                     render 'new'
                 end
             }
@@ -55,17 +57,22 @@ class DistrictsController < ApplicationController
     end
 
     def edit
-        @district = District.find(params[:id])
+        @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
         @company = current_user.company
+
+        @countries = Country.all
+        @states = State.all
     end
 
     def update
 
-        @district = District.find(params[:id])
+        @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
-        if @district.update_attributes(params[:district])
+        if @district.update_attribute(:name, params[:district][:name])
+            @district.update_attribute(:country_id, params[:district][:country_id])
+            @district.update_attribute(:state_id, params[:district][:state_id])
 
             Activity.add(self.current_user, Activity::DISTRICT_UPDATED, @district, @district.name)
 
@@ -73,12 +80,14 @@ class DistrictsController < ApplicationController
             redirect_to districts_path
         else
             @company = current_user.company
+            @countries = Country.all
+            @states = State.all
             render 'edit'
         end
     end
 
     def destroy
-        @district = District.find(params[:id])
+        @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
         @district.destroy
 

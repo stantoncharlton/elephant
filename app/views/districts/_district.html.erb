@@ -1,5 +1,13 @@
 <li class="field">
   <%= link_to edit_district_path(district), class: "list-item-header user-header" do %>
-    <%= district.name %>
+
+      <p class="list-item-header-text list-item-column">
+        <%= district.name %>
+      </p>
+
+      <p class="list-item-text list-item-column2">
+        <%= district.country.name %>
+      </p>
   <% end %>
+
 </li>

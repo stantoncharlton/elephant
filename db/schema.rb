@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121108225955) do
+ActiveRecord::Schema.define(:version => 20121113005734) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -240,16 +240,30 @@ ActiveRecord::Schema.define(:version => 20121108225955) do
 
   add_index "states", ["country_id"], :name => "index_states_on_country_id"
 
+  create_table "user_roles", :force => true do |t|
+    t.string   "title"
+    t.integer  "company_id"
+    t.boolean  "create_job",          :default => false
+    t.boolean  "assign_users",        :default => false
+    t.boolean  "district_read",       :default => false
+    t.boolean  "district_modify",     :default => false
+    t.boolean  "product_line_read",   :default => false
+    t.boolean  "product_line_modify", :default => false
+    t.boolean  "global_read",         :default => false
+    t.boolean  "global_modify",       :default => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "user_roles", ["company_id"], :name => "index_user_roles_on_company_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.boolean  "admin",           :default => false
-    t.boolean  "create_access",   :default => false
-    t.boolean  "write_access",    :default => false
     t.integer  "company_id"
     t.integer  "district_id"
     t.string   "location"
-    t.string   "position_title"
     t.string   "phone_number"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
@@ -257,6 +271,7 @@ ActiveRecord::Schema.define(:version => 20121108225955) do
     t.boolean  "elephant_admin",  :default => false
     t.string   "remember_token"
     t.boolean  "create_password", :default => false
+    t.integer  "role_id"
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

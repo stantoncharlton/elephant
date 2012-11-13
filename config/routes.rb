@@ -9,6 +9,8 @@ ElephantWebApp::Application.routes.draw do
 
     resources :users, only: [:index, :show, :new, :create, :destroy, :edit, :update]
 
+    resources :user_roles, only: [:index, :new, :create, :destroy, :edit, :update]
+
     get 'settings', to: 'users#settings', as: 'settings'
 
 

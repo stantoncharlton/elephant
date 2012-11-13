@@ -1,0 +1,17 @@
+<% provide(:title, 'Roles') %>
+
+<div class="page_header">
+  <h1>Roles</h1>
+
+  <h2><%= @roles.count() %></h2>
+
+  <% if signed_in_admin? %>
+      <%= link_to "+ Add New Role", new_user_role_path, class: "bluebtn page_header_button" %>
+  <% end %>
+</div>
+
+
+<div id="roles" class="list">
+  <%= render @roles %>
+</div>
+

@@ -1,0 +1,13 @@
+<% provide(:title, "Update Role") %>
+<h1>Update Role</h1>
+
+<%= form_for(@role) do |f| %>
+    <%= render 'fields', f: f %>
+    <%= f.submit "Save Role", class: "bluebtn pull-right" %>
+<% end %>
+
+
+<% if signed_in_admin? %>
+    <%= link_to "Delete Role", @role, method: :delete,
+                data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
+<% end %>

@@ -11,13 +11,9 @@
 
   <div class="field stripe">
     <%= f.label :country_id, class: "field-title" %>
-    <%= f.select :country_id, @countries.collect { |p| [p.name, p.id] } %>
+    <%= f.select :country_id, @countries.collect { |p| [p.name, p.id] },
+                prompt: "Select a Country..." %>
   </div>
 
-  <p>Optional:</p>
-  <div class="field stripe">
-    <%= f.label :state_id, class: "field-title" %>
-    <%= f.select :state_id, @states.collect { |p| [p.name, p.id] } %>
-  </div>
 </div>
 

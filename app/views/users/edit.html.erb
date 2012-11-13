@@ -8,6 +8,6 @@
 
 
 <% if signed_in_admin? %>
-    <%= link_to "Delete", @user, method: :delete,
+    <%= link_to "Delete User", @user, method: :delete,
                 data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
 <% end %>

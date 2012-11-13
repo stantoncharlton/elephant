@@ -1,0 +1,50 @@
+<div class="content">
+  <div class="field stripe">
+    <%= f.text_field :title, placeholder: "Role Title", class: "txtfield" %>
+  </div>
+
+  <%= f.hidden_field :create_job, value: true %>
+
+  <div class="field">
+    <%= f.check_box :assign_users %>
+    <%= f.label "Assign Users", class: "user-role-name" %>
+    <p class="user-role-type">Ability to assign other users to a job they have access to</p>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :district_read %>
+    <%= f.label "Search/View District Jobs", class: "user-role-name" %>
+    <p class="user-role-type">View all jobs in the user's district</p>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :district_modify %>
+    <%= f.label "Modify District Jobs", class: "user-role-name" %>
+    <p class="user-role-type">Ability to modify all jobs in the user's district</p>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :product_line_read %>
+    <%= f.label "Search/View Product Line Jobs", class: "user-role-name" %>
+    <p class="user-role-type">View all jobs in the user's Product Line</p>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :product_line_modify %>
+    <%= f.label "Modify Product Line Jobs", class: "user-role-name" %>
+    <p class="user-role-type">Ability to modify all jobs in the user's Product Line</p>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :global_read %>
+    <%= f.label "Search/View All Jobs Worldwide", class: "user-role-name" %>
+    <p class="user-role-type">Access to view all company jobs</p>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :global_modify %>
+    <%= f.label "Modify All Jobs Worldwide", class: "user-role-name" %>
+    <p class="user-role-type">Ability to modify all jobs company wide</p>
+  </div>
+
+</div>

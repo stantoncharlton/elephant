@@ -181,6 +181,10 @@
 .list-item-column2 {
   width: 200px;
   display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 10px;
 }
 
 .list-item-text {

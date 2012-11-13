@@ -15,10 +15,10 @@
 </div>
 
 
-<%= will_paginate %>
-
-<div id="users" class="list">
-  <%= render @users %>
+<div id="users_list">
+  <%= will_paginate %>
+  <div id="users" class="list">
+    <%= render @users %>
+  </div>
+  <%= will_paginate %>
 </div>
-
-<%= will_paginate %>

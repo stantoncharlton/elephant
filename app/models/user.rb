@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
                     :admin, :write_access, :create_access
     has_secure_password
 
-    after_initialize :init
 
     before_save { |user| user.email = email.downcase }
     before_save :create_remember_token
@@ -18,7 +17,9 @@ class User < ActiveRecord::Base
               length: {maximum: 50},
               format: {with: VALID_EMAIL_REGEX},
               uniqueness: {case_sensitive: false}
-    validates :company, presence: true
+    validates :company, presence: true, unless: :is_elephant_admin?
+    validates :role, presence: true, unless: :is_admin?
+    validates :district, presence: true, unless: :is_admin?
     validates :password, presence: true, length: {minimum: 6}
     validates :password_confirmation, presence: true
 
@@ -29,20 +30,15 @@ class User < ActiveRecord::Base
     has_many :job_memberships, foreign_key: "user_id"
     has_many :jobs, through: :job_memberships, source: :job
     has_many :reverse_relationships, foreign_key: "followed_id",
-             class_name:  "Relationship",
-             dependent:   :destroy
+             class_name:  "Relationship"
     has_many :followers, through: :reverse_relationships, source: :follower
 
 
     belongs_to :company
     belongs_to :district
+    belongs_to :role, class_name: "UserRole"
 
     has_many :activities
-
-
-    def init
-        self.write_access  ||= true
-    end
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")
@@ -57,6 +53,14 @@ class User < ActiveRecord::Base
     end
 
 private
+
+    def is_elephant_admin?
+        self.elephant_admin?
+    end
+
+    def is_admin?
+        self.admin?
+    end
 
     def create_remember_token
         self.remember_token = SecureRandom.urlsafe_base64
