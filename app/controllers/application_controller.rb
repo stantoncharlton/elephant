@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
     #before_filter :set_time_zone
 
     def set_current_user_for_observer
+        puts request.path
         UserObserver.current_user = current_user
     end
 

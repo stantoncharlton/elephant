@@ -10,7 +10,7 @@
   <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
   <![endif]-->
 </head>
-<% if signed_in? || request.path != root_path %>
+<% if signed_in? %>
     <body class="body">
     <%= render 'layouts/header' %>
 
@@ -28,15 +28,19 @@
     </div>
     </body>
 <% else %>
-
-    <body class="body-non-signed-in">
+    <% if request.path == root_path %>
+        <body class="body-non-signed-in">
+    <% elsif request.path == about_path %>
+        <body class="body-about">
+    <% else %>
+        <body class="body-non-signed-in">
+    <% end %>
 
     <%= render 'layouts/header' %>
-
     <div class="container-reset">
-
       <%= yield %>
     </div>
     </body>
+
 <% end %>
 </html>

@@ -7,7 +7,8 @@ class UserRole < ActiveRecord::Base
                     :product_line_read,
                     :product_line_modify,
                     :global_read,
-                    :global_modify
+                    :global_modify,
+                    :document_templates_modify
 
     validates :title, presence: true, length: {maximum: 50}, uniqueness: {case_sensitive: false}
 

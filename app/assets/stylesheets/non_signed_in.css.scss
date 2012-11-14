@@ -173,3 +173,39 @@
     text-decoration: underline;
   }
 }
+
+
+.body-about {
+  background: #000000 url(image_path('rig.jpg')) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 0px;
+  padding-top: 140px;
+
+  .container-reset {
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+.about-div {
+  color: white;
+  text-shadow: 1px 1px 1px #000000;
+
+  p {
+    font-size: 15px;
+    line-height: 25px;
+  }
+
+  h1, h2 {
+    color: white;
+    text-shadow: 1px 1px 1px #000000;
+  }
+  h3 {
+    color: #81c0f9;
+    text-shadow: 1px 1px 1px #000000;
+  }
+}

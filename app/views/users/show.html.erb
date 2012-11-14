@@ -7,7 +7,7 @@
   <div class="users-info">
     <h1 class="page-title users-info"><%= @user.name %></h1>
 
-    <h2 class="users-info"><%= @user.position_title %></h2>
+    <h2 class="users-info"><%= @user.role.title %></h2>
 
     <%= link_to @user.district.name, @user.district, class: "user-info-link" %>
 

@@ -1,8 +1,12 @@
 class User < ActiveRecord::Base
-    attr_accessible :email, :location, :name,
-                    :phone_number, :position_title,
-                    :password, :password_confirmation,
-                    :admin, :write_access, :create_access
+    attr_accessible :email,
+                    :name,
+                    :phone_number,
+                    :location,
+                    :password,
+                    :password_confirmation,
+                    :admin
+
     has_secure_password
 
 

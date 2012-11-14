@@ -10,7 +10,7 @@ class UsersController < ApplicationController
             format.js { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
             format.json {
                 @users = User.where("company_id = :company_id", company_id: current_user.company.id).where("lower(name) like ?", "%#{params[:term].downcase}%").order("name desc")
-                render json: @users.map { |user| { :label => user.name, :position_title => user.position_title, :district => user.district.present? ? user.district.name : "", :id => user.id } }
+                render json: @users.map { |user| { :label => user.name, :position_title => user.role.title, :district => user.district.present? ? user.district.name : "", :id => user.id } }
             }
         end
     end

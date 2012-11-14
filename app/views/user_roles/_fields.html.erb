@@ -47,4 +47,9 @@
     <p class="user-role-type">Ability to modify all jobs company wide</p>
   </div>
 
+  <div class="field">
+    <%= f.check_box :document_templates_modify %>
+    <%= f.label "Modify Job Document Templates", class: "user-role-name" %>
+    <p class="user-role-type">Ability to change the template document (normally only admin role)</p>
+  </div>
 </div>

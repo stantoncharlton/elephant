@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
     def create
 
-        user = User.find_by_email(params[:session][:email].downcase)
+        user = User.find_by_email(params[:session][:email].strip.downcase)
         if user && user.authenticate(params[:session][:password])
             if user.create_password?
                 redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
         current_password = params[:session][:current_password]
         params[:session].delete(:current_password)
 
-        user = User.find_by_email(params[:session][:email].downcase)
+        user = User.find_by_email(params[:session][:email].strip.downcase)
         if user && user.authenticate(current_password)
             user.password = params[:session][:password]
             user.password_confirmation = params[:session][:password_confirmation]
@@ -47,7 +47,7 @@ class SessionsController < ApplicationController
 
     def reset_password
         if params[:session]
-            @email = params[:session][:email]
+            @email = params[:session][:email].strip.downcase
             @user = User.find_by_email(@email)
 
             if @user

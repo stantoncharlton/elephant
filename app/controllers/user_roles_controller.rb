@@ -31,12 +31,20 @@ class UserRolesController < ApplicationController
     end
 
     def update
-        @role = UserRole.find(params[:id])
+        @role = UserRole.find_by_id(params[:id])
         not_found unless @role.company == current_user.company
+
+        if @role.update_attributes(params[:user_role])
+            flash[:success] = "User Role updated"
+            redirect_to user_roles_path
+        else
+            render 'edit'
+        end
+
     end
 
     def destroy
-        @role = UserRole.find(params[:id])
+        @role = UserRole.find_by_id(params[:id])
         not_found unless @role.company == current_user.company
 
         if @role.destroy
