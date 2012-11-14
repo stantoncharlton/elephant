@@ -1,5 +1,9 @@
 <% if @document.new_record? %>
-alert("Failed to upload document: <%= j @document.errors.full_messages.join(', ').html_safe %>");
+
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Document", message: @document.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
 <% else %>
 
 <% if @document.category == "Pre-Job" %>
@@ -12,3 +16,5 @@ $('#new_document_name').val('');
 
 
 <% end %>
+
+

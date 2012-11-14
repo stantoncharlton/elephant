@@ -193,19 +193,24 @@
 
 .about-div {
   color: white;
-  text-shadow: 1px 1px 1px #000000;
+  text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+
 
   p {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 25px;
+    font-family: "gothamlightregular";
   }
 
   h1, h2 {
     color: white;
-    text-shadow: 1px 1px 1px #000000;
+    text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+    font-family: "gothamboldregular";
   }
   h3 {
+    font-size: 26px;
     color: #81c0f9;
-    text-shadow: 1px 1px 1px #000000;
+    text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+    font-family: "gothamboldregular";
   }
 }

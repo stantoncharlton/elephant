@@ -1,3 +1,12 @@
+<% if @product_line.new_record? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Product Line", message: @product_line.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
 $('#new_product_line').hide();
 $('#new_product_line_link').show();
 $('#product_lines').append($("<%= j render @product_line %>"));
+
+<% end %>

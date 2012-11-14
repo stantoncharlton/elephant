@@ -12,12 +12,22 @@
       <% end %>
     </ul>
 
-    <%= form_for(@job_member, :html => {:class => "inline ", id: "new_member_form"}, remote: true) do |f| %>
+    <%= link_to "Add Member", new_job_membership_path, remote: true,
+                class: "add-job-member", id: "add_job_member" %>
+
+
+    <%= form_for(@job_member, :html => {:class => "inline hidden field", id: "new_member_form"}, remote: true) do |f| %>
         <%= f.hidden_field :job_id, id: "new_member_job_id", value: @job.id %>
         <%= f.hidden_field :user_id, id: "new_member_id" %>
         <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                            placeholder: "Type a name...",
                            id: "new_member_name", class: "job-field-value-editable custom-data-input" %>
+        <%= f.select :job_role_id, options_for_select([["Observer", 1], ["Supervisor", 2], ["Coordinator", 3], ["Field", 4], ["Shop", 5]]),
+                     prompt: "Select a job role...",
+                     class: "job-note-type" %>
+
+        <%= f.submit "Add", class: "bluebtn btnsmall"  %>
+
     <% end %>
   </div>
 </div>
@@ -115,7 +125,8 @@
         $(document).ready(function () {
             //$.ajax({
             //    type:"get",
-            //    url:"/activities?job_id=<%= @job.id %>",
+            //    url:"/activities?job_id=
+            <%= @job.id %>",
             //    dataType:'script'
             //});
 

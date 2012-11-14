@@ -28,6 +28,8 @@ class UsersController < ApplicationController
 
 
     def edit
+        store_last_location
+
         @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
@@ -47,7 +49,7 @@ class UsersController < ApplicationController
 
                 Activity.add(self.current_user, Activity::USER_UPDATED, @user, @user.name)
                 flash[:success] = "User updated"
-                redirect_to users_path
+                redirect_back_or users_path
             else
                 @districts = current_user.company.districts
                 @roles = @roles = current_user.company.roles

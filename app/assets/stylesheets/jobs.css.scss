@@ -227,3 +227,30 @@ ul.ui-autocomplete {
 .job-member-button {
   visibility: hidden;
 }
+
+.add-job-member {
+  color: #bfccd7;
+  display: inline-block;
+  heght: 40px;
+  line-height: 40px;
+  font-size: 13px;
+  margin: 0px;
+  margin-top: -10px;
+  margin-left: -5px;
+  text-decoration: none;
+  padding-left: 50px;
+  background: url(image_path('add_up.png')) no-repeat center left;
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #bfccd7;
+    text-decoration: none;
+    background: url(image_path('add_up.png')) no-repeat center left;
+  }
+  &:hover {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: none;
+    background: url(image_path('add_hover.png')) no-repeat center left;
+  }
+}

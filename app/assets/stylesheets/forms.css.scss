@@ -175,11 +175,13 @@
 
 .list-item-column {
   width: 400px;
+  line-height: 30px;
   display: inline-block;
 }
 
 .list-item-column2 {
   width: 200px;
+  line-height: 30px;
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
@@ -240,4 +242,34 @@
 
 .hidden {
   display: none;
+}
+
+
+.modal-header {
+  height: 40px;
+
+  h2 {
+    margin-top: 10px;
+    margin-left: 7px;
+    text-align: left;
+    font-weight: bold;
+  }
+}
+
+.modal-body {
+  min-height: 70px;
+
+  p {
+    margin-top: 10px;
+    margin-left: 7px;
+    font-size: 14px;
+  }
+}
+
+.modal-footer {
+  line-height: 50px;
+
+  button {
+    height: 40px;
+  }
 }

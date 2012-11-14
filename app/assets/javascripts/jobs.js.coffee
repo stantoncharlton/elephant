@@ -4,7 +4,7 @@ $ ->
     select: (event, ui) ->
       $("#new_member_name").val(ui.item.label)
       $("#new_member_id").val(ui.item.id)
-      $("#new_member_form").submit()
+      #$("#new_member_form").submit()
 
   $('#new_note_name').autocomplete
     source: $('#new_note_name').data('autocomplete-source')

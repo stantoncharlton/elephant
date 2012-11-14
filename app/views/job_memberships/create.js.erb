@@ -1,6 +1,12 @@
 <% if @job_membership.new_record? %>
-alert("Failed to add to job: <%= j @job_membership.errors.full_messages.join(', ').html_safe %>");
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Member", message: @job_membership.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
 <% else %>
 $("#job_members_list").append("<%= j render 'jobs/member', job_membership: @job_membership %>");
 $('#new_member_name').val('');
+
+$('#add_job_member').show();
+$('#new_member_form').hide();
 <% end %>
+
