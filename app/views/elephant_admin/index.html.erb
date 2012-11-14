@@ -10,7 +10,7 @@
     <div>
       <%= link_to company.name, "companies/#{company.id}" %>
       <%= link_to "delete", "companies/#{company.id}", method: :delete,
-                  data: { confirm: "You sure?" },
+                  data: { confirm: "Permanently Delete Company " + company.name + "?" },
                   title: company.name %>
     </div>
 

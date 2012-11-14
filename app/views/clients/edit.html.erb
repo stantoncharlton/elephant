@@ -12,5 +12,5 @@
 
 <% if signed_in_admin? %>
     <%= link_to "Delete", @client, method: :delete,
-                data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
+                data: { confirm: "Delete client " + @client.name + "?" }, class: "bluebtn red pull-right-button" %>
 <% end %>

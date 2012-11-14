@@ -9,5 +9,5 @@
 
 <% if signed_in_admin? %>
     <%= link_to "Delete Role", @role, method: :delete,
-                data: { confirm: "You sure?" }, class: "bluebtn red pull-right-button" %>
+                data: { confirm: "Delete Role " + @role.title + "?" }, class: "bluebtn red pull-right-button" %>
 <% end %>

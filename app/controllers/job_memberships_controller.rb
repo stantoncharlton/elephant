@@ -17,15 +17,17 @@ class JobMembershipsController < ApplicationController
 
         @user = User.find_by_id(user_id)
 
-        @job_membership = JobMembership.new
+        @job_membership = JobMembership.new(params[:job_membership])
         @job_membership.user = @user
         @job_membership.job = @job
-        @job_membership.save
+        if @job_membership.save
 
-        Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, nil, @job)
+            Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, nil, @job)
 
-        Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
-
+            Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
+        else
+            render template: 'layouts/error', locals: { title: "Problem Adding Member", object: @job_membership }
+        end
     end
 
     def destroy
