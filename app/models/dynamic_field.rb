@@ -16,7 +16,7 @@ class DynamicField < ActiveRecord::Base
     belongs_to :company
 
     def value
-        read_attribute(:value).send(value_type_conversion)
+        read_attribute(:value)#.send(value_type_conversion)
     end
 
     def value_type
@@ -28,6 +28,10 @@ class DynamicField < ActiveRecord::Base
             return "Boolean"
         end
 
+    end
+
+    def self.from_company(company)
+        where("company_id = :company_id", company_id: company.id).order("name ASC")
     end
 
 private

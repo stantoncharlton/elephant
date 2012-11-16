@@ -6,10 +6,15 @@ class UsersController < ApplicationController
     def index
 
         respond_to do |format|
-            format.html { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
-            format.js { @users = User.search(params[:search]).from_company(current_user.company).paginate(page: params[:page], limit: 10) }
+            format.html { @users = User.search(params, current_user.company).results }
+            format.js { @users = User.search(params, current_user.company).results }
             format.json {
-                @users = User.where("company_id = :company_id", company_id: current_user.company.id).where("lower(name) like ?", "%#{params[:term].downcase}%").order("name desc")
+                @users = User.search(params, current_user.company).results
+=begin
+                @users = User.where("users.company_id = :company_id", company_id: current_user.company.id)
+                            .where("lower(users.name) like", "%#{params[:term].downcase}%")
+                            .order("users.name desc")
+=end
                 render json: @users.map { |user| { :label => user.name, :position_title => user.role.present? ? user.role.title : "", :district => user.district.present? ? user.district.name : "", :id => user.id } }
             }
         end

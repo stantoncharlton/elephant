@@ -1,30 +1,85 @@
 class SearchController < ApplicationController
-    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user, only: [:new, :create, :index]
 
 
     require 'will_paginate/array'
 
     def index
 
-        #search(params[:search])
-        #        @jobs = Job.from_user(current_user)
+        @term = params[:search].present? ? params[:search] : ""
+        @jobs = Array.new.paginate()
 
-        @term = params[:search]
+        respond_to do |format|
+            format.html do
+                if params[:search].present?
+                    @jobs = Job.search(params, current_user.company).results
+                end
 
-        @search = search(params)
+            end
+            format.js do
+                @div_name = params["div_name"]
 
+                if params["data_type"]
 
-        #@jobs = Job.from_company(current_user.company).search(params[:search]).paginate(page: params[:page], limit: 10)
+                    if params["data_type"] == "1"
+                        @show_fields = true
+                        @fields = Well.accessible_attributes.select { |w| w != "" }
+                    elsif params["data_type"] == "2"
+                        @product_lines = ProductLine.from_company(current_user.company)
+                        @show_fields = false
+                        @fields = Array.new
+                    end
+                elsif params["product_line"]
+                    @show_fields = false
+                    @product_line = ProductLine.find_by_id(params["product_line"])
+                    not_found unless @product_line.company == current_user.company
 
+                    @job_templates = @product_line.job_templates
 
-    end
+                elsif params["job_template"]
+                    @show_fields = true
+                    @job_template = JobTemplate.find_by_id(params["job_template"])
+                    not_found unless @job_template.company == current_user.company
 
-protected
-    def search(options)
-        Sunspot.search(Job) do
-            keywords options[:search]
-            order_by :created_at, :desc
-            paginate :page => options[:page]
+                end
+
+                render 'search/add_fields'
+            end
         end
+
     end
+
+    def new
+        @query = Query.new
+
+        #@dynamic_field_names = DynamicField.from_company(current_user.company)
+        @well_data = Well.accessible_attributes.select { |w| w != "" }
+    end
+
+    def create
+        query = Query.new
+        query.constraints = Array.new
+        index = 0
+
+        while true do
+            if  params["query"]["constraints"][index.to_s].present?
+
+                constraint = Constraint.new
+                constraint.data_type = params["query"]["constraints"][index.to_s]["data_type"]
+                constraint.product_line = params["query"]["constraints"][index.to_s]["product_line"]
+                constraint.job_template = params["query"]["constraints"][index.to_s]["job_template"]
+                constraint.field = params["query"]["constraints"][index.to_s]["field"]
+                constraint.operator = params["query"]["constraints"][index.to_s]["operator"]
+                constraint.value = params["query"]["constraints"][index.to_s]["value"]
+
+                query.constraints << constraint
+            else
+                break
+            end
+            index += 1
+        end
+
+        @jobs = Job.advanced_search(query, current_user.company).paginate(page: params[:page], limit: 10)
+    end
+
 end

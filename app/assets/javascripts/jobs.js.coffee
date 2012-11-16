@@ -11,7 +11,7 @@ $ ->
     select: (event, ui) ->
       $("#new_note_name").val(ui.item.label)
       $("#new_note_name_id").val(ui.item.id)
-      $("#new_note_form").submit()
+      #$("#new_note_form").submit()
 
 
   $('.job-member-list-item').live "mouseenter", ->

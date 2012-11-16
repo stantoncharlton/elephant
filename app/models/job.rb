@@ -4,7 +4,6 @@ class Job < ActiveRecord::Base
                     :end_date
 
 
-
     validates_presence_of :company_id
     validates_presence_of :client_id
     validates_presence_of :district_id
@@ -30,19 +29,26 @@ class Job < ActiveRecord::Base
     belongs_to :sales_engineer, class_name: "User", primary_key: "id", foreign_key: "sales_engineer_id"
 
 #=begin
-if Rails.env.development?
-    searchable do
-        text :field_name do
-            field.name
-        end
-        text :well_name do
-            well.name
-        end
+    if Rails.env.development?
+        searchable do
+            text :field_name, :as => :code_textp do
+                field.name
+            end
+            text :well_name, :as => :code_textp do
+                well.name
+            end
+            text :product_line_name, :as => :code_textp do
+                job_template.product_line.name
+            end
+            text :job_template_name, :as => :code_textp do
+                job_template.name
+            end
 
-        time :created_at
-        time :updated_at
+            time :created_at
+            time :updated_at
+            integer :company_id
+        end
     end
-end
 #=end
 
 
@@ -77,5 +83,55 @@ end
         where("jobs.client_id = :client_id", client_id: client.id).order("jobs.created_at DESC")
     end
 
+    def self.search(options, company)
+        Sunspot.search(Job) do
+            fulltext options[:search]
+            with(:company_id, company.id)
+            order_by :created_at, :desc
+            paginate :page => options[:page]
+        end
+    end
+
+    def self.advanced_search(query, company)
+
+        conditions = []
+=begin
+        Sunspot.search(Job) do
+            fulltext options[:search]
+            with(:company_id, company.id)
+            constraints.each do |c|
+                with(:created_at).greater_than(Time.now)
+            end
+            order_by :created_at, :desc
+            paginate :page => options[:page]
+        end
+=end
+
+        ar_query = where(:company_id => company.id)
+
+
+        query.constraints.each do |constraint|
+            operator = "="
+            if constraint.operator == "2"
+                operator = "<"
+            elsif constraint.operator == "3"
+                operator = ">"
+            end
+
+            if constraint.data_type == "2"
+                ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
+                ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: constraint.value).includes(:dynamic_fields)
+            else
+                ar_query = ar_query.where("wells." + constraint.field + " "  + operator + " :well_value", well_value: constraint.value).includes(:well)
+            end
+        end
+
+        #conditions = ( conditions.empty? ? nil : [conditions.transpose.first.join(' AND '), *conditions.transpose.last] )
+
+
+        #where(:dynamic_fields => {:dynamic_field_template_id => "8"}).includes(:dynamic_fields)
+
+        return ar_query
+    end
 
 end

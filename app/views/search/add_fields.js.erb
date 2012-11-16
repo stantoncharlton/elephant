@@ -1,0 +1,44 @@
+<% if @show_fields %>
+    $("#<%= @div_name %>").find('.search-constraint-second').show();
+
+    <% if !@job_template.nil? %>
+        var $select = $("#<%= @div_name %>").find('.search-constraint-field-select');
+        $select.find('option:gt(1)').remove();
+
+        <% @job_template.dynamic_fields.each do |df| %>
+            $select.append($("<option></option>")
+                    .attr("value", '<%= df.id %>')
+                    .text('<%= df.name %>'));
+        <% end %>
+    <% end %>
+
+<% else %>
+    $("#<%= @div_name %>").find('.search-constraint-second').hide();
+
+    <% if !@product_lines.nil? %>
+        var $pl = $("#<%= @div_name %>").find('.search-constraint-product-line');
+        $pl.css("display", "inline");
+        var $select = $pl.find('select');
+        $select.find('option:gt(1)').remove();
+
+        <% @product_lines.each do |pl| %>
+            $select.append($("<option></option>")
+                    .attr("value", '<%= pl.id %>')
+                    .text('<%= pl.name %>'));
+        <% end %>
+
+    <% end %>
+    <% if !@job_templates.nil? %>
+        var $pl = $("#<%= @div_name %>").find('.search-constraint-job-template');
+        $pl.css("display", "inline");
+        var $select = $pl.find('select');
+        $select.find('option:gt(1)').remove();
+
+        <% @job_templates.each do |jt| %>
+            $select.append($("<option></option>")
+                    .attr("value", '<%= jt.id %>')
+                    .text('<%= jt.name %>'));
+        <% end %>
+
+    <% end %>
+<% end %>

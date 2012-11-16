@@ -52,7 +52,7 @@ ElephantWebApp::Application.routes.draw do
 
 
 
-    resources :search
+    resources :search, only: [:new, :create, :index]
 
     resources :history, only: [:index]
 

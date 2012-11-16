@@ -216,6 +216,30 @@ p {
   background: url(image_path('messages.png')) center center no-repeat;
 }
 
+.advanced-search-link {
+
+  display: inline;
+  font-size: 12px;
+  max-width: 20px !important;
+  overflow: hidden;
+  padding: 0px 0px 0px 0px;
+  margin: 0px;
+  margin-left: 6px;
+  text-transform: none;
+
+  &:link, &:visited, &:active  {
+    background: transparent;
+    color: #565656;
+    text-decoration: none;
+  }
+
+  &:hover {
+    background: transparent;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+}
+
 
 .right-menu {
   float: right;

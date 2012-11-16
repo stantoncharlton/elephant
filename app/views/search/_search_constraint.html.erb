@@ -1,0 +1,38 @@
+<div class="field" id="search_constraint_<%= index.to_s %>">
+  <div>
+    <p class="field-title">Type</p>
+
+    <%= select_tag "data_type", options_for_select([["Well Data", 1], ["Job Data", 2]]),
+                   prompt: "Select what to search...",
+                   class: "search-constraint-data-type",
+                   name: "query[constraints][" + index.to_s + "][data_type]" %>
+
+
+    <div class="inline search-constraint-product-line hidden">
+      <%= select_tag "product_line", options_for_select([]),
+                     prompt: "Select a Product Line...",
+                     class: "search-constraint-product-line-select",
+                     name: "query[constraints][" + index.to_s + "][product_line]" %>
+    </div>
+
+    <div class="inline search-constraint-job-template hidden">
+      <%= select_tag "job-template", options_for_select([]),
+                     prompt: "Select a Job Type...",
+                     class: "search-constraint-job-template-select",
+                     name: "query[constraints][" + index.to_s + "][job_template]" %>
+    </div>
+
+  </div>
+  <div class="search-constraint-second hidden">
+    <p class="field-title">Constraint</p>
+    <%= select_tag "job", options_for_select(@well_data.collect { |p| [p, p] }),
+                   prompt: "Select data field...",
+                   class: "search-constraint-field-select",
+                   name: "query[constraints][" + index.to_s + "][field]" %>
+
+
+    <%= select_tag "operator", options_for_select([["equals", 1], ["less than", 2], ["greater than", 3]]),
+                   name: "query[constraints][" + index.to_s + "][operator]" %>
+    <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small"/>
+  </div>
+</div>

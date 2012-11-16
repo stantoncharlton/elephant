@@ -1,3 +1,13 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$ ->
+
+  $('.search-constraint-data-type').live "change", ->
+    #$(this).closest('.field').find('.search-constraint-second').show()
+    $.ajax '/search?data_type=' + $(this).val() + "&div_name=" + $(this).closest('.field').attr("id"), dataType: 'script'
+
+  $('.search-constraint-product-line-select').live "change", ->
+    #$(this).closest('.field').find('.search-constraint-second').show()
+    $.ajax '/search?product_line=' + $(this).val() + "&div_name=" + $(this).closest('.field').attr("id"), dataType: 'script'
+
+  $('.search-constraint-job-template-select').live "change", ->
+    #$(this).closest('.field').find('.search-constraint-second').show()
+    $.ajax '/search?job_template=' + $(this).val() + "&div_name=" + $(this).closest('.field').attr("id"), dataType: 'script'

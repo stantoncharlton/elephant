@@ -1,0 +1,11 @@
+<div class="page_header">
+  <h1>Advanced Search</h1>
+
+</div>
+
+<%= form_tag(search_index_path, :method => 'post', action: "create", :multipart => true) do %>
+
+    <%=  render 'search/search_constraint', index: 0 %>
+
+    <%= submit_tag "Search", class: "bluebtn pull-right" %>
+<% end %>
