@@ -8,7 +8,9 @@
   <div class="job-members-div pull-left">
     <ul class="job-members-list" id="job_members_list">
       <% @job.job_memberships.each do |jm| %>
-          <%= render 'jobs/member', job_membership: jm %>
+          <% if jm.job_role_id != 6 %>
+              <%= render 'jobs/member', job_membership: jm %>
+          <% end %>
       <% end %>
     </ul>
 
@@ -26,7 +28,7 @@
                      prompt: "Select a job role...",
                      class: "job-note-type" %>
 
-        <%= f.submit "Add", class: "bluebtn btnsmall move-up"  %>
+        <%= f.submit "Add", class: "bluebtn btnsmall move-up" %>
 
     <% end %>
   </div>
@@ -126,6 +128,7 @@
             //$.ajax({
             //    type:"get",
             //    url:"/activities?job_id=
+            //
             //<%= @job.id %>",
             //    dataType:'script'
             //});

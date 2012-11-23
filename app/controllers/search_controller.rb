@@ -50,10 +50,18 @@ class SearchController < ApplicationController
     end
 
     def new
-        @query = Query.new
 
-        #@dynamic_field_names = DynamicField.from_company(current_user.company)
+        @query = Query.new
         @well_data = Well.accessible_attributes.select { |w| w != "" }
+
+        respond_to do |format|
+            format.html do
+
+            end
+            format.js do
+
+            end
+        end
     end
 
     def create

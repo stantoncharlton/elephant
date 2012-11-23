@@ -84,7 +84,8 @@ class JobsController < ApplicationController
                 job_document.save
             end
 
-            @job.add_user!(current_user)
+            # Add to job as creator
+            @job.add_user!(current_user, 6)
 
             Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
 

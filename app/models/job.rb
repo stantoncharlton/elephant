@@ -44,6 +44,18 @@ class Job < ActiveRecord::Base
                 job_template.name
             end
 
+            text :district_name, :as => :code_textp do
+                district.name
+            end
+
+            text :client_name, :as => :code_textp do
+                client.name
+            end
+
+            text :dynamic_fields_value do
+                dynamic_fields.map { |df| df.value }
+            end
+
             time :created_at
             time :updated_at
             integer :company_id
@@ -52,9 +64,10 @@ class Job < ActiveRecord::Base
 #=end
 
 
-    def add_user!(user)
+    def add_user!(user, role)
 
         membership = job_memberships.new
+        membership.job_role_id = role
         membership.user = user
         membership.job = self
         membership.save

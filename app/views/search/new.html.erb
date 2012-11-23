@@ -5,7 +5,11 @@
 
 <%= form_tag(search_index_path, :method => 'post', action: "create", :multipart => true) do %>
 
-    <%=  render 'search/search_constraint', index: 0 %>
+    <div id="search_criteria">
+      <%= render 'search/search_constraint', index: 0 %>
+    </div>
+
+    <%= link_to "+ Add another criteria", "#", remote: true, id: "new_criteria", class: "add-search-field" %>
 
     <%= submit_tag "Search", class: "bluebtn pull-right" %>
 <% end %>

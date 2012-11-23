@@ -7,7 +7,7 @@ class JobMembership < ActiveRecord::Base
     validates :user_id, presence: true
     validates :job_id, presence: true
 
-    validates_uniqueness_of :user_id, scope: :job_id
+    #validates_uniqueness_of :user_id, scope: :job_id
 
     validates :job_role_id, presence: true
 
@@ -24,6 +24,8 @@ class JobMembership < ActiveRecord::Base
                "Field"
            when 5
                "Shop"
+           when 6
+               "Creator"
            else
                "-"
        end
