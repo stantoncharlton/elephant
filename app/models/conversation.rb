@@ -43,6 +43,12 @@ class Conversation < ActiveRecord::Base
 
         message.save!
 
+        self.participants.each do |participant|
+            if participant != user
+                Alert.add(participant, Alert::NEW_MESSAGE, message, user, nil)
+            end
+        end
+
         message
     end
 

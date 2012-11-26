@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
 
 
     def index
-        @conversations = current_user.conversations
+        @conversations = current_user.conversations.order("updated_at DESC")
     end
 
     def show
@@ -61,6 +61,8 @@ class ConversationsController < ApplicationController
 
         @conversation = Conversation.find_by_id(params[:id])
         not_found unless @conversation.company == current_user.company
+
+        @conversation.touch
 
         @message = @conversation.send_message(current_user, message_text)
     end

@@ -1,17 +1,21 @@
-<br>
+<% if alert.alert_type != Alert::NEW_MESSAGE %>
 
-<% if alert.alert_type == Alert::ADDED_TO_JOB %>
-    <div>
-      <%= image_tag "to_arrow.png" %>
-      <%= render 'activities/user', user: alert.created_by %> added you to a job:
-    </div>
-    <%= render 'jobs/job', job: alert.job %>
-<% end %>
+    <br>
 
-<% if alert.alert_type == Alert::TASK_ASSIGNED %>
-    <div>
-      <%= image_tag "to_arrow.png" %>
-      <%= render 'activities/user', user: alert.created_by %> assigned you to a task:
-    </div>
-    <%= render 'job_notes/job_note', job_note: alert.target %>
+    <% if alert.alert_type == Alert::ADDED_TO_JOB %>
+        <div>
+          <%= image_tag "to_arrow.png" %>
+          <%= render 'activities/user', user: alert.created_by %> added you to a job:
+        </div>
+        <%= render 'jobs/job', job: alert.job %>
+    <% end %>
+
+    <% if alert.alert_type == Alert::TASK_ASSIGNED %>
+        <div>
+          <%= image_tag "to_arrow.png" %>
+          <%= render 'activities/user', user: alert.created_by %> assigned you to a task:
+        </div>
+        <%= render 'job_notes/job_note', job_note: alert.target %>
+    <% end %>
+
 <% end %>
