@@ -1,0 +1,10 @@
+<div class="conversation-message">
+  <div>
+    <h3 class="inline"><%= message.user.name %></h3>
+
+    <p class="inline pull-right message-date"><%= message.created_at.strftime("%b %d %I:%M %p") %></p>
+  </div>
+
+  <p class="message-text"><%= raw message.text.gsub(/\n/, '<br />') %></p>
+
+</div>

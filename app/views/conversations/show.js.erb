@@ -1,0 +1,8 @@
+$('#messages').replaceWith("<%= j render 'conversations/conversation_full', conversation: @conversation %>");
+
+$('.conversation-link').each(function(index) {
+    $(this).find('div:first').removeClass('message-selected');
+});
+$('#conversation_<%= @conversation.id %> div:first').addClass('message-selected');
+
+$('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);

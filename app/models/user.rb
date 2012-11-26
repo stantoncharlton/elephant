@@ -37,6 +37,9 @@ class User < ActiveRecord::Base
              class_name:  "Relationship"
     has_many :followers, through: :reverse_relationships, source: :follower
 
+    has_many :conversation_memberships, foreign_key: "user_id"
+    has_many :conversations, through: :conversation_memberships, source: :conversation
+
 
     belongs_to :company
     belongs_to :district

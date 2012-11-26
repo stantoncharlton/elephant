@@ -1,0 +1,11 @@
+<a class="conversation-link" id="conversation_<%= conversation.id %>">
+  <div class="message-div">
+    <div>
+      <h3 class="inline"><%= conversation.participants.select { |user| user != current_user }.map { |user| user.name }.join(", ") %></h3>
+
+      <p class="inline pull-right message-date"><%= conversation.messages.last.created_at.strftime("%b %d") %></p>
+    </div>
+    <p class="message-preview-text">"<%= conversation.messages.last.text[0..40] %>..."</p>
+
+  </div>
+</a>

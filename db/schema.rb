@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121123154156) do
+ActiveRecord::Schema.define(:version => 20121123161734) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -75,6 +75,25 @@ ActiveRecord::Schema.define(:version => 20121123154156) do
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
+
+  create_table "conversation_memberships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "conversation_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "conversation_memberships", ["conversation_id"], :name => "index_conversation_memberships_on_conversation_id"
+  add_index "conversation_memberships", ["user_id", "conversation_id"], :name => "index_conversation_memberships_on_user_id_and_conversation_id"
+  add_index "conversation_memberships", ["user_id"], :name => "index_conversation_memberships_on_user_id"
+
+  create_table "conversations", :force => true do |t|
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "conversations", ["company_id"], :name => "index_conversations_on_company_id"
 
   create_table "countries", :force => true do |t|
     t.string   "iso"
@@ -220,6 +239,17 @@ ActiveRecord::Schema.define(:version => 20121123154156) do
   add_index "jobs", ["field_id"], :name => "index_jobs_on_field_id"
   add_index "jobs", ["job_template_id"], :name => "index_jobs_on_job_template_id"
   add_index "jobs", ["well_id"], :name => "index_jobs_on_well_id"
+
+  create_table "messages", :force => true do |t|
+    t.integer  "conversation_id"
+    t.integer  "user_id"
+    t.string   "text"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
+  add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
   create_table "product_lines", :force => true do |t|
     t.string   "name"

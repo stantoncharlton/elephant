@@ -1,0 +1,7 @@
+<div id="conversation_messages_list" class="conversation-messages">
+
+  <% conversation.messages.each do |message| %>
+      <%= render 'conversations/message', conversation: conversation, message: message %>
+  <% end %>
+
+</div>

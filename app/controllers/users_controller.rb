@@ -9,13 +9,21 @@ class UsersController < ApplicationController
             format.html { @users = User.search(params, current_user.company).results }
             format.js { @users = User.search(params, current_user.company).results }
             format.json {
+                if params[:q].present?
+                    params[:search] = params[:q]
+                end
+
                 @users = User.search(params, current_user.company).results
 =begin
                 @users = User.where("users.company_id = :company_id", company_id: current_user.company.id)
                             .where("lower(users.name) like", "%#{params[:term].downcase}%")
                             .order("users.name desc")
 =end
-                render json: @users.map { |user| { :label => user.name, :position_title => user.role.present? ? user.role.title : "", :district => user.district.present? ? user.district.name : "", :id => user.id } }
+                if params[:q].present?
+                    render json: @users.map { |user| {:name => user.name + " (" + user.role.title + " / " + user.district.name + ")", :id => user.id} }
+                else
+                    render json: @users.map { |user| {:label => user.name, :position_title => user.role.present? ? user.role.title : "", :district => user.district.present? ? user.district.name : "", :id => user.id} }
+                end
             }
         end
     end

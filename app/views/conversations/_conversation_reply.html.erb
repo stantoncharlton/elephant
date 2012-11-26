@@ -1,0 +1,9 @@
+<%= form_for(conversation, remote: true) do |f| %>
+
+    <%= f.text_area :message_text,
+                    id: "conversation_reply_box",
+            placeholder: "Type reply message here..." %>
+
+    <%= f.submit "Reply", class: "bluebtn btnsmall pull-right" %>
+
+<% end %>

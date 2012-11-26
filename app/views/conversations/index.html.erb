@@ -1,0 +1,23 @@
+<% provide(:title, 'Messages') %>
+
+
+<div class="page_header">
+  <h1>Messages</h1>
+
+  <h2><%= @conversations.count() %></h2>
+
+  <%= link_to "+ New Message", new_conversation_path, class: "bluebtn page_header_button" %>
+</div>
+
+
+
+
+<div class="messages-container">
+
+   <%= render 'conversations/conversation_full', conversation: @conversations.first %>
+
+  <ol id="conversations_list" class="conversations-list">
+    <%= render @conversations %>
+  </ol>
+
+</div>
