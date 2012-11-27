@@ -1,0 +1,31 @@
+<div id="alert" class="modal hide fade"
+     tabindex="-1" role="dialog" aria-labelledby="modal_label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h2 id="modal_label" class="page-title">Add New Custom Document</h2>
+  </div>
+  <div class="modal-body">
+    <%= form_for(document, remote: true) do |f| %>
+
+        <%= f.hidden_field :document_type, value: "0" %>
+        <%= f.hidden_field :template, value: "false" %>
+        <%= f.hidden_field :job_id, value: job_id %>
+
+        <%= f.text_field :name, class: "txtfield small",
+                         placeholder: "Document Name..." %>
+
+        <%= f.select :category, options_for_select([["Pre-Job", "Pre-Job"], ["Post-Job", "Post-Job"]]),
+                     class: "job-note-type" %>
+
+
+        <div class="custom-document-footer">
+          <%= f.submit class: "bluebtn pull-right",
+                       "aria-hidden" => "true" %>
+        </div>
+
+
+    <% end %>
+
+  </div>
+
+</div>

@@ -11,7 +11,7 @@
   <% if !document.template? %>
       <% if document.url.present? %>
           <%= link_to document.name, document.full_url, class: "document-name" %>
-      <% elsif document.document_template.url.present? %>
+      <% elsif !document.document_template.nil? && document.document_template.url.present? %>
           <%= link_to document.name, document.document_template.full_url, class: "document-name" %>
       <% else %>
           <p class="document-name document-name-container"><%= document.name %></p>

@@ -19,71 +19,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="conversations.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/conversations.css.scss">
+      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="106" column="16" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
+            <state line="80" column="50" selection-start="2966" selection-end="2966" vertical-scroll-proportion="0.79750776">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="update.js.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/conversations/update.js.erb">
+      <file leaf-file-name="documents_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/documents_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="92" selection-start="259" selection-end="264" vertical-scroll-proportion="-2.56">
+            <state line="46" column="16" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conversations.js.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/conversations.js.coffee">
+      <file leaf-file-name="create_modal.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/documents/create_modal.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="94" selection-start="587" selection-end="587" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="286" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conversations_controller.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/conversations_controller.rb">
+      <file leaf-file-name="error.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/documents/error.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="64" selection-start="1608" selection-end="1608" vertical-scroll-proportion="0.4117647">
+            <state line="4" column="33" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.56">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="alert.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/alert.rb">
+      <file leaf-file-name="new_modal.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/documents/new_modal.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="108" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
+            <state line="2" column="0" selection-start="128" selection-end="160" vertical-scroll-proportion="-1.28">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="message.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/message.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="conversation.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/conversation.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="32" selection-start="1145" selection-end="1145" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
+      <file leaf-file-name="_modal_error.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/layouts/_modal_error.html.erb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
@@ -91,19 +73,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_alert.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/alerts/_alert.html.erb">
+      <file leaf-file-name="_modal_new_document.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/documents/_modal_new_document.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="13" selection-start="628" selection-end="628" vertical-scroll-proportion="-11.52">
+            <state line="3" column="38" selection-start="185" selection-end="190" vertical-scroll-proportion="-1.92">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.js.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/conversations/show.js.erb">
+      <file leaf-file-name="_document_metadata.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="92" selection-start="401" selection-end="401" vertical-scroll-proportion="-4.48">
+            <state line="13" column="16" selection-start="418" selection-end="418" vertical-scroll-proportion="-8.32">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="document.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/document.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="54" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="document.css.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/document.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="207" column="18" selection-start="3591" selection-end="3591" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -122,22 +122,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/conversations/new.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/_conversation_messages.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/_conversation_reply.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/_message.html.erb" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/_conversation_full.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/_conversation.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/update.js.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/show.js.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/conversations.js.coffee" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/conversations.css.scss" />
         <option value="$PROJECT_DIR$/app/models/alert.rb" />
         <option value="$PROJECT_DIR$/app/models/conversation.rb" />
         <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/conversations_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/document.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/documents/new_modal.js.erb" />
+        <option value="$PROJECT_DIR$/app/views/documents/_modal_new_document.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/documents_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/documents/create_modal.js.erb" />
+        <option value="$PROJECT_DIR$/app/views/documents/error.js.erb" />
+        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
       </list>
     </option>
   </component>
@@ -406,6 +406,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="static_pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -970,11 +992,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/documents" />
       <recent name="$PROJECT_DIR$/app/views/layouts" />
       <recent name="$PROJECT_DIR$/app/views/product_lines" />
       <recent name="$PROJECT_DIR$/app/views/wells" />
       <recent name="$PROJECT_DIR$/app/views/fields" />
-      <recent name="$PROJECT_DIR$/app/views/user_mailer" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/views/fields" />
@@ -1311,114 +1333,114 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/conversations/_conversation_full.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/activity.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="43" selection-start="409" selection-end="409" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="229" column="0" selection-start="3184" selection-end="3389" vertical-scroll-proportion="0.41337386">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="43" selection-start="831" selection-end="831" vertical-scroll-proportion="0.0">
+        <state line="27" column="23" selection-start="980" selection-end="980" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/documents/new.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="40" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/error.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="204" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/_modal_error.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/_modal_delete.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="16" selection-start="494" selection-end="580" vertical-scroll-proportion="0.27804106">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/document.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.9411764">
+        <state line="207" column="18" selection-start="3591" selection-end="3591" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/models/document.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="21" selection-start="915" selection-end="921" vertical-scroll-proportion="0.0">
+        <state line="16" column="54" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/conversations/_conversation.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/documents/new_modal.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="46" selection-start="33" selection-end="46" vertical-scroll-proportion="-0.0">
+        <state line="2" column="0" selection-start="128" selection-end="160" vertical-scroll-proportion="-1.28">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/conversations/update.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="92" selection-start="259" selection-end="264" vertical-scroll-proportion="-2.56">
+        <state line="13" column="16" selection-start="418" selection-end="418" vertical-scroll-proportion="-8.32">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/conversations/show.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/documents/_modal_new_document.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="92" selection-start="401" selection-end="401" vertical-scroll-proportion="-4.48">
+        <state line="3" column="38" selection-start="185" selection-end="190" vertical-scroll-proportion="-1.92">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/conversations.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/controllers/documents_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="94" selection-start="587" selection-end="587" vertical-scroll-proportion="0.0">
+        <state line="46" column="16" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/conversations.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/views/documents/create.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="16" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="253" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/message.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/documents/create_modal.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="286" vertical-scroll-proportion="-0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/alert.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/documents/error.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="108" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
+        <state line="4" column="33" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.56">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/conversation.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="32" selection-start="1145" selection-end="1145" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/alerts/_alert.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="628" selection-end="628" vertical-scroll-proportion="-11.52">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/conversations_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="64" selection-start="1608" selection-end="1608" vertical-scroll-proportion="0.4117647">
+        <state line="80" column="50" selection-start="2966" selection-end="2966" vertical-scroll-proportion="0.79750776">
           <folding />
         </state>
       </provider>

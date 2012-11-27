@@ -1,0 +1,19 @@
+$('#alert').find('.close').trigger("click");
+
+<% if @document.new_record? %>
+
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Document", message: @document.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
+
+    <% if @document.category == "Pre-Job" %>
+        $('#documents').append("<%= j render 'documents/document', document: @document, editable: false %>");
+    <% else %>
+        $('#documents2').append("<%= j render 'documents/document', document: @document, editable: false %>");
+    <% end %>
+
+
+<% end %>
