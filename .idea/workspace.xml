@@ -51,10 +51,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="20121127212115_change_message_text_in_messages.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="20121127212115_change_message_text_in_messages.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.04863222">
+            <state line="2" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -63,7 +63,16 @@
       <file leaf-file-name="20121127213336_change_message_length_on_tables.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="33" selection-start="6" selection-end="33" vertical-scroll-proportion="0.0">
+            <state line="10" column="32" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="document.css.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/document.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="19" selection-start="816" selection-end="816" vertical-scroll-proportion="0.92058825">
               <folding />
             </state>
           </provider>
@@ -78,15 +87,6 @@
                 <marker date="1352401826000" expanded="true" signature="150:181" placeholder="..." />
                 <marker date="1352401826000" expanded="true" signature="250:328" placeholder="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="documents_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/documents_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="16" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -124,7 +124,6 @@
       <list>
         <option value="$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/document.css.scss" />
         <option value="$PROJECT_DIR$/app/views/documents/new_modal.js.erb" />
         <option value="$PROJECT_DIR$/app/views/documents/_modal_new_document.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/documents_controller.rb" />
@@ -138,6 +137,7 @@
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/document.css.scss" />
       </list>
     </option>
   </component>
@@ -1369,27 +1369,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/documents/create_modal.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="286" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/documents/error.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="33" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.56">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="50" selection-start="2966" selection-end="2966" vertical-scroll-proportion="-20.48">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="224" selection-end="329" vertical-scroll-proportion="-8.96">
@@ -1476,16 +1455,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="33" selection-start="6" selection-end="33" vertical-scroll-proportion="0.0">
+        <state line="2" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.04863222">
+        <state line="10" column="32" selection-start="293" selection-end="293" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/documents_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="16" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/document.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="19" selection-start="816" selection-end="816" vertical-scroll-proportion="0.92058825">
           <folding />
         </state>
       </provider>

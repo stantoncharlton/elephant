@@ -23,7 +23,11 @@
   color: #0058a8;
   font-size: 18px !important;
   display: inline-block;
-  min-width: 250px;
+  width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
 
   &:link, &:visited, &:active {
     background: transparent;
@@ -43,7 +47,10 @@
   padding: 0px;
   display: inline-block;
   text-indent: 0px;
-  min-width: 250px;
+  width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .document-modified {
