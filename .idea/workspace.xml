@@ -32,7 +32,12 @@
         <entry file="file://$PROJECT_DIR$/app/views/conversations/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="12" column="0" selection-start="227" selection-end="373" vertical-scroll-proportion="-7.68">
-              <folding />
+              <folding>
+                <marker date="1354045786000" expanded="true" signature="60:223" placeholder="..." />
+                <marker date="1354045786000" expanded="true" signature="285:360" placeholder="..." />
+                <marker date="1354045786000" expanded="true" signature="409:624" placeholder="..." />
+                <marker date="1354045786000" expanded="true" signature="563:612" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,7 +55,11 @@
         <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="14" column="0" selection-start="224" selection-end="329" vertical-scroll-proportion="-8.96">
-              <folding />
+              <folding>
+                <marker date="1352401826000" expanded="true" signature="57:117" placeholder="..." />
+                <marker date="1352401826000" expanded="true" signature="150:181" placeholder="..." />
+                <marker date="1352401826000" expanded="true" signature="250:328" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -95,7 +104,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/conversations_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
@@ -111,6 +119,7 @@
         <option value="$PROJECT_DIR$/app/views/jobs/index.html.erb" />
         <option value="$PROJECT_DIR$/app/models/job.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb" />
       </list>
     </option>
   </component>
@@ -190,6 +199,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="solr" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conf" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="script" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -205,6 +232,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migrate" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1306,41 +1351,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/document.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="54" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/documents/new_modal.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="128" selection-end="160" vertical-scroll-proportion="-1.28">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="16" selection-start="418" selection-end="418" vertical-scroll-proportion="-8.32">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/documents/_modal_new_document.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="38" selection-start="185" selection-end="190" vertical-scroll-proportion="-1.92">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/documents_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="16" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/documents/create.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="253" vertical-scroll-proportion="0.0">
@@ -1372,14 +1382,23 @@
     <entry file="file://$PROJECT_DIR$/app/views/alerts/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="224" selection-end="329" vertical-scroll-proportion="-8.96">
-          <folding />
+          <folding>
+            <marker date="1352401826000" expanded="true" signature="57:117" placeholder="..." />
+            <marker date="1352401826000" expanded="true" signature="150:181" placeholder="..." />
+            <marker date="1352401826000" expanded="true" signature="250:328" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/conversations/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="0" selection-start="227" selection-end="373" vertical-scroll-proportion="-7.68">
-          <folding />
+          <folding>
+            <marker date="1354045786000" expanded="true" signature="60:223" placeholder="..." />
+            <marker date="1354045786000" expanded="true" signature="285:360" placeholder="..." />
+            <marker date="1354045786000" expanded="true" signature="409:624" placeholder="..." />
+            <marker date="1354045786000" expanded="true" signature="563:612" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1407,6 +1426,41 @@
     <entry file="file://$PROJECT_DIR$/app/models/user.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="45" column="63" selection-start="1654" selection-end="1654" vertical-scroll-proportion="0.36467236">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/message.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_note.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_note_comment.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="54" selection-start="287" selection-end="287" vertical-scroll-proportion="0.23529412">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solr/conf/schema.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="24" selection-start="0" selection-end="16182" vertical-scroll-proportion="0.2735043">
           <folding />
         </state>
       </provider>

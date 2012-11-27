@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121123161734) do
+ActiveRecord::Schema.define(:version => 20121127212115) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -184,10 +184,10 @@ ActiveRecord::Schema.define(:version => 20121123161734) do
     t.integer  "job_id"
     t.integer  "job_note_id"
     t.integer  "user_id"
-    t.string   "text"
+    t.text     "text",        :limit => 1000
     t.integer  "company_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   add_index "job_note_comments", ["company_id"], :name => "index_job_note_comments_on_company_id"
@@ -199,10 +199,10 @@ ActiveRecord::Schema.define(:version => 20121123161734) do
     t.integer  "job_id"
     t.integer  "user_id"
     t.integer  "company_id"
-    t.string   "text"
+    t.text     "text",         :limit => 2000
     t.integer  "note_type"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.integer  "assign_to_id"
   end
 
@@ -243,9 +243,9 @@ ActiveRecord::Schema.define(:version => 20121123161734) do
   create_table "messages", :force => true do |t|
     t.integer  "conversation_id"
     t.integer  "user_id"
-    t.string   "text"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.text     "text",            :limit => 2000
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
