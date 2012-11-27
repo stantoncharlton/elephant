@@ -42,10 +42,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/jobs/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="42" selection-start="376" selection-end="376" vertical-scroll-proportion="0.44903988">
+            <state line="19" column="42" selection-start="376" selection-end="376" vertical-scroll-proportion="-12.16">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20121127212115_change_message_text_in_messages.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="0" selection-start="69" selection-end="258" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20121127213336_change_message_length_on_tables.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="37" selection-start="293" selection-end="293" vertical-scroll-proportion="0.2431611">
               <folding />
             </state>
           </provider>
@@ -104,7 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/controllers/conversations_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/document.css.scss" />
@@ -120,6 +137,7 @@
         <option value="$PROJECT_DIR$/app/models/job.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb" />
       </list>
     </option>
   </component>
@@ -1351,13 +1369,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/documents/create.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="253" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/documents/create_modal.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="286" vertical-scroll-proportion="-0.0">
@@ -1451,13 +1462,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="54" selection-start="287" selection-end="287" vertical-scroll-proportion="0.23529412">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/solr/conf/schema.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="117" column="24" selection-start="0" selection-end="16182" vertical-scroll-proportion="0.2735043">
@@ -1467,7 +1471,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/jobs/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="42" selection-start="376" selection-end="376" vertical-scroll-proportion="0.44903988">
+        <state line="19" column="42" selection-start="376" selection-end="376" vertical-scroll-proportion="-12.16">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20121127212115_change_message_text_in_messages.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="69" selection-end="258" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20121127213336_change_message_length_on_tables.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="37" selection-start="293" selection-end="293" vertical-scroll-proportion="0.2431611">
           <folding />
         </state>
       </provider>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121127212115) do
+ActiveRecord::Schema.define(:version => 20121127213336) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(:version => 20121127212115) do
     t.integer  "job_id"
     t.integer  "job_note_id"
     t.integer  "user_id"
-    t.text     "text",        :limit => 1000
+    t.string   "text",        :limit => 1000
     t.integer  "company_id"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
@@ -199,7 +199,7 @@ ActiveRecord::Schema.define(:version => 20121127212115) do
     t.integer  "job_id"
     t.integer  "user_id"
     t.integer  "company_id"
-    t.text     "text",         :limit => 2000
+    t.string   "text",         :limit => 2000
     t.integer  "note_type"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
@@ -243,7 +243,7 @@ ActiveRecord::Schema.define(:version => 20121127212115) do
   create_table "messages", :force => true do |t|
     t.integer  "conversation_id"
     t.integer  "user_id"
-    t.text     "text",            :limit => 2000
+    t.string   "text",            :limit => 2000
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
   end
