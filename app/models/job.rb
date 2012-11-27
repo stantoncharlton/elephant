@@ -28,40 +28,37 @@ class Job < ActiveRecord::Base
     belongs_to :district_manager, class_name: "User", primary_key: "id", foreign_key: "district_manager_id"
     belongs_to :sales_engineer, class_name: "User", primary_key: "id", foreign_key: "sales_engineer_id"
 
-#=begin
-    if Rails.env.development?
-        searchable do
-            text :field_name, :as => :code_textp do
-                field.name
-            end
-            text :well_name, :as => :code_textp do
-                well.name
-            end
-            text :product_line_name, :as => :code_textp do
-                job_template.product_line.name
-            end
-            text :job_template_name, :as => :code_textp do
-                job_template.name
-            end
 
-            text :district_name, :as => :code_textp do
-                district.name
-            end
-
-            text :client_name, :as => :code_textp do
-                client.name
-            end
-
-            text :dynamic_fields_value do
-                dynamic_fields.map { |df| df.value }
-            end
-
-            time :created_at
-            time :updated_at
-            integer :company_id
+    searchable do
+        text :field_name, :as => :code_textp do
+            field.name
         end
+        text :well_name, :as => :code_textp do
+            well.name
+        end
+        text :product_line_name, :as => :code_textp do
+            job_template.product_line.name
+        end
+        text :job_template_name, :as => :code_textp do
+            job_template.name
+        end
+
+        text :district_name, :as => :code_textp do
+            district.name
+        end
+
+        text :client_name, :as => :code_textp do
+            client.name
+        end
+
+        text :dynamic_fields_value do
+            dynamic_fields.map { |df| df.value }
+        end
+
+        time :created_at
+        time :updated_at
+        integer :company_id
     end
-#=end
 
 
     def add_user!(user, role)
@@ -135,7 +132,7 @@ class Job < ActiveRecord::Base
                 ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
                 ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: constraint.value).includes(:dynamic_fields)
             else
-                ar_query = ar_query.where("wells." + constraint.field + " "  + operator + " :well_value", well_value: constraint.value).includes(:well)
+                ar_query = ar_query.where("wells." + constraint.field + " " + operator + " :well_value", well_value: constraint.value).includes(:well)
             end
         end
 

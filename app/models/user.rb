@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     has_many :job_memberships, foreign_key: "user_id"
     has_many :jobs, through: :job_memberships, source: :job
     has_many :reverse_relationships, foreign_key: "followed_id",
-             class_name:  "Relationship"
+             class_name: "Relationship"
     has_many :followers, through: :reverse_relationships, source: :follower
 
     has_many :conversation_memberships, foreign_key: "user_id"
@@ -48,18 +48,16 @@ class User < ActiveRecord::Base
     has_many :activities
 
 
-    if Rails.env.development?
-        searchable do
-            text :district_name, :as => :code_textp do
-                district.present? ? district.name : ""
-            end
-
-            text :name, :as => :code_textp
-            text :email
-            time :created_at
-            time :updated_at
-            integer :company_id
+    searchable do
+        text :district_name, :as => :code_textp do
+            district.present? ? district.name : ""
         end
+
+        text :name, :as => :code_textp
+        text :email
+        time :created_at
+        time :updated_at
+        integer :company_id
     end
 
 
@@ -86,7 +84,7 @@ class User < ActiveRecord::Base
         end
     end
 
-private
+    private
 
     def is_elephant_admin?
         self.elephant_admin?
