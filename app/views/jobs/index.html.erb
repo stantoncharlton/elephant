@@ -11,11 +11,20 @@
 
 </div>
 
+<% if @jobs.empty? %>
 
-<%= will_paginate %>
+    <div class="no-alerts">
+      <p class="center">You don't have any jobs right now...</p>
+    </div>
 
-<div id="jobs" class="list">
-  <%= render @jobs %>
-</div>
+<% else %>
 
-<%= will_paginate %>
+    <%= will_paginate %>
+
+    <div id="jobs" class="list">
+      <%= render @jobs %>
+    </div>
+
+    <%= will_paginate %>
+
+<% end %>
