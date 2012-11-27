@@ -10,14 +10,19 @@
 </div>
 
 
+<% if @conversations.empty? %>
 
+    <p>No conversations...</p>
 
-<div class="messages-container">
+<% else %>
+    <div class="messages-container">
 
-   <%= render 'conversations/conversation_full', conversation: @conversations.first %>
+      <%= render 'conversations/conversation_full', conversation: @conversations.first %>
 
-  <ol id="conversations_list" class="conversations-list">
-    <%= render @conversations %>
-  </ol>
+      <ol id="conversations_list" class="conversations-list">
+        <%= render @conversations %>
+      </ol>
 
-</div>
+    </div>
+
+<% end %>
