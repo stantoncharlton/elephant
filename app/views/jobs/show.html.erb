@@ -51,6 +51,10 @@
   </div>
 </div>
 
+<div id="process_actions" class="">
+
+</div>
+
 <div class="header">
   <h2>Documents</h2>
 
@@ -126,13 +130,7 @@
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
-            //$.ajax({
-            //    type:"get",
-            //    url:"/activities?job_id=
-            //
-            //<%= @job.id %>",
-            //    dataType:'script'
-            //});
+
 
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
             $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
@@ -143,6 +141,12 @@
                 return $("<li></li>").data("item.autocomplete", item).append(
                         "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
             }
+
+            $.ajax({
+                url: "/job_process/" + <%= @job.id.to_s %>,
+                type: "GET",
+                dataType: "script"
+            });
 
         });
     }(jQuery));

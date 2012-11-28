@@ -63,6 +63,28 @@
   }
 }
 
+
+.green {
+
+  color: #FFF;
+  background: #2fad1e;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #259316;
+
+  &:link, &:visited, &:active {
+    color: #FFF;
+    background: #2fad1e;
+    text-decoration: none;
+
+  }
+  &:hover {
+    background: #1c7b0f;
+    border-color: #397031;
+    text-decoration: none;
+  }
+}
+
 .pull-right-button {
   float: right;
   margin-right: 20px;

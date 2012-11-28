@@ -25,9 +25,6 @@ class Job < ActiveRecord::Base
     has_many :job_memberships, foreign_key: "job_id"
     has_many :participants, through: :job_memberships, source: :user
 
-    belongs_to :district_manager, class_name: "User", primary_key: "id", foreign_key: "district_manager_id"
-    belongs_to :sales_engineer, class_name: "User", primary_key: "id", foreign_key: "sales_engineer_id"
-
 
     searchable do
         text :field_name, :as => :code_textp do

@@ -1,0 +1,5 @@
+$.ajax({
+    url: "/job_process/" + <%= @dynamic_field.job.id.to_s %>,
+    type: "GET",
+    dataType: "script"
+});
