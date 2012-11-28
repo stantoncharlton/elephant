@@ -50,9 +50,9 @@
             <div class="messages-icon-container">
               <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
 
-              <% if !current_user.alerts.where("alert_type == 3").empty? %>
+              <% if !current_user.alerts.where("alert_type = 3").empty? %>
                   <div class="messages-icon-alert">
-                    <p><%= current_user.alerts.where("alert_type == 3").count %></p>
+                    <p><%= current_user.alerts.where("alert_type = 3").count %></p>
                   </div>
               <% end %>
             </div>
