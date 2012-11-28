@@ -1,5 +1,5 @@
 class Company < ActiveRecord::Base
-    attr_accessible :address_line_1, :address_line_2, :admin_id, :country, :logo,
+    attr_accessible :address_line_1, :address_line_2, :country, :logo,
                     :logo_large, :name, :phone_number, :postal_code, :state,
                     :support_email, :website
 
@@ -15,5 +15,7 @@ class Company < ActiveRecord::Base
     has_many :job_templates, dependent: :destroy
 
     has_many :activities
+
+    belongs_to :admin
 
 end

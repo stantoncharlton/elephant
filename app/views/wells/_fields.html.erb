@@ -22,11 +22,12 @@
   </div>
 
   <div class="field striped">
+    <%= f.check_box :offshore, id: "offshore_checkbox" %>
     <%= f.label "Offshore?" %>
-    <%= f.check_box :offshore %>
 
-    <%= f.text_field :water_depth, placeholder: "Water Depth", class: "txtfield small" %>
-
+    <div id="offshore_fields" class="hidden inline">
+      <%= f.text_field :water_depth, placeholder: "Water Depth", class: "txtfield small" %>
+    </div>
   </div>
 
   <div class="field striped">

@@ -148,29 +148,36 @@
   font-size: 32px;
   line-height: 40px;
   font-family: "gothamboldregular";
+  padding-bottom: 10px;
 }
 
 .quote a {
   text-align: left;
   color: #FFFFFF;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  margin: 0px;
+  background: rgba(0, 0, 0, .3);
+  border-radius: 8px;
+  padding: 6px;
   text-shadow: 1px 1px 1px #000000;
   font-size: 22px;
   font-family: "gothambookregular";
   text-decoration: underline;
 
   &:link, &:visited {
-    background: transparent;
-    color: #FFFFFF;
+    background: rgba(0, 0, 0, .3);
+    border-radius: 8px;
+    padding: 6px;
     text-shadow: 1px 1px 1px #000000;
-    text-decoration: underline;
+    text-decoration: none;
+    color: #FFFFFF;
   }
   &:hover {
-    background: rgba(0, 0, 0, .4);
+    background: rgba(0, 0, 0, .8);
+    border-radius: 8px;
+    padding: 6px;
     color: #FFFFFF;
     text-shadow: 1px 1px 1px #000000;
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 

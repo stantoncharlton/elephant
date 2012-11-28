@@ -1,3 +1,17 @@
 <% provide(:title, 'Help') %>
-<h1>StaticPages#help</h1>
-<p>Find me in app/views/static_pages/help.html.erb</p>
+
+<div class="page_header">
+  <h1>Help</h1>
+</div>
+
+<div class="content">
+
+  <% if current_user.company.admin.present? %>
+      <%= link_to current_user.company.admin, current_user.company.admin.name %>
+<% end %>
+  <% if current_user.company.support_email.present? %>
+      <p>Support Email
+        <%= link_to current_user.company.support_email, "mailto:" + current_user.company.support_email, class: "user-info-link" %>
+      </p>
+  <% end %>
+</div>
