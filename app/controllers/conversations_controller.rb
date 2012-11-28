@@ -4,6 +4,14 @@ class ConversationsController < ApplicationController
 
     def index
         @conversations = current_user.conversations.order("updated_at DESC")
+
+        if !@conversations.empty? && current_user.alerts
+            new_alerts = current_user.alerts.select { |a| a.target == @conversations.first }
+            if !new_alerts.empty?
+                new_alerts.first.destroy
+            end
+        end
+
     end
 
     def show

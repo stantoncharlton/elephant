@@ -47,7 +47,17 @@
         <% elsif signed_in? %>
             <%= render 'layouts/user_tab' %>
 
-            <%=  link_to "Messages", conversations_path, class: "messages-link" %>
+            <div class="messages-icon-container">
+              <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
+
+              <% if !current_user.alerts.where("alert_type == 3").empty? %>
+                  <div class="messages-icon-alert">
+                    <p><%= current_user.alerts.where("alert_type == 3").count %></p>
+                  </div>
+              <% end %>
+            </div>
+
+
 
             <%= form_tag search_index_path, :method => 'get', :id => "users_search", class: "inline" do %>
                 <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query" %>

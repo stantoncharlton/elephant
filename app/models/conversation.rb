@@ -45,7 +45,7 @@ class Conversation < ActiveRecord::Base
 
         self.participants.each do |participant|
             if participant != user
-                Alert.add(participant, Alert::NEW_MESSAGE, message, user, nil)
+                Alert.add(participant, Alert::NEW_MESSAGE, self, user, nil)
             end
         end
 

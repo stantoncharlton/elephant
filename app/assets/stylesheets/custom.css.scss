@@ -205,7 +205,12 @@ p {
 }
 
 
-.messages-link {
+.messages-icon-container {
+  display: inline-block;
+  width: 55px;
+  margin-right: 8px;
+}
+.messages-icon-link {
   width: 45px;
   height: 58px;
   display: inline-block;
@@ -214,6 +219,41 @@ p {
   text-indent: -10000px;
 
   background: url(image_path('messages.png')) center center no-repeat;
+}
+
+.messages-icon-alert {
+
+  position: relative;
+
+  display: inline-block;
+  float: right;
+
+  pointer-events:none;
+
+  left: -6px;
+  top: -50px;
+  margin: 0px;
+  width: 19px;
+  height: 19px;
+  background: #0058a8;
+  border-radius: 15px;
+  border-color: #FFFFFF;
+  border-width: 2px;
+  border-style: solid;
+  text-shadow: 1px 1px 1px #000000;
+
+  p {
+    top: -20px;
+    left: 5px;
+    width: 22px;
+    height: 22px;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    display: inline-block;
+    color: #FFFFFF;
+  }
+
 }
 
 .advanced-search-link {

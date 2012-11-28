@@ -65,6 +65,7 @@ class User < ActiveRecord::Base
         where("company_id = :company_id", company_id: company.id).order("name ASC")
     end
 
+
 =begin
     def self.search(search)
         if search
