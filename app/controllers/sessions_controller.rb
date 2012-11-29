@@ -58,8 +58,8 @@ class SessionsController < ApplicationController
                 @user.create_password = true
 
                 if @user.save
-                    UserMailer.reset_password(@user).deliver
                     flash[:success] = "Email sent to " + @email
+                    @user.delay.send_reset_password_email(password)
                 end
             else
                 flash[:error] = "Could not find user with that email"

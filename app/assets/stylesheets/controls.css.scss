@@ -127,7 +127,7 @@ input[type=text] {
   padding: 0;
   border: 0;
   overflow: hidden;
-  text-indent: -999px;
+  text-indent: -10000px;
   display: inline-block;
   background: url(image_path('delete_up.png')) no-repeat 0 0;
 
@@ -145,7 +145,7 @@ input[type=text] {
   margin: 0;
   padding: 0;
   border: 0;
-  text-indent: -999px;
+  text-indent: -10000px;
   display: inline-block;
   background: url(image_path('delete_small_up.png')) no-repeat 0 0;
   background-size: contain;

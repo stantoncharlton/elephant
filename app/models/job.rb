@@ -1,7 +1,8 @@
 class Job < ActiveRecord::Base
     attr_accessible :client_contact_name,
                     :start_date,
-                    :end_date
+                    :end_date,
+                    :sent_pre_job_ready_email
 
 
     validates_presence_of :company_id
@@ -139,6 +140,38 @@ class Job < ActiveRecord::Base
         #where(:dynamic_fields => {:dynamic_field_template_id => "8"}).includes(:dynamic_fields)
 
         return ar_query
+    end
+
+    def job_data_good
+        self.documents.each do |document|
+            if document.category == "Pre-Job" && (document.url.nil? || document.url.empty?)
+                return false
+            end
+        end
+
+        self.dynamic_fields.each do |df|
+            if df.value.nil? || df.value.empty?
+                return false
+            end
+        end
+
+        true
+    end
+
+    def supervisor
+        membership = self.job_memberships.find { |jm| jm.job_role_id == 2 }
+        if !membership.nil?
+            return membership.user
+        end
+        nil
+    end
+
+    def creator
+        membership = self.job_memberships.find { |jm| jm.job_role_id == 2 }
+        if !membership.nil?
+            return membership.user
+        end
+        nil
     end
 
 end

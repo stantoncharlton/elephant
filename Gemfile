@@ -13,6 +13,7 @@ gem 'aws-sdk'
 gem "select2-rails"
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'delayed_job_active_record'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

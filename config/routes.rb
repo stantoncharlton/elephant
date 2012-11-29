@@ -67,7 +67,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :conversations, only: [:index, :show, :new, :create, :destroy, :update]
 
-    resources :job_process, only: [:show]
+    resources :job_process, only: [:show, :update]
 
 end
 

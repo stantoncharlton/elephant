@@ -1,4 +1,4 @@
-<%= form_for "/job_process/" + job.id.to_s, :html => {class: "content inline", id: "job_ready_to_ship"}, remote: true do |f| %>
+<%= form_for "/job_process/" + job.id.to_s, :html => {class: "content inline", id: "job_ready_to_ship", :method=>:put}, remote: true do |f| %>
 
     <%= f.submit "Ship Job To Field", class: "bluebtn green inline" %>
     <p class="ship-comment">All data and documents are correct and complete...</p>

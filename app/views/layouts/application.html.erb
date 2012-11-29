@@ -33,13 +33,23 @@
     <% elsif request.path == about_path %>
         <body class="body-about">
     <% else %>
-        <body class="body-non-signed-in">
+        <body class="body">
+
+        <div class="container">
+          <% flash.each do |key, value| %>
+              <div class="alert alert-<%= key %>"><%= value %></div>
+          <% end %>
     <% end %>
 
     <%= render 'layouts/header' %>
     <div class="container-reset">
       <%= yield %>
     </div>
+
+    <% if request.path != root_path && request.path != about_path %>
+        </div>
+    <% end %>
+
     </body>
 
 <% end %>

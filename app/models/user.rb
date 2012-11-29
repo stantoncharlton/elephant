@@ -85,7 +85,19 @@ class User < ActiveRecord::Base
         end
     end
 
-    private
+    def send_pre_job_ready_email(job)
+        JobProcessMailer.pre_job_data_complete(self, job).deliver
+    end
+
+    def send_job_shipping_email(job)
+        JobProcessMailer.ship_to_field(self, job).deliver
+    end
+
+    def send_reset_password_email(password)
+        UserMailer.reset_password(self, password).deliver
+    end
+
+private
 
     def is_elephant_admin?
         self.elephant_admin?
@@ -100,6 +112,12 @@ class User < ActiveRecord::Base
     end
 
     def send_welcome_email
+        self.delay.send_welcome_email_delayed
+    end
+
+    def send_welcome_email_delayed
         UserMailer.registration_confirmation(self).deliver
     end
+
+
 end

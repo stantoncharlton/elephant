@@ -1,0 +1,5 @@
+$("#process_actions").find('#job_ready_to_ship').remove();
+
+$("#process_actions").append("<%= j render('job_process/job_shipped', job: @job, user: @user) %>");
+
+$('.activity-user-link').tooltip();
