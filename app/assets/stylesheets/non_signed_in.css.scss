@@ -221,3 +221,33 @@
     font-family: "gothamboldregular";
   }
 }
+
+.sales-email {
+  text-align: left;
+  color: #FFFFFF;
+  margin: 0px;
+  background: rgba(0, 0, 0, .3);
+  border-radius: 8px;
+  padding: 6px;
+  text-shadow: 1px 1px 1px #000000;
+  font-size: 22px;
+  font-family: "gothambookregular";
+  text-decoration: underline;
+
+  &:link, &:visited {
+    background: rgba(0, 0, 0, .3);
+    border-radius: 8px;
+    padding: 6px;
+    text-shadow: 1px 1px 1px #000000;
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, .8);
+    border-radius: 8px;
+    padding: 6px;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px #000000;
+    text-decoration: none;
+  }
+}

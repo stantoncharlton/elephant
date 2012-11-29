@@ -30,7 +30,7 @@
 <% else %>
     <% if request.path == root_path %>
         <body class="body-non-signed-in">
-    <% elsif request.path == about_path %>
+    <% elsif request.path == about_path || request.path == sales_path %>
         <body class="body-about">
     <% else %>
         <body class="body">
