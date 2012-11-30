@@ -18,7 +18,7 @@
 
       <div class="lastrow">
 
-        <%=  check_box_tag "Stay", "Stay Logged In", true, class: "checkbox" %>
+        <%=  f.check_box :stay_logged_in, checked: true, class: "checkbox" %>
         <%=  f.label "Stay Logged In", class: "checkbox-label" %>
         <%= f.submit "LOGIN", class: "bluebtn loginright" %>
       </div>

@@ -22,4 +22,6 @@ class JobProcess < ActiveRecord::Base
 
         job_process
     end
+
+
 end

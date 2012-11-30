@@ -22,16 +22,56 @@
       <file leaf-file-name="job_process_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="33" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
+            <state line="26" column="39" selection-start="719" selection-end="719" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_alert.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sessions_helper.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/helpers/sessions_helper.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="19" selection-start="178" selection-end="178" vertical-scroll-proportion="0.14117648">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sessions_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="58" selection-start="856" selection-end="856" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_signin.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/sessions/_signin.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="40" selection-start="599" selection-end="613" vertical-scroll-proportion="-12.8">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_alert.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/alerts/_alert.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="468" selection-end="468" vertical-scroll-proportion="0.36641222">
+            <state line="29" column="19" selection-start="900" selection-end="900" vertical-scroll-proportion="-18.56">
+              <folding>
+                <marker date="1354296675000" expanded="true" signature="124:267" placeholder="..." />
+                <marker date="1354296675000" expanded="true" signature="404:536" placeholder="..." />
+                <marker date="1354296675000" expanded="true" signature="668:815" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job_process.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/job_process.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="33" selection-start="529" selection-end="529" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -64,37 +104,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="63" selection-start="2035" selection-end="2035" vertical-scroll-proportion="-4.48">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="_job_shipped.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_process/_job_shipped.html.erb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="3" column="12" selection-start="128" selection-end="148" vertical-scroll-proportion="-1.92">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ship.js.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/job_process/ship.js.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="82" selection-start="142" selection-end="142" vertical-scroll-proportion="-1.28">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jobs_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/jobs_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="61" selection-start="919" selection-end="919" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -113,22 +126,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/models/user.rb" />
-        <option value="$PROJECT_DIR$/Gemfile" />
-        <option value="$PROJECT_DIR$/app/views/static_pages/about.html.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/non_signed_in.css.scss" />
         <option value="$PROJECT_DIR$/app/views/static_pages/sales.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20121130165734_create_job_processes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/jobs_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/job_process/ship.js.erb" />
-        <option value="$PROJECT_DIR$/app/models/job_process.rb" />
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process/_job_shipped.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/job_process.css.scss" />
         <option value="$PROJECT_DIR$/app/models/job.rb" />
         <option value="$PROJECT_DIR$/app/controllers/job_process_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/job_process.rb" />
+        <option value="$PROJECT_DIR$/app/views/sessions/_signin.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
+        <option value="$PROJECT_DIR$/app/helpers/sessions_helper.rb" />
       </list>
     </option>
   </component>
@@ -1078,44 +1091,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/alert.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="95" selection-end="723" vertical-scroll-proportion="0.09411765">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20121108225955_create_job_note_comments.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="312" selection-end="505" vertical-scroll-proportion="0.28235295">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20121130165734_create_job_processes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="44" selection-start="415" selection-end="415" vertical-scroll-proportion="0.32941177">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_process/show.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="27" selection-start="266" selection-end="266" vertical-scroll-proportion="-3.2">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/job_process/ship.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="82" selection-start="142" selection-end="142" vertical-scroll-proportion="-1.28">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job_process.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="19" selection-start="515" selection-end="515" vertical-scroll-proportion="0.5176471">
           <folding />
         </state>
       </provider>
@@ -1130,7 +1108,33 @@
     <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="63" selection-start="2035" selection-end="2035" vertical-scroll-proportion="-4.48">
-          <folding />
+          <folding>
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1354295615000" expanded="true" signature="-1:-1" placeholder="{&quot;type&quot;: &quot;GET&quot;...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1151,13 +1155,6 @@
     <entry file="file://$PROJECT_DIR$/app/models/job.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="171" column="73" selection-start="4962" selection-end="4962" vertical-scroll-proportion="0.66416794">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="33" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1185,7 +1182,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/alerts/_alert.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="468" selection-end="468" vertical-scroll-proportion="0.36641222">
+        <state line="29" column="19" selection-start="900" selection-end="900" vertical-scroll-proportion="-18.56">
+          <folding>
+            <marker date="1354296675000" expanded="true" signature="124:267" placeholder="..." />
+            <marker date="1354296675000" expanded="true" signature="404:536" placeholder="..." />
+            <marker date="1354296675000" expanded="true" signature="668:815" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_process.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="33" selection-start="529" selection-end="529" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="39" selection-start="719" selection-end="719" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers/search_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="58" selection-start="856" selection-end="856" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/sessions/_signin.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="40" selection-start="599" selection-end="613" vertical-scroll-proportion="-12.8">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers/sessions_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="19" selection-start="178" selection-end="178" vertical-scroll-proportion="0.14117648">
           <folding />
         </state>
       </provider>

@@ -1,7 +1,12 @@
 module SessionsHelper
 
-    def sign_in(user)
-        cookies.permanent[:remember_token] = user.remember_token
+    def sign_in(user, permanent)
+        if permanent
+            cookies.permanent[:remember_token] = user.remember_token
+        else
+            cookies[:remember_token] = user.remember_token
+        end
+
         self.current_user = user
     end
 
@@ -12,7 +17,6 @@ module SessionsHelper
     def signed_in_admin?
         !current_user.nil? && (current_user.admin? || current_user.elephant_admin?)
     end
-
 
 
     def current_user=(user)

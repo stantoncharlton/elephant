@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
             if user.create_password?
                 redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
             else
-                sign_in user
+                sign_in(user, params[:session]["stay_logged_in"] == "1")
                 redirect_to root_path
             end
         else
@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
             user.create_password = false
             if user.save
                 flash[:success] = "Password updated"
-                sign_in user
+                sign_in(user, true)
                 redirect_to root_path
             else
                 redirect_to update_password_path(email: user.email), :flash => {:error => "Passwords do not match"}
