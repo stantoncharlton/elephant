@@ -6,7 +6,7 @@ class JobProcessController < ApplicationController
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
-        if !@job.job_data_good
+        if !@job.job_data_good || @job.job_processes.select { |jp| jp.event_type == 1 }.any?
              render :nothing => true, :status => :ok
         end
 
@@ -57,6 +57,8 @@ class JobProcessController < ApplicationController
         end
 
         @user = current_user
+
+        @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
 
         @job.participants.each do |participant|
             participant.delay.send_job_shipping_email(@job)

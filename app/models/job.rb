@@ -26,6 +26,8 @@ class Job < ActiveRecord::Base
     has_many :job_memberships, foreign_key: "job_id"
     has_many :participants, through: :job_memberships, source: :user
 
+    has_many :job_processes, order: "created_at DESC"
+
 
     searchable do
         text :field_name, :as => :code_textp do

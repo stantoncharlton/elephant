@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121129164505) do
+ActiveRecord::Schema.define(:version => 20121130165734) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -221,6 +221,19 @@ ActiveRecord::Schema.define(:version => 20121129164505) do
     t.datetime "updated_at",                   :null => false
     t.integer  "assign_to_id"
   end
+
+  create_table "job_processes", :force => true do |t|
+    t.integer  "job_id"
+    t.integer  "company_id"
+    t.integer  "event_type"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "job_processes", ["company_id"], :name => "index_job_processes_on_company_id"
+  add_index "job_processes", ["job_id"], :name => "index_job_processes_on_job_id"
+  add_index "job_processes", ["user_id"], :name => "index_job_processes_on_user_id"
 
   create_table "job_templates", :force => true do |t|
     t.string   "name"

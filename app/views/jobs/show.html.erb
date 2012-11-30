@@ -53,6 +53,9 @@
 
 <div id="process_actions" class="">
 
+  <% @job.job_processes.select { |jp| jp.event_type == 1 }.each do |job_process| %>
+    <%= render 'job_process/job_shipped', job_process: job_process %>
+  <% end %>
 </div>
 
 <div class="header">
