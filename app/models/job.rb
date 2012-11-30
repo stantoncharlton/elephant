@@ -169,7 +169,7 @@ class Job < ActiveRecord::Base
     end
 
     def creator
-        membership = self.job_memberships.find { |jm| jm.job_role_id == 2 }
+        membership = self.job_memberships.find { |jm| jm.job_role_id == 6 }
         if !membership.nil?
             return membership.user
         end

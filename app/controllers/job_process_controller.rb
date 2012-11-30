@@ -15,13 +15,13 @@ class JobProcessController < ApplicationController
 
         if !@job.sent_pre_job_ready_email
 
-            mail_to = null
+            mail_to = nil
 
-            if !@supervisor.nil? && !current_user?(@supervisor)
+            if !@supervisor.nil?
                 mail_to = @supervisor
             end
 
-            if @supervisor.nil? && !@creator.nil? && !current_user?(@creator)
+            if @supervisor.nil? && !@creator.nil?
                 mail_to = @creator
             end
 

@@ -10,6 +10,14 @@
         <%= render 'jobs/job', job: alert.job %>
     <% end %>
 
+    <% if alert.alert_type == Alert::PRE_JOB_DATA_READY %>
+        <div>
+          <%= image_tag "to_arrow.png" %>
+          <p class=" inline">Job is waiting for your approval to ship:</p>
+        </div>
+        <%= render 'jobs/job', job: alert.job %>
+    <% end %>
+
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>
         <div>
           <%= image_tag "to_arrow.png" %>
@@ -17,5 +25,7 @@
         </div>
         <%= render 'job_notes/job_note', job_note: alert.target %>
     <% end %>
+
+
 
 <% end %>
