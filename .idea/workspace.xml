@@ -28,10 +28,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sessions_helper.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sessions_helper.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/helpers/sessions_helper.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="19" selection-start="178" selection-end="178" vertical-scroll-proportion="0.14117648">
+            <state line="6" column="19" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_header.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/layouts/_header.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="64" column="24" selection-start="2216" selection-end="2235" vertical-scroll-proportion="-17.92">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="273" column="13" selection-start="3811" selection-end="3811" vertical-scroll-proportion="0.57058823">
               <folding />
             </state>
           </provider>
@@ -86,24 +104,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_job_activity.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/activities/_job_activity.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="24" selection-start="50" selection-end="58" vertical-scroll-proportion="-0.64">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="job_process.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_process.css.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="28" selection-start="65" selection-end="65" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="_job_shipped.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_process/_job_shipped.html.erb">
           <provider selected="true" editor-type-id="text-editor">
@@ -126,8 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/non_signed_in.css.scss" />
         <option value="$PROJECT_DIR$/app/views/static_pages/sales.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20121130165734_create_job_processes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/jobs_controller.rb" />
@@ -142,6 +140,8 @@
         <option value="$PROJECT_DIR$/app/views/sessions/_signin.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
         <option value="$PROJECT_DIR$/app/helpers/sessions_helper.rb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/_header.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
       </list>
     </option>
   </component>
@@ -1091,20 +1091,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/job_process/ship.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="82" selection-start="142" selection-end="142" vertical-scroll-proportion="-1.28">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/jobs_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="61" selection-start="919" selection-end="919" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="63" selection-start="2035" selection-end="2035" vertical-scroll-proportion="-4.48">
@@ -1228,7 +1214,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/sessions_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="19" selection-start="178" selection-end="178" vertical-scroll-proportion="0.14117648">
+        <state line="6" column="19" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/_header.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="24" selection-start="2216" selection-end="2235" vertical-scroll-proportion="-17.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="273" column="13" selection-start="3811" selection-end="3811" vertical-scroll-proportion="0.57058823">
           <folding />
         </state>
       </provider>
