@@ -40,7 +40,7 @@
       <file leaf-file-name="_header.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/layouts/_header.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="24" selection-start="2216" selection-end="2235" vertical-scroll-proportion="-17.92">
+            <state line="64" column="24" selection-start="2216" selection-end="2235" vertical-scroll-proportion="-40.96">
               <folding />
             </state>
           </provider>
@@ -49,7 +49,7 @@
       <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="273" column="13" selection-start="3811" selection-end="3811" vertical-scroll-proportion="0.57058823">
+            <state line="38" column="19" selection-start="405" selection-end="405" vertical-scroll-proportion="0.89411765">
               <folding />
             </state>
           </provider>
@@ -1221,14 +1221,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/layouts/_header.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="24" selection-start="2216" selection-end="2235" vertical-scroll-proportion="-17.92">
+        <state line="64" column="24" selection-start="2216" selection-end="2235" vertical-scroll-proportion="-40.96">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="13" selection-start="3811" selection-end="3811" vertical-scroll-proportion="0.57058823">
+        <state line="38" column="19" selection-start="405" selection-end="405" vertical-scroll-proportion="0.89411765">
           <folding />
         </state>
       </provider>
