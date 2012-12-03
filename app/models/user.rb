@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
 
     #validates_presence_of :district, unless: Proc.new { |ex| ex.admin == true }
 
-    has_many :alerts
+    has_many :alerts, order: "created_at DESC"
 
     has_many :job_memberships, foreign_key: "user_id"
     has_many :jobs, through: :job_memberships, source: :job
