@@ -30,7 +30,7 @@ class DocumentsController < ApplicationController
         @document = Document.new(params[:document])
         @document.company = current_user.company
 
-        if params[:template].present? && params[:template] == "true"
+        if @document.template?
 
             @document.job_template = JobTemplate.find_by_id(job_template_id)
 

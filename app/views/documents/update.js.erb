@@ -1,4 +1,5 @@
 $("#document_<%= @document.id %>").find('.upload-metadata').replaceWith("<%= j render('documents/document_metadata', document: @document) %>");
+$('.activity-user-link').tooltip();
 
 <% if !signed_in_admin? %>
 $.ajax({

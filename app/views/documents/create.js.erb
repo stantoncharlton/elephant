@@ -7,9 +7,9 @@ $('#alert').modal({show:true});
 <% else %>
 
 <% if @document.category == "Pre-Job" %>
-    $("#documents").append("<%= j render(@document) %>");
+    $("#documents").append("<%= j render(@document, editable: true) %>");
 <% else %>
-    $("#documents2").append("<%= j render(@document) %>");
+    $("#documents2").append("<%= j render(@document, editable: true) %>");
 <% end %>
 
 $('#new_document_name').val('');
