@@ -11,7 +11,7 @@ class AlertsController < ApplicationController
 
         @alerts.each do |alert|
 
-            if alert.expiration.nil?
+            if alert.expiration.nil? or alert.expiration > 6.3.days.from_now
                 @new_alerts << alert
             else
                 @old_alerts << alert
