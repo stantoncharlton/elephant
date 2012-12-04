@@ -25,12 +25,12 @@ class JobProcessController < ApplicationController
                 mail_to = @creator
             end
 
+
             if !mail_to.nil?
                 # Send email
                 mail_to.delay.send_pre_job_ready_email(@job)
 
-                @job.sent_pre_job_ready_email = true
-                @job.save
+                JobProcess.record(current_user, @job, current_user.company, JobProcess::PRE_JOB_DATA_READY)
 
                 Alert.add(mail_to, Alert::PRE_JOB_DATA_READY, @job, current_user, @job)
             end

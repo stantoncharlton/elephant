@@ -1,6 +1,7 @@
 class Alert < ActiveRecord::Base
     attr_accessible :alert_type,
-                    :target
+                    :target,
+                    :expiration
 
     belongs_to :company
     belongs_to :user
@@ -15,7 +16,6 @@ class Alert < ActiveRecord::Base
     PRE_JOB_DATA_READY = 4
 
 
-
     def self.add(user, alert_type, target, created_by, job = nil)
         return false if user.nil? or user.company.nil? or alert_type.blank? or target.blank?
 
@@ -28,8 +28,13 @@ class Alert < ActiveRecord::Base
         alert.save!
     end
 
-    def self.seen(alert)
-        alert.destroy
+    def seen
+        if self.expiration.nil?
+            self.expiration = 7.days.from_now
+            self.save
+        elsif DateTime.now >= self.expiration
+            self.destroy
+        end
     end
 
 end

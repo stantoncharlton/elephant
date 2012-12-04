@@ -8,7 +8,7 @@ class JobProcess < ActiveRecord::Base
 
 
     APPROVED_TO_SHIP = 1
-
+    PRE_JOB_DATA_READY = 2
 
     def self.record(user, job, company, event_type)
         return false if user.nil? or company.nil? or job.nil? or event_type.blank?

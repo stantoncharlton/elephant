@@ -6,14 +6,38 @@
   <h2><%= @alerts.count() %></h2>
 </div>
 
+<div class="header">
+  <h2>New Alerts</h2>
 
-<div id="alerts" class="list">
-  <%= render @alerts %>
+  <p><%= @new_alerts.count() %></p>
 </div>
+
+<div id="new_alerts" class="list">
+  <%= render @new_alerts %>
+</div>
+
+<% if @new_alerts.empty? %>
+    <div class="no-alerts">
+      <p class="center">No new alerts...</p>
+    </div>
+<% end %>
+
+
+<% if !@old_alerts.empty? %>
+    <div class="header old-alerts-div">
+      <h2>Past Alerts</h2>
+
+      <p><%= @old_alerts.count() %></p>
+    </div>
+
+    <div id="old_alerts" class="list">
+      <%= render @old_alerts %>
+    </div>
+<% end %>
+
 
 <% if @alerts.nil? || @alerts.empty? %>
     <div class="no-alerts">
       <p class="center">You don't have any alerts right now...</p>
     </div>
-
 <% end %>

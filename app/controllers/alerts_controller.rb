@@ -4,6 +4,21 @@ class AlertsController < ApplicationController
     set_tab :alerts
 
     def index
-        @alerts = current_user.alerts.where("alert_type != 3").paginate(page: params[:page], limit: 10)
+        @alerts = current_user.alerts.where("alert_type != 3")
+
+        @new_alerts = Array.new
+        @old_alerts = Array.new
+
+        @alerts.each do |alert|
+
+            if alert.expiration.nil?
+                @new_alerts << alert
+            else
+                @old_alerts << alert
+            end
+
+            alert.seen
+        end
+
     end
 end

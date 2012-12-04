@@ -1,8 +1,7 @@
 class Job < ActiveRecord::Base
     attr_accessible :client_contact_name,
                     :start_date,
-                    :end_date,
-                    :sent_pre_job_ready_email
+                    :end_date
 
 
     validates_presence_of :company_id
@@ -174,6 +173,10 @@ class Job < ActiveRecord::Base
             return membership.user
         end
         nil
+    end
+
+    def sent_pre_job_ready_email
+        !@job.job_processes.find { |jp| jp.event_type == 2 }.nil?
     end
 
 end
