@@ -1,5 +1,9 @@
 class ConversationMembership < ActiveRecord::Base
 
+    validates :user, presence: true
+    validates :conversation, presence: true
+
+
 
     belongs_to :user
     belongs_to :conversation

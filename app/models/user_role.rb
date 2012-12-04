@@ -11,6 +11,7 @@ class UserRole < ActiveRecord::Base
                     :document_templates_modify
 
     validates :title, presence: true, length: {maximum: 50}, uniqueness: {case_sensitive: false}
+    validates_presence_of :company
 
     belongs_to :company
 

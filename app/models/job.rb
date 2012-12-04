@@ -4,12 +4,12 @@ class Job < ActiveRecord::Base
                     :end_date
 
 
-    validates_presence_of :company_id
-    validates_presence_of :client_id
-    validates_presence_of :district_id
-    validates_presence_of :field_id
-    validates_presence_of :well_id
-    validates_presence_of :job_template_id
+    validates_presence_of :company
+    validates_presence_of :client
+    validates_presence_of :district
+    validates_presence_of :field
+    validates_presence_of :well
+    validates_presence_of :job_template
 
     belongs_to :company
     belongs_to :client

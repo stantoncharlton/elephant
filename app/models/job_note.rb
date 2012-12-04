@@ -2,9 +2,9 @@ class JobNote < ActiveRecord::Base
     attr_accessible :note_type,
                     :text
 
-    validates_presence_of :company_id
-    validates_presence_of :user_id
-    validates_presence_of :job_id
+    validates_presence_of :company
+    validates_presence_of :user
+    validates_presence_of :job
     validates_presence_of :note_type
     validates_presence_of :text
 

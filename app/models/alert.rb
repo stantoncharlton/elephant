@@ -3,6 +3,13 @@ class Alert < ActiveRecord::Base
                     :target,
                     :expiration
 
+
+    validates :company, presence: true
+    validates :user, presence: true
+    validates :created_by, presence: true
+    validates :target, presence: true
+
+
     belongs_to :company
     belongs_to :user
     belongs_to :created_by, class_name: "User"

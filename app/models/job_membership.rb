@@ -4,8 +4,8 @@ class JobMembership < ActiveRecord::Base
     belongs_to :user
     belongs_to :job
 
-    validates :user_id, presence: true
-    validates :job_id, presence: true
+    validates :user, presence: true
+    validates :job, presence: true
 
     #validates_uniqueness_of :user_id, scope: :job_id
 

@@ -3,6 +3,8 @@ class Field < ActiveRecord::Base
 
     validates :name, presence: true, length: {maximum: 50}
     validates_uniqueness_of :name, :case_sensitive => false
+    validates :company, presence: true
+    validates :district, presence: true
 
     belongs_to :company
     belongs_to :district

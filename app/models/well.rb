@@ -16,6 +16,8 @@ class Well < ActiveRecord::Base
 
     validates :name, presence: true, length: {maximum: 50}
     validates_uniqueness_of :name, :case_sensitive => false
+    validates :company, presence: true
+    validates :field, presence: true
 
     validates :measured_depth, numericality: true, allow_nil: true
     validates :true_vertical_depth, numericality: true, allow_nil: true

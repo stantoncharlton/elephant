@@ -2,6 +2,8 @@ class Conversation < ActiveRecord::Base
     attr_accessible :message_recipients, :message_text
     attr_reader :message_recipients, :message_text
 
+    validates :company, presence: true
+
     belongs_to :company
 
     has_many :messages, order: "created_at ASC"

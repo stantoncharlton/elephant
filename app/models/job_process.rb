@@ -2,6 +2,10 @@ class JobProcess < ActiveRecord::Base
     attr_accessible :event_type
 
 
+    validates_presence_of :company
+    validates_presence_of :user
+    validates_presence_of :job
+
     belongs_to :company
     belongs_to :user
     belongs_to :job

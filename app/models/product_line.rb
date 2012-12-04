@@ -3,6 +3,8 @@ class ProductLine < ActiveRecord::Base
 
     validates :name, presence: true, length: {maximum: 50}
     validates_uniqueness_of :name, :case_sensitive => false
+    validates_presence_of :company
+
 
     belongs_to :company
 

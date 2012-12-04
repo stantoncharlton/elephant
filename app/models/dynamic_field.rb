@@ -6,6 +6,8 @@ class DynamicField < ActiveRecord::Base
 
     validates_presence_of :name
     validates_inclusion_of :value_type_conversion, :in => %w(to_s to_i to_f to_b)
+    validates :company, presence: true
+
     #validate :value_or_attachment
 
     #before_save :value_or_attachment

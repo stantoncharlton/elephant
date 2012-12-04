@@ -9,6 +9,7 @@ class Document < ActiveRecord::Base
 
     validates :name, presence: true, length: {maximum: 50}
     validates :category, presence: true, length: {maximum: 50}
+    validates :company, presence: true
 
     belongs_to :job_template, :conditions => ['documents.template = ?', true]
     belongs_to :document_template, class_name: "Document"
