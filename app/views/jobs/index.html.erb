@@ -3,7 +3,15 @@
 <div class="page_header">
   <h1>Jobs</h1>
 
-  <h2><%= @jobs.count() %></h2>
+  <h2>
+    <% if @jobs.count > 0 %>
+        <% if params[:page].present? %>
+            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @jobs.count].min %> of <%= @jobs.count.to_s %>
+        <% else %>
+            1 - 10 of <%= @jobs.count.to_s %>
+        <% end %>
+    <% end %>
+  </h2>
 
   <% if signed_in? %>
       <%= link_to "+ Add New Job", new_job_path, class: "bluebtn page_header_button" %>

@@ -41,6 +41,18 @@
           <% if activity.activity_type == Activity::JOB_CREATED %>
               <p class="activity-message">Created job</p>
           <% end %>
+          <% if activity.activity_type == Activity::PRE_JOB_DATA_COMPLETE %>
+              <p class="activity-message">Pre-Job data and documents complete</p>
+          <% end %>
+          <% if activity.activity_type == Activity::JOB_APPROVED_TO_SHIP %>
+              <p class="activity-message status-good">Job approved to ship to field</p>
+          <% end %>
+          <% if activity.activity_type == Activity::POST_JOB_DATA_COMPLETE %>
+              <p class="activity-message">Post-Job documents complete</p>
+          <% end %>
+          <% if activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
+              <p class="activity-message status-good">Job completed and approved to close</p>
+          <% end %>
           <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
               <p class="activity-message">
                 Added document
