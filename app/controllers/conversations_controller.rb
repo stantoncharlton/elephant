@@ -31,9 +31,20 @@ class ConversationsController < ApplicationController
     end
 
     def create
+
+        @conversation = Conversation.new()
+
         message_recipients = params[:conversation][:message_recipients]
         params[:conversation].delete(:message_recipients)
         puts message_recipients
+
+        @recipients = message_recipients.split(",")
+        @recipients.delete_if { |r| r == current_user.id.to_s }
+        if @recipients.empty?
+            flash[:error] = "Can't send message to yourself."
+            render 'new'
+            return
+        end
 
         message_text = params[:conversation][:message_text]
         params[:conversation].delete(:message_text)
@@ -44,7 +55,7 @@ class ConversationsController < ApplicationController
             render 'new'
         end
 
-        @conversation = Conversation.new()
+
         #@conversation.set_test_values(message_recipients, message_text)
         @conversation.company = current_user.company
 
@@ -52,7 +63,7 @@ class ConversationsController < ApplicationController
 
             if @conversation.save
 
-                @conversation.add_recipients(current_user, message_recipients)
+                @conversation.add_recipients(current_user, @recipients)
                 @conversation.send_message(current_user, message_text)
 
                 flash[:success] = "Message sent."

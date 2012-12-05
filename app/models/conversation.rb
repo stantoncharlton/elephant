@@ -22,9 +22,8 @@ class Conversation < ActiveRecord::Base
     end
 
 
-    def add_recipients(user, recipients_string)
+    def add_recipients(user, recipients)
 
-        recipients = recipients_string.split(",")
         recipients.push(user.id)
 
         recipients.each do |recipient_id|
