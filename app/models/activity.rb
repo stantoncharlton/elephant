@@ -40,6 +40,11 @@ class Activity < ActiveRecord::Base
 
     JOB_NOTE_ADDED = 130
 
+    PRE_JOB_DATA_COMPLETE = 140
+    JOB_APPROVED_TO_SHIP = 141
+    POST_JOB_DATA_COMPLETE = 142
+    JOB_APPROVED_TO_CLOSE = 143
+
 
     def message
         case self.activity_type

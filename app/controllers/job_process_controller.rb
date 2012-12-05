@@ -40,6 +40,7 @@ class JobProcessController < ApplicationController
                 JobProcess.record(current_user, @job, current_user.company, JobProcess::PRE_JOB_DATA_READY)
 
                 Alert.add(mail_to, Alert::PRE_JOB_DATA_READY, @job, current_user, @job)
+                Activity.add(current_user, Activity::PRE_JOB_DATA_COMPLETE, @job, nil, @job)
 
             elsif @job.approved_to_ship and @job.post_job_data_good and !@job.sent_post_job_ready_email
 
@@ -50,6 +51,7 @@ class JobProcessController < ApplicationController
                 JobProcess.record(current_user, @job, current_user.company, JobProcess::POST_JOB_DATA_READY)
 
                 Alert.add(mail_to, Alert::POST_JOB_DATA_READY, @job, current_user, @job)
+                Activity.add(current_user, Activity::POST_JOB_DATA_COMPLETE, @job, nil, @job)
 
             end
         end
@@ -78,6 +80,7 @@ class JobProcessController < ApplicationController
         if @job.sent_post_job_ready_email
 
             @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
+            Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
 
             @job.unique_participants.each do |participant|
                 participant.delay.send_job_completed_email(@job)
@@ -92,6 +95,8 @@ class JobProcessController < ApplicationController
         elsif @job.sent_pre_job_ready_email
 
             @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
+            Activity.add(current_user, Activity::JOB_APPROVED_TO_SHIP, @job, nil, @job)
+
 
             @job.unique_participants.each do |participant|
                 participant.delay.send_job_shipping_email(@job)

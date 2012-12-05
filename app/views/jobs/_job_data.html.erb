@@ -19,7 +19,15 @@
 <div class="">
   <p class="job-field-title">Status</p>
 
-  <p class="job-field-value status-good">Pre-Job</p>
+  <% if job.approved_to_close %>
+      <p class="job-field-value">Complete</p>
+  <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
+      <p class="job-field-value status-good">Post-Job</p>
+  <% elsif job.approved_to_ship %>
+      <p class="job-field-value status-good">In Progress in field</p>
+  <% else %>
+      <p class="job-field-value status-good">Pre-Job</p>
+  <% end %>
 </div>
 
 <div class="">
