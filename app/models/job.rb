@@ -143,7 +143,7 @@ class Job < ActiveRecord::Base
         return ar_query
     end
 
-    def job_data_good
+    def pre_job_data_good
         self.documents.each do |document|
             if document.category == "Pre-Job" && (document.url.nil? || document.url.empty?)
                 return false
@@ -159,8 +159,18 @@ class Job < ActiveRecord::Base
         true
     end
 
+    def post_job_data_good
+        self.documents.each do |document|
+            if document.category == "Post-Job" && (document.url.nil? || document.url.empty?)
+                return false
+            end
+        end
+
+        true
+    end
+
     def supervisor
-        membership = self.job_memberships.find { |jm| jm.job_role_id == 2 }
+        membership = self.job_memberships.find { |jm| jm.job_role_id == JobMembership::SUPERVISOR }
         if !membership.nil?
             return membership.user
         end
@@ -168,7 +178,7 @@ class Job < ActiveRecord::Base
     end
 
     def creator
-        membership = self.job_memberships.find { |jm| jm.job_role_id == 6 }
+        membership = self.job_memberships.find { |jm| jm.job_role_id == JobMembership::CREATOR }
         if !membership.nil?
             return membership.user
         end
@@ -176,7 +186,19 @@ class Job < ActiveRecord::Base
     end
 
     def sent_pre_job_ready_email
-        !@job.job_processes.find { |jp| jp.event_type == 2 }.nil?
+        !self.job_processes.find { |jp| jp.event_type == JobProcess::PRE_JOB_DATA_READY }.nil?
+    end
+
+    def sent_post_job_ready_email
+        !self.job_processes.find { |jp| jp.event_type == JobProcess::POST_JOB_DATA_READY }.nil?
+    end
+
+    def approved_to_ship
+        !self.job_processes.find { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.nil?
+    end
+
+    def approved_to_close
+        !self.job_processes.find { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.nil?
     end
 
 end

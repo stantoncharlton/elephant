@@ -14,8 +14,11 @@
       <% end %>
     </ul>
 
-    <%= link_to "Add Member", new_job_membership_path, remote: true,
-                class: "add-job-member", id: "add_job_member" %>
+    <% if !@job.approved_to_close %>
+
+        <%= link_to "Add Member", new_job_membership_path, remote: true,
+                    class: "add-job-member", id: "add_job_member" %>
+    <% end %>
 
 
     <%= form_for(@job_member, :html => {:class => "inline hidden new-job-member ", id: "new_member_form"}, remote: true) do |f| %>
@@ -27,9 +30,7 @@
         <%= f.select :job_role_id, options_for_select([["Observer", 1], ["Supervisor", 2], ["Coordinator", 3], ["Field", 4], ["Shop", 5]]),
                      prompt: "Select a job role...",
                      class: "job-note-type" %>
-
         <%= f.submit "Add", class: "bluebtn btnsmall move-up" %>
-
     <% end %>
   </div>
 </div>
@@ -43,8 +44,12 @@
       <% @job.dynamic_fields.each do |df| %>
           <% if !df.dynamic_field_template.priority? %>
               <p class="job-field-title"><%= df.dynamic_field_template.name %></p>
-              <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
-                     value="<%= df.value.present? ? df.value : "-" %>">
+              <% if !@job.approved_to_close %>
+                  <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
+                         value="<%= df.value.present? ? df.value : "-" %>">
+              <% else %>
+                  <p class="job-field-value"><%= df.value %></p>
+              <% end %>
           <% end %>
       <% end %>
     </div>
@@ -53,19 +58,24 @@
 
 <div id="process_actions" class="">
 
-  <% @job.job_processes.select { |jp| jp.event_type == 1 }.each do |job_process| %>
-    <%= render 'job_process/job_shipped', job_process: job_process %>
+  <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
+      <%= render 'job_process/job_shipped', job_process: job_process %>
+  <% end %>
+  <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
+      <%= render 'job_process/job_closed', job_process: job_process %>
   <% end %>
 </div>
 
 <div class="header">
   <h2>Documents</h2>
 
-  <div class="pull-right">
-    <%= link_to "Add Custom Document", new_document_path(modal: true, job_id: @job.id),
-                remote: true,
-                class: "add-custom-document" %>
-  </div>
+  <% if !@job.approved_to_close %>
+      <div class="pull-right">
+        <%= link_to "Add Custom Document", new_document_path(modal: true, job_id: @job.id),
+                    remote: true,
+                    class: "add-custom-document" %>
+      </div>
+  <% end %>
 </div>
 
 <% if @pre_job_documents.all? { |d| d.url.present? } %>
@@ -74,7 +84,7 @@
     <h3 class="document-section-header">Pre-Job</h3>
 <% end %>
 <div class="content" id="documents">
-  <% @pre_job_documents.sort_by{|e| e[:created_at]}.each do |d| %>
+  <% @pre_job_documents.sort_by { |e| e[:created_at] }.each do |d| %>
       <%= render 'documents/document', document: d, editable: false %>
   <% end %>
 </div>
@@ -85,7 +95,7 @@
     <h3 class="document-section-header">Post-Job</h3>
 <% end %>
 <div class="content" id="documents2">
-  <% @post_job_documents.sort_by{|e| e[:created_at]}.each do |d| %>
+  <% @post_job_documents.sort_by { |e| e[:created_at] }.each do |d| %>
       <%= render 'documents/document', document: d, editable: false %>
   <% end %>
 </div>
@@ -96,26 +106,32 @@
 </div>
 <div class="content">
   <div class="field">
-    <%= form_for(@job_note, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
-        <div class="new-product-line">
-          <%= f.hidden_field :job_id, value: @job.id %>
-          <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
+    <% if !@job.approved_to_close %>
+        <%= form_for(@job_note, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
+            <div class="new-product-line">
+              <%= f.hidden_field :job_id, value: @job.id %>
+              <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
 
-          <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: false,
-                          id: "new_note_id" %>
+              <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: false,
+                              id: "new_note_id" %>
 
-          <div class="job-note-options">
-            <%= f.select :note_type, options_for_select([["Note", 1], ["Task", 4], ["Warning", 2], ["Problem", 3]]),
-                         class: "job-note-type" %>
-            <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                               placeholder: "Type a name to assign...",
-                               id: "new_note_name",
-                               class: "job-field-value-editable custom-data-input job-note-assign" %>
-          </div>
+              <div class="job-note-options">
+                <%= f.select :note_type, options_for_select([["Note", 1], ["Task", 4], ["Warning", 2], ["Problem", 3]]),
+                             class: "job-note-type" %>
+                <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                                   placeholder: "Type a name to assign...",
+                                   id: "new_note_name",
+                                   class: "job-field-value-editable custom-data-input job-note-assign" %>
+              </div>
 
-          <%= f.submit "Add", class: "bluebtn btnsmall pull-right" %>
+              <%= f.submit "Add", class: "bluebtn btnsmall pull-right" %>
 
 
+            </div>
+        <% end %>
+    <% elsif @job.job_notes.empty? %>
+        <div class="no-alerts">
+          <p class="center">No job notes...</p>
         </div>
     <% end %>
   </div>
@@ -146,9 +162,9 @@
             }
 
             $.ajax({
-                url: "/job_process/" + <%= @job.id.to_s %>,
-                type: "GET",
-                dataType: "script"
+                url:"/job_process/" + <%= @job.id.to_s %>,
+                type:"GET",
+                dataType:"script"
             });
 
         });

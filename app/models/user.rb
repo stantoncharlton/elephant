@@ -93,8 +93,16 @@ class User < ActiveRecord::Base
         JobProcessMailer.pre_job_data_complete(self, job).deliver
     end
 
+    def send_post_job_ready_email(job)
+        JobProcessMailer.post_job_data_complete(self, job).deliver
+    end
+
     def send_job_shipping_email(job)
         JobProcessMailer.ship_to_field(self, job).deliver
+    end
+
+    def send_job_completed_email(job)
+        JobProcessMailer.job_complete(self, job).deliver
     end
 
     def send_reset_password_email(password)

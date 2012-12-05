@@ -12,19 +12,27 @@ class JobMembership < ActiveRecord::Base
     validates :job_role_id, presence: true
 
 
+    OBSERVER = 1
+    SUPERVISOR = 2
+    COORDINATOR = 3
+    FIELD = 4
+    SHOP = 5
+    CREATOR = 6
+
+
     def role_title
        case self.job_role_id
-           when 1
+           when OBSERVER
                "Observer"
-           when 2
+           when SUPERVISOR
                "Supervisor"
-           when 3
+           when COORDINATOR
                "Coordinator"
-           when 4
+           when FIELD
                "Field"
-           when 5
+           when SHOP
                "Shop"
-           when 6
+           when CREATOR
                "Creator"
            else
                "-"

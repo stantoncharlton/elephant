@@ -6,33 +6,44 @@ class JobProcessController < ApplicationController
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
-        if !@job.job_data_good || @job.job_processes.select { |jp| jp.event_type == 1 }.any?
-             render :nothing => true, :status => :ok
+        if !@job.sent_pre_job_ready_email and !@job.pre_job_data_good
+            render :nothing => true, :status => :ok
+        elsif !@job.sent_post_job_ready_email and !@job.post_job_data_good
+            render :nothing => true, :status => :ok
+        elsif @job.approved_to_close
+            render :nothing => true, :status => :ok
         end
 
         @supervisor = @job.supervisor
         @creator = @job.creator
 
-        if !@job.sent_pre_job_ready_email
+        mail_to = nil
 
-            mail_to = nil
+        if !@supervisor.nil?
+            mail_to = @supervisor
+        end
 
-            if !@supervisor.nil?
-                mail_to = @supervisor
-            end
+        if @supervisor.nil? && !@creator.nil?
+            mail_to = @creator
+        end
 
-            if @supervisor.nil? && !@creator.nil?
-                mail_to = @creator
-            end
+        if !mail_to.nil?
+            if !@job.sent_pre_job_ready_email
 
-
-            if !mail_to.nil?
-                # Send email
                 mail_to.delay.send_pre_job_ready_email(@job)
 
                 JobProcess.record(current_user, @job, current_user.company, JobProcess::PRE_JOB_DATA_READY)
 
                 Alert.add(mail_to, Alert::PRE_JOB_DATA_READY, @job, current_user, @job)
+
+            elsif @job.approved_to_ship and @job.post_job_data_good and !@job.sent_post_job_ready_email
+
+                mail_to.delay.send_post_job_ready_email(@job)
+
+                JobProcess.record(current_user, @job, current_user.company, JobProcess::POST_JOB_DATA_READY)
+
+                Alert.add(mail_to, Alert::POST_JOB_DATA_READY, @job, current_user, @job)
+
             end
         end
 
@@ -40,12 +51,11 @@ class JobProcessController < ApplicationController
 
     def update
 
-        puts "...................update"
 
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
-        if !@job.job_data_good
+        if !@job.pre_job_data_good
             render :nothing => true, :status => :ok
         end
 
@@ -58,13 +68,27 @@ class JobProcessController < ApplicationController
 
         @user = current_user
 
-        @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
+        if @job.sent_post_job_ready_email
 
-        @job.participants.each do |participant|
-            participant.delay.send_job_shipping_email(@job)
+            @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
+
+            @job.participants.each do |participant|
+                participant.delay.send_job_completed_email(@job)
+            end
+
+            render 'job_process/close'
+
+        elsif @job.sent_pre_job_ready_email
+
+            @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
+
+            @job.participants.each do |participant|
+                participant.delay.send_job_shipping_email(@job)
+            end
+
+            render 'job_process/ship'
         end
 
-        render 'job_process/ship'
 
     end
 

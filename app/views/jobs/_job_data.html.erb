@@ -35,7 +35,7 @@
   <% job.dynamic_fields.select { |field| field.dynamic_field_template.priority? }.each do |dynamic_field| %>
       <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
 
-      <% if form_editable %>
+      <% if form_editable and !job.approved_to_close %>
           <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
                  value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
       <% else %>

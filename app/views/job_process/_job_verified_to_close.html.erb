@@ -1,0 +1,10 @@
+<br>
+
+
+<%= form_for "/job_process/" + job.id.to_s, :html => {class: "content inline", id: "job_ready_to_close", :method => :put}, remote: true do |f| %>
+
+
+    <%= f.submit "Approve and Close Job", class: "bluebtn green inline" %>
+    <p class="ship-comment">All Post-Job documents are correct and complete...</p>
+
+<% end %>

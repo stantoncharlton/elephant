@@ -21,6 +21,7 @@ class Alert < ActiveRecord::Base
     TASK_ASSIGNED = 2
     NEW_MESSAGE = 3
     PRE_JOB_DATA_READY = 4
+    POST_JOB_DATA_READY = 5
 
 
     def self.add(user, alert_type, target, created_by, job = nil)

@@ -1,0 +1,11 @@
+<div class="content job-process" id="job_closed_id">
+  <p class="activity-date"><%= job_process.created_at %></p>
+
+  <p class="job-approved-to-ship inline push-right">Job completed and closed</p>
+
+  <p class="inline">-</p>
+  <div class="inline">
+    <%= render 'activities/user', user: job_process.user %>
+  </div>
+
+</div>
