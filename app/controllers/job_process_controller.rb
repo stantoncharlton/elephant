@@ -8,7 +8,7 @@ class JobProcessController < ApplicationController
 
         if !@job.sent_pre_job_ready_email and !@job.pre_job_data_good
             render :nothing => true, :status => :ok
-        elsif !@job.sent_post_job_ready_email and !@job.post_job_data_good
+        elsif @job.approved_to_ship and !@job.sent_post_job_ready_email and !@job.post_job_data_good
             render :nothing => true, :status => :ok
         elsif @job.approved_to_close
             render :nothing => true, :status => :ok
@@ -62,7 +62,7 @@ class JobProcessController < ApplicationController
         @supervisor = @job.supervisor
         @creator = @job.creator
 
-        if !current_user?(@supervisor) || !current_user?(@creator)
+        if !current_user?(@supervisor) and !current_user?(@creator)
             render :nothing => true, :status => :ok
         end
 
@@ -72,7 +72,7 @@ class JobProcessController < ApplicationController
 
             @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
 
-            @job.participants.each do |participant|
+            @job.unique_participants.each do |participant|
                 participant.delay.send_job_completed_email(@job)
             end
 
@@ -82,7 +82,7 @@ class JobProcessController < ApplicationController
 
             @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
 
-            @job.participants.each do |participant|
+            @job.unique_participants.each do |participant|
                 participant.delay.send_job_shipping_email(@job)
             end
 

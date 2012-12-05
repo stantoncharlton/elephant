@@ -19,10 +19,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="job_process_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="job_process_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="36" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
+            <state line="78" column="54" selection-start="2389" selection-end="2389" vertical-scroll-proportion="0.52136755">
               <folding />
             </state>
           </provider>
@@ -31,7 +31,7 @@
       <file leaf-file-name="show.js.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_process/show.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="49" selection-start="484" selection-end="484" vertical-scroll-proportion="-6.4">
+            <state line="10" column="38" selection-start="484" selection-end="484" vertical-scroll-proportion="-6.4">
               <folding />
             </state>
           </provider>
@@ -49,16 +49,16 @@
       <file leaf-file-name="job.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/job.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="197" column="33" selection-start="5688" selection-end="5688" vertical-scroll-proportion="0.0">
+            <state line="26" column="33" selection-start="760" selection-end="779" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="133" column="40" selection-start="5190" selection-end="5190" vertical-scroll-proportion="0.56626505">
+            <state line="133" column="40" selection-start="5190" selection-end="5190" vertical-scroll-proportion="-15.04">
               <folding />
             </state>
           </provider>
@@ -105,12 +105,12 @@
         <option value="$PROJECT_DIR$/app/views/job_process/_job_closed.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process/show.js.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process/_job_verified_to_close.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/job_process_controller.rb" />
-        <option value="$PROJECT_DIR$/app/models/job.rb" />
         <option value="$PROJECT_DIR$/app/views/documents/_document.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/_job_data.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/_member.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/job.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/job_process_controller.rb" />
       </list>
     </option>
   </component>
@@ -1128,23 +1128,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/job_process.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="20" selection-start="242" selection-end="258" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_process/show.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="49" selection-start="484" selection-end="484" vertical-scroll-proportion="-6.4">
           <folding />
         </state>
       </provider>
@@ -1186,16 +1172,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="33" selection-start="5688" selection-end="5688" vertical-scroll-proportion="0.0">
+        <state line="133" column="40" selection-start="5190" selection-end="5190" vertical-scroll-proportion="-15.04">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/job_process/show.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="40" selection-start="5190" selection-end="5190" vertical-scroll-proportion="0.56626505">
+        <state line="10" column="38" selection-start="484" selection-end="484" vertical-scroll-proportion="-6.4">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="33" selection-start="760" selection-end="779" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="54" selection-start="2389" selection-end="2389" vertical-scroll-proportion="0.52136755">
           <folding />
         </state>
       </provider>
