@@ -6,12 +6,15 @@ class JobProcessController < ApplicationController
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
-        if !@job.sent_pre_job_ready_email and !@job.pre_job_data_good
+        if !@job.pre_job_data_good
             render :nothing => true, :status => :ok
+            return
         elsif @job.approved_to_ship and !@job.sent_post_job_ready_email and !@job.post_job_data_good
             render :nothing => true, :status => :ok
+            return
         elsif @job.approved_to_close
             render :nothing => true, :status => :ok
+            return
         end
 
         @supervisor = @job.supervisor
@@ -27,6 +30,8 @@ class JobProcessController < ApplicationController
             mail_to = @creator
         end
 
+        @sent_post_job_ready_email = @job.sent_post_job_ready_email
+
         if !mail_to.nil?
             if !@job.sent_pre_job_ready_email
 
@@ -37,6 +42,8 @@ class JobProcessController < ApplicationController
                 Alert.add(mail_to, Alert::PRE_JOB_DATA_READY, @job, current_user, @job)
 
             elsif @job.approved_to_ship and @job.post_job_data_good and !@job.sent_post_job_ready_email
+
+                @sent_post_job_ready_email = true
 
                 mail_to.delay.send_post_job_ready_email(@job)
 
@@ -76,6 +83,10 @@ class JobProcessController < ApplicationController
                 participant.delay.send_job_completed_email(@job)
             end
 
+            current_user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+                                      alert_type: Alert::POST_JOB_DATA_READY,
+                                      job_id: @job.id).each { |a| a.destroy }
+
             render 'job_process/close'
 
         elsif @job.sent_pre_job_ready_email
@@ -85,6 +96,11 @@ class JobProcessController < ApplicationController
             @job.unique_participants.each do |participant|
                 participant.delay.send_job_shipping_email(@job)
             end
+
+            current_user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+                                      alert_type: Alert::PRE_JOB_DATA_READY,
+                                      job_id: @job.id).each { |a| a.destroy }
+
 
             render 'job_process/ship'
         end

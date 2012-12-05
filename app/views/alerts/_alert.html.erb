@@ -17,6 +17,13 @@
         </div>
         <%= render 'jobs/job', job: alert.job %>
     <% end %>
+    <% if alert.alert_type == Alert::POST_JOB_DATA_READY %>
+        <div>
+          <%= image_tag "to_arrow.png" %>
+          <p class=" inline">Job is waiting for your approval to complete and close:</p>
+        </div>
+        <%= render 'jobs/job', job: alert.job %>
+    <% end %>
 
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>
         <div>
