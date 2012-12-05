@@ -9,7 +9,8 @@
       <div class="field">
         <h3 class="inline">Recipients</h3>
         <%= f.text_field :message_recipients, class: "txtfield inline",
-                autofocus: true, id: "message_recipients_tokens" %>
+                autofocus: true, id: "message_recipients_tokens",
+                "data-pre" => @recipients.map(&:attributes).to_json %>
       </div>
 
 

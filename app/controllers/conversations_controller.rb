@@ -21,6 +21,13 @@ class ConversationsController < ApplicationController
 
     def new
         @conversation = Conversation.new
+
+        @recipients = Array.new
+        user = User.find_by_id(params["to_user_id"])
+        if !user.nil? and user.company == current_user.company
+            @recipients << user
+        end
+
     end
 
     def create

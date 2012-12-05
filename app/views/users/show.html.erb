@@ -16,7 +16,7 @@
     <h3><%= @user.phone_number %></h3>
 
     <div class="message-box">
-      <%= link_to "SEND MESSAGE", new_user_path, class: "bluebtn" %>
+      <%= link_to "SEND MESSAGE", new_conversation_path(to_user_id: @user.id), class: "bluebtn" %>
     </div>
   </div>
 
