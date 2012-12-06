@@ -12,7 +12,7 @@ class SearchController < ApplicationController
         respond_to do |format|
             format.html do
                 if params[:search].present?
-                    @jobs = Job.search(params, current_user.company).results
+                    @jobs = Job.search(current_user, params, current_user.company).results
                 end
 
             end

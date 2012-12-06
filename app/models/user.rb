@@ -47,6 +47,7 @@ class User < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :district
+    belongs_to :product_line
     belongs_to :role, class_name: "UserRole"
 
     has_many :activities

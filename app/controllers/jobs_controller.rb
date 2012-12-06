@@ -22,6 +22,8 @@ class JobsController < ApplicationController
         @post_job_documents = @job.documents.select { |item| item.category == "Post-Job" }
 
         @activities = Activity.activities_for_job(@job).paginate(page: params[:page], limit: 10)
+
+        @job_editable = @job.is_job_editable?(current_user)
     end
 
     def new

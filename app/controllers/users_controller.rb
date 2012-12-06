@@ -47,6 +47,7 @@ class UsersController < ApplicationController
         not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
         @roles = current_user.company.roles
+        @product_lines = current_user.company.product_lines
     end
 
     def update
@@ -59,6 +60,7 @@ class UsersController < ApplicationController
                 @user.update_attribute(:phone_number, params[:user][:phone_number])
                 @user.update_attribute(:district_id, params[:user][:district_id])
                 @user.update_attribute(:role_id, params[:user][:role_id])
+                @user.update_attribute(:product_line_id, params[:user][:product_line_id])
 
                 Activity.add(self.current_user, Activity::USER_UPDATED, @user, @user.name)
                 flash[:success] = "User updated"
@@ -66,6 +68,7 @@ class UsersController < ApplicationController
             else
                 @districts = current_user.company.districts
                 @roles = @roles = current_user.company.roles
+                @product_lines = current_user.company.product_lines
                 render 'edit'
             end
         end
@@ -77,6 +80,7 @@ class UsersController < ApplicationController
         @user = User.new
         @districts = current_user.company.districts
         @roles = current_user.company.roles
+        @product_lines = current_user.company.product_lines
     end
 
     def create
@@ -86,11 +90,15 @@ class UsersController < ApplicationController
         role_id = params[:user][:role_id]
         params[:user].delete(:role_id)
 
+        product_line_id = params[:user][:product_line_id]
+        params[:user].delete(:product_line_id)
+
         @user = User.new(params[:user])
         @districts = current_user.company.districts
         @user.company = current_user.company
         @user.district = District.find_by_id(district_id)
         @user.role = UserRole.find_by_id(role_id)
+        @user.product_line = ProductLine.find_by_id(product_line_id)
         password = SecureRandom.urlsafe_base64[1..7]
         @user.password = password
         @user.password_confirmation = password
@@ -105,6 +113,7 @@ class UsersController < ApplicationController
         else
             @districts = current_user.company.districts
             @roles = @roles = current_user.company.roles
+            @product_lines = current_user.company.product_lines
             render 'new'
         end
     end

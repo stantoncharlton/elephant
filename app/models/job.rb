@@ -58,6 +58,15 @@ class Job < ActiveRecord::Base
         time :created_at
         time :updated_at
         integer :company_id
+        integer :district_id
+        integer :job_template_id
+        integer :product_line_id do
+            job_template.product_line.id
+        end
+
+        integer :job_membership, :multiple => true do
+            unique_participants.map { |u| u.id }
+        end
     end
 
 
@@ -93,9 +102,26 @@ class Job < ActiveRecord::Base
         where("jobs.client_id = :client_id", client_id: client.id).order("jobs.created_at DESC")
     end
 
-    def self.search(options, company)
+    def self.search(user, options, company)
+
         Sunspot.search(Job) do
             fulltext options[:search]
+            if !user.role.district_read? and !user.role.product_line_read? and !user.role.global_read?
+                with(:job_membership, user.id)
+            elsif !user.role.global_read? and user.role.district_read? and !user.role.product_line_read?
+                with(:district_id, user.district.id)
+            elsif !user.role.global_read? and user.role.district_read? and user.role.product_line_read?
+                any_of do
+                    with(:district_id, user.district.id)
+                    if !user.product_line.nil?
+                        with(:product_line_id, user.product_line.id)
+                    end
+                end
+            elsif !user.role.global_read? and !user.role.district_read? and user.role.product_line_read?
+                if !user.product_line.nil?
+                    with(:product_line_id, user.product_line.id)
+                end
+            end
             with(:company_id, company.id)
             order_by :created_at, :desc
             paginate :page => options[:page]
@@ -186,6 +212,10 @@ class Job < ActiveRecord::Base
         nil
     end
 
+    def user_is_member?(user)
+        !self.job_memberships.find { |jm| jm.user == user }.nil?
+    end
+
     def sent_pre_job_ready_email
         !self.job_processes.find { |jp| jp.event_type == JobProcess::PRE_JOB_DATA_READY }.nil?
     end
@@ -200,6 +230,20 @@ class Job < ActiveRecord::Base
 
     def approved_to_close
         !self.job_processes.find { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.nil?
+    end
+
+    def is_job_editable?(user)
+
+        if !self.user_is_member?(user)
+            if !user.role.district_modify? and self.district == current_user.district
+                return false
+
+            elsif !user.role.product_line_modify? and !user.product_line.nil? and self.job_template.product_line == user.product_line
+                return false
+            end
+        end
+
+        !self.approved_to_close
     end
 
 end

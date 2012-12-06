@@ -57,7 +57,6 @@
             </div>
 
 
-
             <%= form_tag search_index_path, :method => 'get', :id => "global_search_id", class: "inline" do %>
                 <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search" %>
             <% end %>

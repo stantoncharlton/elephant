@@ -27,6 +27,12 @@
                  prompt: "Select a Role..." %>
     <%= link_to "New", new_user_role_path, class: "bluebtn btnsmall" %>
   </div>
+  <div class="field stripe">
+    <%= f.label "Product Line", class: "field-title" %>
+    <%= f.select :product_line_id, @product_lines.collect { |p| [p.name, p.id] },
+                 id: "product_lines_list",
+                 prompt: "Select a Product Line..." %>
+  </div>
 
   <div class="field stripe">
     <%= f.text_field :location, placeholder: "Location", class: "txtfield" %>

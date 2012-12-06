@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121204004823) do
+ActiveRecord::Schema.define(:version => 20121206212945) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(:version => 20121204004823) do
     t.string   "remember_token"
     t.boolean  "create_password", :default => false
     t.integer  "role_id"
+    t.integer  "product_line_id"
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

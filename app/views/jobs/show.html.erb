@@ -1,5 +1,5 @@
 <div class="content">
-  <%= render 'job_data', job: @job, form_editable: true %>
+  <%= render 'job_data', job: @job, form_editable: @job_editable %>
 </div>
 
 <div class="content">
@@ -14,7 +14,7 @@
       <% end %>
     </ul>
 
-    <% if !@job.approved_to_close %>
+    <% if @job_editable %>
 
         <%= link_to "Add Member", new_job_membership_path, remote: true,
                     class: "add-job-member", id: "add_job_member" %>
@@ -44,7 +44,7 @@
       <% @job.dynamic_fields.each do |df| %>
           <% if !df.dynamic_field_template.priority? %>
               <p class="job-field-title"><%= df.dynamic_field_template.name %></p>
-              <% if !@job.approved_to_close %>
+              <% if @job_editable %>
                   <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
                          value="<%= df.value.present? ? df.value : "-" %>">
               <% else %>
@@ -69,7 +69,7 @@
 <div class="header">
   <h2>Documents</h2>
 
-  <% if !@job.approved_to_close %>
+  <% if @job_editable %>
       <div class="pull-right">
         <%= link_to "Add Custom Document", new_document_path(modal: true, job_id: @job.id),
                     remote: true,
@@ -106,7 +106,7 @@
 </div>
 <div class="content">
   <div class="field">
-    <% if !@job.approved_to_close %>
+    <% if @job_editable %>
         <%= form_for(@job_note, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
             <div class="new-product-line">
               <%= f.hidden_field :job_id, value: @job.id %>
