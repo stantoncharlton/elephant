@@ -1,5 +1,10 @@
 class SessionsController < ApplicationController
 
+    def new
+        flash[:error] = "Please login"
+        redirect_to root_path
+    end
+
     def create
 
         user = User.find_by_email(params[:session][:email].strip.downcase)

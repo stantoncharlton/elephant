@@ -235,7 +235,7 @@ class Job < ActiveRecord::Base
     def is_job_editable?(user)
 
         if !self.user_is_member?(user)
-            if !user.role.district_modify? and self.district == current_user.district
+            if !user.role.district_modify? and self.district == user.district
                 return false
 
             elsif !user.role.product_line_modify? and !user.product_line.nil? and self.job_template.product_line == user.product_line
@@ -244,6 +244,25 @@ class Job < ActiveRecord::Base
         end
 
         !self.approved_to_close
+    end
+
+    def can_user_view?(user)
+        if user.role.global_read?
+            return true
+        end
+
+        if !self.user_is_member?(user)
+
+            if user.role.district_read? and self.district == user.district
+                return true
+            elsif user.role.product_line_read? and !user.product_line.nil? and self.job_template.product_line == user.product_line
+                return true
+            end
+        else
+            return true
+        end
+
+        false
     end
 
 end
