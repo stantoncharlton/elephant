@@ -137,20 +137,20 @@
   padding: 5px 20px 5px 0px;
   margin-bottom: 10px;
   display: inline-block;
-  background: url(image_path('drop_arrow.png')) no-repeat center right;
+  background: url(image_path('more_drop_arrow.png')) no-repeat center right;
 
   &:active, &:link, &:visited {
     color: #0058a8;
     background: transparent;
     text-decoration: none;
-    background: url(image_path('drop_arrow.png')) no-repeat center right;
+    background: url(image_path('more_drop_arrow.png')) no-repeat center right;
   }
   &:hover {
     color: #000000;
     background: #deebf7;
     border-radius: 5px;
     text-decoration: none;
-    background: url(image_path('drop_arrow.png')) no-repeat center right;
+    background: url(image_path('more_drop_arrow.png')) no-repeat center right;
   }
 }
 
@@ -160,20 +160,20 @@
   padding: 5px 20px 5px 0px;
   margin-bottom: 10px;
   display: inline;
-  background: url(image_path('drop_arrow.png')) no-repeat center right;
+  background: url(image_path('more_drop_arrow.png')) no-repeat center right;
 
   &:active, &:link, &:visited {
     color: #0058a8;
     background: transparent;
     text-decoration: none;
-    background: url(image_path('drop_arrow.png')) no-repeat center right;
+    background: url(image_path('more_drop_arrow.png')) no-repeat center right;
   }
   &:hover {
     color: #000000;
     background: #deebf7;
     border-radius: 5px;
     text-decoration: none;
-    background: url(image_path('drop_arrow.png')) no-repeat center right;
+    background: url(image_path('more_drop_arrow.png')) no-repeat center right;
   }
 }
 
