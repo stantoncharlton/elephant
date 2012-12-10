@@ -25,3 +25,25 @@
   }
 }
 
+.edit-dynamic-field-name {
+  color: #0058a8;
+  font-size: 18px !important;
+  display: inline-block;
+  margin-right: 30px;
+  height: 35px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: underline;
+  }
+  &:hover {
+    background: transparent;
+    color: #273542;
+  }
+}
+

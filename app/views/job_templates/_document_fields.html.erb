@@ -6,6 +6,7 @@
 
       <%= f.text_field :name, placeholder: "Name of Document", class: "txtfield", id: "new_document_name" %>
       <%= f.select :document_type, options_for_select([["Document", "0"], ["Checklist", "1"]]) %>
+      <%= f.hidden_field :read_only, value: read_only %>
       <%= f.hidden_field :template, value: true %>
       <%= f.hidden_field :category, value: category_name %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>

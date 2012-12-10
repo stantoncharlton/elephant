@@ -7,17 +7,19 @@
 
         <div class="upload-controls inline">
           <div class="upload-document-container" id="file_uploads">
-            <% if !@job.approved_to_close %>
-                <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
-                <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
+            <% if !document.read_only? %>
+                <% if !@job || (@job and !@job.approved_to_close) %>
+                    <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
+                    <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
+                <% end %>
+                </div>
             <% end %>
-          </div>
 
 
-          <% if editable %>
-              <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"}, class: "delete-button" %>
-          <% end %>
-        </div>
+            <% if editable %>
+                <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"}, class: "delete-button" %>
+            <% end %>
+            </div>
 
     <% end %>
 

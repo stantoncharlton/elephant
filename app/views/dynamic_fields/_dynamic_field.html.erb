@@ -9,12 +9,14 @@
       <%= label_tag dynamic_field.value_type, nil, class: "" %>
     </div>
 
-    <%= label_tag "Important data", nil, class: "" %>
-    <%= check_box_tag "Important data", dynamic_field.priority, dynamic_field.priority %>
-
     <div class="push-right">
-    <%= link_to "remove", dynamic_field, method: :delete, remote: true, data: {confirm: "Remove Custom Field?"}, class: "delete-button" %>
+      <%= link_to "edit", edit_dynamic_field_path(dynamic_field), remote: true, class: "edit-dynamic-field-name" %>
+      <%= link_to "remove", dynamic_field, method: :delete, remote: true, data: {confirm: "Remove Custom Field?"}, class: "delete-button" %>
     </div>
+
+    <% if dynamic_field.priority %>
+        <%= label_tag "Shown in Summary", nil, class: "warning-text pull-right" %>
+    <% end %>
 
   </div>
 </fieldset>

@@ -1,5 +1,14 @@
+
+<% if !@dynamic_field.job.nil? %>
 $.ajax({
-    url: "/job_process/" + <%= @dynamic_field.job.id.to_s %>,
-    type: "GET",
-    dataType: "script"
+    url:"/job_process/" + <%= @dynamic_field.job.id.to_s %>,
+    type:"GET",
+    dataType:"script"
 });
+
+<% else %>
+
+$('#edit_dynamic_field_<%= @dynamic_field.id %>').remove();
+
+$('#dynamic_field_<%= @dynamic_field.id %>').replaceWith('<%= j render 'dynamic_fields/dynamic_field', dynamic_field: @dynamic_field %>');
+<% end %>

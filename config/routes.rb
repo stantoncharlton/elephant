@@ -40,7 +40,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :documents, only: [:new, :create, :update, :destroy]
 
-    resources :dynamic_fields, only: [:new, :create, :update, :destroy]
+    resources :dynamic_fields, only: [:new, :create, :edit, :update, :destroy]
 
     resources :activities, only: [:index]
 

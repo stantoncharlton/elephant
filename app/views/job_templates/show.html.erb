@@ -1,5 +1,20 @@
-<h1 class="page-title"><%= @job_template.product_line.name %> / <%= @job_template.name %></h1>
+<h1 class="page-title"><%= @job_template.name %></h1>
 
+<div class="content">
+  <div class="field">
+    <p class="field-title">Product Line</p>
+    <h3 class="inline"><%= @job_template.product_line.name %> </h3>
+  </div>
+  <div class="inline">
+    <p class="field-title">Category</p>
+    <h3 class="inline">Liner Hangers</h3>
+
+    <div class="inline push-right">
+      <p class="field-title">Subcategory</p>
+      <h3 class="inline">Expandables</h3>
+    </div>
+  </div>
+</div>
 
 
 <div class="header">
@@ -22,26 +37,39 @@
   <p class="header-subtitle">Document Templates</p>
 </div>
 
-<h3 class="document-section-header">Pre-Job</h3>
-<div class="content" id="documents">
-  <% @job_template.documents.select {|item| item.category == "Pre-Job" }.each do |d| %>
+
+<h3 class="document-section-header">Field Bulletins</h3>
+<div class="content" id="documents3">
+  <% @job_template.documents.select { |item| item.category == "Field Bulletins" }.each do |d| %>
       <%= render 'documents/document', document: d, editable: true %>
   <% end %>
 </div>
 
 <div class="content">
-  <%= render 'document_fields', category_name: "Pre-Job" %>
+  <%= render 'document_fields', category_name: "Field Bulletins", read_only: true %>
+</div>
+
+
+<h3 class="document-section-header">Pre-Job</h3>
+<div class="content" id="documents">
+  <% @job_template.documents.select { |item| item.category == "Pre-Job" }.each do |d| %>
+      <%= render 'documents/document', document: d, editable: true %>
+  <% end %>
+</div>
+
+<div class="content">
+  <%= render 'document_fields', category_name: "Pre-Job", read_only: false %>
 </div>
 
 <h3 class="document-section-header">Post-Job</h3>
 <div class="content" id="documents2">
-  <% @job_template.documents.select {|item| item.category == "Post-Job" }.each do |d| %>
+  <% @job_template.documents.select { |item| item.category == "Post-Job" }.each do |d| %>
       <%= render 'documents/document', document: d, editable: true %>
   <% end %>
 </div>
 
 <div class="content">
-  <%= render 'document_fields', category_name: "Post-Job" %>
+  <%= render 'document_fields', category_name: "Post-Job", read_only: false %>
 </div>
 
 

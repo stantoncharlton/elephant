@@ -25,12 +25,21 @@ class DynamicFieldsController < ApplicationController
 
     end
 
+    def edit
+        @dynamic_field = DynamicField.find(params[:id])
+        not_found unless @dynamic_field.company == current_user.company
+    end
+
     def update
         @dynamic_field = DynamicField.find(params[:id])
         not_found unless @dynamic_field.company == current_user.company
 
-        @dynamic_field.value = params[:value]
-        @dynamic_field.save
+        if @dynamic_field.template?
+            @dynamic_field.update_attributes(params[:dynamic_field])
+        else
+            @dynamic_field.value = params[:value]
+            @dynamic_field.save
+        end
     end
 
 

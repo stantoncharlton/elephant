@@ -4,7 +4,8 @@ class Document < ActiveRecord::Base
                     :status,
                     :document_type,
                     :template,
-                    :url
+                    :url,
+                    :read_only
 
 
     validates :name, presence: true, length: {maximum: 50}

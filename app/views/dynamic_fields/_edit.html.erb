@@ -1,0 +1,20 @@
+<div class="inline" id="edit_dynamic_field_<%= dynamic_field.id.to_s %>">
+  <%= form_for dynamic_field, remote: true do |f| %>
+
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <div class="inline-form">
+
+        <%= f.text_field :name, placeholder: "Name of Field", class: "txtfield small", id: "new_dynamic_field_name" %>
+        <%= f.select :value_type_conversion, options_for_select([["String", "to_s"], ["Number", "to_f"], ["Boolean", "to_b"]]) %>
+
+        <%= f.submit "Save", class: "bluebtn btnsmall" %>
+        <%= link_to "Cancel", "#", id: "cancel_edit", class: "bluebtn btnsmall red" %>
+
+
+        <%= f.label "Show in Summary", class: "push-right" %>
+        <%= f.check_box :priority %>
+
+      </div>
+  <% end %>
+</div>

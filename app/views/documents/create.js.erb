@@ -8,8 +8,10 @@ $('#alert').modal({show:true});
 
 <% if @document.category == "Pre-Job" %>
     $("#documents").append("<%= j render(@document, editable: true) %>");
-<% else %>
+<% elsif @document.category == "Post-Job" %>
     $("#documents2").append("<%= j render(@document, editable: true) %>");
+<% elsif @document.category == "Field Bulletins" %>
+    $("#documents3").append("<%= j render(@document, editable: true) %>");
 <% end %>
 
 $('#new_document_name').val('');
