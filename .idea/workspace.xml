@@ -55,10 +55,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_product_line.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_product_line.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/product_lines/_product_line.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="29" selection-start="838" selection-end="838" vertical-scroll-proportion="0.5233645">
+            <state line="21" column="29" selection-start="838" selection-end="838" vertical-scroll-proportion="-13.44">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job_template.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/models/job_template.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="64" selection-start="441" selection-end="441" vertical-scroll-proportion="0.28785607">
               <folding />
             </state>
           </provider>
@@ -104,7 +113,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/users/_fields.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/_header.html.erb" />
@@ -120,6 +128,7 @@
         <option value="$PROJECT_DIR$/app/views/product_lines/create.js.erb" />
         <option value="$PROJECT_DIR$/app/views/product_lines/_product_line.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss" />
+        <option value="$PROJECT_DIR$/app/models/job_template.rb" />
       </list>
     </option>
   </component>
@@ -1348,13 +1357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job_template.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/custom_delete.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="31" selection-start="869" selection-end="881" vertical-scroll-proportion="0.49411765">
@@ -1371,7 +1373,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/product_lines/_product_line.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="29" selection-start="838" selection-end="838" vertical-scroll-proportion="0.5233645">
+        <state line="21" column="29" selection-start="838" selection-end="838" vertical-scroll-proportion="-13.44">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job_template.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="64" selection-start="441" selection-end="441" vertical-scroll-proportion="0.28785607">
           <folding />
         </state>
       </provider>

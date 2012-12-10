@@ -5,7 +5,7 @@ class JobTemplate < ActiveRecord::Base
 
 
     validates :name, presence: true, length: {maximum: 50}
-    validates_uniqueness_of :name, :case_sensitive => false
+    validates_uniqueness_of :name, :case_sensitive => false, :scope => :product_line_id
     validates :company, presence: true
     validates :product_line, presence: true
 
