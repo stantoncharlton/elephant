@@ -1,3 +1,12 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+
+$ ->
+
+  if $('#job_field_id').val() == ''
+    $('#district_state_id').attr "disabled", "disabled"
+    $('#district_state_id').css "opacity", ".3"
+
+  $('#district_country_id').change ->
+    $('#district_state_id').removeAttr("disabled")
+    $('#district_state_id').css "opacity", "1"
+    $.ajax '/countries/' + $('#district_country_id').val(), dataType: 'script'

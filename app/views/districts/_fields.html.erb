@@ -12,7 +12,17 @@
   <div class="field stripe">
     <%= f.label :country_id, class: "field-title" %>
     <%= f.select :country_id, @countries.collect { |p| [p.name, p.id] },
-                prompt: "Select a Country..." %>
+                 prompt: "Select a Country..." %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.label :state_id, class: "field-title" %>
+    <%= f.select :state_id, @states.collect { |p| [p.name, p.id] },
+                 prompt: "Select a State..." %>
+
+    <div class="no-alerts inline">
+      <p class="inline push-right">(Optional)</p>
+    </div>
   </div>
 
 </div>

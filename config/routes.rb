@@ -34,6 +34,8 @@ ElephantWebApp::Application.routes.draw do
 
     resources :districts, only: [:index, :new, :create, :destroy, :show, :edit, :update]
 
+    resources :countries, only: [:show]
+
     resources :product_lines, only: [:index, :new, :create, :edit, :update, :destroy]
 
     resources :documents, only: [:new, :create, :update, :destroy]

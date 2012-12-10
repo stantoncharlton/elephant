@@ -8,6 +8,12 @@
       <p class="list-item-text list-item-column2">
         <%= district.country.name %>
       </p>
+
+      <p class="list-item-text list-item-column2">
+        <% if !district.state.nil? %>
+            <%= district.state.name %>
+        <% end %>
+      </p>
   <% end %>
 
 </li>

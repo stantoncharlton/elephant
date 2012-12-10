@@ -62,7 +62,12 @@ class DistrictsController < ApplicationController
         @company = current_user.company
 
         @countries = Country.all
-        @states = State.all
+
+        if @district.country.nil?
+            @states = State.all
+        else
+            @states = @district.country.states
+        end
     end
 
     def update
@@ -96,7 +101,6 @@ class DistrictsController < ApplicationController
         flash[:success] = "District destroyed."
         redirect_to districts_path
     end
-
 
 
 end
