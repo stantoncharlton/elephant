@@ -1,5 +1,8 @@
 $('#product_line_<%= @product_line.id %>_header').hide().after('<%= j render("edit_form")  %>');
 
+$('#product_line_<%= @product_line.id %>').find('.job-type-count').hide();
+
 $('#cancel_rename').click( function () {
     $('#product_line_<%= @product_line.id %>_header').show().next().remove();
+    $('#product_line_<%= @product_line.id %>').find('.job-type-count').show();
 });

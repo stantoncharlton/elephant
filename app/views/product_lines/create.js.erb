@@ -7,6 +7,6 @@ $('#alert').modal({show:true});
 
 $('#new_product_line').hide();
 $('#new_product_line_link').show();
-$('#product_lines').append($("<%= j render @product_line %>"));
+$('#product_lines').prepend($("<%= j render @product_line %>"));
 
 <% end %>

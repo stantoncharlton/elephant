@@ -3,7 +3,7 @@ class JobTemplatesController < ApplicationController
     set_tab :job_templates
 
     def index
-        @product_lines = ProductLine.from_company(current_user.company)
+        @product_lines = ProductLine.from_company(current_user.company).order("name ASC")
 
         @count = 0
         @product_lines.each do |product_line|

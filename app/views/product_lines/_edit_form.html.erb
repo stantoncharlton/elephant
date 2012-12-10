@@ -1,10 +1,10 @@
-<%= form_for @product_line, remote: true do |f| %>
+<%= form_for @product_line, html: { class: "inline" }, remote: true do |f| %>
 
     <div id="fieldset inline">
       <div class="field inline">
         <%= f.text_field :name, placeholder: "Product Line Name", value: @product_line.name, class: "txtfield" %>
         <%= f.submit "Save", class: "bluebtn btnsmall" %>
-        <%= link_to "Cancel", "#", class: "btn btn-danger", id: "cancel_rename" %>
+        <%= link_to "Cancel", "#", class: "bluebtn btnsmall red", id: "cancel_rename" %>
       </div>
     </div>
 

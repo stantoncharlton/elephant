@@ -246,11 +246,13 @@
 
 
 .modal-header {
-  height: 40px;
+  min-height: 40px;
+
 
   h2 {
     margin-top: 10px;
     margin-left: 7px;
+    margin-right: 20px;
     text-align: left;
     font-weight: bold;
   }
