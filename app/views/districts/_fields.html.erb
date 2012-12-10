@@ -27,3 +27,29 @@
 
 </div>
 
+<div class="header">
+  <h2>Contact Information</h2>
+</div>
+
+<div class="content">
+
+  <div class="field stripe">
+    <%= f.text_field :region, placeholder: "Region", class: "txtfield" %>
+  </div>
+
+  <div class="field stripe">
+    <%= f.text_field :address_line_1, placeholder: "Address", class: "txtfield" %>
+
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "txtfield small" %>
+    <%= f.text_field :postal_code, placeholder: "Postal Code", class: "txtfield small" %>
+  </div>
+  <div class="field stripe">
+    <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield small" %>
+    <%= f.text_field :support_email, placeholder: "Support Email", class: "txtfield small" %>
+
+  </div>
+
+</div>
+

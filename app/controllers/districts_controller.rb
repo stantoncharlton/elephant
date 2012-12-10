@@ -78,6 +78,13 @@ class DistrictsController < ApplicationController
         if @district.update_attribute(:name, params[:district][:name])
             @district.update_attribute(:country_id, params[:district][:country_id])
             @district.update_attribute(:state_id, params[:district][:state_id])
+            @district.update_attribute(:region, params[:district][:region])
+            @district.update_attribute(:address_line_1, params[:district][:address_line_1])
+            @district.update_attribute(:address_line_2, params[:district][:address_line_2])
+            @district.update_attribute(:postal_code, params[:district][:postal_code])
+            @district.update_attribute(:phone_number, params[:district][:phone_number])
+            @district.update_attribute(:support_email, params[:district][:support_email])
+
 
             Activity.add(self.current_user, Activity::DISTRICT_UPDATED, @district, @district.name)
 
