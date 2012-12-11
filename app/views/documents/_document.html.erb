@@ -7,7 +7,7 @@
 
         <div class="upload-controls inline">
           <div class="upload-document-container" id="file_uploads">
-            <% if !document.read_only? %>
+            <% if document.template? or !document.read_only? %>
                 <% if !@job || (@job and !@job.approved_to_close) %>
                     <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
                     <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>

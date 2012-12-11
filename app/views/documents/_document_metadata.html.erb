@@ -48,7 +48,7 @@
 
 
         <div class="document-file-name-box">
-          <% if !document.read_only? %>
+          <% if document.template? or !document.read_only? %>
               <% if !document.url.nil? %>
                   <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
               <% else %>
