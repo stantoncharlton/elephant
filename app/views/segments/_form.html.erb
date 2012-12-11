@@ -1,0 +1,12 @@
+<%= form_for @segment, html: { id: "new_segment_id_" + @segment.id.to_s, class: "content new-product-line" }, remote: true do |f| %>
+
+    <div class="new-product-line">
+        <%=  f.hidden_field :division_id, value: @segment.division.id %>
+        <%= f.text_field :name, placeholder: "New Segment Name", class: "txtfield", autofocus: true %>
+        <%= f.submit "Add", class: "bluebtn btnsmall" %>
+
+      <%= link_to "Cancel", "#", id: "cancel_segment_" + @segment.id.to_s, class: "bluebtn btnsmall red" %>
+
+    </div>
+
+<% end %>

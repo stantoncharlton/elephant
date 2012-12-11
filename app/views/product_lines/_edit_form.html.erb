@@ -2,9 +2,10 @@
 
     <div id="fieldset inline">
       <div class="field inline">
-        <%= f.text_field :name, placeholder: "Product Line Name", value: @product_line.name, class: "txtfield" %>
+        <%= f.text_field :name, placeholder: "Product Line Name", value: @product_line.name,
+                         class: "txtfield", autofocus: true %>
         <%= f.submit "Save", class: "bluebtn btnsmall" %>
-        <%= link_to "Cancel", "#", class: "bluebtn btnsmall red", id: "cancel_rename" %>
+        <%= link_to "Cancel", "#", class: "bluebtn btnsmall red", id: "cancel_rename_" + @product_line.id.to_s %>
       </div>
     </div>
 

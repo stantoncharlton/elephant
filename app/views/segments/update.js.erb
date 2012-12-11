@@ -1,0 +1,5 @@
+$('#segment_<%= @segment.id %>_header').html('<%= @segment.name %> <b class="caret"></b>');
+$('#segment_<%= @segment.id %>_header').show();
+$('#segment_<%= @segment.id %>_header').next().remove();
+
+$('#segment_<%= @segment.id %>').find('.job-type-count').show();

@@ -1,0 +1,44 @@
+
+
+.div-toggle-button {
+  position:relative;
+  width: 100%;
+  height: 100%;
+  color: #0058a8;
+  background: transparent;
+  margin: 0px;
+  padding: 0px;
+  display: block;
+
+  &:active, &:link, &:visited {
+    color: #0058a8;
+    background: transparent;
+    text-decoration: none;
+    background: url(image_path('more_drop_arrow_padding_right.png')) no-repeat center right;
+
+  }
+  &:hover {
+    color: #000000;
+    border-radius: 5px;
+    text-decoration: none;
+    background: #deebf7 url(image_path('more_drop_arrow_padding_right.png')) no-repeat center right;
+
+  }
+}
+
+
+.div-toggle-header-content {
+  position: relative;
+  display: inline-block;
+  top: -50px;
+}
+
+.div-expand-count {
+  padding: 0px;
+  margin: 0px;
+  padding-right: 30px;
+  display: inline;
+  font-style: italic;
+  color: #ababab;
+  pointer-events: none;
+}

@@ -4,6 +4,8 @@
 
 <div class="content">
 
+  <%= f.hidden_field :product_line_id, value: @job_template.product_line.id %>
+
   <div class="">
     <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: "Job Type Name" %>
   </div>

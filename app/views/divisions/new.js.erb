@@ -1,0 +1,7 @@
+$('#new_division_link').hide().after('<%= j render("form")  %>');
+
+$('#cancel_division').click( function () {
+
+    $('#new_division_id').remove();
+    $('#new_division_link').show();
+});

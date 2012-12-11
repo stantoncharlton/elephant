@@ -1,0 +1,14 @@
+<% provide(:title, 'Job Types') %>
+
+<div class="page_header">
+  <h1>Divisions</h1>
+
+  <h2><%= @divisions.count %></h2>
+
+  <%= link_to "Add New Division", new_division_path, remote: true,
+              class: "bluebtn page_header_button", id: "new_division_link" %>
+</div>
+
+<div id="divisions">
+  <%=  render @divisions %>
+</div>

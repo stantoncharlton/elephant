@@ -1,0 +1,8 @@
+$('#segment_<%= @segment.id %>_header').hide().after('<%= j render("edit_form")  %>');
+
+$('#segment_<%= @segment.id %>').find('.job-type-count').hide();
+
+$('#cancel_rename').click( function () {
+    $('#segment_<%= @segment.id %>_header').show().next().remove();
+    $('#segment_<%= @segment.id %>').find('.job-type-count').show();
+});

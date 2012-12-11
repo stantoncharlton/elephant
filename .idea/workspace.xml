@@ -19,55 +19,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dynamic_fields_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/dynamic_fields_controller.rb">
+      <file leaf-file-name="_product_line.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/product_lines/_product_line.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="12" selection-start="1133" selection-end="1133" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="118" column="0" selection-start="4256" selection-end="5385" vertical-scroll-proportion="-6.88">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/job_templates/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="82" selection-start="987" selection-end="987" vertical-scroll-proportion="0.72289157">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="job_templates.js.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_templates.js.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="63" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="job_templates_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/job_templates_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="13" selection-start="2813" selection-end="2813" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/job_templates/new.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="27" selection-start="303" selection-end="313" vertical-scroll-proportion="-7.04">
+            <state line="7" column="43" selection-start="215" selection-end="215" vertical-scroll-proportion="0.17445482">
               <folding />
             </state>
           </provider>
@@ -76,16 +31,79 @@
       <file leaf-file-name="job_templates.css.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="18" selection-start="1567" selection-end="1567" vertical-scroll-proportion="0.0">
+            <state line="29" column="0" selection-start="504" selection-end="637" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controls.css.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/controls.css.scss">
+      <file leaf-file-name="new.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/segments/new.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="124" column="11" selection-start="2102" selection-end="2102" vertical-scroll-proportion="0.0">
+            <state line="5" column="46" selection-start="265" selection-end="265" vertical-scroll-proportion="-3.2">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/segments/create.js.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="42" selection-start="402" selection-end="432" vertical-scroll-proportion="-6.4">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/product_lines/create.js.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="31" selection-start="525" selection-end="525" vertical-scroll-proportion="-7.04">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_segment.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/segments/_segment.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="45" selection-start="207" selection-end="268" vertical-scroll-proportion="-4.48">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_division.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/divisions/_division.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="103" selection-start="163" selection-end="265" vertical-scroll-proportion="-3.84">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="divisions.css.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="56" selection-start="697" selection-end="697" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="divisions.js.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="40" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.css.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="267" column="47" selection-start="3904" selection-end="3904" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -104,22 +122,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/dynamic_fields/update.js.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/dynamic_fields_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/documents/_document.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/document.css.scss" />
-        <option value="$PROJECT_DIR$/app/views/documents/_document_metadata.html.erb" />
-        <option value="$PROJECT_DIR$/db/migrate/20121211164322_add_description_to_job_templates.rb" />
-        <option value="$PROJECT_DIR$/app/models/job_template.rb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/controls.css.scss" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss" />
-        <option value="$PROJECT_DIR$/app/views/job_templates/_fields.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_templates/new.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/layouts/_admin_tab.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/product_lines/_form.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/product_lines/_edit_form.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/job_templates_controller.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/job_templates.js.coffee" />
+        <option value="$PROJECT_DIR$/app/views/job_templates/_fields.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_templates/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee" />
+        <option value="$PROJECT_DIR$/app/views/segments/new.js.erb" />
+        <option value="$PROJECT_DIR$/app/views/segments/create.js.erb" />
+        <option value="$PROJECT_DIR$/app/views/product_lines/create.js.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/segments/_segment.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/divisions/_division.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/product_lines/_product_line.html.erb" />
       </list>
     </option>
   </component>
@@ -445,6 +463,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="segments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="product_lines" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -644,6 +684,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="documents" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="divisions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -988,11 +1050,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/segments" />
+      <recent name="$PROJECT_DIR$/app/views/divisions" />
       <recent name="$PROJECT_DIR$/app/views/job_process" />
       <recent name="$PROJECT_DIR$/app/views/job_process_mailer" />
       <recent name="$PROJECT_DIR$/app/views/documents" />
-      <recent name="$PROJECT_DIR$/app/views/layouts" />
-      <recent name="$PROJECT_DIR$/app/views/product_lines" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public" />
@@ -1330,114 +1392,114 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/conversations.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/views/product_lines/_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="5" column="23" selection-start="279" selection-end="279" vertical-scroll-proportion="-3.2">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/controls.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="11" selection-start="2102" selection-end="2102" vertical-scroll-proportion="0.0">
+        <state line="20" column="18" selection-start="539" selection-end="562" vertical-scroll-proportion="0.36129034">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="0" selection-start="4256" selection-end="5385" vertical-scroll-proportion="-6.88">
+        <state line="53" column="67" selection-start="2224" selection-end="2224" vertical-scroll-proportion="1.3208723">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_notes.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="3" selection-end="94" vertical-scroll-proportion="0.11059908">
+        <state line="162" column="76" selection-start="3016" selection-end="3093" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/controls.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="18" selection-start="1567" selection-end="1567" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/documents/_document.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="29" selection-start="767" selection-end="767" vertical-scroll-proportion="-8.32">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/document.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="0" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_templates/_fields.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="14" selection-start="110" selection-end="110" vertical-scroll-proportion="-3.84">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_templates/new.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="27" selection-start="303" selection-end="313" vertical-scroll-proportion="-7.04">
+        <state line="133" column="12" selection-start="2210" selection-end="2210" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="2" selection-start="1604" selection-end="1604" vertical-scroll-proportion="0.0">
+        <state line="128" column="12" selection-start="1614" selection-end="1614" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/_admin_tab.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="36" selection-start="227" selection-end="227" vertical-scroll-proportion="-1.92">
+        <state line="267" column="47" selection-start="3904" selection-end="3904" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/dynamic_fields.css.scss">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="20" selection-start="575" selection-end="575" vertical-scroll-proportion="0.0">
+        <state line="10" column="40" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/views/segments/create.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="7" selection-start="219" selection-end="227" vertical-scroll-proportion="0.2167043">
+        <state line="10" column="42" selection-start="402" selection-end="432" vertical-scroll-proportion="-6.4">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/job_templates_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/product_lines/create.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="13" selection-start="2813" selection-end="2813" vertical-scroll-proportion="0.0">
+        <state line="11" column="31" selection-start="525" selection-end="525" vertical-scroll-proportion="-7.04">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_templates.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/views/segments/new.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="63" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0">
+        <state line="5" column="46" selection-start="265" selection-end="265" vertical-scroll-proportion="-3.2">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_templates/show.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="82" selection-start="987" selection-end="987" vertical-scroll-proportion="0.72289157">
+        <state line="29" column="0" selection-start="504" selection-end="637" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="56" selection-start="697" selection-end="697" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/segments/_segment.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="45" selection-start="207" selection-end="268" vertical-scroll-proportion="-4.48">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/divisions/_division.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="103" selection-start="163" selection-end="265" vertical-scroll-proportion="-3.84">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/product_lines/_product_line.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="43" selection-start="215" selection-end="215" vertical-scroll-proportion="0.17445482">
           <folding />
         </state>
       </provider>

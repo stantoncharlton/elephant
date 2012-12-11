@@ -1,8 +1,13 @@
 <%= form_for @product_line, remote: true, class: "new-product-line" do |f| %>
 
     <div class="new-product-line">
-        <%= f.text_field :name, placeholder: "New Product Line Name", class: "txtfield", autofocus: true %>
+      <%=  f.hidden_field :segment_id, value: @product_line.segment.id %>
+      <%= f.text_field :name, placeholder: "New Product Line Name",
+                       class: "txtfield", autofocus: true %>
         <%= f.submit "Add", class: "bluebtn btnsmall" %>
+
+      <%= link_to "Cancel", "#", id: "cancel_product_line_" + @product_line.id.to_s, class: "bluebtn btnsmall red" %>
+
     </div>
 
 

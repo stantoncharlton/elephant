@@ -28,10 +28,12 @@
 }
 
 .job-type-count {
-  margin-left: 25px;
+  padding: 0px;
+  margin: 0px;
   display: inline;
   font-style: italic;
   color: #ababab;
+  pointer-events: none;
 }
 
 .job-template {

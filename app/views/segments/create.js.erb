@@ -1,0 +1,13 @@
+<% if @segment.new_record? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Segment", message: @segment.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
+$('#new_segment_id_<%= @segment.id %>').remove();
+$('#new_segment_link_<%= @segment.division.id %>').show();
+
+$('#segments_<%= @segment.division.id %>').find('.indent-content:first').prepend($("<%= j render @segment %>"));
+
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121211164322) do
+ActiveRecord::Schema.define(:version => 20121211182721) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -139,6 +139,15 @@ ActiveRecord::Schema.define(:version => 20121211164322) do
   add_index "districts", ["company_id"], :name => "index_districts_on_company_id"
   add_index "districts", ["country_id"], :name => "index_districts_on_country_id"
   add_index "districts", ["state_id"], :name => "index_districts_on_state_id"
+
+  create_table "divisions", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "divisions", ["company_id"], :name => "index_divisions_on_company_id"
 
   create_table "documents", :force => true do |t|
     t.integer  "job_template_id"
@@ -293,9 +302,21 @@ ActiveRecord::Schema.define(:version => 20121211164322) do
     t.integer  "company_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "segment_id"
   end
 
   add_index "product_lines", ["company_id"], :name => "index_product_lines_on_company_id"
+
+  create_table "segments", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.integer  "division_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "segments", ["company_id"], :name => "index_segments_on_company_id"
+  add_index "segments", ["division_id"], :name => "index_segments_on_division_id"
 
   create_table "states", :force => true do |t|
     t.string   "iso"

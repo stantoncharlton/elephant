@@ -1,32 +1,41 @@
-<div id="product_line_<%= product_line.id %>">
+<div id="product_line_<%= product_line.id %>" class="div-expand-root">
 
 
   <div class="header product-line">
-    <div class="dropdown"> <!-- btn-group -->
 
-      <a href="#" class="btn dropdown-toggle product-line-header" data-toggle="dropdown"
-         id="product_line_<%= product_line.id %>_header">
-        <%= product_line.name %> <b class="caret"></b>
-      </a>
+    <a href="#" class="div-expand-toggle div-toggle-button">
 
-      <ul class="dropdown-menu" role="menu">
-        <li><%= link_to "Rename", edit_product_line_path(product_line), remote: true %></li>
-        <li><%= link_to "Delete", product_line, method: :delete, remote: true, data: {confirm: "Delete Entire Product Line '" + product_line.name + "' and all jobs belonging to this line? This can't be undone."} %></li>
-      </ul>
+      <p class="div-expand-count pull-right"><%= pluralize(product_line.job_templates.count, "job type") %></p>
 
-      <p class="job-type-count"><%= pluralize(product_line.job_templates.count, "job type") %></p>
 
-    </div>
+      <div class="dropdown div-toggle-header-content">
+
+        <a href="#" class="btn dropdown-toggle product-line-header" data-toggle="dropdown"
+           id="product_line_<%= product_line.id %>_header">
+          <%= product_line.name %> <b class="caret"></b>
+        </a>
+
+        <ul class="dropdown-menu" role="menu">
+          <li><%= link_to "Rename", edit_product_line_path(product_line), remote: true %></li>
+          <li><%= link_to "Delete", product_line, method: :delete, remote: true, data: {confirm: "Delete Entire Product Line '" + product_line.name + "' and all jobs belonging to this line? This can't be undone."} %></li>
+        </ul>
+
+
+      </div>
+
+    </a>
 
 
   </div>
 
 
-  <div>
-    <%= render product_line.job_templates %>
+  <div id="job_templates_<%= product_line.id %>" class="div-toggle-content indent-content-container hidden">
+    <div class="indent-content">
+      <%= render product_line.job_templates %>
+    </div>
 
-
-    <%= link_to "Add Job Type", new_job_template_path(product_line: product_line),
+    <%= link_to "Add Job Type",
+                new_job_template_path(product_line: product_line),
                 class: "add-button" %>
 
   </div>

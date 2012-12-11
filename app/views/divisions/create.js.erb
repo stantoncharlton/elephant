@@ -1,0 +1,13 @@
+<% if @division.new_record? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Division", message: @division.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
+$('#new_division_id').remove();
+$('#new_division_link').show();
+
+$('#divisions').prepend($("<%= j render @division %>"));
+
+<% end %>

@@ -1,0 +1,44 @@
+<div id="division_<%= division.id %>" class="div-expand-root">
+
+  <div class="header product-line">
+
+    <a href="#" class="div-expand-toggle div-toggle-button">
+
+      <p class="div-expand-count pull-right"><%= pluralize(division.segments.count, "segment") %></p>
+
+
+      <div class="dropdown div-toggle-header-content">
+
+        <a href="#" class="btn dropdown-toggle product-line-header" data-toggle="dropdown"
+           id="division_<%= division.id %>_header">
+          <%= division.name %> <b class="caret"></b>
+        </a>
+
+        <ul class="dropdown-menu" role="menu">
+          <li><%= link_to "Rename", edit_division_path(division), remote: true %></li>
+          <li><%= link_to "Delete", division, method: :delete, remote: true, data: {confirm: "Delete Division?"} %></li>
+        </ul>
+
+
+      </div>
+
+    </a>
+
+
+  </div>
+
+
+  <div id="segments_<%= division.id %>" class="div-toggle-content indent-content-container hidden">
+
+    <div class="indent-content">
+      <%= render division.segments %>
+    </div>
+
+    <%= link_to "Add Segment", new_segment_path(division: division),
+                remote: true,
+                class: "add-button",
+                id: "new_segment_link_" + division.id.to_s %>
+
+  </div>
+
+</div>

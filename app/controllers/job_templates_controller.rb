@@ -35,15 +35,16 @@ class JobTemplatesController < ApplicationController
 
     def create
 
-        product_line_id = params[:job_template][:product_line_id]
+        product_line = ProductLine.find_by_id(params[:job_template][:product_line_id])
         params[:job_template].delete(:product_line_id)
+        not_found unless product_line.company == current_user.company
 
         @job_template = JobTemplate.new(params[:job_template])
 
         @fields = params[:job_template][:dynamic_fields]
 
         @job_template.company = current_user.company
-        @job_template.product_line = ProductLine.find(product_line_id)
+        @job_template.product_line = product_line
 
         if @job_template.save
 

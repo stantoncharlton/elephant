@@ -5,8 +5,8 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-$('#new_product_line').hide();
-$('#new_product_line_link').show();
-$('#product_lines').prepend($("<%= j render @product_line %>"));
+$('#new_product_line_<%= @product_line.id %>').hide();
+$('#new_product_line_link_<%= @product_line.segment.id %>').show();
+$('#product_lines_<%= @product_line.segment.id %>').find('.indent-content:first').prepend($("<%= j render @product_line %>"));
 
 <% end %>
