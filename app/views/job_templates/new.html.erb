@@ -4,6 +4,22 @@
 
     <%= render 'shared/error_messages', object: f.object %>
 
+    <div>
+      <div class="field">
+        <p class="field-title">Division</p>
+        <h3 class="inline">Liner Hangers</h3>
+
+        <div class="inline push-right">
+          <p class="field-title">Segment</p>
+          <h3 class="inline">Expandables</h3>
+        </div>
+      </div>
+      <div class="field">
+        <p class="field-title">Product Line</p>
+        <h3 class="inline"><%= @job_template.product_line.name %> </h3>
+      </div>
+    </div>
+
     <%= render 'fields', f: f %>
 
 

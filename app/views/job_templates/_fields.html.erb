@@ -4,16 +4,14 @@
 
 <div class="content">
 
-  <div class="field">
+  <div class="">
     <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: "Job Type Name" %>
   </div>
 
-  <div class="field">
-    <%= f.label :product_line_id, class: "field-title" %>
-    <%= f.select :product_line_id, @product_lines.collect { |p| [p.name, p.id] },
-                 value: @job_template.product_line %>
-
-    <%= link_to "New", new_district_path, class: "bluebtn btnsmall" %>
+  <div class="">
+    <%= f.text_area :description,
+                    placeholder: "Type description/special notes here...",
+                    class: "txtfield job-description-text", autofocus: false %>
   </div>
 
 </div>

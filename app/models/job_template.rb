@@ -1,7 +1,8 @@
 class JobTemplate < ActiveRecord::Base
     attr_accessible :name,
                     :dynamic_fields_attributes,
-                    :documents_attributes
+                    :documents_attributes,
+                    :description
 
 
     validates :name, presence: true, length: {maximum: 50}

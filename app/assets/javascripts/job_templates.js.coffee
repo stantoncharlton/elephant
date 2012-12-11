@@ -1,6 +1,13 @@
 
 $ ->
 
+  $('.job-template-name').change ->
+    $(this).closest('form').submit()
+
+  $('.job-template-description').change ->
+    $(this).closest('form').submit()
+
+
   $('form').on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
     $(this).closest('fieldset').hide()

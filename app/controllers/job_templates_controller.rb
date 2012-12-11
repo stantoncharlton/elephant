@@ -82,11 +82,13 @@ class JobTemplatesController < ApplicationController
         @documents = params[:job_template][:document_fields]
 
         @job_template.company = current_user.company
-        @job_template.product_line = ProductLine.find(product_line_id)
+        if product_line_id.present?
+            @job_template.product_line = ProductLine.find(product_line_id)
+        end
 
         if @job_template.update_attributes(params[:job_template])
 
-            Activity.add(self.current_user, Activity::JOB_TEMPLATE_UPDATED, @job_template, @job_template.name)
+            #Activity.add(self.current_user, Activity::JOB_TEMPLATE_UPDATED, @job_template, @job_template.name)
 
             flash[:success] = "Job Template updated"
             redirect_to job_templates_path
