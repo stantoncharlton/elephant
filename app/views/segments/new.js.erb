@@ -2,6 +2,6 @@ $('#new_segment_link_<%= @segment.division.id %>').hide().after('<%= j render("f
 
 $('#cancel_segment_<%= @segment.division.id %>').click( function () {
 
-    $('#new_segment_id_<%= @segment.id %>').remove();
+    $('#new_segment_id_<%= @segment.division.id %>').remove();
     $('#new_segment_link_<%= @segment.division.id %>').show();
 });

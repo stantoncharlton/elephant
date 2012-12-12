@@ -5,7 +5,7 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-$('#new_segment_id_<%= @segment.id %>').remove();
+$('#new_segment_id_<%= @segment.division.id %>').remove();
 $('#new_segment_link_<%= @segment.division.id %>').show();
 
 $('#segments_<%= @segment.division.id %>').find('.indent-content:first').prepend($("<%= j render @segment %>"));

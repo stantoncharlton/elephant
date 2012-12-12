@@ -1,4 +1,4 @@
-<%= form_for @product_line, remote: true, class: "new-product-line" do |f| %>
+<%= form_for @product_line, remote: true, html: { id: "new_product_line_id_" + @product_line.segment.id.to_s, class: "content new-product-line push-right" } do |f| %>
 
     <div class="new-product-line">
       <%=  f.hidden_field :segment_id, value: @product_line.segment.id %>
@@ -6,7 +6,7 @@
                        class: "txtfield", autofocus: true %>
         <%= f.submit "Add", class: "bluebtn btnsmall" %>
 
-      <%= link_to "Cancel", "#", id: "cancel_product_line_" + @product_line.id.to_s, class: "bluebtn btnsmall red" %>
+      <%= link_to "Cancel", "#", id: "cancel_product_line_" + @product_line.segment.id.to_s, class: "bluebtn btnsmall red" %>
 
     </div>
 
