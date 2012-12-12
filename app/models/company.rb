@@ -11,6 +11,8 @@ class Company < ActiveRecord::Base
     has_many :clients, dependent: :destroy
     has_many :fields, dependent: :destroy
     has_many :wells, dependent: :destroy
+    has_many :divisions, dependent: :destroy
+    has_many :segments, dependent: :destroy
     has_many :product_lines, dependent: :destroy
     has_many :job_templates, dependent: :destroy
 

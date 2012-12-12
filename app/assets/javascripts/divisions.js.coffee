@@ -9,3 +9,5 @@ $ ->
       content.css "display", "block"
     else
       content.css "display", "none"
+
+    return false

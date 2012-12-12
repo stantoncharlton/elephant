@@ -46,13 +46,45 @@
 </div>
 
 <div class="">
-  <p class="job-field-title">Type</p>
+  <p class="job-field-title">Division</p>
 
-  <div class="job-field-value">
-    <h3 class="inline"><%= job.job_template.product_line.name %></h3>
-    | <h3 class="inline"><%= job.job_template.name %></h3>
-  </div>
+  <% if form_editable %>
+      <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division, class: "job-field-value job-field-value-link" %>
+  <% else %>
+      <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
+  <% end %>
+
+  <p class="job-field-title">Segment</p>
+
+  <% if form_editable %>
+      <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment, class: "job-field-value job-field-value-link" %>
+  <% else %>
+      <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
+  <% end %>
 </div>
+
+<div class="">
+  <p class="job-field-title">Product Line</p>
+
+  <% if form_editable %>
+      <h3 class="inline">
+      <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link" %>
+      </h3>
+  <% else %>
+      <h3 class="job-field-value"><%= job.job_template.product_line.name %></h3>
+  <% end %>
+
+  <p class="job-field-title">Job Type</p>
+
+  <% if form_editable %>
+      <h3 class="inline">
+      <%= link_to job.job_template.name, job.job_template, class: "job-field-value job-field-value-link" %>
+          </h3>
+  <% else %>
+      <h3 class="job-field-value"><%= job.job_template.name %></h3>
+  <% end %>
+</div>
+
 
 <div class="">
   <% job.dynamic_fields.select { |field| field.dynamic_field_template.priority? }.each do |dynamic_field| %>

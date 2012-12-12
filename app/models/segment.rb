@@ -9,7 +9,7 @@ class Segment < ActiveRecord::Base
   belongs_to :division
   belongs_to :company
 
-  has_many :product_lines, dependent: :destroy
+  has_many :product_lines, dependent: :destroy, order: "name ASC"
 
 
   def self.from_company(company)

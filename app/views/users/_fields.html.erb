@@ -29,9 +29,17 @@
   </div>
   <div class="field stripe">
     <%= f.label "Product Line", class: "field-title" %>
-    <%= f.select :product_line_id, @product_lines.collect { |p| [p.name, p.id] },
-                 id: "product_lines_list",
-                 prompt: "Select a Product Line..." %>
+
+    <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] },  !@division.nil? ? @division.id : nil),
+                   prompt: "Select a Division...", id: "job_division_id" %>
+
+    <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, !@segment.nil? ? @segment.id : nil),
+                   prompt: "Select a Segment...", id: "job_segment_id" %>
+
+    <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, !@product_line.nil? ? @product_line.id : nil),
+                 name: "user[product_line_id]",
+                 prompt: "Select a Product Line....", id: "job_product_line_id" %>
+
   </div>
 
   <div class="field stripe">

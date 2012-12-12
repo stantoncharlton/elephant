@@ -1,5 +1,6 @@
 class JobTemplatesController < ApplicationController
-    before_filter :signed_in_admin, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+    before_filter :signed_in_admin, only: [:index, :new, :create, :edit, :update, :destroy]
+    before_filter :signed_in_user, only: [:show]
     set_tab :job_templates
 
     def index

@@ -5,7 +5,13 @@ class SegmentsController < ApplicationController
     respond_to :js
 
     def index
-        @segments = Segment.from_company(current_user.company)
+        if params[:segment_id].present?
+            @segment = Segment.find_by_id(params[:segment_id])
+            not_found unless @segment.company == current_user.company
+        else
+            @segments = Segment.from_company(current_user.company).order("name ASC")
+        end
+
     end
 
     def new

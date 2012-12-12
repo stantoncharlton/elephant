@@ -7,7 +7,7 @@ class Division < ActiveRecord::Base
 
     belongs_to :company
 
-    has_many :segments, dependent: :destroy
+    has_many :segments, dependent: :destroy, order: "name ASC"
 
 
     def self.from_company(company)

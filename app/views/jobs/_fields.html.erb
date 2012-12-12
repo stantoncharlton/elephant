@@ -1,19 +1,39 @@
 <%= render 'shared/error_messages', object: f.object %>
 
 <div class="header">
+  <h2>Job Type</h2>
+</div>
+
+<div class="content">
+  <div class="">
+
+    <p class="help-text">Select the job type beginning with division, segment and product line...</p><br>
+
+    <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }),
+                   prompt: "Select a Division...", id: "job_division_id" %>
+
+    <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }),
+                   prompt: "Select a Segment...", id: "job_segment_id" %>
+
+    <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }),
+                   prompt: "Select a Product Line...", id: "job_product_line_id" %>
+
+    <%= f.select :job_template_id, @job_templates.collect { |p| [p.name, p.id] },
+                 prompt: "Select a Job Type..." %>
+
+    <div id="job_description" class="content">
+
+    </div>
+
+  </div>
+</div>
+
+<div class="header">
   <h2>Required Information</h2>
 </div>
 
 <div class="content">
 
-  <div class="field stripe">
-    <%= f.label "Job Type", class: "field-title" %>
-    <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }),
-        prompt: "Select a Product Line...", id: "job_product_line_id" %>
-
-    <%= f.select :job_template_id, @job_templates.collect { |p| [p.name, p.id] },
-                 prompt: "Select a Type..."%>
-  </div>
 
   <div class="field stripe">
     <%= f.label :client_id, class: "field-title" %>

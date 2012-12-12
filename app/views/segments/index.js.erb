@@ -1,0 +1,15 @@
+$('#job_product_line_id').find('option').remove();
+
+$('<option>').val('-1').text('Select a Segment...').appendTo('#job_product_line_id');
+
+<% @segment.product_lines.each do |s| %>
+    $('<option>').val('<%= s.id %>').text('<%= s.name %>').appendTo('#job_product_line_id');
+<% end %>
+
+<% if @segment.product_lines.count == 0 %>
+    $('#job_product_line_id').attr("disabled", "disabled");
+    $('#job_product_line_id').css("opacity", ".3");
+<% else %>
+    $('#job_product_line_id').removeAttr("disabled");
+    $('#job_product_line_id').css("opacity", "1");
+<% end %>

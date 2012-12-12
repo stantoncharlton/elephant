@@ -9,7 +9,7 @@ class ProductLine < ActiveRecord::Base
     belongs_to :segment
     belongs_to :company
 
-    has_many :job_templates, dependent: :destroy
+    has_many :job_templates, dependent: :destroy, order: "name ASC"
 
 
     def self.from_company(company)

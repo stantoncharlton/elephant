@@ -4,7 +4,12 @@ class DivisionsController < ApplicationController
     set_tab :job_templates
 
     def index
-        @divisions = Division.from_company(current_user.company).order("name ASC")
+        if params[:division_id].present?
+            @division = Division.find_by_id(params[:division_id])
+            not_found unless @division.company == current_user.company
+        else
+            @divisions = Division.from_company(current_user.company).order("name ASC")
+        end
     end
 
     def new

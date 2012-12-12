@@ -46,8 +46,22 @@ class UsersController < ApplicationController
         @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
-        @roles = current_user.company.roles
-        @product_lines = current_user.company.product_lines
+        @roles = @roles = current_user.company.roles
+
+        @divisions = current_user.company.divisions
+
+        if !@user.product_line.nil?
+            @segments = @user.product_line.segment.division.segments
+            @product_lines = @user.product_line.segment.product_lines
+
+            @product_line = @user.product_line
+            @segment =  @user.product_line.segment
+            @division = @user.product_line.segment.division
+        else
+            @segments = Array.new
+            @product_lines = Array.new
+        end
+
     end
 
     def update
@@ -80,7 +94,9 @@ class UsersController < ApplicationController
         @user = User.new
         @districts = current_user.company.districts
         @roles = current_user.company.roles
-        @product_lines = current_user.company.product_lines
+        @divisions = current_user.company.divisions
+        @segments = Array.new
+        @product_lines = Array.new
     end
 
     def create
@@ -113,7 +129,9 @@ class UsersController < ApplicationController
         else
             @districts = current_user.company.districts
             @roles = @roles = current_user.company.roles
-            @product_lines = current_user.company.product_lines
+            @divisions = current_user.company.divisions
+            @segments = Array.new
+            @product_lines = Array.new
             render 'new'
         end
     end

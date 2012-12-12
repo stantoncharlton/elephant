@@ -31,8 +31,52 @@ $ ->
   $('#job_well_id').attr "disabled", "disabled"
   $('#job_well_id').css "opacity", ".3"
 
-  $('#job_job_template_id').attr "disabled", "disabled"
-  $('#job_job_template_id').css "opacity", ".3"
+  if $('#job_segment_id').val() == ""
+    $('#job_segment_id').attr "disabled", "disabled"
+    $('#job_segment_id').css "opacity", ".3"
+
+  if $('#job_product_line_id').val() == ""
+    $('#job_product_line_id').attr "disabled", "disabled"
+    $('#job_product_line_id').css "opacity", ".3"
+
+  if $('#job_job_template_id').val() == ""
+    $('#job_job_template_id').attr "disabled", "disabled"
+    $('#job_job_template_id').css "opacity", ".3"
+
+  $('#job_division_id').change ->
+    $('#job_segment_id').attr "disabled", "disabled"
+    $('#job_segment_id').css "opacity", ".3"
+    $('#job_product_line_id').attr "disabled", "disabled"
+    $('#job_product_line_id').css "opacity", ".3"
+    $('#job_job_template_id').attr "disabled", "disabled"
+    $('#job_job_template_id').css "opacity", ".3"
+    $('#job_description').empty()
+
+    if $('#job_division_id').val() != ''
+      $.ajax '/divisions?division_id=' + $('#job_division_id').val(), dataType: 'script'
+
+  $('#job_segment_id').change ->
+    $('#job_product_line_id').attr "disabled", "disabled"
+    $('#job_product_line_id').css "opacity", ".3"
+    $('#job_job_template_id').attr "disabled", "disabled"
+    $('#job_job_template_id').css "opacity", ".3"
+    $('#job_description').empty()
+
+    if $('#job_segment_id').val() != ''
+      $.ajax '/segments?segment_id=' + $('#job_segment_id').val(), dataType: 'script'
+
+  $('#job_product_line_id').change ->
+    $('#job_job_template_id').attr "disabled", "disabled"
+    $('#job_job_template_id').css "opacity", ".3"
+    $('#job_description').empty()
+
+    if $('#job_field_id').val() != ''
+      $.ajax '/product_lines?product_line_id=' + $('#job_product_line_id').val(), dataType: 'script'
+
+  $('#job_job_template_id').change ->
+    $('#job_description').empty()
+    if $('#job_job_template_id').val() != ''
+      $.ajax '/job_templates/' + $('#job_job_template_id').val(), dataType: 'script'
 
   $('#job_district_id').change ->
     if $('#job_district_id').val() != ''
@@ -46,11 +90,6 @@ $ ->
       $('#job_well_id').css "opacity", "1"
       $.ajax '/wells?field_id=' + $('#job_field_id').val(), dataType: 'script'
 
-  $('#job_product_line_id').change ->
-    if $('#job_field_id').val() != ''
-      $('#job_job_template_id').removeAttr("disabled")
-      $('#job_job_template_id').css "opacity", "1"
-      $.ajax '/product_lines?product_line_id=' + $('#job_product_line_id').val(), dataType: 'script'
 
   if $('#job_district_id').val()
     $.ajax '/fields?district_id=' + $('#job_district_id').val(), dataType: 'script'

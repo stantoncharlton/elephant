@@ -31,7 +31,9 @@ class JobsController < ApplicationController
     def new
         @job = Job.new
 
-        @product_lines = current_user.company.product_lines
+        @divisions = current_user.company.divisions
+        @segments = Array.new
+        @product_lines = Array.new
         @job_templates = Array.new
         @clients = current_user.company.clients
         @districts = current_user.company.districts
@@ -96,7 +98,9 @@ class JobsController < ApplicationController
             flash[:success] = "Job created"
             redirect_to @job
         else
-            @product_lines = current_user.company.product_lines
+            @divisions = current_user.company.divisions
+            @segments = Array.new
+            @product_lines = Array.new
             @job_templates = Array.new
             @clients = current_user.company.clients
             @districts = current_user.company.districts
