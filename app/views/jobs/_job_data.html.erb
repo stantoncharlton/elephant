@@ -68,7 +68,7 @@
 
   <% if form_editable %>
       <h3 class="inline">
-      <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link" %>
+        <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link" %>
       </h3>
   <% else %>
       <h3 class="job-field-value"><%= job.job_template.product_line.name %></h3>
@@ -78,8 +78,11 @@
 
   <% if form_editable %>
       <h3 class="inline">
-      <%= link_to job.job_template.name, job.job_template, class: "job-field-value job-field-value-link" %>
-          </h3>
+        <%= link_to job.job_template.name, job.job_template, class: "job-field-value job-field-value-link job-type-description-target",
+                    "data-placement" => "bottom",
+                    "data-html" => false,
+                    "data-title" => job.job_template.description %>
+      </h3>
   <% else %>
       <h3 class="job-field-value"><%= job.job_template.name %></h3>
   <% end %>

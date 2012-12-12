@@ -1,4 +1,8 @@
 $ ->
+
+  $('.job-type-description-target').tooltip()
+
+
   $('#new_member_name').autocomplete
     source: $('#new_member_name').data('autocomplete-source')
     select: (event, ui) ->
