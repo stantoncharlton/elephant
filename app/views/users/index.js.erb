@@ -1,1 +1,4 @@
 $("#users_list").html("<%= j will_paginate %><div id='users' class='list'><%= j render(@users) %></div><%= j will_paginate %>");
+
+$('.paginated-count').empty();
+$('.paginated-count').append('<%= @users.count.to_s %>');

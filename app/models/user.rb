@@ -63,6 +63,10 @@ class User < ActiveRecord::Base
         time :created_at
         time :updated_at
         integer :company_id
+
+        string :name_sort do
+            name
+        end
     end
 
 
@@ -85,7 +89,7 @@ class User < ActiveRecord::Base
         Sunspot.search(User) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
-            order_by :created_at, :desc
+            order_by :name_sort
             paginate :page => options[:page]
         end
     end

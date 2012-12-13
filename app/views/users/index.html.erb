@@ -3,7 +3,15 @@
 <div class="page_header">
   <h1>Users</h1>
 
-  <h2><%= @users.count() %></h2>
+  <h2 class="paginated-count">
+    <% if @users.count > 0 %>
+        <% if params[:page].present? %>
+            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @users.total_count].min %> of <%= @users.total_count %>
+        <% else %>
+            1 - <%= [10, @users.count].min %> of <%= @users.total_count %>
+        <% end %>
+    <% end %>
+  </h2>
 
   <% if signed_in_admin? %>
       <%= link_to "+ Add New User", new_user_path, class: "bluebtn page_header_button" %>

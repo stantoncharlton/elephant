@@ -4,18 +4,30 @@
 <div class="page_header">
   <h1>Customers</h1>
 
-  <h2><%= @clients.count() %></h2>
+  <h2 class="paginated-count">
+    <% if @clients.count > 0 %>
+        <% if params[:page].present? %>
+            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @clients.total_count].min %> of <%= @clients.total_count %>
+        <% else %>
+            1 - <%= [10, @clients.count].min %> of <%= @clients.total_count %>
+        <% end %>
+    <% end %>
+  </h2>
 
   <% if signed_in_admin? %>
       <%= link_to "+ Add New Customer", new_client_path, class: "bluebtn page_header_button" %>
   <% end %>
+
+  <%= form_tag clients_path, :method => 'get', :id => "clients_search", class: "inline search-box" do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search customers", class: "search-query" %>
+  <% end %>
 </div>
 
 
-<%= will_paginate %>
-
-<ul class="list">
-  <%= render @clients %>
-</ul>
-
-<%= will_paginate %>
+<div id="clients_list">
+  <%= will_paginate %>
+  <div id="clients" class="list">
+    <%= render @clients %>
+  </div>
+  <%= will_paginate %>
+</div>

@@ -1,0 +1,4 @@
+$("#districts_list").html("<%= j will_paginate %><div id='districts' class='list'><%= j render(@districts) %></div><%= j will_paginate %>");
+
+$('.paginated-count').empty();
+$('.paginated-count').append('<%= @districts.count.to_s %>');

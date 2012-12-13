@@ -4,7 +4,25 @@ class ClientsController < ApplicationController
     set_tab :clients
 
     def index
-        @clients = Client.from_company(current_user.company).paginate(page: params[:page])
+
+        respond_to do |format|
+            format.html { @clients = Client.search(params, current_user.company).results }
+            format.js { @clients = Client.search(params, current_user.company).results }
+            format.json {
+                if params[:q].present?
+                    params[:search] = params[:q]
+                end
+
+                @clients = Client.search(params, current_user.company).results
+
+                if params[:q].present?
+                    render json: @clients.map { |client| {:name => client.name, :id => client.id} }
+                else
+                    render json: @clients.map { |client| {:label => client.name, :id => client.id} }
+                end
+            }
+        end
+
     end
 
 

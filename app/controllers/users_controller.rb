@@ -14,11 +14,7 @@ class UsersController < ApplicationController
                 end
 
                 @users = User.search(params, current_user.company).results
-=begin
-                @users = User.where("users.company_id = :company_id", company_id: current_user.company.id)
-                            .where("lower(users.name) like", "%#{params[:term].downcase}%")
-                            .order("users.name desc")
-=end
+
                 if params[:q].present?
                     render json: @users.map { |user| {:name => user.name + " (" + user.role.title + " / " + user.district.name + ")", :id => user.id} }
                 else

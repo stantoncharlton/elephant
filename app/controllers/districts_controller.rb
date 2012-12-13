@@ -4,7 +4,23 @@ class DistrictsController < ApplicationController
     set_tab :districts
 
     def index
-        @districts = District.from_company(current_user.company).paginate(page: params[:page])
+        respond_to do |format|
+            format.html { @districts = District.search(params, current_user.company).results }
+            format.js { @districts = District.search(params, current_user.company).results }
+            format.json {
+                if params[:q].present?
+                    params[:search] = params[:q]
+                end
+
+                @districts = Client.search(params, current_user.company).results
+
+                if params[:q].present?
+                    render json: @districts.map { |district| {:name => district.name + " (" + district.region + " / " + district.country + " / " + district.state + " " + district.city +  ")", :id => district.id} }
+                else
+                    render json: @districts.map { |district| {:label => district.name, :region => district.region, :country => district.country, :state => district.state, :city => district.city, :id => district.id} }
+                end
+            }
+        end
     end
 
     def show
