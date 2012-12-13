@@ -43,8 +43,12 @@
 
   <div class="field stripe">
     <%= f.label :district_id, class: "field-title" %>
-    <%= f.select :district_id, @districts.collect { |p| [p.name, p.id] },
-                 value: current_user.district.id %>
+
+    <%= f.hidden_field :district_id, id: "district_id" %>
+    <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                       value: current_user.district.present? ? current_user.district.name : nil,
+                       placeholder: "Type a district name...",
+                       id: "district_name", class: "txtfield small" %>
   </div>
 
   <div class="field stripe">
@@ -62,3 +66,16 @@
   </div>
 
 </div>
+
+
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append(
+                        "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city +  "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
+            }
+        });
+    }(jQuery));
+</script>

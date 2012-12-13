@@ -1,6 +1,6 @@
 class DistrictsController < ApplicationController
     before_filter :signed_in_user, only: [:index]
-    before_filter :signed_in_admin, only: [:index]
+    before_filter :signed_in_admin, only: [:new, :edit, :create, :edit, :update, :destroy]
     set_tab :districts
 
     def index
@@ -12,12 +12,18 @@ class DistrictsController < ApplicationController
                     params[:search] = params[:q]
                 end
 
-                @districts = Client.search(params, current_user.company).results
+                @districts = District.search(params, current_user.company).results
 
+                puts @districts.count.to_s + "................"
                 if params[:q].present?
                     render json: @districts.map { |district| {:name => district.name + " (" + district.region + " / " + district.country + " / " + district.state + " " + district.city +  ")", :id => district.id} }
                 else
-                    render json: @districts.map { |district| {:label => district.name, :region => district.region, :country => district.country, :state => district.state, :city => district.city, :id => district.id} }
+                    render json: @districts.map { |district| {:label => district.name,
+                                                              :region => district.region.present? ? district.region : "",
+                                                              :country => district.country.present? ? district.country.name : "",
+                                                              :state => district.state.present? ? district.state.name : "",
+                                                              :city => district.city.present? ? district.city : "",
+                                                              :id => district.id} }
                 end
             }
         end
@@ -97,6 +103,7 @@ class DistrictsController < ApplicationController
             @district.update_attribute(:region, params[:district][:region])
             @district.update_attribute(:address_line_1, params[:district][:address_line_1])
             @district.update_attribute(:address_line_2, params[:district][:address_line_2])
+            @district.update_attribute(:city, params[:district][:city])
             @district.update_attribute(:postal_code, params[:district][:postal_code])
             @district.update_attribute(:phone_number, params[:district][:phone_number])
             @district.update_attribute(:support_email, params[:district][:support_email])

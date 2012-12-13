@@ -3,5 +3,5 @@ class Country < ActiveRecord::Base
                     :iso,
                     :name
 
-    has_many :states
+    has_many :states, order: "name ASC"
 end
