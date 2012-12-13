@@ -55,55 +55,28 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="divisions.css.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="21" selection-start="608" selection-end="608" vertical-scroll-proportion="0.66096866">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="divisions.js.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="41" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="_division.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/divisions/_division.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="5.68">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_form.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/divisions/_form.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_form.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/segments/_form.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="31" selection-start="31" selection-end="80" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_form.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/product_lines/_form.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="71" selection-start="71" selection-end="71" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.js.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/product_lines/new.js.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="28" selection-start="191" selection-end="211" vertical-scroll-proportion="-2.56">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="create.js.erb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/product_lines/create.js.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="24" selection-start="289" selection-end="289" vertical-scroll-proportion="0.17445482">
+            <state line="2" column="20" selection-start="78" selection-end="84" vertical-scroll-proportion="-1.28">
               <folding />
             </state>
           </provider>
@@ -122,8 +95,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/divisions/_edit_form.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/job_templates_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/job_templates/show.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/jobs_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/jobs/_fields.html.erb" />
@@ -138,6 +109,8 @@
         <option value="$PROJECT_DIR$/app/views/product_lines/new.js.erb" />
         <option value="$PROJECT_DIR$/app/views/product_lines/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/product_lines/create.js.erb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss" />
       </list>
     </option>
   </component>
@@ -1392,20 +1365,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_creation.js.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="53" selection-start="1307" selection-end="1307" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/_fields.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="28" selection-start="1246" selection-end="1246" vertical-scroll-proportion="-11.48">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/activity.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="2" selection-start="8" selection-end="42" vertical-scroll-proportion="0.0">
@@ -1448,20 +1407,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/divisions/_division.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="5.68">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/divisions/_form.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/segments/create.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="60" selection-start="492" selection-end="492" vertical-scroll-proportion="-7.68">
@@ -1469,16 +1414,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/segments/new.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/product_lines/create.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="62" selection-start="294" selection-end="294" vertical-scroll-proportion="-3.84">
+        <state line="11" column="30" selection-start="536" selection-end="536" vertical-scroll-proportion="0.2741433">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/segments/_form.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/product_lines/new.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="31" selection-start="31" selection-end="80" vertical-scroll-proportion="-0.0">
+        <state line="4" column="28" selection-start="191" selection-end="211" vertical-scroll-proportion="0.097709924">
           <folding />
         </state>
       </provider>
@@ -1490,16 +1435,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/product_lines/new.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/segments/_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="28" selection-start="191" selection-end="211" vertical-scroll-proportion="-2.56">
+        <state line="0" column="31" selection-start="31" selection-end="80" vertical-scroll-proportion="-0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/product_lines/create.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/divisions/_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="24" selection-start="289" selection-end="289" vertical-scroll-proportion="0.17445482">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/segments/new.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="62" selection-start="294" selection-end="294" vertical-scroll-proportion="-3.84">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/divisions/_division.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="20" selection-start="78" selection-end="84" vertical-scroll-proportion="-1.28">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="41" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="21" selection-start="608" selection-end="608" vertical-scroll-proportion="0.66096866">
           <folding />
         </state>
       </provider>
