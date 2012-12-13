@@ -37,10 +37,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.js.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/clients/index.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="42" selection-start="209" selection-end="209" vertical-scroll-proportion="0.07476635">
+            <state line="3" column="42" selection-start="209" selection-end="209" vertical-scroll-proportion="-1.92">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job_process_mailer.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/mailers/job_process_mailer.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="48" selection-start="1161" selection-end="1161" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_mailer.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/mailers/user_mailer.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="46" selection-start="443" selection-end="443" vertical-scroll-proportion="0.2735043">
               <folding />
             </state>
           </provider>
@@ -82,24 +100,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="clients_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/clients_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="234" selection-end="966" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="district.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/district.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="49" selection-start="1290" selection-end="1290" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="districts_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/districts_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
@@ -122,8 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/divisions.css.scss" />
         <option value="$PROJECT_DIR$/app/views/users/index.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/users/index.html.erb" />
@@ -138,6 +136,8 @@
         <option value="$PROJECT_DIR$/app/views/districts/index.js.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/inline_searches.js" />
         <option value="$PROJECT_DIR$/app/views/clients/index.js.erb" />
+        <option value="$PROJECT_DIR$/app/mailers/job_process_mailer.rb" />
+        <option value="$PROJECT_DIR$/app/mailers/user_mailer.rb" />
       </list>
     </option>
   </component>
@@ -1392,20 +1392,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/history/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="80" selection-end="439" vertical-scroll-proportion="0.12048193">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="0" selection-start="1945" selection-end="2058" vertical-scroll-proportion="0.47863248">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/schema.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.3686502">
@@ -1499,7 +1485,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/clients/index.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="42" selection-start="209" selection-end="209" vertical-scroll-proportion="0.07476635">
+        <state line="3" column="42" selection-start="209" selection-end="209" vertical-scroll-proportion="-1.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/mailers/job_process_mailer.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="48" selection-start="1161" selection-end="1161" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/mailers/user_mailer.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="46" selection-start="443" selection-end="443" vertical-scroll-proportion="0.2735043">
           <folding />
         </state>
       </provider>
