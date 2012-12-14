@@ -70,7 +70,7 @@ $ ->
     $('#job_job_template_id').css "opacity", ".3"
     $('#job_description').empty()
 
-    if $('#job_field_id').val() != ''
+    if $('#job_product_line_id').val() != ''
       $.ajax '/product_lines?product_line_id=' + $('#job_product_line_id').val(), dataType: 'script'
 
   $('#job_job_template_id').change ->

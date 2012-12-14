@@ -8,7 +8,7 @@
         <% if params[:page].present? %>
             <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @jobs.count].min %> of <%= @jobs.count.to_s %>
         <% else %>
-            1 - 10 of <%= @jobs.count.to_s %>
+            1 - <%= [10, @jobs.count].min %> of <%= @jobs.count.to_s %>
         <% end %>
     <% end %>
   </h2>
