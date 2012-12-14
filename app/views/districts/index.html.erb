@@ -4,13 +4,7 @@
   <h1>Districts</h1>
 
   <h2 class="paginated-count">
-    <% if @districts.count > 0 %>
-        <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @districts.total_count].min %> of <%= @districts.total_count %>
-        <% else %>
-            1 - <%= [10, @districts.count].min %> of <%= @districts.total_count %>
-        <% end %>
-    <% end %>
+    <%= render 'layouts/paged_header', items: @districts %>
   </h2>
 
   <% if signed_in_admin? %>

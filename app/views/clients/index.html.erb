@@ -5,13 +5,7 @@
   <h1>Customers</h1>
 
   <h2 class="paginated-count">
-    <% if @clients.count > 0 %>
-        <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @clients.total_count].min %> of <%= @clients.total_count %>
-        <% else %>
-            1 - <%= [10, @clients.count].min %> of <%= @clients.total_count %>
-        <% end %>
-    <% end %>
+    <%= render 'layouts/paged_header', items: @clients %>
   </h2>
 
   <% if signed_in_admin? %>

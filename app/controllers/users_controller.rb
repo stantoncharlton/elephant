@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     def index
 
         respond_to do |format|
-            format.html { @users = User.search(params, current_user.company).results }
+            format.html { @users = User.from_company(current_user.company).paginate(page: params[:page], limit: 10) }
             format.js { @users = User.search(params, current_user.company).results }
             format.json {
                 if params[:q].present?
