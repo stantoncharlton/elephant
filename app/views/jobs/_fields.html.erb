@@ -37,8 +37,12 @@
 
   <div class="field stripe">
     <%= f.label :client_id, class: "field-title" %>
-    <%= f.select :client_id, @clients.collect { |p| [p.name, p.id] },
-                 prompt: "Selected a Client..." %>
+
+
+    <%= f.hidden_field :client_id, id: "client_id" %>
+    <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
+                       placeholder: "Type a customer name...",
+                       id: "client_name", class: "txtfield small" %>
   </div>
 
   <div class="field stripe">
@@ -75,6 +79,13 @@
             $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li></li>").data("item.autocomplete", item).append(
                         "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city +  "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
+            }
+        });
+
+        $(document).ready(function () {
+            $('#client_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append(
+                        "<a><div class='job-user'><strong>" + item.value + " </strong></div></a>").appendTo(ul)
             }
         });
     }(jQuery));

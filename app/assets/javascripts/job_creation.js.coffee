@@ -1,5 +1,11 @@
 $ ->
 
+  $('#client_name').autocomplete
+    source: $('#client_name').data('autocomplete-source')
+    select: (event, ui) ->
+      $("#client_name").val(ui.item.label)
+      $("#client_id").val(ui.item.id)
+
   $('#custom_data_toggle').live "click", ->
     if $('#custom_data').css("display") == "none"
       $('#custom_data').css "display", "block"
