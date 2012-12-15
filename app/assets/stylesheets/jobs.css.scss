@@ -36,7 +36,10 @@
 
 .job-field-value {
   display: inline-block;
-  min-width: 250px;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   margin-right: 0px;
 }
 
