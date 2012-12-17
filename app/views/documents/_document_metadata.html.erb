@@ -28,7 +28,7 @@
     <% if !document.template? and !document.read_only? %>
         <div class="document-modified2">
           <% if document.updated_at != document.created_at %>
-              <p class="inline"><%= document.updated_at.getlocal.strftime("%m/%d/%Y %l:%M %p") %></p>
+              <p class="inline"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
           <% else %>
               <p class="warning-text">No Document Uploaded</p>
           <% end %>
