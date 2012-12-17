@@ -24,7 +24,7 @@
       <% end %>
     </div>
 
-    <p class="activity-date"><%= job_note.created_at.getlocal.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+    <p class="activity-date"><%= job_note.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
 
     <div>
       <p class="activity-message">
