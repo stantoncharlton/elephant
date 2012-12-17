@@ -55,10 +55,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jobs.css.scss" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="jobs.css.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="26" selection-start="727" selection-end="727" vertical-scroll-proportion="0.5443787">
+            <state line="45" column="51" selection-start="775" selection-end="775" vertical-scroll-proportion="-16.615385">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application_controller.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="12" selection-start="350" selection-end="350" vertical-scroll-proportion="0.30588236">
               <folding />
             </state>
           </provider>
@@ -113,7 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/models/country.rb" />
         <option value="$PROJECT_DIR$/app/views/users/_fields.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/history/index.html.erb" />
@@ -129,6 +137,7 @@
         <option value="$PROJECT_DIR$/app/mailers/job_process_mailer.rb" />
         <option value="$PROJECT_DIR$/app/mailers/user_mailer.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
+        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
       </list>
     </option>
   </component>
@@ -1383,13 +1392,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/_paged_header.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="136" selection-start="197" selection-end="197" vertical-scroll-proportion="-1.28">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/activities_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="89" selection-start="491" selection-end="532" vertical-scroll-proportion="0.46952596">
@@ -1490,7 +1492,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="26" selection-start="727" selection-end="727" vertical-scroll-proportion="0.5443787">
+        <state line="45" column="51" selection-start="775" selection-end="775" vertical-scroll-proportion="-16.615385">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="12" selection-start="350" selection-end="350" vertical-scroll-proportion="0.30588236">
           <folding />
         </state>
       </provider>
