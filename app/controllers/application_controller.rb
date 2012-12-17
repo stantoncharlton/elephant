@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 private
 
     def set_user_time_zone
-        Time.zone = "Central Time (US & Canada)" if logged_in?
+        Time.zone = "Central Time (US & Canada)" if signed_in?
     end
 
 end
