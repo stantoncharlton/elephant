@@ -1,7 +1,7 @@
-<% provide(:title, 'Jobs') %>
+<% provide(:title, I18n.t("jobs.index.title")) %>
 
 <div class="page_header">
-  <h1>Jobs</h1>
+  <h1><%= t ".title" %></h1>
 
   <h2>
     <% if @jobs.count > 0 %>
@@ -14,7 +14,7 @@
   </h2>
 
   <% if signed_in? %>
-      <%= link_to "+ Add New Job", new_job_path, class: "bluebtn page_header_button" %>
+      <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path, class: "bluebtn page_header_button" %>
   <% end %>
 
 </div>
@@ -22,7 +22,7 @@
 <% if @jobs.empty? %>
 
     <div class="no-alerts">
-      <p class="center">You don't have any jobs right now...</p>
+      <p class="center"><%= t ".no_jobs" %></p>
     </div>
 
 <% else %>

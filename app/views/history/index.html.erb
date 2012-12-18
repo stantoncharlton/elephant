@@ -1,7 +1,7 @@
-<% provide(:title, 'History') %>
+<% provide(:title, I18n.t("history.index.title")) %>
 
 <div class="page_header">
-  <h1>History</h1>
+  <h1><%= t ".title" %></h1>
 
   <h2>
     <% if @activities.count > 0 %>

@@ -32,21 +32,21 @@
 </div>
 
 <div class="">
-  <p class="job-field-title">Status</p>
+  <p class="job-field-title"><%= t ".status" %></p>
 
   <% if job.approved_to_close %>
-      <p class="job-field-value">Complete</p>
+      <p class="job-field-value"><%= t ".status_complete" %></p>
   <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
-      <p class="job-field-value status-good">Post-Job</p>
+      <p class="job-field-value status-good"><%= t ".status_post_job" %></p>
   <% elsif job.approved_to_ship %>
-      <p class="job-field-value status-good">In Progress in field</p>
+      <p class="job-field-value status-good"><%= t ".status_in_field" %></p>
   <% else %>
-      <p class="job-field-value status-good">Pre-Job</p>
+      <p class="job-field-value status-good"><%= t ".status_pre_job" %></p>
   <% end %>
 </div>
 
 <div class="">
-  <p class="job-field-title">Division</p>
+  <p class="job-field-title"><%= t ".division" %></p>
 
   <% if form_editable %>
       <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division, class: "job-field-value job-field-value-link" %>
@@ -54,7 +54,7 @@
       <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
   <% end %>
 
-  <p class="job-field-title">Segment</p>
+  <p class="job-field-title"><%= t ".segment" %></p>
 
   <% if form_editable %>
       <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment, class: "job-field-value job-field-value-link" %>
@@ -64,7 +64,7 @@
 </div>
 
 <div class="">
-  <p class="job-field-title">Product Line</p>
+  <p class="job-field-title"><%= t ".product_line" %></p>
 
   <% if form_editable %>
       <h3 class="inline">
@@ -74,7 +74,7 @@
       <h3 class="job-field-value"><%= job.job_template.product_line.name %></h3>
   <% end %>
 
-  <p class="job-field-title">Job Type</p>
+  <p class="job-field-title"><%= t ".job_type" %></p>
 
   <% if form_editable %>
       <h3 class="inline">
@@ -103,7 +103,7 @@
 </div>
 
 <div class="">
-  <p class="job-field-title">District</p>
+  <p class="job-field-title"><%= t ".district" %></p>
 
   <% if form_editable %>
       <%= link_to job.district.name, job.district, class: "job-field-value job-field-value-link" %>
@@ -111,13 +111,13 @@
       <p class="job-field-value"><%= job.district.name %></p>
   <% end %>
 
-  <p class="job-field-title">Start Date</p>
+  <p class="job-field-title"><%= t ".start_date" %></p>
 
   <p class="job-field-value">12/7/12</p>
 </div>
 
 <div class="">
-  <p class="job-field-title">Client name</p>
+  <p class="job-field-title"><%= t ".client_name" %></p>
 
   <% if form_editable %>
       <%= link_to job.client.name, job.client, class: "job-field-value job-field-value-link" %>
@@ -125,7 +125,7 @@
       <p class="job-field-value"><%= job.client.name %></p>
   <% end %>
 
-  <p class="job-field-title">End Date</p>
+  <p class="job-field-title"><%= t ".end_date" %></p>
 
   <p class="job-field-value">12/10/12</p>
 </div>

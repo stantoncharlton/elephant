@@ -1,13 +1,13 @@
-<% provide(:title, 'Alerts') %>
+<% provide(:title, I18n.t("alerts.index.title")) %>
 
 <div class="page_header">
-  <h1>Alerts</h1>
+  <h1><%= t ".title" %></h1>
 
   <h2><%= @alerts.count() %></h2>
 </div>
 
 <div class="header">
-  <h2>New Alerts</h2>
+  <h2><%= t ".new" %></h2>
 
   <p><%= @new_alerts.count() %></p>
 </div>
@@ -18,14 +18,14 @@
 
 <% if @new_alerts.empty? %>
     <div class="no-alerts">
-      <p class="center">No new alerts...</p>
+      <p class="center"><%= t ".no-new" %></p>
     </div>
 <% end %>
 
 
 <% if !@old_alerts.empty? %>
     <div class="header old-alerts-div">
-      <h2>Past Alerts</h2>
+      <h2><%= t ".past" %></h2>
 
       <p><%= @old_alerts.count() %></p>
     </div>
@@ -38,6 +38,6 @@
 
 <% if @alerts.nil? || @alerts.empty? %>
     <div class="no-alerts">
-      <p class="center">You don't have any alerts right now...</p>
+      <p class="center"><%= t ".none" %></p>
     </div>
 <% end %>

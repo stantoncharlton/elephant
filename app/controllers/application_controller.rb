@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
     include SessionsHelper
 
     before_filter :set_user_time_zone
+    before_filter :set_locale
     before_filter :set_current_user_for_observer
     #before_filter :set_time_zone
 
@@ -34,6 +35,15 @@ private
 
     def set_user_time_zone
         Time.zone = "Central Time (US & Canada)" if signed_in?
+    end
+
+    def set_locale
+        puts request.env["HTTP_ACCEPT_LANGUAGE"]
+        I18n.locale = params[:locale] if params[:locale].present?
+        # current_user.locale
+        # request.subdomain
+        # request.env["HTTP_ACCEPT_LANGUAGE"]
+        # request.remote_ip
     end
 
 end

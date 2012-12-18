@@ -5,7 +5,7 @@
     <% if alert.alert_type == Alert::ADDED_TO_JOB %>
         <div>
           <%= image_tag "to_arrow.png" %>
-          <%= render 'activities/user', user: alert.created_by %> added you to a job:
+          <%= render 'activities/user', user: alert.created_by %><%= t ".added_to_job" %>:
         </div>
         <%= render 'jobs/job', job: alert.job %>
     <% end %>
@@ -13,14 +13,14 @@
     <% if alert.alert_type == Alert::PRE_JOB_DATA_READY %>
         <div>
           <%= image_tag "to_arrow.png" %>
-          <p class=" inline">Job is waiting for your approval to ship:</p>
+          <p class=" inline"><%= t ".waiting_to_ship" %>:</p>
         </div>
         <%= render 'jobs/job', job: alert.job %>
     <% end %>
     <% if alert.alert_type == Alert::POST_JOB_DATA_READY %>
         <div>
           <%= image_tag "to_arrow.png" %>
-          <p class=" inline">Job is waiting for your approval to complete and close:</p>
+          <p class=" inline"><%= t ".waiting_to_close" %>:</p>
         </div>
         <%= render 'jobs/job', job: alert.job %>
     <% end %>
@@ -28,7 +28,7 @@
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>
         <div>
           <%= image_tag "to_arrow.png" %>
-          <%= render 'activities/user', user: alert.created_by %> assigned you to a task:
+          <%= render 'activities/user', user: alert.created_by %><%= t ".assigned_task" %>:
         </div>
         <%= render 'job_notes/job_note', job_note: alert.target %>
     <% end %>

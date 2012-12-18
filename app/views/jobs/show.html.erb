@@ -3,7 +3,7 @@
 </div>
 
 <div class="content">
-  <p class="job-field-title pull-left">Project Members</p>
+  <p class="job-field-title pull-left"><%= t ".members" %></p>
 
   <div class="job-members-div pull-left">
     <ul class="job-members-list" id="job_members_list">
@@ -25,10 +25,10 @@
         <%= f.hidden_field :job_id, id: "new_member_job_id", value: @job.id %>
         <%= f.hidden_field :user_id, id: "new_member_id" %>
         <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                           placeholder: "Type a name...",
+                           placeholder: I18n.t("jobs.show.new_member_prompt"),
                            id: "new_member_name", class: "txtfield small" %>
         <%= f.select :job_role_id, options_for_select([["Observer", 1], ["Supervisor", 2], ["Coordinator", 3], ["Field", 4], ["Shop", 5]]),
-                     prompt: "Select a job role...",
+                     prompt: I18n.t("jobs.show.new_member_role_prompt"),
                      class: "job-note-type" %>
         <%= f.submit "Add", class: "bluebtn btnsmall move-up" %>
     <% end %>
@@ -38,7 +38,7 @@
 
 <div class="content">
   <div class="">
-    <a href="#" id="custom_data_toggle" class="custom-data-toggle">More Job Details</a>
+    <a href="#" id="custom_data_toggle" class="custom-data-toggle"><%= t ".more_details" %></a>
 
     <div class="custom-data-closed" id="custom_data">
       <% @job.dynamic_fields.each do |df| %>
@@ -67,7 +67,7 @@
 </div>
 
 <div class="header">
-  <h2>Documents</h2>
+  <h2><%= t ".documents" %></h2>
 
   <% if @job_editable %>
       <div class="pull-right">
@@ -79,7 +79,7 @@
 </div>
 
 <% if @field_bulletin_documents.any? %>
-    <h3 class="document-section-header">Field Bulletins</h3>
+    <h3 class="document-section-header"><%= t ".field_bulletins" %></h3>
     <div class="content" id="documents3">
       <% @field_bulletin_documents.sort_by { |e| e[:created_at] }.each do |d| %>
           <%= render 'documents/document', document: d, editable: false %>
@@ -90,7 +90,7 @@
 <% if @pre_job_documents.all? { |d| d.url.present? } %>
     <h3 class="document-section-header status-good">Pre-Job</h3>
 <% else %>
-    <h3 class="document-section-header">Pre-Job</h3>
+    <h3 class="document-section-header"><%= t ".pre_job" %></h3>
 <% end %>
 <div class="content" id="documents">
   <% @pre_job_documents.sort_by { |e| e[:created_at] }.each do |d| %>
@@ -101,7 +101,7 @@
 <% if @post_job_documents.all? { |d| d.url.present? } %>
     <h3 class="document-section-header status-good">Post-Job</h3>
 <% else %>
-    <h3 class="document-section-header">Post-Job</h3>
+    <h3 class="document-section-header"><%= t ".post_job" %></h3>
 <% end %>
 <div class="content" id="documents2">
   <% @post_job_documents.sort_by { |e| e[:created_at] }.each do |d| %>
@@ -111,7 +111,7 @@
 
 
 <div class="header">
-  <h2>Notes/Action Items</h2>
+  <h2><%= t ".notes" %></h2>
 </div>
 <div class="content">
   <div class="field">
@@ -140,7 +140,7 @@
         <% end %>
     <% elsif @job.job_notes.empty? %>
         <div class="no-alerts">
-          <p class="center">No job notes...</p>
+          <p class="center"><%= t ".no_notes" %></p>
         </div>
     <% end %>
   </div>
