@@ -34,11 +34,11 @@ class ApplicationController < ActionController::Base
 private
 
     def set_user_time_zone
-        Time.zone = "Central Time (US & Canada)" if signed_in?
+        Time.zone = current_user.time_zone.present? ? current_user.time_zone : "Central Time (US & Canada)" if signed_in?
     end
 
     def set_locale
-        puts request.env["HTTP_ACCEPT_LANGUAGE"]
+        puts  request.env["HTTP_ACCEPT_LANGUAGE"]
         I18n.locale = params[:locale] if params[:locale].present?
         # current_user.locale
         # request.subdomain

@@ -100,6 +100,7 @@ class DistrictsController < ApplicationController
         if @district.update_attribute(:name, params[:district][:name])
             @district.update_attribute(:country_id, params[:district][:country_id])
             @district.update_attribute(:state_id, params[:district][:state_id])
+            @district.update_attribute(:time_zone, params[:district][:time_zone])
             @district.update_attribute(:region, params[:district][:region])
             @district.update_attribute(:address_line_1, params[:district][:address_line_1])
             @district.update_attribute(:address_line_2, params[:district][:address_line_2])

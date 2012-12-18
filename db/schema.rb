@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121211182721) do
+ActiveRecord::Schema.define(:version => 20121218181728) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(:version => 20121211182721) do
     t.string   "city"
     t.string   "region"
     t.string   "support_email"
+    t.string   "time_zone"
   end
 
   add_index "districts", ["company_id"], :name => "index_districts_on_company_id"
@@ -362,6 +363,7 @@ ActiveRecord::Schema.define(:version => 20121211182721) do
     t.boolean  "create_password", :default => false
     t.integer  "role_id"
     t.integer  "product_line_id"
+    t.string   "time_zone"
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

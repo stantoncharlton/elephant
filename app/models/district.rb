@@ -1,5 +1,6 @@
 class District < ActiveRecord::Base
     attr_accessible :name,
+                    :time_zone,
                     :location,
                     :region,
                     :address_line_1,

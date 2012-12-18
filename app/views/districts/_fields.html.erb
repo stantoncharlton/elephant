@@ -33,6 +33,12 @@
 
 <div class="content">
 
+  <div class="field">
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.all,
+                           html: { class: "long-select" },
+                           default: "Central Time (US & Canada)" %>
+  </div>
+
   <div class="field stripe">
     <%= f.text_field :region, placeholder: "Region", class: "txtfield" %>
   </div>

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
     attr_accessible :email,
                     :name,
+                    :time_zone,
                     :phone_number,
                     :location,
                     :password,

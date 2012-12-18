@@ -116,6 +116,8 @@ class UsersController < ApplicationController
         @user.password_confirmation = password
         @user.create_password = true
 
+        @user.time_zone = @user.district.time_zone
+
         if @user.save
 
             Activity.add(self.current_user, Activity::USER_CREATED, @user, @user.name)
