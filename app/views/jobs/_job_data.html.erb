@@ -1,6 +1,9 @@
 <div class="field">
   <% if form_editable %>
-      <%= link_to job.field.name, job.field, class: "job-title inline" %>
+      <%= link_to job.field.name, job.field, class: "job-title inline job-type-description-target",
+                  "data-placement" => "bottom",
+                  "data-html" => true,
+                  "data-title" => "<div>" + I18n.t("jobs.job_data.field_name") + ": <b>" + job.field.name + "</b></div>" %>
   <% else %>
       <h2 class="job-title inline"><%= job.field.name %></h2>
   <% end %>
@@ -9,7 +12,10 @@
   <p class="job-title-divider">|</p>
 
   <% if form_editable %>
-      <%= link_to job.well.name, edit_well_path(job.well), class: "job-title inline" %>
+      <%= link_to job.well.name, edit_well_path(job.well), class: "job-title inline job-type-description-target",
+                  "data-placement" => "bottom",
+                  "data-html" => true,
+                  "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b></div>"%>
   <% else %>
       <h2 class="job-title inline"><%= job.well.name %></h2>
   <% end %>
@@ -68,7 +74,10 @@
 
   <% if form_editable %>
       <h3 class="inline">
-        <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link" %>
+        <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link job-type-description-target",
+                    "data-placement" => "bottom",
+                    "data-html" => true,
+                    "data-title" => "<div><b>" + job.job_template.product_line.name + "</b></div>" %>
       </h3>
   <% else %>
       <h3 class="job-field-value"><%= job.job_template.product_line.name %></h3>
@@ -80,8 +89,8 @@
       <h3 class="inline">
         <%= link_to job.job_template.name, job.job_template, class: "job-field-value job-field-value-link job-type-description-target",
                     "data-placement" => "bottom",
-                    "data-html" => false,
-                    "data-title" => job.job_template.description %>
+                    "data-html" => true,
+                    "data-title" => "<div><b>" + job.job_template.name + "</b><br>" + job.job_template.description + "</div>" %>
       </h3>
   <% else %>
       <h3 class="job-field-value"><%= job.job_template.name %></h3>

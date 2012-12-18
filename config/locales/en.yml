@@ -21,6 +21,8 @@ en:
       new: "Add New Job"
       no_jobs: "You don't have any jobs right now..."
     job_data:
+      field_name: "Field Name"
+      well_name: "Well Name"
       status: "Status"
       division: "Division"
       segment: "Segment"
