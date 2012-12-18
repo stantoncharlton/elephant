@@ -217,6 +217,10 @@ p {
     border-radius: 5px;
     color: white;
   }
+
+  @media screen and (max-width: 1110px) {
+    margin-left: 10px;
+  }
 }
 
 
