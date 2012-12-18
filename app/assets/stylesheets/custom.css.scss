@@ -223,6 +223,13 @@ p {
   }
 }
 
+.navbar {
+  @media screen and (max-width: 500px) {
+    position: absolute !important;
+    min-width: 900px !important;
+  }
+}
+
 
 .messages-icon-container {
   display: inline-block;
