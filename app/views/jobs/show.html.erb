@@ -42,7 +42,7 @@
 
     <div class="custom-data-closed" id="custom_data">
       <% @job.dynamic_fields.each do |df| %>
-          <% if !df.dynamic_field_template.priority? %>
+          <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
               <p class="job-field-title"><%= df.dynamic_field_template.name %></p>
               <% if @job_editable %>
                   <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"

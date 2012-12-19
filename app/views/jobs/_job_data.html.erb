@@ -107,13 +107,15 @@
 
 <div class="">
   <% job.dynamic_fields.select { |field| field.dynamic_field_template.priority? }.each do |dynamic_field| %>
-      <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
+      <% if !dynamic_field.dynamic_field_template.nil? %>
+          <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
 
-      <% if form_editable %>
-          <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
-                 value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
-      <% else %>
-          <p class="job-field-value"><%= dynamic_field.value %></p>
+          <% if form_editable %>
+              <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
+                     value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
+          <% else %>
+              <p class="job-field-value"><%= dynamic_field.value %></p>
+          <% end %>
       <% end %>
   <% end %>
 </div>
