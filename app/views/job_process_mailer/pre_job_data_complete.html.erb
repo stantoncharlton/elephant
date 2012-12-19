@@ -5,14 +5,14 @@
 <h3>Pre-Job complete</h3>
 <br>
 
-<p>Please <%= link_to polymorphic_url(@job), class: "activity-user-link" do %>Click here
+<p>Please <%= link_to job_url(@job), class: "activity-user-link" do %>Click here
   <% end %> to review the data and documents are correct and complete. Then, approve the job to ship by clicking the
   button
   'Ship Job To Field'.</p>
 
 <br><br>
 
-<%= link_to polymorphic_url(@job), class: "job-email-link" do %>
+<%= link_to job_url(@job), class: "job-email-link" do %>
     <%= render 'jobs/job_data', job: @job, form_editable: false, new_line_job_type: true %>
 <% end %>
 
