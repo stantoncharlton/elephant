@@ -1,16 +1,16 @@
-<h1 class="page-title">Update Customer</h1>
+<h1 class="page-title"><%= t ".title" %></h1>
 
 <%= form_for(@client) do |f| %>
 
     <%= render "form", f: f %>
 
     <div class="actions">
-      <%= f.submit "Save Customer", class: "bluebtn pull-right" %>
+      <%= f.submit I18n.t("clients.edit.save"), class: "bluebtn pull-right" %>
     </div>
 <% end %>
 
 
 <% if signed_in_admin? %>
-    <%= link_to "Delete", @client, method: :delete,
-                data: { confirm: "Delete client " + @client.name + "?" }, class: "bluebtn red pull-right-button" %>
+    <%= link_to I18n.t("global.delete"), @client, method: :delete,
+                data: { confirm: I18n.t("clients.edit.delete") + " " + @client.name + "?" }, class: "bluebtn red pull-right-button" %>
 <% end %>

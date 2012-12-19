@@ -1,7 +1,7 @@
 <div id="messages" class="message-view">
 
   <div class="conversation-participants">
-    <h3 class="inline"><%= conversation.participants.map { |user| user == current_user ? "You" : user.name }.join(", ") %></h3>
+    <h3 class="inline"><%= conversation.participants.map { |user| user == current_user ? I18n.t("conversations.you") : user.name }.join(", ") %></h3>
   </div>
 
   <%= render 'conversations/conversation_messages', conversation: conversation %>

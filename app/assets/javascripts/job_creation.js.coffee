@@ -6,6 +6,7 @@ $ ->
       $("#client_name").val(ui.item.label)
       $("#client_id").val(ui.item.id)
 
+
   $('#custom_data_toggle').live "click", ->
     if $('#custom_data').css("display") == "none"
       $('#custom_data').css "display", "block"
@@ -34,8 +35,9 @@ $ ->
     $('#job_field_id').attr "disabled", "disabled"
     $('#job_field_id').css "opacity", ".3"
 
-  $('#job_well_id').attr "disabled", "disabled"
-  $('#job_well_id').css "opacity", ".3"
+  if $('#job_well_id').val() == ''
+    $('#job_well_id').attr "disabled", "disabled"
+    $('#job_well_id').css "opacity", ".3"
 
   if $('#job_segment_id').val() == ""
     $('#job_segment_id').attr "disabled", "disabled"
@@ -84,16 +86,18 @@ $ ->
     if $('#job_job_template_id').val() != ''
       $.ajax '/job_templates/' + $('#job_job_template_id').val(), dataType: 'script'
 
-  $('#job_district_id').change ->
-    if $('#job_district_id').val() != ''
+  $('#district_id').change ->
+    if $('#district_id').val() != ''
       $('#job_field_id').removeAttr("disabled")
       $('#job_field_id').css "opacity", "1"
-      $.ajax '/fields?district_id=' + $('#job_district_id').val(), dataType: 'script'
+      $.ajax '/fields?district_id=' + $('#district_id').val(), dataType: 'script'
 
   $('#job_field_id').change ->
     if $('#job_field_id').val() != ''
       $('#job_well_id').removeAttr("disabled")
       $('#job_well_id').css "opacity", "1"
+      $('#job_well_id').attr "disabled", "disabled"
+      $('#job_well_id').css "opacity", ".3"
       $.ajax '/wells?field_id=' + $('#job_field_id').val(), dataType: 'script'
 
 

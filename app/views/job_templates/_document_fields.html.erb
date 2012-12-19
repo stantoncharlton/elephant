@@ -4,13 +4,13 @@
 
     <div class="inline-form">
 
-      <%= f.text_field :name, placeholder: "Name of Document", class: "txtfield", id: "new_document_name" %>
-      <%= f.select :document_type, options_for_select([["Document", "0"], ["Checklist", "1"]]) %>
+      <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield", id: "new_document_name" %>
+      <%= f.hidden_field :document_type, value: "0" %>
       <%= f.hidden_field :read_only, value: read_only %>
       <%= f.hidden_field :template, value: true %>
       <%= f.hidden_field :category, value: category_name %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>
-      <%= f.submit "add", class: "bluebtn btnsmall" %>
+      <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
 
     </div>
 <% end %>

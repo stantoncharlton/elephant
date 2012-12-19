@@ -4,14 +4,14 @@
 
     <div class="inline-form">
 
-      <%= f.text_field :name, placeholder: "Name of Field", class: "txtfield", id: "new_dynamic_field_name" %>
+      <%= f.text_field :name, placeholder: I18n.t("job_templates.dynamic_field_fields.name"), class: "txtfield", id: "new_dynamic_field_name" %>
       <%= f.select :value_type_conversion, options_for_select([["String", "to_s"], ["Number", "to_f"], ["Boolean", "to_b"]]) %>
       <%= f.hidden_field :template, value: true %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>
 
-      <%= f.submit "add", class: "bluebtn btnsmall" %>
+      <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
 
-      <%= f.label "Show in Summary", class: "push-right" %>
+      <%= f.label I18n.t("job_templates.document_fields.show_in_summary"), class: "push-right" %>
       <%= f.check_box :priority %>
 
 

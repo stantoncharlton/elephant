@@ -1,4 +1,4 @@
-<h1 class="page-title">Create New Job Type</h1>
+<h1 class="page-title"><%= t ".title" %></h1>
 
 <%= form_for(@job_template) do |f| %>
 
@@ -6,16 +6,16 @@
 
     <div>
       <div class="field">
-        <p class="field-title">Division</p>
+        <p class="field-title"><%= t "jobs.job_data.division" %></p>
         <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
 
         <div class="inline push-right">
-          <p class="field-title">Segment</p>
+          <p class="field-title"><%= t "jobs.job_data.segment" %></p>
           <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
         </div>
       </div>
       <div class="field">
-        <p class="field-title">Product Line</p>
+        <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
         <h3 class="inline"><%= @job_template.product_line.name %> </h3>
       </div>
     </div>
@@ -24,7 +24,7 @@
 
 
     <div class="actions">
-      <%= f.submit "Create Job type", class: "bluebtn pull-right" %>
+      <%= f.submit I18n.t("job_templates.new.save"), class: "bluebtn pull-right" %>
     </div>
 
 <% end %>

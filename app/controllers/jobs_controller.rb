@@ -30,6 +30,13 @@ class JobsController < ApplicationController
 
     def new
         @job = Job.new
+        @job.district = current_user.district
+
+        if !@job.district.nil?
+            @fields = @job.district.fields
+        else
+            @fields = Array.new
+        end
 
         @divisions = current_user.company.divisions
         @segments = Array.new
@@ -37,7 +44,7 @@ class JobsController < ApplicationController
         @job_templates = Array.new
         @clients = current_user.company.clients
         @districts = current_user.company.districts
-        @fields = current_user.company.fields
+
         @wells = Array.new
     end
 
@@ -99,13 +106,23 @@ class JobsController < ApplicationController
             redirect_to @job
         else
             @divisions = current_user.company.divisions
-            @segments = Array.new
-            @product_lines = Array.new
-            @job_templates = Array.new
+            @segments = !@job.job_template.nil? ? @job.job_template.product_line.segment.division.segments : Array.new
+            @product_lines = !@job.job_template.nil? ? @job.job_template.product_line.segment.product_lines : Array.new
+            @job_templates = !@job.job_template.nil? ? @job.job_template.product_line.job_templates : Array.new
             @clients = current_user.company.clients
             @districts = current_user.company.districts
-            @fields = current_user.company.fields
-            @wells = Array.new
+
+            if !@job.district.nil?
+                @fields = @job.district.fields
+            else
+                @fields = Array.new
+            end
+
+            if !@job.field.nil?
+                @wells = @job.field.wells
+            else
+                @wells = Array.new
+            end
 
             render 'new'
         end

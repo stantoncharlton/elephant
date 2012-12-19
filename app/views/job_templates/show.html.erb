@@ -1,34 +1,34 @@
-<h1 class="page-title">Update Job Type</h1>
+<h1 class="page-title"><%= t ".title" %></h1>
 <br>
 
 <div class="content">
 
   <%= form_for(@job_template, remote: true) do |f| %>
 
-      <p class="field-title">Job Type Name</p>
+      <p class="field-title"><%= t ".job_type_name" %></p>
       <%= f.text_field :name, value: @job_template.name,
-                       placeholder: "Job type name",
+                       placeholder: I18n.t("job_templates.show.job_type_name"),
                        class: "txtfield large job-template-name" %>
   <% end %>
 
   <div class="field">
-    <p class="field-title">Division</p>
+    <p class="field-title"><%= t "jobs.job_data.division" %></p>
     <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
 
     <div class="inline push-right">
-      <p class="field-title">Segment</p>
+      <p class="field-title"><%= t "jobs.job_data.segment" %></p>
       <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
     </div>
   </div>
   <div class="field">
-    <p class="field-title">Product Line</p>
+    <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
     <h3 class="inline"><%= @job_template.product_line.name %> </h3>
   </div>
 </div>
 
 <div class="content">
   <%= form_for(@job_template, remote: true) do |f| %>
-        <%= f.text_area :description, placeholder: "Type description/special notes here...",
+        <%= f.text_area :description, placeholder: I18n.t("description_prompt"),
                         value: @job_template.description,
                         class: "txtfield job-description-text job-template-description",
                         autofocus: false %>
@@ -38,9 +38,9 @@
 
 
 <div class="header">
-  <h2 class="header-title">Custom data</h2>
+  <h2 class="header-title"><%= t ".custom_data" %></h2>
 
-  <p class="header-subtitle">Job type specifics</p>
+  <p class="header-subtitle"><%= t ".job_type_specifics" %></p>
 </div>
 
 <div class="content" id="dynamic_fields">
@@ -52,13 +52,13 @@
 </div>
 
 <div class="header">
-  <h2 class="header-title">Documents</h2>
+  <h2 class="header-title"><%= t "jobs.show.documents" %></h2>
 
-  <p class="header-subtitle">Document Templates</p>
+  <p class="header-subtitle"><%= t ".document_templates" %></p>
 </div>
 
 
-<h3 class="document-section-header">Field Bulletins</h3>
+<h3 class="document-section-header"><%= t "jobs.show.notices" %></h3>
 <div class="content" id="documents3">
   <% @job_template.documents.select { |item| item.category == "Field Bulletins" }.each do |d| %>
       <%= render 'documents/document', document: d, editable: true %>
@@ -70,7 +70,7 @@
 </div>
 
 
-<h3 class="document-section-header">Pre-Job</h3>
+<h3 class="document-section-header"><%= t "jobs.show.pre_job" %></h3>
 <div class="content" id="documents">
   <% @job_template.documents.select { |item| item.category == "Pre-Job" }.each do |d| %>
       <%= render 'documents/document', document: d, editable: true %>
@@ -81,7 +81,7 @@
   <%= render 'document_fields', category_name: "Pre-Job", read_only: false %>
 </div>
 
-<h3 class="document-section-header">Post-Job</h3>
+<h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>
 <div class="content" id="documents2">
   <% @job_template.documents.select { |item| item.category == "Post-Job" }.each do |d| %>
       <%= render 'documents/document', document: d, editable: true %>
@@ -95,11 +95,11 @@
 
 
 <div class="actions">
-  <%= link_to "Done", job_templates_path, class: "bluebtn pull-right" %>
+  <%= link_to I18n.t("global.done"), job_templates_path, class: "bluebtn pull-right" %>
 
   <% if signed_in_admin? %>
-      <%= link_to "Delete", @job_template, method: :delete,
-                  data: {confirm: "Delete Job Template " + @job_template.name + "?"}, class: "bluebtn red pull-right-button" %>
+      <%= link_to I18n.t("global.delete"), @job_template, method: :delete,
+                  data: {confirm: I18n.t("delete_job_template") + " " + @job_template.name + "?"}, class: "bluebtn red pull-right-button" %>
   <% end %>
 </div>
 

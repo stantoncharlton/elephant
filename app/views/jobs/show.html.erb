@@ -27,10 +27,10 @@
         <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                            placeholder: I18n.t("jobs.show.new_member_prompt"),
                            id: "new_member_name", class: "txtfield small" %>
-        <%= f.select :job_role_id, options_for_select([["Observer", 1], ["Supervisor", 2], ["Coordinator", 3], ["Field", 4], ["Shop", 5]]),
+        <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], [I18n.t("job_roles.supervisor"), 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]]),
                      prompt: I18n.t("jobs.show.new_member_role_prompt"),
                      class: "job-note-type" %>
-        <%= f.submit "Add", class: "bluebtn btnsmall move-up" %>
+        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall move-up" %>
     <% end %>
   </div>
 </div>
@@ -71,7 +71,7 @@
 
   <% if @job_editable %>
       <div class="pull-right">
-        <%= link_to "Add Custom Document", new_document_path(modal: true, job_id: @job.id),
+        <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
                     remote: true,
                     class: "add-custom-document" %>
       </div>
@@ -79,7 +79,7 @@
 </div>
 
 <% if @field_bulletin_documents.any? %>
-    <h3 class="document-section-header"><%= t ".field_bulletins" %></h3>
+    <h3 class="document-section-header"><%= t ".notices" %></h3>
     <div class="content" id="documents3">
       <% @field_bulletin_documents.sort_by { |e| e[:created_at] }.each do |d| %>
           <%= render 'documents/document', document: d, editable: false %>
@@ -88,7 +88,7 @@
 <% end %>
 
 <% if @pre_job_documents.all? { |d| d.url.present? } %>
-    <h3 class="document-section-header status-good">Pre-Job</h3>
+    <h3 class="document-section-header status-good"><%= t ".pre_job" %></h3>
 <% else %>
     <h3 class="document-section-header"><%= t ".pre_job" %></h3>
 <% end %>
@@ -99,7 +99,7 @@
 </div>
 
 <% if @post_job_documents.all? { |d| d.url.present? } %>
-    <h3 class="document-section-header status-good">Post-Job</h3>
+    <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>
 <% else %>
     <h3 class="document-section-header"><%= t ".post_job" %></h3>
 <% end %>
@@ -121,19 +121,19 @@
               <%= f.hidden_field :job_id, value: @job.id %>
               <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
 
-              <%= f.text_area :text, placeholder: "Type note here...", class: "txtfield job-notes-text", autofocus: false,
+              <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"), class: "txtfield job-notes-text", autofocus: false,
                               id: "new_note_id" %>
 
               <div class="job-note-options">
-                <%= f.select :note_type, options_for_select([["Note", 1], ["Task", 4], ["Warning", 2], ["Problem", 3]]),
+                <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2], [I18n.t("job_note_types.problem"), 3]]),
                              class: "job-note-type" %>
                 <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                                   placeholder: "Type a name to assign...",
+                                   placeholder: I18n.t("jobs.show.new_assign_prompt"),
                                    id: "new_note_name",
                                    class: "job-field-value-editable custom-data-input job-note-assign" %>
               </div>
 
-              <%= f.submit "Add", class: "bluebtn btnsmall pull-right" %>
+              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall pull-right" %>
 
 
             </div>

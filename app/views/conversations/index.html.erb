@@ -1,19 +1,19 @@
-<% provide(:title, 'Messages') %>
+<% provide(:title, I18n.t("conversations.messages.title")) %>
 
 
 <div class="page_header">
-  <h1>Messages</h1>
+  <h1><%= t "conversations.messages.title" %></h1>
 
   <h2><%= @conversations.count() %></h2>
 
-  <%= link_to "+ New Message", new_conversation_path, class: "bluebtn page_header_button" %>
+  <%= link_to "+ " + I18n.t("conversations.messages.new"), new_conversation_path, class: "bluebtn page_header_button" %>
 </div>
 
 
 <% if @conversations.empty? %>
 
     <div class="no-alerts">
-      <p class="center">You don't have any conversations...</p>
+      <p class="center"><%= t "conversations.messages.no_conversations" %></p>
     </div>
 
 <% else %>

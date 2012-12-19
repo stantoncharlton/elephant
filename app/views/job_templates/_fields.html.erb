@@ -1,5 +1,5 @@
 <div class="header">
-  <h2 class="header-title">Information</h2>
+  <h2 class="header-title"><%= t "global.information" %></h2>
 </div>
 
 <div class="content">
@@ -7,12 +7,12 @@
   <%= f.hidden_field :product_line_id, value: @job_template.product_line.id %>
 
   <div class="">
-    <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: "Job Type Name" %>
+    <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: I18n.t("job_templates.show.job_type_name") %>
   </div>
 
   <div class="">
     <%= f.text_area :description,
-                    placeholder: "Type description/special notes here...",
+                    placeholder: I18n.t("job_templates.show.description_prompt"),
                     class: "txtfield job-description-text", autofocus: false %>
   </div>
 

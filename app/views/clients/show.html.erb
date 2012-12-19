@@ -3,10 +3,10 @@
 <div class="page_header">
   <h1><%= @client.name %></h1>
 
-  <h2>Jobs: <%= @jobs.count() %></h2>
+  <h2><%= t ".jobs" %>: <%= @jobs.count() %></h2>
 
   <% if signed_in? %>
-      <%= link_to "+ Add New Job", new_job_path, class: "bluebtn page_header_button" %>
+      <%= link_to "+ " + I18n.t("clients.show.add_job"), new_job_path, class: "bluebtn page_header_button" %>
   <% end %>
 
 </div>

@@ -1,11 +1,11 @@
-<% provide(:title, 'Job Templates') %>
+<% provide(:title, I18n.t("job_templates.index.title")) %>
 
 <div class="page_header">
-  <h1>Product Lines</h1>
+  <h1><%= t "product_lines.index.title" %></h1>
 
   <h2><%= @product_lines.count %></h2>
 
-  <%= link_to "Add New Product Line", new_product_line_path, remote: true,
+  <%= link_to I18n.t("product_lines.index.new"), new_product_line_path, remote: true,
               class: "bluebtn page_header_button", id: "new_product_line_link" %>
 </div>
 

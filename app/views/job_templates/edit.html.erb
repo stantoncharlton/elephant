@@ -1,4 +1,4 @@
-<h1 class="page-title">Edit Job Type</h1>
+<h1 class="page-title"><%= t ".title" %></h1>
 
 <%= form_for(@job_template) do |f| %>
 
@@ -8,7 +8,7 @@
 
 
     <div class="actions">
-      <%= f.submit "Save Job type", class: "bluebtn pull-right" %>
+      <%= f.submit I18n.t("job_templates.edit.save"), class: "bluebtn pull-right" %>
     </div>
 
 

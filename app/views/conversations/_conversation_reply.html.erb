@@ -2,8 +2,8 @@
 
     <%= f.text_area :message_text,
                     id: "conversation_reply_box",
-            placeholder: "Type reply message here..." %>
+            placeholder: I18n.t("conversations.reply_prompt") %>
 
-    <%= f.submit "Reply", class: "bluebtn btnsmall pull-right" %>
+    <%= f.submit I18n.t("conversations.reply"), class: "bluebtn btnsmall pull-right" %>
 
 <% end %>

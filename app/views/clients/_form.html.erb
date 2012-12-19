@@ -1,11 +1,11 @@
 <%= render 'shared/error_messages', object: f.object %>
 
 <div class="header">
-  <h2>Information</h2>
+  <h2><%= t "global.information" %></h2>
 </div>
 
 <div class="content">
   <div class="field">
-    <%= f.text_field :name, placeholder: "Customer Name", class: "txtfield" %>
+    <%= f.text_field :name, placeholder: I18n.t("jobs.job_data.client_name"), class: "txtfield" %>
   </div>
 </div>

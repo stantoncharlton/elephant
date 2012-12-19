@@ -1,19 +1,19 @@
-<% provide(:title, 'Customers') %>
+<% provide(:title, I18n.t("clients.index.title")) %>
 
 
 <div class="page_header">
-  <h1>Customers</h1>
+  <h1><%= t ".title" %></h1>
 
   <h2 class="paginated-count">
     <%= render 'layouts/paged_header', items: @clients %>
   </h2>
 
   <% if signed_in_admin? %>
-      <%= link_to "+ Add New Customer", new_client_path, class: "bluebtn page_header_button" %>
+      <%= link_to "+ " + I18n.t("clients.index.add"), new_client_path, class: "bluebtn page_header_button" %>
   <% end %>
 
   <%= form_tag clients_path, :method => 'get', :id => "clients_search", class: "inline search-box" do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search customers", class: "search-query" %>
+      <%= text_field_tag :search, params[:search], placeholder: I18n.t("clients.index.search"), class: "search-query" %>
   <% end %>
 </div>
 
