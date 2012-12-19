@@ -21,7 +21,7 @@ $ ->
 
   $('#new_field_link').click ->
     if $('#job_district_id').val() != ''
-      $(this).attr 'href', "/fields/new" + '?district_id=' + $('#job_district_id').val()
+      $(this).attr 'href', "/fields/new" + '?district_id=' + $('#district_id').val()
     else
       alert('Select a District First')
 
