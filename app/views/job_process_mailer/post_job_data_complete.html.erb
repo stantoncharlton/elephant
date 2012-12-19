@@ -1,6 +1,17 @@
-<link rel="stylesheet" type="text/css" href="/application.css" />
+<html>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
 
-<h3>Post-Job complete: <%= @job.field.name + " | " +  @job.well.name %></h3>
-<p>Please review the Post-Job documents are correct and close the job.</p>
+<h3>Post-Job complete</h3>
+<br>
 
-<%= render 'jobs/job', job: @job %>
+<p>Please <%= link_to polymorphic_url(@job), class: "activity-user-link" do %>Click here
+  <% end %> to review the Post-Job documents and make sure they are correct and close the job.</p>
+
+<br><br>
+<%= link_to polymorphic_url(@job), class: "job-email-link" do %>
+    <%= render 'jobs/job_data', job: @job, form_editable: false, new_line_job_type: true %>
+<% end %>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
-<p>Welcome to <b>Elephant</b>!</p>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
 
+<p>Welcome to <b>Elephant</b>!</p>
+<br>
 <p>You have been added to your company account at <b><%=  @user.company.name %></b></p>
 
 <p>Login using your email: <%= @user.email %></p>
@@ -7,4 +9,5 @@
 
 <p>Once you login you will be prompted to create a new password.</p>
 
+<br><br>
 <p><%= link_to "Login Now", root_url %></p>

@@ -43,6 +43,15 @@
   margin-right: 0px;
 }
 
+.job-field-value-long {
+  display: inline-block;
+  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 0px;
+}
+
 .job-field-value-link {
   display: inline-block;
   margin-right: 0px;
@@ -117,6 +126,26 @@
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
+
+  &:active, &:link, &:visited {
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #000000;
+    background: #deebf7;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+}
+
+.job-email-link {
+  background: transparent;
+  width: 100%;
+  padding: 0px;
+  display: block;
+  margin-top: 0px;
+  margin-bottom: 0px;
 
   &:active, &:link, &:visited {
     background: transparent;

@@ -1,6 +1,16 @@
-<link rel="stylesheet" type="text/css" href="/application.css" />
+<html>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
 
-<h3>Job Complete: <%= @job.field.name + " | " +  @job.well.name %></h3>
+<h3>Job Complete</h3>
+<br>
+
 <p>This job is now complete and has been closed.</p>
 
-<%= render 'jobs/job', job: @job %>
+<br><br>
+<%= link_to polymorphic_url(@job), class: "job-email-link" do %>
+    <%= render 'jobs/job_data', job: @job, form_editable: false, new_line_job_type: true %>
+<% end %>
+
+</body>
+</html>

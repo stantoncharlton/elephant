@@ -2,16 +2,12 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h3>Pre-Job complete</h3>
+<h3>You Have Been Added to a Job</h3>
 <br>
 
-<p>Please <%= link_to polymorphic_url(@job), class: "activity-user-link" do %>Click here
-  <% end %> to review the data and documents are correct and complete. Then, approve the job to ship by clicking the
-  button
-  'Ship Job To Field'.</p>
+<p><%= link_to polymorphic_url(@job), class: "activity-user-link" do %>Click here<% end %> to view the job.</p>
 
 <br><br>
-
 <%= link_to polymorphic_url(@job), class: "job-email-link" do %>
     <%= render 'jobs/job_data', job: @job, form_editable: false, new_line_job_type: true %>
 <% end %>

@@ -22,61 +22,7 @@
       <file leaf-file-name="pre_job_data_complete.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/pre_job_data_complete.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="47" selection-start="320" selection-end="320" vertical-scroll-proportion="-3.2">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_fields.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/jobs/_fields.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="42" selection-start="2855" selection-end="2855" vertical-scroll-proportion="-13.52">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users.js.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/users.js.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="55" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jobs_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/jobs_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="27" selection-start="4439" selection-end="4439" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="job_creation.js.coffee" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_creation.js.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="31" selection-start="1470" selection-end="1470" vertical-scroll-proportion="0.6617647">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/wells/index.js.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="54" selection-start="474" selection-end="474" vertical-scroll-proportion="-9.6">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="post_job_data_complete.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/post_job_data_complete.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="65" selection-start="65" selection-end="65" vertical-scroll-proportion="-0.0">
+            <state line="19" column="38" selection-start="567" selection-end="567" vertical-scroll-proportion="-12.16">
               <folding />
             </state>
           </provider>
@@ -85,7 +31,34 @@
       <file leaf-file-name="ship_to_field.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/ship_to_field.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="65" selection-start="65" selection-end="65" vertical-scroll-proportion="-0.0">
+            <state line="10" column="27" selection-start="218" selection-end="218" vertical-scroll-proportion="-6.4">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="17" selection-start="341" selection-end="341" vertical-scroll-proportion="0.61538464">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_mailer.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/mailers/user_mailer.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="5" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="added_to_job.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/added_to_job.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="27" selection-start="292" selection-end="292" vertical-scroll-proportion="-6.4">
               <folding />
             </state>
           </provider>
@@ -94,16 +67,16 @@
       <file leaf-file-name="job_complete.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/job_complete.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="65" selection-start="65" selection-end="65" vertical-scroll-proportion="-0.0">
+            <state line="10" column="27" selection-start="217" selection-end="217" vertical-scroll-proportion="-6.4">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="job_process.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/job_process.rb">
+      <file leaf-file-name="post_job_data_complete.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/post_job_data_complete.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="11" column="27" selection-start="357" selection-end="357" vertical-scroll-proportion="-7.04">
               <folding />
             </state>
           </provider>
@@ -122,22 +95,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/conversations/_conversation_full.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/_conversation_reply.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/conversations/new.html.erb" />
-        <option value="$PROJECT_DIR$/config/locales/en.yml" />
-        <option value="$PROJECT_DIR$/Gemfile" />
-        <option value="$PROJECT_DIR$/app/models/job_template.rb" />
-        <option value="$PROJECT_DIR$/app/views/job_process_mailer/pre_job_data_complete.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/search/index.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/users/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/jobs/_job_data.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
+        <option value="$PROJECT_DIR$/app/mailers/user_mailer.rb" />
+        <option value="$PROJECT_DIR$/app/mailers/job_process_mailer.rb" />
+        <option value="$PROJECT_DIR$/app/models/job.rb" />
+        <option value="$PROJECT_DIR$/app/models/user.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/job_memberships_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/job_process_mailer/added_to_job.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/job_complete.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/job_process_mailer/ship_to_field.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/post_job_data_complete.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/users.js.coffee" />
-        <option value="$PROJECT_DIR$/app/views/wells/index.js.erb" />
-        <option value="$PROJECT_DIR$/app/views/jobs/_fields.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/jobs_controller.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/job_creation.js.coffee" />
+        <option value="$PROJECT_DIR$/app/views/job_process_mailer/ship_to_field.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/job_process_mailer/pre_job_data_complete.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
       </list>
     </option>
   </component>
@@ -1057,11 +1030,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/job_process_mailer" />
+      <recent name="$PROJECT_DIR$/app/views/jobs" />
       <recent name="$PROJECT_DIR$/app/views/segments" />
       <recent name="$PROJECT_DIR$/app/views/divisions" />
       <recent name="$PROJECT_DIR$/app/views/job_process" />
-      <recent name="$PROJECT_DIR$/app/views/job_process_mailer" />
-      <recent name="$PROJECT_DIR$/app/views/documents" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public" />
@@ -1401,114 +1374,130 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/mailers/job_process_mailer.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+        <state line="31" column="20" selection-start="1362" selection-end="1374" vertical-scroll-proportion="0.7537994">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/new.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/fields/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="25" selection-start="411" selection-end="411" vertical-scroll-proportion="0.46412215">
+        <state line="17" column="94" selection-start="481" selection-end="481" vertical-scroll-proportion="-10.88">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="12" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/divisions.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/models/job_membership.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/product_line.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/controllers/job_process_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="85" column="16" selection-start="2703" selection-end="2751" vertical-scroll-proportion="0.7065527">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/inline_searches.js">
+    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="113" column="31" selection-start="3323" selection-end="3346" vertical-scroll-proportion="0.21176471">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_templates.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="103" column="35" selection-start="3963" selection-end="3963" vertical-scroll-proportion="0.4935484">
+          <folding>
+            <element signature="e#276#310#0" expanded="true" />
+            <element signature="e#753#786#0" expanded="true" />
+            <element signature="n#t &quot;.status&quot;#0;n#!!top" expanded="true" />
+            <element signature="e#1470#1490#0" expanded="true" />
+            <element signature="e#1616#1636#0" expanded="true" />
+            <element signature="e#1728#1748#0" expanded="true" />
+            <element signature="e#1818#1837#0" expanded="true" />
+            <element signature="n#t &quot;.division&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.segment&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.product_line&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.job_type&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.district&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.start_date&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.client_name&quot;#0;n#!!top" expanded="true" />
+            <element signature="n#t &quot;.end_date&quot;#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="141" column="1" selection-start="2456" selection-end="2471" vertical-scroll-proportion="0.52662724">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/_fields.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.52024925">
+        <state line="78" column="26" selection-start="2106" selection-end="2106" vertical-scroll-proportion="0.53555876">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job_template.rb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/job_memberships_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="57" selection-start="249" selection-end="249" vertical-scroll-proportion="0.0">
+        <state line="27" column="35" selection-start="838" selection-end="838" vertical-scroll-proportion="0.5925926">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/jobs.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/added_to_job.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="10" column="27" selection-start="292" selection-end="292" vertical-scroll-proportion="-6.4">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/users.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/post_job_data_complete.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="55" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
+        <state line="11" column="27" selection-start="357" selection-end="357" vertical-scroll-proportion="-7.04">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/job_complete.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+        <state line="10" column="27" selection-start="217" selection-end="217" vertical-scroll-proportion="-6.4">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/wells/index.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/mailers/user_mailer.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="54" selection-start="474" selection-end="474" vertical-scroll-proportion="-9.6">
+        <state line="14" column="5" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/_fields.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/ship_to_field.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="42" selection-start="2855" selection-end="2855" vertical-scroll-proportion="-13.52">
+        <state line="10" column="27" selection-start="218" selection-end="218" vertical-scroll-proportion="-6.4">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/jobs_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/job_process_mailer/pre_job_data_complete.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="27" selection-start="4439" selection-end="4439" vertical-scroll-proportion="0.0">
+        <state line="19" column="38" selection-start="567" selection-end="567" vertical-scroll-proportion="-12.16">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/job_creation.js.coffee">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="31" selection-start="1470" selection-end="1470" vertical-scroll-proportion="0.6617647">
+        <state line="27" column="17" selection-start="341" selection-end="341" vertical-scroll-proportion="0.61538464">
           <folding />
         </state>
       </provider>

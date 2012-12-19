@@ -12,7 +12,7 @@
 <div id="jobs" class="list">
   <% @jobs.each do |job| %>
       <%= link_to job, class: "job-link" do %>
-          <%= render 'jobs/job_data', job: job, form_editable: false %>
+          <%= render 'jobs/job_data', job: job, form_editable: false, new_line_job_type: false %>
       <% end %>
   <% end %>
 </div>

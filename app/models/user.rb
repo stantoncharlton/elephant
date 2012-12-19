@@ -111,6 +111,10 @@ class User < ActiveRecord::Base
         JobProcessMailer.job_complete(self, job).deliver
     end
 
+    def send_added_to_job_email(job)
+        JobProcessMailer.added_to_job(self, job).deliver
+    end
+
     def send_reset_password_email(password)
         UserMailer.reset_password(self, password).deliver
     end

@@ -2,7 +2,7 @@ class JobMembershipsController < ApplicationController
     before_filter :signed_in_user, only: [:new, :create, :destroy]
 
     def new
-       @job_membership = JobMembership.new
+        @job_membership = JobMembership.new
     end
 
     def create
@@ -22,11 +22,15 @@ class JobMembershipsController < ApplicationController
         @job_membership.job = @job
         if @job_membership.save
 
+            if current_user.id != @user.id
+                @user.delay.send_added_to_job_email(@job)
+            end
+
             Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, nil, @job)
 
             Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
         else
-            render template: 'layouts/error', locals: { title: "Problem Adding Member", object: @job_membership }
+            render template: 'layouts/error', locals: {title: "Problem Adding Member", object: @job_membership}
         end
     end
 

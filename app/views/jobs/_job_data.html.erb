@@ -15,7 +15,7 @@
       <%= link_to job.well.name, edit_well_path(job.well), class: "job-title inline job-type-description-target",
                   "data-placement" => "bottom",
                   "data-html" => true,
-                  "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b></div>"%>
+                  "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b></div>" %>
   <% else %>
       <h2 class="job-title inline"><%= job.well.name %></h2>
   <% end %>
@@ -83,6 +83,9 @@
       <h3 class="job-field-value"><%= job.job_template.product_line.name %></h3>
   <% end %>
 
+  <% if new_line_job_type %>
+      <br>
+  <% end %>
   <p class="job-field-title"><%= t ".job_type" %></p>
 
   <% if form_editable %>
@@ -93,7 +96,11 @@
                     "data-title" => "<div><b>" + job.job_template.name + "</b><br>" + job.job_template.description + "</div>" %>
       </h3>
   <% else %>
-      <h3 class="job-field-value"><%= job.job_template.name %></h3>
+      <% if new_line_job_type %>
+          <h3 class="job-field-value-long"><%= job.job_template.name %></h3>
+      <% else %>
+          <h3 class="job-field-value"><%= job.job_template.name %></h3>
+      <% end %>
   <% end %>
 </div>
 
