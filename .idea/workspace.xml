@@ -64,19 +64,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="52" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.24922119">
+            <state line="51" column="44" selection-start="2408" selection-end="2408" vertical-scroll-proportion="-12.8">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_job_data.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="_job_data.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="39" selection-start="4663" selection-end="4663" vertical-scroll-proportion="-17.68">
+            <state line="108" column="80" selection-start="4068" selection-end="4068" vertical-scroll-proportion="0.33956388">
               <folding>
                 <element signature="e#276#310#0" expanded="true" />
                 <element signature="e#753#786#0" expanded="true" />
@@ -1515,9 +1515,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="44" selection-start="2408" selection-end="2408" vertical-scroll-proportion="-12.8">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="39" selection-start="4663" selection-end="4663" vertical-scroll-proportion="-17.68">
+        <state line="108" column="80" selection-start="4068" selection-end="4068" vertical-scroll-proportion="0.33956388">
           <folding>
             <element signature="e#276#310#0" expanded="true" />
             <element signature="e#753#786#0" expanded="true" />
@@ -1535,13 +1542,6 @@
             <element signature="n#t &quot;.client_name&quot;#0;n#!!top" expanded="true" />
             <element signature="n#t &quot;.end_date&quot;#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="52" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.24922119">
-          <folding />
         </state>
       </provider>
     </entry>
