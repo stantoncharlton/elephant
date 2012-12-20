@@ -37,10 +37,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="users_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="56" selection-start="4407" selection-end="4407" vertical-scroll-proportion="0.54008436">
+            <state line="121" column="35" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/models/job.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.54426706">
               <folding />
             </state>
           </provider>
@@ -82,7 +91,6 @@
         <option value="$PROJECT_DIR$/app/views/jobs/_job_data.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
         <option value="$PROJECT_DIR$/config/environments/production.rb" />
-        <option value="$PROJECT_DIR$/app/models/job.rb" />
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/added_to_job.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/job_complete.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/post_job_data_complete.html.erb" />
@@ -93,6 +101,7 @@
         <option value="$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
+        <option value="$PROJECT_DIR$/app/models/job.rb" />
       </list>
     </option>
   </component>
@@ -1370,13 +1379,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="20" selection-start="1919" selection-end="1931" vertical-scroll-proportion="0.5202399">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/mailers/job_process_mailer.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="20" selection-start="823" selection-end="823" vertical-scroll-proportion="0.47058824">
@@ -1463,7 +1465,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="56" selection-start="4407" selection-end="4407" vertical-scroll-proportion="0.54008436">
+        <state line="121" column="35" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.54426706">
           <folding />
         </state>
       </provider>
