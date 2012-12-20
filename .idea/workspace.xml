@@ -46,10 +46,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="job.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="job.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/job.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.54426706">
+            <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="registration_confirmation.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="4" selection-start="413" selection-end="413" vertical-scroll-proportion="-8.32">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reset_password.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="4" selection-start="332" selection-end="332" vertical-scroll-proportion="0.25997046">
               <folding />
             </state>
           </provider>
@@ -97,11 +115,11 @@
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/pre_job_data_complete.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_process_mailer/ship_to_field.html.erb" />
         <option value="$PROJECT_DIR$/app/mailers/user_mailer.rb" />
-        <option value="$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/job.rb" />
+        <option value="$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb" />
       </list>
     </option>
   </component>
@@ -1428,20 +1446,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="4" selection-start="338" selection-end="338" vertical-scroll-proportion="0.22889842">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="4" selection-start="257" selection-end="257" vertical-scroll-proportion="0.18311875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/mailers/user_mailer.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="31" selection-start="86" selection-end="111" vertical-scroll-proportion="0.0">
@@ -1472,7 +1476,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/job.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.54426706">
+        <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="4" selection-start="413" selection-end="413" vertical-scroll-proportion="-8.32">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="4" selection-start="332" selection-end="332" vertical-scroll-proportion="0.25997046">
           <folding />
         </state>
       </provider>
