@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
@@ -7,12 +7,12 @@
 <p>You have been added to your company account at <b><%=  @user.company.name %></b></p>
 
 <p>Login using your email: <%= @user.email %></p>
-<p>...and this temporary password: <%= @password %></p>
+<p>...and this temporary password: <span class="user-password"><%= @password %></span>
 <br>
-<p>Once you login you will be prompted to create a new password.</p>
-
-<br>
+Once you login you will be prompted to create a new password.
+</p>
 <p><%= link_to "Login Now", "www.go-elephant.com", class: "activity-user-link" %></p>
+
 
 </body>
 </html>

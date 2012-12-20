@@ -46,28 +46,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="job.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="job.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/job.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0">
+            <state line="70" column="68" selection-start="1910" selection-end="1910" vertical-scroll-proportion="0.49782294">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="registration_confirmation.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="4" selection-start="413" selection-end="413" vertical-scroll-proportion="-8.32">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reset_password.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="reset_password.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="4" selection-start="332" selection-end="332" vertical-scroll-proportion="0.25997046">
+            <state line="7" column="35" selection-start="232" selection-end="260" vertical-scroll-proportion="-4.48">
               <folding />
             </state>
           </provider>
@@ -104,7 +95,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/assets/javascripts/job_creation.js.coffee" />
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/_job_data.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
@@ -118,8 +108,9 @@
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/job.rb" />
-        <option value="$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/users.css.scss" />
         <option value="$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb" />
       </list>
     </option>
   </component>
@@ -1383,13 +1374,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="10" selection-start="811" selection-end="811" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/environments/production.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="69" selection-start="1983" selection-end="1983" vertical-scroll-proportion="0.5647059">
@@ -1474,23 +1458,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/users.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="42" selection-start="1974" selection-end="1974" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="4" selection-start="413" selection-end="413" vertical-scroll-proportion="-8.32">
+        <state line="65" column="1" selection-start="833" selection-end="846" vertical-scroll-proportion="0.95156693">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/user_mailer/reset_password.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="4" selection-start="332" selection-end="332" vertical-scroll-proportion="0.25997046">
+        <state line="7" column="35" selection-start="232" selection-end="260" vertical-scroll-proportion="-4.48">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="85" selection-start="594" selection-end="594" vertical-scroll-proportion="0.36484492">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/job.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="68" selection-start="1910" selection-end="1910" vertical-scroll-proportion="0.49782294">
           <folding />
         </state>
       </provider>
