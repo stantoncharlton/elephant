@@ -1,13 +1,18 @@
+<html>
 <link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
 
 <p>Welcome to <b>Elephant</b>!</p>
 <br>
 <p>You have been added to your company account at <b><%=  @user.company.name %></b></p>
 
 <p>Login using your email: <%= @user.email %></p>
-<p>...and this temporary password: <%= @user.password %></p>
-
+<p>...and this temporary password: <%= @password %></p>
+<br>
 <p>Once you login you will be prompted to create a new password.</p>
 
 <br><br>
-<p><%= link_to "Login Now", root_url %></p>
+<p><%= link_to "Login Now", "www.go-elephant.com", class: "activity-user-link" %></p>
+
+</body>
+</html>

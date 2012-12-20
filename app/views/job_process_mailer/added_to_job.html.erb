@@ -5,10 +5,10 @@
 <h3>You Have Been Added to a Job</h3>
 <br>
 
-<p><%= link_to job_url(@job), class: "activity-user-link" do %>Click here<% end %> to view the job.</p>
+<p><%= link_to @job.absolute_url, class: "activity-user-link" do %>Click here<% end %> to view the job.</p>
 
 <br><br>
-<%= link_to job_url(@job), class: "job-email-link" do %>
+<%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data', job: @job, form_editable: false, new_line_job_type: true %>
 <% end %>
 

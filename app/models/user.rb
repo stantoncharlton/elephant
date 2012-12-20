@@ -14,8 +14,6 @@ class User < ActiveRecord::Base
     before_save { |user| user.email = email.downcase }
     before_save :create_remember_token
 
-    after_create :send_welcome_email
-
     validates :name, presence: true, length: {maximum: 50}
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, presence: true,
@@ -119,7 +117,12 @@ class User < ActiveRecord::Base
         UserMailer.reset_password(self, password).deliver
     end
 
-private
+    def send_welcome_email(user, password)
+        UserMailer.registration_confirmation(user, password).deliver
+    end
+
+
+    private
 
     def is_elephant_admin?
         self.elephant_admin?
@@ -132,14 +135,5 @@ private
     def create_remember_token
         self.remember_token = SecureRandom.urlsafe_base64
     end
-
-    def send_welcome_email
-        self.delay.send_welcome_email_delayed
-    end
-
-    def send_welcome_email_delayed
-        UserMailer.registration_confirmation(self).deliver
-    end
-
 
 end

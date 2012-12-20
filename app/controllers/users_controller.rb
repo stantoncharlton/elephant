@@ -120,6 +120,8 @@ class UsersController < ApplicationController
 
         if @user.save
 
+            @user.delay.send_welcome_email(@user, password)
+
             Activity.add(self.current_user, Activity::USER_CREATED, @user, @user.name)
 
             flash[:success] = "User created - #{@user.email}"

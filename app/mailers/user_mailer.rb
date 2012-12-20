@@ -1,8 +1,9 @@
 class UserMailer < ActionMailer::Base
   default from: "system@go-elephant.com"
 
-  def registration_confirmation(user)
+  def registration_confirmation(user, password)
       @user = user
+      @password = password
       mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
            :subject => "#{@user.company.name} Added you to Elephant")
   end
