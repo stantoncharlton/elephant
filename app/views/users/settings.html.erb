@@ -1,2 +1,28 @@
-<% provide(:title, 'Settings') %>
-<h1>settings</h1>
+<% provide(:title, I18n.t(".title")) %>
+
+<div class="page_header">
+  <h1><%= t ".title" %></h1>
+</div>
+
+
+<%= form_for(current_user) do |f| %>
+    <br>
+
+    <div class="field">
+      <%= f.label :language, class: "field-title" %>
+      <%= f.select :language, options_for_select([["English", "en-US"], ["Spanish", "es-MX"]]),
+                             html: { class: "long-select" },
+                             default: "en-US" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :time_zone, class: "field-title" %>
+      <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.all,
+                             html: { class: "long-select" },
+                             default: "Central Time (US & Canada)" %>
+    </div>                                3
+
+    <br>
+
+    <%= f.submit "Save", class: "bluebtn pull-right" %>
+<% end %>

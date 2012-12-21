@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121218181728) do
+ActiveRecord::Schema.define(:version => 20121221170900) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -275,9 +275,10 @@ ActiveRecord::Schema.define(:version => 20121218181728) do
     t.string   "client_contact_name"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "company_id"
+    t.boolean  "active",              :default => true
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"
@@ -364,6 +365,7 @@ ActiveRecord::Schema.define(:version => 20121218181728) do
     t.integer  "role_id"
     t.integer  "product_line_id"
     t.string   "time_zone"
+    t.string   "language"
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

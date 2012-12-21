@@ -11,7 +11,8 @@ class AlertsController < ApplicationController
 
         @alerts.each do |alert|
 
-            if alert.expiration.nil? or alert.expiration > 6.3.days.from_now
+            if alert.expiration.nil? or alert.expiration > 6.3.days.from_now or
+                    alert.alert_type == Alert::PRE_JOB_DATA_READY or alert.alert_type == Alert::POST_JOB_DATA_READY
                 @new_alerts << alert
             else
                 @old_alerts << alert

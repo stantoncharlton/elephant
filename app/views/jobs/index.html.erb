@@ -27,12 +27,34 @@
 
 <% else %>
 
-    <%= will_paginate %>
 
     <div id="jobs" class="list">
       <%= render @jobs %>
     </div>
 
-    <%= will_paginate %>
-
 <% end %>
+
+
+
+
+<div class="page_header old-alerts-div">
+  <h1><%= t ".inactive_jobs" %></h1>
+
+  <h2>
+    <% if @jobs_inactive.count > 0 %>
+        <% if params[:page].present? %>
+            <%= ((Integer(params[:page]) - 1) * 5) + 1 %> - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+        <% else %>
+            1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+        <% end %>
+    <% end %>
+  </h2>
+
+</div>
+
+
+<div id="jobs_inactive" class="list">
+  <%= render @jobs_inactive %>
+</div>
+
+<%= will_paginate @jobs_inactive %>

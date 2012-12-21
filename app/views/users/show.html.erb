@@ -22,20 +22,42 @@
 
 </div>
 
+<br><br><br>
 
-<div class="header">
-  <h2 class="header-title">Jobs</h2>
+<div class="page_header">
+  <h1><%= t ".jobs" %></h1>
+
+  <h2>
+    <% if @user.active_jobs.count > 0 %>
+        <% if params[:page].present? %>
+            <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
+            - <%= [((Integer(params[:page]) - 1) * 10) + 10, @user.active_jobs.count].min %>
+            of <%= @user.active_jobs.count.to_s %>
+        <% else %>
+            1 - <%= [10, @user.active_jobs.count].min %> of <%= @user.active_jobs.count.to_s %>
+        <% end %>
+    <% end %>
+  </h2>
 </div>
 
 <div class="content">
   <div id="jobs" class="list">
-    <% @user.jobs.each do |job| %>
+    <% @user.active_jobs.each do |job| %>
         <%= link_to job, class: "job-link" do %>
             <%= render 'jobs/job_data', job: job, form_editable: false, new_line_job_type: false %>
         <% end %>
     <% end %>
   </div>
+
+  <% if @user.inactive_jobs.count > 0 %>
+      <div class="content">
+        <br>
+        <%= link_to "View Completed Jobs (" + @user.inactive_jobs.count.to_s + ")", "#", class: "user-info-link" %>
+        <br>
+      </div>
+  <% end %>
 </div>
 
+<br>
 
 <%= render 'activities/paginated_activity', activities: @activities, inside_job: false %>

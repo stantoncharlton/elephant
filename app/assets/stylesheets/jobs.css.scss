@@ -43,6 +43,10 @@
   margin-right: 0px;
 }
 
+.job-field-value-bold {
+  height: 35px;
+}
+
 .job-field-value-long {
   display: inline-block;
   width: 500px;
@@ -325,4 +329,11 @@ ul.ui-autocomplete {
 
 .bold {
   font-weight: bold;
+}
+
+.dropdown-menu-link {
+  width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

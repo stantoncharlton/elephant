@@ -16,6 +16,7 @@
           <p class=" inline"><%= t ".waiting_to_ship" %>:</p>
         </div>
         <%= render 'jobs/job', job: alert.job %>
+        <%= render 'job_process/job_verified', job: alert.job %>
     <% end %>
     <% if alert.alert_type == Alert::POST_JOB_DATA_READY %>
         <div>
@@ -23,6 +24,7 @@
           <p class=" inline"><%= t ".waiting_to_close" %>:</p>
         </div>
         <%= render 'jobs/job', job: alert.job %>
+        <%= render 'job_process/job_shipped', job: alert.job %>
     <% end %>
 
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>

@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
     attr_accessible :email,
                     :name,
                     :time_zone,
+                    :language,
                     :phone_number,
                     :location,
                     :password,
@@ -68,6 +69,13 @@ class User < ActiveRecord::Base
         end
     end
 
+
+    def active_jobs
+        jobs.where(:active => true)
+    end
+    def inactive_jobs
+        jobs.where(:active => false)
+    end
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")

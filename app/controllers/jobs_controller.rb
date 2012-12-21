@@ -5,8 +5,8 @@ class JobsController < ApplicationController
 
     def index
 
-        @jobs = current_user.jobs.paginate(page: params[:page], limit: 10)
-
+        @jobs = current_user.active_jobs
+        @jobs_inactive = current_user.inactive_jobs.paginate(page: params[:page], limit: 5)
     end
 
     def show

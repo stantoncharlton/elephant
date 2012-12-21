@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show, :settings]
-    before_filter :signed_in_admin, only: [:new, :create, :destroy, :edit, :update]
+    before_filter :signed_in_user, only: [:index, :show, :settings, :update]
+    before_filter :signed_in_admin, only: [:new, :create, :destroy, :edit]
     set_tab :users
 
     def index

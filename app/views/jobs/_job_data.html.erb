@@ -22,17 +22,21 @@
 
   <% if form_editable %>
 
-
-      <div class="btn-group inline pull-right">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          2 Other Jobs on Well
-        </a>
-        <ul class="dropdown-menu">
-          <li><%= link_to "Cement", "#" %></li>
-          <li class="divider"></li>
-          <li><%= link_to "Completion", "#" %></li>
-        </ul>
-      </div>
+      <% if job.other_jobs.count > 0 %>
+          <div class="btn-group inline pull-right">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              <%= job.other_jobs.count.to_s %> <%= t ".other_jobs" %>
+            </a>
+            <ul class="dropdown-menu">
+              <% job.other_jobs.each do |other_job| %>
+                  <li><%= link_to other_job.job_template.name, other_job, class: "dropdown-menu-link" %></li>
+                  <% if job.other_jobs.last != other_job %>
+                      <li class="divider"></li>
+                  <% end %>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
   <% end %>
 
 </div>
@@ -43,11 +47,11 @@
   <% if job.approved_to_close %>
       <p class="job-field-value"><%= t ".status_complete" %></p>
   <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
-      <p class="job-field-value status-good"><%= t ".status_post_job" %></p>
+      <h3 class="job-field-value status-good"><%= t ".status_post_job" %></h3>
   <% elsif job.approved_to_ship %>
-      <p class="job-field-value status-good"><%= t ".status_in_field" %></p>
+      <h3 class="job-field-value status-good"><%= t ".status_in_field" %></h3>
   <% else %>
-      <p class="job-field-value status-good"><%= t ".status_pre_job" %></p>
+      <h3 class="job-field-value status-good"><%= t ".status_pre_job" %></h3>
   <% end %>
 </div>
 
@@ -80,7 +84,7 @@
                     "data-title" => "<div><b>" + job.job_template.product_line.name + "</b></div>" %>
       </h3>
   <% else %>
-      <h3 class="job-field-value"><%= job.job_template.product_line.name %></h3>
+      <h3 class="job-field-value job-field-value-bold"><%= job.job_template.product_line.name %></h3>
   <% end %>
 
   <% if new_line_job_type %>
@@ -97,9 +101,9 @@
       </h3>
   <% else %>
       <% if new_line_job_type %>
-          <h3 class="job-field-value-long"><%= job.job_template.name %></h3>
+          <h3 class="job-field-value-long job-field-value-bold"><%= job.job_template.name %></h3>
       <% else %>
-          <h3 class="job-field-value"><%= job.job_template.name %></h3>
+          <h3 class="job-field-value job-field-value-bold"><%= job.job_template.name %></h3>
       <% end %>
   <% end %>
 </div>
@@ -129,9 +133,9 @@
       <p class="job-field-value"><%= job.district.name %></p>
   <% end %>
 
-  <p class="job-field-title"><%= t ".start_date" %></p>
+  <p class="job-field-title"><%= t ".created_date" %></p>
 
-  <p class="job-field-value">12/7/12</p>
+  <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
 </div>
 
 <div class="">
@@ -143,7 +147,7 @@
       <p class="job-field-value"><%= job.client.name %></p>
   <% end %>
 
-  <p class="job-field-title"><%= t ".end_date" %></p>
+  <p class="job-field-title"><%= t ".start_date" %></p>
 
   <p class="job-field-value">12/10/12</p>
 </div>

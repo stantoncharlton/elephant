@@ -20,8 +20,10 @@ en:
       title: "Jobs"
       new: "Add New Job"
       no_jobs: "You don't have any jobs right now..."
+      inactive_jobs: "Completed Jobs"
 
     job_data:
+      other_jobs: "Other Jobs on Well"
       field_name: "Field Name"
       well_name: "Well Name"
       status: "Status"
@@ -30,6 +32,7 @@ en:
       product_line: "Product Line"
       job_type: "Job Type"
       district: "District"
+      created_date: "Created Date"
       start_date: "Start Date"
       end_date: "End Date"
       client_name: "Client Name"
@@ -150,6 +153,13 @@ en:
     new:
       title: "New Message"
       recipients: "Recipients"
+
+  users:
+    settings:
+      title: "Settings"
+
+    show:
+      jobs: "Jobs"
 
   global:
     done: "Done"

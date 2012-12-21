@@ -1,7 +1,8 @@
 class Job < ActiveRecord::Base
     attr_accessible :client_contact_name,
                     :start_date,
-                    :end_date
+                    :end_date,
+                    :active
 
 
     validates_presence_of :company
@@ -172,6 +173,10 @@ class Job < ActiveRecord::Base
         #where(:dynamic_fields => {:dynamic_field_template_id => "8"}).includes(:dynamic_fields)
 
         return ar_query
+    end
+
+    def other_jobs
+        self.well.jobs.select { |j| j != self }
     end
 
     def pre_job_data_good

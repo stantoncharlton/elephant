@@ -1,15 +1,16 @@
-<div class="header">
-  <h2>Activity</h2>
 
-  <p>
+<div class="page_header">
+  <h1>Activity</h1>
+
+  <h2>
     <% if activities.count > 0 %>
         <% if params[:page].present? %>
             <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, activities.count].min %> of <%= activities.count.to_s %>
         <% else %>
-            1 - 10 of <%= activities.count.to_s %>
+            1 - <%= [10, activities.count].min %> of <%= activities.count.to_s %>
         <% end %>
     <% end %>
-  </p>
+  </h2>
 </div>
 
 <div id="job_activities" class="list">
