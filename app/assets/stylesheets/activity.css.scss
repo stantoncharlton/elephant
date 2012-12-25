@@ -36,6 +36,8 @@
   min-width: 100px;
   min-height: 100px;
   float: left;
+  margin-left: -10px;
+  margin-top: -10px;
 }
 
 
@@ -154,5 +156,35 @@
     font-weight: normal;
     display: block;
     margin: 0px;
+  }
+}
+
+.well-tooltip {
+
+  padding: 8px;
+
+  h2 {
+    color: #FFFFFF;
+    font-size: 14px;
+    line-height: 14px;
+    height: auto;
+    font-weight: bold;
+    display: block;
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    opacity:  1.0;
+  }
+
+  p {
+    color: #FFFFFF;
+    font-size: 13px;
+    line-height: 13px;
+    height: auto;
+    font-weight: normal;
+    display: block;
+    margin: 0px;
+    margin-top: 5px;
+
   }
 }

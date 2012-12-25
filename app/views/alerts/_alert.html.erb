@@ -17,6 +17,7 @@
         </div>
         <%= render 'jobs/job', job: alert.job %>
         <%= render 'job_process/job_verified', job: alert.job %>
+        <br><br>
     <% end %>
     <% if alert.alert_type == Alert::POST_JOB_DATA_READY %>
         <div>
@@ -25,6 +26,7 @@
         </div>
         <%= render 'jobs/job', job: alert.job %>
         <%= render 'job_process/job_shipped', job: alert.job %>
+        <br>
     <% end %>
 
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>

@@ -11,18 +11,65 @@
     <div class="field">
       <%= f.label :language, class: "field-title" %>
       <%= f.select :language, options_for_select([["English", "en-US"], ["Spanish", "es-MX"]]),
-                             html: { class: "long-select" },
-                             default: "en-US" %>
+                   html: {class: "long-select"},
+                   default: "en-US" %>
     </div>
 
     <div class="field">
       <%= f.label :time_zone, class: "field-title" %>
       <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.all,
-                             html: { class: "long-select" },
+                             html: {class: "long-select"},
                              default: "Central Time (US & Canada)" %>
-    </div>                                3
+    </div>
 
-    <br>
+    <div class="page-header-small">
+      <br><br>
+      <h1>Units</h1>
+    </div>
+
+    <div class="field">
+      <%= label_tag "Length", "Length", class: "field-title" %>
+      <%= select_tag "Length", options_for_select([["Feet", "english"], ["Meters", "metric"]]),
+                     html: {class: "long-select"},
+                     default: "english" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "Temperature", "Temperature", class: "field-title" %>
+      <%= select_tag "Temperature", options_for_select([["Fahrenheit", "english"], ["Celsius", "metric"]]),
+                     html: {class: "long-select"},
+                     default: "english" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "Pressure", "Pressure", class: "field-title" %>
+      <%= select_tag "Pressure", options_for_select([["Psi", "english"], ["Mpa", "metric"]]),
+                     html: {class: "long-select"},
+                     default: "english" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "Rate", "Rate", class: "field-title" %>
+      <%= select_tag "Rate", options_for_select([["bbls/min", "english"], ["m^3/min", "metric"]]),
+                     html: {class: "long-select"},
+                     default: "english" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "Volume", "Volume", class: "field-title" %>
+      <%= select_tag "Volume", options_for_select([["bbls", "english"], ["m^3", "metric"]]),
+                     html: {class: "long-select"},
+                     default: "english" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag "Area", "Area", class: "field-title" %>
+      <%= select_tag "Area", options_for_select([["in^2", "english"], ["cm^2", "metric"]]),
+                     html: {class: "long-select"},
+                     default: "english" %>
+    </div>
+
+    <br><br>
 
     <%= f.submit "Save", class: "bluebtn pull-right" %>
 <% end %>

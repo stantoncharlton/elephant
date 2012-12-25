@@ -14,14 +14,24 @@
       <% end %>
 
       <div class="activity-avatar-box-small">
-        <%= image_tag "user_avatar_small.png" %>
+        <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
+            <%= image_tag "user_avatar_added.png" %>
+        <% elsif activity.activity_type == Activity::JOB_APPROVED_TO_SHIP %>
+            <%= image_tag "user_avatar_shipped.png" %>
+        <% elsif activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
+            <%= image_tag "user_avatar_complete.png" %>
+        <% elsif activity.activity_type == Activity::JOB_NOTE_ADDED %>
+            <%= image_tag "user_avatar_note.png" %>
+        <% else %>
+            <%= image_tag "user_avatar_default.png" %>
+        <% end %>
       </div>
 
       <div class="activity-content">
 
         <% if !inside_job %>
             <div class="pull-right">
-              <%= render 'activities/job_description', job: activity.job, inside_job: true %></p>
+              <%= render 'activities/job_description', job: activity.job, inside_job: false %></p>
             </div>
         <% end %>
 

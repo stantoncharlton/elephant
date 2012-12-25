@@ -1,8 +1,14 @@
-<%= link_to "View Job", job %>
 <% if !inside_job %>
-    <p class="inline"> (<%= job.job_template.product_line.name %>
-      | <%= job.job_template.name %>
-      on <%= link_to job.field.name, job.field %>
-      | <%= link_to job.well.name, job.well %>)
+    <p class="inline">
+      <%= link_to job, class: "activity-user-link", "data-placement" => "bottom",
+                  "data-html" => true,
+                  "data-title" => "<div class='well-tooltip'>" +
+                          "<p>" + job.job_template.product_line.segment.division.name + "</p>" +
+                          "<p>" + job.job_template.product_line.segment.name + "</p>" +
+                          "<p>" + job.job_template.product_line.name + "</p>" +
+                          "<h2>" + job.job_template.name + "</h2>" +
+                          "</div>"  do %>
+          <%= job.field.name %> | <%= job.well.name %>
+      <% end %>
     </p>
 <% end %>

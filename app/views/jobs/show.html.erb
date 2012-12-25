@@ -38,6 +38,7 @@
 
 <div class="content">
   <div class="">
+    <br>
     <a href="#" id="custom_data_toggle" class="custom-data-toggle"><%= t ".more_details" %></a>
 
     <div class="custom-data-closed" id="custom_data">
@@ -47,8 +48,13 @@
               <% if @job_editable %>
                   <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
                          value="<%= df.value.present? ? df.value : "-" %>">
+
+                  <p class="job-field-units"><%= df.value_type %></p>
               <% else %>
-                  <p class="job-field-value"><%= df.value %></p>
+                  <div class="job-field-div">
+                    <p class="job-field-value2"><%= df.value %></p>
+                    <p class="job-field-units"><%= df.value_type %></p>
+                  </div>
               <% end %>
           <% end %>
       <% end %>
@@ -66,8 +72,8 @@
   <% end %>
 </div>
 
-<div class="header">
-  <h2><%= t ".documents" %></h2>
+<div class="page_header">
+  <h1><%= t ".documents" %></h1>
 
   <% if @job_editable %>
       <div class="pull-right">
@@ -110,8 +116,8 @@
 </div>
 
 
-<div class="header">
-  <h2><%= t ".notes" %></h2>
+<div class="page_header">
+  <h1><%= t ".notes" %></h1>
 </div>
 <div class="content">
   <div class="field">
