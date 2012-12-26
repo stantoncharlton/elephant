@@ -19,22 +19,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="dynamic_field.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/dynamic_field.rb">
+      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="51" selection-start="1791" selection-end="1791" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="54" column="30" selection-start="2476" selection-end="2492" vertical-scroll-proportion="-34.56">
+              <folding>
+                <element signature="n#t &quot;.notes&quot;#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+      <file leaf-file-name="_job_data.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="39" selection-start="1699" selection-end="1699" vertical-scroll-proportion="73.28">
-              <folding>
-                <element signature="n#t &quot;.notes&quot;#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="0" column="17" selection-start="12" selection-end="17" vertical-scroll-proportion="-0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,30 +75,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity.css.scss" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="activity.css.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/activity.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="174" column="22" selection-start="2731" selection-end="2731" vertical-scroll-proportion="0.5529412">
+            <state line="42" column="1" selection-start="650" selection-end="671" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/settings.html.erb">
+      <file leaf-file-name="_job_note.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="78" selection-start="1854" selection-end="1854" vertical-scroll-proportion="-16.2">
-              <folding>
-                <element signature="e#19#35#0" expanded="true" />
-              </folding>
+            <state line="12" column="35" selection-start="325" selection-end="325" vertical-scroll-proportion="-7.68">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.css.scss" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="forms.css.scss" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="19" selection-start="547" selection-end="547" vertical-scroll-proportion="0.0">
+            <state line="4" column="23" selection-start="109" selection-end="109" vertical-scroll-proportion="0.09785933">
               <folding />
             </state>
           </provider>
@@ -107,7 +105,7 @@
       <file leaf-file-name="jobs.css.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="1" selection-start="814" selection-end="830" vertical-scroll-proportion="0.0">
+            <state line="24" column="16" selection-start="440" selection-end="446" vertical-scroll-proportion="-12.692307">
               <folding />
             </state>
           </provider>
@@ -126,22 +124,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/users/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/job_templates/show.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss" />
         <option value="$PROJECT_DIR$/app/views/job_templates/_dynamic_field_fields.html.erb" />
         <option value="$PROJECT_DIR$/app/views/dynamic_fields/_dynamic_field.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20121224181935_change_value_type_conversion_in_dynamic_fields.rb" />
         <option value="$PROJECT_DIR$/app/views/alerts/_alert.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
         <option value="$PROJECT_DIR$/app/models/dynamic_field.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/users.css.scss" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss" />
         <option value="$PROJECT_DIR$/app/views/users/settings.html.erb" />
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/activities/_job_activity.html.erb" />
         <option value="$PROJECT_DIR$/app/views/activities/_job_description.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/activity.css.scss" />
+        <option value="$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss" />
       </list>
     </option>
   </component>
@@ -1449,39 +1447,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/users.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="0" selection-start="921" selection-end="921" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/job_templates/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="87" selection-start="413" selection-end="413" vertical-scroll-proportion="-6.4">
-          <folding>
-            <element signature="n#t &quot;.title&quot;#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/fonts.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/job_templates.css.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state line="100" column="10" selection-start="1694" selection-end="1694" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="19" selection-start="547" selection-end="547" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1499,15 +1467,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="1" selection-end="441" vertical-scroll-proportion="0.024922118">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="39" selection-start="1699" selection-end="1699" vertical-scroll-proportion="73.28">
-          <folding>
-            <element signature="n#t &quot;.notes&quot;#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1534,37 +1493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/activities/_job_activity.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="91" selection-start="1362" selection-end="1362" vertical-scroll-proportion="-11.52">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="24" selection-start="1539" selection-end="1539" vertical-scroll-proportion="-21.12">
-          <folding>
-            <element signature="e#276#310#0" expanded="true" />
-            <element signature="e#753#786#0" expanded="true" />
-            <element signature="e#1167#1182#0" expanded="true" />
-            <element signature="n#t &quot;.status&quot;#0;n#!!top" expanded="true" />
-            <element signature="e#1777#1797#0" expanded="true" />
-            <element signature="e#1924#1944#0" expanded="true" />
-            <element signature="e#2038#2058#0" expanded="true" />
-            <element signature="e#2130#2149#0" expanded="true" />
-            <element signature="n#t &quot;.division&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.segment&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.product_line&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.job_type&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.district&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.created_date&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.client_name&quot;#0;n#!!top" expanded="true" />
-            <element signature="n#t &quot;.start_date&quot;#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/activities/_user.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="29" selection-start="29" selection-end="289" vertical-scroll-proportion="-0.0">
@@ -1581,7 +1509,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/activity.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="22" selection-start="2731" selection-end="2731" vertical-scroll-proportion="0.5529412">
+        <state line="42" column="1" selection-start="650" selection-end="671" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/dynamic_field.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="51" selection-start="1791" selection-end="1791" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="35" selection-start="325" selection-end="325" vertical-scroll-proportion="-7.68">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/activities/_job_activity.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="91" selection-start="1362" selection-end="1362" vertical-scroll-proportion="-11.52">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="30" selection-start="2476" selection-end="2492" vertical-scroll-proportion="-34.56">
+          <folding>
+            <element signature="n#t &quot;.notes&quot;#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="16" selection-start="440" selection-end="446" vertical-scroll-proportion="-12.692307">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="17" selection-start="12" selection-end="17" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="23" selection-start="109" selection-end="109" vertical-scroll-proportion="0.09785933">
           <folding />
         </state>
       </provider>

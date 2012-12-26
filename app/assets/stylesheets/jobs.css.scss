@@ -26,10 +26,9 @@
 }
 
 .job-field-title {
-  color: #b9b9b9;
+  color: #424242;
   font-size: 12px;
   display: inline-block;
-  font-style: italic;
   min-width: 140px;
   margin-right: 0px;
 }
@@ -40,6 +39,7 @@
 }
 
 .job-field-value {
+  font-size: 13px;
   display: inline-block;
   width: 250px;
   overflow: hidden;
@@ -49,6 +49,7 @@
 }
 
 .job-field-value2 {
+  font-size: 13px;
   display: inline-block;
   max-width: 180px;
   overflow: hidden;
@@ -75,7 +76,8 @@
   margin-right: 0px;
 
   &:active, &:link, &:visited {
-    color: #000000;
+    color: #0058a8;
+
     background: transparent;
     text-decoration: none;
   }
