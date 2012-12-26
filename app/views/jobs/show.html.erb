@@ -49,11 +49,11 @@
                   <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
                          value="<%= df.value.present? ? df.value : "-" %>">
 
-                  <p class="job-field-units"><%= df.value_type %></p>
+                  <p class="job-field-units"><%= df.value_type_unit %></p>
               <% else %>
                   <div class="job-field-div">
                     <p class="job-field-value2"><%= df.value %></p>
-                    <p class="job-field-units"><%= df.value_type %></p>
+                    <p class="job-field-units"><%= df.value_type_unit %></p>
                   </div>
               <% end %>
           <% end %>

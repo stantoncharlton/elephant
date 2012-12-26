@@ -5,4 +5,5 @@ $('#product_line_<%= @product_line.id %>').find('.job-type-count').hide();
 $('#cancel_rename').click( function () {
     $('#product_line_<%= @product_line.id %>_header').show().next().remove();
     $('#product_line_<%= @product_line.id %>').find('.job-type-count').show();
+    return false;
 });

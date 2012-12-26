@@ -4,4 +4,5 @@ $('#cancel_product_line_<%= @product_line.segment.id %>').click( function () {
 
     $('#new_product_line_id_<%= @product_line.segment.id %>').remove();
     $('#new_product_line_link_<%= @product_line.segment.id %>').show();
+    return false;
 });

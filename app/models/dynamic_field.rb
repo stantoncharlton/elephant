@@ -1,6 +1,6 @@
 class DynamicField < ActiveRecord::Base
     attr_accessible :name,
-                    :value_type_conversion,
+                    :value_type,
                     :template,
                     :priority
 
@@ -31,7 +31,7 @@ class DynamicField < ActiveRecord::Base
         read_attribute(:value) #.send(value_type_conversion)
     end
 
-    def value_type
+    def value_type_unit
         case read_attribute(:value_type)
             when STRING
                 ""
@@ -57,7 +57,7 @@ class DynamicField < ActiveRecord::Base
     end
 
     def value_type_label
-        get_value_type_label(self.value_type_conversion)
+        get_value_type_label(self.value_type)
     end
 
     def get_value_type_label(type)

@@ -5,4 +5,5 @@ $('#division_<%= @division.id %>').find('.job-type-count').hide();
 $('#cancel_rename_<%= @division.id %>').click( function () {
     $('#division_<%= @division.id %>_header').show().next().remove();
     $('#division_<%= @division.id %>').find('.job-type-count').show();
+    return false;
 });

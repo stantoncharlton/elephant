@@ -5,7 +5,7 @@
     <div class="inline-form">
 
       <%= f.text_field :name, placeholder: I18n.t("job_templates.dynamic_field_fields.name"), class: "txtfield", id: "new_dynamic_field_name" %>
-      <%= f.select :value_type_conversion, options_for_select(@new_dynamic_field.units) %>
+      <%= f.select :value_type, options_for_select(@new_dynamic_field.units) %>
       <%= f.hidden_field :template, value: true %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>
 

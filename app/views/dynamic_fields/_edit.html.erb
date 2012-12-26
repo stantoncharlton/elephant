@@ -6,7 +6,7 @@
       <div class="inline-form">
 
         <%= f.text_field :name, placeholder: "Name of Field", class: "txtfield small", id: "new_dynamic_field_name" %>
-        <%= f.select :value_type_conversion, options_for_select([["String", "to_s"], ["Number", "to_f"], ["Boolean", "to_b"]]) %>
+        <%= f.select :value_type, options_for_select(dynamic_field.units, dynamic_field.value_type) %>
 
         <%= f.submit "Save", class: "bluebtn btnsmall" %>
         <%= link_to "Cancel", "#", id: "cancel_edit", class: "bluebtn btnsmall red" %>
