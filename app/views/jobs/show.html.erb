@@ -36,9 +36,9 @@
 </div>
 
 
-<div class="content">
-  <div class="">
-    <br>
+<div>
+  <div class="content">
+    <br><br><br><br>
     <a href="#" id="custom_data_toggle" class="custom-data-toggle"><%= t ".more_details" %></a>
 
     <div class="custom-data-closed" id="custom_data">
@@ -53,6 +53,7 @@
               <% else %>
                   <div class="job-field-div">
                     <p class="job-field-value2"><%= df.value %></p>
+
                     <p class="job-field-units"><%= df.value_type_unit %></p>
                   </div>
               <% end %>
