@@ -19,10 +19,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="_edit.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_edit.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/dynamic_fields/_edit.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="98" selection-start="441" selection-end="441" vertical-scroll-proportion="0.19277108">
+            <state line="8" column="98" selection-start="441" selection-end="441" vertical-scroll-proportion="-5.12">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20121224181935_change_value_type_conversion_in_dynamic_fields.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20121224181935_change_value_type_conversion_in_dynamic_fields.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="32" selection-start="87" selection-end="87" vertical-scroll-proportion="0.04863222">
               <folding />
             </state>
           </provider>
@@ -86,7 +95,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/activity.css.scss" />
         <option value="$PROJECT_DIR$/app/views/job_notes/_job_note.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/forms.css.scss" />
@@ -102,6 +110,7 @@
         <option value="$PROJECT_DIR$/app/views/segments/edit.js.erb" />
         <option value="$PROJECT_DIR$/app/views/segments/new.js.erb" />
         <option value="$PROJECT_DIR$/app/views/dynamic_fields/_edit.html.erb" />
+        <option value="$PROJECT_DIR$/db/migrate/20121224181935_change_value_type_conversion_in_dynamic_fields.rb" />
       </list>
     </option>
   </component>
@@ -217,6 +226,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elephant_web_app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migrate" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1409,13 +1436,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/product_lines/create.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/product_lines/edit.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="17" selection-start="389" selection-end="389" vertical-scroll-proportion="0.17099236">
@@ -1518,7 +1538,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/dynamic_fields/_edit.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="98" selection-start="441" selection-end="441" vertical-scroll-proportion="0.19277108">
+        <state line="8" column="98" selection-start="441" selection-end="441" vertical-scroll-proportion="-5.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20121224181935_change_value_type_conversion_in_dynamic_fields.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="32" selection-start="87" selection-end="87" vertical-scroll-proportion="0.04863222">
           <folding />
         </state>
       </provider>
