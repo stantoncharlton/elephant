@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121224181935) do
+ActiveRecord::Schema.define(:version => 20121226191629) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -175,15 +175,15 @@ ActiveRecord::Schema.define(:version => 20121224181935) do
   create_table "dynamic_fields", :force => true do |t|
     t.integer  "job_template_id"
     t.integer  "job_id"
-    t.string   "name",                                                    :null => false
+    t.string   "name",                                     :null => false
     t.string   "value"
-    t.integer  "value_type_conversion",     :limit => 255, :default => 0
-    t.datetime "created_at",                                              :null => false
-    t.datetime "updated_at",                                              :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.boolean  "template"
     t.integer  "company_id"
     t.boolean  "priority"
     t.integer  "dynamic_field_template_id"
+    t.integer  "value_type",                :default => 1
   end
 
   add_index "dynamic_fields", ["company_id"], :name => "index_dynamic_fields_on_company_id"

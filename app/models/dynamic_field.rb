@@ -32,7 +32,7 @@ class DynamicField < ActiveRecord::Base
     end
 
     def value_type
-        case self.value_type_conversion
+        case read_attribute(:value_type)
             when STRING
                 ""
             when LENGTH_FT
