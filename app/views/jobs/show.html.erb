@@ -3,9 +3,9 @@
 </div>
 
 <div class="content">
-  <p class="job-field-title pull-left"><%= t ".members" %></p>
+  <p class="job-field-title job-members-title"><%= t ".members" %></p>
 
-  <div class="job-members-div pull-left">
+  <div class="job-members-div">
     <ul class="job-members-list" id="job_members_list">
       <% @job.job_memberships.each do |jm| %>
           <% if jm.job_role_id != 6 %>
@@ -38,7 +38,6 @@
 
 <div>
   <div class="content">
-    <br><br><br><br>
     <a href="#" id="custom_data_toggle" class="custom-data-toggle"><%= t ".more_details" %></a>
 
     <div class="custom-data-closed" id="custom_data">

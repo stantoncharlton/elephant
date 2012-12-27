@@ -34,6 +34,22 @@
             <state line="53" column="0" selection-start="1664" selection-end="1664" vertical-scroll-proportion="-9.6">
               <folding>
                 <element signature="n#t &quot;.title&quot;#0;n#!!top" expanded="true" />
+                <marker date="1356551544000" expanded="true" signature="72:975" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="451:800" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="637:791" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="822:968" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="998:1344" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="1372:1497" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="1540:1592" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="1615:1661" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="1689:1821" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="1931:2117" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="2140:2232" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="2341:2519" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="2542:2627" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="2737:2916" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="2939:3025" placeholder="..." />
+                <marker date="1356551544000" expanded="true" signature="3050:3402" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -42,7 +58,7 @@
       <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="54" selection-start="2362" selection-end="2362" vertical-scroll-proportion="-32.64">
+            <state line="5" column="45" selection-start="191" selection-end="191" vertical-scroll-proportion="-3.2">
               <folding />
             </state>
           </provider>
@@ -60,7 +76,7 @@
       <file leaf-file-name="jobs.css.scss" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="306" column="16" selection-start="5367" selection-end="5367" vertical-scroll-proportion="0.57894737">
+            <state line="294" column="22" selection-start="5222" selection-end="5222" vertical-scroll-proportion="0.517094">
               <folding />
             </state>
           </provider>
@@ -1332,7 +1348,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32756326" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32756326" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2927215" sideWeight="0.6724368" order="0" side_tool="false" content_ui="combo" />
@@ -1491,14 +1507,23 @@
         <state line="53" column="0" selection-start="1664" selection-end="1664" vertical-scroll-proportion="-9.6">
           <folding>
             <element signature="n#t &quot;.title&quot;#0;n#!!top" expanded="true" />
+            <marker date="1356551544000" expanded="true" signature="72:975" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="451:800" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="637:791" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="822:968" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="998:1344" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="1372:1497" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="1540:1592" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="1615:1661" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="1689:1821" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="1931:2117" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="2140:2232" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="2341:2519" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="2542:2627" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="2737:2916" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="2939:3025" placeholder="..." />
+            <marker date="1356551544000" expanded="true" signature="3050:3402" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="54" selection-start="2362" selection-end="2362" vertical-scroll-proportion="-32.64">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1509,9 +1534,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="45" selection-start="191" selection-end="191" vertical-scroll-proportion="-3.2">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="306" column="16" selection-start="5367" selection-end="5367" vertical-scroll-proportion="0.57894737">
+        <state line="294" column="22" selection-start="5222" selection-end="5222" vertical-scroll-proportion="0.517094">
           <folding />
         </state>
       </provider>

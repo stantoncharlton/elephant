@@ -286,8 +286,13 @@ ul.ui-autocomplete {
 }
 
 .job-members-div {
-  display: block;
+  display: inline-block;
   width: 70%;
+}
+
+.job-members-title {
+  display: inline-block;
+  vertical-align: top;
 }
 
 .job-members-list {
