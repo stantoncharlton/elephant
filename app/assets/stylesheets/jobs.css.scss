@@ -101,15 +101,15 @@
   width: 180px;
   margin-right: 0px;
   margin-right: 0px;
-  border-width: 0px 0px 1px 0px;
+  border-width: 1px 1px 1px 1px;
   border-style: dotted;
-  border-color: #ebedee;
+  border-bottom-color: #0058a8;
   text-decoration: none;
   font-weight: bold;
 
   &:active, &:link, &:visited {
     background: transparent;
-    border-color: transparent;
+    border-color: #0058a8;
     text-decoration: none;
   }
   &:hover {

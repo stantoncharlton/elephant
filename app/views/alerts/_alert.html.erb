@@ -3,16 +3,16 @@
     <br>
 
     <% if alert.alert_type == Alert::ADDED_TO_JOB %>
-        <div>
-          <%= image_tag "to_arrow.png" %>
+        <div class="alert-title">
+          <%= image_tag "add_arrow.png" %>
           <%= render 'activities/user', user: alert.created_by %><%= t ".added_to_job" %>:
         </div>
         <%= render 'jobs/job', job: alert.job %>
     <% end %>
 
     <% if alert.alert_type == Alert::PRE_JOB_DATA_READY %>
-        <div>
-          <%= image_tag "to_arrow.png" %>
+        <div class="alert-title">
+          <%= image_tag "approve_arrow.png" %>
           <p class=" inline"><%= t ".waiting_to_ship" %>:</p>
         </div>
         <%= render 'jobs/job', job: alert.job %>
@@ -20,8 +20,8 @@
         <br><br>
     <% end %>
     <% if alert.alert_type == Alert::POST_JOB_DATA_READY %>
-        <div>
-          <%= image_tag "to_arrow.png" %>
+        <div class="alert-title">
+          <%= image_tag "approve_arrow.png" %>
           <p class=" inline"><%= t ".waiting_to_close" %>:</p>
         </div>
         <%= render 'jobs/job', job: alert.job %>
@@ -30,8 +30,8 @@
     <% end %>
 
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>
-        <div>
-          <%= image_tag "to_arrow.png" %>
+        <div class="alert-title">
+          <%= image_tag "assign_arrow.png" %>
           <%= render 'activities/user', user: alert.created_by %><%= t ".assigned_task" %>:
         </div>
         <%= render 'job_notes/job_note', job_note: alert.target %>
