@@ -45,15 +45,26 @@
           <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
               <p class="job-field-title"><%= df.dynamic_field_template.name %></p>
               <% if @job_editable %>
-                  <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
-                         value="<%= df.value.present? ? df.value : "-" %>">
+                  <div class="job-field-div">
+                    <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
+                           value="<%= df.value.present? ? df.value : "-" %>">
 
-                  <p class="job-field-units"><%= df.value_type_unit %></p>
+                    <% if df.value_type != 1 %>
+                        <%= select_tag "Units",
+                                       options_for_select(df.unit_options, df.value_type),
+                                       id: "dynamic_field_unit_" + df.id.to_s,
+                                       class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                                       "data-html" => false, "data-title" => "Units, click to change" %>
+                    <% end %>
+                  </div>
               <% else %>
                   <div class="job-field-div">
                     <p class="job-field-value2"><%= df.value %></p>
-
-                    <p class="job-field-units"><%= df.value_type_unit %></p>
+                    <% if df.value_type != 1 %>
+                        <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="Units, click to change">
+                          <%= df.value_type_unit %>
+                        </p>
+                    <% end %>
                   </div>
               <% end %>
           <% end %>
@@ -127,7 +138,8 @@
               <%= f.hidden_field :job_id, value: @job.id %>
               <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
 
-              <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"), class: "txtfield job-notes-text", autofocus: false,
+              <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
+                              class: "txtfield job-notes-text", autofocus: false,
                               id: "new_note_id" %>
 
               <div class="job-note-options">
@@ -136,10 +148,10 @@
                 <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                                    placeholder: I18n.t("jobs.show.new_assign_prompt"),
                                    id: "new_note_name",
-                                   class: "job-field-value-editable custom-data-input job-note-assign" %>
+                                   class: "txtfield job-note-assign custom-data-input" %>
               </div>
 
-              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall pull-right" %>
+              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right" %>
 
 
             </div>

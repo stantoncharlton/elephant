@@ -80,6 +80,7 @@ class JobsController < ApplicationController
                 job_dynamic_field = dynamic_field.dup
                 job_dynamic_field.template = false
                 job_dynamic_field.dynamic_field_template = dynamic_field
+                job_dynamic_field.value_type = dynamic_field.value_type + 1
                 job_dynamic_field.job_template = @job.job_template
                 job_dynamic_field.job = @job
                 job_dynamic_field.company = current_user.company

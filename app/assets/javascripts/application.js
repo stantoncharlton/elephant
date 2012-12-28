@@ -16,6 +16,7 @@
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
 //= require jquery.tokeninput
+//= require customSelect.jquery
 //= require_tree .
 //= require bootstrap
 //= require select2

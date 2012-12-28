@@ -114,12 +114,28 @@
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
 
-          <% if form_editable %>
-              <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
-                     value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
-          <% else %>
-              <p class="job-field-value"><%= dynamic_field.value %></p>
-          <% end %>
+          <div class="job-field-div">
+            <% if form_editable %>
+                <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
+                       value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
+
+                <% if dynamic_field.value_type != 1 %>
+                    <%= select_tag "Units",
+                                   options_for_select(dynamic_field.unit_options, dynamic_field.value_type),
+                                   id: "dynamic_field_unit_" + dynamic_field.id.to_s,
+                                   class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                                   "data-html" => false, "data-title" => "Units, click to change" %>
+                <% end %>
+            <% else %>
+                <p class="job-field-value"><%= dynamic_field.value %></p>
+
+                <% if dynamic_field.value_type != 1 %>
+                    <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="Units, click to change">
+                      <%= dynamic_field.value_type_unit %>
+                    </p>
+                <% end %>
+            <% end %>
+          </div>
       <% end %>
   <% end %>
 </div>

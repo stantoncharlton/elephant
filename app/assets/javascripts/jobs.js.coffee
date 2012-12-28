@@ -1,7 +1,8 @@
 $ ->
 
   $('.job-type-description-target').tooltip()
-
+  $('.unit-tooltip').tooltip()
+  $('.unitsSelect').customSelect()
 
   $('#new_member_name').autocomplete
     source: $('#new_member_name').data('autocomplete-source')
@@ -24,8 +25,14 @@ $ ->
   $('.job-member-list-item').live "mouseleave", ->
     $(this).find('.delete-button-small').css('visibility', 'hidden')
 
+  $('.custom-data-input').click ->
+    $(this).select()
+
   $('.custom-data-input').change ->
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_", "") + '?value=' + $(this).val(), type: 'put', dataType: 'script'
+
+  $('.unitsSelect').change ->
+    $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_unit_", "") + '?unit=' + $(this).val(), type: 'put', dataType: 'script'
 
 
 #if $('#job_activities')

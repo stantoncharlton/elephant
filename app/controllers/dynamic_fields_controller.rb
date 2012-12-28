@@ -37,8 +37,14 @@ class DynamicFieldsController < ApplicationController
         if @dynamic_field.template?
             @dynamic_field.update_attributes(params[:dynamic_field])
         else
-            @dynamic_field.value = params[:value]
-            @dynamic_field.save
+            if params[:value].present?
+                @dynamic_field.value = params[:value]
+                @dynamic_field.save
+            elsif params[:unit].present?
+                @dynamic_field.value_type = params[:unit]
+                @dynamic_field.save
+            end
+
         end
     end
 

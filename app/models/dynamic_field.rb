@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class DynamicField < ActiveRecord::Base
     attr_accessible :name,
                     :value_type,
@@ -18,13 +20,34 @@ class DynamicField < ActiveRecord::Base
     belongs_to :company
 
     STRING = 1
-    LENGTH_FT = 2
-    LENGTH_IN = 3
-    TEMPERATURE = 4
-    PRESSURE = 5
-    RATE = 6
-    VOLUME = 7
-    AREA = 8
+
+    LENGTH = 10
+    LENGTH_FT = 11
+    LENGTH_IN = 12
+    LENGTH_M = 13
+    LENGTH_CM = 14
+    LENGTH_MM = 15
+
+    TEMPERATURE = 30
+    TEMPERATURE_F = 31
+    TEMPERATURE_C = 32
+
+    PRESSURE = 40
+    PRESSURE_PSI = 41
+    PRESSURE_MPA = 42
+    PRESSURE_PAS = 43
+
+    RATE = 50
+    RATE_BBLS = 51
+    RATE_M3 = 52
+
+    VOLUME = 60
+    VOLUME_BBLS = 61
+    VOLUME_M3 = 62
+
+    AREA = 70
+    AREA_IN2 = 71
+    AREA_CM2 = 72
 
 
     def value
@@ -35,10 +58,8 @@ class DynamicField < ActiveRecord::Base
         case read_attribute(:value_type)
             when STRING
                 ""
-            when LENGTH_FT
+            when LENGTH
                 "ft"
-            when LENGTH_IN
-                "in"
             when TEMPERATURE
                 "f"
             when PRESSURE
@@ -48,7 +69,56 @@ class DynamicField < ActiveRecord::Base
             when VOLUME
                 "bbls"
             when AREA
-                "in2"
+                "in^2"
+        end
+    end
+
+    def value_type_unit_full
+
+        puts self.value_type.to_s
+        ""
+
+        case self.value_type
+            when STRING
+                ""
+            when LENGTH
+                ""
+            when LENGTH_FT
+                "Feet"
+            when LENGTH_IN
+                "Inches"
+            when LENGTH_M
+                "Meters"
+            when LENGTH_CM
+                "Centimeter"
+            when LENGTH_MM
+                "Millimeter"
+            when TEMPERATURE
+                ""
+            when TEMPERATURE_F
+                "Fahrenheit"
+            when TEMPERATURE_C
+                "Celsius"
+            when PRESSURE
+                ""
+            when PRESSURE_PSI
+                "PSI"
+            when PRESSURE_MPA
+                "MPA"
+            when PRESSURE_PAS
+                "Pascals"
+            when RATE_BBLS
+                "BBLS per Minute"
+            when RATE_M3
+                "Meters Cubed per Minute"
+            when VOLUME_BBLS
+                "BBLS"
+            when VOLUME_M3
+                "Meters Cubed"
+            when AREA_IN2
+                "Inches Squared"
+            when AREA_CM2
+                "Centimeters Squared"
         end
     end
 
@@ -64,20 +134,18 @@ class DynamicField < ActiveRecord::Base
         case type
             when STRING
                 "String"
-            when LENGTH_FT
-                "Length (feet / meters)"
-            when LENGTH_IN
-                "Length (inches / cm)"
+            when LENGTH
+                "Length: ft | in | m | cm"
             when TEMPERATURE
-                "Temperature (f / c)"
+                "Temperature: f | c"
             when PRESSURE
-                "Pressure (psi / Mpa)"
+                "Pressure: psi | Mpa | Pas"
             when RATE
-                "Rate (bbls/min / m3/min)"
+                "Rate: bbls/min | m^3/min"
             when VOLUME
-                "Volume (bbls)"
+                "Volume: bbls | m^3"
             when AREA
-                "Area (in2 / cm2)"
+                "Area: in^2 | cm^2"
         end
     end
 
@@ -85,13 +153,42 @@ class DynamicField < ActiveRecord::Base
         units = Array.new
 
         units << [get_value_type_label(1), 1]
-        units << [get_value_type_label(2), 2]
-        units << [get_value_type_label(3), 3]
-        units << [get_value_type_label(4), 4]
-        units << [get_value_type_label(5), 5]
-        units << [get_value_type_label(6), 6]
-        units << [get_value_type_label(7), 7]
-        units << [get_value_type_label(8), 8]
+        units << [get_value_type_label(10), 10]
+        units << [get_value_type_label(30), 30]
+        units << [get_value_type_label(40), 40]
+        units << [get_value_type_label(50), 50]
+        units << [get_value_type_label(60), 60]
+        units << [get_value_type_label(70), 70]
+
+        units
+    end
+
+    def unit_options
+        units = Array.new
+
+        case self.dynamic_field_template.value_type
+            when LENGTH
+                units << ["ft", LENGTH_FT]
+                units << ["in", LENGTH_IN]
+                units << ["m", LENGTH_M]
+                units << ["cm", LENGTH_CM]
+            when TEMPERATURE
+                units << ["f°", TEMPERATURE_F]
+                units << ["c°", TEMPERATURE_C]
+            when PRESSURE
+                units << ["psi", PRESSURE_PSI]
+                units << ["mpa", PRESSURE_MPA]
+                units << ["pas", PRESSURE_PAS]
+            when RATE
+                units << ["bbls/min", RATE_BBLS]
+                units << ["m^3/min", RATE_M3]
+            when VOLUME
+                units << ["bbls", VOLUME_BBLS]
+                units << ["m^3", VOLUME_M3]
+            when AREA
+                units << ["in^2", AREA_IN2]
+                units << ["cm^2", AREA_CM2]
+        end
 
         units
     end

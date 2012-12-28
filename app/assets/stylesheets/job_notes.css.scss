@@ -4,7 +4,7 @@
 .job-notes-text {
   margin-left: 10px;
   width: 500px;
-  height: 65px;
+  height: 70px;
   font-size: 14px;
 }
 
@@ -22,6 +22,14 @@
 
 .job-note-assign {
   margin-top: -10px !important;
+  min-width: 185px !important;
+  max-width: 185px !important;
+
+}
+
+.add-job-note {
+  margin-top: 42px !important;
+  min-width: 100px !important;
 }
 
 .job-note-assign-arrow {
