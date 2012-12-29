@@ -79,19 +79,21 @@ class JobProcessController < ApplicationController
 
         if @job.sent_post_job_ready_email
 
-            @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
-            Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
+            if !@job.approved_to_close
+                @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
+                Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
 
-            @job.active = false
-            @jobs.save
+                @job.active = false
+                @job.save
 
-            @job.unique_participants.each do |participant|
-                participant.delay.send_job_completed_email(@job)
+                @job.unique_participants.each do |participant|
+                    participant.delay.send_job_completed_email(@job)
+                end
+
+                current_user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+                                          alert_type: Alert::POST_JOB_DATA_READY,
+                                          job_id: @job.id).each { |a| a.destroy }
             end
-
-            current_user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
-                                      alert_type: Alert::POST_JOB_DATA_READY,
-                                      job_id: @job.id).each { |a| a.destroy }
 
             render 'job_process/close'
 

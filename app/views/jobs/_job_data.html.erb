@@ -1,5 +1,5 @@
 <div class="field">
-  <% if form_editable %>
+  <% if in_form %>
       <%= link_to job.field.name, job.field, class: "job-title inline job-type-description-target",
                   "data-placement" => "bottom",
                   "data-html" => true,
@@ -11,16 +11,16 @@
 
   <p class="job-title-divider">|</p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <%= link_to job.well.name, edit_well_path(job.well), class: "job-title inline job-type-description-target",
                   "data-placement" => "bottom",
                   "data-html" => true,
-                  "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b></div>" %>
+                  "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b>, Click to edit data</div>" %>
   <% else %>
       <h2 class="job-title inline"><%= job.well.name %></h2>
   <% end %>
 
-  <% if form_editable %>
+  <% if in_form %>
 
       <% if job.other_jobs.count > 0 %>
           <div class="btn-group inline pull-right">
@@ -58,7 +58,7 @@
 <div class="">
   <p class="job-field-title"><%= t ".division" %></p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division, class: "job-field-value job-field-value-link" %>
   <% else %>
       <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
@@ -66,7 +66,7 @@
 
   <p class="job-field-title"><%= t ".segment" %></p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment, class: "job-field-value job-field-value-link" %>
   <% else %>
       <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
@@ -76,7 +76,7 @@
 <div class="">
   <p class="job-field-title"><%= t ".product_line" %></p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <h3 class="inline">
         <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link job-type-description-target",
                     "data-placement" => "bottom",
@@ -92,7 +92,7 @@
   <% end %>
   <p class="job-field-title"><%= t ".job_type" %></p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <h3 class="inline">
         <%= link_to job.job_template.name, job.job_template, class: "job-field-value job-field-value-link job-type-description-target",
                     "data-placement" => "bottom",
@@ -114,8 +114,8 @@
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
 
-          <div class="job-field-div">
-            <% if form_editable %>
+          <% if form_editable %>
+              <div class="job-field-div">
                 <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
                        value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
 
@@ -126,16 +126,17 @@
                                    class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                                    "data-html" => false, "data-title" => "Units, click to change" %>
                 <% end %>
-            <% else %>
-                <p class="job-field-value"><%= dynamic_field.value %></p>
-
+              </div>
+          <% else %>
+              <div class="job-field-div">
+                <p class="job-field-value2"><%= dynamic_field.value %></p>
                 <% if dynamic_field.value_type != 1 %>
-                    <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="Units, click to change">
+                    <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="<%= dynamic_field.value_type_unit_full %>">
                       <%= dynamic_field.value_type_unit %>
                     </p>
                 <% end %>
-            <% end %>
-          </div>
+              </div>
+          <% end %>
       <% end %>
   <% end %>
 </div>

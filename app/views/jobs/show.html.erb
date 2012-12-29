@@ -1,5 +1,5 @@
 <div class="content">
-  <%= render 'job_data', job: @job, form_editable: @job_editable, new_line_job_type: false %>
+  <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 </div>
 
 <div class="content">
@@ -43,7 +43,7 @@
     <div class="custom-data-closed" id="custom_data">
       <% @job.dynamic_fields.each do |df| %>
           <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
-              <p class="job-field-title"><%= df.dynamic_field_template.name %></p>
+              <p class="job-field-title"><%= df.dynamic_field_template.name.capitalize %></p>
               <% if @job_editable %>
                   <div class="job-field-div">
                     <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
@@ -61,7 +61,7 @@
                   <div class="job-field-div">
                     <p class="job-field-value2"><%= df.value %></p>
                     <% if df.value_type != 1 %>
-                        <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="Units, click to change">
+                        <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="<%= df.value_type_unit_full %>">
                           <%= df.value_type_unit %>
                         </p>
                     <% end %>

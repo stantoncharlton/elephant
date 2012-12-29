@@ -55,28 +55,52 @@ class DynamicField < ActiveRecord::Base
     end
 
     def value_type_unit
-        case read_attribute(:value_type)
+
+        case self.value_type
             when STRING
                 ""
             when LENGTH
+                ""
+            when LENGTH_FT
                 "ft"
+            when LENGTH_IN
+                "in"
+            when LENGTH_M
+                "m"
+            when LENGTH_CM
+                "cm"
+            when LENGTH_MM
+                "mm"
             when TEMPERATURE
-                "f"
+                ""
+            when TEMPERATURE_F
+                "f°"
+            when TEMPERATURE_C
+                "c°"
             when PRESSURE
+                ""
+            when PRESSURE_PSI
                 "psi"
-            when RATE
+            when PRESSURE_MPA
+                "mpa"
+            when PRESSURE_PAS
+                "pas"
+            when RATE_BBLS
                 "bbls/min"
-            when VOLUME
+            when RATE_M3
+                "m^3/min"
+            when VOLUME_BBLS
                 "bbls"
-            when AREA
+            when VOLUME_M3
+                "m^3"
+            when AREA_IN2
                 "in^2"
+            when AREA_CM2
+                "cm^2"
         end
     end
 
     def value_type_unit_full
-
-        puts self.value_type.to_s
-        ""
 
         case self.value_type
             when STRING
@@ -102,23 +126,23 @@ class DynamicField < ActiveRecord::Base
             when PRESSURE
                 ""
             when PRESSURE_PSI
-                "PSI"
+                "Pound / Square Inch"
             when PRESSURE_MPA
-                "MPA"
+                "MegaPascal"
             when PRESSURE_PAS
-                "Pascals"
+                "Pascal"
             when RATE_BBLS
-                "BBLS per Minute"
+                "Barrels per Minute"
             when RATE_M3
                 "Meters Cubed per Minute"
             when VOLUME_BBLS
-                "BBLS"
+                "Barrels"
             when VOLUME_M3
                 "Meters Cubed"
             when AREA_IN2
-                "Inches Squared"
+                "Square Inches"
             when AREA_CM2
-                "Centimeters Squared"
+                "Square Centimeters"
         end
     end
 
