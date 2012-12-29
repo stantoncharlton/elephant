@@ -46,6 +46,5 @@ connectUploadEvents = ->
         $(e.target).find(".upload-controls").show()
         data.context.remove()
         alert("#{data.files[0].name} failed to upload.")
-        alert("#{data.files[0].name} failed to upload.")
         console.log("Upload failed:")
         console.log(data)

@@ -51,7 +51,7 @@ class UsersController < ApplicationController
             @product_lines = @user.product_line.segment.product_lines
 
             @product_line = @user.product_line
-            @segment =  @user.product_line.segment
+            @segment = @user.product_line.segment
             @division = @user.product_line.segment.division
         else
             @segments = Array.new
@@ -116,7 +116,9 @@ class UsersController < ApplicationController
         @user.password_confirmation = password
         @user.create_password = true
 
-        @user.time_zone = @user.district.time_zone
+        if @user.district.present?
+            @user.time_zone = @user.district.time_zone
+        end
 
         if @user.save
 
