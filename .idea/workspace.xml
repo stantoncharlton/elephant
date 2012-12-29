@@ -31,7 +31,7 @@
       <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="65" selection-start="2566" selection-end="2566" vertical-scroll-proportion="-18.56">
+            <state line="198" column="0" selection-start="8458" selection-end="8485" vertical-scroll-proportion="-18.88">
               <folding>
                 <element signature="n#t &quot;.members&quot;#0;n#!!top" expanded="true" />
                 <element signature="e#1087#1124#0" expanded="true" />
@@ -82,19 +82,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="placeholder_fix.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="placeholder_fix.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/placeholder_fix.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="7" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0">
+            <state line="24" column="49" selection-start="923" selection-end="923" vertical-scroll-proportion="0.5470086">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom.css.scss" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="custom.css.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.56980056">
+            <state line="46" column="0" selection-start="490" selection-end="502" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -154,8 +154,8 @@
         <option value="$PROJECT_DIR$/app/views/jobs/show.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss" />
         <option value="$PROJECT_DIR$/app/views/jobs/_job_data.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/placeholder_fix.js" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/placeholder_fix.js" />
       </list>
     </option>
   </component>
@@ -1593,9 +1593,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/wells/_fields.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="191" column="10" selection-start="7050" selection-end="7050" vertical-scroll-proportion="-112.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="397" column="1" selection-start="7033" selection-end="7053" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="1012" selection-end="1012" vertical-scroll-proportion="-14.72">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="490" selection-end="502" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/jobs/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="65" selection-start="2566" selection-end="2566" vertical-scroll-proportion="-18.56">
+        <state line="198" column="0" selection-start="8458" selection-end="8485" vertical-scroll-proportion="-18.88">
           <folding>
             <element signature="n#t &quot;.members&quot;#0;n#!!top" expanded="true" />
             <element signature="e#1087#1124#0" expanded="true" />
@@ -1627,37 +1655,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/wells/_fields.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="10" selection-start="7050" selection-end="7050" vertical-scroll-proportion="-112.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/jobs.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="397" column="1" selection-start="7033" selection-end="7053" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/jobs/_job_data.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="1012" selection-end="1012" vertical-scroll-proportion="-14.72">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/placeholder_fix.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="7" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/custom.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.56980056">
+        <state line="24" column="49" selection-start="923" selection-end="923" vertical-scroll-proportion="0.5470086">
           <folding />
         </state>
       </provider>
