@@ -188,9 +188,17 @@ class DynamicField < ActiveRecord::Base
     end
 
     def unit_options
+        units = get_unit_options(self.dynamic_field_template.value_type)
+    end
+
+    def unit_options2
+        units = get_unit_options(self.value_type)
+    end
+
+    def get_unit_options(value_type)
         units = Array.new
 
-        case self.dynamic_field_template.value_type
+        case value_type
             when LENGTH
                 units << ["ft", LENGTH_FT]
                 units << ["in", LENGTH_IN]

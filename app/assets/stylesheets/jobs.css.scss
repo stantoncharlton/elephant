@@ -63,6 +63,7 @@
 
 .unitsSelect {
    max-width: 30px !important;
+  font-size: 13px;
 }
 
 .customSelect {
@@ -391,4 +392,11 @@ ul.ui-autocomplete {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+
+.job-well-field-title {
+  color: #aaaaaa;
+  font-size: 11px;
+  display: inline-block;
 }

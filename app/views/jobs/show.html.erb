@@ -46,8 +46,10 @@
               <p class="job-field-title"><%= df.dynamic_field_template.name.capitalize %></p>
               <% if @job_editable %>
                   <div class="job-field-div">
-                    <input id="dynamic_field_<%= df.id %>" type="text" class="job-field-value-editable custom-data-input"
-                           value="<%= df.value.present? ? df.value : "-" %>">
+                    <input id="dynamic_field_<%= df.id %>" type="text"
+                           placeholder="-"
+                           class="job-field-value-editable custom-data-input"
+                           value="<%= df.value %>">
 
                     <% if df.value_type != 1 %>
                         <%= select_tag "Units",

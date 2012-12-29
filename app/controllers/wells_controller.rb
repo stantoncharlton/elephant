@@ -38,6 +38,9 @@ class WellsController < ApplicationController
         @well = Well.find_by_id(params[:id])
         @field  = @well.field
         not_found unless @well.company == current_user.company
+
+        @df = DynamicField.new
+        @df.value_type = 10
     end
 
     def update

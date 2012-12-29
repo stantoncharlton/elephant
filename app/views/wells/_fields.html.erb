@@ -14,45 +14,183 @@
   </div>
 
   <div class="field">
+    <%= f.label :name, class: "field-title" %>
     <%= f.text_field :name, placeholder: "Well Name", class: "txtfield" %>
   </div>
 
   <div class="field striped">
+    <%= f.label :rig_name, class: "field-title" %>
     <%= f.text_field :rig_name, placeholder: "Rig Name", class: "txtfield" %>
   </div>
 
-  <div class="field striped">
+  <div class="content">
     <%= f.check_box :offshore, id: "offshore_checkbox" %>
-    <%= f.label "Offshore?" %>
+    <b class="inline">&nbsp;&nbsp;Offshore?</b>
 
-    <div id="offshore_fields" class="hidden inline">
-      <%= f.text_field :water_depth, placeholder: "Water Depth", class: "txtfield small" %>
+    <div id="offshore_fields" class="hidden">
+      <br>
+
+      <p class="job-field-title">Water Depth</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :water_depth, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+
+        <%= select_tag "Units",
+                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
+                       id: "dynamic_field_unit_",
+                       class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                       "data-html" => false, "data-title" => "Units, click to change" %>
+      </div>
     </div>
   </div>
 
-  <div class="field striped">
-    <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield small" %>
-    <%= f.text_field :true_vertical_depth, placeholder: "True Vertical Depth", class: "txtfield small" %>
+  <div class="content">
+
+    <p class="job-field-title">Measured Depth</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :measured_depth, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
+    <p class="job-field-title">True Vertical Depth</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :true_vertical_depth, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
   </div>
 
-  <div class="field striped">
-    <%= f.text_field :bottom_hole_temperature, placeholder: "Bottom Hole Temperature", class: "txtfield small" %>
-    <%= f.text_field :bottom_hole_formation_pressure, placeholder: "Bottom Hole Formation Pressure", class: "txtfield small" %>
+  <div class="content">
+
+    <p class="job-field-title">Bottom Hole Temperature</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :bottom_hole_temperature, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
+    <p class="job-field-title">Bottom Hole Formation Pressure</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :bottom_hole_formation_pressure, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
   </div>
 
-  <div class="field striped">
-    <%= f.text_field :frac_pressure, placeholder: "Frac Pressure", class: "txtfield small" %>
+  <div class="content">
+
+    <p class="job-field-title">Frac Pressure</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :frac_pressure, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
   </div>
 
-  <div class="field striped">
-    <%= f.text_field :fuild_type, placeholder: "Fluid Type", class: "txtfield small" %>
-    <%= f.text_field :fluid_weight, placeholder: "Fluid Weight", class: "txtfield small" %>
+
+  <div class="content">
+
+    <p class="job-field-title">Fluid Type</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :fuild_type, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::STRING), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
+    <p class="job-field-title">Fluid Weight</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :fluid_weight, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
   </div>
 
 
-  <div class="field striped">
-    <%= f.text_field :max_deviation, placeholder: "Max Deviation", class: "txtfield small" %>
-    <%= f.text_field :bottom_deviation, placeholder: "Bottom Deviation", class: "txtfield small" %>
+  <div class="content">
+
+    <p class="job-field-title">Max Deviation</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :max_deviation, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
+    <p class="job-field-title">Bottom Deviation</p>
+
+    <div class="job-field-div">
+
+      <%= f.text_field :bottom_deviation, placeholder: "-",
+                       class: "job-field-value-editable custom-data-input" %>
+
+      <%= select_tag "Units",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
+                     id: "dynamic_field_unit_",
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
   </div>
 
 
