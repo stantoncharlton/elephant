@@ -6,7 +6,8 @@
   <h2>
     <% if @jobs.count > 0 %>
         <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 10) + 1 %> - <%= [((Integer(params[:page]) - 1) * 10) + 10, @jobs.count].min %> of <%= @jobs.count.to_s %>
+            <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
+            - <%= [((Integer(params[:page]) - 1) * 10) + 10, @jobs.count].min %> of <%= @jobs.count.to_s %>
         <% else %>
             1 - <%= [10, @jobs.count].min %> of <%= @jobs.count.to_s %>
         <% end %>
@@ -36,25 +37,30 @@
 
 
 
+<% if @jobs_inactive.any? %>
 
-<div class="page_header old-alerts-div">
-  <h1><%= t ".inactive_jobs" %></h1>
+    <div class="page_header old-alerts-div">
+      <h1><%= t ".inactive_jobs" %></h1>
 
-  <h2>
-    <% if @jobs_inactive.count > 0 %>
-        <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 5) + 1 %> - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
-        <% else %>
-            1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+      <h2>
+        <% if @jobs_inactive.count > 0 %>
+            <% if params[:page].present? %>
+                <%= ((Integer(params[:page]) - 1) * 5) + 1 %>
+                - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %>
+                of <%= @jobs_inactive.count.to_s %>
+            <% else %>
+                1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+            <% end %>
         <% end %>
-    <% end %>
-  </h2>
+      </h2>
 
-</div>
+    </div>
 
 
-<div id="jobs_inactive" class="list">
-  <%= render @jobs_inactive %>
-</div>
+    <div id="jobs_inactive" class="list">
+      <%= render @jobs_inactive %>
+    </div>
 
-<%= will_paginate @jobs_inactive %>
+    <%= will_paginate @jobs_inactive %>
+
+<% end %>
