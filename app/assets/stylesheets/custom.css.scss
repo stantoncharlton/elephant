@@ -41,7 +41,7 @@ textarea {
 }
 
 header {
-  min-width: 900px;
+  min-width: 900px !important;
 }
 
 .placeholder {
@@ -235,6 +235,9 @@ p {
 }
 
 .navbar {
+
+  overflow-x: hidden;
+
   @media screen and (max-width: 500px) {
     position: absolute !important;
     min-width: 900px !important;
@@ -256,6 +259,10 @@ p {
   text-indent: -10000px;
 
   background: url(image_path('messages.png')) center center no-repeat;
+
+  &:hover {
+    background: #0058a8 url(image_path('messages.png')) center center no-repeat;
+  }
 }
 
 .messages-icon-alert {

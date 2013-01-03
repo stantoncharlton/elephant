@@ -120,13 +120,13 @@ class DynamicField < ActiveRecord::Base
             when TEMPERATURE
                 ""
             when TEMPERATURE_F
-                "Fahrenheit"
+                "Degrees Fahrenheit"
             when TEMPERATURE_C
-                "Celsius"
+                "Degrees Celsius"
             when PRESSURE
                 ""
             when PRESSURE_PSI
-                "Pound / Square Inch"
+                "Pounds per Square Inch"
             when PRESSURE_MPA
                 "MegaPascal"
             when PRESSURE_PAS
