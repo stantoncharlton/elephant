@@ -19,7 +19,7 @@ class WellsController < ApplicationController
 
     def new
         @well = Well.new
-        @field  = Field.find_by_id(params[:field_id])
+        @field = Field.find_by_id(params[:field_id])
     end
 
     def create
@@ -36,7 +36,7 @@ class WellsController < ApplicationController
         store_last_location
 
         @well = Well.find_by_id(params[:id])
-        @field  = @well.field
+        @field = @well.field
         not_found unless @well.company == current_user.company
 
         @df = DynamicField.new
@@ -44,20 +44,36 @@ class WellsController < ApplicationController
     end
 
     def update
-        field_id = params[:well][:field_id]
-        params[:well].delete(:field_id)
 
         @well = Well.find_by_id(params[:id])
         not_found unless @well.company == current_user.company
 
-        Well.transaction do
-            if @well.update_attributes(params[:well])
-                flash[:success] = "Well updated"
-                redirect_back_or root_path
-            else
-                render 'edit'
+        respond_to do |format|
+            format.html do
+                field_id = params[:well][:field_id]
+                params[:well].delete(:field_id)
+
+                Well.transaction do
+                    if @well.update_attributes(params[:well])
+                        flash[:success] = "Well updated"
+                        redirect_back_or root_path
+                    else
+                        render 'edit'
+                    end
+                end
+            end
+
+            format.js do
+                params.each do |key, value|
+                    if key.include? "value_type"
+                        @well.update_attribute(key, value)
+                    end
+                end
+
+                render :nothing => true, :status => :ok
             end
         end
+
     end
 
 end

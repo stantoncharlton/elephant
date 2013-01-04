@@ -6,7 +6,6 @@
 
 <div class="content">
 
-
   <div class="field">
     <%= f.label :field, class: "field-title" %>
     <%= f.label @field.name %>
@@ -28,7 +27,7 @@
     <b class="inline">&nbsp;&nbsp;Offshore?</b>
 
     <div id="offshore_fields" class="hidden">
-      <br>
+      <br><br>
 
       <p class="job-field-title">Water Depth</p>
 
@@ -38,9 +37,9 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= select_tag "Units",
-                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
-                       id: "dynamic_field_unit_",
-                       class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.water_depth_value_type),
+                       id: "well_water_depth_value_type",
+                       class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                        "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
     </div>
@@ -56,9 +55,9 @@
                        class: "job-field-value-editable custom-data-input" %>
 
       <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.measured_depth_value_type),
+                     id: "well_measured_depth_value_type",
+                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
@@ -70,9 +69,9 @@
                        class: "job-field-value-editable custom-data-input" %>
 
       <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.true_vertical_depth_value_type),
+                     id: "well_true_vertical_depth_value_type",
+                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
@@ -88,9 +87,9 @@
                        class: "job-field-value-editable custom-data-input" %>
 
       <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE), @well.bottom_hole_temperature_value_type),
+                     id: "well_bottom_hole_temperature_value_type",
+                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
@@ -102,9 +101,9 @@
                        class: "job-field-value-editable custom-data-input" %>
 
       <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.bottom_hole_formation_pressure_value_type),
+                     id: "well_bottom_hole_formation_pressure_value_type",
+                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
@@ -120,9 +119,9 @@
                        class: "job-field-value-editable custom-data-input" %>
 
       <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.frac_pressure_value_type),
+                     id: "well_frac_pressure_value_type",
+                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
   </div>
@@ -137,11 +136,6 @@
       <%= f.text_field :fuild_type, placeholder: "-",
                        class: "job-field-value-editable custom-data-input" %>
 
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::STRING), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
     <p class="job-field-title">Fluid Weight</p>
@@ -152,9 +146,9 @@
                        class: "job-field-value-editable custom-data-input" %>
 
       <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.fluid_weight_value_type),
+                     id: "well_fluid_weight_value_type",
+                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
@@ -169,12 +163,8 @@
 
       <%= f.text_field :max_deviation, placeholder: "-",
                        class: "job-field-value-editable custom-data-input" %>
+      °
 
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
 
     <p class="job-field-title">Bottom Deviation</p>
@@ -184,15 +174,12 @@
       <%= f.text_field :bottom_deviation, placeholder: "-",
                        class: "job-field-value-editable custom-data-input" %>
 
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @df.value_type),
-                     id: "dynamic_field_unit_",
-                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
+      °
     </div>
 
   </div>
 
+  <div class="wellIdentifier" id="<%= @well.id %>" />
 
 </div>
 
