@@ -44,7 +44,7 @@
   <div id="jobs" class="list">
     <% @user.active_jobs.each do |job| %>
         <%= link_to job, class: "job-link" do %>
-            <%= render 'jobs/job_data', job: job, form_editable: false, new_line_job_type: false %>
+            <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false,  new_line_job_type: false %>
         <% end %>
     <% end %>
   </div>
@@ -60,4 +60,4 @@
 
 <br>
 
-<%= render 'activities/paginated_activity', activities: @activities, inside_job: false %>
+<%= render 'activities/paginated_activity', activities: @activities, inside_job: false, in_form: false %>

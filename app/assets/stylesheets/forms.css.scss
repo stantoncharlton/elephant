@@ -131,7 +131,11 @@
 
   border-style: dashed;
   border-width: 0px 0px 1px 0px;
-  border-color: #424242;
+  border-color: #949494;
+
+  &:last-child {
+    border-width: 0px
+  }
 
   label {
     font-size: 15px;

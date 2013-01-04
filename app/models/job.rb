@@ -111,19 +111,12 @@ class Job < ActiveRecord::Base
 
         Sunspot.search(Job) do
             fulltext options[:search]
-            if !user.role.district_read? and !user.role.product_line_read? and !user.role.global_read?
+            any_of do
                 with(:job_membership, user.id)
-            elsif !user.role.global_read? and user.role.district_read? and !user.role.product_line_read?
-                with(:district_id, user.district.id)
-            elsif !user.role.global_read? and user.role.district_read? and user.role.product_line_read?
-                any_of do
+                if user.role.district_read?
                     with(:district_id, user.district.id)
-                    if !user.product_line.nil?
-                        with(:product_line_id, user.product_line.id)
-                    end
                 end
-            elsif !user.role.global_read? and !user.role.district_read? and user.role.product_line_read?
-                if !user.product_line.nil?
+                if user.role.product_line_read? and !user.product_line.nil?
                     with(:product_line_id, user.product_line.id)
                 end
             end

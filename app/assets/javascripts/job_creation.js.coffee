@@ -27,16 +27,13 @@ $ ->
       alert('Select a District First')
 
   $('#new_well_link').click ->
-    if $('#job_field_id').val() != ''
-      $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val()
-    else
-      alert('Select a Field First')
+    $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val()
 
   if $('#job_district_id').val() == ''
     $('#job_field_id').attr "disabled", "disabled"
     $('#job_field_id').css "opacity", ".3"
 
-  if $('#job_well_id').val() == ''
+  if $('#job_field_id').val() == ''
     $('#job_well_id').attr "disabled", "disabled"
     $('#job_well_id').css "opacity", ".3"
 

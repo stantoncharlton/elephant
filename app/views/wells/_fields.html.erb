@@ -1,10 +1,12 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<div class="page_header">
-  <h1><%= @well.name %></h1>
+<% if !@well.new_record? %>
+    <div class="page_header">
+      <h1><%= @well.name %></h1>
 
-  <h3 class="inline">&nbsp;Well</h3>
-</div>
+      <h3 class="inline">&nbsp;Well</h3>
+    </div>
+<% end %>
 
 <div class="content">
 

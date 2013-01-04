@@ -1,20 +1,17 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<div class="header">
-  <h2>Information</h2>
-</div>
-
 <div class="content">
 
 
-  <div class="field">
-    <%= f.label :district, class: "field-title" %>
-    <%= f.label @district.name %>
-    <%= f.hidden_field :district_id, value: @district.id %>
+  <div class="">
+    <%= f.text_field :name, placeholder: "Field Name", class: "txtfield", autofocus: true %>
   </div>
 
-  <div class="field">
-    <%= f.text_field :name, placeholder: "Field Name", class: "txtfield" %>
+  <div class="">
+    <br>
+    <%= f.label :district, class: "field-title" %>
+    <h3 class="inline"> <%= @district.name %></h3>
+    <%= f.hidden_field :district_id, value: @district.id %>
   </div>
 
 </div>

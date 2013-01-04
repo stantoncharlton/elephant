@@ -1,4 +1,6 @@
-<h1 class="page-title">New Well</h1>
+<div class="page_header">
+  <h1>Create New Well</h1>
+</div>
 
 <%= form_for @well, remote: true do |f| %>
 
@@ -9,3 +11,11 @@
     </div>
 
 <% end %>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('.unitsSelect').customSelect();
+        });
+    }(jQuery));
+</script>
