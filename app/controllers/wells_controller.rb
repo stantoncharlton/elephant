@@ -48,29 +48,15 @@ class WellsController < ApplicationController
         @well = Well.find_by_id(params[:id])
         not_found unless @well.company == current_user.company
 
-        respond_to do |format|
-            format.html do
-                field_id = params[:well][:field_id]
-                params[:well].delete(:field_id)
+        field_id = params[:well][:field_id]
+        params[:well].delete(:field_id)
 
-                Well.transaction do
-                    if @well.update_attributes(params[:well])
-                        flash[:success] = "Well updated"
-                        redirect_back_or root_path
-                    else
-                        render 'edit'
-                    end
-                end
-            end
-
-            format.js do
-                params.each do |key, value|
-                    if key.include? "value_type"
-                        @well.update_attribute(key, value)
-                    end
-                end
-
-                render :nothing => true, :status => :ok
+        Well.transaction do
+            if @well.update_attributes(params[:well])
+                flash[:success] = "Well updated"
+                redirect_back_or root_path
+            else
+                render 'edit'
             end
         end
 

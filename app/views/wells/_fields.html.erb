@@ -1,185 +1,186 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<div class="header">
-  <h2>Well Information</h2>
+<div class="page_header">
+  <h1><%= @well.name %></h1>
+
+  <h3 class="inline">&nbsp;Well</h3>
 </div>
 
 <div class="content">
 
-  <div class="field">
-    <%= f.label :field, class: "field-title" %>
-    <%= f.label @field.name %>
-    <%= f.hidden_field :field_id, value: @field.id %>
+  <div>
+    <div class="">
+      <%= f.label :field, class: "field-title" %>
+      <h3 class="inline"><%= @field.name %></h3>
+      <%= f.hidden_field :field_id, value: @field.id %>
+    </div>
+    <br>
+
+    <div class="">
+      <%= f.label :name, class: "field-title" %>
+      <%= f.text_field :name, placeholder: "Well Name", class: "txtfield" %>
+    </div>
+
+    <div class="">
+      <%= f.label :rig_name, class: "field-title" %>
+      <%= f.text_field :rig_name, placeholder: "Rig Name", class: "txtfield" %>
+    </div>
+
+    <br>
   </div>
 
-  <div class="field">
-    <%= f.label :name, class: "field-title" %>
-    <%= f.text_field :name, placeholder: "Well Name", class: "txtfield" %>
-  </div>
+  <div class="well well-large">
+    <div class="content">
+      <%= f.check_box :offshore, id: "offshore_checkbox" %>
+      <b class="inline">&nbsp;&nbsp;Offshore?</b>
 
-  <div class="field striped">
-    <%= f.label :rig_name, class: "field-title" %>
-    <%= f.text_field :rig_name, placeholder: "Rig Name", class: "txtfield" %>
-  </div>
+      <div id="offshore_fields" class="hidden">
+        <br><br>
 
-  <div class="content">
-    <%= f.check_box :offshore, id: "offshore_checkbox" %>
-    <b class="inline">&nbsp;&nbsp;Offshore?</b>
+        <p class="job-field-title">Water Depth</p>
 
-    <div id="offshore_fields" class="hidden">
-      <br><br>
+        <div class="job-field-div">
 
-      <p class="job-field-title">Water Depth</p>
+          <%= f.text_field :water_depth, placeholder: "-",
+                           class: "job-field-value-editable custom-data-input" %>
+
+          <%= f.select :water_depth_value_type,
+                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.water_depth_value_type),
+                       {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                       "data-html" => false, "data-title" => "Units, click to change" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <p class="job-field-title">Measured Depth</p>
 
       <div class="job-field-div">
 
-        <%= f.text_field :water_depth, placeholder: "-",
+        <%= f.text_field :measured_depth, placeholder: "-",
                          class: "job-field-value-editable custom-data-input" %>
 
-        <%= select_tag "Units",
-                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.water_depth_value_type),
-                       id: "well_water_depth_value_type",
-                       class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                       "data-html" => false, "data-title" => "Units, click to change" %>
+        <%= f.select :measured_depth_value_type,
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.measured_depth_value_type),
+                     {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+      </div>
+
+      <p class="job-field-title">True Vertical Depth</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :true_vertical_depth, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+
+        <%= f.select :true_vertical_depth_value_type,
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.true_vertical_depth_value_type),
+                     {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <p class="job-field-title">Bottom Hole Temperature</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :bottom_hole_temperature, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+
+        <%= f.select :bottom_hole_temperature_value_type,
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE), @well.bottom_hole_temperature_value_type),
+                     {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+      </div>
+
+      <p class="job-field-title">Bottom Hole Formation Pressure</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :bottom_hole_formation_pressure, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+
+        <%= f.select :bottom_hole_formation_pressure_value_type,
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.bottom_hole_formation_pressure_value_type),
+                     {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <p class="job-field-title">Frac Pressure</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :frac_pressure, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+
+        <%= f.select :frac_pressure_value_type,
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.frac_pressure_value_type),
+                     {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
     </div>
-  </div>
-
-  <div class="content">
-
-    <p class="job-field-title">Measured Depth</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :measured_depth, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.measured_depth_value_type),
-                     id: "well_measured_depth_value_type",
-                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
-    </div>
-
-    <p class="job-field-title">True Vertical Depth</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :true_vertical_depth, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.true_vertical_depth_value_type),
-                     id: "well_true_vertical_depth_value_type",
-                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
-    </div>
-
-  </div>
-
-  <div class="content">
-
-    <p class="job-field-title">Bottom Hole Temperature</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :bottom_hole_temperature, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE), @well.bottom_hole_temperature_value_type),
-                     id: "well_bottom_hole_temperature_value_type",
-                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
-    </div>
-
-    <p class="job-field-title">Bottom Hole Formation Pressure</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :bottom_hole_formation_pressure, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.bottom_hole_formation_pressure_value_type),
-                     id: "well_bottom_hole_formation_pressure_value_type",
-                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
-    </div>
-
-  </div>
-
-  <div class="content">
-
-    <p class="job-field-title">Frac Pressure</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :frac_pressure, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-
-      <%= select_tag "Units",
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.frac_pressure_value_type),
-                     id: "well_frac_pressure_value_type",
-                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
-    </div>
-  </div>
 
 
-  <div class="content">
+    <div class="content">
 
-    <p class="job-field-title">Fluid Type</p>
+      <p class="job-field-title">Fluid Type</p>
 
-    <div class="job-field-div">
+      <div class="job-field-div">
 
-      <%= f.text_field :fuild_type, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
+        <%= f.text_field :fuild_type, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
 
-    </div>
+      </div>
 
-    <p class="job-field-title">Fluid Weight</p>
+      <p class="job-field-title">Fluid Weight</p>
 
-    <div class="job-field-div">
+      <div class="job-field-div">
 
-      <%= f.text_field :fluid_weight, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
+        <%= f.text_field :fluid_weight, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
 
-      <%= select_tag "Units",
+        <%= f.select :fluid_weight_value_type,
                      options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.fluid_weight_value_type),
-                     id: "well_fluid_weight_value_type",
-                     class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
+                     {}, class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
+      </div>
+
     </div>
 
+
+    <div class="content">
+
+      <p class="job-field-title">Max Deviation</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :max_deviation, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+        °
+
+      </div>
+
+      <p class="job-field-title">Bottom Deviation</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :bottom_deviation, placeholder: "-",
+                         class: "job-field-value-editable custom-data-input" %>
+
+        °
+      </div>
+
+    </div>
+
+    <div class="wellIdentifier" id="<%= @well.id %>"/>
   </div>
-
-
-  <div class="content">
-
-    <p class="job-field-title">Max Deviation</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :max_deviation, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-      °
-
-    </div>
-
-    <p class="job-field-title">Bottom Deviation</p>
-
-    <div class="job-field-div">
-
-      <%= f.text_field :bottom_deviation, placeholder: "-",
-                       class: "job-field-value-editable custom-data-input" %>
-
-      °
-    </div>
-
-  </div>
-
-  <div class="wellIdentifier" id="<%= @well.id %>" />
-
 </div>
 

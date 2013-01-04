@@ -12,6 +12,7 @@ $ ->
       $('#custom_data').css "display", "block"
     else
       $('#custom_data').css "display", "none"
+    return false
 
   $('#close_modal').live "click", ->
     $('#modal_popup').css "visibility", "hidden"

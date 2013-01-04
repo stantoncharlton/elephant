@@ -1,11 +1,9 @@
-<h1 class="page-title"><%= @well.name %></h1>
-
 <%= form_for @well do |f| %>
 
     <%= render "fields", f: f %>
 
     <div class="content actions">
-      <%= f.submit "Save Well", class: "bluebtn pull-right" %>
+      <%= f.submit "Update Well Information", class: "bluebtn pull-right" %>
     </div>
 
 <% end %>

@@ -27,7 +27,7 @@
       <% if job.other_jobs.count > 0 %>
           <div class="btn-group inline pull-right">
             <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-              <%= job.other_jobs.count.to_s %> <%= t ".other_jobs" %>
+              <%= t ".other_jobs" %> (<b><%= job.other_jobs.count.to_s %></b>)
             </a>
             <ul class="dropdown-menu">
               <% job.other_jobs.each do |other_job| %>
