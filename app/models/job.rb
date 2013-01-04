@@ -144,20 +144,37 @@ class Job < ActiveRecord::Base
         ar_query = where(:company_id => company.id)
 
 
-        query.constraints.each do |constraint|
-            operator = "="
-            if constraint.operator == "2"
-                operator = "<"
-            elsif constraint.operator == "3"
-                operator = ">"
+        Sunspot.search(Job) do
+            fulltext options[:search]
+            any_of do
+                with(:job_membership, user.id)
+                if user.role.district_read?
+                    with(:district_id, user.district.id)
+                end
+                if user.role.product_line_read? and !user.product_line.nil?
+                    with(:product_line_id, user.product_line.id)
+                end
             end
 
-            if constraint.data_type == "2"
-                ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
-                ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: constraint.value).includes(:dynamic_fields)
-            else
-                ar_query = ar_query.where("wells." + constraint.field + " " + operator + " :well_value", well_value: constraint.value).includes(:well)
+            query.constraints.each do |constraint|
+                operator = "="
+                if constraint.operator == "2"
+                    operator = "<"
+                elsif constraint.operator == "3"
+                    operator = ">"
+                end
+
+                if constraint.data_type == "2"
+                    ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
+                    ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: constraint.value).includes(:dynamic_fields)
+                else
+                    ar_query = ar_query.where("wells." + constraint.field + " " + operator + " :well_value", well_value: constraint.value).includes(:well)
+                end
             end
+
+            with(:company_id, company.id)
+            order_by :created_at, :desc
+            paginate :page => options[:page]
         end
 
         #conditions = ( conditions.empty? ? nil : [conditions.transpose.first.join(' AND '), *conditions.transpose.last] )
