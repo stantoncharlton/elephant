@@ -30,7 +30,7 @@ class ClientsController < ApplicationController
         @client = Client.find(params[:id])
         not_found unless @client.company == current_user.company
 
-        @jobs = Job.from_client(@client)
+        @jobs = Job.from_client(@client).paginate(page: params[:page], limit: 10)
     end
 
     def new

@@ -13,7 +13,7 @@ en:
       added_to_job: "added you to a job"
       waiting_to_ship: "Job is waiting for your approval to ship"
       waiting_to_close: "Job is waiting for your approval to complete and close"
-      assigned_task: "assigned you to a task"
+      assigned_task: "assigned you a task"
 
   jobs:
     index:

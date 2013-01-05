@@ -1,5 +1,5 @@
 class DistrictsController < ApplicationController
-    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user, only: [:index, :show]
     before_filter :signed_in_admin, only: [:new, :edit, :create, :edit, :update, :destroy]
     set_tab :districts
 
@@ -33,7 +33,7 @@ class DistrictsController < ApplicationController
         @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
-        @jobs = Job.from_district(@district)
+        @jobs = Job.from_district(@district).paginate(page: params[:page], limit: 10)
     end
 
     def new
