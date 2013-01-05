@@ -19,12 +19,13 @@ class JobNotesController < ApplicationController
         @job_note.job = Job.find_by_id(job_id)
         @job_note.assign_to = User.find_by_id(assign_to_id)
 
-        @job_note.save
+        if @job_note.save
 
-        Activity.add(self.current_user, Activity::JOB_NOTE_ADDED, @job_note, nil, @job_note.job)
+            Activity.add(self.current_user, Activity::JOB_NOTE_ADDED, @job_note, nil, @job_note.job)
 
-        if @job_note.assign_to.present?
-            Alert.add(@job_note.assign_to, Alert::TASK_ASSIGNED, @job_note, self.current_user, @job_note.job)
+            if @job_note.assign_to.present?
+                Alert.add(@job_note.assign_to, Alert::TASK_ASSIGNED, @job_note, self.current_user, @job_note.job)
+            end
         end
     end
 

@@ -59,6 +59,8 @@ class Job < ActiveRecord::Base
         time :created_at
         time :updated_at
         integer :company_id
+        integer :client_id
+        integer :field_id
         integer :district_id
         integer :job_template_id
         integer :product_line_id do

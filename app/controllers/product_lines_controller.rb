@@ -1,5 +1,5 @@
 class ProductLinesController < ApplicationController
-    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user, only: [:index, :show]
     before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
 
     respond_to :js
@@ -13,6 +13,14 @@ class ProductLinesController < ApplicationController
                 @job_templates = product_line.job_templates
             end
         end
+    end
+
+    def show
+
+        @product_line = ProductLine.find_by_id(params[:id])
+        not_found unless @product_line.company == current_user.company
+
+        @jobs = ProductLine.from_company_for_user(@product_line, params, current_user, current_user.company).results
     end
 
     def new

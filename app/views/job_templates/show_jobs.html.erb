@@ -1,7 +1,7 @@
-<% provide(:title, 'District: ' + @district.name) %>
+<% provide(:title, 'Job Type: ' + @job_template.name) %>
 
 <div class="page_header">
-  <h1>District: <%= @district.name %></h1>
+  <h1>Job Type: <%= @job_template.name %></h1>
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>

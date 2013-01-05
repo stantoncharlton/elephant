@@ -146,7 +146,7 @@
 <div class="">
   <p class="job-field-title"><%= t ".district" %></p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <%= link_to job.district.name, job.district, class: "job-field-value job-field-value-link" %>
   <% else %>
       <p class="job-field-value"><%= job.district.name %></p>
@@ -160,7 +160,7 @@
 <div class="">
   <p class="job-field-title"><%= t ".client_name" %></p>
 
-  <% if form_editable %>
+  <% if in_form %>
       <%= link_to job.client.name, job.client, class: "job-field-value job-field-value-link" %>
   <% else %>
       <p class="job-field-value"><%= job.client.name %></p>

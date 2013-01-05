@@ -1,4 +1,4 @@
-<% if !inside_job %>
+<% if !inside_job and !job.nil? %>
     <p class="inline">
       <%= link_to job, class: "activity-user-link", "data-placement" => "bottom",
                   "data-html" => true,

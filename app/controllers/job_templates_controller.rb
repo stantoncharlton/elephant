@@ -14,11 +14,17 @@ class JobTemplatesController < ApplicationController
 
 
     def show
+
         @job_template = JobTemplate.find(params[:id])
         not_found unless @job_template.company == current_user.company
 
-        @new_document = Document.new
-        @new_dynamic_field = DynamicField.new
+        if signed_in_admin?
+            @new_document = Document.new
+            @new_dynamic_field = DynamicField.new
+        else
+            @jobs = JobTemplate.from_company_for_user(@job_template, params, current_user, current_user.company).results
+            render 'job_templates/show_jobs'
+        end
     end
 
     def new

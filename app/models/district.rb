@@ -49,6 +49,18 @@ class District < ActiveRecord::Base
         where("company_id = :company_id", company_id: company.id).order("name ASC")
     end
 
+    def self.from_company_for_user(district, options, user, company)
+        Sunspot.search(Job) do
+            with(:district_id, district.id)
+            if !user.role.district_read?
+                with(:job_membership, user.id)
+            end
+            with(:company_id, company.id)
+            order_by :created_at, :desc
+            paginate :page => options[:page]
+        end
+    end
+
 
     def self.search(options, company)
         Sunspot.search(District) do

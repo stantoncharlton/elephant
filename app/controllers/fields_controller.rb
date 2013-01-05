@@ -25,7 +25,7 @@ class FieldsController < ApplicationController
         @field = Field.find_by_id(params[:id])
         not_found unless @field.company == current_user.company
 
-        @jobs = Job.from_field(@field)
+        @jobs = Field.from_company_for_user(@field, params, current_user, current_user.company).results
     end
 
     def new

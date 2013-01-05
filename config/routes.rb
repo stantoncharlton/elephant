@@ -38,7 +38,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :divisions, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :segments, only: [:index, :new, :create, :edit, :update, :destroy]
-    resources :product_lines, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :product_lines, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
     resources :documents, only: [:new, :create, :update, :destroy]
 
