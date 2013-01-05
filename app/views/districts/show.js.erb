@@ -1,0 +1,4 @@
+$("#jobs").html("<%= j will_paginate %><div id='jobs' class='list'><%= @jobs.each { |job| j render 'jobs/job_link', job: job } %></div><%= j will_paginate %>");
+
+$('.paginated-count').empty();
+$('.paginated-count').append('<%= @jobs.count.to_s %>');

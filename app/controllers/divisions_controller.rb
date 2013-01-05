@@ -1,5 +1,5 @@
 class DivisionsController < ApplicationController
-    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user, only: [:index, :show]
     before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
     set_tab :job_templates
 
@@ -10,6 +10,14 @@ class DivisionsController < ApplicationController
         else
             @divisions = Division.from_company(current_user.company).order("name ASC")
         end
+    end
+
+    def show
+
+        @division = Division.find_by_id(params[:id])
+        not_found unless @division.company == current_user.company
+
+        @jobs = Division.from_company_for_user(@division, params, current_user, current_user.company).results
     end
 
     def new

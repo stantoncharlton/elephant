@@ -30,6 +30,7 @@ class DistrictsController < ApplicationController
     end
 
     def show
+
         @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 

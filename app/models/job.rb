@@ -66,6 +66,12 @@ class Job < ActiveRecord::Base
         integer :product_line_id do
             job_template.product_line.id
         end
+        integer :segment_id do
+            job_template.product_line.segment.id
+        end
+        integer :division_id do
+            job_template.product_line.segment.division.id
+        end
 
         integer :job_membership, :multiple => true do
             unique_participants.map { |u| u.id }

@@ -1,5 +1,5 @@
 class SegmentsController < ApplicationController
-    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user, only: [:index, :show]
     before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
 
     respond_to :js
@@ -12,6 +12,14 @@ class SegmentsController < ApplicationController
             @segments = Segment.from_company(current_user.company).order("name ASC")
         end
 
+    end
+
+    def show
+
+        @segment = Segment.find_by_id(params[:id])
+        not_found unless @segment.company == current_user.company
+
+        @jobs = Segment.from_company_for_user(@segment, params, current_user, current_user.company).results
     end
 
     def new

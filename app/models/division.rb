@@ -13,4 +13,22 @@ class Division < ActiveRecord::Base
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
     end
+
+    def self.from_company_for_user(division, options, user, company)
+        Sunspot.search(Job) do
+            with(:division_id, division.id)
+            any_of do
+                with(:job_membership, user.id)
+                if user.role.district_read?
+                    with(:district_id, user.district.id)
+                end
+                if user.role.product_line_read? and !user.product_line.nil?
+                    with(:product_line_id, user.product_line.id)
+                end
+            end
+            with(:company_id, company.id)
+            order_by :created_at, :desc
+            paginate :page => options[:page]
+        end
+    end
 end

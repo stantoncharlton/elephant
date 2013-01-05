@@ -7,14 +7,16 @@
     <%= render 'layouts/paged_header', items: @jobs %>
   </h2>
 
+  <%= form_tag district_path(@district), :method => 'get', id: "inline_search", class: "inline search-box" do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query" %>
+  <% end %>
+
 </div>
 
 
 <div id="jobs" class="list">
   <% @jobs.each do |job| %>
-      <%= link_to job, class: "job-link" do %>
-          <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false, new_line_job_type: false %>
-      <% end %>
+      <%= render 'jobs/job_link', job: job %>
   <% end %>
 </div>
 

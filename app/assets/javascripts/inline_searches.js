@@ -8,6 +8,11 @@ $(function() {
         return false;
     });
 
+    $("#inline_search input").keyup(function() {
+        $.get($("#inline_search").attr("action"), $("#inline_search").serialize(), null, "script");
+        return false;
+    });
+
     $("#clients th a, #clients .pagination a").live("click", function() {
         $.getScript(this.href);
         return false;
