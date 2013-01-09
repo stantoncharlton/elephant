@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+    skip_before_filter :verify_authenticity_token
+
     def new
         flash[:error] = "Please login"
         redirect_to root_path
@@ -9,6 +11,7 @@ class SessionsController < ApplicationController
 
         user = User.find_by_email(params[:session][:email].strip.downcase)
         if user && user.authenticate(params[:session][:password])
+            response.headers['X-CSRF-Token'] = form_authenticity_token
             respond_to do |format|
                 format.html {
                     if user.create_password?
