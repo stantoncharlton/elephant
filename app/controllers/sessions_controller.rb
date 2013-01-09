@@ -22,6 +22,7 @@ class SessionsController < ApplicationController
                     end
                 }
                 format.xml {
+                    sign_in(user, params[:session]["stay_logged_in"] == "1")
                     render xml: user
                 }
             end
