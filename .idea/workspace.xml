@@ -78,19 +78,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sessions_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="sessions_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="38" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0">
+            <state line="2" column="5" selection-start="55" selection-end="55" vertical-scroll-proportion="0.047976013">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="user.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/user.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="23" selection-start="323" selection-end="342" vertical-scroll-proportion="0.25882354">
+            <state line="11" column="23" selection-start="323" selection-end="342" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1705,16 +1705,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="38" selection-start="384" selection-end="384" vertical-scroll-proportion="0.0">
+        <state line="11" column="23" selection-start="323" selection-end="342" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="323" selection-end="342" vertical-scroll-proportion="0.25882354">
+        <state line="2" column="5" selection-start="55" selection-end="55" vertical-scroll-proportion="0.047976013">
           <folding />
         </state>
       </provider>

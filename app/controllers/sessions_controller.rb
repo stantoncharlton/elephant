@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-    skip_before_filter :verify_authenticity_token
+    #skip_before_filter :verify_authenticity_token
 
     def new
         flash[:error] = "Please login"
@@ -9,17 +9,11 @@ class SessionsController < ApplicationController
 
     def create
 
-        puts "creating new session..........................."
-
         user = User.find_by_email(params[:session][:email].strip.downcase)
-        puts params[:session][:email].strip.downcase
-        puts params[:session][:password]
-        puts user.id.to_s + "........................"
         if user && user.authenticate(params[:session][:password])
             response.headers['X-CSRF-Token'] = form_authenticity_token
             respond_to do |format|
                 format.html {
-                    puts "html..................."
                     if user.create_password?
                         redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
                     else
@@ -28,13 +22,11 @@ class SessionsController < ApplicationController
                     end
                 }
                 format.xml {
-                    puts "xml..................."
                     sign_in(user, params[:session]["stay_logged_in"] == "1")
                     render xml: user, except: [ :created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password ]
                 }
             end
         else
-            puts "not authenticated..................."
             redirect_to root_path, :flash => {:error => "Invalid email/password combination"}
         end
     end
