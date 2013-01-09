@@ -401,3 +401,29 @@ ul.ui-autocomplete {
   font-size: 11px;
   display: inline-block;
 }
+
+.job-email-table {
+  width: 900px;
+
+  tr {
+    margin: 0px;
+    padding: 0px;
+    width: 800px;
+    height: 30px;
+  }
+}
+
+.job-email-td {
+  width: 150px;
+  max-width: 150px;
+}
+
+.job-email-td-title {
+  width: 100px;
+  max-width: 100px;
+}
+
+.job-email-title {
+  height: 50px !important;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,130 @@
+<table class="job-email-table" cellspacing="0" cellpadding="0">
+  <tr class="job-email-title">
+    <td colspan="4">
+      <h2 class="job-title inline"><%= job.field.name %></h2>
+
+      <p class="job-well-field-title inline">Field</p>
+
+      <p class="job-title-divider inline">|</p>
+
+      <h2 class="job-title inline"><%= job.well.name %></h2>
+
+      <p class="job-well-field-title inline">Well</p>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.status" %></p>
+    </td>
+
+    <td class="job-email-td">
+      <% if job.approved_to_close %>
+          <p class="job-field-value inline"><%= t "jobs.job_data.status_complete" %></p>
+      <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
+          <h3 class="job-field-value status-good inline"><%= t "jobs.job_data.status_post_job" %></h3>
+      <% elsif job.approved_to_ship %>
+          <h3 class="job-field-value status-good inline"><%= t "jobs.job_data.status_in_field" %></h3>
+      <% else %>
+          <h3 class="job-field-value status-good inline"><%= t "jobs.job_data.status_pre_job" %></h3>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.division" %></p>
+    </td>
+
+    <td class="job-email-td">
+      <p class="job-field-value inline"><%= job.job_template.product_line.segment.division.name %></p>
+    </td>
+
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.segment" %></p>
+    </td>
+
+    <td class="job-email-td">
+      <p class="job-field-value inline"><%= job.job_template.product_line.segment.name %></p>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.product_line" %></p>
+    </td>
+
+    <td colspan="3">
+      <h3 class="job-field-value job-field-value-bold inline"><%= job.job_template.product_line.name %></h3>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="job-email-td-title">
+      <p class="job-field-title"><%= t "jobs.job_data.job_type" %></p>
+    </td>
+
+    <td colspan="3">
+      <h3 class="job-field-value-long job-field-value-bold inline"><%= job.job_template.name %></h3>
+    </td>
+  </tr>
+
+
+  <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+      <% if !dynamic_field.dynamic_field_template.nil? %>
+          <tr>
+            <td class="job-email-td-title">
+              <p class="job-field-title inline"><%= dynamic_field.dynamic_field_template.name %></p>
+            </td>
+
+            <td class="job-email-td" colspan="3">
+              <div class="job-field-div inline">
+                <p class="job-field-value2 inline"><%= dynamic_field.value %></p>
+                <% if dynamic_field.value_type != 1 %>
+                    <p class="job-field-units unit-tooltip inline" data-placement="bottom" data-title="<%= dynamic_field.value_type_unit_full %>">
+                      <%= dynamic_field.value_type_unit %>
+                    </p>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+
+      <% end %>
+  <% end %>
+
+  <tr>
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.district" %></p>
+    </td>
+
+    <td class="job-email-td">
+      <p class="job-field-value inline"><%= job.district.name %></p>
+    </td>
+
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.created_date" %></p>
+    </td>
+    <td  class="job-email-td">
+      <p class="job-field-value inline"><%= job.created_at.strftime("%m/%d/%Y") %></p>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.client_name" %></p>
+    </td>
+    <td class="job-email-td">
+      <p class="job-field-value inline"><%= job.client.name %></p>
+    </td>
+
+    <td class="job-email-td-title">
+      <p class="job-field-title inline"><%= t "jobs.job_data.start_date" %></p>
+    </td>
+    <td class="job-email-td">
+      <p class="job-field-value inline">12/10/12</p>
+    </td>
+  </tr>
+
+
+</table>

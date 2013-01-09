@@ -9,7 +9,7 @@
 
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
-    <%= render 'jobs/job_data', job: @job, form_editable: false, new_line_job_type: true %>
+    <%= render 'jobs/job_data_email', job: @job %>
 <% end %>
 
 </body>

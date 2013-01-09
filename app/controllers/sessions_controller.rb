@@ -9,11 +9,18 @@ class SessionsController < ApplicationController
 
         user = User.find_by_email(params[:session][:email].strip.downcase)
         if user && user.authenticate(params[:session][:password])
-            if user.create_password?
-                redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
-            else
-                sign_in(user, params[:session]["stay_logged_in"] == "1")
-                redirect_to root_path
+            respond_to do |format|
+                format.html {
+                    if user.create_password?
+                        redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
+                    else
+                        sign_in(user, params[:session]["stay_logged_in"] == "1")
+                        redirect_to root_path
+                    end
+                }
+                format.xml {
+                    render xml: user
+                }
             end
         else
             redirect_to root_path, :flash => {:error => "Invalid email/password combination"}
