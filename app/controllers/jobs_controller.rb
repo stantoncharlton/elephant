@@ -5,8 +5,39 @@ class JobsController < ApplicationController
 
     def index
 
-        @jobs = current_user.active_jobs
-        @jobs_inactive = current_user.inactive_jobs.paginate(page: params[:page], limit: 5)
+        respond_to do |format|
+            format.html {
+                @jobs = current_user.active_jobs
+                @jobs_inactive = current_user.inactive_jobs.paginate(page: params[:page], limit: 5)
+            }
+            format.xml {
+                render xml: current_user.active_jobs,
+                       include: {
+                               :field => { except: [ :created_at, :updated_at, :company_id] },
+                               :well => { except: [ :created_at, :updated_at, :company_id] },
+                               :company => { except: [ :created_at, :updated_at, :company_id] },
+                               :client => { except: [ :created_at, :updated_at, :company_id] },
+                               :dynamic_fields => { except: [ :created_at, :updated_at, :company_id] },
+                               :job_template => {
+                                    include: {
+                                       :product_line => {
+                                               include: {
+                                                    :segment => {
+                                                            include: { :division => { except: [:created_at, :updated_at, :company_id] } },
+                                                            except: [ :created_at, :updated_at, :company_id]
+                                                    }
+                                               },
+                                               except: [ :created_at, :updated_at, :segment_id, :company_id]
+                                       }
+                                    },
+                                    except: [ :created_at, :updated_at, :product_line_id, :company_id]
+                               },
+                               :documents => {},
+                               :job_notes => {}
+
+                       }
+            }
+        end
     end
 
     def show
@@ -153,7 +184,7 @@ class JobsController < ApplicationController
                 @job.remove_user!(@user)
             end
             @tag_name = 'sales_engineer'
-            @job.sales_engineer =  @user
+            @job.sales_engineer = @user
         end
 
         @job.save
