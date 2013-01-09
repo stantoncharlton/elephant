@@ -99,7 +99,7 @@
       <file leaf-file-name="sessions_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="30" selection-start="631" selection-end="631" vertical-scroll-proportion="0.4317841">
+            <state line="15" column="40" selection-start="439" selection-end="439" vertical-scroll-proportion="0.3358321">
               <folding />
             </state>
           </provider>
@@ -1718,7 +1718,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/sessions_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="30" selection-start="631" selection-end="631" vertical-scroll-proportion="0.4317841">
+        <state line="15" column="40" selection-start="439" selection-end="439" vertical-scroll-proportion="0.3358321">
           <folding />
         </state>
       </provider>

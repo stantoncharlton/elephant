@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
 
         user = User.find_by_email(params[:session][:email].strip.downcase)
         puts params[:session][:email].strip.downcase
+        puts params[:session][:password]
         if user && user.authenticate(params[:session][:password])
             response.headers['X-CSRF-Token'] = form_authenticity_token
             respond_to do |format|
