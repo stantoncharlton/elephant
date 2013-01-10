@@ -1,6 +1,5 @@
 class JobsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show]
-    before_filter :signed_in_user, only: [:new, :create, :update]
+    before_filter :signed_in_user, only: [:index, :show, :new, :create, :update]
     set_tab :jobs
 
     def index

@@ -239,6 +239,18 @@ class Job < ActiveRecord::Base
         nil
     end
 
+    def status
+        if self.approved_to_close
+            I18n.t("jobs.job_data.status_complete")
+        elsif self.approved_to_ship and self.sent_post_job_ready_email
+            I18n.t("jobs.job_data.status_post_job")
+        elsif self.approved_to_ship
+            I18n.t("jobs.job_data.status_in_field")
+        else
+            I18n.t("jobs.job_data.status_pre_job")
+        end
+    end
+
     def user_is_member?(user)
         !self.job_memberships.find { |jm| jm.user == user }.nil?
     end
