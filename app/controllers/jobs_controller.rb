@@ -12,8 +12,10 @@ class JobsController < ApplicationController
             format.xml {
                 render xml: current_user.active_jobs,
                        include: {
+                               #:status => {},
                                :field => { except: [ :created_at, :updated_at, :company_id] },
                                :well => { except: [ :created_at, :updated_at, :company_id] },
+                               :district => { except: [ :created_at, :updated_at, :company_id] },
                                :company => { except: [ :created_at, :updated_at, :company_id] },
                                :client => { except: [ :created_at, :updated_at, :company_id] },
                                :dynamic_fields => { except: [ :created_at, :updated_at, :company_id] },
@@ -31,7 +33,14 @@ class JobsController < ApplicationController
                                     },
                                     except: [ :created_at, :updated_at, :product_line_id, :company_id]
                                },
-                               :documents => {},
+                               :documents => {
+                                       :methods => :full_url,
+                                        include: {
+                                            :document_template => {
+                                                :methods => :full_url,
+                                            }
+                                       }
+                               },
                                :job_notes => {}
 
                        }

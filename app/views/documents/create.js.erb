@@ -7,11 +7,11 @@ $('#alert').modal({show:true});
 <% else %>
 
 <% if @document.category == "Pre-Job" %>
-    $("#documents").append("<%= j render(@document, editable: true) %>");
+    $("#documents").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% elsif @document.category == "Post-Job" %>
-    $("#documents2").append("<%= j render(@document, editable: true) %>");
+    $("#documents2").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% elsif @document.category == "Field Bulletins" %>
-    $("#documents3").append("<%= j render(@document, editable: true) %>");
+    $("#documents3").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% end %>
 
 $('[id=new_document_name]').val('');

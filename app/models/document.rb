@@ -39,9 +39,13 @@ class Document < ActiveRecord::Base
     end
 
     def full_url
-        s3 = AWS::S3.new
-        obj = s3.buckets['elephant-docs'].objects[self.url].url_for(:read)
-        obj.to_s
+        if !self.url.blank?
+            s3 = AWS::S3.new
+            obj = s3.buckets['elephant-docs'].objects[self.url].url_for(:read)
+            obj.to_s
+        else
+            ""
+        end
     end
 
 

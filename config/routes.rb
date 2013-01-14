@@ -40,7 +40,7 @@ ElephantWebApp::Application.routes.draw do
     resources :segments, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     resources :product_lines, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
-    resources :documents, only: [:new, :create, :update, :destroy]
+    resources :documents, only: [:show, :new, :create, :update, :destroy]
 
     resources :dynamic_fields, only: [:new, :create, :edit, :update, :destroy]
 

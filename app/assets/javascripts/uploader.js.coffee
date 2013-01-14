@@ -24,9 +24,12 @@ connectUploadEvents = ->
       done: (e, data) ->
         $(e.target).find('.document-info').show()
         $(e.target).find(".upload-controls").show()
+        documentId = $(e.target).find('.upload-controls').attr('id').replace('div_upload_', '')
+        filename = $(e.target).find('.document-name').text()
         file = data.files[0]
         domain = $(e.target).attr('action')
         path = $(e.target).find('input[name=key]').val().replace('${filename}', file.name)
+        #path = $(e.target).find('input[name=key]').val().replace('${filename}', documentId + ": " + filename + "." + file.name.substr((file.name.lastIndexOf('.') + 1)))
         to = $(e.target).data('post')
         content = {}
         content[$(e.target).data('as')] = path

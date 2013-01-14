@@ -1,14 +1,32 @@
 class DocumentsController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :create, :update, :destroy]
+    before_filter :signed_in_user, only: [:show, :new, :create, :update, :destroy]
 
     respond_to :js
+
+    def show
+
+        respond_to do |format|
+            format.xml {
+                @document = Document.find(params[:id])
+                not_found unless @document.company == current_user.company
+
+                record = Struct.new(:value) do
+                    def to_xml
+                        "<document><url>#{value}</url></document>"
+                    end
+                end
+
+                render xml: record.new(@document.full_url).to_xml
+            }
+        end
+    end
 
     def new
 
         if params["modal"].present? && params["modal"] == "true"
             @job_id = params[:job_id]
             @document = Document.new
-           render 'documents/new_modal'
+            render 'documents/new_modal'
         else
 
             @document = Document.new(params[:document])

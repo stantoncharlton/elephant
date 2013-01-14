@@ -62,7 +62,7 @@
 <h3 class="document-section-header"><%= t "jobs.show.notices" %></h3>
 <div class="content" id="documents3">
   <% @job_template.documents.select { |item| item.category == "Field Bulletins" }.each do |d| %>
-      <%= render 'documents/document', document: d, editable: true %>
+      <%= render 'documents/document', document: d, editable: true, can_upload: true %>
   <% end %>
 </div>
 
@@ -74,7 +74,7 @@
 <h3 class="document-section-header"><%= t "jobs.show.pre_job" %></h3>
 <div class="content" id="documents">
   <% @job_template.documents.select { |item| item.category == "Pre-Job" }.each do |d| %>
-      <%= render 'documents/document', document: d, editable: true %>
+      <%= render 'documents/document', document: d, editable: true, can_upload: true %>
   <% end %>
 </div>
 
@@ -85,7 +85,7 @@
 <h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>
 <div class="content" id="documents2">
   <% @job_template.documents.select { |item| item.category == "Post-Job" }.each do |d| %>
-      <%= render 'documents/document', document: d, editable: true %>
+      <%= render 'documents/document', document: d, editable: true, can_upload: true %>
   <% end %>
 </div>
 
