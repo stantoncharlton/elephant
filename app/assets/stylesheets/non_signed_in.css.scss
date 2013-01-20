@@ -19,6 +19,15 @@
   margin-right: 10px;
 }
 
+.non-signed-in-header-link {
+  &:link, &:visited {
+    color: #FFFFFF !important;
+  }
+  &:hover {
+    color: #81c0f9 !important;
+  }
+}
+
 .login {
   background: url(image_path('login_box.png')) no-repeat;
   padding: 40px;

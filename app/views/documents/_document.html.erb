@@ -5,7 +5,7 @@
         <%= render 'documents/document_metadata', document: document %>
 
 
-        <div class="upload-controls inline" id="div_upload_<%= document.job.id %>">
+        <div class="upload-controls inline" id="div_upload_<%= !document.job.nil? ? document.job.id : "" %>">
           <div class="upload-document-container" id="file_uploads">
             <% if can_upload and (document.template? or !document.read_only?) %>
                 <% if !@job || (@job and !@job.approved_to_close) %>

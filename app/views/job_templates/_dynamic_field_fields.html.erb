@@ -5,9 +5,14 @@
     <div class="inline-form">
 
       <%= f.text_field :name, placeholder: I18n.t("job_templates.dynamic_field_fields.name"), class: "txtfield", id: "new_dynamic_field_name" %>
-      <%= f.select :value_type, options_for_select(@new_dynamic_field.units) %>
+      <!-- <%= f.select :value_type, options_for_select(@new_dynamic_field.units) %>   -->
       <%= f.hidden_field :template, value: true %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>
+
+      <%= f.select :value_type,
+                     options_for_select(@new_dynamic_field.units),
+                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
 
       <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
 

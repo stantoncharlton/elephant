@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130104063302) do
+ActiveRecord::Schema.define(:version => 20130116232107) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(:version => 20130104063302) do
     t.boolean  "priority"
     t.integer  "dynamic_field_template_id"
     t.integer  "value_type",                :default => 1
+    t.integer  "default_value_type",        :default => 0
   end
 
   add_index "dynamic_fields", ["company_id"], :name => "index_dynamic_fields_on_company_id"

@@ -3,6 +3,7 @@
 class DynamicField < ActiveRecord::Base
     attr_accessible :name,
                     :value_type,
+                    :default_value_type,
                     :template,
                     :priority
 
@@ -51,7 +52,140 @@ class DynamicField < ActiveRecord::Base
 
 
     def value
-        read_attribute(:value) #.send(value_type_conversion)
+        storage_value_type = get_storage_value_type(self.value_type)
+        if storage_value_type != self.value_type
+            convert(read_attribute(:value), get_storage_value_type(self.value_type), self.value_type) #.send(value_type_conversion)
+        else
+            read_attribute(:value)
+        end
+    end
+
+    def update_value_type(new_value_type)
+        storage_value_type = get_storage_value_type(new_value_type)
+
+        write_attribute(:value_type, new_value_type)
+
+        # Change value in DB if unit changed to non-default
+        if storage_value_type != self.value_type
+            write_attribute(:value, convert(read_attribute(:value), new_value_type, storage_value_type))
+        end
+    end
+
+    def convert(value, value_type, new_value_type)
+
+        if value_type == new_value_type
+            return value
+        end
+
+        case value_type
+            when STRING
+                value
+            when LENGTH
+                value
+            when LENGTH_FT
+                case new_value_type
+                    when LENGTH_IN
+                        value * 12
+                    when LENGTH_M
+                        value / 3 # Needs Fixed
+                    when LENGTH_CM
+                        (value / 3) * 10 # Needs Fixed
+                end
+            when LENGTH_IN
+                case new_value_type
+                    when LENGTH_FT
+                        value / 12
+                    when LENGTH_M
+                        (value * 12) / 3 # Needs Fixed
+                    when LENGTH_CM
+                        (value / 3) * 10 # Needs Fixed
+                end
+            when LENGTH_M
+                case new_value_type
+                    when LENGTH_FT
+                        value * 3
+                    when LENGTH_IN
+                        (value * 3) / 12 # Needs Fixed
+                    when LENGTH_CM
+                        value * 10 # Needs Fixed
+                end
+            when LENGTH_CM
+                case new_value_type
+                    when LENGTH_FT
+                        (value * 10) * 3
+                    when LENGTH_IN
+                        (value * 3) / 12 # Needs Fixed
+                    when LENGTH_M
+                        value / 10 # Needs Fixed
+                end
+            when LENGTH_MM
+                0
+            when TEMPERATURE
+                ""
+            when TEMPERATURE_F
+                case new_value_type
+                    when LENGTH_C
+                        value / 2
+                end
+            when TEMPERATURE_C
+                case new_value_type
+                    when LENGTH_F
+                        value * 2
+                end
+            when PRESSURE
+                ""
+            when PRESSURE_PSI
+                case new_value_type
+                    when PRESSURE_MPA
+                        value / 4
+                    when PRESSURE_PAS
+                        value / 2
+                end
+            when PRESSURE_MPA
+                case new_value_type
+                    when PRESSURE_PSI
+                        value * 4
+                    when PRESSURE_PAS
+                        value * 2
+                end
+            when PRESSURE_PAS
+                case new_value_type
+                    when PRESSURE_PSI
+                        value * 2
+                    when PRESSURE_MPA
+                        value / 2
+                end
+            when RATE_BBLS
+                case new_value_type
+                    when RATE_M3
+                        value * 2
+                end
+            when RATE_M3
+                case new_value_type
+                    when RATE_BBLS
+                        value / 2
+                end
+            when VOLUME_BBLS
+                case new_value_type
+                    when VOLUME_M3
+                        value * 2
+                end
+            when VOLUME_M3
+                case new_value_type
+                    when VOLUME_BBLS
+                        value / 2
+                end
+            when AREA_IN2
+                case new_value_type
+                    when AREA_CM2
+                        value * 2
+                end
+            when AREA_CM2
+                case new_value_type
+                    when AREA_IN2
+                        value / 2
+                end
+        end
     end
 
     def value_type_unit
@@ -108,41 +242,41 @@ class DynamicField < ActiveRecord::Base
             when LENGTH
                 ""
             when LENGTH_FT
-                "Feet"
+                "Length | Feet"
             when LENGTH_IN
-                "Inches"
+                "Length | Inches"
             when LENGTH_M
-                "Meters"
+                "Length | Meters"
             when LENGTH_CM
-                "Centimeter"
+                "Length | Centimeters"
             when LENGTH_MM
-                "Millimeter"
+                "Length | Millimeters"
             when TEMPERATURE
                 ""
             when TEMPERATURE_F
-                "Degrees Fahrenheit"
+                "Temperature | Fahrenheit"
             when TEMPERATURE_C
-                "Degrees Celsius"
+                "Temperature | Celsius"
             when PRESSURE
                 ""
             when PRESSURE_PSI
-                "Pounds per Square Inch"
+                "Pressure | PSI"
             when PRESSURE_MPA
-                "MegaPascal"
+                "Pressure | MegaPascals"
             when PRESSURE_PAS
-                "Pascal"
+                "Pressure | Pascals"
             when RATE_BBLS
-                "Barrels per Minute"
+                "Rate | Barrels per Minute"
             when RATE_M3
-                "Meters Cubed per Minute"
+                "Rate | Meters Cubed per Minute"
             when VOLUME_BBLS
-                "Barrels"
+                "Volume | Barrels"
             when VOLUME_M3
-                "Meters Cubed"
+                "Volume | Meters Cubed"
             when AREA_IN2
-                "Square Inches"
+                "Area | Square Inches"
             when AREA_CM2
-                "Square Centimeters"
+                "Area | Square Centimeters"
         end
     end
 
@@ -176,53 +310,83 @@ class DynamicField < ActiveRecord::Base
     def units
         units = Array.new
 
-        units << [get_value_type_label(1), 1]
-        units << [get_value_type_label(10), 10]
-        units << [get_value_type_label(30), 30]
-        units << [get_value_type_label(40), 40]
-        units << [get_value_type_label(50), 50]
-        units << [get_value_type_label(60), 60]
-        units << [get_value_type_label(70), 70]
+        units << ["String", STRING]
+        units << ["Length | Feet", LENGTH_FT]
+        units << ["Length | Inches", LENGTH_IN]
+        units << ["Length | Meters", LENGTH_M]
+        units << ["Length | Centimeters", LENGTH_CM]
+        units << ["Temperature | Fahrenheit", TEMPERATURE_F]
+        units << ["Temperature | Celsius", TEMPERATURE_C]
+        units << ["Pressure | PSI", PRESSURE_PSI]
+        units << ["Pressure | MegaPascals", PRESSURE_MPA]
+        units << ["Pressure | Pascals", PRESSURE_PAS]
+        units << ["Rate | Barrels per Minute", RATE_BBLS]
+        units << ["Rate | Meters Cubed per Minute", RATE_M3]
+        units << ["Volume | Barrels", VOLUME_BBLS]
+        units << ["Volume | Meters Cubed", VOLUME_M3]
+        units << ["Volume | Meters Cubed", VOLUME_M3]
+        units << ["Area | Inches Squared", AREA_IN2]
+        units << ["Area | Centimeters Squared", AREA_CM2]
 
         units
     end
 
     def unit_options
-        units = get_unit_options(self.dynamic_field_template.value_type)
+        get_unit_options(self.dynamic_field_template.value_type)
     end
 
     def unit_options2
-        units = get_unit_options(self.value_type)
+        get_unit_options(self.value_type)
     end
 
     def get_unit_options(value_type)
         units = Array.new
 
         case value_type
-            when LENGTH
+            when LENGTH_FT, LENGTH_M
                 units << ["ft", LENGTH_FT]
-                units << ["in", LENGTH_IN]
                 units << ["m", LENGTH_M]
+            when LENGTH_IN, LENGTH_CM
+                units << ["in", LENGTH_IN]
                 units << ["cm", LENGTH_CM]
-            when TEMPERATURE
+            when TEMPERATURE_F, TEMPERATURE_C
                 units << ["f°", TEMPERATURE_F]
                 units << ["c°", TEMPERATURE_C]
-            when PRESSURE
+            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
                 units << ["psi", PRESSURE_PSI]
                 units << ["mpa", PRESSURE_MPA]
                 units << ["pas", PRESSURE_PAS]
-            when RATE
+            when RATE_BBLS, RATE_M3
                 units << ["bbls/min", RATE_BBLS]
                 units << ["m^3/min", RATE_M3]
-            when VOLUME
+            when VOLUME_BBLS, VOLUME_M3
                 units << ["bbls", VOLUME_BBLS]
                 units << ["m^3", VOLUME_M3]
-            when AREA
+            when AREA_IN2, AREA_CM2
                 units << ["in^2", AREA_IN2]
                 units << ["cm^2", AREA_CM2]
         end
 
         units
+    end
+
+    def get_storage_value_type(value_type)
+        case value_type
+            when LENGTH_FT, LENGTH_M
+                LENGTH_FT
+            when LENGTH_IN, LENGTH_CM
+                LENGTH_IN
+            when TEMPERATURE_F, TEMPERATURE_C
+                TEMPERATURE_F
+            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+                PRESSURE_PSI
+            when RATE_BBLS, RATE_M3
+                RATE_BBLS
+            when VOLUME_BBLS, VOLUME_M3
+                VOLUME_BBLS
+            when AREA_IN2, AREA_CM2
+                AREA_IN2
+        end
     end
 
     private
