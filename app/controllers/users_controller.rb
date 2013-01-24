@@ -26,10 +26,6 @@ class UsersController < ApplicationController
         end
     end
 
-    def settings
-        @user = current_user
-    end
-
     def show
         @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company

@@ -57,4 +57,28 @@ class Document < ActiveRecord::Base
         where("job_id = :job_id", job_id: job.id)
     end
 
+    def upload_info
+        sts = AWS::STS.new()
+        policy = AWS::STS::Policy.new
+        policy.allow(
+                :actions => ["s3:PutObject"],
+                :resources => "arn:aws:s3:::elephant-docs/*")
+
+        session = sts.new_federated_session(
+                'User_' + UserObserver.current_user.id.to_s,
+                :policy => policy,
+                :duration => 2*60*60)
+
+        record = Struct.new(:uploadKey, :accessKeyId, :secretAccessKey, :sessionToken) do
+            def to_xml(options = {})
+                "<uploadKey>docs/#{uploadKey}</uploadKey><accessKeyId>#{accessKeyId}</accessKeyId><secretAccessKey>#{secretAccessKey}</secretAccessKey><sessionToken>#{sessionToken}</sessionToken>"
+            end
+        end
+
+        record.new(SecureRandom.hex,
+                   session.credentials[:access_key_id],
+                   session.credentials[:secret_access_key],
+                   session.credentials[:session_token]).to_xml
+    end
+
 end

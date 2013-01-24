@@ -10,42 +10,14 @@ class DocumentsController < ApplicationController
                 @document = Document.find(params[:id])
                 not_found unless @document.company == current_user.company
 
-                sts = AWS::STS.new()
-                policy = AWS::STS::Policy.new
-                policy.allow(
-                        :actions => ["s3:PutObject"],
-                        :resources => "arn:aws:s3:::elephant-docs/*")
-
-                session = sts.new_federated_session(
-                        'User_' + current_user.id.to_s,
-                        :policy => policy,
-                        :duration => 2*60*60)
-
-                record = Struct.new(:url, :accessKeyId, :secretAccessKey, :sessionToken) do
-                    def to_xml
-                        "<document><url>#{url}</url><uploadKey>docs/#{SecureRandom.hex}</uploadKey><accessKeyId>#{accessKeyId}</accessKeyId><secretAccessKey>#{secretAccessKey}</secretAccessKey><sessionToken>#{sessionToken}</sessionToken></document>"
-                    end
-                end
-
-                puts session.credentials[:access_key_id]
-                puts session.credentials[:secret_access_key]
-                puts session.credentials[:session_token]
-
-                #s3 = AWS::S3.new(session.credentials)
-                #objg = s3.get_object("docs/009bff23c7e5bf382c9504a072cb0936/photo.JPG")
-
-
-                #s3.buckets["elephant-docs"].objects["file.pdf"].write(:file => "/Users/t23/Downloads/ConsoleApplication1/UploadHelper/UploadFile.cs")
-                #puts "Uploaded................."
-
-                #bucket = s3.buckets["elephant-docs"].objects.collect(&:key)
-                #puts "No. of Objects = #{bucket.count.to_s}"
-                #puts bucket
-
-                render xml: record.new(@document.full_url,
-                                       session.credentials[:access_key_id],
-                                       session.credentials[:secret_access_key],
-                                       session.credentials[:session_token]).to_xml
+                render xml: @document,
+                       :methods => [ :full_url, :upload_info ],
+                       include: {
+                               :document_template => {
+                                       :methods => :full_url,
+                               },
+                               :user => {except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password]}
+                       }
             }
         end
     end
@@ -120,6 +92,17 @@ class DocumentsController < ApplicationController
             Activity.add(current_user, Activity::DOCUMENT_UPLOADED, @document, @document.file_name, @document.job)
         end
 
+        respond_to do |format|
+            format.xml { render xml: @document,
+                                :methods => :full_url,
+                                include: {
+                                        :document_template => {
+                                                :methods => :full_url,
+                                        },
+                                        :user => {except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password]}
+                                }
+            }
+        end
     end
 
 

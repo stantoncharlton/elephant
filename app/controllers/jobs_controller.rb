@@ -38,7 +38,8 @@ class JobsController < ApplicationController
                                         include: {
                                             :document_template => {
                                                 :methods => :full_url,
-                                            }
+                                            },
+                                            :user => { except: [ :created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password ] }
                                        }
                                },
                                :job_notes => {}

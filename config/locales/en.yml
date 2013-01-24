@@ -155,11 +155,13 @@ en:
       recipients: "Recipients"
 
   users:
-    settings:
-      title: "Settings"
-
     show:
       jobs: "Jobs"
+
+
+  settings:
+    edit:
+      title: "Settings"
 
   global:
     done: "Done"
