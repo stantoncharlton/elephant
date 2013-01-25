@@ -11,10 +11,11 @@ ElephantWebApp::Application.routes.draw do
 
     resources :user_roles, only: [:index, :new, :create, :destroy, :edit, :update]
 
-    get 'settings', to: 'users#settings', as: 'settings'
-
-
     resources :sessions, only: [:create, :destroy]
+
+    #match "/settings" => "settings#edit", :via => :get
+    #match "/settings" => "settings#update", :via => :put
+    resources :settings, only: [:edit, :update]
 
     match '/signin', to: 'sessions#new'
     get '/update_password', to: 'sessions#edit'

@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
     has_many :conversation_memberships, foreign_key: "user_id"
     has_many :conversations, through: :conversation_memberships, source: :conversation
 
+    has_one :user_unit
 
     belongs_to :company
     belongs_to :district
@@ -73,6 +74,7 @@ class User < ActiveRecord::Base
     def active_jobs
         jobs.where(:active => true)
     end
+
     def inactive_jobs
         jobs.where(:active => false)
     end
@@ -141,7 +143,9 @@ class User < ActiveRecord::Base
     end
 
     def create_remember_token
-        self.remember_token = SecureRandom.urlsafe_base64
+        if self.remember_token.nil?
+            self.remember_token = SecureRandom.urlsafe_base64
+        end
     end
 
 end

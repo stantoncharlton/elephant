@@ -52,34 +52,46 @@ class DynamicField < ActiveRecord::Base
 
 
     def value
-        storage_value_type = get_storage_value_type(self.value_type)
-        if storage_value_type != self.value_type
-            convert(read_attribute(:value), get_storage_value_type(self.value_type), self.value_type) #.send(value_type_conversion)
-        else
-            read_attribute(:value)
-        end
+        storage_value_type = get_storage_value_type(read_attribute(:value_type))
+        convert(read_attribute(:value), storage_value_type, read_attribute(:value_type))
     end
 
-    def update_value_type(new_value_type)
-        storage_value_type = get_storage_value_type(new_value_type)
+    def value=(value)
+        storage_value_type = get_storage_value_type(read_attribute(:value_type))
+        write_attribute(:value, convert(value, read_attribute(:value_type), storage_value_type))
+    end
 
-        write_attribute(:value_type, new_value_type)
+    def value_type
+        read_attribute(:value_type)
+    end
+
+    def value_type=(value_type)
+        storage_value_type = get_storage_value_type(value_type.to_i)
+
+        current_value = self.value
+        write_attribute(:value_type, value_type.to_i)
 
         # Change value in DB if unit changed to non-default
-        if storage_value_type != self.value_type
-            write_attribute(:value, convert(read_attribute(:value), new_value_type, storage_value_type))
+        if storage_value_type != value_type
+            write_attribute(:value, convert(current_value, value_type.to_i, storage_value_type))
+        elsif
+            write_attribute(:value, current_value)
         end
     end
 
     def convert(value, value_type, new_value_type)
 
-        if value_type == new_value_type
+        if value.nil?
             return value
         end
 
+        if value_type == new_value_type or value_type == STRING
+            return value
+        end
+
+        value = value.to_f
+
         case value_type
-            when STRING
-                value
             when LENGTH
                 value
             when LENGTH_FT
@@ -365,6 +377,37 @@ class DynamicField < ActiveRecord::Base
             when AREA_IN2, AREA_CM2
                 units << ["in^2", AREA_IN2]
                 units << ["cm^2", AREA_CM2]
+        end
+
+        units
+    end
+
+    def get_unit_options_full(value_type)
+        units = Array.new
+
+        case value_type
+            when LENGTH_FT, LENGTH_M
+                units << ["Feet", LENGTH_FT]
+                units << ["Meters", LENGTH_M]
+            when LENGTH_IN, LENGTH_CM
+                units << ["Inches", LENGTH_IN]
+                units << ["Centimeters", LENGTH_CM]
+            when TEMPERATURE_F, TEMPERATURE_C
+                units << ["Fahrenheit", TEMPERATURE_F]
+                units << ["Celsius", TEMPERATURE_C]
+            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+                units << ["PSI", PRESSURE_PSI]
+                units << ["MegaPascals", PRESSURE_MPA]
+                units << ["Pascals", PRESSURE_PAS]
+            when RATE_BBLS, RATE_M3
+                units << ["Barrels per Minute", RATE_BBLS]
+                units << ["Meters Cubed per Minute", RATE_M3]
+            when VOLUME_BBLS, VOLUME_M3
+                units << ["Barrels", VOLUME_BBLS]
+                units << ["Meters Cubed", VOLUME_M3]
+            when AREA_IN2, AREA_CM2
+                units << ["Inches Squared", AREA_IN2]
+                units << ["Centimeters Squared", AREA_CM2]
         end
 
         units
