@@ -227,7 +227,7 @@ DEPENDENCIES
   annotate (= 2.5.0)
   aws-sdk
   bcrypt-ruby (= 3.0.1)
-  bootstrap-sass (= 2.0.0)
+  bootstrap-sass
   bootstrap-will_paginate (= 0.0.6)
   capybara (= 1.1.2)
   coffee-rails (~> 3.2.1)
