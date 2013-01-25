@@ -5,12 +5,18 @@
 
 $grayMediumLight: #eaeaea;
 
+.ui-helper-hidden-accessible { display:none; }
+
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
+
+.haha {
+  background: red;
+}
 
 /* universal */
 
