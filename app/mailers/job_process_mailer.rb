@@ -1,5 +1,5 @@
 class JobProcessMailer < ActionMailer::Base
-    default from: "system@go-elephant.com"
+    default from: "no-reply@go-elephant.com"
 
     def pre_job_data_complete(user, job)
         @user = user

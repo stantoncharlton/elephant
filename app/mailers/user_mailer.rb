@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "system@go-elephant.com"
+  default from: "no-reply@go-elephant.com"
 
   def registration_confirmation(user, password)
       @user = user
