@@ -1,9 +1,9 @@
 ActionMailer::Base.smtp_settings = {
-        :address              => "mail.go-elephant.com",
+        :address              => "smtp.gmail.com",
         :port                 => 587,
         :domain               => "www.go-elephant.com",
         :user_name            => "no-reply@go-elephant.com",
-        :password             => "jEFC5%Za",
+        :password             => "El3phant!2",
         :authentication       => "plain",
         :enable_starttls_auto => true
 }
