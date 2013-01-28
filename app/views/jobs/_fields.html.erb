@@ -71,14 +71,14 @@
     (function ($) {
         $(document).ready(function () {
             $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li></li>").data("item.autocomplete", item).append(
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                         "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city +  "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
             }
         });
 
         $(document).ready(function () {
             $('#client_name').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li class=\"ui-menu-item\"></li>").data("item.autocomplete", item).append(
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                         "<a><div class='job-user'><strong>" + item.value + " </strong></div></a>").appendTo(ul)
             }
         });

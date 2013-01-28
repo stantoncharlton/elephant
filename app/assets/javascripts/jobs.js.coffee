@@ -4,8 +4,17 @@ $ ->
   $('.unit-tooltip').tooltip()
   $('.unitsSelect').customSelect()
 
+  last_selected_item = null
+  focusevent = (event, ui) ->
+    if last_selected_item != null
+      $('.item_' + last_selected_item.id).removeClass('ui-state-hover')
+    selected_item = $('.item_' + ui.item.id)
+    selected_item.addClass('ui-state-hover')
+    last_selected_item = ui.item
+
   $('#new_member_name').autocomplete
     source: $('#new_member_name').data('autocomplete-source')
+    focus: focusevent
     select: (event, ui) ->
       $("#new_member_name").val(ui.item.label)
       $("#new_member_id").val(ui.item.id)
@@ -13,6 +22,7 @@ $ ->
 
   $('#new_note_name').autocomplete
     source: $('#new_note_name').data('autocomplete-source')
+    focus: focusevent
     select: (event, ui) ->
       $("#new_note_name").val(ui.item.label)
       $("#new_note_name_id").val(ui.item.id)

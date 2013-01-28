@@ -7,6 +7,57 @@ $grayMediumLight: #eaeaea;
 
 .ui-helper-hidden-accessible { display:none; }
 
+
+ul.ui-autocomplete {
+  position: absolute;
+  min-width: 500px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: solid 1px #999;
+  cursor: default;
+
+  li {
+    background-color: #FFF;
+    border-top: solid 1px #DDD;
+    margin: 0;
+    padding: 0;
+
+    a {
+      background: #FFFFFF;
+      color: #000;
+      display: block;
+      padding: 3px;
+
+      &.ui-state-hover, &.ui-state-active {
+        background-color: #0058a8 !important;
+        color: #FFFFFF !important;
+
+      }
+
+      &:link, &:visited, &:active  {
+        color: #FFFFFF;
+        text-transform: none;
+      }
+      &:hover, &:focus {
+        background-color: #0058a8 !important;
+        color: #FFFFFF !important;
+        text-decoration: none;
+      }
+
+    }
+
+
+  }
+}
+
+.ui-state-hover {
+  a {
+  background-color: #6cb4f6 !important;
+  color: #000000 !important;
+  }
+}
+
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

@@ -364,7 +364,7 @@ class DynamicField < ActiveRecord::Base
         units << ["Area | Inches Squared", AREA_IN2]
         units << ["Area | Centimeters Squared", AREA_CM2]
         units << ["Weight | Pounds per Gallon", WEIGHT_PPG]
-        units << ["Weight | Specific Gravity", WEIGHT_SQ]
+        units << ["Weight | Specific Gravity", WEIGHT_SG]
 
         units
     end
