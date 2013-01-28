@@ -50,6 +50,10 @@ class DynamicField < ActiveRecord::Base
     AREA_IN2 = 71
     AREA_CM2 = 72
 
+    WEIGHT = 80
+    WEIGHT_PPG = 81
+    WEIGHT_SG = 82
+
 
     def value
         storage_value_type = get_storage_value_type(read_attribute(:value_type))
@@ -197,6 +201,16 @@ class DynamicField < ActiveRecord::Base
                     when AREA_IN2
                         value / 2
                 end
+            when WEIGHT_PPG
+                case new_value_type
+                    when WEIGHT_SG
+                        value / 3
+                end
+            when WEIGHT_SG
+                case new_value_type
+                    when WEIGHT_PPG
+                        value * 3
+                end
         end
     end
 
@@ -243,6 +257,10 @@ class DynamicField < ActiveRecord::Base
                 "in^2"
             when AREA_CM2
                 "cm^2"
+            when WEIGHT_PPG
+                "ppg"
+            when WEIGHT_SG
+                "sg"
         end
     end
 
@@ -289,6 +307,10 @@ class DynamicField < ActiveRecord::Base
                 "Area | Square Inches"
             when AREA_CM2
                 "Area | Square Centimeters"
+            when WEIGHT_PPG
+                "Weight | Pounds per Gallon"
+            when WEIGHT_SG
+                "Weight | Specific Gravity"
         end
     end
 
@@ -316,6 +338,8 @@ class DynamicField < ActiveRecord::Base
                 "Volume: bbls | m^3"
             when AREA
                 "Area: in^2 | cm^2"
+            when WEIGHT
+                "Weight: ppg | sq"
         end
     end
 
@@ -339,6 +363,8 @@ class DynamicField < ActiveRecord::Base
         units << ["Volume | Meters Cubed", VOLUME_M3]
         units << ["Area | Inches Squared", AREA_IN2]
         units << ["Area | Centimeters Squared", AREA_CM2]
+        units << ["Weight | Pounds per Gallon", WEIGHT_PPG]
+        units << ["Weight | Specific Gravity", WEIGHT_SQ]
 
         units
     end
@@ -377,6 +403,9 @@ class DynamicField < ActiveRecord::Base
             when AREA_IN2, AREA_CM2
                 units << ["in^2", AREA_IN2]
                 units << ["cm^2", AREA_CM2]
+            when WEIGHT_PPG, WEIGHT_SG
+                units << ["ppg", WEIGHT_PPG]
+                units << ["sg", WEIGHT_SG]
         end
 
         units
@@ -408,6 +437,9 @@ class DynamicField < ActiveRecord::Base
             when AREA_IN2, AREA_CM2
                 units << ["Inches Squared", AREA_IN2]
                 units << ["Centimeters Squared", AREA_CM2]
+            when WEIGHT_PPG, WEIGHT_SG
+                units << ["Pounds per Gallon", WEIGHT_PPG]
+                units << ["Specific Gravity", WEIGHT_SG]
         end
 
         units
@@ -429,6 +461,8 @@ class DynamicField < ActiveRecord::Base
                 VOLUME_BBLS
             when AREA_IN2, AREA_CM2
                 AREA_IN2
+            when WEIGHT_PPG, WEIGHT_SG
+                WEIGHT_PPG
         end
     end
 

@@ -47,7 +47,7 @@
                            class: "job-field-value-editable custom-data-input" %>
 
           <%= f.select :water_depth_value_type,
-                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.water_depth_value_type),
+                       options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH_FT), @well.water_depth_value_type),
                        {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                        "data-html" => false, "data-title" => "Units, click to change" %>
         </div>
@@ -64,7 +64,7 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= f.select :measured_depth_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.measured_depth_value_type),
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH_FT), @well.measured_depth_value_type),
                      {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
@@ -77,7 +77,7 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= f.select :true_vertical_depth_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.true_vertical_depth_value_type),
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH_FT), @well.true_vertical_depth_value_type),
                      {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
@@ -94,7 +94,7 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= f.select :bottom_hole_temperature_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE), @well.bottom_hole_temperature_value_type),
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::TEMPERATURE_F), @well.bottom_hole_temperature_value_type),
                      {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
@@ -107,7 +107,7 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= f.select :bottom_hole_formation_pressure_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.bottom_hole_formation_pressure_value_type),
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE_PSI), @well.bottom_hole_formation_pressure_value_type),
                      {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
@@ -124,7 +124,7 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= f.select :frac_pressure_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE), @well.frac_pressure_value_type),
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::PRESSURE_PSI), @well.frac_pressure_value_type),
                      {}, class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
@@ -150,7 +150,7 @@
                          class: "job-field-value-editable custom-data-input" %>
 
         <%= f.select :fluid_weight_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH), @well.fluid_weight_value_type),
+                     options_for_select(DynamicField.new.get_unit_options(DynamicField::WEIGHT_PPG), @well.fluid_weight_value_type),
                      {}, class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
       </div>
