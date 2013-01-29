@@ -6,12 +6,13 @@
 }
 
 .file-input {
+  cursor: pointer;
   position: absolute;
   -moz-opacity: 0;
   opacity: 0;
   z-index: 1;
   width: 1px;
-  height: 1px;
+  height: 0px;
 }
 
 .browse-doc {
@@ -23,7 +24,7 @@
   color: #0058a8;
   font-size: 18px !important;
   display: inline-block;
-  width: 250px;
+  width: 220px;
   height: 35px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -103,25 +104,51 @@
 }
 
 .document-upload-button {
+  cursor: pointer;
   color: #0058a8;
   font-size: 15px;
   margin-left: 25px;
   margin-right: 20px;
   text-decoration: none;
   padding-right: 20px;
-  background: url(image_path('upload_arrow.png')) no-repeat center right;
+  background: transparent url(image_path('upload_arrow.png')) no-repeat center right;
+  z-index: 999;
 
   &:link, &:visited, &:active {
     background: transparent;
     color: #0058a8;
     text-decoration: none;
-    background: url(image_path('upload_arrow.png')) no-repeat center right;
+    background: transparent url(image_path('upload_arrow.png')) no-repeat center right;
   }
   &:hover {
+    cursor: pointer;
     background: transparent;
     color: #273542;
     text-decoration: none;
-    background: url(image_path('upload_arrow.png')) no-repeat center right;
+    background: transparent url(image_path('upload_arrow.png')) no-repeat center right;
+  }
+}
+
+.document-upload-button-container {
+  cursor: hand;
+}
+
+.order-button {
+  width: 32px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  text-indent: -10000px;
+  display: inline-block;
+  background: url(image_path('order_up.png')) no-repeat 0 0;
+
+  &:link, &:visited, &:active {
+    background: url(image_path('order_up.png')) no-repeat 0 0;
+  }
+  &:hover {
+    background: url(image_path('order_up.png')) no-repeat 0 0;
   }
 }
 
@@ -162,7 +189,7 @@
 }
 
 .document-field {
-  height: 35px;
+  height: 45px;
   margin-bottom: 0px !important;
 }
 

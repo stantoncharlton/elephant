@@ -140,12 +140,12 @@ class DynamicField < ActiveRecord::Base
                 ""
             when TEMPERATURE_F
                 case new_value_type
-                    when LENGTH_C
+                    when TEMPERATURE_C
                         value / 2
                 end
             when TEMPERATURE_C
                 case new_value_type
-                    when LENGTH_F
+                    when TEMPERATURE_F
                         value * 2
                 end
             when PRESSURE

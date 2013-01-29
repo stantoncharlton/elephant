@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130120063622) do
+ActiveRecord::Schema.define(:version => 20130129164131) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(:version => 20130120063622) do
     t.integer  "document_template_id"
     t.integer  "user_id"
     t.boolean  "read_only",            :default => false
+    t.integer  "order"
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"

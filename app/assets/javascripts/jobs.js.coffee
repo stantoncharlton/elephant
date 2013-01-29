@@ -1,6 +1,7 @@
 $ ->
 
   $('.job-type-description-target').tooltip()
+  $('.tooltip-info').tooltip()
   $('.unit-tooltip').tooltip()
   $('.unitsSelect').customSelect()
 

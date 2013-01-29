@@ -24,4 +24,8 @@ $ ->
     event.preventDefault()
 
   $('.document-upload-button').live "click", ->
-      $(event.target).prev().trigger "click"
+    $(event.target).prev().trigger "click"
+    return false
+
+  $('.document-upload-button').live "hover", ->
+    $(this).css('cursor','hand');
