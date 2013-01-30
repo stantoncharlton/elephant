@@ -3,14 +3,19 @@
 
   <div class="header product-line">
 
-    <a href="#" class="div-expand-toggle div-toggle-button">
+    <a href="#" class="div-expand-toggle div-toggle-button tooltip-info"
+       data-placement="bottom"
+       data-title="Click to expand/collapse job types">
 
       <p class="div-expand-count pull-right"><%= pluralize(product_line.job_templates.count, "job type") %></p>
 
 
       <div class="dropdown div-toggle-header-content">
 
-        <a href="#" class="btn dropdown-toggle product-line-header" data-toggle="dropdown"
+        <a href="#" class="btn dropdown-toggle product-line-header tooltip-info"
+           data-placement="bottom"
+           data-title="Click to rename/delete product line"
+           data-toggle="dropdown"
            id="product_line_<%= product_line.id %>_header">
           <%= product_line.name %> <b class="caret"></b>
         </a>
@@ -36,7 +41,9 @@
 
     <%= link_to "Add Job Type",
                 new_job_template_path(product_line: product_line),
-                class: "add-button" %>
+                class: "add-button tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Create new job type on " + product_line.name %>
 
   </div>
 

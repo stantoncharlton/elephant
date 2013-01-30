@@ -1,7 +1,11 @@
-<h1 class="page-title">New user</h1>
+<div class="page_header">
+  <h1>New user</h1>
+</div>
 
 
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Create New user", class: "bluebtn pull-right" %>
+    <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info",
+                 "data-title" => "Create and save new user"
+    %>
 <% end %>

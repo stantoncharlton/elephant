@@ -1,13 +1,18 @@
 <% provide(:title, "Update user") %>
-<h1>Update user</h1>
+
+<div class="page_header">
+  <h1>Update user</h1>
+</div>
 
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Save User", class: "bluebtn pull-right" %>
+    <%= f.submit "Save User", class: "bluebtn pull-right tooltip-info",
+                 "data-title" => "Save user and return to list of all users"%>
 <% end %>
 
 
 <% if signed_in_admin? %>
     <%= link_to "Delete User", @user, method: :delete,
-                data: { confirm: "Delete User " + @user.name + "?" }, class: "bluebtn red pull-right-button" %>
+                data: {confirm: "Delete User " + @user.name + "?"}, class: "bluebtn red pull-right-button tooltip-info",
+                "data-title" => "Permanently delete user. Jobs and data created will still exist however."%>
 <% end %>

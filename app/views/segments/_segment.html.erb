@@ -3,13 +3,18 @@
 
   <div class="header product-line">
 
-    <a href="#" class="div-expand-toggle div-toggle-button">
+    <a href="#" class="div-expand-toggle div-toggle-button tooltip-info"
+       data-placement="bottom"
+       data-title="Click to expand/collapse product lines">
 
       <p class="div-expand-count pull-right"><%= pluralize(segment.product_lines.count, "product line") %></p>
 
       <div class="dropdown div-toggle-header-content">
 
-        <a href="#" class="btn dropdown-toggle product-line-header" data-toggle="dropdown"
+        <a href="#" class="btn dropdown-toggle product-line-header tooltip-info"
+           data-placement="bottom"
+           data-title="Click to rename/delete segment"
+           data-toggle="dropdown"
            id="segment_<%= segment.id %>_header">
           <%= segment.name %> <b class="caret"></b>
         </a>
@@ -35,8 +40,10 @@
 
     <%= link_to "Add Product Line", new_product_line_path(segment: segment),
                 remote: true,
-                class: "add-button",
-                id: "new_product_line_link_" + segment.id.to_s %>
+                class: "add-button tooltip-info",
+                id: "new_product_line_link_" + segment.id.to_s,
+                "data-placement" => "bottom",
+                "data-title" => "Create new product line on " + segment.name %>
 
   </div>
 

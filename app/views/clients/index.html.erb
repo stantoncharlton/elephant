@@ -9,11 +9,15 @@
   </h2>
 
   <% if signed_in_admin? %>
-      <%= link_to "+ " + I18n.t("clients.index.add"), new_client_path, class: "bluebtn page_header_button" %>
+      <%= link_to "+ " + I18n.t("clients.index.add"), new_client_path, class: "bluebtn page_header_button tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Create new customer"%>
   <% end %>
 
   <%= form_tag clients_path, :method => 'get', :id => "clients_search", class: "inline search-box" do %>
-      <%= text_field_tag :search, params[:search], placeholder: I18n.t("clients.index.search"), class: "search-query" %>
+      <%= text_field_tag :search, params[:search], placeholder: I18n.t("clients.index.search"), class: "search-query tooltip-info",
+                         "data-placement" => "left",
+                         "data-title" => "Filter customers by name"%>
   <% end %>
 </div>
 

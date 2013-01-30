@@ -1,5 +1,7 @@
 <li class="field">
-  <%= link_to edit_user_role_path(user_role), class: "list-item-header user-header" do %>
+  <%= link_to edit_user_role_path(user_role), class: "list-item-header user-header tooltip-info",
+              "data-placement" => "left",
+              "data-title" => "Click to open/edit user role" do %>
 
       <p class="list-item-header-text list-item-column">
         <%= user_role.title %>

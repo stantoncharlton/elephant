@@ -1,16 +1,16 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<div class="header">
-  <h2>Information</h2>
-</div>
-
 <div class="content">
 
   <div class="field stripe">
-    <%= f.text_field :name, placeholder: "Full Name", class: "txtfield" %>
+    <%= f.text_field :name, placeholder: "Full Name", class: "txtfield tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Full Name" %>
   </div>
   <div class="field stripe">
-    <%= f.text_field :email, placeholder: "Email Address", class: "txtfield" %>
+    <%= f.text_field :email, placeholder: "Email Address", class: "txtfield tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Email Address" %>
   </div>
 
   <div class="field stripe">
@@ -20,7 +20,9 @@
     <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
                        value: @user.district.present? ? @user.district.name : nil,
                        placeholder: "Type a district name...",
-                       id: "district_name", class: "txtfield small" %>
+                       id: "district_name", class: "txtfield small tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "District Name"%>
   </div>
   <div class="field stripe">
     <%= f.label "Role", class: "field-title" %>
@@ -32,24 +34,36 @@
     <%= f.label "Product Line", class: "field-title" %>
 
     <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] },  !@division.nil? ? @division.id : nil),
-                   prompt: "Select a Division...", id: "job_division_id" %>
+                   prompt: "Select a Division...", id: "job_division_id", class: "tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Division" %>
 
     <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, !@segment.nil? ? @segment.id : nil),
-                   prompt: "Select a Segment...", id: "job_segment_id" %>
+                   prompt: "Select a Segment...", id: "job_segment_id", class: "tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Segment"%>
 
     <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, !@product_line.nil? ? @product_line.id : nil),
                  name: "user[product_line_id]",
-                 prompt: "Select a Product Line....", id: "job_product_line_id" %>
+                 prompt: "Select a Product Line....", id: "job_product_line_id", class: "tooltip-info",
+                 "data-placement" => "bottom",
+                 "data-title" => "Product Line"%>
 
   </div>
 
   <div class="field stripe">
-    <%= f.text_field :location, placeholder: "Location", class: "txtfield" %>
+    <%= f.text_field :location, placeholder: "Location", class: "txtfield tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Location"%>
+
+    <div class="inline ">
+      <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Phone Number"%>
+    </div>
   </div>
 
-  <div class="field stripe">
-    <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield" %>
-  </div>
+
 
 </div>
 

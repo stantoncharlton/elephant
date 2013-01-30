@@ -1,6 +1,8 @@
 <div class="content">
   <div class="field stripe">
-    <%= f.text_field :title, placeholder: "Role Title", class: "txtfield" %>
+    <%= f.text_field :title, placeholder: "Role Title", class: "txtfield tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "User Role Title"%>
   </div>
 
   <%= f.hidden_field :create_job, value: true %>

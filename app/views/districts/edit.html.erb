@@ -1,4 +1,6 @@
-<h1>Update District</h1>
+<div class="page_header">
+  <h1>Update District</h1>
+</div>
 
 
 <%= form_for @district do |f| %>
@@ -6,7 +8,8 @@
     <%= render "fields", f: f %>
 
     <div class="content actions">
-      <%= f.submit "Save district", class: "bluebtn pull-right" %>
+      <%= f.submit "Save district", class: "bluebtn pull-right tooltip-info",
+                   "data-title" => "Save district and return to all districts"%>
     </div>
 
 <% end %>
@@ -14,6 +17,8 @@
 
 <% if signed_in_admin? %>
     <%= link_to "Delete District", @district, method: :delete,
-                  data: { confirm: "Delete district " + @district.name + "?" }, class: "bluebtn red pull-right-button" %>
+                data: {confirm: "Delete district " + @district.name + "?"},
+                class: "bluebtn red pull-right-button tooltip-info",
+                "data-title" => "Permanently delete district. Warning, the can't be undone. This will cause any user associated with this district to may not work properly."%>
 <% end %>
 

@@ -1,10 +1,13 @@
-<h1 class="page-title"><%= t ".title" %></h1>
+<div class="page_header">
+<h1><%= t ".title" %></h1>
+</div>
 
 <%= form_for(@client) do |f| %>
 
     <%= render "form", f: f %>
 
     <div class="actions">
-      <%= f.submit I18n.t("clients.new.save"), class: "bluebtn pull-right" %>
+      <%= f.submit I18n.t("clients.new.save"), class: "bluebtn pull-right tooltip-info",
+                   "data-title" => "Save new customer" %>
     </div>
 <% end %>

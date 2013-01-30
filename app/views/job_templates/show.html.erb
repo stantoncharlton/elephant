@@ -1,6 +1,5 @@
-
 <div class="page_header">
-  <h1><%= t ".title" %></h1>
+  <h1>Job Type Information</h1>
 </div>
 
 <div class="content">
@@ -17,24 +16,28 @@
 
   <div class="">
     <p class="field-title"><%= t "jobs.job_data.division" %></p>
+
     <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
   </div>
   <div class="inline">
     <p class="field-title"><%= t "jobs.job_data.segment" %></p>
+
     <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
   </div>
   <div class="">
     <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
+
     <h3 class="inline"><%= @job_template.product_line.name %> </h3>
   </div>
 </div>
 
 <div class="content">
   <%= form_for(@job_template, remote: true) do |f| %>
-        <%= f.text_area :description, placeholder: I18n.t("description_prompt"),
-                        value: @job_template.description,
-                        class: "txtfield job-description-text job-template-description",
-                        autofocus: false %>
+      <%= f.text_area :description,
+                      placeholder: I18n.t("job_templates.show.description_prompt"),
+                      value: @job_template.description,
+                      class: "txtfield job-description-text job-template-description",
+                      autofocus: false %>
 
   <% end %>
 </div>
@@ -99,11 +102,15 @@
 
 
 <div class="actions">
-  <%= link_to I18n.t("global.done"), job_templates_path, class: "bluebtn pull-right" %>
+  <%= link_to I18n.t("global.done"), job_templates_path,
+              class: "bluebtn pull-right tooltip-info",
+              "data-title" => "Save data and return to all job types" %>
 
   <% if signed_in_admin? %>
       <%= link_to I18n.t("global.delete"), @job_template, method: :delete,
-                  data: {confirm: I18n.t("delete_job_template") + " " + @job_template.name + "?"}, class: "bluebtn red pull-right-button" %>
+                  data: {confirm: I18n.t("delete_job_template") + " " + @job_template.name + "?"},
+                  class: "bluebtn red pull-right-button tooltip-info",
+                  "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
   <% end %>
 </div>
 

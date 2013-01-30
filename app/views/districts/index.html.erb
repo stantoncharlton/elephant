@@ -8,11 +8,15 @@
   </h2>
 
   <% if signed_in_admin? %>
-      <%= link_to "+ Add New District", new_district_path, class: "bluebtn page_header_button" %>
+      <%= link_to "+ Add New District", new_district_path, class: "bluebtn page_header_button tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Create new district"%>
   <% end %>
 
   <%= form_tag districts_path, :method => 'get', :id => "districts_search", class: "inline search-box" do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query" %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query tooltip-info",
+                         "data-placement" => "left",
+                         "data-title" => "Search districts by name"%>
   <% end %>
 </div>
 

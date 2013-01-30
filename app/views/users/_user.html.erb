@@ -1,5 +1,8 @@
 <li class="field">
-  <%= link_to signed_in_admin? ? edit_user_path(user) : user_path(user), class: "list-item-header user-header" do %>
+  <%= link_to signed_in_admin? ? edit_user_path(user) : user_path(user),
+              class: "list-item-header user-header tooltip-info",
+              "data-placement" => "left",
+              "data-title" => "Click to open/edit user" do %>
 
       <p class="list-item-header-text list-item-column">
         <%= user.name %>

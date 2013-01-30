@@ -46,7 +46,9 @@
     <% else %>
         <% if document.updated_at != document.created_at %>
             <div class="document-modified">
-              <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+              <% if document.url.present? %>
+                  <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+              <% end %>
             </div>
         <% end %>
 
@@ -56,7 +58,9 @@
               <% if !document.url.nil? %>
                   <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
               <% else %>
-                  <%= label_tag "no document uploaded", nil, class: "warning-text" %>
+                  <%= label_tag "no document uploaded", nil, class: "warning-text tooltip-info",
+                                "data-placement" => "bottom",
+                                "data-title" => "No Document, please upload a template" %>
               <% end %>
           <% end %>
         </div>

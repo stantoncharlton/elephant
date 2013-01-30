@@ -6,7 +6,10 @@
   <h2><%= @divisions.count %></h2>
 
   <%= link_to "Add New Division", new_division_path, remote: true,
-              class: "bluebtn page_header_button", id: "new_division_link" %>
+              class: "bluebtn page_header_button tooltip-info",
+              id: "new_division_link",
+              "data-placement" => "bottom",
+              "data-title" => "Create new division for job types" %>
 </div>
 
 <div id="divisions">

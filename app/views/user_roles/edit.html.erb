@@ -1,5 +1,8 @@
 <% provide(:title, "Update Role") %>
-<h1>Update Role</h1>
+
+<div class="page_header">
+  <h1>Update Role</h1>
+</div>
 
 <%= form_for(@role) do |f| %>
     <%= render 'fields', f: f %>
@@ -9,5 +12,5 @@
 
 <% if signed_in_admin? %>
     <%= link_to "Delete Role", @role, method: :delete,
-                data: { confirm: "Delete Role " + @role.title + "?" }, class: "bluebtn red pull-right-button" %>
+                data: {confirm: "Delete Role " + @role.title + "?"}, class: "bluebtn red pull-right-button" %>
 <% end %>

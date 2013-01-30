@@ -1,24 +1,29 @@
-<h1 class="page-title"><%= t ".title" %></h1>
+<div class="page_header">
+  <h1><%= t ".title" %></h1>
+</div>
 
 <%= form_for(@job_template) do |f| %>
 
     <%= render 'shared/error_messages', object: f.object %>
 
-    <div>
-      <div class="field">
+    <div class="content well well-large">
+      <div class="">
         <p class="field-title"><%= t "jobs.job_data.division" %></p>
-        <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
 
-        <div class="inline push-right">
-          <p class="field-title"><%= t "jobs.job_data.segment" %></p>
-          <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
-        </div>
+        <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
       </div>
-      <div class="field">
+      <div class="">
+        <p class="field-title"><%= t "jobs.job_data.segment" %></p>
+
+        <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
+      </div>
+      <div class="">
         <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
+
         <h3 class="inline"><%= @job_template.product_line.name %> </h3>
       </div>
     </div>
+
 
     <%= render 'fields', f: f %>
 
