@@ -114,8 +114,8 @@ class JobTemplatesController < ApplicationController
 
         Activity.add(self.current_user, Activity::JOB_TEMPLATE_DESTROYED, @job_template, @job_template.name)
 
-        flash[:success] = "Job Template deleted."
-        redirect_to job_templates_path
+        flash[:success] = "Job Type deleted."
+        redirect_to divisions_path
     end
 
 end

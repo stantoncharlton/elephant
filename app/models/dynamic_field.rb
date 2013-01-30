@@ -56,6 +56,8 @@ class DynamicField < ActiveRecord::Base
     WEIGHT_KG = 82
     WEIGHT_PPG = 83
     WEIGHT_SG = 84
+    WEIGHT_PPF = 85
+    WEIGHT_KGM = 86
 
 
     def value
@@ -208,36 +210,30 @@ class DynamicField < ActiveRecord::Base
                 case new_value_type
                     when WEIGHT_KG
                         value / 2
-                    when WEIGHT_PPG
-                        value
-                    when WEIGHT_SG
-                        value
                 end
             when WEIGHT_KG
                 case new_value_type
                     when WEIGHT_LBS
                         value * 2
-                    when WEIGHT_PPG
-                        value
-                    when WEIGHT_SG
-                        value
                 end
             when WEIGHT_PPG
                 case new_value_type
-                    when WEIGHT_LBS
-                        value
-                    when WEIGHT_KG
-                        value
                     when WEIGHT_SG
                         value
                 end
             when WEIGHT_SG
                 case new_value_type
-                    when WEIGHT_LBS
-                        value
-                    when WEIGHT_KG
-                        value
                     when WEIGHT_PPG
+                        value
+                end
+            when WEIGHT_PPF
+                case new_value_type
+                    when WEIGHT_KGM
+                        value
+                end
+            when WEIGHT_KGM
+                case new_value_type
+                    when WEIGHT_PPF
                         value
                 end
         end
@@ -294,6 +290,10 @@ class DynamicField < ActiveRecord::Base
                 "ppg"
             when WEIGHT_SG
                 "sg"
+            when WEIGHT_PPF
+                "lbs/ft"
+            when WEIGHT_KGM
+                "kg/m"
         end
     end
 
@@ -348,6 +348,10 @@ class DynamicField < ActiveRecord::Base
                 "Weight | Pounds per Gallon"
             when WEIGHT_SG
                 "Weight | Specific Gravity"
+            when WEIGHT_PPF
+                "Weight | Pounds per Foot"
+            when WEIGHT_KGM
+                "Weight | Kilograms per Meter"
         end
     end
 
@@ -376,7 +380,7 @@ class DynamicField < ActiveRecord::Base
             when AREA
                 "Area: in^2 | cm^2"
             when WEIGHT
-                "Weight: lbs | kg | ppg | sq"
+                "Weight: lbs | kg | ppg | sq | lbs/ft | kg/m"
         end
     end
 
@@ -404,6 +408,8 @@ class DynamicField < ActiveRecord::Base
         units << ["Weight | Kilogram", WEIGHT_KG]
         units << ["Weight | Pounds per Gallon", WEIGHT_PPG]
         units << ["Weight | Specific Gravity", WEIGHT_SG]
+        units << ["Weight | Pounds per Foot", WEIGHT_PPF]
+        units << ["Weight | Kilograms per Meter", WEIGHT_KGM]
 
         units
     end
@@ -445,8 +451,12 @@ class DynamicField < ActiveRecord::Base
             when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
                 units << ["lbs", WEIGHT_LBS]
                 units << ["kg", WEIGHT_KG]
+            when WEIGHT_PPG, WEIGHT_SG
                 units << ["ppg", WEIGHT_PPG]
                 units << ["sg", WEIGHT_SG]
+            when WEIGHT_PPF, WEIGHT_KGM
+                units << ["lb/ft", WEIGHT_PPF]
+                units << ["kg/m", WEIGHT_KGM]
         end
 
         units
@@ -481,8 +491,12 @@ class DynamicField < ActiveRecord::Base
             when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
                 units << ["Pounds", WEIGHT_LBS]
                 units << ["Kilograms", WEIGHT_KG]
+            when WEIGHT_PPG, WEIGHT_SG
                 units << ["Pounds per Gallon", WEIGHT_PPG]
                 units << ["Specific Gravity", WEIGHT_SG]
+            when WEIGHT_PPF, WEIGHT_KGM
+                units << ["Pounds per Foot", WEIGHT_PPF]
+                units << ["Kilograms per Meter", WEIGHT_KGM]
         end
 
         units
@@ -504,8 +518,12 @@ class DynamicField < ActiveRecord::Base
                 VOLUME_BBLS
             when AREA_IN2, AREA_CM2
                 AREA_IN2
-            when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
+            when WEIGHT_LBS, WEIGHT_KG
                 WEIGHT_LBS
+            when WEIGHT_PPG, WEIGHT_SG
+                WEIGHT_PPG
+            when WEIGHT_PPF, WEIGHT_KGM
+                WEIGHT_PPF
         end
     end
 
