@@ -13,33 +13,33 @@ class JobsController < ApplicationController
                 render xml: current_user.active_jobs,
                        include: {
                                #:status => {},
-                               :field => { except: [ :created_at, :updated_at, :company_id] },
-                               :well => { except: [ :created_at, :updated_at, :company_id] },
-                               :district => { except: [ :created_at, :updated_at, :company_id] },
-                               :company => { except: [ :created_at, :updated_at, :company_id] },
-                               :client => { except: [ :created_at, :updated_at, :company_id] },
-                               :dynamic_fields => { except: [ :created_at, :updated_at, :company_id] },
+                               :field => {except: [:created_at, :updated_at, :company_id]},
+                               :well => {except: [:created_at, :updated_at, :company_id]},
+                               :district => {except: [:created_at, :updated_at, :company_id]},
+                               :company => {except: [:created_at, :updated_at, :company_id]},
+                               :client => {except: [:created_at, :updated_at, :company_id]},
+                               :dynamic_fields => {except: [:created_at, :updated_at, :company_id]},
                                :job_template => {
-                                    include: {
-                                       :product_line => {
-                                               include: {
-                                                    :segment => {
-                                                            include: { :division => { except: [:created_at, :updated_at, :company_id] } },
-                                                            except: [ :created_at, :updated_at, :company_id]
-                                                    }
-                                               },
-                                               except: [ :created_at, :updated_at, :segment_id, :company_id]
-                                       }
-                                    },
-                                    except: [ :created_at, :updated_at, :product_line_id, :company_id]
+                                       include: {
+                                               :product_line => {
+                                                       include: {
+                                                               :segment => {
+                                                                       include: {:division => {except: [:created_at, :updated_at, :company_id]}},
+                                                                       except: [:created_at, :updated_at, :company_id]
+                                                               }
+                                                       },
+                                                       except: [:created_at, :updated_at, :segment_id, :company_id]
+                                               }
+                                       },
+                                       except: [:created_at, :updated_at, :product_line_id, :company_id]
                                },
                                :documents => {
                                        :methods => :full_url,
-                                        include: {
-                                            :document_template => {
-                                                :methods => :full_url,
-                                            },
-                                            :user => { except: [ :created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password ] }
+                                       include: {
+                                               :document_template => {
+                                                       :methods => :full_url,
+                                               },
+                                               :user => {except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password]}
                                        }
                                },
                                :job_notes => {}
@@ -113,6 +113,9 @@ class JobsController < ApplicationController
         @job.field = Field.find_by_id(field_id)
         @job.well = Well.find_by_id(well_id)
 
+        if @job.well.field != @job.field
+            @job.errors.add(:well, "Well does not belong to field")
+        end
 
         if @job.save
 
