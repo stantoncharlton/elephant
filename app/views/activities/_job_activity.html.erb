@@ -1,5 +1,7 @@
 <% if activity.target.present? %>
-    <div class="activity">
+    <div class="activity tooltip-info"
+         data-placement="bottom"
+         data-title="<%= activity.message %>">
 
       <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
           <% if activity.target.note_type == 2 %>

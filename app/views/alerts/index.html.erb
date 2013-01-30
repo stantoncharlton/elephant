@@ -1,6 +1,7 @@
 <% provide(:title, I18n.t("alerts.index.title")) %>
 
-<div class="page_header">
+<div class="page_header tooltip-info"
+     data-placement="bottom" data-title="Alerts give notifications to new information or actions.">
   <h1><%= t ".title" %></h1>
 
   <h2><%= @new_alerts.count() %></h2>
@@ -19,7 +20,8 @@
 
 <% if !@old_alerts.empty? %>
 
-    <div class="page_header old-alerts-div">
+    <div class="page_header old-alerts-div tooltip-info"
+         data-placement="bottom" data-title="Past alerts are usually not important, but exist in case they were missed when they were active.">
       <h1><%= t ".past" %></h1>
 
       <h2><%= @old_alerts.count() %></h2>

@@ -12,9 +12,13 @@
 
   <% if !document.template? %>
       <% if document.url.present? %>
-          <%= link_to document.name, document.full_url, class: "document-name" %>
+          <%= link_to document.name, document.full_url, class: "document-name tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to download document"%>
       <% elsif !document.document_template.nil? && document.document_template.url.present? %>
-          <%= link_to document.name, document.document_template.full_url, class: "document-name" %>
+          <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to download document"%>
       <% else %>
           <p class="document-name document-name-container"><%= document.name %></p>
       <% end %>
@@ -34,7 +38,9 @@
           <% if document.updated_at != document.created_at %>
               <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
           <% else %>
-              <p class="warning-text">No Document Uploaded</p>
+              <p class="warning-text tooltip-info"
+                 data-placement="bottom"
+                 data-title="No document uploaded, please download the document by clicking the document name and upload the completed one">No Document Uploaded</p>
           <% end %>
         </div>
 

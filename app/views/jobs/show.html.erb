@@ -17,7 +17,9 @@
     <% if @job_editable %>
 
         <%= link_to "Add Member", new_job_membership_path, remote: true,
-                    class: "add-job-member", id: "add_job_member" %>
+                    class: "add-job-member tooltip-info", id: "add_job_member",
+                    "data-placement" => "bottom",
+                    "data-title" => "Add new project member" %>
     <% end %>
 
 
@@ -38,7 +40,8 @@
 
 <div>
   <div class="content">
-    <a href="#" id="custom_data_toggle" class="custom-data-toggle"><%= t ".more_details" %></a>
+    <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
+    data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %></a>
 
     <div class="custom-data-closed well well-large" id="custom_data">
       <% @job.dynamic_fields.sort_by{ |e| e.order || 0 }.each do |df| %>
@@ -92,7 +95,9 @@
       <div class="pull-right">
         <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
                     remote: true,
-                    class: "add-custom-document" %>
+                    class: "add-custom-document tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Add new custom document not part of original job documents"%>
       </div>
   <% end %>
 </div>
@@ -141,19 +146,28 @@
               <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
 
               <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
-                              class: "txtfield job-notes-text", autofocus: false,
-                              id: "new_note_id" %>
+                              class: "txtfield job-notes-text tooltip-info", autofocus: false,
+                              id: "new_note_id",
+                              "data-placement" => "bottom",
+                              "data-title" => "Note/Action text"%>
 
               <div class="job-note-options">
                 <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2], [I18n.t("job_note_types.problem"), 3]]),
-                             class: "job-note-type" %>
+                             {},
+                             class: "job-note-type tooltip-info",
+                             "data-placement" => "right",
+                             "data-title" => "Type of note" %>
                 <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                                    placeholder: I18n.t("jobs.show.new_assign_prompt"),
                                    id: "new_note_name",
-                                   class: "txtfield job-note-assign custom-data-input" %>
+                                   class: "txtfield job-note-assign custom-data-input tooltip-info",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Name of person assigned this note"%>
               </div>
 
-              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right" %>
+              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Add new note/action"%>
 
 
             </div>

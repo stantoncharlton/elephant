@@ -48,7 +48,9 @@
         <% elsif signed_in? %>
             <%= render 'layouts/user_tab' %>
 
-            <div class="messages-icon-container">
+            <div class="messages-icon-container tooltip-info"
+                 data-placement="bottom"
+                 data-title="Messages and conversations">
               <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
 
               <% if !current_user.alerts.where("alert_type = 3").empty? %>
@@ -60,11 +62,15 @@
 
 
             <%= form_tag search_index_path, :method => 'get', :id => "global_search_id", class: "inline" do %>
-                <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search" %>
+                <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search tooltip-info",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Free-form text search, type well name, job name, district, etc..." %>
             <% end %>
 
             <div class="advanced-search-div">
-              <%= link_to "complex search", new_search_path, class: "advanced-search-link" %>
+              <%= link_to "complex search", new_search_path, class: "advanced-search-link tooltip-info",
+                          "data-placement" => "bottom",
+                          "data-title" => "Create complex searches for jobs based on data criteria"%>
             </div>
         <% end %>
 

@@ -48,7 +48,7 @@ class Activity < ActiveRecord::Base
 
     def message
         case self.activity_type
-            when  USER_CREATED
+            when USER_CREATED
                 "New User"
             when USER_UPDATED
                 "User updated"
@@ -88,6 +88,22 @@ class Activity < ActiveRecord::Base
                 "District deleted"
 
 
+            when JOB_CREATED
+                "Job was created"
+            when DOCUMENT_UPLOADED
+                "Document uploaded to job"
+            when JOB_MEMBER_ADDED
+                "Project member added to job"
+            when JOB_NOTE_ADDED
+                "New note/action added to job"
+            when PRE_JOB_DATA_COMPLETE
+                "Pre-Job documents and info have been completed"
+            when JOB_APPROVED_TO_SHIP
+                "Job was approved to ship to field"
+            when POST_JOB_DATA_COMPLETE
+                "Post-Job documents and info have been completed"
+            when JOB_APPROVED_TO_CLOSE
+                "Job was completed"
 
         end
     end
@@ -104,26 +120,18 @@ class Activity < ActiveRecord::Base
     end
 
     def self.admin_activities_for_company(company)
-        where("company_id = :company_id", company_id: company.id)
-        .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 1, end_range: 100)
-        .order("created_at DESC")
+        where("company_id = :company_id", company_id: company.id).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 1, end_range: 100).order("created_at DESC")
     end
 
     def self.activities_for_job(job)
-        where("job_id = :job_id", job_id: job.id)
-        .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200)
-        .order("created_at DESC")
+        where("job_id = :job_id", job_id: job.id).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
     end
 
     def self.activities_for_jobs(jobs)
-        where("job_id IN (?)", jobs.map {|j| j.id} )
-        .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200)
-        .order("created_at DESC")
+        where("job_id IN (?)", jobs.map { |j| j.id }).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
     end
 
     def self.activities_for_user(user)
-        where("user_id = :user_id", user_id: user.id)
-        .where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200)
-        .order("created_at DESC")
+        where("user_id = :user_id", user_id: user.id).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
     end
 end
