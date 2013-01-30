@@ -7,16 +7,28 @@
     <p class="help-text">Select the job type beginning with division, segment and product line...</p><br>
 
     <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.product_line.segment.division.id : nil),
+                   class: "tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Division",
                    prompt: "Select a Division...", id: "job_division_id" %>
 
     <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.product_line.segment.id : nil),
+                   class: "tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Segment",
                    prompt: "Select a Segment...", id: "job_segment_id" %>
 
     <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.product_line.id : nil),
+                   class: "tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Product Line",
                    prompt: "Select a Product Line...", id: "job_product_line_id" %>
 
-    <%= f.select :job_template_id, options_for_select(@job_templates.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.id : nil),
-                 prompt: "Select a Job Type..."   %>
+    <%= f.select :job_template_id, options_for_select(@job_templates.collect { |p| [p.name, p.id] }),
+                 {selected: !@job.job_template.nil? ? @job.job_template.id : nil, prompt: "Select a Job Type..."},
+                 class: "tooltip-info",
+                 "data-placement" => "bottom",
+                 "data-title" => "Job Type Name" %>
 
     <div id="job_description" class="content">
 
@@ -29,14 +41,16 @@
 
 
   <div class="field">
-    <%= f.label :client_id, class: "field-title" %>
+    <%= f.label "Customer", class: "field-title" %>
 
 
     <%= f.hidden_field :client_id, id: "client_id" %>
     <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
                        placeholder: "Type a customer name...",
                        value: !@job.client.nil? ? @job.client.name : nil,
-                       id: "client_name", class: "txtfield small" %>
+                       id: "client_name", class: "txtfield small tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Customer Name" %>
   </div>
 
   <div class="field">
@@ -46,21 +60,33 @@
     <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
                        value: !@job.district.nil? ? @job.district.name : nil,
                        placeholder: "Type a district name...",
-                       id: "district_name", class: "txtfield small" %>
+                       id: "district_name", class: "txtfield small tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "District Name" %>
   </div>
 
   <div class="field">
     <%= f.label :field_id, class: "field-title" %>
-    <%= f.select :field_id, options_for_select(@fields.collect { |p| [p.name, p.id] }, !@job.field.nil? ? @job.field.id : nil),
-                 prompt: "Select a Field..." %>
-    <%= link_to "New", new_field_path, remote: true, class: "add-button", id: "new_field_link" %>
+    <%= f.select :field_id, options_for_select(@fields.collect { |p| [p.name, p.id] }),
+                 {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Field..."},
+                 class: "tooltip-info",
+                 "data-placement" => "bottom",
+                 "data-title" => "Field Name" %>
+    <%= link_to "New", new_field_path, remote: true, class: "add-button tooltip-info", id: "new_field_link",
+                "data-placement" => "bottom",
+                "data-title" => "Create new field" %>
   </div>
 
   <div class="field">
     <%= f.label :well_id, class: "field-title" %>
-    <%= f.select :well_id, options_for_select(@wells.collect { |p| [p.name, p.id] }, !@job.well.nil? ? @job.well.id : nil),
-                 prompt: "Select a Well..."%>
-    <%= link_to "New", new_well_path, remote: true, class: "add-button", id: "new_well_link" %>
+    <%= f.select :well_id, options_for_select(@wells.collect { |p| [p.name, p.id] }),
+                 {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Well..."},
+                 class: "tooltip-info",
+                 "data-placement" => "bottom",
+                 "data-title" => "Well Name" %>
+    <%= link_to "New", new_well_path, remote: true, class: "add-button tooltip-info", id: "new_well_link",
+                "data-placement" => "bottom",
+                "data-title" => "Create new well" %>
   </div>
 
 </div>
@@ -72,7 +98,7 @@
         $(document).ready(function () {
             $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city +  "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
+                        "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
             }
         });
 

@@ -5,7 +5,8 @@
 
 <%= form_for(@job) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Create Job", class: "bluebtn pull-right" %>
+    <%= f.submit "Create Job", class: "bluebtn pull-right tooltip-info",
+                 "data-title" => "Create new job. You edit/add more job information on next page." %>
 <% end %>
 
 

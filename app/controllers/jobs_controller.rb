@@ -146,7 +146,7 @@ class JobsController < ApplicationController
             Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
 
             flash[:success] = "Job created"
-            redirect_to @job
+            redirect_to job_path(@job, new: "true")
         else
             @divisions = current_user.company.divisions
             @segments = !@job.job_template.nil? ? @job.job_template.product_line.segment.division.segments : Array.new

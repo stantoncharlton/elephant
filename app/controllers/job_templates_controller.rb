@@ -22,8 +22,15 @@ class JobTemplatesController < ApplicationController
             @new_document = Document.new
             @new_dynamic_field = DynamicField.new
         else
-            @jobs = JobTemplate.from_company_for_user(@job_template, params, current_user, current_user.company).results
-            render 'job_templates/show_jobs'
+            respond_to do |format|
+                format.js {
+                    render 'job_templates/show'
+                }
+                format.html {
+                    @jobs = JobTemplate.from_company_for_user(@job_template, params, current_user, current_user.company).results
+                    render 'job_templates/show_jobs'
+                }
+            end
         end
     end
 

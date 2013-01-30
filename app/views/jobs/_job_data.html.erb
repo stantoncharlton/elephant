@@ -57,7 +57,10 @@
   <p class="job-field-title"><%= t ".division" %></p>
 
   <% if in_form %>
-      <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division, class: "job-field-value job-field-value-link" %>
+      <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
+                  class: "job-field-value job-field-value-link tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
   <% else %>
       <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
   <% end %>
@@ -65,7 +68,10 @@
   <p class="job-field-title"><%= t ".segment" %></p>
 
   <% if in_form %>
-      <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment, class: "job-field-value job-field-value-link" %>
+      <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
+                  class: "job-field-value job-field-value-link tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment"%>
   <% else %>
       <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
   <% end %>
@@ -76,10 +82,10 @@
 
   <% if in_form %>
       <h3 class="inline">
-        <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-field-value job-field-value-link job-type-description-target",
+        <%= link_to job.job_template.product_line.name, job.job_template.product_line,
+                    class: "job-field-value job-field-value-link job-type-description-target",
                     "data-placement" => "bottom",
-                    "data-html" => true,
-                    "data-title" => "<div><b>" + job.job_template.product_line.name + "</b></div>" %>
+                    "data-title" => "View all jobs in " + job.job_template.product_line.name + " product line" %>
       </h3>
   <% else %>
       <h3 class="job-field-value job-field-value-bold"><%= job.job_template.product_line.name %></h3>
@@ -92,10 +98,10 @@
 
   <% if in_form %>
       <h3 class="inline">
-        <%= link_to job.job_template.name, job.job_template, class: "job-field-value job-field-value-link job-type-description-target",
+        <%= link_to job.job_template.name, job.job_template,
+                    class: "job-field-value job-field-value-link job-type-description-target",
                     "data-placement" => "bottom",
-                    "data-html" => true,
-                    "data-title" => "<div><b>" + job.job_template.name + "</b><br>" + job.job_template.description + "</div>" %>
+                    "data-title" => "View all jobs with " + job.job_template.name + " job type" %>
       </h3>
   <% else %>
       <% if new_line_job_type %>
@@ -143,7 +149,10 @@
   <p class="job-field-title"><%= t ".district" %></p>
 
   <% if in_form %>
-      <%= link_to job.district.name, job.district, class: "job-field-value job-field-value-link" %>
+      <%= link_to job.district.name, job.district,
+                  class: "job-field-value job-field-value-link tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "View all jobs in " + job.district.name + " district"%>
   <% else %>
       <p class="job-field-value"><%= job.district.name %></p>
   <% end %>
@@ -157,7 +166,10 @@
   <p class="job-field-title"><%= t ".client_name" %></p>
 
   <% if in_form %>
-      <%= link_to job.client.name, job.client, class: "job-field-value job-field-value-link" %>
+      <%= link_to job.client.name, job.client,
+                  class: "job-field-value job-field-value-link tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "View all jobs for " + job.client.name %>
   <% else %>
       <p class="job-field-value"><%= job.client.name %></p>
   <% end %>

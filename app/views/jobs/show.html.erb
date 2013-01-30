@@ -41,39 +41,52 @@
 <div>
   <div class="content">
     <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
-    data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %></a>
+       data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %></a>
 
-    <div class="custom-data-closed well well-large" id="custom_data">
-      <% @job.dynamic_fields.sort_by{ |e| e.order || 0 }.each do |df| %>
-          <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
-              <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name.capitalize %>"><%= df.dynamic_field_template.name.capitalize %></p>
-              <% if @job_editable %>
-                  <div class="job-field-div">
-                    <input id="dynamic_field_<%= df.id %>" type="text"
-                           placeholder="-"
-                           class="job-field-value-editable custom-data-input"
-                           value="<%= df.value %>">
+    <% if params["new"].present? and params["new"] == "true" %>
+        <div class="well well-large" id="custom_data">
+    <% else %>
+        <div class="custom-data-closed well well-large" id="custom_data">
+    <% end %>
 
-                    <% if df.value_type != 1 %>
-                        <%= select_tag "Units",
-                                       options_for_select(df.unit_options, df.value_type),
-                                       id: "dynamic_field_unit_" + df.id.to_s,
-                                       class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                                       "data-html" => false, "data-title" => "Units, click to change" %>
-                    <% end %>
-                  </div>
-              <% else %>
-                  <div class="job-field-div">
-                    <p class="job-field-value2"><%= df.value %></p>
-                    <% if df.value_type != 1 %>
-                        <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="<%= df.value_type_unit_full %>">
-                          <%= df.value_type_unit %>
-                        </p>
-                    <% end %>
-                  </div>
-              <% end %>
-          <% end %>
+    <div>
+      <b><%= @job.job_template.name %></b>
+      <% if !@job.job_template.description.empty? %>
+          <p><%= @job.job_template.description %></p>
       <% end %>
+      <br>
+    </div>
+
+    <% @job.dynamic_fields.sort_by { |e| e.order || 0 }.each do |df| %>
+        <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
+            <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name.capitalize %>"><%= df.dynamic_field_template.name.capitalize %></p>
+            <% if @job_editable %>
+                <div class="job-field-div">
+                  <input id="dynamic_field_<%= df.id %>" type="text"
+                         placeholder="-"
+                         class="job-field-value-editable custom-data-input"
+                         value="<%= df.value %>">
+
+                  <% if df.value_type != 1 %>
+                      <%= select_tag "Units",
+                                     options_for_select(df.unit_options, df.value_type),
+                                     id: "dynamic_field_unit_" + df.id.to_s,
+                                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                                     "data-html" => false, "data-title" => "Units, click to change" %>
+                  <% end %>
+                </div>
+            <% else %>
+                <div class="job-field-div">
+                  <p class="job-field-value2"><%= df.value %></p>
+                  <% if df.value_type != 1 %>
+                      <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="<%= df.value_type_unit_full %>">
+                        <%= df.value_type_unit %>
+                      </p>
+                  <% end %>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
     </div>
   </div>
 </div>
@@ -97,7 +110,7 @@
                     remote: true,
                     class: "add-custom-document tooltip-info",
                     "data-placement" => "left",
-                    "data-title" => "Add new custom document not part of original job documents"%>
+                    "data-title" => "Add new custom document not part of original job documents" %>
       </div>
   <% end %>
 </div>
@@ -149,7 +162,7 @@
                               class: "txtfield job-notes-text tooltip-info", autofocus: false,
                               id: "new_note_id",
                               "data-placement" => "bottom",
-                              "data-title" => "Note/Action text"%>
+                              "data-title" => "Note/Action text" %>
 
               <div class="job-note-options">
                 <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2], [I18n.t("job_note_types.problem"), 3]]),
@@ -162,12 +175,12 @@
                                    id: "new_note_name",
                                    class: "txtfield job-note-assign custom-data-input tooltip-info",
                                    "data-placement" => "bottom",
-                                   "data-title" => "Name of person assigned this note"%>
+                                   "data-title" => "Name of person assigned this note" %>
               </div>
 
               <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right tooltip-info",
                            "data-placement" => "bottom",
-                           "data-title" => "Add new note/action"%>
+                           "data-title" => "Add new note/action" %>
 
 
             </div>
