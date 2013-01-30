@@ -41,7 +41,7 @@
     <a href="#" id="custom_data_toggle" class="custom-data-toggle"><%= t ".more_details" %></a>
 
     <div class="custom-data-closed well well-large" id="custom_data">
-      <% @job.dynamic_fields.each do |df| %>
+      <% @job.dynamic_fields.sort_by{ |e| e.order || 0 }.each do |df| %>
           <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
               <p class="job-field-title"><%= df.dynamic_field_template.name.capitalize %></p>
               <% if @job_editable %>

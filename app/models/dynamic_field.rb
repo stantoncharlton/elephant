@@ -5,7 +5,8 @@ class DynamicField < ActiveRecord::Base
                     :value_type,
                     :default_value_type,
                     :template,
-                    :priority
+                    :priority,
+                    :order
 
     validates_presence_of :name
     #validates_inclusion_of :value_type_conversion , :in => %w(to_s to_i to_f to_b)
@@ -15,7 +16,7 @@ class DynamicField < ActiveRecord::Base
 
     #before_save :value_or_attachment
 
-    belongs_to :job_template, :conditions => ['dynamic_fields.template = ?', true]
+    belongs_to :job_template#, :conditions => ['dynamic_fields.template = ?', true]
     belongs_to :dynamic_field_template, class_name: "DynamicField"
     belongs_to :job
     belongs_to :company
@@ -51,8 +52,10 @@ class DynamicField < ActiveRecord::Base
     AREA_CM2 = 72
 
     WEIGHT = 80
-    WEIGHT_PPG = 81
-    WEIGHT_SG = 82
+    WEIGHT_LBS = 81
+    WEIGHT_KG = 82
+    WEIGHT_PPG = 83
+    WEIGHT_SG = 84
 
 
     def value
@@ -201,15 +204,41 @@ class DynamicField < ActiveRecord::Base
                     when AREA_IN2
                         value / 2
                 end
+            when WEIGHT_LBS
+                case new_value_type
+                    when WEIGHT_KG
+                        value / 2
+                    when WEIGHT_PPG
+                        value
+                    when WEIGHT_SG
+                        value
+                end
+            when WEIGHT_KG
+                case new_value_type
+                    when WEIGHT_LBS
+                        value * 2
+                    when WEIGHT_PPG
+                        value
+                    when WEIGHT_SG
+                        value
+                end
             when WEIGHT_PPG
                 case new_value_type
+                    when WEIGHT_LBS
+                        value
+                    when WEIGHT_KG
+                        value
                     when WEIGHT_SG
-                        value / 3
+                        value
                 end
             when WEIGHT_SG
                 case new_value_type
+                    when WEIGHT_LBS
+                        value
+                    when WEIGHT_KG
+                        value
                     when WEIGHT_PPG
-                        value * 3
+                        value
                 end
         end
     end
@@ -257,6 +286,10 @@ class DynamicField < ActiveRecord::Base
                 "in^2"
             when AREA_CM2
                 "cm^2"
+            when WEIGHT_LBS
+                "lbs"
+            when WEIGHT_KG
+                "kg"
             when WEIGHT_PPG
                 "ppg"
             when WEIGHT_SG
@@ -307,6 +340,10 @@ class DynamicField < ActiveRecord::Base
                 "Area | Square Inches"
             when AREA_CM2
                 "Area | Square Centimeters"
+            when WEIGHT_LBS
+                "Weight | Pounds"
+            when WEIGHT_KG
+                "Weight | Kilograms"
             when WEIGHT_PPG
                 "Weight | Pounds per Gallon"
             when WEIGHT_SG
@@ -339,7 +376,7 @@ class DynamicField < ActiveRecord::Base
             when AREA
                 "Area: in^2 | cm^2"
             when WEIGHT
-                "Weight: ppg | sq"
+                "Weight: lbs | kg | ppg | sq"
         end
     end
 
@@ -363,6 +400,8 @@ class DynamicField < ActiveRecord::Base
         units << ["Volume | Meters Cubed", VOLUME_M3]
         units << ["Area | Inches Squared", AREA_IN2]
         units << ["Area | Centimeters Squared", AREA_CM2]
+        units << ["Weight | Pounds", WEIGHT_LBS]
+        units << ["Weight | Kilogram", WEIGHT_KG]
         units << ["Weight | Pounds per Gallon", WEIGHT_PPG]
         units << ["Weight | Specific Gravity", WEIGHT_SG]
 
@@ -403,7 +442,9 @@ class DynamicField < ActiveRecord::Base
             when AREA_IN2, AREA_CM2
                 units << ["in^2", AREA_IN2]
                 units << ["cm^2", AREA_CM2]
-            when WEIGHT_PPG, WEIGHT_SG
+            when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
+                units << ["lbs", WEIGHT_LBS]
+                units << ["kg", WEIGHT_KG]
                 units << ["ppg", WEIGHT_PPG]
                 units << ["sg", WEIGHT_SG]
         end
@@ -437,7 +478,9 @@ class DynamicField < ActiveRecord::Base
             when AREA_IN2, AREA_CM2
                 units << ["Inches Squared", AREA_IN2]
                 units << ["Centimeters Squared", AREA_CM2]
-            when WEIGHT_PPG, WEIGHT_SG
+            when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
+                units << ["Pounds", WEIGHT_LBS]
+                units << ["Kilograms", WEIGHT_KG]
                 units << ["Pounds per Gallon", WEIGHT_PPG]
                 units << ["Specific Gravity", WEIGHT_SG]
         end
@@ -461,8 +504,8 @@ class DynamicField < ActiveRecord::Base
                 VOLUME_BBLS
             when AREA_IN2, AREA_CM2
                 AREA_IN2
-            when WEIGHT_PPG, WEIGHT_SG
-                WEIGHT_PPG
+            when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
+                WEIGHT_LBS
         end
     end
 

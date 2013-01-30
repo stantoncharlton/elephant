@@ -1,26 +1,29 @@
-<h1 class="page-title"><%= t ".title" %></h1>
-<br>
+
+<div class="page_header">
+  <h1><%= t ".title" %></h1>
+</div>
 
 <div class="content">
 
   <%= form_for(@job_template, remote: true) do |f| %>
 
-      <p class="field-title"><%= t ".job_type_name" %></p>
+      <div><h3 class="field-title"><%= t ".job_type_name" %></h3></div>
+      <br>
+
       <%= f.text_field :name, value: @job_template.name,
                        placeholder: I18n.t("job_templates.show.job_type_name"),
                        class: "txtfield large job-template-name job-template-name-width" %>
   <% end %>
 
-  <div class="field">
+  <div class="">
     <p class="field-title"><%= t "jobs.job_data.division" %></p>
     <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
-
-    <div class="inline push-right">
-      <p class="field-title"><%= t "jobs.job_data.segment" %></p>
-      <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
-    </div>
   </div>
-  <div class="field">
+  <div class="inline">
+    <p class="field-title"><%= t "jobs.job_data.segment" %></p>
+    <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
+  </div>
+  <div class="">
     <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
     <h3 class="inline"><%= @job_template.product_line.name %> </h3>
   </div>
@@ -44,7 +47,7 @@
 </div>
 
 <div class="content" id="dynamic_fields">
-  <%= render @job_template.dynamic_fields %>
+  <%= render @job_template.dynamic_fields.sort_by { |e| e.order || 0 } %>
 </div>
 
 <div class="content">
@@ -61,36 +64,36 @@
 
 <h3 class="document-section-header"><%= t "jobs.show.notices" %></h3>
 <div class="content" id="documents3">
-  <% @job_template.documents.select { |item| item.category == "Field Bulletins" }.each do |d| %>
+  <% @job_template.notices_documents.each do |d| %>
       <%= render 'documents/document', document: d, editable: true, can_upload: true %>
   <% end %>
 </div>
 
 <div class="content">
-  <%= render 'document_fields', category_name: "Field Bulletins", read_only: true %>
+  <%= render 'document_fields', category_name: Document::NOTICES, read_only: true %>
 </div>
 
 
 <h3 class="document-section-header"><%= t "jobs.show.pre_job" %></h3>
 <div class="content" id="documents">
-  <% @job_template.documents.select { |item| item.category == "Pre-Job" }.each do |d| %>
+  <% @job_template.pre_job_documents.each do |d| %>
       <%= render 'documents/document', document: d, editable: true, can_upload: true %>
   <% end %>
 </div>
 
 <div class="content">
-  <%= render 'document_fields', category_name: "Pre-Job", read_only: false %>
+  <%= render 'document_fields', category_name: Document::PRE_JOB, read_only: false %>
 </div>
 
 <h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>
 <div class="content" id="documents2">
-  <% @job_template.documents.select { |item| item.category == "Post-Job" }.each do |d| %>
+  <% @job_template.post_job_documents.each do |d| %>
       <%= render 'documents/document', document: d, editable: true, can_upload: true %>
   <% end %>
 </div>
 
 <div class="content">
-  <%= render 'document_fields', category_name: "Post-Job", read_only: false %>
+  <%= render 'document_fields', category_name: Document::POST_JOB, read_only: false %>
 </div>
 
 

@@ -9,14 +9,29 @@
       <%= label_tag dynamic_field.value_type_unit_full, nil, class: "" %>
     </div>
 
-    <div class="push-right">
-      <%= link_to "edit", edit_dynamic_field_path(dynamic_field), remote: true, class: "edit-dynamic-field-name" %>
-      <%= link_to "remove", dynamic_field, method: :delete, remote: true, data: {confirm: "Remove Custom Field?"}, class: "delete-button" %>
+    <div class="dynamic-field-summary-div">
+      <% if dynamic_field.priority %>
+          <%= label_tag "Shown in Summary", nil, class: "warning-text tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "This field is shown in the summary of the job" %>
+      <% end %>
     </div>
 
-    <% if dynamic_field.priority %>
-        <%= label_tag "Shown in Summary", nil, class: "warning-text pull-right" %>
-    <% end %>
+    <div class="push-right">
+      <%= link_to "edit", edit_dynamic_field_path(dynamic_field), remote: true,
+                  class: "edit-dynamic-field-name tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Edit field info" %>
+
+      <%= link_to "remove", dynamic_field, method: :delete, remote: true,
+                  data: {confirm: "Remove Custom Field?"}, class: "delete-button tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Delete field" %>
+
+      <%= link_to "order", dynamic_field_path(dynamic_field, reorder: "-1"), move_up: "true", remote: true, class: "order-button tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Move field up by 1 row" %>
+    </div>
 
   </div>
 </fieldset>

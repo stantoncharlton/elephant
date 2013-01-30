@@ -197,9 +197,21 @@ class Job < ActiveRecord::Base
         self.well.jobs.select { |j| j != self }
     end
 
+    def notices_documents
+        self.documents.select { |document| document.category == Document::NOTICES }.sort_by{ |e| e.order || 0 }
+    end
+
+    def pre_job_documents
+        self.documents.select { |document| document.category == Document::PRE_JOB }.sort_by{ |e| e.order || 0 }
+    end
+
+    def post_job_documents
+        self.documents.select { |document| document.category == Document::POST_JOB }.sort_by{ |e| e.order || 0 }
+    end
+
     def pre_job_data_good
-        self.documents.each do |document|
-            if document.category == "Pre-Job" && (document.url.nil? || document.url.empty?)
+        self.pre_job_documents.each do |document|
+            if document.url.nil? or document.url.empty?
                 return false
             end
         end
@@ -214,8 +226,8 @@ class Job < ActiveRecord::Base
     end
 
     def post_job_data_good
-        self.documents.each do |document|
-            if document.category == "Post-Job" && (document.url.nil? || document.url.empty?)
+        self.post_job_documents.each do |document|
+            if document.url.nil? or document.url.empty?
                 return false
             end
         end

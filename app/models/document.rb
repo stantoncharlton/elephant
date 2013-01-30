@@ -13,7 +13,7 @@ class Document < ActiveRecord::Base
     validates :category, presence: true, length: {maximum: 50}
     validates :company, presence: true
 
-    belongs_to :job_template, :conditions => ['documents.template = ?', true]
+    belongs_to :job_template#, :conditions => ['documents.template = ?', true]
     belongs_to :document_template, class_name: "Document"
     belongs_to :job
     belongs_to :company
@@ -22,6 +22,10 @@ class Document < ActiveRecord::Base
 
     before_create :default_name
 
+
+    NOTICES = "Notices"
+    PRE_JOB = "Pre-Job"
+    POST_JOB = "Post-Job"
 
     def default_name
         self.name ||= File.basename(url, '.*').titleize if url
@@ -56,6 +60,35 @@ class Document < ActiveRecord::Base
 
     def self.from_job(job)
         where("job_id = :job_id", job_id: job.id)
+    end
+
+    def document_collection
+        collection = []
+        if self.template? and !self.job_template.nil?
+            case self.category
+                when Document::NOTICES
+                    collection = self.job_template.notices_documents
+                when Document::PRE_JOB
+                    collection = self.job_template.pre_job_documents
+                when Document::POST_JOB
+                    collection = self.job_template.post_job_documents
+            end
+        elsif !self.job.nil?
+            case self.category
+                when Document::NOTICES
+                    collection = self.job.notices_documents
+                when Document::PRE_JOB
+                    collection = self.job.pre_job_documents
+                when Document::POST_JOB
+                    collection = self.job.post_job_documents
+            end
+        end
+
+        if collection.nil?
+            collection = []
+        end
+
+        collection
     end
 
     def upload_info

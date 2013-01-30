@@ -5,13 +5,38 @@ class DocumentsController < ApplicationController
 
     def show
 
-        respond_to do |format|
-            format.xml {
-                @document = Document.find(params[:id])
-                not_found unless @document.company == current_user.company
+        @document = Document.find(params[:id])
+        not_found unless @document.company == current_user.company
 
+        respond_to do |format|
+            format.js {
+                if params[:reorder].present?
+                    if params[:reorder] == "-1"
+                        if @document.order > 0
+                            Document.transaction do
+                                @document.order -= 1
+                                @document.save
+
+                                @document.document_collection.each do |document|
+                                    if document != @document and (document.order || 0) == @document.order
+                                        document.order = (document.order || 0) + 1
+                                        document.save
+                                    end
+                                end
+                            end
+
+                            @move_up = true
+
+                            render 'documents/reorder'
+                        else
+                            render :nothing => true, :status => :ok
+                        end
+                    end
+                end
+            }
+            format.xml {
                 render xml: @document,
-                       :methods => [ :full_url, :upload_info ],
+                       :methods => [:full_url, :upload_info],
                        include: {
                                :document_template => {
                                        :methods => :full_url,
@@ -31,7 +56,8 @@ class DocumentsController < ApplicationController
         else
 
             @document = Document.new(params[:document])
-            @filename ||= File.basename(@document.url)
+            @document.order =
+                    @filename ||= File.basename(@document.url)
 
             render 'documents/new'
         end
@@ -52,6 +78,7 @@ class DocumentsController < ApplicationController
         if @document.template?
 
             @document.job_template = JobTemplate.find_by_id(job_template_id)
+            @document.order = @document.document_collection.count
 
             if !@document.save
                 render 'error'

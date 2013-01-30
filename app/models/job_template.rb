@@ -42,4 +42,16 @@ class JobTemplate < ActiveRecord::Base
         end
     end
 
+    def notices_documents
+        self.documents.select { |document| document.category == Document::NOTICES }.sort_by{ |e| e.order || 0 }
+    end
+
+    def pre_job_documents
+        self.documents.select { |document| document.category == Document::PRE_JOB }.sort_by{ |e| e.order || 0 }
+    end
+
+    def post_job_documents
+        self.documents.select { |document| document.category == Document::POST_JOB }.sort_by{ |e| e.order || 0 }
+    end
+
 end

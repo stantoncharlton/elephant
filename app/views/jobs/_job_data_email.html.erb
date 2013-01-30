@@ -71,7 +71,7 @@
   </tr>
 
 
-  <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+  <% job.dynamic_fields.sort_by{ |e| e.order || 0 }.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <tr>
             <td class="job-email-td-title">

@@ -1,0 +1,8 @@
+<% if @move_up %>
+
+var doc = $('#document_<%= @document.id.to_s %>');
+var prev = doc.prev();
+doc.remove();
+prev.before(doc);
+
+<% end %>
