@@ -1,6 +1,9 @@
-<div class="field" id="search_constraint_<%= index.to_s %>">
+<div class="search-field" id="search_constraint_<%= index.to_s %>">
+
   <div>
-    <p class="field-title">Type</p>
+    <p class="help-text">First, select the type of data you want to search, either well data or job data.</p>
+
+    <p class="field-title">Search Type</p>
 
     <%= select_tag "data_type", options_for_select([["Well Data", 1], ["Job Data", 2]]),
                    prompt: "Select what to search...",
@@ -23,16 +26,29 @@
     </div>
 
   </div>
+
+  <hr>
+
   <div class="search-constraint-second hidden">
-    <p class="field-title">Constraint</p>
+    <p class="help-text">Now specify which field you will be searching for and the comparison type</p>
+    <p class="field-title">Condition</p>
     <%= select_tag "job", options_for_select(@well_data.collect { |p| [p, p] }),
-                   prompt: "Select data field...",
-                   class: "search-constraint-field-select",
+                   prompt: "Select field name...",
+                   class: "search-constraint-field-select tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Name of field",
                    name: "query[constraints][" + index.to_s + "][field]" %>
 
 
     <%= select_tag "operator", options_for_select([["equals", 1], ["similar to", 6], ["less than <=", 2], ["greater than >=", 3], ["true", 4], ["false", 5]]),
                    name: "query[constraints][" + index.to_s + "][operator]" %>
     <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small"/>
+
+    <hr class="search-constraint-line">
+
   </div>
+
+
+
+
 </div>

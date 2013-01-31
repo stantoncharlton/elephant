@@ -171,7 +171,11 @@ class Job < ActiveRecord::Base
 
             if constraint.data_type == "2"
                 ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
-                ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)
+                if constraint.operator == "1" or constraint.operator == "2" or constraint.operator == "3"
+                    ar_query = ar_query.where("CAST(dynamic_fields.value as INT) " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)
+                else
+                    ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)
+                end
             else
                 ar_query = ar_query.where("wells." + constraint.field + " " + operator + " :well_value", well_value: value).includes(:well)
             end

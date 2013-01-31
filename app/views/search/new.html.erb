@@ -9,7 +9,11 @@
       <%= render 'search/search_constraint', index: 0 %>
     </div>
 
-    <%= link_to "+ Add another criteria", "#", remote: true, id: "new_criteria", class: "add-search-field" %>
+    <%= link_to "+ Add another criteria", "#", remote: true, id: "new_criteria",
+                class: "add-search-field tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Add another criteria search in addition to existing ones" %>
 
-    <%= submit_tag "Search", class: "bluebtn pull-right" %>
+    <%= submit_tag "Search", class: "bluebtn pull-right tooltip-info",
+                "data-title" => "Run the search" %>
 <% end %>
