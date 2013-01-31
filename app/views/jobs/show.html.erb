@@ -64,7 +64,8 @@
                 <div class="job-field-div">
                   <input id="dynamic_field_<%= df.id %>" type="text"
                          placeholder="-"
-                         class="job-field-value-editable custom-data-input"
+                         class="job-field-value-editable custom-data-input tooltip-info"
+                         data-placement="bottom" data-title="Field value, click to change"
                          value="<%= df.value %>">
 
                   <% if df.value_type != 1 %>

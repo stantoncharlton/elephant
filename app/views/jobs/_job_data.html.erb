@@ -120,7 +120,9 @@
 
           <% if form_editable %>
               <div class="job-field-div">
-                <input id="dynamic_field_<%= dynamic_field.id %>" type="text" class="job-field-value-editable custom-data-input"
+                <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
+                       class="job-field-value-editable custom-data-input tooltip-info"
+                       data-placement="bottom" data-title="Field value, click to change"
                        value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
 
                 <% if dynamic_field.value_type != 1 %>
