@@ -14,14 +14,18 @@
     <div class="inline search-constraint-product-line hidden">
       <%= select_tag "product_line", options_for_select([]),
                      prompt: "Select a Product Line...",
-                     class: "search-constraint-product-line-select",
+                     class: "search-constraint-product-line-select tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Product Line",
                      name: "query[constraints][" + index.to_s + "][product_line]" %>
     </div>
 
     <div class="inline search-constraint-job-template hidden">
       <%= select_tag "job-template", options_for_select([]),
                      prompt: "Select a Job Type...",
-                     class: "search-constraint-job-template-select",
+                     class: "search-constraint-job-template-select tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Job Type",
                      name: "query[constraints][" + index.to_s + "][job_template]" %>
     </div>
 
@@ -31,8 +35,9 @@
 
   <div class="search-constraint-second hidden">
     <p class="help-text">Now specify which field you will be searching for and the comparison type</p>
+
     <p class="field-title">Condition</p>
-    <%= select_tag "job", options_for_select(@well_data.collect { |p| [p, p] }),
+    <%= select_tag "job", options_for_select(@well_data.collect { |p| [Well.human_attribute_name(p), p] }),
                    prompt: "Select field name...",
                    class: "search-constraint-field-select tooltip-info",
                    "data-placement" => "bottom",
@@ -41,14 +46,17 @@
 
 
     <%= select_tag "operator", options_for_select([["equals", 1], ["similar to", 6], ["less than <=", 2], ["greater than >=", 3], ["true", 4], ["false", 5]]),
-                   name: "query[constraints][" + index.to_s + "][operator]" %>
-    <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small"/>
+                   name: "query[constraints][" + index.to_s + "][operator]",
+                   class: "tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Value comparison method, either by equality, greater than, less than, or the same, etc..." %>
+    <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small tooltip-info"
+           data-placement="bottom"
+           data-title="Value to use for comparison"/>
 
     <hr class="search-constraint-line">
 
   </div>
-
-
 
 
 </div>
