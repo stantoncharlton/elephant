@@ -59,7 +59,7 @@
 
     <% @job.dynamic_fields.sort_by { |e| e.order || 0 }.each do |df| %>
         <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
-            <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name.capitalize %>"><%= df.dynamic_field_template.name.capitalize %></p>
+            <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name %>"><%= df.dynamic_field_template.name %></p>
             <% if @job_editable %>
                 <div class="job-field-div">
                   <input id="dynamic_field_<%= df.id %>" type="text"
