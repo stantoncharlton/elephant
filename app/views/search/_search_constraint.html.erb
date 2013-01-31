@@ -31,7 +31,7 @@
                    name: "query[constraints][" + index.to_s + "][field]" %>
 
 
-    <%= select_tag "operator", options_for_select([["equals", 1], ["less than", 2], ["greater than", 3]]),
+    <%= select_tag "operator", options_for_select([["equals", 1], ["similar to", 6], ["less than <=", 2], ["greater than >=", 3], ["true", 4], ["false", 5]]),
                    name: "query[constraints][" + index.to_s + "][operator]" %>
     <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small"/>
   </div>
