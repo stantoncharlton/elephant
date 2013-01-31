@@ -3,3 +3,16 @@ $('#conversation_messages_list').append("<%= j render 'conversations/message', c
 $('#conversation_reply_box').val('');
 
 $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+
+
+var conversation = $('#conversation_<%= @conversation.id.to_s %>').remove();
+$("#conversations_list").prepend(conversation);
+
+$('.conversation-link').click(function() {
+    $.ajax({
+        url:"/conversations/" + $(this).attr("id").replace("conversation_", ""),
+        type:"GET",
+        dataType:"script"
+    });
+});
+

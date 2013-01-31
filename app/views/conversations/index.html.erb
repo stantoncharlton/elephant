@@ -6,7 +6,9 @@
 
   <h2><%= @conversations.count() %></h2>
 
-  <%= link_to "+ " + I18n.t("conversations.messages.new"), new_conversation_path, class: "bluebtn page_header_button" %>
+  <%= link_to "+ " + I18n.t("conversations.messages.new"), new_conversation_path, class: "bluebtn page_header_button tooltip-info",
+              "data-placement" => "bottom",
+              "data-title" => "Create new message" %>
 </div>
 
 
@@ -24,6 +26,8 @@
       <ol id="conversations_list" class="conversations-list">
         <%= render @conversations %>
       </ol>
+
+      <%= will_paginate inner_window: 0, outer_window: 0 %>
 
     </div>
 

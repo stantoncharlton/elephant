@@ -1,5 +1,6 @@
 <a class="conversation-link" id="conversation_<%= conversation.id %>">
-  <div class="message-div">
+  <div class="message-div tooltip-info"
+       data-placement="left" data-title="Click to read/reply">
     <div>
       <h3 class="inline"><%= conversation.participants.select { |user| user != current_user }.map { |user| user.name }.join(", ") %></h3>
 

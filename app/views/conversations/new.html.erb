@@ -1,25 +1,33 @@
-<h1 class="page-title"><%= t ".title" %></h1>
+<div class="page_header">
+  <h1><%= t ".title" %></h1>
+</div>
 
-<br>
 
 <%= form_for @conversation do |f| %>
 
 
     <div class="new-message-div">
-      <div class="field">
+      <div class=" tooltip-info"
+      data-placement="left"
+      data-title="Type names of people to add to message. Multiple recipients can be added.">
         <h3 class="inline">Recipients</h3>
         <%= f.text_field :message_recipients, class: "txtfield inline",
-                autofocus: true, id: "message_recipients_tokens",
-                "data-pre" => @recipients.map(&:attributes).to_json %>
+                         autofocus: true, id: "message_recipients_tokens",
+                         "data-pre" => @recipients.map(&:attributes).to_json %>
       </div>
 
+      <br>
 
-      <%= f.text_area :message_text, class: "new-message-body",
-                    placeholder: "Message text...",
-                    value: @conversation.message_text %>
+
+      <%= f.text_area :message_text, class: "new-message-body tooltip-info",
+                      placeholder: "Message text...",
+                      "data-placement" => "left",
+                      "data-title" => "Message text",
+                      value: @conversation.message_text %>
 
       <div class="content actions">
-        <%= f.submit "Send Message", class: "bluebtn pull-right" %>
+        <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info",
+                     "data-title" => "Send message to recipients" %>
       </div>
     </div>
 

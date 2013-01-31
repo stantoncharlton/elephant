@@ -6,3 +6,5 @@ $('.conversation-link').each(function(index) {
 $('#conversation_<%= @conversation.id %> div:first').addClass('message-selected');
 
 $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+
+$("html, body").animate({ scrollTop: 0 }, "slow");

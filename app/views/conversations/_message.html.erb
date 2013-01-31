@@ -2,7 +2,11 @@
   <div>
     <h3 class="inline"><%= message.user.name %></h3>
 
-    <p class="inline pull-right message-date"><%= message.created_at.strftime("%b %d %I:%M %p") %></p>
+    <p class="inline pull-right message-date tooltip-info"
+       data-placement="bottom"
+       data-title="<%= message.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+      <%= time_ago_in_words(message.created_at) %> ago
+    </p>
   </div>
 
   <p class="message-text"><%= raw message.text.gsub(/\n/, '<br />') %></p>

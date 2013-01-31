@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
 
 
     def index
-        @conversations = current_user.conversations.order("updated_at DESC")
+        @conversations = current_user.conversations.order("updated_at DESC").paginate(page: params[:page], limit: 8)
 
         if !@conversations.empty? && current_user.alerts
             new_alerts = current_user.alerts.select { |a| a.target == @conversations.first }
