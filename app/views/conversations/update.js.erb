@@ -8,6 +8,9 @@ $('#conversation_messages_list').scrollTop($('#conversation_messages_list').heig
 var conversation = $('#conversation_<%= @conversation.id.to_s %>').remove();
 $("#conversations_list").prepend(conversation);
 
+$('.tooltip-info').tooltip();
+$('.activity-user-link').tooltip();
+
 $('.conversation-link').click(function() {
     $.ajax({
         url:"/conversations/" + $(this).attr("id").replace("conversation_", ""),

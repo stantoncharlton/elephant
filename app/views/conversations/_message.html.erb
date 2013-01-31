@@ -1,6 +1,8 @@
 <div class="conversation-message">
   <div>
-    <h3 class="inline"><%= message.user.name %></h3>
+    <h3 class="inline">
+      <%= render 'activities/user', user: message.user %>
+    </h3>
 
     <p class="inline pull-right message-date tooltip-info"
        data-placement="bottom"

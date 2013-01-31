@@ -11,12 +11,16 @@
 
     <%= link_to @user.district.name, @user.district, class: "user-info-link" %>
 
-    <%= link_to @user.email, "mailto:" + @user.email, class: "user-info-link" %>
+    <%= link_to @user.email, "mailto:" + @user.email, class: "user-info-link tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Send email to " + @user.name %>
 
     <h3><%= @user.phone_number %></h3>
 
     <div class="message-box">
-      <%= link_to "SEND MESSAGE", new_conversation_path(to_user_id: @user.id), class: "bluebtn" %>
+      <%= link_to "SEND MESSAGE", new_conversation_path(to_user_id: @user.id), class: "bluebtn tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Send Elephant message to " + @user.name %>
     </div>
   </div>
 
@@ -43,7 +47,9 @@
 <div class="content">
   <div id="jobs" class="list">
     <% @user.active_jobs.each do |job| %>
-        <%= link_to job, class: "job-link" do %>
+        <%= link_to job, class: "job-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Click to open job" do %>
             <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false,  new_line_job_type: false %>
         <% end %>
     <% end %>
