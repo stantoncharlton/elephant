@@ -120,6 +120,9 @@ class DocumentsController < ApplicationController
         end
 
         respond_to do |format|
+            format.js {
+                render 'documents/update'
+            }
             format.xml { render xml: @document,
                                 :methods => :full_url,
                                 include: {
