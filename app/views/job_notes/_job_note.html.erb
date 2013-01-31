@@ -24,7 +24,11 @@
       <% end %>
     </div>
 
-    <p class="activity-date"><%= job_note.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+    <p class="activity-date tooltip-info"
+       data-placement="bottom"
+       data-title="<%= job_note.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+      <%= time_ago_in_words(job_note.created_at) %> ago
+    </p>
 
     <div>
       <p class="activity-message">
@@ -52,7 +56,9 @@
         <%= f.text_field :text,
                            placeholder: "Type to add a comment...",
                            id: "job_note_comment_text_" + job_note.id.to_s,
-                           class: "job-field-value-editable custom-data-input light-text note-comment job-note-comment-box" %>
+                           class: "job-field-value-editable custom-data-input light-text note-comment job-note-comment-box tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Click to add comment" %>
     <% end %>
 
   </ul>

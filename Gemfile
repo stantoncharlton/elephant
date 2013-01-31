@@ -16,6 +16,7 @@ gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'delayed_job_active_record'
 gem 'roadie'
+gem 'saasposesdk'
 
 gem "thin"
 

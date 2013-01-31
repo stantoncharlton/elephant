@@ -1,12 +1,15 @@
 <% if !inside_job and !job.nil? %>
     <p class="inline">
-      <%= link_to job, class: "activity-user-link", "data-placement" => "bottom",
+      <%= link_to job, class: "activity-user-link", "data-placement" => "right",
                   "data-html" => true,
                   "data-title" => "<div class='well-tooltip'>" +
-                          "<p>" + job.job_template.product_line.segment.division.name + "</p>" +
-                          "<p>" + job.job_template.product_line.segment.name + "</p>" +
-                          "<p>" + job.job_template.product_line.name + "</p>" +
-                          "<h2>" + job.job_template.name + "</h2>" +
+                          "<p>\"" + job.status + "\"</p>" +
+                          "<p>" + job.district.name + " / " + job.client.name + "</p>" +
+                          "<p>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : job.created_at.strftime("%m/%d/%Y")) + "</p>" +
+                          "<hr><h3>" + job.job_template.product_line.segment.division.name + "</h3>" +
+                          "<h3>" + job.job_template.product_line.segment.name + "</h3>" +
+                          "<h3>" + job.job_template.product_line.name + "</h3>" +
+                          "<h3>" + job.job_template.name + "</h3>" +
                           "</div>"  do %>
           <%= job.field.name %> | <%= job.well.name %>
       <% end %>

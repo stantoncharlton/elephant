@@ -1,7 +1,5 @@
 <% if activity.target.present? %>
-    <div class="activity tooltip-info"
-         data-placement="bottom"
-         data-title="<%= activity.message %>">
+    <div class="activity">
 
       <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
           <% if activity.target.note_type == 2 %>
@@ -24,6 +22,8 @@
             <%= image_tag "user_avatar_complete.png" %>
         <% elsif activity.activity_type == Activity::JOB_NOTE_ADDED %>
             <%= image_tag "user_avatar_note.png" %>
+        <% elsif activity.activity_type == Activity::DOCUMENT_UPLOADED %>
+            <%= image_tag "user_avatar_upload_document.png" %>
         <% else %>
             <%= image_tag "user_avatar_default.png" %>
         <% end %>
@@ -47,7 +47,12 @@
               <% end %>
           <% end %>
         </div>
-        <p class="activity-date"><%= activity.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+
+        <p class="activity-date tooltip-info"
+           data-placement="bottom"
+           data-title="<%= activity.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+          <%= time_ago_in_words(activity.created_at) %> ago
+        </p>
 
         <div class="">
           <% if activity.activity_type == Activity::JOB_CREATED %>
@@ -67,14 +72,15 @@
           <% end %>
           <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
               <p class="activity-message">
-                Added document
+                Uploaded document
               </p>
 
-              <div class="activity-document-name">
+              <div class="activity-document-name inline">
                 <%= image_tag "document_icon.png" %>
-                <%= link_to activity.target.name, activity.target.full_url %>
+                <%= link_to activity.target.name, activity.target.full_url, class: "tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Click to download document" %>
                 <p class="activity-message">
-                  (<%= activity.target.file_name %>)
                 </p>
               </div>
           <% end %>
@@ -82,28 +88,17 @@
               <p class="activity-message">
                 Added
                 <%= render 'activities/user', user: activity.target.user %>
+                as project member
               </p>
           <% end %>
           <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
               <p class="activity-message">
-                <% if activity.target.note_type == 1 %>
-                    Added note:
-                <% end %>
-                <% if activity.target.note_type == 2 %>
-                    Added warning:
-                <% end %>
-                <% if activity.target.note_type == 3 %>
-                    Added problem:
-                <% end %>
-                <% if activity.target.note_type == 4 %>
-                    Assigned task:
-                <% end %>
-                <br><br>
+
                 <% if activity.target.note_type == 3 %>
                     <%= image_tag "error_red.png", class: "inline" %>
                 <% end %>
 
-              <p class="activity-note">"<%= activity.target.text %>"</p></p>
+              <p class="activity-message">"<%= activity.target.text %>"</p></p>
           <% end %>
         </div>
 

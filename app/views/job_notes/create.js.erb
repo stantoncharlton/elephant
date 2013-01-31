@@ -8,4 +8,7 @@ $('#alert').modal({show:true});
 $("#job_notes").prepend("<%= j render 'job_notes/job_note', job_note: @job_note %>");
 $('#new_note_id').val('');
 $('#new_note_name').val('');
+
+$('.activity-user-link').tooltip();
+$('.tooltip-info').tooltip();
 <% end %>
