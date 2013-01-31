@@ -54,6 +54,9 @@ class SearchController < ApplicationController
         @query = Query.new
         @well_data = Well.accessible_attributes.select { |w| w != "" }
 
+        @dynamic_field = DynamicField.new
+        @dynamic_field.value_type = DynamicField::LENGTH_FT
+
         respond_to do |format|
             format.html do
 
@@ -80,7 +83,9 @@ class SearchController < ApplicationController
                 constraint.operator = params["query"]["constraints"][index.to_s]["operator"]
                 constraint.value = params["query"]["constraints"][index.to_s]["value"]
 
-                query.constraints << constraint
+                if !constraint.data_type.empty? and !constraint.field.empty?
+                    query.constraints << constraint
+                end
             else
                 break
             end
