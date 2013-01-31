@@ -9,6 +9,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem "tabs_on_rails"
 gem "mail", "2.4.4"
 gem 'jquery-rails'
+gem 'bootstrap-datepicker-rails'
 gem 'aws-sdk'
 gem "select2-rails"
 gem 'sunspot_rails'

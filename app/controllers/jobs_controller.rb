@@ -176,26 +176,32 @@ class JobsController < ApplicationController
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
-        district_manager_id = params[:job][:district_manager_id]
-        params[:job].delete(:district_manager_id)
+        if params["start_date"].present?
+            @job.start_date = Date.strptime(params["start_date"], '%m/%d/%Y')
 
-        sales_engineer_id = params[:job][:sales_engineer_id]
-        params[:job].delete(:sales_engineer_id)
+            render :nothing => true, :status => :ok
+        else
+            district_manager_id = params[:job][:district_manager_id]
+            params[:job].delete(:district_manager_id)
 
-        if district_manager_id.present?
-            @user = User.find_by_id(district_manager_id)
-            if @job.district_manager.present?
-                @job.remove_user!(@user)
+            sales_engineer_id = params[:job][:sales_engineer_id]
+            params[:job].delete(:sales_engineer_id)
+
+            if district_manager_id.present?
+                @user = User.find_by_id(district_manager_id)
+                if @job.district_manager.present?
+                    @job.remove_user!(@user)
+                end
+                @tag_name = 'district_manager'
+                @job.district_manager = @user
+            elsif sales_engineer_id.present?
+                @user = User.find_by_id(sales_engineer_id)
+                if @job.sales_engineer.present?
+                    @job.remove_user!(@user)
+                end
+                @tag_name = 'sales_engineer'
+                @job.sales_engineer = @user
             end
-            @tag_name = 'district_manager'
-            @job.district_manager = @user
-        elsif sales_engineer_id.present?
-            @user = User.find_by_id(sales_engineer_id)
-            if @job.sales_engineer.present?
-                @job.remove_user!(@user)
-            end
-            @tag_name = 'sales_engineer'
-            @job.sales_engineer = @user
         end
 
         @job.save

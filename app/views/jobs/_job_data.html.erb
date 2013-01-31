@@ -71,7 +71,7 @@
       <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
                   class: "job-field-value job-field-value-link tooltip-info",
                   "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment"%>
+                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
   <% else %>
       <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
   <% end %>
@@ -152,7 +152,7 @@
       <%= link_to job.district.name, job.district,
                   class: "job-field-value job-field-value-link tooltip-info",
                   "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.district.name + " district"%>
+                  "data-title" => "View all jobs in " + job.district.name + " district" %>
   <% else %>
       <p class="job-field-value"><%= job.district.name %></p>
   <% end %>
@@ -176,7 +176,13 @@
 
   <p class="job-field-title"><%= t ".start_date" %></p>
 
-  <p class="job-field-value">12/10/12</p>
+  <% if form_editable %>
+      <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : "-" %>"
+             id="job_start_date_<%= job.id.to_s %>"
+             class="job-field-value-editable job-start-date" >
+  <% else %>
+      <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : "-" %></p>
+  <% end %>
 </div>
 
 <% if !form_editable %>
