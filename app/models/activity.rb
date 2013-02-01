@@ -132,7 +132,7 @@ class Activity < ActiveRecord::Base
         if Rails.env == "development"
             where("activities.job_id IN (?)", jobs.map { |j| j.id }).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("activities.created_at DESC").group("activities.job_id")
         else
-            select("DISTINCT ON (activities.job_id) *").where("activities.job_id IN (?)", jobs.map { |j| j.id }).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("activities.created_at DESC, activities.job_id DESC")
+            select("DISTINCT ON (activities.job_id) *").where("activities.job_id IN (?)", jobs.map { |j| j.id }).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("activities.job_id, activities.created_at DESC")
         end
     end
 
@@ -147,7 +147,7 @@ class Activity < ActiveRecord::Base
         if Rails.env == "development"
             where("activities.job_id IN (?)", user.jobs.map { |j| j.id }).where("created_at > ?", (Time.now - 1.day)).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("activities.created_at DESC").group("activities.job_id")
         else
-            select("DISTINCT ON (activities.job_id) *").where("activities.job_id IN (?)", user.jobs.map { |j| j.id }).where("created_at > ?", (Time.now - 1.day)).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("activities.created_at DESC, activities.job_id DESC")
+            select("DISTINCT ON (activities.job_id) *").where("activities.job_id IN (?)", user.jobs.map { |j| j.id }).where("created_at > ?", (Time.now - 1.day)).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("activities.job_id, activities.created_at DESC")
         end
 
 
