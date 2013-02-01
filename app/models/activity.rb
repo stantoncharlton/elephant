@@ -134,4 +134,5 @@ class Activity < ActiveRecord::Base
     def self.activities_for_user(user)
         where("user_id = :user_id", user_id: user.id).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
     end
+
 end

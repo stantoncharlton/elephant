@@ -136,22 +136,7 @@ class Job < ActiveRecord::Base
 
     def self.advanced_search(query, company)
 
-        conditions = []
-=begin
-        Sunspot.search(Job) do
-            fulltext options[:search]
-            with(:company_id, company.id)
-            constraints.each do |c|
-                with(:created_at).greater_than(Time.now)
-            end
-            order_by :created_at, :desc
-            paginate :page => options[:page]
-        end
-=end
-
         ar_query = where(:company_id => company.id)
-        #conditions << ar_query
-
 
         query.constraints.each do |constraint|
             operator = "="
@@ -181,12 +166,15 @@ class Job < ActiveRecord::Base
             end
         end
 
-        #conditions = ( conditions.empty? ? nil : [conditions.transpose.first.join(' AND '), *conditions.transpose.last] )
-
-
-        #where(:dynamic_fields => {:dynamic_field_template_id => "8"}).includes(:dynamic_fields)
-
         return ar_query
+    end
+
+    def activity
+        Activity.activities_for_job(self)
+    end
+
+    def recent_activity(recent_date)
+        Activity.activities_for_job(self).where("activities.created_at > ?", recent_date - 1.day)
     end
 
     def other_jobs
