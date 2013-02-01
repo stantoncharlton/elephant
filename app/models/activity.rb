@@ -135,4 +135,8 @@ class Activity < ActiveRecord::Base
         where("user_id = :user_id", user_id: user.id).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
     end
 
+    def self.activities_for_user_today(user)
+        where("job_id IN (?)", user.jobs.map { |j| j.id }).where("created_at > ?", (Time.now - 1.day)).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
+    end
+
 end

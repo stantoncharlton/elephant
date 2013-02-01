@@ -14,4 +14,13 @@ class UserMailer < ActionMailer::Base
       mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
            :subject => "Your Elephant New Password")
   end
+
+
+  def daily_activity(user, activities)
+      @user = user
+      @activities = activities
+      mail(:to => "ryan.dawson@go-elephant.com",
+           :subject => "Elephant Daily Job Activity")
+  end
+
 end

@@ -174,7 +174,7 @@ class Job < ActiveRecord::Base
     end
 
     def recent_activity(recent_date)
-        Activity.activities_for_job(self).where("activities.created_at > ?", recent_date - 1.day)
+        Activity.activities_for_job(self).where("activities.created_at > ?", (recent_date - 1.day))
     end
 
     def other_jobs

@@ -1,0 +1,31 @@
+<html>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
+
+<h2>Good Day</h2>
+<h3>This is a recap of the last day (in case you missed anything)</h3>
+
+<p>You can change this in your <%= link_to edit_setting_url(@user), class: "activity-user-link" do %>settings
+  <% end %> if you don't want to receive this email.</p>
+
+<br>
+
+<div id="activities" class="list">
+  <% @activities.each do |activity| %>
+
+      <div class="history">
+        <%= render 'jobs/job', job: activity.job %>
+
+        <% activity.job.recent_activity(Time.now).each do |a| %>
+            <%= render 'activities/job_activity', activity: a, inside_job: false %>
+        <% end %>
+
+        <hr class="search-constraint-line">
+
+      </div>
+
+  <% end %>
+</div>
+
+</body>
+</html>
