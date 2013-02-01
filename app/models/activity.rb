@@ -128,7 +128,7 @@ class Activity < ActiveRecord::Base
     end
 
     def self.activities_for_jobs(jobs)
-        select("activities.job_id, activities.created_at").group("activities.job_id").where("job_id IN (?)", jobs.map { |j| j.id }).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).order("created_at DESC")
+        select("activities.job_id, activities.created_at").order("created_at DESC").group("activities.job_id").where("job_id IN (?)", jobs.map { |j| j.id }).where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200)
     end
 
     def self.activities_for_user(user)
