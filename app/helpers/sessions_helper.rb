@@ -7,7 +7,7 @@ module SessionsHelper
             cookies[:remember_token] = user.remember_token
         end
 
-        session[:expires_at] = 1.minute.from_now
+        session[:expire_after] = 1.minute
 
         self.current_user = user
     end
