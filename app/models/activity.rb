@@ -128,10 +128,9 @@ class Activity < ActiveRecord::Base
     end
 
     def self.activities_for_jobs(jobs)
-        select("activities.id, activities.job_id, activities.created_at, activities.updated_at, activities.company_id, activities.user_id, activities.activity_type, activities.target_id, activities.target_type, activities.metadata").
+        select("DISTINCT (activities.job_id), *").
                 where("job_id IN (?)", jobs.map { |j| j.id }).
                 where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).
-                group("activities.job_id").
                 order("created_at DESC")
     end
 
