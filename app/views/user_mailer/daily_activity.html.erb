@@ -14,7 +14,10 @@
   <% @activities.each do |activity| %>
 
       <div class="history">
-        <%= render 'jobs/job', job: activity.job %>
+
+        <%= link_to activity.job.absolute_url, class: "job-email-link" do %>
+            <%= render 'jobs/job_data_email', job: activity.job  %>
+        <% end %>
 
         <% activity.job.recent_activity(Time.now).each do |a| %>
             <%= render 'activities/job_activity', activity: a, inside_job: false %>
