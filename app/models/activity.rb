@@ -132,7 +132,7 @@ class Activity < ActiveRecord::Base
                 where("job_id IN (?)", jobs.map { |j| j.id }).
                 where("activity_type >= :start_range AND activity_type <= :end_range", start_range: 100, end_range: 200).
                 order("activities.created_at DESC").
-                group("activities.job_id")
+                group("activities.job_id, activities.created_at")
         #group("activities.job_id, activities.created_at, activities.id, activities.updated_at, activities.company_id, activities.user_id, activities.activity_type, activities.target_id, activities.target_type, activities.metadata")
     end
 
