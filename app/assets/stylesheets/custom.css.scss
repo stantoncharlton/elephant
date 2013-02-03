@@ -1,12 +1,12 @@
 @import "bootstrap";
 
-
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
 
-.ui-helper-hidden-accessible { display:none; }
-
+.ui-helper-hidden-accessible {
+  display: none;
+}
 
 ul.ui-autocomplete {
   position: absolute;
@@ -35,7 +35,7 @@ ul.ui-autocomplete {
 
       }
 
-      &:link, &:visited, &:active  {
+      &:link, &:visited, &:active {
         color: #FFFFFF;
         text-transform: none;
       }
@@ -47,14 +47,13 @@ ul.ui-autocomplete {
 
     }
 
-
   }
 }
 
 .ui-state-hover {
   a {
-  background-color: #6cb4f6 !important;
-  color: #000000 !important;
+    background-color: #6cb4f6 !important;
+    color: #000000 !important;
   }
 }
 
@@ -131,8 +130,6 @@ header {
   float: right;
 }
 
-
-
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -165,12 +162,13 @@ p {
   color: #949494;
 }
 
-
 /* header */
 
 .navbar {
-  position: absolute !important;
-  min-width: 980px !important;
+  @media screen and (max-width: 800px) {
+    position: absolute !important;
+    min-width: 980px !important;
+  }
 }
 
 .header-v-center {
@@ -182,7 +180,7 @@ p {
 
 #logo {
   background-image: url(image_path('elephant-logo.png'));
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
   background-position: 9px 2px;
   width: 140px;
   height: 58px;
@@ -206,8 +204,6 @@ p {
   color: #fff;
   text-decoration: none;
 }
-
-
 
 .admin_tab {
   margin: 0px;
@@ -236,7 +232,7 @@ p {
   padding-right: 0px;
   text-transform: none;
 
-  &:link, &:visited, &:active  {
+  &:link, &:visited, &:active {
     color: #FFFFFF;
     text-transform: none;
   }
@@ -254,7 +250,7 @@ p {
   line-height: 58px;
   text-transform: none;
 
-  &:link, &:visited, &:active  {
+  &:link, &:visited, &:active {
     color: #FFFFFF;
     text-decoration: none;
   }
@@ -264,8 +260,6 @@ p {
     text-decoration: none;
   }
 }
-
-
 
 .home_tab {
   list-style: none;
@@ -299,12 +293,12 @@ p {
   }
 }
 
-
 .messages-icon-container {
   display: inline-block;
   width: 55px;
   margin-right: 8px;
 }
+
 .messages-icon-link {
   width: 45px;
   height: 58px;
@@ -327,7 +321,7 @@ p {
   display: inline-block;
   float: right;
 
-  pointer-events:none;
+  pointer-events: none;
 
   left: -6px;
   top: -50px;
@@ -362,7 +356,6 @@ p {
   width: 50px;
   height: 30px;
 
-
 }
 
 .advanced-search-link {
@@ -374,7 +367,7 @@ p {
   margin: 0px;
   text-transform: none;
 
-  &:link, &:visited, &:active  {
+  &:link, &:visited, &:active {
     background: transparent;
     color: #797979;
     text-decoration: none;
@@ -387,11 +380,9 @@ p {
   }
 }
 
-
 .right-menu {
   float: right;
 }
-
 
 .global-search {
   width: 200px !important;
@@ -400,7 +391,6 @@ p {
     width: 100px !important;
   }
 }
-
 
 /* footer */
 
@@ -431,8 +421,6 @@ footer ul li {
   float: left;
   margin-left: 10px;
 }
-
-
 
 /* miscellaneous */
 
