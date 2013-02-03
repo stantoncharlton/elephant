@@ -488,7 +488,7 @@ class DynamicField < ActiveRecord::Base
             when AREA_IN2, AREA_CM2
                 units << ["Inches Squared", AREA_IN2]
                 units << ["Centimeters Squared", AREA_CM2]
-            when WEIGHT_LBS, WEIGHT_KG, WEIGHT_PPG, WEIGHT_SG
+            when WEIGHT_LBS, WEIGHT_KG
                 units << ["Pounds", WEIGHT_LBS]
                 units << ["Kilograms", WEIGHT_KG]
             when WEIGHT_PPG, WEIGHT_SG

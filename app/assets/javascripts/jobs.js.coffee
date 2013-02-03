@@ -1,8 +1,10 @@
 $ ->
 
-  $('.job-type-description-target').tooltip()
-  $('.tooltip-info').tooltip()
-  $('.unit-tooltip').tooltip()
+  if (!window.matchMedia || !window.matchMedia("(max-device-width: 480px)").matches)
+    $('.job-type-description-target').tooltip()
+    $('.tooltip-info').tooltip()
+    $('.unit-tooltip').tooltip()
+
   $('.unitsSelect').customSelect()
 
   $('.job-start-date').datepicker()

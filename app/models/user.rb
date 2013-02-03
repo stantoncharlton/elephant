@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
                     :location,
                     :password,
                     :password_confirmation,
-                    :admin
+                    :admin,
+                    :send_daily_activity
 
     has_secure_password
 
