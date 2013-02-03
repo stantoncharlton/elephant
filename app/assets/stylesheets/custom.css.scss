@@ -168,6 +168,11 @@ p {
 
 /* header */
 
+.navbar {
+  position: fixed !important;
+  min-width: 980px !important;
+}
+
 .header-v-center {
   height: 58px;
   line-height: 58px;
