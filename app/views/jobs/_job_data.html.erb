@@ -134,17 +134,16 @@
                 <% end %>
 
                 <div class="job-field-conversion">
-                  <p class="inline warning-text"><%= dynamic_field.get_user_conversion(@current_user) %></p>
+                  <p class="inline warning-text"><%= dynamic_field.get_user_conversion(@current_user, true) %></p>
                 </div>
               </div>
           <% else %>
               <div class="job-field-div">
-                <p class="job-field-value2"><%= dynamic_field.value.present? ? dynamic_field.value : "-" %></p>
-                <% if dynamic_field.value_type != 1 %>
-                    <p class="job-field-units unit-tooltip" data-placement="bottom" data-title="<%= dynamic_field.value_type_unit_full %>">
-                      <%= dynamic_field.value_type_unit %>
-                    </p>
-                <% end %>
+                <p class="job-field-value2 unit-tooltip"
+                   data-placement="bottom"
+                   data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+                  <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
+                </p>
               </div>
           <% end %>
       <% end %>

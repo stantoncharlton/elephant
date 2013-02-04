@@ -65,7 +65,6 @@ class DynamicField < ActiveRecord::Base
     WEIGHT_GRADIENT_SGM = 93
 
 
-
     def value
         storage_value_type = get_storage_value_type(read_attribute(:value_type))
         convert(read_attribute(:value), storage_value_type, read_attribute(:value_type))
@@ -564,7 +563,7 @@ class DynamicField < ActiveRecord::Base
     end
 
 
-    def get_user_conversion(user)
+    def get_user_conversion(user, parenthesis = false, output_always = false, full_unit = false)
 
         if user.user_unit
             user_value_type = LENGTH
@@ -592,10 +591,17 @@ class DynamicField < ActiveRecord::Base
                     user_value_type = user.user_unit.weight_density
             end
 
-            if user_value_type != nil and user_value_type != self.value_type
+            if (user_value_type != nil and user_value_type != self.value_type) or output_always
                 value = self.value
-                if value.to_f != 0
-                    return "(" + convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + get_value_type_unit(user_value_type).to_s + ")"
+                if (value.to_f != 0) || output_always
+
+                    unit = full_unit ? get_value_type_unit_full(user_value_type).to_s : get_value_type_unit(user_value_type).to_s
+
+                    if parenthesis
+                        return "(" + convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + unit + ")"
+                    else
+                        return convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + unit
+                    end
                 end
             end
         end
