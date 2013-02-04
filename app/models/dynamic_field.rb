@@ -235,7 +235,7 @@ class DynamicField < ActiveRecord::Base
             when WEIGHT_GRADIENT_PSIF
                 case new_value_type
                     when WEIGHT_GRADIENT_PSIM
-                        value
+                        value / 0.3048
                     when WEIGHT_GRADIENT_SGF
                         value / 8.34
                     when WEIGHT_GRADIENT_SGM
@@ -246,27 +246,27 @@ class DynamicField < ActiveRecord::Base
                     when WEIGHT_GRADIENT_PSIF
                         value / 3.28084
                     when WEIGHT_GRADIENT_SGF
-                        value
+                        (value / 8.34) * 0.3048
                     when WEIGHT_GRADIENT_SGM
-                        value
+                        value / 8.34
                 end
             when WEIGHT_GRADIENT_SGF
                 case new_value_type
                     when WEIGHT_GRADIENT_PSIF
                         value * 8.34
                     when WEIGHT_GRADIENT_PSIM
-                        value
+                        (value * 8.34) / 0.3048
                     when WEIGHT_GRADIENT_SGM
-                        value
+                        value / 0.3048
                 end
             when WEIGHT_GRADIENT_SGM
                 case new_value_type
                     when WEIGHT_GRADIENT_PSIF
                         (value * 8.34) / 3.28084
                     when WEIGHT_GRADIENT_PSIM
-                        value
+                        value * 8.34
                     when WEIGHT_GRADIENT_SGF
-                        value
+                        value * 0.3048
                 end
         end
     end

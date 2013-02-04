@@ -80,6 +80,7 @@ class DynamicFieldsController < ApplicationController
                 @dynamic_field.save
             end
 
+            Activity.add(current_user, Activity::DATA_EDITED, @dynamic_field, @dynamic_field.name, @dynamic_field.job)
         end
     end
 

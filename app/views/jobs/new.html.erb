@@ -7,6 +7,9 @@
     <%= render 'fields', f: f %>
     <%= f.submit "Create Job", class: "bluebtn pull-right tooltip-info",
                  "data-title" => "Create new job. You edit/add more job information on next page." %>
+
+    <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+                "data-title" => "Cancel new job and go back"%>
 <% end %>
 
 

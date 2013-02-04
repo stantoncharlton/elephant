@@ -6,7 +6,18 @@
       <% if signed_in? %>
           <li id="fat-menu" class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <b class="caret"></b> <%= current_user.name %>
+              <b class="caret pull-left"></b>
+
+              <div class="pull-right">
+                <p class="user-name"><%= current_user.name %></p>
+                <p class="user-title">
+                  <% if current_user.admin? %>
+                      Administrator
+                  <% else %>
+                      <%= current_user.role.title %>
+                  <% end %>
+                </p>
+              </div>
             </a>
             <ul class="dropdown-menu">
               <% if signed_in_admin? %>
@@ -15,10 +26,14 @@
                   <li><%= link_to "Company Directory", company_path %></li>
               <% end %>
               <li class="divider"></li>
-              <li><%= link_to "Profile", user_path(current_user) %></li>
-              <li class="divider"></li>
-              <li><%= link_to "Settings", edit_setting_path(current_user) %></li>
-              <li class="divider"></li>
+              <% if !signed_in_admin? %>
+                  <li><%= link_to "Profile", user_path(current_user) %></li>
+                  <li class="divider"></li>
+              <% end %>
+              <% if !signed_in_admin? %>
+                  <li><%= link_to "Settings", edit_setting_path(current_user) %></li>
+                  <li class="divider"></li>
+              <% end %>
               <li>
                 <%= link_to "Sign out", signout_path, method: "delete" %>
               </li>
@@ -70,7 +85,7 @@
             <div class="advanced-search-div">
               <%= link_to "complex search", new_search_path, class: "advanced-search-link tooltip-info",
                           "data-placement" => "bottom",
-                          "data-title" => "Create complex searches for jobs based on data criteria"%>
+                          "data-title" => "Create complex searches for jobs based on data criteria" %>
             </div>
         <% end %>
 

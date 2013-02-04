@@ -92,7 +92,7 @@ textarea {
 }
 
 header {
-  min-width: 900px !important;
+  min-width: 950px !important;
 }
 
 .placeholder {
@@ -218,7 +218,7 @@ p {
     color: white;
   }
 
-  @media screen and (max-width: 1110px) {
+  @media screen and (max-width: 1200px) {
     margin-left: 10px;
   }
 }
@@ -280,16 +280,8 @@ p {
     color: white;
   }
 
-  @media screen and (max-width: 1110px) {
+  @media screen and (max-width: 1200px) {
     margin-left: 10px;
-  }
-}
-
-.navbar {
-
-  @media screen and (max-width: 500px) {
-    position: absolute !important;
-    min-width: 900px !important;
   }
 }
 
@@ -369,7 +361,7 @@ p {
 
   &:link, &:visited, &:active {
     background: transparent;
-    color: #797979;
+    color: #9d9d9d;
     text-decoration: none;
   }
 
@@ -380,6 +372,39 @@ p {
   }
 }
 
+.dropdown-toggle {
+
+  opacity: .9;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+
+.user-name {
+  color: #FFFFFF;
+  margin: 0px;
+  display: block;
+}
+
+.user-title {
+  color: #b1b1b1;
+  margin: 0px;
+  margin-top: -4px;
+  display: block;
+  font-size: 10px;
+}
+
+.dropdown-toggle {
+  margin-top: -5px;
+}
+
+.caret {
+  margin-right: 6px;
+  opacity: 1;
+  border-top-color: #1386ef !important;
+}
+
 .right-menu {
   float: right;
 }
@@ -387,7 +412,7 @@ p {
 .global-search {
   width: 200px !important;
 
-  @media screen and (max-width: 1110px) {
+  @media screen and (max-width: 1200px) {
     width: 100px !important;
   }
 }

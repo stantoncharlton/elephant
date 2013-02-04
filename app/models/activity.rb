@@ -35,6 +35,7 @@ class Activity < ActiveRecord::Base
     JOB_CREATED = 100
 
     DOCUMENT_UPLOADED = 110
+    DATA_EDITED = 111
 
     JOB_MEMBER_ADDED = 120
 

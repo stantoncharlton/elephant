@@ -2,6 +2,12 @@
 
     <br>
 
+    <p class="activity-date tooltip-info pull-right"
+       data-placement="bottom"
+       data-title="<%= alert.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+      <%= time_ago_in_words(alert.created_at) %> ago
+    </p>
+
     <% if alert.alert_type == Alert::ADDED_TO_JOB %>
         <div class="alert-title">
           <%= image_tag "add_arrow.png" %>
