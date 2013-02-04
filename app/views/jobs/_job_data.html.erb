@@ -139,7 +139,7 @@
               </div>
           <% else %>
               <div class="job-field-div">
-                <p class="job-field-value2 unit-tooltip"
+                <p class="job-field-value2 <%= in_form ? "unit-tooltip" : "" %>"
                    data-placement="bottom"
                    data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
                   <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
