@@ -24,6 +24,8 @@
             <%= image_tag "user_avatar_note.png" %>
         <% elsif activity.activity_type == Activity::DOCUMENT_UPLOADED %>
             <%= image_tag "user_avatar_upload_document.png" %>
+        <% elsif activity.activity_type == Activity::DATA_EDITED %>
+            <%= image_tag "user_avatar_note.png" %>
         <% else %>
             <%= image_tag "user_avatar_default.png" %>
         <% end %>
@@ -69,6 +71,9 @@
           <% end %>
           <% if activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
               <p class="activity-message status-good">Job completed and approved to close</p>
+          <% end %>
+          <% if activity.activity_type == Activity::DATA_EDITED %>
+              <p class="activity-message"><%= activity.metadata %> changed</p>
           <% end %>
           <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
               <p class="activity-message">

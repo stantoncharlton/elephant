@@ -80,7 +80,13 @@ class DynamicFieldsController < ApplicationController
                 @dynamic_field.save
             end
 
-            Activity.add(current_user, Activity::DATA_EDITED, @dynamic_field, @dynamic_field.name, @dynamic_field.job)
+            activity = @dynamic_field.job.activity.limit(1).last
+            if activity != nil and (activity.created_at > 10.minutes.ago) and activity.activity_type == Activity::DATA_EDITED
+                activity.metadata += ", " + @dynamic_field.name
+                activity.save
+            else
+                Activity.add(current_user, Activity::DATA_EDITED, @dynamic_field, @dynamic_field.name, @dynamic_field.job)
+            end
         end
     end
 
