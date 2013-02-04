@@ -4,14 +4,38 @@
   <h1>Help</h1>
 </div>
 
-<div class="content">
+<div class="">
 
-  <% if current_user.company.admin.present? %>
-      <%= link_to current_user.company.admin, current_user.company.admin.name %>
-<% end %>
-  <% if current_user.company.support_email.present? %>
-      <p>Support Email
-        <%= link_to current_user.company.support_email, "mailto:" + current_user.company.support_email, class: "user-info-link" %>
-      </p>
-  <% end %>
+
+  <div class="content">
+    <h3><%= current_user.company.name %> Support</h3>
+    <hr>
+    <p><%= current_user.company.name %> IT and Tech support services are usually the best initial point of contact if there are questions about user accounts or job types.</p>
+    <p>They will be able to assist in setting up any information related to company procedures or documents.</p>
+    <p>Similarly, if there are questions on how to use the product please direct those to them.</p>
+    <% if current_user.company.support_email.present? %>
+        <%= link_to current_user.company.support_email, "mailto:" + current_user.company.support_email, class: "activity-user-link" %>
+    <% end %>
+
+  </div>
+
+
+  <br>
+
+  <div class="content">
+
+    <h3>Elephant Support</h3>
+    <hr>
+    <p>Elephant is dedicated to world class products and support. We stand behind our products and will work to resolve
+      any issues that may arise.</p>
+
+    <p>You may see new features released from time to time as our designers are hard at work on new features that aim to improve the core experience, improve efficiency, or just make your job easier. Don't worry, these are a normal part of making a product better and better.</p>
+    <p>If you have any questions, just reach out to us.</p>
+    <br>
+    <a href="mailto:support@go-elephant.com" class="activity-user-link">Support@go-elephant.com</a>
+    <br>
+    <b>+1 (512) 827-8496</b>
+    <br>
+  </div>
+
 </div>
