@@ -123,7 +123,7 @@
                 <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
                        class="job-field-value-editable custom-data-input tooltip-info"
                        data-placement="bottom" data-title="Field value, click to change"
-                       value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
+                       value="<%= dynamic_field.value.present? ? dynamic_field.value.to_f.round(3) : "-" %>">
 
                 <% if dynamic_field.value_type != 1 %>
                     <%= select_tag "Units",
@@ -132,6 +132,10 @@
                                    class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                                    "data-html" => false, "data-title" => "Units, click to change" %>
                 <% end %>
+
+                <div class="job-field-conversion">
+                  <p class="inline warning-text"><%= dynamic_field.get_user_conversion(@current_user) %></p>
+                </div>
               </div>
           <% else %>
               <div class="job-field-div">

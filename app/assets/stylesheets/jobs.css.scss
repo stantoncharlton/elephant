@@ -61,6 +61,17 @@
   margin-right: 0px;
 }
 
+.job-field-conversion {
+  display: block;
+  position: absolute;
+  margin-left: 80px;
+  margin-top: -33px;
+
+  p {
+    font-size: 10px;
+  }
+}
+
 .unitsSelect {
   width: 30px !important;
   font-size: 13px;

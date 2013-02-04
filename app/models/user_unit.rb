@@ -5,7 +5,10 @@ class UserUnit < ActiveRecord::Base
                   :pressure,
                   :rate,
                   :temperature,
-                  :volume
+                  :volume,
+                  :weight,
+                  :weight_casing,
+                  :weight_gradient
 
   belongs_to :user
 end

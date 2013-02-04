@@ -12,6 +12,7 @@
 
     <div class="page-header-small">
       <br>
+
       <h1>Emails</h1>
     </div>
 
@@ -23,109 +24,128 @@
 
     <div class="page-header-small">
       <br>
+
       <h1>Language and Time</h1>
     </div>
 
-    <div class="field">
-      <%= f.label :language, class: "field-title" %>
-      <%= f.select :language, options_for_select([["English", "en-US"], ["Spanish", "es-MX"]], @user.language),
-                   html: {class: "long-select"},
-                   default: "en-US" %>
-    </div>
+    <div class="content">
+      <div class="">
+        <%= f.label :language, class: "field-title" %>
+        <%= f.select :language, options_for_select([["English", "en-US"], ["Spanish", "es-MX"]], @user.language),
+                     html: {class: "long-select"},
+                     default: "en-US" %>
+      </div>
 
-    <div class="field">
-      <%= f.label :time_zone, class: "field-title" %>
-      <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.all,
-                             html: {class: "long-select"},
-                             default: "Central Time (US & Canada)" %>
+      <div class="">
+        <%= f.label :time_zone, class: "field-title" %>
+        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.all,
+                               html: {class: "long-select"},
+                               default: "Central Time (US & Canada)" %>
+      </div>
     </div>
 
     <div class="page-header-small">
-      <br><br>
-
+      <br>
       <h1>Units</h1>
     </div>
 
-    <div class="field">
-      <%= label_tag "Length Outer", "Length Outer", class: "field-title" %>
-      <%= select_tag "length_outer", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::LENGTH_FT)),
-                     html: {class: "long-select"},
-                     default: "english" %>
-
-      <div class="inline push-right">
-        <%= label_tag "Length Inner", "Length Inner", class: "field-title" %>
-        <%= select_tag "length_inner", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::LENGTH_IN)),
-                       html: {class: "long-select"},
+    <div class="content">
+      <div class="">
+        <%= label_tag nil, "Length OD", class: "field-title" %>
+        <%= select_tag "[user_unit][length_outer]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::LENGTH_FT),
+                                                                       @current_user.user_unit ? @current_user.user_unit.length_outer : nil),
+                       class: "units-default unit-select-long",
                        default: "english" %>
+
+        <div class="inline push-right">
+          <%= label_tag nil, "Length ID", class: "field-title" %>
+          <%= select_tag "[user_unit][length_inner]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::LENGTH_IN),
+                                                            @current_user.user_unit ? @current_user.user_unit.length_inner : nil),
+                         class: "units-default unit-select-long",
+                         default: "english" %>
+        </div>
       </div>
-    </div>
+
+      <br>
 
 
-
-    <div class="field">
-      <%= label_tag "Temperature", "Temperature", class: "field-title" %>
-      <%= select_tag "temperature", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::TEMPERATURE_F)),
-                     html: {class: "long-select"},
-                     default: "english" %>
-
-
-      <div class="inline push-right">
-        <%= label_tag "Pressure", "Pressure", class: "field-title" %>
-        <%= select_tag "pressure", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::PRESSURE_PSI)),
-                       html: {class: "long-select"},
+      <div class="">
+        <%= label_tag nil, "Temperature", class: "field-title" %>
+        <%= select_tag "[user_unit][temperature]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::TEMPERATURE_F),
+                                                         @current_user.user_unit ? @current_user.user_unit.temperature : nil),
+                       class: "units-default unit-select-long",
                        default: "english" %>
+
+
+        <div class="inline push-right">
+          <%= label_tag nil, "Pressure", class: "field-title" %>
+          <%= select_tag "[user_unit][pressure]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::PRESSURE_PSI),
+                                                        @current_user.user_unit ? @current_user.user_unit.pressure : nil),
+                         class: "units-default unit-select-long",
+                         default: "english" %>
+        </div>
       </div>
-    </div>
+
+      <br>
 
 
-
-    <div class="field">
-      <%= label_tag "Rate", "Rate", class: "field-title" %>
-      <%= select_tag "rate", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::RATE_BBLS)),
-                     html: {class: "long-select"},
-                     default: "english" %>
-
-
-      <div class="inline push-right">
-        <%= label_tag "Volume", "Volume", class: "field-title" %>
-        <%= select_tag "volume", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::VOLUME_BBLS)),
-                       html: {class: "long-select"},
+      <div class="">
+        <%= label_tag nil, "Rate", class: "field-title" %>
+        <%= select_tag "[user_unit][rate]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::RATE_BBLS),
+                                                  @current_user.user_unit ? @current_user.user_unit.rate : nil),
+                       class: "units-default unit-select-long",
                        default: "english" %>
+
+
+        <div class="inline push-right">
+          <%= label_tag nil, "Volume", class: "field-title" %>
+          <%= select_tag "[user_unit][volume]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::VOLUME_BBLS),
+                                                      @current_user.user_unit ? @current_user.user_unit.volume : nil),
+                         class: "units-default unit-select-long",
+                         default: "english" %>
+        </div>
       </div>
-    </div>
+
+      <br>
 
 
-
-
-    <div class="field">
-      <%= label_tag "Area", "Area", class: "field-title" %>
-      <%= select_tag "area", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::AREA_IN2)),
-                     html: {class: "long-select"},
-                     default: "english" %>
-
-
-      <div class="inline push-right">
-        <%= label_tag "Weight", "Weight", class: "field-title" %>
-        <%= select_tag "Weight", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::WEIGHT_LBS)),
-                       html: {class: "long-select"},
+      <div class="">
+        <%= label_tag nil, "Area", class: "field-title" %>
+        <%= select_tag "[user_unit][area]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::AREA_IN2),
+                                                  @current_user.user_unit ? @current_user.user_unit.area : nil),
+                       class: "units-default unit-select-long",
                        default: "english" %>
+
+
+        <div class="inline push-right">
+          <%= label_tag nil, "Weight", class: "field-title" %>
+          <%= select_tag "[user_unit][weight]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::WEIGHT_LBS),
+                                                                   @current_user.user_unit ? @current_user.user_unit.weight : nil),
+                         class: "units-default unit-select-long",
+                         default: "english" %>
+        </div>
       </div>
-    </div>
+
+      <br>
 
 
-    <div class="field">
-      <%= label_tag "Pipe Weight", "Pipe Weight", class: "field-title" %>
-      <%= select_tag "Weight", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::WEIGHT_PPF)),
-                     html: {class: "long-select"},
-                     default: "english" %>
-
-
-      <div class="inline push-right">
-        <%= label_tag "Liquid Weight", "Liquid Weight", class: "field-title" %>
-        <%= select_tag "Weight", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::WEIGHT_PPG)),
-                       html: {class: "long-select"},
+      <div class="">
+        <%= label_tag nil, "Casing Weight", class: "field-title" %>
+        <%= select_tag "[user_unit][weight_casing]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::WEIGHT_PPF),
+                                                                        @current_user.user_unit ? @current_user.user_unit.weight_casing : nil),
+                       class: "units-default unit-select-long",
                        default: "english" %>
+
+
+        <div class="inline push-right">
+          <%= label_tag nil, "Pressure Gradient", class: "field-title" %>
+          <%= select_tag "[user_unit][weight_gradient]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::WEIGHT_GRADIENT_PSIF),
+                                                                            @current_user.user_unit ? @current_user.user_unit.weight_gradient : nil),
+                         class: "units-default unit-select-long",
+                         default: "english" %>
+        </div>
       </div>
+
     </div>
 
     <br><br>

@@ -14,6 +14,12 @@ class SettingsController < ApplicationController
             @user.update_attribute(:language, params[:user][:language])
             @user.update_attribute(:time_zone, params[:user][:time_zone])
 
+            if !@user.user_unit
+                @user.user_unit = UserUnit.new
+            end
+
+            @user.user_unit.update_attributes(params[:user_unit])
+
             flash[:success] = "Settings updated"
             render "edit"
         end

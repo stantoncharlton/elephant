@@ -46,10 +46,21 @@ $ ->
   $('.custom-data-input').click ->
     $(this).select()
 
+  $('.custom-data-input').keyup ->
+    conversion = $(this).closest('.job-field-div').find('.job-field-conversion')
+    if conversion
+      conversion.remove()
+
   $('.custom-data-input').change ->
+    conversion = $(this).closest('.job-field-div').find('.job-field-conversion')
+    if conversion
+      conversion.remove()
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_", "") + '?value=' + $(this).val(), type: 'put', dataType: 'script'
 
   $('.unitsSelect').change ->
+    conversion = $(this).closest('.job-field-div').find('.job-field-conversion')
+    if conversion
+      conversion.remove()
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_unit_", "") + '?unit=' + $(this).val(), type: 'put', dataType: 'script'
 
 

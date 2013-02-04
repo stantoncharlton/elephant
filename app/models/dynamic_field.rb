@@ -16,7 +16,7 @@ class DynamicField < ActiveRecord::Base
 
     #before_save :value_or_attachment
 
-    belongs_to :job_template#, :conditions => ['dynamic_fields.template = ?', true]
+    belongs_to :job_template #, :conditions => ['dynamic_fields.template = ?', true]
     belongs_to :dynamic_field_template, class_name: "DynamicField"
     belongs_to :job
     belongs_to :company
@@ -59,6 +59,12 @@ class DynamicField < ActiveRecord::Base
     WEIGHT_PPF = 85
     WEIGHT_KGM = 86
 
+    WEIGHT_GRADIENT_PSIF = 90
+    WEIGHT_GRADIENT_PSIM = 91
+    WEIGHT_GRADIENT_SGF = 92
+    WEIGHT_GRADIENT_SGM = 93
+
+
 
     def value
         storage_value_type = get_storage_value_type(read_attribute(:value_type))
@@ -83,8 +89,7 @@ class DynamicField < ActiveRecord::Base
         # Change value in DB if unit changed to non-default
         if storage_value_type != value_type
             write_attribute(:value, convert(current_value, value_type.to_i, storage_value_type))
-        elsif
-            write_attribute(:value, current_value)
+        elsif write_attribute(:value, current_value)
         end
     end
 
@@ -101,150 +106,180 @@ class DynamicField < ActiveRecord::Base
         value = value.to_f
 
         case value_type
-            when LENGTH
-                value
             when LENGTH_FT
                 case new_value_type
                     when LENGTH_IN
                         value * 12
                     when LENGTH_M
-                        value / 3 # Needs Fixed
+                        value * 0.3048
                     when LENGTH_CM
-                        (value / 3) * 10 # Needs Fixed
+                        value * 30.48
                 end
             when LENGTH_IN
                 case new_value_type
                     when LENGTH_FT
                         value / 12
                     when LENGTH_M
-                        (value * 12) / 3 # Needs Fixed
+                        value * 0.0254
                     when LENGTH_CM
-                        (value / 3) * 10 # Needs Fixed
+                        value * 2.54
                 end
             when LENGTH_M
                 case new_value_type
                     when LENGTH_FT
-                        value * 3
+                        value * 3.28084
                     when LENGTH_IN
-                        (value * 3) / 12 # Needs Fixed
+                        value * 39.3701
                     when LENGTH_CM
-                        value * 10 # Needs Fixed
+                        value * 100
                 end
             when LENGTH_CM
                 case new_value_type
                     when LENGTH_FT
-                        (value * 10) * 3
+                        value * 0.0328084
                     when LENGTH_IN
-                        (value * 3) / 12 # Needs Fixed
+                        value * 0.393701
                     when LENGTH_M
-                        value / 10 # Needs Fixed
+                        value * 0.01
                 end
-            when LENGTH_MM
-                0
-            when TEMPERATURE
-                ""
             when TEMPERATURE_F
                 case new_value_type
                     when TEMPERATURE_C
-                        value / 2
+                        (value - 32) / 1.8
                 end
             when TEMPERATURE_C
                 case new_value_type
                     when TEMPERATURE_F
-                        value * 2
+                        (value * 1.8) + 32
                 end
-            when PRESSURE
-                ""
             when PRESSURE_PSI
                 case new_value_type
                     when PRESSURE_MPA
-                        value / 4
+                        value * 0.00689475728
                     when PRESSURE_PAS
-                        value / 2
+                        value * 6894.75729
                 end
             when PRESSURE_MPA
                 case new_value_type
                     when PRESSURE_PSI
-                        value * 4
+                        value * 145.0377
                     when PRESSURE_PAS
-                        value * 2
+                        value * 1000000
                 end
             when PRESSURE_PAS
                 case new_value_type
                     when PRESSURE_PSI
-                        value * 2
+                        value * 0.000145037738
                     when PRESSURE_MPA
-                        value / 2
+                        value * 0.000001
                 end
             when RATE_BBLS
                 case new_value_type
                     when RATE_M3
-                        value * 2
+                        value * 0.158987
                 end
             when RATE_M3
                 case new_value_type
                     when RATE_BBLS
-                        value / 2
+                        value * 6.28981
                 end
             when VOLUME_BBLS
                 case new_value_type
                     when VOLUME_M3
-                        value * 2
+                        value * 0.158987
                 end
             when VOLUME_M3
                 case new_value_type
                     when VOLUME_BBLS
-                        value / 2
+                        value * 6.28981
                 end
             when AREA_IN2
                 case new_value_type
                     when AREA_CM2
-                        value * 2
+                        value * 6.4516
                 end
             when AREA_CM2
                 case new_value_type
                     when AREA_IN2
-                        value / 2
+                        value * 0.1550031
                 end
             when WEIGHT_LBS
                 case new_value_type
                     when WEIGHT_KG
-                        value / 2
+                        value * 0.453592
                 end
             when WEIGHT_KG
                 case new_value_type
                     when WEIGHT_LBS
-                        value * 2
+                        value * 2.20462
                 end
             when WEIGHT_PPG
                 case new_value_type
                     when WEIGHT_SG
-                        value
+                        value / 8.34
                 end
             when WEIGHT_SG
                 case new_value_type
                     when WEIGHT_PPG
-                        value
+                        value * 8.34
                 end
             when WEIGHT_PPF
                 case new_value_type
                     when WEIGHT_KGM
-                        value
+                        (value *0.4535) / 0.3548
                 end
             when WEIGHT_KGM
                 case new_value_type
                     when WEIGHT_PPF
+                        (value / 0.4535) * 0.3048
+                end
+            when WEIGHT_GRADIENT_PSIF
+                case new_value_type
+                    when WEIGHT_GRADIENT_PSIM
+                        value
+                    when WEIGHT_GRADIENT_SGF
+                        value / 8.34
+                    when WEIGHT_GRADIENT_SGM
+                        (value / 8.34) / 0.3048
+                end
+            when WEIGHT_GRADIENT_PSIM
+                case new_value_type
+                    when WEIGHT_GRADIENT_PSIF
+                        value / 3.28084
+                    when WEIGHT_GRADIENT_SGF
+                        value
+                    when WEIGHT_GRADIENT_SGM
+                        value
+                end
+            when WEIGHT_GRADIENT_SGF
+                case new_value_type
+                    when WEIGHT_GRADIENT_PSIF
+                        value * 8.34
+                    when WEIGHT_GRADIENT_PSIM
+                        value
+                    when WEIGHT_GRADIENT_SGM
+                        value
+                end
+            when WEIGHT_GRADIENT_SGM
+                case new_value_type
+                    when WEIGHT_GRADIENT_PSIF
+                        (value * 8.34) / 3.28084
+                    when WEIGHT_GRADIENT_PSIM
+                        value
+                    when WEIGHT_GRADIENT_SGF
                         value
                 end
         end
     end
 
     def value_type_unit
+        get_value_type_unit(self.value_type)
+    end
 
-        case self.value_type
+    def get_value_type_unit(value_type)
+
+        case value_type
             when STRING
-                ""
-            when LENGTH
                 ""
             when LENGTH_FT
                 "ft"
@@ -256,14 +291,10 @@ class DynamicField < ActiveRecord::Base
                 "cm"
             when LENGTH_MM
                 "mm"
-            when TEMPERATURE
-                ""
             when TEMPERATURE_F
                 "f°"
             when TEMPERATURE_C
                 "c°"
-            when PRESSURE
-                ""
             when PRESSURE_PSI
                 "psi"
             when PRESSURE_MPA
@@ -294,94 +325,83 @@ class DynamicField < ActiveRecord::Base
                 "lbs/ft"
             when WEIGHT_KGM
                 "kg/m"
+            when WEIGHT_GRADIENT_PSIF
+                "psi/ft"
+            when WEIGHT_GRADIENT_PSIM
+                "psi/m"
+            when WEIGHT_GRADIENT_SGF
+                "sg/ft"
+            when WEIGHT_GRADIENT_SGM
+                "sg/m"
         end
     end
 
     def value_type_unit_full
+        get_value_type_unit_full(self.value_type)
+    end
 
-        case self.value_type
+    def get_value_type_unit_full(value_type)
+
+        case value_type
             when STRING
                 ""
-            when LENGTH
-                ""
             when LENGTH_FT
-                "Length | Feet"
+                "Feet"
             when LENGTH_IN
-                "Length | Inches"
+                "Inches"
             when LENGTH_M
-                "Length | Meters"
+                "Meters"
             when LENGTH_CM
-                "Length | Centimeters"
+                "Centimeters"
             when LENGTH_MM
-                "Length | Millimeters"
-            when TEMPERATURE
-                ""
+                "Millimeters"
             when TEMPERATURE_F
-                "Temperature | Fahrenheit"
+                "Fahrenheit"
             when TEMPERATURE_C
-                "Temperature | Celsius"
-            when PRESSURE
-                ""
+                "Celsius"
             when PRESSURE_PSI
-                "Pressure | PSI"
+                "PSI"
             when PRESSURE_MPA
-                "Pressure | MegaPascals"
+                "MegaPascals"
             when PRESSURE_PAS
-                "Pressure | Pascals"
+                "Pascals"
             when RATE_BBLS
-                "Rate | Barrels per Minute"
+                "Barrels per Minute"
             when RATE_M3
-                "Rate | Meters Cubed per Minute"
+                "Meters Cubed per Minute"
             when VOLUME_BBLS
-                "Volume | Barrels"
+                "Barrels"
             when VOLUME_M3
-                "Volume | Meters Cubed"
+                "Meters Cubed"
             when AREA_IN2
-                "Area | Square Inches"
+                "Inches Squared"
             when AREA_CM2
-                "Area | Square Centimeters"
+                "Centimeters Squared"
             when WEIGHT_LBS
-                "Weight | Pounds"
+                "Pounds"
             when WEIGHT_KG
-                "Weight | Kilograms"
+                "Kilograms"
             when WEIGHT_PPG
-                "Weight | Pounds per Gallon"
+                "Pounds per Gallon"
             when WEIGHT_SG
-                "Weight | Specific Gravity"
+                "Specific Gravity"
             when WEIGHT_PPF
-                "Weight | Pounds per Foot"
+                "Pounds per Foot"
             when WEIGHT_KGM
-                "Weight | Kilograms per Meter"
+                "Kilograms per Meter"
+            when WEIGHT_GRADIENT_PSIF
+                "PSI per Foot"
+            when WEIGHT_GRADIENT_PSIM
+                "PSI per Meter"
+            when WEIGHT_GRADIENT_SGF
+                "Specific Gravity per Foot"
+            when WEIGHT_GRADIENT_SGM
+                "Specific Gravity per Meter"
         end
     end
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")
-    end
-
-    def value_type_label
-        get_value_type_label(self.value_type)
-    end
-
-    def get_value_type_label(type)
-        case type
-            when STRING
-                "String"
-            when LENGTH
-                "Length: ft | in | m | cm"
-            when TEMPERATURE
-                "Temperature: f | c"
-            when PRESSURE
-                "Pressure: psi | Mpa | Pas"
-            when RATE
-                "Rate: bbls/min | m^3/min"
-            when VOLUME
-                "Volume: bbls | m^3"
-            when AREA
-                "Area: in^2 | cm^2"
-            when WEIGHT
-                "Weight: lbs | kg | ppg | sq | lbs/ft | kg/m"
-        end
     end
 
     def units
@@ -408,8 +428,12 @@ class DynamicField < ActiveRecord::Base
         units << ["Weight | Kilogram", WEIGHT_KG]
         units << ["Weight | Pounds per Gallon", WEIGHT_PPG]
         units << ["Weight | Specific Gravity", WEIGHT_SG]
-        units << ["Weight | Pounds per Foot", WEIGHT_PPF]
-        units << ["Weight | Kilograms per Meter", WEIGHT_KGM]
+        units << ["Weight - Casing | Pounds per Foot", WEIGHT_PPF]
+        units << ["Weight - Casing | Kilograms per Meter", WEIGHT_KGM]
+        units << ["Weight - Gradient | PSI per Foot", WEIGHT_GRADIENT_PSIF]
+        units << ["Weight - Gradient | PSI per Meter", WEIGHT_GRADIENT_PSIM]
+        units << ["Weight - Gradient | Specific Gravity per Foot", WEIGHT_GRADIENT_PSIF]
+        units << ["Weight - Gradient | Specific Gravity per Meter", WEIGHT_GRADIENT_PSIF]
 
         units
     end
@@ -457,6 +481,11 @@ class DynamicField < ActiveRecord::Base
             when WEIGHT_PPF, WEIGHT_KGM
                 units << ["lb/ft", WEIGHT_PPF]
                 units << ["kg/m", WEIGHT_KGM]
+            when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
+                units << ["psi/ft", WEIGHT_GRADIENT_PSIF]
+                units << ["psi/m", WEIGHT_GRADIENT_PSIM]
+                units << ["sg/ft", WEIGHT_GRADIENT_SGF]
+                units << ["sg/m", WEIGHT_GRADIENT_SGM]
         end
 
         units
@@ -497,6 +526,11 @@ class DynamicField < ActiveRecord::Base
             when WEIGHT_PPF, WEIGHT_KGM
                 units << ["Pounds per Foot", WEIGHT_PPF]
                 units << ["Kilograms per Meter", WEIGHT_KGM]
+            when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
+                units << ["PSI per Foot", WEIGHT_GRADIENT_PSIF]
+                units << ["PSI per Meter", WEIGHT_GRADIENT_PSIM]
+                units << ["Specific Gravity per Foot", WEIGHT_GRADIENT_SGF]
+                units << ["Specific Gravity per Meter", WEIGHT_GRADIENT_SGM]
         end
 
         units
@@ -524,8 +558,51 @@ class DynamicField < ActiveRecord::Base
                 WEIGHT_PPG
             when WEIGHT_PPF, WEIGHT_KGM
                 WEIGHT_PPF
+            when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
+                WEIGHT_GRADIENT_PSIF
         end
     end
+
+
+    def get_user_conversion(user)
+
+        if user.user_unit
+            user_value_type = LENGTH
+
+            case self.value_type
+                when LENGTH_FT, LENGTH_M
+                    user_value_type = user.user_unit.length_outer
+                when LENGTH_IN, LENGTH_CM
+                    user_value_type = user.user_unit.length_inner
+                when TEMPERATURE_F, TEMPERATURE_C
+                    user_value_type = user.user_unit.temperature
+                when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+                    user_value_type = user.user_unit.pressure
+                when RATE_BBLS, RATE_M3
+                    user_value_type = user.user_unit.rate
+                when VOLUME_BBLS, VOLUME_M3
+                    user_value_type = user.user_unit.volume
+                when AREA_IN2, AREA_CM2
+                    user_value_type = user.user_unit.area
+                when WEIGHT_LBS, WEIGHT_KG
+                    user_value_type = user.user_unit.weight
+                when WEIGHT_PPG, WEIGHT_SG
+                    user_value_type = user.user_unit.weight_casing
+                when WEIGHT_PPF, WEIGHT_KGM
+                    user_value_type = user.user_unit.weight_density
+            end
+
+            if user_value_type != nil and user_value_type != self.value_type
+                value = self.value
+                if value.to_f != 0
+                    return "(" + convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + get_value_type_unit(user_value_type).to_s + ")"
+                end
+            end
+        end
+
+        ""
+    end
+
 
     private
 
