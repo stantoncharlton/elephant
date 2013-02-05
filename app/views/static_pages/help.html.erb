@@ -14,6 +14,7 @@
     <p>They will be able to assist in setting up any information related to company procedures or documents.</p>
     <p>Similarly, if there are questions on how to use the product please direct those questions to them.</p>
     <% if current_user.company.support_email.present? %>
+        <br>
         <%= link_to current_user.company.support_email, "mailto:" + current_user.company.support_email, class: "activity-user-link" %>
     <% end %>
 
