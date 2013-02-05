@@ -2,7 +2,7 @@ class Client < ActiveRecord::Base
     attr_accessible :name
 
     validates :name, presence: true, length: {maximum: 50}
-    validates_uniqueness_of :name, :case_sensitive => false
+    validates_uniqueness_of :name, :case_sensitive => false, scope: :company_id
     validates :company, presence: true
 
     belongs_to :company

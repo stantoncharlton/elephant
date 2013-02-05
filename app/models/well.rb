@@ -22,7 +22,7 @@ class Well < ActiveRecord::Base
 
 
     validates :name, presence: true, length: {maximum: 50}
-    validates_uniqueness_of :name, :case_sensitive => false
+    validates_uniqueness_of :name, :case_sensitive => false, scope: :field_id
     validates :company, presence: true
     validates :field, presence: true
 

@@ -12,7 +12,7 @@
     <hr>
     <p><%= current_user.company.name %> IT and Tech support services are usually the best initial point of contact if there are questions about user accounts or job types.</p>
     <p>They will be able to assist in setting up any information related to company procedures or documents.</p>
-    <p>Similarly, if there are questions on how to use the product please direct those to them.</p>
+    <p>Similarly, if there are questions on how to use the product please direct those questions to them.</p>
     <% if current_user.company.support_email.present? %>
         <%= link_to current_user.company.support_email, "mailto:" + current_user.company.support_email, class: "activity-user-link" %>
     <% end %>

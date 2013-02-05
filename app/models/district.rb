@@ -11,7 +11,7 @@ class District < ActiveRecord::Base
                     :support_email
 
     validates :name, presence: true, length: {maximum: 50}
-    validates_uniqueness_of :name, :case_sensitive => false
+    validates_uniqueness_of :name, :case_sensitive => false, scope: :company_id
     validates :company, presence: true
     validates :country, presence: true
 

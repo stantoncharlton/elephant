@@ -2,7 +2,7 @@ class Field < ActiveRecord::Base
     attr_accessible :name
 
     validates :name, presence: true, length: {maximum: 50}
-    validates_uniqueness_of :name, :case_sensitive => false
+    validates_uniqueness_of :name, :case_sensitive => false, scope: :district_id
     validates :company, presence: true
     validates :district, presence: true
 
