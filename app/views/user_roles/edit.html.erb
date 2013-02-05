@@ -6,11 +6,13 @@
 
 <%= form_for(@role) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Save Role", class: "bluebtn pull-right" %>
+    <%= f.submit "Save Role", class: "bluebtn pull-right tooltip-info",
+                 "data-title" => "Save role and return to all roles"%>
 <% end %>
 
 
 <% if signed_in_admin? %>
     <%= link_to "Delete Role", @role, method: :delete,
-                data: {confirm: "Delete Role " + @role.title + "?"}, class: "bluebtn red pull-right-button" %>
+                data: {confirm: "Delete Role " + @role.title + "?"}, class: "bluebtn red pull-right-button tooltip-info",
+                "data-title" => "Permanently delete user role. Warning, this can't be undone. This will cause users with these privileges to stop working."%>
 <% end %>

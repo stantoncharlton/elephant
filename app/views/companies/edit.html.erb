@@ -1,5 +1,8 @@
 <% provide(:title, "Update Company") %>
-<h1>Update Company</h1>
+
+<div class="page_header">
+  <h1><%= @company.name %> Info</h1>
+</div>
 
 <%= form_for(@company) do |f| %>
     <%= render 'fields', f: f %>
