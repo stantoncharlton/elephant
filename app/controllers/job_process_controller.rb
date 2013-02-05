@@ -20,6 +20,9 @@ class JobProcessController < ApplicationController
         @supervisor = @job.supervisor
         @creator = @job.creator
 
+        participant = @job.job_memberships.find { |p| p.user_id == current_user.id }
+        @is_supervisor_or_creator = participant.job_role_id == JobMembership::CREATOR || participant.job_role_id == JobMembership::SUPERVISOR
+
         mail_to = nil
 
         if !@supervisor.nil?
@@ -66,13 +69,18 @@ class JobProcessController < ApplicationController
 
         if !@job.pre_job_data_good
             render :nothing => true, :status => :ok
+            return
         end
 
         @supervisor = @job.supervisor
         @creator = @job.creator
 
-        if !current_user?(@supervisor) and !current_user?(@creator)
+        participant = @job.job_memberships.find { |p| p.user_id == current_user.id }
+        @is_supervisor_or_creator = participant.job_role_id == JobMembership::CREATOR || participant.job_role_id == JobMembership::SUPERVISOR
+
+        if !@is_supervisor_or_creator
             render :nothing => true, :status => :ok
+            return
         end
 
         @user = current_user
