@@ -15,19 +15,34 @@
   </tr>
 
   <tr>
+    <% if job.approved_to_close %>
+    <% elsif job.approved_to_ship %>
+        <div class="progress progress-success progress-striped">
+          <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+        </div>
+    <% else %>
+        <div class="progress progress-info progress-striped">
+          <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+        </div>
+    <% end %>
+  </tr>
+  <tr>
     <td class="job-email-td-title">
       <p class="job-field-title inline"><%= t "jobs.job_data.status" %></p>
     </td>
 
     <td class="job-email-td">
+
       <% if job.approved_to_close %>
-          <p class="job-field-value inline"><%= t "jobs.job_data.status_complete" %></p>
+          <p class="job-field-value"><%= job.status %></p>
       <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
-          <h3 class="job-field-value status-good inline"><%= t "jobs.job_data.status_post_job" %></h3>
-      <% elsif job.approved_to_ship %>
-          <h3 class="job-field-value status-good inline"><%= t "jobs.job_data.status_in_field" %></h3>
+          <div class="status-box-good status-box-closing">
+            <p class=""><%= job.status %></p>
+          </div>
       <% else %>
-          <h3 class="job-field-value status-good inline"><%= t "jobs.job_data.status_pre_job" %></h3>
+          <div class="status-box-good">
+            <p class=""><%= job.status %></p>
+          </div>
       <% end %>
     </td>
   </tr>

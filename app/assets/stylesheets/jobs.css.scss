@@ -229,6 +229,26 @@
   color: #2fad1e;
 }
 
+.status-box-good {
+  display: inline-block;
+  background: #2fad1e;
+  padding: 0px 25px 0px 25px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+  font-size: 13px;
+  font-weight: bold;
+
+  margin-bottom: 5px;
+
+  p {
+    margin-top: 6px;
+  }
+}
+
+.status-box-closing {
+  background: #0058a8;
+}
+
 .custom-data-toggle {
   color: #0058a8;
   font-weight: bold;

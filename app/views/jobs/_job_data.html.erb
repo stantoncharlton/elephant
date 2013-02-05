@@ -44,12 +44,30 @@
 </div>
 
 <div class="">
+
+  <% if job.approved_to_close %>
+  <% elsif job.approved_to_ship %>
+      <div class="progress progress-success progress-striped">
+        <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+      </div>
+  <% else %>
+      <div class="progress progress-info progress-striped">
+        <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+      </div>
+  <% end %>
+
   <p class="job-field-title"><%= t ".status" %></p>
 
   <% if job.approved_to_close %>
       <p class="job-field-value"><%= job.status %></p>
+  <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
+      <div class="status-box-good status-box-closing">
+        <p class=""><%= job.status %></p>
+      </div>
   <% else %>
-      <h3 class="job-field-value status-good"><%= job.status %></h3>
+      <div class="job-field-value">
+        <p class=""><%= job.status %></p>
+      </div>
   <% end %>
 </div>
 
@@ -182,11 +200,11 @@
   <p class="job-field-title"><%= t ".start_date" %></p>
 
   <% if form_editable %>
-      <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : "-" %>"
+      <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
              id="job_start_date_<%= job.id.to_s %>"
-             class="job-field-value-editable job-start-date" >
+             class="job-field-value-editable job-start-date">
   <% else %>
-      <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : "-" %></p>
+      <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
   <% end %>
 </div>
 

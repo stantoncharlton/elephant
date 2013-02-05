@@ -1,3 +1,4 @@
+
 <div class="content">
   <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 </div>
@@ -39,200 +40,203 @@
 
 
 <div>
-  <div class="content">
-    <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
-       data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %></a>
+<div class="content">
+  <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
+     data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %>
+    (<%= @job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and !field.dynamic_field_template.priority? }.count.to_s %>
+    )</a>
 
-    <% if params["new"].present? and params["new"] == "true" %>
-        <div class="well well-large" id="custom_data">
-    <% else %>
-        <div class="custom-data-closed well well-large" id="custom_data">
+  <% if params["new"].present? and params["new"] == "true" %>
+      <div class="well well-large" id="custom_data">
+  <% else %>
+      <div class="custom-data-closed well well-large" id="custom_data">
+  <% end %>
+
+  <div>
+    <b><%= @job.job_template.name %></b>
+    <% if !@job.job_template.description.empty? %>
+        <p><%= @job.job_template.description %></p>
     <% end %>
+    <br>
+  </div>
 
-    <div>
-      <b><%= @job.job_template.name %></b>
-      <% if !@job.job_template.description.empty? %>
-          <p><%= @job.job_template.description %></p>
+  <% @job.dynamic_fields.sort_by { |e| e.order || 0 }.each do |df| %>
+      <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
+          <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name %>"><%= df.dynamic_field_template.name %></p>
+          <% if @job_editable %>
+              <div class="job-field-div">
+                <input id="dynamic_field_<%= df.id %>" type="text"
+                       placeholder="-"
+                       class="job-field-value-editable custom-data-input tooltip-info"
+                       data-placement="bottom" data-title="Field value, click to change"
+                       value="<%= df.value %>">
+
+                <% if df.value_type != 1 %>
+                    <%= select_tag "Units",
+                                   options_for_select(df.unit_options, df.value_type),
+                                   id: "dynamic_field_unit_" + df.id.to_s,
+                                   class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                                   "data-html" => false, "data-title" => "Units, click to change" %>
+                <% end %>
+
+                <div class="job-field-conversion">
+                  <p class="inline warning-text"><%= df.get_user_conversion(@current_user, true) %></p>
+                </div>
+
+              </div>
+          <% else %>
+              <div class="job-field-div">
+
+                <p class="job-field-value2 unit-tooltip"
+                   data-placement="bottom"
+                   data-title="<%= df.value.present? ? df.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+                  <%= df.value.present? ? df.get_user_conversion(@current_user, false, true) : "-" %>
+                </p>
+              </div>
+          <% end %>
       <% end %>
-      <br>
-    </div>
-
-    <% @job.dynamic_fields.sort_by { |e| e.order || 0 }.each do |df| %>
-        <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
-            <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name %>"><%= df.dynamic_field_template.name %></p>
-            <% if @job_editable %>
-                <div class="job-field-div">
-                  <input id="dynamic_field_<%= df.id %>" type="text"
-                         placeholder="-"
-                         class="job-field-value-editable custom-data-input tooltip-info"
-                         data-placement="bottom" data-title="Field value, click to change"
-                         value="<%= df.value %>">
-
-                  <% if df.value_type != 1 %>
-                      <%= select_tag "Units",
-                                     options_for_select(df.unit_options, df.value_type),
-                                     id: "dynamic_field_unit_" + df.id.to_s,
-                                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                                     "data-html" => false, "data-title" => "Units, click to change" %>
-                  <% end %>
-
-                  <div class="job-field-conversion">
-                    <p class="inline warning-text"><%= df.get_user_conversion(@current_user, true) %></p>
-                  </div>
-
-                </div>
-            <% else %>
-                <div class="job-field-div">
-
-                  <p class="job-field-value2 unit-tooltip"
-                     data-placement="bottom"
-                     data-title="<%= df.value.present? ? df.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
-                    <%= df.value.present? ? df.get_user_conversion(@current_user, false, true) : "-" %>
-                  </p>
-                </div>
-            <% end %>
-        <% end %>
-    <% end %>
-    </div>
-    </div>
+  <% end %>
   </div>
-
-  <div id="process_actions" class="">
-
-    <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
-        <%= render 'job_process/job_shipped', job_process: job_process %>
-    <% end %>
-    <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
-        <%= render 'job_process/job_closed', job_process: job_process %>
-    <% end %>
   </div>
+</div>
 
-  <div class="page_header">
-    <h1><%= t ".documents" %></h1>
 
+<div id="process_actions" class="">
+
+  <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
+      <%= render 'job_process/job_shipped', job_process: job_process %>
+  <% end %>
+  <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
+      <%= render 'job_process/job_closed', job_process: job_process %>
+  <% end %>
+</div>
+
+<div class="page_header">
+  <h1><%= t ".documents" %></h1>
+
+  <% if @job_editable %>
+      <div class="pull-right">
+        <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
+                    remote: true,
+                    class: "add-custom-document tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Add new custom document not part of original job documents" %>
+      </div>
+  <% end %>
+</div>
+
+<% if @field_bulletin_documents.any? %>
+    <h3 class="document-section-header"><%= t ".notices" %></h3>
+
+    <div class="content" id="documents3">
+      <% @field_bulletin_documents.each do |d| %>
+          <%= render 'documents/document', document: d, editable: false, can_upload: false %>
+      <% end %>
+    </div>
+<% end %>
+
+<% if @pre_job_documents.all? { |d| d.url.present? } %>
+    <h3 class="document-section-header status-good"><%= t ".pre_job" %></h3>
+<% else %>
+    <h3 class="document-section-header"><%= t ".pre_job" %></h3>
+<% end %>
+<div class="content" id="documents">
+  <% @pre_job_documents.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+  <% end %>
+</div>
+
+<% if @post_job_documents.all? { |d| d.url.present? } %>
+    <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>
+<% else %>
+    <h3 class="document-section-header"><%= t ".post_job" %></h3>
+<% end %>
+<div class="content" id="documents2">
+  <% @post_job_documents.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+  <% end %>
+</div>
+
+
+<div class="page_header">
+  <h1><%= t ".notes" %></h1>
+</div>
+<div class="content">
+  <div class="field">
     <% if @job_editable %>
-        <div class="pull-right">
-          <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
-                      remote: true,
-                      class: "add-custom-document tooltip-info",
-                      "data-placement" => "left",
-                      "data-title" => "Add new custom document not part of original job documents" %>
+        <%= form_for(@job_note, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
+            <div class="new-product-line">
+              <%= f.hidden_field :job_id, value: @job.id %>
+              <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
+
+              <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
+                              class: "txtfield job-notes-text tooltip-info", autofocus: false,
+                              id: "new_note_id",
+                              "data-placement" => "bottom",
+                              "data-title" => "Note/Action text" %>
+
+              <div class="job-note-options">
+                <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2], [I18n.t("job_note_types.problem"), 3]]),
+                             {},
+                             class: "job-note-type tooltip-info",
+                             "data-placement" => "right",
+                             "data-title" => "Type of note" %>
+                <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                                   placeholder: I18n.t("jobs.show.new_assign_prompt"),
+                                   id: "new_note_name",
+                                   class: "txtfield job-note-assign custom-data-input tooltip-info",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Name of person assigned this note" %>
+              </div>
+
+              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Add new note/action" %>
+
+
+            </div>
+        <% end %>
+    <% elsif @job.job_notes.empty? %>
+        <div class="no-alerts">
+          <p class="center"><%= t ".no_notes" %></p>
         </div>
     <% end %>
   </div>
-
-  <% if @field_bulletin_documents.any? %>
-      <h3 class="document-section-header"><%= t ".notices" %></h3>
-
-      <div class="content" id="documents3">
-        <% @field_bulletin_documents.each do |d| %>
-            <%= render 'documents/document', document: d, editable: false, can_upload: false %>
-        <% end %>
-      </div>
+</div>
+<div id="job_notes" class="content">
+  <% @job.job_notes.each do |job_note| %>
+      <%= render 'job_notes/job_note', job_note: job_note %>
   <% end %>
-
-  <% if @pre_job_documents.all? { |d| d.url.present? } %>
-      <h3 class="document-section-header status-good"><%= t ".pre_job" %></h3>
-  <% else %>
-      <h3 class="document-section-header"><%= t ".pre_job" %></h3>
-  <% end %>
-  <div class="content" id="documents">
-    <% @pre_job_documents.each do |d| %>
-        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-    <% end %>
-  </div>
-
-  <% if @post_job_documents.all? { |d| d.url.present? } %>
-      <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>
-  <% else %>
-      <h3 class="document-section-header"><%= t ".post_job" %></h3>
-  <% end %>
-  <div class="content" id="documents2">
-    <% @post_job_documents.each do |d| %>
-        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-    <% end %>
-  </div>
-
-
-  <div class="page_header">
-    <h1><%= t ".notes" %></h1>
-  </div>
-  <div class="content">
-    <div class="field">
-      <% if @job_editable %>
-          <%= form_for(@job_note, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
-              <div class="new-product-line">
-                <%= f.hidden_field :job_id, value: @job.id %>
-                <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
-
-                <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
-                                class: "txtfield job-notes-text tooltip-info", autofocus: false,
-                                id: "new_note_id",
-                                "data-placement" => "bottom",
-                                "data-title" => "Note/Action text" %>
-
-                <div class="job-note-options">
-                  <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2], [I18n.t("job_note_types.problem"), 3]]),
-                               {},
-                               class: "job-note-type tooltip-info",
-                               "data-placement" => "right",
-                               "data-title" => "Type of note" %>
-                  <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                                     placeholder: I18n.t("jobs.show.new_assign_prompt"),
-                                     id: "new_note_name",
-                                     class: "txtfield job-note-assign custom-data-input tooltip-info",
-                                     "data-placement" => "bottom",
-                                     "data-title" => "Name of person assigned this note" %>
-                </div>
-
-                <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right tooltip-info",
-                             "data-placement" => "bottom",
-                             "data-title" => "Add new note/action" %>
-
-
-              </div>
-          <% end %>
-      <% elsif @job.job_notes.empty? %>
-          <div class="no-alerts">
-            <p class="center"><%= t ".no_notes" %></p>
-          </div>
-      <% end %>
-    </div>
-  </div>
-  <div id="job_notes" class="content">
-    <% @job.job_notes.each do |job_note| %>
-        <%= render 'job_notes/job_note', job_note: job_note %>
-    <% end %>
-  </div>
+</div>
 
 
 
-  <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
+<%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
 
-  <script type="text/javascript">
-      (function ($) {
-          $(document).ready(function () {
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
 
 
-              // Needed in view because otherwise it conflicts with jquery menu. No idea?
-              $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
-                  return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                          "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
-              }
-              $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
-                  return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                          "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
-              }
+            // Needed in view because otherwise it conflicts with jquery menu. No idea?
+            $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
+            }
+            $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
+            }
 
-              $.ajax({
-                  url:"/job_process/" + <%= @job.id.to_s %>,
-                  type:"GET",
-                  dataType:"script"
-              });
+            $.ajax({
+                url:"/job_process/" + <%= @job.id.to_s %>,
+                type:"GET",
+                dataType:"script"
+            });
 
-          });
-      }(jQuery));
-  </script>
+        });
+    }(jQuery));
+</script>
 
 
 

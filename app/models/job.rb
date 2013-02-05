@@ -247,6 +247,34 @@ class Job < ActiveRecord::Base
         end
     end
 
+    def status_percentage
+        percentage = 100
+        current = 0
+        pre_job_docs = self.pre_job_documents.count
+        fields = self.dynamic_fields.count
+
+        if pre_job_docs > 0
+            pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs
+        end
+        if fields > 0
+            fields_value = (pre_job_docs == 0 ? 50 : 15) / fields
+        end
+
+        current += (self.pre_job_documents.select { |document| !document.url.nil? and !document.url.empty? }.count || 0) * pre_doc_value.to_f
+        current += (self.dynamic_fields.select { |df| !df.value.nil? and !df.value.empty? }.count || 0) * fields_value.to_f
+
+        if self.approved_to_ship
+            if self.post_job_documents.count > 0
+               post_doc_value = 50 / self.post_job_documents.count
+               current +=  (self.post_job_documents.select { |document| !document.url.nil? and !document.url.empty? }.count || 0) * post_doc_value.to_f
+            else
+                current += 50
+            end
+        end
+
+        current
+    end
+
     def user_is_member?(user)
         !self.job_memberships.find { |jm| jm.user == user }.nil?
     end
