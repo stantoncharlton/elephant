@@ -195,13 +195,13 @@ class Job < ActiveRecord::Base
 
     def pre_job_data_good
         self.pre_job_documents.each do |document|
-            if document.url.nil? or document.url.empty?
+            if document.url.blank?
                 return false
             end
         end
 
         self.dynamic_fields.each do |df|
-            if df.value.nil? || df.value.empty?
+            if df.value.blank?
                 return false
             end
         end
@@ -211,7 +211,7 @@ class Job < ActiveRecord::Base
 
     def post_job_data_good
         self.post_job_documents.each do |document|
-            if document.url.nil? or document.url.empty?
+            if document.url.blank?
                 return false
             end
         end
@@ -260,13 +260,13 @@ class Job < ActiveRecord::Base
             fields_value = (pre_job_docs == 0 ? 50 : 15) / fields
         end
 
-        current += (self.pre_job_documents.select { |document| !document.url.nil? and !document.url.empty? }.count || 0) * pre_doc_value.to_f
-        current += (self.dynamic_fields.select { |df| !df.value.nil? and !df.value.empty? }.count || 0) * fields_value.to_f
+        current += (self.pre_job_documents.select { |document| !document.url.blank? }.count || 0) * pre_doc_value.to_f
+        current += (self.dynamic_fields.select { |df| !df.value.blank? }.count || 0) * fields_value.to_f
 
         if self.approved_to_ship
             if self.post_job_documents.count > 0
                post_doc_value = 50 / self.post_job_documents.count
-               current +=  (self.post_job_documents.select { |document| !document.url.nil? and !document.url.empty? }.count || 0) * post_doc_value.to_f
+               current +=  (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
             else
                 current += 50
             end

@@ -43,8 +43,7 @@
 <div class="content">
   <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
      data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %>
-    (<%= @job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and !field.dynamic_field_template.priority? }.count.to_s %>
-    )</a>
+    (<%= @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s %>)</a>
 
   <% if params["new"].present? and params["new"] == "true" %>
       <div class="well well-large" id="custom_data">
@@ -61,15 +60,16 @@
   </div>
 
   <% @job.dynamic_fields.sort_by { |e| e.order || 0 }.each do |df| %>
-      <% if !df.dynamic_field_template.nil? and !df.dynamic_field_template.priority? %>
-          <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= df.dynamic_field_template.name %>"><%= df.dynamic_field_template.name %></p>
+      <% if (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) %>
+          <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= !df.dynamic_field_template.nil? ? df.dynamic_field_template.name : df.name %>">
+            <%= !df.dynamic_field_template.nil? ? df.dynamic_field_template.name : df.name %></p>
           <% if @job_editable %>
               <div class="job-field-div">
                 <input id="dynamic_field_<%= df.id %>" type="text"
                        placeholder="-"
                        class="job-field-value-editable custom-data-input tooltip-info"
                        data-placement="bottom" data-title="Field value, click to change"
-                       value="<%= df.value %>">
+                       value="<%= df.value_type != 1 ? df.value.to_f.round(3) : df.value %>">
 
                 <% if df.value_type != 1 %>
                     <%= select_tag "Units",

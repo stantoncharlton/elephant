@@ -438,7 +438,7 @@ class DynamicField < ActiveRecord::Base
     end
 
     def unit_options
-        get_unit_options(self.dynamic_field_template.value_type)
+        get_unit_options(!self.dynamic_field_template.nil? ? self.dynamic_field_template.value_type : self.value_type)
     end
 
     def unit_options2
