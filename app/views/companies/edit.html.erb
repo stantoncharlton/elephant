@@ -4,7 +4,10 @@
   <h1><%= @company.name %> Info</h1>
 </div>
 
-<%= form_for(@company) do |f| %>
+<%= form_for @company do |f| %>
+
     <%= render 'fields', f: f %>
+
     <%= f.submit "Save Company", class: "bluebtn pull-right" %>
+
 <% end %>

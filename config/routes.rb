@@ -27,7 +27,6 @@ ElephantWebApp::Application.routes.draw do
     match '/elephant_admin', to: 'elephant_admin#index'
 
     resources :companies, only: [:new, :destroy, :create, :show, :edit, :update]
-    get 'company', to: 'companies#show', as: 'company'
 
     resources :job_templates, only: [:index, :new, :create, :destroy, :show, :edit, :update]
 

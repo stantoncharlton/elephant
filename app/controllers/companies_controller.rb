@@ -7,11 +7,11 @@ class CompaniesController < ApplicationController
         store_location
 
         if current_user.elephant_admin? && request.path != company_path
-              @company = Company.find(params[:id])
-              @users = User.find_all_by_company_id(@company.id)
+            @company = Company.find_by_id(params[:id])
+            @users = User.find_all_by_company_id(@company.id)
         else
             if params[:id].present? && params[:id] != current_user.company.id.to_s
-               redirect_to company_path
+                redirect_to company_path
             else
                 @company = current_user.company
                 @users = User.from_company(@company).paginate(page: params[:page], limit: 10)
@@ -24,7 +24,7 @@ class CompaniesController < ApplicationController
     end
 
     def destroy
-        Company.find(params[:id]).destroy
+        Company.find_by_id(params[:id]).destroy
         flash[:success] = "Company destroyed."
         redirect_to elephant_admin_path
     end
@@ -40,25 +40,23 @@ class CompaniesController < ApplicationController
     end
 
     def edit
-        @company = Company.find(params[:id])
+        @company = Company.find_by_id(params[:id])
     end
 
     def update
-        @company = Company.find(params[:id])
+        @company = Company.find_by_id(params[:id])
         not_found unless @company == current_user.company
 
-        Company.transaction do
-            if @company.update_attribute(params[:company])
-                flash[:success] = "Company updated"
-                redirect_to root_path
-            else
-                render 'edit'
-            end
+        if @company.update_attributes(params[:company])
+            flash[:success] = "Company updated"
+            redirect_to edit_company_path
+        else
+            render 'edit'
         end
     end
 
 
-private
+    private
 
     def elephant_admin_user
         redirect_to root_path unless signed_in? && current_user.elephant_admin?
