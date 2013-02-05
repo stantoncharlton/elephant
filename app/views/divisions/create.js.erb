@@ -10,4 +10,6 @@ $('#new_division_link').show();
 
 $('#divisions').prepend($("<%= j render @division %>"));
 
+$('#segments_<%= @division.id.to_s %>').removeClass("hidden");
+
 <% end %>
