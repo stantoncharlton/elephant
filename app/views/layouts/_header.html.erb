@@ -23,7 +23,7 @@
               <% if signed_in_admin? %>
                   <li><%= link_to "Company Info", edit_company_path(current_user.company) %></li>
               <% else %>
-                  <li><%= link_to "Company Directory", company_path %></li>
+                  <li><%= link_to "Company Directory", current_user.company %></li>
               <% end %>
               <li class="divider"></li>
               <% if !signed_in_admin? %>
