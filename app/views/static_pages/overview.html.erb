@@ -1,0 +1,34 @@
+<div class="page_header">
+  <h1>Overview</h1>
+</div>
+
+<div class="content">
+  <h3>Pre-Job Completion Progress</h3>
+</div>
+
+<hr>
+
+<%= image_tag "job_status.png" %>
+
+<div class="content">
+  <h3>Job Completion Progress</h3>
+
+  <div class="job-status-guide pull-right">
+    <p class="inline">0%</p>
+    <p class="inline pull-right">100%</p>
+  </div>
+</div>
+
+<hr>
+
+<div class="content">
+  <% current_user.active_jobs.each do |job| %>
+      <%= link_to job, class: "job-status job-link tooltip-info",
+                  "data-placement" => "left",
+                  "data-title" => "Click to open job" do %>
+          <%= render 'jobs/job_progress', job: job, form_editable: false, in_form: false, new_line_job_type: false %>
+      <% end %>
+  <% end %>
+</div>
+
+

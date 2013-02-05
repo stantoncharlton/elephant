@@ -6,6 +6,7 @@ ElephantWebApp::Application.routes.draw do
     match '/help', to: 'static_pages#help'
     match '/about', to: 'static_pages#about'
     match '/sales', to: 'static_pages#sales'
+    match '/overview', to: 'static_pages#overview'
 
     resources :users, only: [:index, :show, :new, :create, :destroy, :edit, :update]
 

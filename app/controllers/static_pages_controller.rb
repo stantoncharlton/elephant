@@ -30,4 +30,9 @@ class StaticPagesController < ApplicationController
 
     def sales
     end
+
+    def overview
+        set_tab :overview
+
+    end
 end

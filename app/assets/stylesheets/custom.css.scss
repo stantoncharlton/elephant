@@ -68,10 +68,12 @@ ul.ui-autocomplete {
 html {
   overflow-y: scroll;
 
+
 }
 
 body {
   padding-top: 80px;
+
 }
 
 .email-body {
@@ -81,6 +83,8 @@ body {
 
 .body {
   background: #FFFFFF;
+  font-family: "gothammediumregular" !important;
+
 }
 
 section {
@@ -92,7 +96,7 @@ textarea {
 }
 
 header {
-  min-width: 950px !important;
+  min-width: 1050px !important;
 }
 
 .placeholder {
@@ -167,7 +171,7 @@ p {
 .navbar {
   @media only screen and (max-device-width: 480px) {
     position: absolute !important;
-    min-width: 980px !important;
+    min-width: 1050px !important;
   }
 }
 
@@ -208,7 +212,7 @@ p {
 .admin_tab {
   margin: 0px;
   padding: 0px;
-  margin-left: 40px;
+  margin-left: 10px;
   height: 58px;
   line-height: 58px;
   display: inline-block;
@@ -218,7 +222,7 @@ p {
     color: white;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1250px) {
     margin-left: 10px;
   }
 }
@@ -227,7 +231,7 @@ p {
   display: inline-block;
   height: 58px;
   line-height: 58px;
-  margin-right: 10px;
+  margin-right: 0px;
   padding-left: 0px;
   padding-right: 0px;
   text-transform: none;
@@ -280,7 +284,7 @@ p {
     color: white;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1250px) {
     margin-left: 10px;
   }
 }
@@ -412,7 +416,7 @@ p {
 .global-search {
   width: 200px !important;
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1250px) {
     width: 100px !important;
   }
 }
