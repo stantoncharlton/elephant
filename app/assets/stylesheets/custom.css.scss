@@ -173,7 +173,7 @@ p {
 /* header */
 
 .navbar {
-  @media only screen and (max-device-width: 480px) {
+  @media only screen and (max-device-width: 768px) {
     position: absolute !important;
     min-width: 1050px !important;
   }
