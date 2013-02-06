@@ -122,6 +122,10 @@ header {
   padding: 0px;
   height: 58px;
   line-height: 58px;
+
+  @media screen and (max-width: 1050px) {
+    margin-left: 10px;
+  }
 }
 
 .inline {
@@ -202,6 +206,8 @@ p {
   line-height: 1;
   text-indent: -2000px;
   overflow: hidden;
+
+
 }
 
 #logo:hover {
