@@ -58,17 +58,9 @@
 
   <p class="job-field-title"><%= t ".status" %></p>
 
-  <% if job.approved_to_close %>
-      <p class="job-field-value"><%= job.status %></p>
-  <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
-      <div class="status-box-good status-box-closing">
-        <p class=""><%= job.status %></p>
-      </div>
-  <% else %>
-      <div class="job-field-value">
-        <p class=""><%= job.status %></p>
-      </div>
-  <% end %>
+  <div class="job-field-value">
+    <p class=""><%= job.status %></p>
+  </div>
 </div>
 
 <div class="">

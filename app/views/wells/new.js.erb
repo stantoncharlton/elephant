@@ -10,5 +10,11 @@ $('#modal_popup').find('.modal-content').append('<%= j render('new_well') %>');
 $('#modal_popup').css('visibility', 'visible');
 $('#modal_popup').height($(document).height() + 100);
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.job-type-description-target').tooltip();
+    $('.tooltip-info').tooltip();
+    $('.unit-tooltip').tooltip();
+}
+
 <% end %>
 

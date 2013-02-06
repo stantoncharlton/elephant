@@ -33,17 +33,9 @@
 
     <td class="job-email-td">
 
-      <% if job.approved_to_close %>
-          <p class="job-field-value"><%= job.status %></p>
-      <% elsif job.approved_to_ship and job.sent_post_job_ready_email %>
-          <div class="status-box-good status-box-closing">
-            <p class=""><%= job.status %></p>
-          </div>
-      <% else %>
-          <div class="status-box-good">
-            <p class=""><%= job.status %></p>
-          </div>
-      <% end %>
+      <div class="job-field-value">
+        <p class=""><%= job.status %></p>
+      </div>
     </td>
   </tr>
 
