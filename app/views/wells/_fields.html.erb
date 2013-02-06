@@ -169,10 +169,12 @@
 
       <div class="job-field-div">
 
-        <%= f.text_field :fuild_type, placeholder: "-",
-                         class: "job-field-value-editable custom-data-input tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Fluid Type, click to change" %>
+        <%= f.select :fuild_type, options_for_select([["Water", "Water"], ["Oil", "Oil"], ["Synthetic", "Synthetic"]]),
+                     {},
+                     class: "job-note-type tooltip-info unitsSelect unit-select-long",
+                     "data-placement" => "bottom",
+                     "data-title" => "Fluid Type, click to change" %>
+
 
       </div>
 
