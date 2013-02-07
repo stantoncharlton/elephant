@@ -1,4 +1,6 @@
+
 <% if @show_fields %>
+
     $("#<%= @div_name %>").find('.search-constraint-second').show();
 
     <% if !@job_template.nil? %>
@@ -14,6 +16,8 @@
 
 <% else %>
     $("#<%= @div_name %>").find('.search-constraint-second').hide();
+
+    $("#<%= @div_name %>").find('.search-job-type').show();
 
     <% if !@product_lines.nil? %>
         var $pl = $("#<%= @div_name %>").find('.search-constraint-product-line');

@@ -7,13 +7,42 @@
 
     <div id="search_criteria">
       <%= render 'search/search_constraint', index: 0 %>
+      <%= render 'search/search_constraint', index: 1 %>
+      <%= render 'search/search_constraint', index: 2 %>
+      <%= render 'search/search_constraint', index: 3 %>
+      <%= render 'search/search_constraint', index: 4 %>
+      <%= render 'search/search_constraint', index: 5 %>
+      <%= render 'search/search_constraint', index: 6 %>
     </div>
 
-    <%= link_to "+ Add another criteria", "#", remote: true, id: "new_criteria",
+    <%= link_to "+ Add another criteria", "#", id: "new_criteria",
                 class: "add-search-field tooltip-info",
                 "data-placement" => "bottom",
                 "data-title" => "Add another criteria search in addition to existing ones" %>
 
     <%= submit_tag "Search", class: "bluebtn pull-right tooltip-info",
-                "data-title" => "Run the search" %>
+                   "data-title" => "Run the search" %>
 <% end %>
+
+
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+
+            for (var i = 0; i < 5; i++) {
+
+                $('#district_name_' + i).data("autocomplete")._renderItem = function (ul, item) {
+                    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                            "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
+                }
+
+
+                $('#client_name_' + i).data("autocomplete")._renderItem = function (ul, item) {
+                    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                            "<a><div class='job-user'><strong>" + item.value + " </strong></div></a>").appendTo(ul)
+                }
+            }
+        });
+    }(jQuery));
+</script>

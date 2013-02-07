@@ -98,6 +98,9 @@ class DynamicField < ActiveRecord::Base
             return value
         end
 
+        value_type = value_type.to_i
+        new_value_type = new_value_type.to_i
+
         if value_type == new_value_type or value_type == STRING
             return value
         end
@@ -277,7 +280,7 @@ class DynamicField < ActiveRecord::Base
 
     def get_value_type_unit(value_type)
 
-        case value_type
+        case value_type.to_i
             when STRING
                 ""
             when LENGTH_FT
@@ -341,7 +344,7 @@ class DynamicField < ActiveRecord::Base
 
     def get_value_type_unit_full(value_type)
 
-        case value_type
+        case value_type.to_i
             when STRING
                 ""
             when LENGTH_FT
@@ -448,7 +451,7 @@ class DynamicField < ActiveRecord::Base
     def get_unit_options(value_type)
         units = Array.new
 
-        case value_type
+        case value_type.to_i
             when LENGTH_FT, LENGTH_M
                 units << ["ft", LENGTH_FT]
                 units << ["m", LENGTH_M]
@@ -493,7 +496,7 @@ class DynamicField < ActiveRecord::Base
     def get_unit_options_full(value_type)
         units = Array.new
 
-        case value_type
+        case value_type.to_i
             when LENGTH_FT, LENGTH_M
                 units << ["Feet", LENGTH_FT]
                 units << ["Meters", LENGTH_M]
@@ -536,7 +539,7 @@ class DynamicField < ActiveRecord::Base
     end
 
     def get_storage_value_type(value_type)
-        case value_type
+        case value_type.to_i
             when LENGTH_FT, LENGTH_M
                 LENGTH_FT
             when LENGTH_IN, LENGTH_CM

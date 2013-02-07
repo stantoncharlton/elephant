@@ -1,4 +1,4 @@
-<div class="search-field" id="search_constraint_<%= index.to_s %>">
+<div class="search-field <%= index > 0 ? "hidden" : "" %>" id="search_constraint_<%= index.to_s %>">
 
   <div>
     <p class="help-text">First, select the type of data you want to search, either well data or job data.</p>
@@ -11,23 +11,54 @@
                    name: "query[constraints][" + index.to_s + "][data_type]" %>
 
 
-    <div class="inline search-constraint-product-line hidden">
-      <%= select_tag "product_line", options_for_select([]),
-                     prompt: "Select a Product Line...",
-                     class: "search-constraint-product-line-select tooltip-info",
+    <div class="search-job-type hidden push-right">
+
+      <br>
+
+      <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }),
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Division",
+                     prompt: "Select a Division...", id: "job_division_id" %>
+
+      <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }),
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Segment",
+                     prompt: "Select a Segment...", id: "job_segment_id" %>
+
+      <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }),
+                     class: "tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "Product Line",
-                     name: "query[constraints][" + index.to_s + "][product_line]" %>
-    </div>
+                     prompt: "Select a Product Line...", id: "job_product_line_id" %>
 
-    <div class="inline search-constraint-job-template hidden">
-      <%= select_tag "job-template", options_for_select([]),
-                     prompt: "Select a Job Type...",
-                     class: "search-constraint-job-template-select tooltip-info",
+      <%= select_tag "Job Type", options_for_select(@job_templates.collect { |p| [p.name, p.id] }),
+                     class: "tooltip-info search-constraint-job-template-select",
                      "data-placement" => "bottom",
                      "data-title" => "Job Type",
-                     name: "query[constraints][" + index.to_s + "][job_template]" %>
+                     prompt: "Select a Job Type...", id: "job_job_template_id",
+                     name: "query[constraints][" + index.to_s + "][job_template]"%>
+
+
+
     </div>
+
+    <%= text_field_tag "", "", name: "query[constraints][" + index.to_s + "][client_id]", id: "client_id", class: "hidden" %>
+
+    <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
+                       placeholder: "Type a customer name...",
+                       id: "client_name_" + index.to_s, class: "txtfield small push-right tooltip-info client-name hidden",
+                       "data-placement" => "bottom",
+                       "data-title" => "Customer Name" %>
+
+    <%= text_field_tag "", "", name: "query[constraints][" + index.to_s + "][district_id]", id: "district_id", class: "hidden" %>
+
+    <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                       placeholder: "Type a district name...",
+                       id: "district_name_" + index.to_s, class: "txtfield small push-right tooltip-info district-name hidden",
+                       "data-placement" => "bottom",
+                       "data-title" => "District Name" %>
 
   </div>
 
@@ -56,6 +87,7 @@
 
     <%= select_tag "Units",
                    options_for_select(@dynamic_field.get_unit_options(@dynamic_field.value_type), @dynamic_field.value_type),
+                   name: "query[constraints][" + index.to_s + "][units]",
                    class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                    "data-html" => false, "data-title" => "Units, click to change" %>
 
@@ -63,5 +95,7 @@
 
   </div>
 
-
 </div>
+
+
+

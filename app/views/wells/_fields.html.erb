@@ -68,14 +68,14 @@
 
       <p class="job-field-title tooltip-info"
          data-placement="bottom"
-         data-title="Measured Depth">Measured Depth</p>
+         data-title="Total Measured Depth">Total Measured Depth</p>
 
       <div class="job-field-div">
 
         <%= f.text_field :measured_depth, placeholder: "-",
                          class: "job-field-value-editable custom-data-input tooltip-info",
                          "data-placement" => "bottom",
-                         "data-title" => "Measured Depth, click to change" %>
+                         "data-title" => "Total Measured Depth, click to change" %>
 
         <%= f.select :measured_depth_value_type,
                      options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH_FT), @well.measured_depth_value_type),
@@ -85,14 +85,14 @@
 
       <p class="job-field-title tooltip-info"
          data-placement="bottom"
-         data-title="True Vertical Depth">True Vertical Depth</p>
+         data-title="Total True Vertical Depth">Total True Vertical Depth</p>
 
       <div class="job-field-div">
 
         <%= f.text_field :true_vertical_depth, placeholder: "-",
                          class: "job-field-value-editable custom-data-input tooltip-info",
                          "data-placement" => "bottom",
-                         "data-title" => "True Vertical Depth, click to change" %>
+                         "data-title" => "Total True Vertical Depth, click to change" %>
 
         <%= f.select :true_vertical_depth_value_type,
                      options_for_select(DynamicField.new.get_unit_options(DynamicField::LENGTH_FT), @well.true_vertical_depth_value_type),
@@ -210,7 +210,7 @@
                          class: "job-field-value-editable custom-data-input tooltip-info",
                          "data-placement" => "bottom",
                          "data-title" => "Max Deviation, click to change" %>
-        °
+        degrees
 
       </div>
 
@@ -225,7 +225,7 @@
                          "data-placement" => "bottom",
                          "data-title" => "Bottom Deviation, click to change" %>
 
-        °
+        degrees
       </div>
 
     </div>

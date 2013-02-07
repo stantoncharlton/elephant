@@ -57,6 +57,11 @@ class SearchController < ApplicationController
         @dynamic_field = DynamicField.new
         @dynamic_field.value_type = DynamicField::LENGTH_FT
 
+        @divisions = current_user.company.divisions
+        @segments = Array.new
+        @product_lines = Array.new
+        @job_templates = Array.new
+
         respond_to do |format|
             format.html do
 
@@ -77,13 +82,21 @@ class SearchController < ApplicationController
 
                 constraint = Constraint.new
                 constraint.data_type = params["query"]["constraints"][index.to_s]["data_type"]
-                constraint.product_line = params["query"]["constraints"][index.to_s]["product_line"]
                 constraint.job_template = params["query"]["constraints"][index.to_s]["job_template"]
                 constraint.field = params["query"]["constraints"][index.to_s]["field"]
                 constraint.operator = params["query"]["constraints"][index.to_s]["operator"]
                 constraint.value = params["query"]["constraints"][index.to_s]["value"]
+                constraint.units = params["query"]["constraints"][index.to_s]["units"]
+                constraint.client_id = params["query"]["constraints"][index.to_s]["client_id"]
+                constraint.district_id = params["query"]["constraints"][index.to_s]["district_id"]
 
-                if !constraint.data_type.empty? and !constraint.field.empty?
+                if constraint.data_type == "1" || constraint.data_type == "2"
+                    if !constraint.data_type.empty? and !constraint.field.empty?
+                        query.constraints << constraint
+                    end
+                elsif constraint.data_type == "3" and !constraint.client_id.blank?
+                    query.constraints << constraint
+                elsif constraint.data_type == "4" and !constraint.district_id.blank?
                     query.constraints << constraint
                 end
             else
