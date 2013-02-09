@@ -4,7 +4,9 @@
 
     <div class="inline-form">
 
-      <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield", id: "new_document_name" %>
+      <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield tooltip-info", id: "new_document_name",
+                       "data-placement" => "bottom",
+                       "data-title" => "Document name" %>
       <%= f.hidden_field :document_type, value: "0" %>
       <%= f.hidden_field :read_only, value: read_only %>
       <%= f.hidden_field :template, value: true %>

@@ -33,7 +33,8 @@
   </div>
 
 
-  <div id="segments_<%= division.id %>" class="div-toggle-content indent-content-container hidden">
+  <div id="segments_<%= division.id %>"
+       class="div-toggle-content indent-content-container <%= params[:division] != division.id.to_s ? "hidden" : "" %>">
 
     <div class="indent-content">
       <%= render division.segments %>

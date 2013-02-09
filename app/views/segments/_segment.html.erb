@@ -32,7 +32,8 @@
 
   </div>
 
-  <div id="product_lines_<%= segment.id %>" class="div-toggle-content indent-content-container hidden">
+  <div id="product_lines_<%= segment.id %>"
+       class="div-toggle-content indent-content-container <%= params[:segment] != segment.id.to_s ? "hidden" : "" %>">
 
     <div class="indent-content">
       <%= render segment.product_lines %>

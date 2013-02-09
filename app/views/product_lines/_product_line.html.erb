@@ -34,7 +34,8 @@
   </div>
 
 
-  <div id="job_templates_<%= product_line.id %>" class="div-toggle-content indent-content-container hidden">
+  <div id="job_templates_<%= product_line.id %>"
+       class="div-toggle-content indent-content-container <%= params[:product_line] != product_line.id.to_s ? "hidden" : "" %>">
     <div class="indent-content">
       <%= render product_line.job_templates %>
     </div>

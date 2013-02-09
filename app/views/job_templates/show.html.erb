@@ -1,5 +1,11 @@
 <div class="page_header">
   <h1>Job Type Information</h1>
+
+  <%= link_to I18n.t("global.save"), divisions_path(division: @job_template.product_line.segment.division.id,
+                                                    segment: @job_template.product_line.segment.id,
+                                                    product_line: @job_template.product_line.id),
+              class: "bluebtn pull-right tooltip-info",
+              "data-title" => "Save data and return to all job types" %>
 </div>
 
 <div class="content">
@@ -11,7 +17,9 @@
 
       <%= f.text_field :name, value: @job_template.name,
                        placeholder: I18n.t("job_templates.show.job_type_name"),
-                       class: "txtfield large job-template-name job-template-name-width" %>
+                       class: "txtfield  job-template-name-width tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Job type name" %>
   <% end %>
 
   <div class="">
@@ -36,7 +44,9 @@
       <%= f.text_area :description,
                       placeholder: I18n.t("job_templates.show.description_prompt"),
                       value: @job_template.description,
-                      class: "txtfield job-description-text job-template-description",
+                      class: "txtfield job-description-text job-template-description tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => I18n.t("job_templates.show.description_prompt"),
                       autofocus: false %>
 
   <% end %>
@@ -102,7 +112,9 @@
 
 
 <div class="actions">
-  <%= link_to I18n.t("global.done"), divisions_path,
+  <%= link_to I18n.t("global.save"), divisions_path(division: @job_template.product_line.segment.division.id,
+                                                    segment: @job_template.product_line.segment.id,
+                                                    product_line: @job_template.product_line.id),
               class: "bluebtn pull-right tooltip-info",
               "data-title" => "Save data and return to all job types" %>
 
