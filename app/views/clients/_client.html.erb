@@ -2,7 +2,9 @@
   <%= link_to edit_client_path(client), class: "list-item-header user-header tooltip-info",
               "data-placement" => "left",
               "data-title" => "Click to open/edit customer" do %>
-    <%= client.name %>
+      <p class="list-item-header-text">
+        <%= client.name %>
+      </p>
 
   <% end %>
 </li>

@@ -5,7 +5,7 @@ class DistrictsController < ApplicationController
 
     def index
         respond_to do |format|
-            format.html { @districts = District.from_company(current_user.company).paginate(page: params[:page], limit: 10)  }
+            format.html { @districts = District.from_company(current_user.company).paginate(page: params[:page], limit: 20)  }
             format.js { @districts = District.search(params, current_user.company).results }
             format.json {
                 if params[:q].present?
