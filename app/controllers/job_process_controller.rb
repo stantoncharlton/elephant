@@ -91,6 +91,8 @@ class JobProcessController < ApplicationController
                 @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
                 Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
 
+                @job.delay.generate_post_job_report
+
                 @job.active = false
                 @job.save
 

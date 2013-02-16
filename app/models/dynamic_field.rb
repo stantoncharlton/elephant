@@ -38,6 +38,7 @@ class DynamicField < ActiveRecord::Base
     PRESSURE_PSI = 41
     PRESSURE_MPA = 42
     PRESSURE_PAS = 43
+    PRESSURE_BAR = 44
 
     RATE = 50
     RATE_BBLS = 51
@@ -160,6 +161,8 @@ class DynamicField < ActiveRecord::Base
                         value * 0.00689475728
                     when PRESSURE_PAS
                         value * 6894.75729
+                    when PRESSURE_BAR
+                        value
                 end
             when PRESSURE_MPA
                 case new_value_type
@@ -167,6 +170,8 @@ class DynamicField < ActiveRecord::Base
                         value * 145.0377
                     when PRESSURE_PAS
                         value * 1000000
+                    when PRESSURE_BAR
+                        value
                 end
             when PRESSURE_PAS
                 case new_value_type
@@ -174,6 +179,17 @@ class DynamicField < ActiveRecord::Base
                         value * 0.000145037738
                     when PRESSURE_MPA
                         value * 0.000001
+                    when PRESSURE_BAR
+                        value
+                end
+            when PRESSURE_BAR
+                case new_value_type
+                    when PRESSURE_PSI
+                        value
+                    when PRESSURE_MPA
+                        value
+                    when PRESSURE_PAS
+                        value
                 end
             when RATE_BBLS
                 case new_value_type
@@ -303,6 +319,8 @@ class DynamicField < ActiveRecord::Base
                 "mpa"
             when PRESSURE_PAS
                 "pas"
+            when PRESSURE_BAR
+                "bar"
             when RATE_BBLS
                 "bbls/min"
             when RATE_M3
@@ -367,6 +385,8 @@ class DynamicField < ActiveRecord::Base
                 "MegaPascals"
             when PRESSURE_PAS
                 "Pascals"
+            when PRESSURE_BAR
+                "Bar"
             when RATE_BBLS
                 "Barrels per Minute"
             when RATE_M3
@@ -419,6 +439,7 @@ class DynamicField < ActiveRecord::Base
         units << ["Pressure | PSI", PRESSURE_PSI]
         units << ["Pressure | MegaPascals", PRESSURE_MPA]
         units << ["Pressure | Pascals", PRESSURE_PAS]
+        units << ["Pressure | Bar", PRESSURE_BAR]
         units << ["Rate | Barrels per Minute", RATE_BBLS]
         units << ["Rate | Meters Cubed per Minute", RATE_M3]
         units << ["Volume | Barrels", VOLUME_BBLS]
@@ -461,10 +482,11 @@ class DynamicField < ActiveRecord::Base
             when TEMPERATURE_F, TEMPERATURE_C
                 units << ["f°", TEMPERATURE_F]
                 units << ["c°", TEMPERATURE_C]
-            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS, PRESSURE_BAR
                 units << ["psi", PRESSURE_PSI]
                 units << ["mpa", PRESSURE_MPA]
                 units << ["pas", PRESSURE_PAS]
+                units << ["bar", PRESSURE_BAR]
             when RATE_BBLS, RATE_M3
                 units << ["bbls/min", RATE_BBLS]
                 units << ["m^3/min", RATE_M3]
@@ -506,10 +528,11 @@ class DynamicField < ActiveRecord::Base
             when TEMPERATURE_F, TEMPERATURE_C
                 units << ["Fahrenheit", TEMPERATURE_F]
                 units << ["Celsius", TEMPERATURE_C]
-            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS, PRESSURE_BAR
                 units << ["PSI", PRESSURE_PSI]
                 units << ["MegaPascals", PRESSURE_MPA]
                 units << ["Pascals", PRESSURE_PAS]
+                units << ["Bar", PRESSURE_BAR]
             when RATE_BBLS, RATE_M3
                 units << ["Barrels per Minute", RATE_BBLS]
                 units << ["Meters Cubed per Minute", RATE_M3]
@@ -546,7 +569,7 @@ class DynamicField < ActiveRecord::Base
                 LENGTH_IN
             when TEMPERATURE_F, TEMPERATURE_C
                 TEMPERATURE_F
-            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+            when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS, PRESSURE_BAR
                 PRESSURE_PSI
             when RATE_BBLS, RATE_M3
                 RATE_BBLS
@@ -578,7 +601,7 @@ class DynamicField < ActiveRecord::Base
                     user_value_type = user.user_unit.length_inner
                 when TEMPERATURE_F, TEMPERATURE_C
                     user_value_type = user.user_unit.temperature
-                when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS
+                when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS, PRESSURE_BAR
                     user_value_type = user.user_unit.pressure
                 when RATE_BBLS, RATE_M3
                     user_value_type = user.user_unit.rate

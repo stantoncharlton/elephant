@@ -4,11 +4,23 @@
   <p class="job-approved-to-ship inline">Job completed and closed</p>
 
   <p class="inline">-</p>
+
   <div class="inline">
     <%= render 'activities/user', user: job_process.user %>
   </div>
 
   <p class="activity-date push-right"><%= job_process.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
 
+  <div class="post-job-report-generation">
+    <br>
+
+    <div class="well">
+      <p>Generating Post Job Report</p>
+
+      <div class="progress progress-info progress-striped active">
+        <div class="bar" style="width: 100%;"></div>
+      </div>
+    </div>
+  </div>
 
 </div>

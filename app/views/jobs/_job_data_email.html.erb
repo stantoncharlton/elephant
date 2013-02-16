@@ -15,16 +15,18 @@
   </tr>
 
   <tr>
-    <% if job.approved_to_close %>
-    <% elsif job.approved_to_ship %>
-        <div class="progress progress-success progress-striped">
-          <div class="bar" style="width: <%= job.status_percentage %>%"></div>
-        </div>
-    <% else %>
-        <div class="progress progress-info progress-striped">
-          <div class="bar" style="width: <%= job.status_percentage %>%"></div>
-        </div>
-    <% end %>
+    <td colspan="4">
+      <% if job.approved_to_close %>
+      <% elsif job.approved_to_ship %>
+          <div class="progress progress-success progress-striped">
+            <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+          </div>
+      <% else %>
+          <div class="progress progress-info progress-striped">
+            <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+          </div>
+      <% end %>
+    </td>
   </tr>
   <tr>
     <td class="job-email-td-title">
@@ -78,7 +80,7 @@
   </tr>
 
 
-  <% job.dynamic_fields.sort_by{ |e| e.order || 0 }.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+  <% job.dynamic_fields.sort_by { |e| e.order || 0 }.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <tr>
             <td class="job-email-td-title">
@@ -112,7 +114,7 @@
     <td class="job-email-td-title">
       <p class="job-field-title inline"><%= t "jobs.job_data.created_date" %></p>
     </td>
-    <td  class="job-email-td">
+    <td class="job-email-td">
       <p class="job-field-value inline"><%= job.created_at.strftime("%m/%d/%Y") %></p>
     </td>
   </tr>

@@ -14,7 +14,7 @@ connectUploadEvents = ->
           $(e.target).append(data.context)
           data.submit()
         else
-          alert("#{file.name} is not a gif, jpeg, or png image file")
+          alert("#{file.name} is not a doc, docx, txt, xls, xlsx, or pdf file")
 
       progress: (e, data) ->
         if data.context

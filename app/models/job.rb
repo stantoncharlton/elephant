@@ -4,6 +4,9 @@ class Job < ActiveRecord::Base
                     :end_date,
                     :active
 
+    include PostJobReportHelper
+
+
 
     validates_presence_of :company
     validates_presence_of :client
@@ -200,6 +203,10 @@ class Job < ActiveRecord::Base
         self.documents.select { |document| document.category == Document::POST_JOB }.sort_by { |e| e.order || 0 }
     end
 
+    def post_job_report
+        self.documents.select { |document| document.category == Document::POST_JOB_REPORT }.take(1)
+    end
+
     def pre_job_data_good
         self.pre_job_documents.each do |document|
             if document.url.blank?
@@ -333,6 +340,15 @@ class Job < ActiveRecord::Base
         end
 
         false
+    end
+
+    def generate_post_job_report
+        documents = self.documents.select { |d| !d.url.blank? }
+
+        document = merge self, documents
+
+        puts document.full_url
+
     end
 
 end
