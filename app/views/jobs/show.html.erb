@@ -69,7 +69,7 @@
                        placeholder="-"
                        class="job-field-value-editable custom-data-input tooltip-info"
                        data-placement="bottom" data-title="Field value, click to change"
-                       value="<%= df.value_type != 1 ? df.value.to_f.round(3) : df.value %>">
+                       value="<%= (df.value_type != 1 && !df.value.nil?) ? df.value.to_f.round(3) : df.value %>">
 
                 <% if df.value_type != 1 %>
                     <%= select_tag "Units",
@@ -102,7 +102,7 @@
 
 
 
-<div id="process_actions" class="">
+<div id="process_actions" class="content <%= ((@job.pre_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_close || (@job.post_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_ship) ? "well" : "" %>">
 
   <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
       <%= render 'job_process/job_shipped', job_process: job_process %>

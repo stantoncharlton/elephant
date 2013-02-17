@@ -1,0 +1,10 @@
+<% if job.approved_to_close %>
+<% elsif job.approved_to_ship %>
+    <div class="progress progress-success progress-striped job-progress">
+      <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+    </div>
+<% else %>
+    <div class="progress progress-info progress-striped job-progress">
+      <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+    </div>
+<% end %>

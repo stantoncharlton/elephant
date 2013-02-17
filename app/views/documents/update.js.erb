@@ -9,4 +9,8 @@ $.ajax({
     type:"GET",
     dataType:"script"
 });
+
+$('#job-progress-status').find(':first').hide().remove();
+$('#job-progress-status').append('<%= j render 'jobs/job_progress_status', job: @document.job %>');
+
 <% end %>

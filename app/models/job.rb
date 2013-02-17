@@ -203,8 +203,8 @@ class Job < ActiveRecord::Base
         self.documents.select { |document| document.category == Document::POST_JOB }.sort_by { |e| e.order || 0 }
     end
 
-    def post_job_report
-        self.documents.select { |document| document.category == Document::POST_JOB_REPORT }.take(1)
+    def post_job_report_document
+        self.documents.select { |document| document.category == Document::POST_JOB_REPORT }.last
     end
 
     def pre_job_data_good
@@ -249,6 +249,10 @@ class Job < ActiveRecord::Base
         nil
     end
 
+    def is_supervisor_or_creator?(user)
+        user == self.supervisor || user == self.creator
+    end
+
     def status
         if self.approved_to_close
             I18n.t("jobs.job_data.status_complete")
@@ -268,18 +272,19 @@ class Job < ActiveRecord::Base
         fields = self.dynamic_fields.count
 
         if pre_job_docs > 0
-            pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs
+            pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs.to_f
         end
         if fields > 0
-            fields_value = (pre_job_docs == 0 ? 50 : 15) / fields
+            fields_value = (pre_job_docs == 0 ? 50 : 15) / fields.to_f
         end
 
         current += (self.pre_job_documents.select { |document| !document.url.blank? }.count || 0) * pre_doc_value.to_f
         current += (self.dynamic_fields.select { |df| !df.value.blank? }.count || 0) * fields_value.to_f
 
+
         if self.approved_to_ship
             if self.post_job_documents.count > 0
-               post_doc_value = 50 / self.post_job_documents.count
+               post_doc_value = 50 / self.post_job_documents.count.to_f
                current +=  (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
             else
                 current += 50
@@ -340,6 +345,48 @@ class Job < ActiveRecord::Base
         end
 
         false
+    end
+
+    def ship_job(user)
+
+        Activity.add(user, Activity::JOB_APPROVED_TO_SHIP, self, nil, self)
+
+
+        self.unique_participants.each do |participant|
+            participant.send_job_shipping_email(self)
+        end
+
+        user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+                                  alert_type: Alert::PRE_JOB_DATA_READY,
+                                  job_id: self.id).each { |a| a.destroy }
+    end
+
+    def close_job(user)
+
+        self.active = false
+        self.save
+
+        Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)
+
+        self.unique_participants.each do |participant|
+            participant.send_job_completed_email(self)
+        end
+
+        user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+                          alert_type: Alert::POST_JOB_DATA_READY,
+                          job_id: self.id).each { |a| a.destroy }
+
+        self.generate_post_job_report
+
+    end
+
+    def prepare_post_job_report
+        document = Document.new(template: false, read_only: true)
+        document.job = self
+        document.company = self.company
+        document.category = Document::POST_JOB_REPORT
+        document.name = "#{self.id} - PostJobReport.pdf"
+        document.save
     end
 
     def generate_post_job_report

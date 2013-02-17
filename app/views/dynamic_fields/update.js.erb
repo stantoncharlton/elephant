@@ -6,9 +6,13 @@ $.ajax({
     dataType:"script"
 });
 
+$('#job-progress-status').find(':first').hide().remove();
+$('#job-progress-status').append('<%= j render 'jobs/job_progress_status', job: @dynamic_field.job %>');
+
 <% else %>
 
 $('#edit_dynamic_field_<%= @dynamic_field.id %>').remove();
 
 $('#dynamic_field_<%= @dynamic_field.id %>').replaceWith('<%= j render 'dynamic_fields/dynamic_field', dynamic_field: @dynamic_field %>');
+
 <% end %>

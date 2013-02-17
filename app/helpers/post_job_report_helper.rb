@@ -33,6 +33,10 @@ module PostJobReportHelper
 end
 
 def convert(document)
+
+    Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
+    Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
+
     oldFile = ""
 
     puts "converting: " + document.url.to_s + " ..............."
@@ -54,13 +58,12 @@ end
 
 def merge(job, documents)
 
-    document = Document.new(template: false, read_only: true)
-    document.job = job
-    document.company = job.company
-    document.category = Document::POST_JOB_REPORT
-    filename = "#{job.id} - PostJobReport.pdf"
+    Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
+    Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
+
+    document = job.post_job_report_document
+    filename = document.name
     path = "docs/#{SecureRandom.hex}"
-    document.url = "#{path}/#{filename}"
 
     document_names = documents.map { |d| convert(d) }
 
@@ -72,6 +75,7 @@ def merge(job, documents)
     puts json.to_s
     RestClient.put Common::Utils.sign(mergedFile), json, {:content_type => :json}
 
+    document.url = "#{path}/#{filename}"
     document.save
 
     return document

@@ -1,6 +1,11 @@
+
 $("#process_actions").find('#job_ready_to_close').remove();
+$('#job_closed_id').remove();
 
 $("#process_actions").append("<%= j render('job_process/job_closed', job_process: @job_process ) %>");
 
+$('.job-progress').hide();
+
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
+

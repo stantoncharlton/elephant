@@ -10,9 +10,11 @@ class JobProcessController < ApplicationController
             render :nothing => true, :status => :ok
             return
         elsif @job.approved_to_ship and !@job.sent_post_job_ready_email and !@job.post_job_data_good
+
             render :nothing => true, :status => :ok
             return
         elsif @job.approved_to_close
+
             render :nothing => true, :status => :ok
             return
         end
@@ -89,20 +91,14 @@ class JobProcessController < ApplicationController
 
             if !@job.approved_to_close
                 @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
-                Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
 
-                @job.delay.generate_post_job_report
-
-                @job.active = false
-                @job.save
-
-                @job.unique_participants.each do |participant|
-                    participant.delay.send_job_completed_email(@job)
+                @job.prepare_post_job_report
+                @job.delay.close_job current_user
+            else
+                if @job.post_job_report_document.nil?
+                    @job.delay.generate_post_job_report
                 end
-
-                current_user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
-                                          alert_type: Alert::POST_JOB_DATA_READY,
-                                          job_id: @job.id).each { |a| a.destroy }
+                @job_process = @job.job_processes.find { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }
             end
 
             render 'job_process/close'
@@ -110,17 +106,7 @@ class JobProcessController < ApplicationController
         elsif @job.sent_pre_job_ready_email
 
             @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
-            Activity.add(current_user, Activity::JOB_APPROVED_TO_SHIP, @job, nil, @job)
-
-
-            @job.unique_participants.each do |participant|
-                participant.delay.send_job_shipping_email(@job)
-            end
-
-            current_user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
-                                      alert_type: Alert::PRE_JOB_DATA_READY,
-                                      job_id: @job.id).each { |a| a.destroy }
-
+            @job.delay.ship_job current_user
 
             render 'job_process/ship'
         end

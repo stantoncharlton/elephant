@@ -11,16 +11,39 @@
 
   <p class="activity-date push-right"><%= job_process.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
 
-  <div class="post-job-report-generation">
-    <br>
+  <% if job_process.job.post_job_report_document.nil? || job_process.job.post_job_report_document.url.nil? %>
+      <div class="post-job-report-generation">
+        <br>
 
-    <div class="well">
-      <p>Generating Post Job Report</p>
+        <div class="">
+          <p>Generating Post Job Report</p>
 
-      <div class="progress progress-info progress-striped active">
-        <div class="bar" style="width: 100%;"></div>
+          <div class="progress progress-info progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+            (function ($) {
+
+                check_status = function () {
+
+                    $.ajax({
+                        url:"/job_process/" + <%= job_process.job.id.to_s %>,
+                        type:"put",
+                        dataType:"script"
+                    });
+                }
+
+                setTimeout(check_status, 5000);
+
+            }(jQuery));
+        </script>
       </div>
-    </div>
-  </div>
+  <% else %>
+      <br>
+      <br>
+    <a class="document-name" href="<%= job_process.job.post_job_report_document.full_url %>"><b>Post Job Report</b></a>
+  <% end %>
 
 </div>
