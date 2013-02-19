@@ -2,10 +2,35 @@ class ApplicationController < ActionController::Base
     protect_from_forgery
     include SessionsHelper
 
+    before_filter :session_expiry
+    before_filter :update_activity_time
+
     before_filter :set_user_time_zone
     before_filter :set_locale
     before_filter :set_current_user_for_observer
     #before_filter :set_time_zone
+
+
+    def session_expiry
+        get_session_time_left
+        unless @session_time_left > 0
+            store_location
+            sign_out
+            redirect_to root_path, error: "Your session has timed out. Please sign in."
+        end
+    end
+
+    def update_activity_time
+        session[:expires_at] = 20.minutes.from_now
+    end
+
+    private
+
+    def get_session_time_left
+        expire_time = session[:expires_at] || Time.now
+        @session_time_left = (expire_time - Time.now).to_i
+    end
+
 
     def set_current_user_for_observer
         puts request.path
@@ -16,14 +41,14 @@ class ApplicationController < ActionController::Base
     def signed_in_user
         unless signed_in?
             store_location
-            redirect_to signin_url, notice: "Please sign in."
+            redirect_to signin_url, error: "Please sign in."
         end
     end
 
     def signed_in_admin
         unless signed_in_admin?
             store_location
-            redirect_to signin_url, notice: "Please sign in."
+            redirect_to signin_url, error: "Please sign in."
         end
     end
 

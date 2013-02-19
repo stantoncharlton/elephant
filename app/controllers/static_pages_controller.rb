@@ -1,4 +1,8 @@
 class StaticPagesController < ApplicationController
+
+    skip_before_filter :session_expiry, only: [:home, :about, :sales]
+    skip_before_filter :update_activity_time, only: [:home, :about, :sales]
+
     def home
         respond_to do |format|
             format.html {

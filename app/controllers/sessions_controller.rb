@@ -2,6 +2,9 @@ class SessionsController < ApplicationController
 
     #skip_before_filter :verify_authenticity_token
 
+    skip_before_filter :session_expiry
+    skip_before_filter :update_activity_time
+
     def new
         flash[:error] = "Please login"
         redirect_to root_path
@@ -18,7 +21,7 @@ class SessionsController < ApplicationController
                         redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
                     else
                         sign_in(user, params[:session]["stay_logged_in"] == "1")
-                        redirect_to root_path
+                        redirect_back_or root_path
                     end
                 }
                 format.xml {
