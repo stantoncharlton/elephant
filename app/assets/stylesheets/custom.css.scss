@@ -50,6 +50,10 @@ ul.ui-autocomplete {
   }
 }
 
+input[type='text'].ui-autocomplete-loading {
+  background: url(image_path('ajax-loader.gif')) no-repeat 95% 50% !important;
+}
+
 .ui-state-hover {
   a {
     background-color: #6cb4f6 !important;

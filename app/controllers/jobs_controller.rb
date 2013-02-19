@@ -1,5 +1,5 @@
 class JobsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show, :new, :create, :update]
+    before_filter :signed_in_user, only: [:index, :show, :new, :create, :update, :destroy]
     set_tab :jobs
 
     def index
@@ -80,9 +80,20 @@ class JobsController < ApplicationController
         end
 
         @divisions = current_user.company.divisions
-        @segments = Array.new
-        @product_lines = Array.new
-        @job_templates = Array.new
+        if current_user.product_line.present?
+            @segments = current_user.product_line.segment.division.segments
+            @product_lines = current_user.product_line.segment.product_lines
+            @job_templates = current_user.product_line.job_templates
+
+            @division = current_user.product_line.segment.division
+            @segment = current_user.product_line.segment
+            @product_line = current_user.product_line
+        else
+            @segments = Array.new
+            @product_lines = Array.new
+            @job_templates = Array.new
+        end
+
         @clients = current_user.company.clients
         @districts = current_user.company.districts
 
@@ -114,7 +125,7 @@ class JobsController < ApplicationController
         @job.field = Field.find_by_id(field_id)
         @job.well = Well.find_by_id(well_id)
 
-        if @job.well.field != @job.field
+        if @job.well.present? && (@job.well.field != @job.field)
             @job.errors.add(:well, "Well does not belong to field")
         end
 
@@ -149,12 +160,34 @@ class JobsController < ApplicationController
             flash[:success] = "Job created"
             redirect_to job_path(@job, new: "true")
         else
-            @divisions = current_user.company.divisions
-            @segments = !@job.job_template.nil? ? @job.job_template.product_line.segment.division.segments : Array.new
-            @product_lines = !@job.job_template.nil? ? @job.job_template.product_line.segment.product_lines : Array.new
-            @job_templates = !@job.job_template.nil? ? @job.job_template.product_line.job_templates : Array.new
+
             @clients = current_user.company.clients
             @districts = current_user.company.districts
+
+            @divisions = current_user.company.divisions
+            if @job.job_template.present?
+                @segments = @job.job_template.product_line.segment.division.segments
+                @product_lines = @job.job_template.product_line.segment.product_lines
+                @job_templates = @job.job_template.product_line.job_templates
+
+                @division = @job.job_template.product_line.segment.division
+                @segment = @job.job_template.product_line.segment
+                @product_line = @job.job_template.product_line
+            else
+                if current_user.product_line.present?
+                    @segments = current_user.product_line.segment.division.segments
+                    @product_lines = current_user.product_line.segment.product_lines
+                    @job_templates = current_user.product_line.job_templates
+
+                    @division = current_user.product_line.segment.division
+                    @segment = current_user.product_line.segment
+                    @product_line = current_user.product_line
+                else
+                    @segments = Array.new
+                    @product_lines = Array.new
+                    @job_templates = Array.new
+                end
+            end
 
             if !@job.district.nil?
                 @fields = @job.district.fields
@@ -211,5 +244,18 @@ class JobsController < ApplicationController
             @job.add_user!(@user)
         end
 
+    end
+
+    def destroy
+        @job = Job.find_by_id(params[:id])
+        not_found unless @job.company == current_user.company
+        not_found unless @job.is_supervisor_or_creator?(current_user) or current_user.admin?
+        @job.destroy
+
+        #Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
+
+        flash[:success] = "Job deleted."
+
+        redirect_to jobs_path
     end
 end

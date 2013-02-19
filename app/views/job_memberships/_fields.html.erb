@@ -1,0 +1,11 @@
+<%= form_for(JobMembership.new, :html => {:class => "inline hidden new-job-member ", id: "new_member_form"}, remote: true) do |f| %>
+    <%= f.hidden_field :job_id, id: "new_member_job_id", value: job.id %>
+    <%= f.hidden_field :user_id, id: "new_member_id" %>
+    <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                       placeholder: I18n.t("jobs.show.new_member_prompt"),
+                       id: "new_member_name", class: "txtfield small" %>
+    <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], [I18n.t("job_roles.supervisor"), 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]]),
+                 prompt: I18n.t("jobs.show.new_member_role_prompt"),
+                 class: "job-note-type" %>
+    <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall move-up" %>
+<% end %>

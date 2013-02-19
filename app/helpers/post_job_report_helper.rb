@@ -39,8 +39,6 @@ def convert(document)
 
     oldFile = ""
 
-    puts "converting: " + document.url.to_s + " ..............."
-
     case File.extname(document.url)
         when ".xls", ".xlsx"
             oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
@@ -62,21 +60,21 @@ def merge(job, documents)
     Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
 
     document = job.post_job_report_document
-    filename = document.name
-    path = "docs/#{SecureRandom.hex}"
+    if !document.nil?
+        filename = document.name
+        path = "docs/#{SecureRandom.hex}"
 
-    document_names = documents.map { |d| convert(d) }
+        document_names = documents.map { |d| convert(d) }
 
-    puts "merging..................."
+        mergedFile = "http://api.saaspose.com/v1.0/pdf/#{filename}/merge?storage=elephant&folder=elephant-docs/#{path}"
 
-    mergedFile = "http://api.saaspose.com/v1.0/pdf/#{filename}/merge?storage=elephant&folder=elephant-docs/#{path}"
+        json = JSON.generate("List" => document_names)
+        puts json.to_s
+        RestClient.put Common::Utils.sign(mergedFile), json, {:content_type => :json}
 
-    json = JSON.generate("List" => document_names)
-    puts json.to_s
-    RestClient.put Common::Utils.sign(mergedFile), json, {:content_type => :json}
-
-    document.url = "#{path}/#{filename}"
-    document.save
+        document.url = "#{path}/#{filename}"
+        document.save
+    end
 
     return document
 end

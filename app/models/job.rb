@@ -394,8 +394,6 @@ class Job < ActiveRecord::Base
 
         document = merge self, documents
 
-        puts document.full_url
-
     end
 
 end

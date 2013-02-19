@@ -26,6 +26,7 @@ class Document < ActiveRecord::Base
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
     POST_JOB = "Post-Job"
+    POST_JOB_REPORT_PART = "Post Job Report Part"
     POST_JOB_REPORT = "Post Job Report"
 
     def default_name

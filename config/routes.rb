@@ -49,7 +49,7 @@ ElephantWebApp::Application.routes.draw do
 
 
 
-    resources :jobs, only: [:index, :show, :new, :create, :update]
+    resources :jobs, only: [:index, :show, :new, :create, :update, :destroy]
 
     resources :fields, only: [:index, :show, :new, :create]
 

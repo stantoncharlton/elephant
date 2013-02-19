@@ -1,4 +1,3 @@
-
 <div class="content">
   <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 </div>
@@ -24,26 +23,18 @@
     <% end %>
 
 
-    <%= form_for(@job_member, :html => {:class => "inline hidden new-job-member ", id: "new_member_form"}, remote: true) do |f| %>
-        <%= f.hidden_field :job_id, id: "new_member_job_id", value: @job.id %>
-        <%= f.hidden_field :user_id, id: "new_member_id" %>
-        <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                           placeholder: I18n.t("jobs.show.new_member_prompt"),
-                           id: "new_member_name", class: "txtfield small" %>
-        <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], [I18n.t("job_roles.supervisor"), 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]]),
-                     prompt: I18n.t("jobs.show.new_member_role_prompt"),
-                     class: "job-note-type" %>
-        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall move-up" %>
-    <% end %>
+    <%= render 'job_memberships/fields', job: @job %>
   </div>
 </div>
 
 
 <div>
 <div class="content">
+  <hr>
   <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
-     data-placement="bottom" data-title="Click to expand/collapse more details"><%= t ".more_details" %>
-    (<%= @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s %>)</a>
+     data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
+    <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
+
 
   <% if params["new"].present? and params["new"] == "true" %>
       <div class="well well-large" id="custom_data">
@@ -96,13 +87,41 @@
           <% end %>
       <% end %>
   <% end %>
+
   </div>
+
+  <a href="#" id="job_tools_toggle" class="custom-data-toggle tooltip-info"
+     data-placement="bottom" data-title="List of tools used on this job">Tools</a>
+
+  <div class="custom-data-closed well well-large" id="job_tools">
+    <div>
+    </div>
+
   </div>
+
+  <a href="#" id="job_options_toggle" class="custom-data-toggle tooltip-info"
+     data-placement="bottom" data-title="Advanced options for controlling this job">Advanced Options</a>
+
+  <div class="custom-data-closed well well-large" id="job_options">
+    <div>
+      <% if @job.is_supervisor_or_creator?(current_user) %>
+
+          <%= link_to "Delete Job", @job, method: :delete,
+                      data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."}, class: "bluebtn red tooltip-info",
+                      "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+
+      <% end %>
+    </div>
+
+  </div>
+
+
+  </div>
+
 </div>
 
 
-
-<div id="process_actions" class="content <%= ((@job.pre_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_close || (@job.post_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_ship) ? "well" : "" %>">
+<div id="process_actions" class="content <%= ((@job.pre_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_close || (@job.pre_job_data_good && @job.post_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_ship) ? "well" : "" %>">
 
   <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
       <%= render 'job_process/job_shipped', job_process: job_process %>

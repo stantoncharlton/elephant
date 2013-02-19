@@ -54,9 +54,9 @@ $ ->
     $('#job_product_line_id').attr "disabled", "disabled"
     $('#job_product_line_id').css "opacity", ".3"
 
-  if $('#job_job_template_id').val() == ""
-    $('#job_job_template_id').attr "disabled", "disabled"
-    $('#job_job_template_id').css "opacity", ".3"
+  #if $('#job_job_template_id').val() == ""
+  #  $('#job_job_template_id').attr "disabled", "disabled"
+  #  $('#job_job_template_id').css "opacity", ".3"
 
   $('#job_division_id').change ->
     $('#job_segment_id').attr "disabled", "disabled"
@@ -111,3 +111,11 @@ $ ->
   if $('#job_district_id').val()
     $.ajax '/fields?district_id=' + $('#job_district_id').val(), dataType: 'script'
 
+
+  $('.job-type-selection').live "click", ->
+    $('.job-type-selection').removeClass('job-type-selected')
+    $(this).addClass('job-type-selected')
+    $val = $(this).attr('id').replace('job_template_', '')
+    $('#job_job_template_id').removeAttr "disabled", "disabled"
+    $('#job_job_template_id').val($val)
+    return false

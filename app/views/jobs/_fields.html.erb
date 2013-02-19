@@ -4,35 +4,50 @@
 <div class="content">
   <div class="">
 
-    <p class="help-text">Select the job type beginning with division, segment and product line...</p><br>
 
-    <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.product_line.segment.division.id : nil),
+    <p>
+      <strong class="job-division-segment-div">Division</strong>
+      <strong class="job-division-segment-div push-right-small">Segment</strong>
+      <strong class="job-division-segment-div push-right-small">Product Line</strong>
+    </p>
+
+    <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, @division.present? ? @division.id : nil),
                    class: "tooltip-info",
                    "data-placement" => "bottom",
                    "data-title" => "Division",
                    prompt: "Select a Division...", id: "job_division_id" %>
 
-    <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.product_line.segment.id : nil),
-                   class: "tooltip-info",
+    <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, @segment.present? ? @segment.id : nil),
+                   class: "tooltip-info push-right-small",
                    "data-placement" => "bottom",
                    "data-title" => "Segment",
                    prompt: "Select a Segment...", id: "job_segment_id" %>
 
-    <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, !@job.job_template.nil? ? @job.job_template.product_line.id : nil),
-                   class: "tooltip-info",
+    <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, @product_line.present? ? @product_line.id : nil),
+                   class: "tooltip-info push-right-small",
                    "data-placement" => "bottom",
                    "data-title" => "Product Line",
                    prompt: "Select a Product Line...", id: "job_product_line_id" %>
 
     <%= f.select :job_template_id, options_for_select(@job_templates.collect { |p| [p.name, p.id] }),
                  {selected: !@job.job_template.nil? ? @job.job_template.id : nil, prompt: "Select a Job Type..."},
-                 class: "tooltip-info",
+                 class: "tooltip-info hidden",
                  "data-placement" => "bottom",
                  "data-title" => "Job Type Name" %>
+
+    <hr>
 
     <div id="job_description" class="content">
 
     </div>
+
+    <div id="job_templates_list" class="">
+      <% if @job_templates.present? and @job_templates.any? %>
+          <%= render 'job_templates/job_templates_list', job_templates: @job_templates, job_template: @job.job_template %>
+      <% end %>
+    </div>
+
+    <hr>
 
   </div>
 </div>

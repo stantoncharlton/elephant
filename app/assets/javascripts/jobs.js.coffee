@@ -64,6 +64,25 @@ $ ->
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_unit_", "") + '?unit=' + $(this).val(), type: 'put', dataType: 'script'
 
 
+
+  $('#job_tools_toggle').live "click", ->
+    if $('#job_tools').css("display") == "none"
+      $('#job_tools').css "display", "block"
+      $('#job_tools_toggle').css "display", "block"
+    else
+      $('#job_tools').css "display", "none"
+      $('#job_tools_toggle').css "display", "inline-block"
+    return false
+
+  $('#job_options_toggle').live "click", ->
+    if $('#job_options').css("display") == "none"
+      $('#job_options').css "display", "block"
+      $('#job_options_toggle').css "display", "block"
+    else
+      $('#job_options').css "display", "none"
+      $('#job_options_toggle').css "display", "inline-block"
+    return false
+
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'
 

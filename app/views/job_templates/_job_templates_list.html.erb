@@ -1,0 +1,23 @@
+<% job_templates.each do |jt| %>
+    <div class="field">
+      <%= link_to "#",
+                  id: "job_template_" + jt.id.to_s,
+                  class: "clearfix job-type-selection " + (job_template.present? && jt.id == job_template.id ? "job-type-selected" : ""),
+                  "data-placement" => "left",
+                  "data-title" => "Click to open/edit job type" do %>
+          <p class="list-job-item-name">
+            <strong><%= jt.name %></strong>
+          </p>
+          <p class="list-job-item-tools-divider">
+            <span class="list-job-item-tools">Liner Hanger</span> |
+            <span class="list-job-item-tools">Hydraulic</span> |
+            <span class="list-job-item-tools">Packer</span> |
+            <span class="list-job-item-tools">Wiper Plug</span>
+          </p>
+          <p class="list-job-item-description">
+            <%= jt.description %>
+          </p>
+
+      <% end %>
+    </div>
+<% end %>
