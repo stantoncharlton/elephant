@@ -16,14 +16,13 @@
 
   <tr>
     <td colspan="4">
+      <br>
       <% if job.approved_to_close %>
       <% elsif job.approved_to_ship %>
-          <br>
           <div class="progress progress-success progress-striped">
             <div class="bar" style="width: <%= job.status_percentage %>%"></div>
           </div>
       <% else %>
-          <br>
           <div class="progress progress-info progress-striped">
             <div class="bar" style="width: <%= job.status_percentage %>%"></div>
           </div>

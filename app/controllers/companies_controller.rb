@@ -14,7 +14,7 @@ class CompaniesController < ApplicationController
                 redirect_to company_path
             else
                 @company = current_user.company
-                @users = User.from_company(@company).paginate(page: params[:page], limit: 10)
+                @users = User.from_company(@company).paginate(page: params[:page], limit: 20)
             end
         end
     end
