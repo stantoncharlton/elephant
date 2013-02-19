@@ -66,7 +66,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :job_notes, only: [:new, :create, :destroy]
 
-    resources :job_memberships, only: [:new, :create, :destroy]
+    resources :job_memberships, only: [:new, :edit, :update, :create, :destroy]
 
     resources :job_note_comments, only: [:create, :destroy]
 

@@ -340,15 +340,39 @@
   }
 }
 
+.job-member-list-item {
+
+}
+
 .job-members-position-title {
   display: inline-block;
   font-size: 13px;
   color: #0058a8;
-  min-width: 250px;
+  min-width: 200px;
 }
 
 .job-member-button {
   visibility: hidden;
+  margin-left: 30px;
+}
+
+.job-member-edit-button{
+  visibility: hidden;
+  display: inline-block;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  font-size: 13px;
+
+  &:active, &:link, &:visited {
+    color: gray;
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #000000;
+    background: transparent;
+    text-decoration: underline;
+  }
 }
 
 .add-job-member {

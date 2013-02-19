@@ -1,5 +1,5 @@
 class JobMembershipsController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :create, :destroy]
+    before_filter :signed_in_user, only: [:new, :create, :edit, :update, :destroy]
 
     def new
         @job_membership = JobMembership.new
@@ -31,6 +31,22 @@ class JobMembershipsController < ApplicationController
             Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
         else
             render template: 'layouts/error', locals: {title: "Problem Adding Member", object: @job_membership}
+        end
+    end
+
+    def edit
+        @job_membership = JobMembership.find_by_id(params[:id])
+        not_found unless @job_membership.job.company == current_user.company
+    end
+
+    def update
+        @job_membership = JobMembership.find_by_id(params[:id])
+        not_found unless @job_membership.job.company == current_user.company
+
+        if @job_membership.update_attributes(params[:job_membership])
+            #Activity.add(self.current_user, Activity::PRODUCT_LINE_UPDATED, @product_line, @product_line.name)
+        else
+            render 'edit'
         end
     end
 

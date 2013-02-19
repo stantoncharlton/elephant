@@ -1,0 +1,20 @@
+<%= form_for job_membership, html: {class: "inline"}, remote: true do |f| %>
+
+    <div class="well">
+
+      <div class="activity-user-link-div-short">
+        <%= render 'activities/user', user: job_membership.user %>
+      </div>
+
+      <br>
+
+      <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], [I18n.t("job_roles.supervisor"), 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]], job_membership.job_role_id),
+                   prompt: I18n.t("jobs.show.new_member_role_prompt"),
+                   class: "job-note-type" %>
+
+      <%= f.submit "Save", class: "bluebtn btnsmall push-right-small" %>
+      <%= link_to "Cancel", "#", class: "bluebtn btnsmall red", id: "cancel_role_" + job_membership.id.to_s %>
+    </div>
+
+
+<% end %>

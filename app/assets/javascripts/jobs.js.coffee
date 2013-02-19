@@ -38,9 +38,11 @@ $ ->
 
 
   $('.job-member-list-item').live "mouseenter", ->
+    $(this).find('.job-member-edit-button').css('visibility', 'visible')
     $(this).find('.delete-button-small').css('visibility', 'visible')
 
   $('.job-member-list-item').live "mouseleave", ->
+    $(this).find('.job-member-edit-button').css('visibility', 'hidden')
     $(this).find('.delete-button-small').css('visibility', 'hidden')
 
   $('.custom-data-input').click ->
