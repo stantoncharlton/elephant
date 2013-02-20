@@ -102,7 +102,7 @@ class DynamicField < ActiveRecord::Base
         value_type = value_type.to_i
         new_value_type = new_value_type.to_i
 
-        if value_type == new_value_type or value_type == STRING
+        if value_type == new_value_type || value_type == STRING
             return value
         end
 
@@ -162,7 +162,7 @@ class DynamicField < ActiveRecord::Base
                     when PRESSURE_PAS
                         value * 6894.75729
                     when PRESSURE_BAR
-                        value
+                        value * 0.0689475729
                 end
             when PRESSURE_MPA
                 case new_value_type
@@ -171,7 +171,7 @@ class DynamicField < ActiveRecord::Base
                     when PRESSURE_PAS
                         value * 1000000
                     when PRESSURE_BAR
-                        value
+                        value * 10
                 end
             when PRESSURE_PAS
                 case new_value_type
@@ -180,16 +180,16 @@ class DynamicField < ActiveRecord::Base
                     when PRESSURE_MPA
                         value * 0.000001
                     when PRESSURE_BAR
-                        value
+                        value * 0.00001
                 end
             when PRESSURE_BAR
                 case new_value_type
                     when PRESSURE_PSI
-                        value
+                        value / 0.06894475729
                     when PRESSURE_MPA
-                        value
+                        value / 10
                     when PRESSURE_PAS
-                        value
+                        value / 0.00001
                 end
             when RATE_BBLS
                 case new_value_type
@@ -563,6 +563,8 @@ class DynamicField < ActiveRecord::Base
 
     def get_storage_value_type(value_type)
         case value_type.to_i
+            when STRING
+                STRING
             when LENGTH_FT, LENGTH_M
                 LENGTH_FT
             when LENGTH_IN, LENGTH_CM

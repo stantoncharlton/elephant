@@ -52,7 +52,7 @@ class JobMembershipsController < ApplicationController
 
     def destroy
         @job_membership = JobMembership.find_by_id(params[:id])
-        not_found unless @job_membership.user.company == current_user.company
+        not_found unless @job_membership.job.company == current_user.company
 
         @job_membership.destroy
     end

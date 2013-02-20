@@ -1,7 +1,16 @@
 class Company < ActiveRecord::Base
-    attr_accessible :address_line_1, :address_line_2, :country, :logo,
-                    :logo_large, :name, :phone_number, :postal_code, :state,
-                    :support_email, :website
+    attr_accessible :name,
+                    :address_line_1,
+                    :address_line_2,
+                    :postal_code,
+                    :state,
+                    :country,
+                    :logo,
+                    :logo_large,
+                    :phone_number,
+                    :support_email,
+                    :website,
+                    :vpn_range
 
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 

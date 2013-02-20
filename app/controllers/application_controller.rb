@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
     include SessionsHelper
 
     before_filter :session_expiry
-    before_filter :update_activity_time
+    before_filter :update_session_expiration
 
     before_filter :set_user_time_zone
     before_filter :set_locale
@@ -12,16 +12,17 @@ class ApplicationController < ActionController::Base
 
 
     def session_expiry
-        get_session_time_left
-        unless @session_time_left > 0
-            store_location
-            sign_out
-            redirect_to root_path, error: "Your session has timed out. Please sign in."
+        respond_to do |format|
+            format.xml {
+                # Ignore desktop session timeout
+            }
+            format.js {
+                get_session_time_left
+            }
+            format.html {
+                get_session_time_left
+            }
         end
-    end
-
-    def update_activity_time
-        session[:expires_at] = 20.minutes.from_now
     end
 
     private
@@ -29,6 +30,11 @@ class ApplicationController < ActionController::Base
     def get_session_time_left
         expire_time = session[:expires_at] || Time.now
         @session_time_left = (expire_time - Time.now).to_i
+
+        unless @session_time_left > 0
+            sign_out
+            deny_access
+        end
     end
 
 

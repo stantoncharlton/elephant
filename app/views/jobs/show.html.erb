@@ -68,11 +68,11 @@
                                    id: "dynamic_field_unit_" + df.id.to_s,
                                    class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
                                    "data-html" => false, "data-title" => "Units, click to change" %>
-                <% end %>
 
-                <div class="job-field-conversion">
-                  <p class="inline warning-text"><%= df.get_user_conversion(@current_user, true) %></p>
-                </div>
+                    <div class="job-field-conversion">
+                      <p class="inline warning-text"><%= df.get_user_conversion(@current_user, true) %></p>
+                    </div>
+                <% end %>
 
               </div>
           <% else %>

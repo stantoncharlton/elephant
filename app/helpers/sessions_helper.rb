@@ -7,7 +7,7 @@ module SessionsHelper
             cookies[:remember_token] = user.remember_token
         end
 
-        session[:expires_at] = 20.minutes.from_now
+        update_session_expiration
         self.current_user = user
     end
 
@@ -35,6 +35,25 @@ module SessionsHelper
     def sign_out
         self.current_user = nil
         cookies.delete(:remember_token)
+    end
+
+    def update_session_expiration
+        session[:expires_at] = 2.hours.from_now
+    end
+
+    def deny_access(msg = nil)
+        msg ||= "Session has expired. Please sign in."
+        flash[:error] ||= msg
+        respond_to do |format|
+            format.html {
+                store_location
+                redirect_to root_url
+            }
+            format.js {
+                store_last_location
+                render 'sessions/redirect_to_login', :layout=>false
+            }
+        end
     end
 
 

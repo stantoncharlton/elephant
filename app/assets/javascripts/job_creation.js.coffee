@@ -27,6 +27,7 @@ $ ->
     $('#modal_popup').css "visibility", "hidden"
     $('#modal_popup').find(".modal-content").children().remove()
     $('#modal_popup').height(0)
+    return false
 
 
   $('#new_field_link').click ->
@@ -34,9 +35,11 @@ $ ->
       $(this).attr 'href', "/fields/new" + '?district_id=' + $('#district_id').val()
     else
       alert('Select a District First')
+    return false
 
   $('#new_well_link').click ->
     $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val()
+    return false
 
   if $('#job_district_id').val() == ''
     $('#job_field_id').attr "disabled", "disabled"

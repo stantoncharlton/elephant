@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204194214) do
+ActiveRecord::Schema.define(:version => 20130220174936) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20130204194214) do
     t.string   "logo_large"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "vpn_range"
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
@@ -157,15 +158,16 @@ ActiveRecord::Schema.define(:version => 20130204194214) do
     t.string   "name"
     t.string   "url"
     t.string   "status"
-    t.boolean  "template",             :default => false
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.boolean  "template",              :default => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.integer  "document_type"
     t.integer  "company_id"
     t.integer  "document_template_id"
     t.integer  "user_id"
-    t.boolean  "read_only",            :default => false
-    t.integer  "order",                :default => 0
+    t.boolean  "read_only",             :default => false
+    t.integer  "order",                 :default => 0
+    t.integer  "post_job_report_order"
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"

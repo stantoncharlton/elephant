@@ -13,6 +13,18 @@
     <div class="page-header-small">
       <br>
 
+      <h1>Account</h1>
+    </div>
+
+    <div class="content">
+      <%= link_to "Change password", update_password_path(email: current_user.email),
+                  class: "activity-user-link" %>
+    </div>
+
+
+    <div class="page-header-small">
+      <br>
+
       <h1>Emails</h1>
     </div>
 
@@ -46,6 +58,7 @@
 
     <div class="page-header-small">
       <br>
+
       <h1>Units</h1>
     </div>
 
@@ -60,7 +73,7 @@
         <div class="inline push-right">
           <%= label_tag nil, "Length ID", class: "field-title" %>
           <%= select_tag "[user_unit][length_inner]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::LENGTH_IN),
-                                                            @current_user.user_unit ? @current_user.user_unit.length_inner : nil),
+                                                                         @current_user.user_unit ? @current_user.user_unit.length_inner : nil),
                          class: "units-default unit-select-long",
                          default: "english" %>
         </div>
@@ -72,7 +85,7 @@
       <div class="">
         <%= label_tag nil, "Temperature", class: "field-title" %>
         <%= select_tag "[user_unit][temperature]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::TEMPERATURE_F),
-                                                         @current_user.user_unit ? @current_user.user_unit.temperature : nil),
+                                                                      @current_user.user_unit ? @current_user.user_unit.temperature : nil),
                        class: "units-default unit-select-long",
                        default: "english" %>
 
@@ -80,7 +93,7 @@
         <div class="inline push-right">
           <%= label_tag nil, "Pressure", class: "field-title" %>
           <%= select_tag "[user_unit][pressure]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::PRESSURE_PSI),
-                                                        @current_user.user_unit ? @current_user.user_unit.pressure : nil),
+                                                                     @current_user.user_unit ? @current_user.user_unit.pressure : nil),
                          class: "units-default unit-select-long",
                          default: "english" %>
         </div>
@@ -92,7 +105,7 @@
       <div class="">
         <%= label_tag nil, "Rate", class: "field-title" %>
         <%= select_tag "[user_unit][rate]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::RATE_BBLS),
-                                                  @current_user.user_unit ? @current_user.user_unit.rate : nil),
+                                                               @current_user.user_unit ? @current_user.user_unit.rate : nil),
                        class: "units-default unit-select-long",
                        default: "english" %>
 
@@ -100,7 +113,7 @@
         <div class="inline push-right">
           <%= label_tag nil, "Volume", class: "field-title" %>
           <%= select_tag "[user_unit][volume]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::VOLUME_BBLS),
-                                                      @current_user.user_unit ? @current_user.user_unit.volume : nil),
+                                                                   @current_user.user_unit ? @current_user.user_unit.volume : nil),
                          class: "units-default unit-select-long",
                          default: "english" %>
         </div>
@@ -112,7 +125,7 @@
       <div class="">
         <%= label_tag nil, "Area", class: "field-title" %>
         <%= select_tag "[user_unit][area]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::AREA_IN2),
-                                                  @current_user.user_unit ? @current_user.user_unit.area : nil),
+                                                               @current_user.user_unit ? @current_user.user_unit.area : nil),
                        class: "units-default unit-select-long",
                        default: "english" %>
 

@@ -3,6 +3,7 @@ $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Member", message: @job_membership.errors.full_messages.join(', ').html_safe %>");
 $('#alert').modal({show: true});
 <% else %>
+
 $("#job_members_list").append("<%= j render 'job_memberships/job_membership', job_membership: @job_membership %>");
 $('#new_member_name').val('');
 
@@ -10,5 +11,6 @@ $('#add_job_member').show();
 $('#new_member_form').hide();
 
 $('.activity-user-link').tooltip();
+
 <% end %>
 
