@@ -73,11 +73,11 @@ class User < ActiveRecord::Base
 
 
     def active_jobs
-        jobs.where(:active => true)
+        jobs.where(:status => Job::ACTIVE)
     end
 
     def inactive_jobs
-        jobs.where(:active => false)
+        jobs.where("jobs.status != :active", active: Job::ACTIVE)
     end
 
     def self.from_company(company)

@@ -16,13 +16,6 @@ $ ->
       $("#client_id").val(ui.item.id)
 
 
-  $('#custom_data_toggle').live "click", ->
-    if $('#custom_data').css("display") == "none"
-      $('#custom_data').css "display", "block"
-    else
-      $('#custom_data').css "display", "none"
-    return false
-
   $('#close_modal').live "click", ->
     $('#modal_popup').css "visibility", "hidden"
     $('#modal_popup').find(".modal-content").children().remove()

@@ -2,10 +2,9 @@ class Job < ActiveRecord::Base
     attr_accessible :client_contact_name,
                     :start_date,
                     :end_date,
-                    :active
+                    :status
 
     include PostJobReportHelper
-
 
 
     validates_presence_of :company
@@ -31,6 +30,10 @@ class Job < ActiveRecord::Base
     has_many :unique_participants, through: :job_memberships, source: :user, uniq: true
 
     has_many :job_processes, order: "created_at DESC"
+
+    ACTIVE = 1
+    CLOSED = 2
+    ABANDONED = 3
 
 
     searchable do
@@ -253,7 +256,7 @@ class Job < ActiveRecord::Base
         user == self.supervisor || user == self.creator
     end
 
-    def status
+    def status_string
         if self.approved_to_close
             I18n.t("jobs.job_data.status_complete")
         elsif self.approved_to_ship and self.sent_post_job_ready_email
@@ -363,7 +366,7 @@ class Job < ActiveRecord::Base
 
     def close_job(user)
 
-        self.active = false
+        self.status = Job::CLOSED
         self.save
 
         Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)

@@ -31,10 +31,23 @@
 <div>
 <div class="content">
   <hr>
-  <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
-     data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
-    <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
+  <ul class="nav nav-pills">
+    <li>
+      <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
+         data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
+        <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
+    </li>
 
+    <li>
+      <a href="#" id="job_tools_toggle" class="custom-data-toggle tooltip-info"
+         data-placement="bottom" data-title="List of tools used on this job">Tools</a>
+    </li>
+
+    <li>
+      <a href="#" id="job_options_toggle" class="custom-data-toggle tooltip-info"
+         data-placement="bottom" data-title="Advanced options for controlling this job">Advanced Options</a>
+    </li>
+  </ul>
 
   <% if params["new"].present? and params["new"] == "true" %>
       <div class="well well-large" id="custom_data">
@@ -90,21 +103,23 @@
 
   </div>
 
-  <a href="#" id="job_tools_toggle" class="custom-data-toggle tooltip-info"
-     data-placement="bottom" data-title="List of tools used on this job">Tools</a>
-
   <div class="custom-data-closed well well-large" id="job_tools">
     <div>
     </div>
-
   </div>
 
-  <a href="#" id="job_options_toggle" class="custom-data-toggle tooltip-info"
-     data-placement="bottom" data-title="Advanced options for controlling this job">Advanced Options</a>
 
   <div class="custom-data-closed well well-large" id="job_options">
     <div>
       <% if @job.is_supervisor_or_creator?(current_user) %>
+
+          <% if @job.status == Job::CLOSED %>
+
+              <%= link_to "Reopen Job", "#",
+                          class: "bluebtn tooltip-info margin-right-small",
+                          "data-title" => "This will reopen the job for edit." %>
+
+          <% end %>
 
           <%= link_to "Delete Job", @job, method: :delete,
                       data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."}, class: "bluebtn red tooltip-info",
@@ -112,9 +127,9 @@
 
       <% end %>
     </div>
-
   </div>
 
+  <hr>
 
   </div>
 

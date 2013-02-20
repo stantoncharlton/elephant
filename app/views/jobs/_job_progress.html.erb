@@ -2,7 +2,7 @@
      data-placement="right"
 data-html="true"
 data-title="<%= "<div class='well-tooltip'>" +
-  "<p>\"" + job.status + "\"</p>" +
+  "<p>\"" + job.status_string + "\"</p>" +
   "<p>" + job.district.name + " / " + job.client.name + "</p>" +
   "<p>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : job.created_at.strftime("%m/%d/%Y")) + "</p>" +
   "<hr><h3>" + job.job_template.product_line.segment.division.name + "</h3>" +

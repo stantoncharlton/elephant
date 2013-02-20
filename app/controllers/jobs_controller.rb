@@ -124,6 +124,7 @@ class JobsController < ApplicationController
         @job.district = District.find_by_id(district_id)
         @job.field = Field.find_by_id(field_id)
         @job.well = Well.find_by_id(well_id)
+        @job.status = Job::ACTIVE
 
         if @job.well.present? && (@job.well.field != @job.field)
             @job.errors.add(:well, "Well does not belong to field")

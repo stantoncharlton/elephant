@@ -1,5 +1,4 @@
 $ ->
-
   if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches)
     $('.job-type-description-target').tooltip()
     $('.tooltip-info').tooltip()
@@ -26,7 +25,7 @@ $ ->
     select: (event, ui) ->
       $("#new_member_name").val(ui.item.label)
       $("#new_member_id").val(ui.item.id)
-      #$("#new_member_form").submit()
+  #$("#new_member_form").submit()
 
   $('#new_note_name').autocomplete
     source: $('#new_note_name').data('autocomplete-source')
@@ -34,7 +33,7 @@ $ ->
     select: (event, ui) ->
       $("#new_note_name").val(ui.item.label)
       $("#new_note_name_id").val(ui.item.id)
-      #$("#new_note_form").submit()
+  #$("#new_note_form").submit()
 
 
   $('.job-member-list-item').live "mouseenter", ->
@@ -66,23 +65,47 @@ $ ->
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_unit_", "") + '?unit=' + $(this).val(), type: 'put', dataType: 'script'
 
 
+  resetTrays = () ->
+    $('#custom_data_toggle').closest('li').removeClass 'active'
+    $('#job_tools_toggle').closest('li').removeClass 'active'
+    $('#job_options_toggle').closest('li').removeClass 'active'
+    $('#custom_data').css "display", "none"
+    $('#job_tools').css "display", "none"
+    $('#job_options').css "display", "none"
+
+  $('#custom_data_toggle').live "click", ->
+    close = $('#custom_data').css("display") == "block"
+    resetTrays()
+    $(this).closest('li').addClass 'active'
+    if $('#custom_data').css("display") == "none"
+      $('#custom_data').css "display", "block"
+    if close
+      $(this).closest('li').removeClass 'active'
+      $('#custom_data').css "display", "none"
+    return false
 
   $('#job_tools_toggle').live "click", ->
+    close = $('#job_tools').css("display") == "block"
+    resetTrays()
+    $(this).closest('li').addClass 'active'
     if $('#job_tools').css("display") == "none"
+      $(this).closest('li').addClass 'active'
       $('#job_tools').css "display", "block"
-      $('#job_tools_toggle').css "display", "block"
-    else
+    if close
+      $(this).closest('li').removeClass 'active'
       $('#job_tools').css "display", "none"
-      $('#job_tools_toggle').css "display", "inline-block"
     return false
 
   $('#job_options_toggle').live "click", ->
+    close = $('#job_options').css("display") == "block"
+    resetTrays()
+    $(this).closest('li').addClass 'active'
     if $('#job_options').css("display") == "none"
+      $(this).closest('li').addClass 'active'
       $('#job_options').css "display", "block"
-      $('#job_options_toggle').css "display", "block"
-    else
+    if close
+      $(this).closest('li').removeClass 'active'
       $('#job_options').css "display", "none"
-      $('#job_options_toggle').css "display", "inline-block"
     return false
 
 #if $('#job_activities')
