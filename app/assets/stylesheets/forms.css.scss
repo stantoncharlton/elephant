@@ -62,6 +62,10 @@
   margin-right: 0px;
 }
 
+.field-title-long {
+  min-width: 240px;
+}
+
 .field-title:after {
   content: url(image_path('field_arrow.png')) no-repeat;
   margin-left: 15px;

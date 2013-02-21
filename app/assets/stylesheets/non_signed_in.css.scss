@@ -78,8 +78,7 @@
   display: inline;
 }
 
-.login input[type=text],
-       input[type=password] {
+.login .input-controls {
   border-radius: 0px;
   height: 48px;
   width: 405px;

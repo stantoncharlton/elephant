@@ -14,9 +14,6 @@ class Well < ActiveRecord::Base
                     :bottom_hole_formation_pressure_value_type,
                     :frac_pressure,
                     :frac_pressure_value_type,
-                    :fuild_type,
-                    :fluid_weight,
-                    :fluid_weight_value_type,
                     :max_deviation,
                     :bottom_deviation
 
@@ -32,7 +29,6 @@ class Well < ActiveRecord::Base
     validates :bottom_hole_temperature, numericality: true, allow_nil: true
     validates :bottom_hole_formation_pressure, numericality: true, allow_nil: true
     validates :frac_pressure, numericality: true, allow_nil: true
-    validates :fluid_weight, numericality: true, allow_nil: true
     validates :max_deviation, numericality: true, allow_nil: true
     validates :bottom_deviation, numericality: true, allow_nil: true
 

@@ -11,7 +11,8 @@
   <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
 
       <%= f.label :email %>
-      <%= f.text_field :email, placeholder: "Type Email", class: "tooltip-info",
+      <%= f.text_field :email, placeholder: "Type Email",
+                       class: "input-controls tooltip-info",
                        "data-placement" => "bottom",
                        "data-title" => "Email address" %>
 
@@ -21,7 +22,7 @@
                   "data-placement" => "bottom",
                   "data-title" => "Request to reset your Elephant password" %>
       <%= f.password_field :password, placeholder: "Type Password",
-                           class: "tooltip-info",
+                           class: "input-controls tooltip-info",
                            "data-placement" => "bottom",
                            "data-title" => "Password" %>
 

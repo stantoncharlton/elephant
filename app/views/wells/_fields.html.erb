@@ -161,42 +161,6 @@
     </div>
 
 
-    <div class="content">
-
-      <p class="job-field-title tooltip-info"
-         data-placement="bottom"
-         data-title="Fuild Type">Fluid Type</p>
-
-      <div class="job-field-div">
-
-        <%= f.select :fuild_type, options_for_select([["Water", "Water"], ["Oil", "Oil"], ["Synthetic", "Synthetic"]]),
-                     {},
-                     class: "job-note-type tooltip-info unitsSelect unit-select-long",
-                     "data-placement" => "bottom",
-                     "data-title" => "Fluid Type, click to change" %>
-
-
-      </div>
-
-      <p class="job-field-title tooltip-info"
-         data-placement="bottom"
-         data-title="Fuild Weight">Fluid Weight</p>
-
-      <div class="job-field-div">
-
-        <%= f.text_field :fluid_weight, placeholder: "-",
-                         class: "job-field-value-editable custom-data-input tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Fuild Weight, click to change" %>
-
-        <%= f.select :fluid_weight_value_type,
-                     options_for_select(DynamicField.new.get_unit_options(DynamicField::WEIGHT_PPG), @well.fluid_weight_value_type),
-                     {}, class: "unitsSelect unit-tooltip wellUnitsSelect", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
-      </div>
-
-    </div>
-
 
     <div class="content">
 

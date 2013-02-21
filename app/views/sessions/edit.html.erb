@@ -1,30 +1,40 @@
 <% provide(:title, 'Create Password') %>
-<div>
+<div class="content">
 
-  <h1 class="page-title">Create Password</h1>
+  <div class="page_header">
+    <h1>Change Password</h1>
+  </div>
 
   <%= form_for(:session, url: create_password_path) do |f| %>
 
-      <div class="field">
-        <%= f.text_field :email, placeholder: "Type Email", value: params[:email], class: "txtfield" %>
-      </div>
+      <div class="well">
+        <div class="content">
+          <b class="inline">Email Address</b>
+          <br><br>
+          <%= f.text_field :email, placeholder: "Type Email", value: params[:email], class: "txtfield" %>
 
-      <div class="field">
-        <%= f.label :current_password %>
-        <%= f.password_field :current_password %>
-      </div>
+          <hr>
 
-      <div class="field">
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-      </div>
-      <div class="field">
-        <%= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation %>
+          <div class="">
+            <div class="field">
+              <%= f.label :current_password, class: "field-title field-title-long" %>
+              <%= f.password_field :current_password, class: "txtfield small" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :password, class: "field-title field-title-long" %>
+              <%= f.password_field :password, class: "txtfield small" %>
+            </div>
+            <div class="field">
+              <%= f.label :password_confirmation, class: "field-title field-title-long" %>
+              <%= f.password_field :password_confirmation, class: "txtfield small" %>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div>
-        <%= f.submit "LOGIN", class: "bluebtn" %>
+        <%= f.submit "Update Password", class: "bluebtn pull-right" %>
       </div>
 
   <% end %>
