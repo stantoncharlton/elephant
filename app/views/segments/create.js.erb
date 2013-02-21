@@ -8,6 +8,8 @@ $('#alert').modal({show:true});
 $('#new_segment_id_<%= @segment.division.id %>').remove();
 $('#new_segment_link_<%= @segment.division.id %>').show();
 
-$('#segments_<%= @segment.division.id %>').find('.indent-content:first').prepend($("<%= j render @segment %>"));
+$('#segments_<%= @segment.division.id %>').find('.indent-content:first').append($("<%= j render @segment %>"));
+
+$('#product_lines_<%= @segment.id.to_s %>').removeClass("hidden");
 
 <% end %>

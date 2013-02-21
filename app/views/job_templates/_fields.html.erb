@@ -1,16 +1,41 @@
-
-<div class="content">
+<div class="">
 
   <%= f.hidden_field :product_line_id, value: @job_template.product_line.id %>
 
-  <div class="">
-    <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: I18n.t("job_templates.show.job_type_name") %>
-  </div>
+  <div class="well">
+    <div class="pull-left">
+      <h3 class="">Job Type Name</h3><br>
+      <%= f.text_field :name, value: @job_template.name, class: "txtfield", placeholder: I18n.t("job_templates.show.job_type_name") %>
 
-  <div class="">
-    <%= f.text_area :description,
-                    placeholder: I18n.t("job_templates.show.description_prompt"),
-                    class: "txtfield job-description-text", autofocus: false %>
+      <br><br><br>
+    </div>
+
+    <div class=" pull-right">
+      <div class="">
+        <p class="field-title"><%= t "jobs.job_data.division" %></p>
+
+        <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
+      </div>
+      <div class="">
+        <p class="field-title"><%= t "jobs.job_data.segment" %></p>
+
+        <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
+      </div>
+      <div class="">
+        <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
+
+        <h3 class="inline"><%= @job_template.product_line.name %> </h3>
+      </div>
+    </div>
+
+
+
+
+    <div class="">
+      <%= f.text_area :description,
+                      placeholder: I18n.t("job_templates.show.description_prompt"),
+                      class: "txtfield job-description-text push-right-small", autofocus: false %>
+    </div>
   </div>
 
 </div>

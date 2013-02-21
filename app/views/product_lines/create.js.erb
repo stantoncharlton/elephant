@@ -7,6 +7,8 @@ $('#alert').modal({show:true});
 
 $('#new_product_line_id_<%= @product_line.segment.id %>').hide();
 $('#new_product_line_link_<%= @product_line.segment.id %>').show();
-$('#product_lines_<%= @product_line.segment.id %>').find('.indent-content:first').prepend($("<%= j render @product_line %>"));
+$('#product_lines_<%= @product_line.segment.id %>').find('.indent-content:first').append($("<%= j render @product_line %>"));
+
+$('#job_templates_<%= @product_line.id.to_s %>').removeClass("hidden");
 
 <% end %>
