@@ -368,6 +368,7 @@ class Job < ActiveRecord::Base
     def close_job(user)
 
         self.status = Job::CLOSED
+        self.close_date = DateTime.now
         self.save
 
         Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)

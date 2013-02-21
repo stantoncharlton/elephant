@@ -110,6 +110,7 @@ class DocumentsController < ApplicationController
         end
 
         @document.user = current_user
+        @document.delete_document
         @document.url = params[:document][:url]
 
 
@@ -139,6 +140,7 @@ class DocumentsController < ApplicationController
     def destroy
         @document = Document.find(params[:id])
         not_found unless @document.company == current_user.company
+        @document.delete_document
         @document.destroy
 
         if !@document.destroy
