@@ -1,4 +1,4 @@
-$('#segment_<%= @segment.id %>_header').html('<%= @segment.name %> <b class="caret"></b>');
+$('#segment_<%= @segment.id %>').find('.product-line-header:first').text('<%= @segment.name %>');
 $('#segment_<%= @segment.id %>_header').show();
 $('#segment_<%= @segment.id %>_header').next().remove();
 

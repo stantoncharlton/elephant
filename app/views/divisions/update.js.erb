@@ -1,4 +1,4 @@
-$('#division_<%= @division.id %>_header').html('<%= @division.name %> <b class="caret"></b>');
+$('#division_<%= @division.id %>').find('.product-line-header:first').text('<%= @division.name %>');
 $('#division_<%= @division.id %>_header').show();
 $('#division_<%= @division.id %>_header').next().remove();
 

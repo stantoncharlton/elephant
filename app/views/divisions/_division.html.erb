@@ -3,33 +3,13 @@
   <div class="header product-line">
 
     <a href="#" class="div-expand-toggle div-toggle-button tooltip-info"
-    data-placement="bottom"
-    data-title="Click to expand/collapse segments">
+       data-placement="bottom"
+       data-title="Click to expand/collapse segments">
 
-      <p class="div-expand-count pull-right"><%= pluralize(division.segments.count, "segment") %></p>
+      <p class="pull-right div-expand-count"><%= pluralize(division.segments.count, "segment") %></p>
 
-
-      <div class="dropdown div-toggle-header-content">
-
-        <a href="#" class="btn dropdown-toggle product-line-header tooltip-info"
-           data-placement="bottom"
-           data-title="Click to rename/delete division"
-           data-toggle="dropdown"
-           id="division_<%= division.id %>_header">
-          <%= division.name %> <b class="caret"></b>
-        </a>
-
-        <ul class="dropdown-menu" role="menu">
-          <li><%= link_to "Rename", edit_division_path(division), remote: true %></li>
-          <li><%= link_to "Delete", division, method: :delete, remote: true, data: {confirm: "Permanently Delete Division? This can't be undone. This will cause all sub Segments, Product Lines, and Job Types to also be deleted. "}%></li>
-        </ul>
-
-
-      </div>
-
+      <span class="product-line-header"><%= division.name %></span>
     </a>
-
-
   </div>
 
 
@@ -47,6 +27,20 @@
                 "data-placement" => "bottom",
                 "data-title" => "Create new segment on " + division.name %>
 
+      <div class="inline dropdown pull-right">
+        <br>
+        <a href="#" class="activity-user-link dropdown-toggle tooltip-info push-right-small"
+           data-placement="bottom"
+           data-title="Click to rename/delete division"
+           data-toggle="dropdown"
+           id="division_<%= division.id %>_header">Rename/Delete Division
+        </a>
+
+        <ul class="dropdown-menu" role="menu">
+          <li><%= link_to "Rename", edit_division_path(division), remote: true %></li>
+          <li><%= link_to "Delete", division, method: :delete, remote: true, data: {confirm: "Permanently Delete Division? This can't be undone. This will cause all sub Segments, Product Lines, and Job Types to also be deleted. "} %></li>
+        </ul>
+      </div>
   </div>
 
 </div>
