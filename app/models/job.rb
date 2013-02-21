@@ -2,6 +2,7 @@ class Job < ActiveRecord::Base
     attr_accessible :client_contact_name,
                     :start_date,
                     :end_date,
+                    :close_date,
                     :status
 
     include PostJobReportHelper

@@ -25,14 +25,14 @@ $ ->
 
   $('#new_field_link').click ->
     if $('#job_district_id').val() != ''
+      $('body').animate({scrollTop : 0},'slow');
       $(this).attr 'href', "/fields/new" + '?district_id=' + $('#district_id').val()
     else
       alert('Select a District First')
-    return false
 
   $('#new_well_link').click ->
+    $('body').animate({scrollTop : 0},'slow');
     $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val()
-    return false
 
   if $('#job_district_id').val() == ''
     $('#job_field_id').attr "disabled", "disabled"
