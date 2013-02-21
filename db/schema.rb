@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221182158) do
+ActiveRecord::Schema.define(:version => 20130221202348) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -391,6 +391,7 @@ ActiveRecord::Schema.define(:version => 20130221182158) do
     t.string   "time_zone"
     t.string   "language"
     t.boolean  "send_daily_activity", :default => true
+    t.boolean  "accepted_tou",        :default => false
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

@@ -72,7 +72,6 @@ input[type='text'].ui-autocomplete-loading {
 html {
   overflow-y: scroll;
 
-
 }
 
 body {
@@ -174,6 +173,11 @@ p {
   color: #949494;
 }
 
+.inline-text-scroll {
+  height: 346px;
+  overflow: scroll;
+}
+
 /* header */
 
 .navbar {
@@ -210,7 +214,6 @@ p {
   line-height: 1;
   text-indent: -2000px;
   overflow: hidden;
-
 
 }
 
@@ -393,7 +396,6 @@ p {
     opacity: 1;
   }
 }
-
 
 .user-name {
   color: #FFFFFF;

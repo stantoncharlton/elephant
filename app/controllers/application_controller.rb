@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
     before_filter :set_user_time_zone
     before_filter :set_locale
     before_filter :set_current_user_for_observer
-    #before_filter :set_time_zone
+
+    before_filter :accept_terms_of_use
 
 
     def session_expiry
@@ -35,6 +36,12 @@ class ApplicationController < ActionController::Base
             sign_out
             deny_access
         end
+    end
+
+    def accept_terms_of_use
+       if signed_in? and !current_user.accepted_tou?
+           redirect_to terms_of_use_path
+       end
     end
 
 
