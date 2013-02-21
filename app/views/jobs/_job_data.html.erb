@@ -121,7 +121,7 @@
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
 
-          <% if form_editable %>
+          <% if form_editable && !dynamic_field.predefined? %>
               <div class="job-field-div">
                 <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
                        class="job-field-value-editable custom-data-input tooltip-info"

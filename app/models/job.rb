@@ -272,7 +272,7 @@ class Job < ActiveRecord::Base
         percentage = 100
         current = 0
         pre_job_docs = self.pre_job_documents.count
-        fields = self.dynamic_fields.count
+        fields = self.dynamic_fields.select { |df| !df.predefined? }.count
 
         if pre_job_docs > 0
             pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs.to_f
@@ -282,7 +282,7 @@ class Job < ActiveRecord::Base
         end
 
         current += (self.pre_job_documents.select { |document| !document.url.blank? }.count || 0) * pre_doc_value.to_f
-        current += (self.dynamic_fields.select { |df| !df.value.blank? }.count || 0) * fields_value.to_f
+        current += (self.dynamic_fields.select { |df| !df.predefined? && !df.value.blank? }.count || 0) * fields_value.to_f
 
 
         if self.approved_to_ship

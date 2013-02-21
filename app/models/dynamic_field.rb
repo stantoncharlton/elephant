@@ -6,6 +6,7 @@ class DynamicField < ActiveRecord::Base
                     :default_value_type,
                     :template,
                     :priority,
+                    :predefined,
                     :order
 
     validates_presence_of :name
@@ -455,8 +456,8 @@ class DynamicField < ActiveRecord::Base
         units << ["Weight - Casing | Kilograms per Meter", WEIGHT_KGM]
         units << ["Weight - Gradient | PSI per Foot", WEIGHT_GRADIENT_PSIF]
         units << ["Weight - Gradient | PSI per Meter", WEIGHT_GRADIENT_PSIM]
-        units << ["Weight - Gradient | Specific Gravity per Foot", WEIGHT_GRADIENT_PSIF]
-        units << ["Weight - Gradient | Specific Gravity per Meter", WEIGHT_GRADIENT_PSIF]
+        units << ["Weight - Gradient | Specific Gravity per Foot", WEIGHT_GRADIENT_SGF]
+        units << ["Weight - Gradient | Specific Gravity per Meter", WEIGHT_GRADIENT_SGM]
 
         units
     end
@@ -598,25 +599,25 @@ class DynamicField < ActiveRecord::Base
 
             case self.value_type
                 when LENGTH_FT, LENGTH_M
-                    user_value_type = user.user_unit.length_outer
+                    user_value_type = user.user_unit.length_outer || self.value_type
                 when LENGTH_IN, LENGTH_CM
-                    user_value_type = user.user_unit.length_inner
+                    user_value_type = user.user_unit.length_inner || self.value_type
                 when TEMPERATURE_F, TEMPERATURE_C
-                    user_value_type = user.user_unit.temperature
+                    user_value_type = user.user_unit.temperature || self.value_type
                 when PRESSURE_PSI, PRESSURE_MPA, PRESSURE_PAS, PRESSURE_BAR
-                    user_value_type = user.user_unit.pressure
+                    user_value_type = user.user_unit.pressure || self.value_type
                 when RATE_BBLS, RATE_M3
-                    user_value_type = user.user_unit.rate
+                    user_value_type = user.user_unit.rate || self.value_type
                 when VOLUME_BBLS, VOLUME_M3
-                    user_value_type = user.user_unit.volume
+                    user_value_type = user.user_unit.volume || self.value_type
                 when AREA_IN2, AREA_CM2
-                    user_value_type = user.user_unit.area
+                    user_value_type = user.user_unit.area || self.value_type
                 when WEIGHT_LBS, WEIGHT_KG
-                    user_value_type = user.user_unit.weight
-                when WEIGHT_PPG, WEIGHT_SG
-                    user_value_type = user.user_unit.weight_casing
+                    user_value_type = user.user_unit.weight || self.value_type
                 when WEIGHT_PPF, WEIGHT_KGM
-                    user_value_type = user.user_unit.weight_density
+                    user_value_type = user.user_unit.weight_casing || self.value_type
+                when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
+                    user_value_type = user.user_unit.weight_gradient || self.value_type
             end
 
             if (user_value_type != nil and user_value_type != self.value_type) or output_always

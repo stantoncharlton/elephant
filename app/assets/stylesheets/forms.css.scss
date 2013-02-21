@@ -69,6 +69,10 @@
   float: right;
 }
 
+.ajax-loading {
+  background: url(image_path('ajax-loader.gif')) no-repeat 80% 50% !important;
+}
+
 .header {
   margin-top: 20px;
   margin-bottom: 10px;

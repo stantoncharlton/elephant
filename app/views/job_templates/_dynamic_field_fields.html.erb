@@ -2,11 +2,13 @@
 
     <%= render 'shared/error_messages', object: f.object %>
 
-    <div class="inline-form">
+    <div class="inline-form well">
 
-      <%= f.text_field :name, placeholder: I18n.t("job_templates.dynamic_field_fields.name"), class: "txtfield tooltip-info", id: "new_dynamic_field_name",
+      <h3 class="job-dynamic-field-title">New Custom Data Property</h3>
+
+      <%= f.text_field :name, placeholder: "Custom data property name", class: "txtfield tooltip-info", id: "new_dynamic_field_name",
                        "data-placement" => "bottom",
-                       "data-title" => "Custom field name" %>
+                       "data-title" => "Custom data property name" %>
       <!-- <%= f.select :value_type, options_for_select(@new_dynamic_field.units) %>   -->
       <%= f.hidden_field :template, value: true %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>
@@ -19,11 +21,24 @@
 
       <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
 
+      <br>
+
       <div class="inline tooltip-info" data-placement="bottom"
-           data-title="This field is shown in the summary of the job">
-        <%= f.label I18n.t("job_templates.document_fields.show_in_summary"), class: "push-right" %>
+           data-title="This data is pre-defined and non-editable on the job page">
+        <%= f.label "Value", class: "inline" %>
+
+        <%= f.text_field :value,
+                         placeholder: "-",
+                         class: "job-field-value-editable push-right-small" %>
+      </div>
+
+      <div class="inline tooltip-info push-right" data-placement="bottom"
+           data-title="This data is shown in the summary of the job">
+        <%= f.label "Show in job summary", class: "inline" %>
         <%= f.check_box :priority %>
       </div>
+
+
 
 
     </div>

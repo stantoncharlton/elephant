@@ -9,11 +9,17 @@
       <%= label_tag nil, dynamic_field.value_type_unit_full, class: "" %>
     </div>
 
+
     <div class="dynamic-field-summary-div">
+      <% if dynamic_field.predefined? %>
+          <%= dynamic_field.value_type == DynamicField::STRING ? dynamic_field.value : dynamic_field.value.to_f.round(3).to_s %>
+      <% end %>
       <% if dynamic_field.priority %>
-          <%= label_tag "Shown in Summary", nil, class: "warning-text tooltip-info",
-                        "data-placement" => "bottom",
-                        "data-title" => "This field is shown in the summary of the job" %>
+          <div class="summary-text">
+            <%= label_tag nil, "Shown in Summary", class: "warning-text tooltip-info",
+                          "data-placement" => "bottom",
+                          "data-title" => "This field is shown in the summary of the job" %>
+          </div>
       <% end %>
     </div>
 

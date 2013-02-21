@@ -3,16 +3,26 @@
 
       <%= render 'shared/error_messages', object: f.object %>
 
-      <div class="inline-form">
+      <div class="inline-form job-dynamic-field-div well">
 
         <%= f.text_field :name, placeholder: "Name of Field", class: "txtfield small", id: "new_dynamic_field_name" %>
         <%= f.select :value_type, options_for_select(dynamic_field.units, dynamic_field.value_type) %>
 
         <%= f.submit "Save", class: "bluebtn btnsmall" %>
-        <%= link_to "Cancel", "#", id: "cancel_edit", class: "bluebtn btnsmall red" %>
+        <%= link_to "Cancel", "#", id: "cancel_edit_" + dynamic_field.id.to_s, class: "bluebtn btnsmall btn-fix red" %>
 
+        <br>
 
-        <%= f.label "Show in Summary", class: "push-right" %>
+        <div class="inline tooltip-info" data-placement="bottom"
+             data-title="This data is pre-defined and non-editable on the job page">
+          <%= f.label "Value", class: "inline" %>
+
+          <%= f.text_field :value,
+                           placeholder: "-",
+                           class: "job-field-value-editable push-right-small" %>
+        </div>
+
+        <%= f.label "Show in Job Summary", class: "push-right" %>
         <%= f.check_box :priority %>
 
       </div>

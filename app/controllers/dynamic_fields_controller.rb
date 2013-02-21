@@ -47,10 +47,20 @@ class DynamicFieldsController < ApplicationController
         job_template_id = params[:dynamic_field][:job_template_id]
         params[:dynamic_field].delete(:job_template_id)
 
+        value = params[:dynamic_field][:value]
+        params[:dynamic_field].delete(:value)
+
         @dynamic_field = DynamicField.new(params[:dynamic_field])
         @dynamic_field.company = current_user.company
         @dynamic_field.job_template = JobTemplate.find_by_id(job_template_id)
         @dynamic_field.order = @dynamic_field.job_template.dynamic_fields.count
+
+        if !value.blank?
+            @dynamic_field.predefined = true
+            @dynamic_field.value = value
+        else
+            @dynamic_field.predefined = false
+        end
 
         if !@dynamic_field.save
             render 'error'
@@ -70,7 +80,17 @@ class DynamicFieldsController < ApplicationController
         not_found unless @dynamic_field.company == current_user.company
 
         if @dynamic_field.template?
-            @dynamic_field.update_attributes(params[:dynamic_field])
+            DynamicField.transaction do
+                @dynamic_field.update_attribute(:name, params[:dynamic_field][:name])
+                @dynamic_field.update_attribute(:value_type, params[:dynamic_field][:value_type])
+                @dynamic_field.update_attribute(:priority, params[:dynamic_field][:priority])
+                if !params[:dynamic_field][:value].blank?
+                    @dynamic_field.update_attribute(:value, params[:dynamic_field][:value])
+                    @dynamic_field.update_attribute(:predefined, true)
+                else
+                    @dynamic_field.update_attribute(:predefined, false)
+                end
+            end
         else
             if params[:value].present?
                 @dynamic_field.value = params[:value]

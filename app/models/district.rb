@@ -19,7 +19,7 @@ class District < ActiveRecord::Base
     belongs_to :country
     belongs_to :state
 
-    has_many :fields
+    has_many :fields, order: "name ASC"
 
 
     searchable do

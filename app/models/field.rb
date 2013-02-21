@@ -9,7 +9,7 @@ class Field < ActiveRecord::Base
     belongs_to :company
     belongs_to :district
 
-    has_many :wells
+    has_many :wells, order: "name ASC"
 
 
     def self.from_company(company)

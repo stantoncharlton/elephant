@@ -10,6 +10,10 @@ $('#job_templates_list').find('*').remove();
 $('#job_templates_list').append('<%= j render 'job_templates/job_templates_list', job_templates: @job_templates, job_template: nil %>');
 
 <% if @job_templates.count == 0 %>
+$('#job_templates_list').append("<b class=\"warning-text\">No Job types on this product line (please contact IT support)</b>");
+<% end %>
+
+<% if @job_templates.count == 0 %>
     $('#job_job_template_id').attr("disabled", "disabled");
     $('#job_job_template_id').css("opacity", ".3");
 <% else %>
