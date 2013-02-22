@@ -1,9 +1,12 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery
     include SessionsHelper
+    include VpnHelper
 
     before_filter :session_expiry
     before_filter :update_session_expiration
+
+    before_filter :verify_traffic
 
     before_filter :set_user_time_zone
     before_filter :set_locale

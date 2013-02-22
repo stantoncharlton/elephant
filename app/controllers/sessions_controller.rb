@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
 
     skip_before_filter :session_expiry
     skip_before_filter :update_activity_time
+    skip_before_filter :verify_traffic
 
     def new
         flash[:error] = "Please login"
@@ -26,7 +27,7 @@ class SessionsController < ApplicationController
                 }
                 format.xml {
                     sign_in(user, params[:session]["stay_logged_in"] == "1")
-                    render xml: user, except: [ :created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password ]
+                    render xml: user, except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password]
                 }
             end
         else
@@ -85,6 +86,21 @@ class SessionsController < ApplicationController
             end
 
             redirect_to reset_password_path
+        end
+    end
+
+    def verify_network
+        if params[:session]
+            if params[:session][:network_access_code]
+                if authorize_network_code params[:session][:network_access_code]
+                    redirect_to root_path
+                else
+                    render 'verify_network', :flash => {:error =>  "Network code invalid. Please try again." }
+                end
+            end
+        elsif params[:resend] and params[:resend] == "true"
+            verify_traffic true
+            session[:return_to] = root_path
         end
     end
 

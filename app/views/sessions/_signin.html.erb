@@ -2,11 +2,17 @@
 
   <h1>LOGIN</h1>
 
-  <h2>To your Elephant Account</h2>
+  <% if !flash.any? %>
+      <h2>To your Elephant Account</h2>
+  <% end %>
 
   <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %> loginrightmargin"><%= value %></div>
-  <% end %>
+      <br>
+      <div class="alert alert-<%= key %> loginrightmargin"><b><%= value %></b>
+        <%= image_tag "error_red.png", class: "login-error" %>
+      </div>
+
+<% end %>
 
   <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
 

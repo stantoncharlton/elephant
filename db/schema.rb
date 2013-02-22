@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221222043) do
+ActiveRecord::Schema.define(:version => 20130222152709) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20130221222043) do
     t.integer  "default_value_type",        :default => 0
     t.integer  "order",                     :default => 0
     t.boolean  "predefined",                :default => false
+    t.boolean  "is_tool",                   :default => false
   end
 
   add_index "dynamic_fields", ["company_id"], :name => "index_dynamic_fields_on_company_id"
@@ -376,23 +377,26 @@ ActiveRecord::Schema.define(:version => 20130221222043) do
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.boolean  "admin",               :default => false
+    t.boolean  "admin",                               :default => false
     t.integer  "company_id"
     t.integer  "district_id"
     t.string   "location"
     t.string   "phone_number"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
     t.string   "password_digest"
-    t.boolean  "elephant_admin",      :default => false
+    t.boolean  "elephant_admin",                      :default => false
     t.string   "remember_token"
-    t.boolean  "create_password",     :default => false
+    t.boolean  "create_password",                     :default => false
     t.integer  "role_id"
     t.integer  "product_line_id"
     t.string   "time_zone"
     t.string   "language"
-    t.boolean  "send_daily_activity", :default => true
-    t.boolean  "accepted_tou",        :default => false
+    t.boolean  "send_daily_activity",                 :default => true
+    t.boolean  "accepted_tou",                        :default => false
+    t.string   "unverified_network"
+    t.string   "network_access_code"
+    t.string   "verified_networks",   :limit => 2000
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

@@ -1,4 +1,4 @@
-<div class="inline" id="edit_dynamic_field_<%= dynamic_field.id.to_s %>">
+<div class="job-template-dynamic-field-edit inline" id="edit_dynamic_field_<%= dynamic_field.id.to_s %>">
   <%= form_for dynamic_field, remote: true do |f| %>
 
       <%= render 'shared/error_messages', object: f.object %>
@@ -22,8 +22,13 @@
                            class: "job-field-value-editable push-right-small" %>
         </div>
 
-        <%= f.label "Show in Job Summary", class: "push-right" %>
+        <%= f.label nil, "Show in Job Summary", class: "push-right" %>
         <%= f.check_box :priority %>
+
+        <div class="inline push-right">
+          <%= f.label nil, "Tool", class: "push-right" %>
+          <%= f.check_box :is_tool %>
+        </div>
 
       </div>
   <% end %>

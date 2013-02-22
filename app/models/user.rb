@@ -9,7 +9,10 @@ class User < ActiveRecord::Base
                     :password_confirmation,
                     :admin,
                     :accepted_tou,
-                    :send_daily_activity
+                    :send_daily_activity,
+                    :unverified_network,
+                    :network_access_code,
+                    :verified_networks
 
     has_secure_password
 
@@ -127,6 +130,10 @@ class User < ActiveRecord::Base
 
     def send_reset_password_email(password)
         UserMailer.reset_password(self, password).deliver
+    end
+
+    def send_remote_login_password_email(password)
+        UserMailer.remote_login_password(self, password).deliver
     end
 
     def send_welcome_email(user, password)

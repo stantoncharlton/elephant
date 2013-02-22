@@ -5,6 +5,7 @@ class DynamicField < ActiveRecord::Base
                     :value_type,
                     :default_value_type,
                     :template,
+                    :is_tool,
                     :priority,
                     :predefined,
                     :order

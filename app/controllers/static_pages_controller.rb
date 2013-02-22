@@ -1,6 +1,7 @@
 class StaticPagesController < ApplicationController
     before_filter :signed_in_user, only: [:help, :overview, :terms_of_use]
 
+    skip_before_filter :verify_traffic, only: [:home, :about, :sales, :terms_of_use]
     skip_before_filter :accept_terms_of_use, only: [:terms_of_use]
     skip_before_filter :session_expiry, only: [:home, :about, :sales]
     skip_before_filter :update_activity_time, only: [:home, :about, :sales]

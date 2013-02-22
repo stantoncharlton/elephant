@@ -17,13 +17,16 @@ ElephantWebApp::Application.routes.draw do
 
     #match "/settings" => "settings#edit", :via => :get
     #match "/settings" => "settings#update", :via => :put
-    resources :settings, only: [:edit, :update]
+    resources :settings, only: [:edit, :update, :security, :update_security]
+    match '/security', to: 'settings#security'
+    match '/update_security', to: 'settings#update_security'
 
     match '/signin', to: 'sessions#new'
     get '/update_password', to: 'sessions#edit'
     match '/create_password', to: 'sessions#update', via: :post
     match '/signout', to: 'sessions#destroy', via: :delete
     match '/reset_password', to: 'sessions#reset_password'
+    match '/verify_network', to: 'sessions#verify_network'
 
     resources :elephant_admin, only: [:index]
     match '/elephant_admin', to: 'elephant_admin#index'
