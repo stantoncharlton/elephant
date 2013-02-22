@@ -44,6 +44,8 @@
     <div id="job_templates_list" class="">
       <% if @job_templates.present? and @job_templates.any? %>
           <%= render 'job_templates/job_templates_list', job_templates: @job_templates, job_template: @job.job_template %>
+      <% else %>
+          <b class="warning-text">No Job types on this product line (please contact IT support)</b>
       <% end %>
     </div>
 

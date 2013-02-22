@@ -9,6 +9,7 @@ data-title="<%= "<div class='well-tooltip'>" +
   "<h3>" + job.job_template.product_line.segment.name + "</h3>" +
   "<h3>" + job.job_template.product_line.name + "</h3>" +
   "<h3>" + job.job_template.name + "</h3>" +
+        (show_summary_data ? "<hr><h3>" + job.dynamic_fields.select {|df| !df.template? && df.priority? }.map { |df| df.name + ": " + df.value }.join("<br>") + "</h3>"  : "") +
   "</div>" %>">
 
   <div class="job-status-name">

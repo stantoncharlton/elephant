@@ -1,0 +1,20 @@
+<% if params[:new] and params[:new] == "true" %>
+    <% if job.other_jobs.select { |j| j.job_template == job.job_template }.any? %>
+        <div class="alert alert-block">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <h4>Warning - Same job already exists</h4>
+
+          <p>This job type already exists, please make sure the new job is actually a new job and not a duplicate.</p>
+
+          <div class="content">
+            <% job.other_jobs.select { |j| j.job_template == job.job_template }.each do |job| %>
+                <%= link_to job, class: "job-status job-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Click to open job" do %>
+                    <%= render 'jobs/job_progress', job: job, form_editable: false, in_form: false, new_line_job_type: false, show_summary_data: true %>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+<% end %>
