@@ -595,9 +595,11 @@ class DynamicField < ActiveRecord::Base
 
     def get_user_conversion(user, parenthesis = false, output_always = false, full_unit = false)
 
-        if user.user_unit
-            user_value_type = LENGTH
+        user_value_type = LENGTH
 
+        if user.user_unit.nil?
+            user_value_type = self.value_type
+        else
             case self.value_type.to_i
                 when LENGTH_FT, LENGTH_M
                     user_value_type = user.user_unit.length_outer || self.value_type
@@ -620,18 +622,19 @@ class DynamicField < ActiveRecord::Base
                 when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
                     user_value_type = user.user_unit.weight_gradient || self.value_type
             end
+        end
 
-            if (user_value_type != nil && user_value_type != self.value_type) || output_always
-                value = self.value
-                if (value.to_f != 0) || output_always
 
-                    unit = full_unit ? get_value_type_unit_full(user_value_type).to_s : get_value_type_unit(user_value_type).to_s
+        if (user_value_type != nil && user_value_type != self.value_type) || output_always
+            value = self.value
+            if (value.to_f != 0) || output_always
 
-                    if parenthesis
-                        return "(" + convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + unit + ")"
-                    else
-                        return convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + unit
-                    end
+                unit = full_unit ? get_value_type_unit_full(user_value_type).to_s : get_value_type_unit(user_value_type).to_s
+
+                if parenthesis
+                    return "(" + convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + unit + ")"
+                else
+                    return convert(value, self.value_type, user_value_type).to_f.round(2).to_s + " " + unit
                 end
             end
         end
