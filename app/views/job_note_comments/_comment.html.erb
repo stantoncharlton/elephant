@@ -10,7 +10,8 @@
         <%= render 'activities/user', user: comment.user %>
       </div>
 
-      <p class="activity-date inline"><%= comment.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+
+      <p class="activity-date inline"><%= time_ago_in_words(comment.created_at) %> ago</p>
     </div>
 
     <div class="">
