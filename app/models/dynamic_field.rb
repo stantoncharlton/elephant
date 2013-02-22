@@ -598,7 +598,7 @@ class DynamicField < ActiveRecord::Base
         if user.user_unit
             user_value_type = LENGTH
 
-            case self.value_type
+            case self.value_type.to_i
                 when LENGTH_FT, LENGTH_M
                     user_value_type = user.user_unit.length_outer || self.value_type
                 when LENGTH_IN, LENGTH_CM
@@ -621,7 +621,7 @@ class DynamicField < ActiveRecord::Base
                     user_value_type = user.user_unit.weight_gradient || self.value_type
             end
 
-            if (user_value_type != nil and user_value_type != self.value_type) or output_always
+            if (user_value_type != nil && user_value_type != self.value_type) || output_always
                 value = self.value
                 if (value.to_f != 0) || output_always
 
