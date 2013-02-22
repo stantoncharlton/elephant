@@ -11,6 +11,11 @@
 
 
     <div class="dynamic-field-summary-div">
+
+      <% if dynamic_field.tool? %>
+          <%= image_tag "tool.png" %>
+      <% end %>
+
       <% if dynamic_field.predefined? %>
           <%= dynamic_field.value_type == DynamicField::STRING ? dynamic_field.value : dynamic_field.value.to_f.round(3).to_s %>
       <% end %>
