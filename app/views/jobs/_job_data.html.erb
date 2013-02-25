@@ -3,7 +3,7 @@
       <%= link_to job.field.name, job.field, class: "job-title inline job-type-description-target",
                   "data-placement" => "bottom",
                   "data-html" => true,
-                  "data-title" => "<div>" + I18n.t("jobs.job_data.field_name") + ": <b>" + job.field.name + "</b></div>" %>
+                  "data-title" => "<div>Field <b>" + job.field.name + "</b></div>" %>
   <% else %>
       <h2 class="job-title inline"><%= job.field.name %></h2>
   <% end %>
@@ -16,7 +16,7 @@
       <%= link_to job.well.name, job.well, class: "job-title inline job-type-description-target",
                   "data-placement" => "bottom",
                   "data-html" => true,
-                  "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b>, Click to edit data</div>" %>
+                  "data-title" => "<div>Well <b>" + job.well.name + "</b>, Click to view all jobs</div>" %>
   <% else %>
       <h2 class="job-title inline"><%= job.well.name %></h2>
   <% end %>
@@ -25,16 +25,44 @@
   <% if in_form %>
 
       <% if job.other_jobs.count > 0 %>
+          <p class="inline">
+            (<b><%= job.other_jobs.count.to_s %></b>)
+          </p>
+      <% end %>
+  <% end %>
+
+  <% if in_form %>
+
+      <% if job.other_jobs.count > 0 %>
           <div class="btn-group inline pull-right">
             <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-              <%= t ".other_jobs" %> (<b><%= job.other_jobs.count.to_s %></b>)
+              Advanced Actions
             </a>
             <ul class="dropdown-menu">
               <% job.other_jobs.each do |other_job| %>
-                  <li><%= link_to other_job.job_template.name, other_job, class: "dropdown-menu-link" %></li>
-                  <% if job.other_jobs.last != other_job %>
-                      <li class="divider"></li>
+
+                  <% if @job.is_supervisor_or_creator?(current_user) %>
+
+                      <% if @job.status == Job::CLOSED %>
+                          <li>
+                            <%= link_to "Reopen Job", job(:reopen => "true"),
+                                        class: "dropdown-menu-link tooltip-info",
+                                        "data-placement" => "left",
+                                        "data-title" => "This will reopen the job for edit." %>
+
+                            <!--<li class="divider"></li>-->
+                          </li>
+                      <% end %>
+
+                      <li>
+                        <%= link_to "Delete Job", job, method: :delete,
+                                    class: "dropdown-menu-link tooltip-info",
+                                    data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
+                                    "data-placement" => "left",
+                                    "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+                      </li>
                   <% end %>
+
               <% end %>
             </ul>
           </div>

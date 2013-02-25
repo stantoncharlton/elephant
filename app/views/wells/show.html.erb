@@ -9,19 +9,25 @@
               "data-placement" => "bottom",
               "data-title" => "Create new job on this well" %>
 
+</div>
+
+<div class="well">
+
   <div class="pull-right">
-    <%= select_tag "Divisions", options_for_select(@well.company.divisions.collect { |p| [p.name, p.id] }),
+    <%= select_tag "Divisions", options_for_select(@divisions),
                    class: "custom-select tooltip-info",
                    "data-placement" => "bottom",
                    "data-title" => "Filter list by division",
                    prompt: "Filter by division..." %>
+
+    <br>
+    <br>
+    <br>
+
+    <%= link_to "More Well Details", "#",
+                id: "expand_well_details",
+                class: "activity-user-link tooltip-info pull-right" %>
   </div>
-</div>
-
-<div class="alert alert-info">
-
-  <%= link_to "More Well Details", edit_well_path(@well),
-              class: "activity-user-link tooltip-info pull-right" %>
 
 
   <div>
@@ -41,13 +47,142 @@
     <% end %>
   </div>
 
-  <div class="">
+  <div class="well-details hidden">
     <hr>
 
+    <%= link_to "Edit Well", edit_well_path(@well),
+                class: "activity-user-link tooltip-info pull-right" %>
+
+    <% if @well.offshore? %>
+        <div>
+          <p class="job-field-value"><b>Offshore</b></p>
+        </div>
+    <% end %>
     <div>
-      <p class="job-field-title">Rig Name</p>
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Rig Name">Rig Name</p>
+
       <p class="job-field-value"><%= @well.rig_name.present? ? @well.rig_name : "-" %></p>
     </div>
+
+    <% if @well.offshore? %>
+        <div>
+          <p class="job-field-title tooltip-info"
+             data-placement="bottom"
+             data-title="Water Depth">Water Depth</p>
+
+          <div class="job-field-div">
+            <p class="job-field-value2 unit-tooltip"
+               data-placement="bottom"
+               data-title="<%= @well.water_depth.present? ? @well.dynamic_field("water_depth").get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+              <%= @well.water_depth.present? ? @well.dynamic_field("water_depth").get_user_conversion(@current_user, false, true) : "-" %>
+            </p>
+          </div>
+        </div>
+    <% end %>
+
+    <div>
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Measured Depth">Measured Depth</p>
+
+      <div class="job-field-div">
+        <p class="job-field-value2 unit-tooltip"
+           data-placement="bottom"
+           data-title="<%= @well.measured_depth.present? ? @well.dynamic_field("measured_depth").get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+          <%= @well.measured_depth.present? ? @well.dynamic_field("measured_depth").get_user_conversion(@current_user, false, true) : "-" %>
+        </p>
+      </div>
+
+      <div class="inline">
+        <p class="job-field-title tooltip-info"
+           data-placement="bottom"
+           data-title="True Vertical Depth">True Vertical Depth</p>
+
+        <div class="job-field-div">
+          <p class="job-field-value2 unit-tooltip"
+             data-placement="bottom"
+             data-title="<%= @well.true_vertical_depth.present? ? @well.dynamic_field("true_vertical_depth").get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+            <%= @well.true_vertical_depth.present? ? @well.dynamic_field("true_vertical_depth").get_user_conversion(@current_user, false, true) : "-" %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Bottom Hole Temperature">Bottom Hole Temperature</p>
+
+      <div class="job-field-div">
+        <p class="job-field-value2 unit-tooltip"
+           data-placement="bottom"
+           data-title="<%= @well.bottom_hole_temperature.present? ? @well.dynamic_field("bottom_hole_temperature").get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+          <%= @well.bottom_hole_temperature.present? ? @well.dynamic_field("bottom_hole_temperature").get_user_conversion(@current_user, false, true) : "-" %>
+        </p>
+      </div>
+
+      <div class="inline">
+        <p class="job-field-title tooltip-info"
+           data-placement="bottom"
+           data-title="Bottom Hole Formation Pressure">Bottom Hole Formation Pressure</p>
+
+        <div class="job-field-div">
+          <p class="job-field-value2 unit-tooltip"
+             data-placement="bottom"
+             data-title="<%= @well.bottom_hole_formation_pressure.present? ? @well.dynamic_field("bottom_hole_formation_pressure").get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+            <%= @well.bottom_hole_formation_pressure.present? ? @well.dynamic_field("bottom_hole_formation_pressure").get_user_conversion(@current_user, false, true) : "-" %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Frac Pressure">Frac Pressure</p>
+
+      <div class="job-field-div">
+        <p class="job-field-value2 unit-tooltip"
+           data-placement="bottom"
+           data-title="<%= @well.frac_pressure.present? ? @well.dynamic_field("frac_pressure").get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+          <%= @well.frac_pressure.present? ? @well.dynamic_field("frac_pressure").get_user_conversion(@current_user, false, true) : "-" %>
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Max Deviation">Max Deviation</p>
+
+      <div class="job-field-div">
+        <p class="job-field-value2 unit-tooltip"
+           data-placement="bottom"
+           data-title="<%= @well.max_deviation.present? ? @well.max_deviation.to_s + " degrees": "No value set" %>">
+          <%= @well.max_deviation.present? ? @well.max_deviation.to_s + " degrees" : "-" %>
+        </p>
+      </div>
+
+
+      <div class="inline">
+        <p class="job-field-title tooltip-info"
+           data-placement="bottom"
+           data-title="Bottom Deviation">Bottom Deviation</p>
+
+        <div class="job-field-div">
+          <p class="job-field-value2 unit-tooltip"
+             data-placement="bottom"
+             data-title="<%= @well.bottom_deviation.present? ? @well.bottom_deviation.to_s + " degrees": "No value set" %>">
+            <%= @well.bottom_deviation.present? ? @well.bottom_deviation.to_s + " degrees" : "-" %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
 

@@ -78,6 +78,10 @@ class DynamicField < ActiveRecord::Base
         write_attribute(:value, convert(value, read_attribute(:value_type), storage_value_type))
     end
 
+    def set_temporary_value(value)
+        write_attribute(:value, value)
+    end
+
     def value_type
         read_attribute(:value_type)
     end

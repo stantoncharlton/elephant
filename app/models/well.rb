@@ -56,4 +56,10 @@ class Well < ActiveRecord::Base
 
         DynamicField::STRING
     end
+
+    def dynamic_field(field)
+        dynamic_field = DynamicField.new(value_type: Well.default_unit_value(field))
+        dynamic_field.set_temporary_value(read_attribute(field.to_sym))
+        dynamic_field
+    end
 end

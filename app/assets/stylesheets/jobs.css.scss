@@ -281,7 +281,9 @@
 }
 
 .custom-data-toggle-jobs {
-  color: #0058a8;
+  color: #8b8b8b;
+  font-size: 14px;
+  font-weight: normal;
   background: transparent;
   padding: 5px 20px 5px 0px;
   margin-bottom: 10px;
@@ -289,7 +291,7 @@
   background: url(image_path('more_drop_arrow.png')) no-repeat center right;
 
   &:active, &:link, &:visited {
-    color: #0058a8;
+    color: #8b8b8b;
     background: transparent;
     text-decoration: none;
     background: url(image_path('more_drop_arrow.png')) no-repeat center right;

@@ -15,8 +15,17 @@ class WellsController < ApplicationController
     end
 
     def show
+
         @well = Well.find_by_id(params[:id])
         not_found unless @well.company == current_user.company
+
+        @divisions = []
+        @divisions << ["All Divisions", 0]
+        current_user.company.divisions.each do |division|
+            @divisions << [division.name, division.id]
+        end
+
+
     end
 
     def new
