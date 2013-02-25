@@ -1,20 +1,161 @@
+<% capture do %>
+    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="../plugins/jqplot.pieRenderer.min.js"></script>
+    <script type="text/javascript" src="../plugins/jqplot.donutRenderer.min.js"></script>
+    <link rel="stylesheet" type="text/css" hrf="../jquery.jqplot.min.css"/>
+<% end %>
+
 <div class="page_header">
   <h1>Overview</h1>
 </div>
 
-<div class="content">
-  <h3>Failure Status</h3>
+<br>
+
+<div class="chart-block">
+  <div class="chart-title">Personnel Utilization</div>
+  <div class="donut-chart-div">
+    <div id="personnel_utilization" class="donut-chart "></div>
+    <div class="donut-inner-circle"></div>
+    <div class="donut-text">98</div>
+    <div class="percentage">%</div>
+  </div>
+</div>
+
+<div class="chart-block">
+  <div class="chart-title">Elephant Utilization</div>
+  <div class="donut-chart-div">
+    <div id="elephant_utilization" class="donut-chart "></div>
+    <div class="donut-inner-circle"></div>
+    <div class="donut-text ">67</div>
+    <div class="percentage ">%</div>
+  </div>
+</div>
+
+<div class="chart-block">
+  <div class="chart-title">Average Job Duration</div>
+  <div class="donut-chart-div">
+    <div class="donut-text ">8</div>
+    <div class="percentage ">days</div>
+  </div>
+</div>
+
+<div class="chart-block">
+  <div class="chart-title">Average Job Prep Duration</div>
+  <div class="donut-chart-div">
+    <div class="donut-text chart-text-orange">5</div>
+    <div class="percentage chart-text-orange">days</div>
+  </div>
 </div>
 
 <hr>
 
-<%= image_tag "job_status.png" %>
+
+<div class="chart-block">
+  <div class="chart-title">Job Failure Rate</div>
+  <div class="donut-chart-div">
+    <div id="failure_rate" class="donut-chart "></div>
+    <div class="donut-inner-circle inner-circle-red"></div>
+    <div class="donut-text chart-text-red">43</div>
+    <div class="percentage chart-text-red">%</div>
+  </div>
+</div>
+
+<div class="chart-problem">
+  <div class="chart-title">Failure Problem</div>
+  <br>
+
+  <div class="chart-problem">
+    <div class="chart-problem-name">Packer Not Set<p class="inline">&nbsp;8</p></div>
+    <div class="chart-problem-bar"><div style="width: 70%"></div></div>
+  </div>
+
+  <div class="chart-problem">
+    <div class="chart-problem-name">Liner Hanger Not Set<p class="inline">&nbsp;7</p></div>
+    <div class="chart-problem-bar"><div style="width: 60%"></div></div>
+  </div>
+
+  <div class="chart-problem">
+    <div class="chart-problem-name">Hydraulic Problem<p class="inline">&nbsp;5</p></div>
+    <div class="chart-problem-bar"><div style="width: 40%"></div></div>
+  </div>
+
+  <div class="chart-problem">
+    <div class="chart-problem-name">Liner Wiper Plug Leak<p class="inline">&nbsp;3</p></div>
+    <div class="chart-problem-bar"><div style="width: 20%"></div></div>
+  </div>
+
+</div>
+
+<br>
+<br><br>
+
+<script>
+    $(document).ready(function () {
+        var plot3 = $.jqplot('personnel_utilization', [[['a', 98], ['b', 100 - 98]]], {
+            background:"#FFFFFF",
+            seriesColors:[ "#458fd2", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+
+        var plot3 = $.jqplot('elephant_utilization', [[['a', 67], ['b', 100 - 67]]], {
+            background:"#FFFFFF",
+            seriesColors:[ "#458fd2", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+
+        plot3 = $.jqplot('failure_rate', [[['a', 43], ['b', 100 - 43]]], {
+            background:"#FFFFFF",
+            seriesColors:[ "#e4472e", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+    });
+</script>
+
+
 
 <div class="content">
   <h3>Job Completion Progress</h3>
 
   <div class="job-status-guide pull-right">
     <p class="inline">0%</p>
+
     <p class="inline pull-right">100%</p>
   </div>
 </div>
