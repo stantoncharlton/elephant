@@ -15,11 +15,9 @@
     <% end %>
   </h2>
 
-  <% if signed_in? %>
-      <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path, class: "bluebtn pull-right tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Create new job"%>
-  <% end %>
+  <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path, class: "bluebtn pull-right tooltip-info",
+              "data-placement" => "bottom",
+              "data-title" => "Create new job" %>
 
 </div>
 

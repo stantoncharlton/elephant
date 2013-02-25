@@ -1,0 +1,65 @@
+<%= link_to job, class: "job-link tooltip-info",
+            "data-placement" => "left",
+            "data-title" => "Click to open job" do %>
+
+    <div class="field">
+
+      <h2 class="job-title2 inline"><%= job.job_template.product_line.name %></h2>
+      <p class="job-title-divider">|</p>
+      <h2 class="job-title2 inline"><%= job.job_template.name %></h2>
+
+    </div>
+
+    <div class="">
+
+      <div id="job-progress-status">
+        <%= render 'jobs/job_progress_status', job: job %>
+      </div>
+
+      <p class="job-field-title"><%= t ".status" %></p>
+
+      <div class="job-field-value">
+        <p class=""><%= job.status_string %></p>
+      </div>
+    </div>
+
+    <div class="">
+      <p class="job-field-title"><%= t ".division" %></p>
+
+      <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
+
+      <p class="job-field-title"><%= t ".segment" %></p>
+
+      <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
+    </div>
+
+
+    <div class="">
+      <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+          <% if !dynamic_field.dynamic_field_template.nil? %>
+              <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
+
+              <div class="job-field-div">
+                <p class="job-field-value2"
+                   data-placement="bottom"
+                   data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+                  <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
+                </p>
+              </div>
+          <% end %>
+      <% end %>
+    </div>
+
+    <div class="">
+      <p class="job-field-title"><%= t ".created_date" %></p>
+      <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
+
+      <p class="job-field-title"><%= t ".start_date" %></p>
+      <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
+    </div>
+
+
+
+
+
+<% end %>

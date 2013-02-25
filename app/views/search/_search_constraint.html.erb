@@ -15,19 +15,19 @@
 
       <br>
 
-      <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }),
+      <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, @division),
                      class: "tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "Division",
                      prompt: "Select a Division...", id: "job_division_id" %>
 
-      <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }),
+      <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, @segment),
                      class: "tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "Segment",
                      prompt: "Select a Segment...", id: "job_segment_id" %>
 
-      <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }),
+      <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, @product_line),
                      class: "tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "Product Line",
@@ -38,8 +38,7 @@
                      "data-placement" => "bottom",
                      "data-title" => "Job Type",
                      prompt: "Select a Job Type...", id: "job_job_template_id",
-                     name: "query[constraints][" + index.to_s + "][job_template]"%>
-
+                     name: "query[constraints][" + index.to_s + "][job_template]" %>
 
 
     </div>
@@ -67,6 +66,11 @@
   <div class="search-constraint-second hidden">
     <p class="help-text">Now specify which field you will be searching for and the comparison type</p>
 
+    <div class="loading hidden">
+      <br>
+      <span class="ajax-loading search-loading"><b>Loading, please wait</b></span>
+    </div>
+
     <p class="field-title">Condition</p>
     <%= select_tag "job", options_for_select(@well_data.collect { |p| [Well.human_attribute_name(p), p] }),
                    prompt: "Select field name...",
@@ -88,7 +92,7 @@
     <%= select_tag "Units",
                    options_for_select(@dynamic_field.get_unit_options(@dynamic_field.value_type), @dynamic_field.value_type),
                    name: "query[constraints][" + index.to_s + "][units]",
-                   class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                   class: "search-units unit-tooltip", "data-placement" => "bottom",
                    "data-html" => false, "data-title" => "Units, click to change" %>
 
     <hr class="search-constraint-line">

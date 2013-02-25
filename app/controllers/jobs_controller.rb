@@ -98,6 +98,15 @@ class JobsController < ApplicationController
         @districts = current_user.company.districts
 
         @wells = Array.new
+
+        if params[:well]
+            @job.well = Well.find_by_id(params[:well])
+            @job.district = @job.well.field.district
+            @fields = @job.district.fields
+            @job.field =  @job.well.field
+            @wells = @job.field.wells
+            @job.client = @job.well.jobs.any? ? @job.well.jobs.first.client : nil
+        end
     end
 
     def create

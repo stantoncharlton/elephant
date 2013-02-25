@@ -3,7 +3,10 @@
     <%= render "fields", f: f %>
 
     <div class="content actions">
-      <%= f.submit "Update Well Information", class: "bluebtn pull-right" %>
+      <%= f.submit "Save Well", class: "bluebtn pull-right" %>
+
+      <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+                  "data-title" => "Cancel well changes and go back"%>
     </div>
 
 <% end %>

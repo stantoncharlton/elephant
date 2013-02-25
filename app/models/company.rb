@@ -14,16 +14,16 @@ class Company < ActiveRecord::Base
 
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 
-    has_many :users, dependent: :destroy
+    has_many :users, dependent: :destroy, order: "name ASC"
     has_many :roles, dependent: :destroy, class_name: "UserRole"
-    has_many :districts, dependent: :destroy
-    has_many :clients, dependent: :destroy
-    has_many :fields, dependent: :destroy
-    has_many :wells, dependent: :destroy
-    has_many :divisions, dependent: :destroy
-    has_many :segments, dependent: :destroy
-    has_many :product_lines, dependent: :destroy
-    has_many :job_templates, dependent: :destroy
+    has_many :districts, dependent: :destroy, order: "name ASC"
+    has_many :clients, dependent: :destroy, order: "name ASC"
+    has_many :fields, dependent: :destroy, order: "name ASC"
+    has_many :wells, dependent: :destroy, order: "name ASC"
+    has_many :divisions, dependent: :destroy, order: "name ASC"
+    has_many :segments, dependent: :destroy, order: "name ASC"
+    has_many :product_lines, dependent: :destroy, order: "name ASC"
+    has_many :job_templates, dependent: :destroy, order: "name ASC"
 
     has_many :activities
 

@@ -39,9 +39,22 @@ class SearchController < ApplicationController
 
                 elsif params["job_template"]
                     @show_fields = true
-                    @job_template = JobTemplate.find_by_id(params["job_template"])
-                    not_found unless @job_template.company == current_user.company
 
+                    if params["job_template"].blank?
+                        @dynamic_field = DynamicField.new(value_type:  Well.default_unit_value(params[:field].downcase))
+                        render 'search/change_units'
+                        return
+                    else
+                        @job_template = JobTemplate.find_by_id(params["job_template"])
+                        not_found unless @job_template.company == current_user.company
+
+                        if params[:field]
+                            field_id = params[:field]
+                            @dynamic_field = @job_template.dynamic_fields.select { |df| df.id == field_id.to_i }.first
+                            render 'search/change_units'
+                            return
+                        end
+                    end
                 end
 
                 render 'search/add_fields'
@@ -62,6 +75,20 @@ class SearchController < ApplicationController
         @segments = Array.new
         @product_lines = Array.new
         @job_templates = Array.new
+
+        @division =  nil
+        @segment = nil
+        @product_line = nil
+
+        if current_user.product_line.present?
+            @segments = current_user.product_line.segment.division.segments
+            @product_lines = current_user.product_line.segment.product_lines
+            @job_templates = current_user.product_line.job_templates
+
+            @division = current_user.product_line.segment.division.id
+            @segment = current_user.product_line.segment.id
+            @product_line = current_user.product_line.id
+        end
 
         respond_to do |format|
             format.html do

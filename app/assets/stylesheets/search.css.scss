@@ -23,7 +23,17 @@
   }
 }
 
+.search-units {
+  width: 30px !important;
+  font-size: 13px;
+}
+
 .search-constraint-line {
   background: #0058a8;
   height: 2px;
+}
+
+.search-loading {
+  display: inline-block;
+  padding-right: 80px;
 }

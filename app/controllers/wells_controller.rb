@@ -11,10 +11,12 @@ class WellsController < ApplicationController
                 @wells = field.wells
             end
         end
+
     end
 
     def show
-
+        @well = Well.find_by_id(params[:id])
+        not_found unless @well.company == current_user.company
     end
 
     def new

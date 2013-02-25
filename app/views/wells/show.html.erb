@@ -1,0 +1,61 @@
+<div class="page_header">
+  <h1><%= @well.name %></h1>
+
+  <h3 class="inline">&nbsp;Well</h3>
+
+  <h2 class="inline push-right-small"><%= @well.jobs.count.to_s %> jobs</h2>
+
+  <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path(:well => @well.id), class: "bluebtn pull-right tooltip-info push-right-small",
+              "data-placement" => "bottom",
+              "data-title" => "Create new job on this well" %>
+
+  <div class="pull-right">
+    <%= select_tag "Divisions", options_for_select(@well.company.divisions.collect { |p| [p.name, p.id] }),
+                   class: "custom-select tooltip-info",
+                   "data-placement" => "bottom",
+                   "data-title" => "Filter list by division",
+                   prompt: "Filter by division..." %>
+  </div>
+</div>
+
+<div class="alert alert-info">
+
+  <%= link_to "More Well Details", edit_well_path(@well),
+              class: "activity-user-link tooltip-info pull-right" %>
+
+
+  <div>
+    <div>
+      <p class="job-field-title">Field</p>
+      <%= link_to @well.field.name, @well.field, class: "activity-user-link inline" %>
+    </div>
+    <div>
+      <p class="job-field-title">District</p>
+      <%= link_to @well.field.district.name, @well.field.district, class: "activity-user-link inline" %>
+    </div>
+    <% if @well.jobs.any? %>
+        <div>
+          <p class="job-field-title">Client name</p>
+          <%= link_to @well.jobs.first.client.name, @well.jobs.first.client, class: "activity-user-link inline" %>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="">
+    <hr>
+
+    <div>
+      <p class="job-field-title">Rig Name</p>
+      <p class="job-field-value"><%= @well.rig_name.present? ? @well.rig_name : "-" %></p>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div id="jobs">
+  <% @well.jobs.each do |job| %>
+      <%= render 'wells/well_job', job: job %>
+  <% end %>
+</div>

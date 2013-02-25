@@ -13,7 +13,7 @@
   <p class="job-title-divider">|</p>
 
   <% if in_form %>
-      <%= link_to job.well.name, edit_well_path(job.well), class: "job-title inline job-type-description-target",
+      <%= link_to job.well.name, job.well, class: "job-title inline job-type-description-target",
                   "data-placement" => "bottom",
                   "data-html" => true,
                   "data-title" => "<div>" + I18n.t("jobs.job_data.well_name") + ": <b>" + job.well.name + "</b>, Click to edit data</div>" %>

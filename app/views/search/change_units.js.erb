@@ -1,0 +1,17 @@
+var $select = $("#<%= @div_name %>").find('.search-units');
+$select.find('option').remove();
+
+<% if @dynamic_field.nil? ||  @dynamic_field.value_type == DynamicField::STRING %>
+    $select.css('display', 'none');
+<% else %>
+$select.css('display', 'inline-block');
+<% @dynamic_field.unit_options.each do |option| %>
+$option = $select.append($("<option></option>")
+        .attr("value", '<%= option[1] %>')
+        .text('<%= option[0] %>'));
+<% end %>
+
+
+$select.val('<%= @dynamic_field.value_type %>').trigger("change");
+
+<% end %>

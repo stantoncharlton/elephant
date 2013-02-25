@@ -37,4 +37,23 @@ class Well < ActiveRecord::Base
     belongs_to :field
 
     has_many :jobs
+
+    def self.default_unit_value(field)
+        case field
+            when "measured_depth"
+                return DynamicField::LENGTH_FT
+            when "true_vertical_depth"
+                return DynamicField::LENGTH_FT
+            when "water_depth"
+                return DynamicField::LENGTH_FT
+            when "bottom_hole_temperature"
+                return DynamicField::TEMPERATURE_F
+            when "bottom_hole_formation_pressure"
+                return DynamicField::PRESSURE_PSI
+            when "frac_pressure"
+                return DynamicField::PRESSURE_PSI
+        end
+
+        DynamicField::STRING
+    end
 end

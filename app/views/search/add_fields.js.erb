@@ -4,6 +4,9 @@
     $("#<%= @div_name %>").find('.search-constraint-second').show();
 
     <% if !@job_template.nil? %>
+
+        $("#<%= @div_name %>").find('.loading').addClass('hidden');
+
         var $select = $("#<%= @div_name %>").find('.search-constraint-field-select');
         $select.find('option:gt(1)').remove();
 
@@ -15,6 +18,7 @@
     <% end %>
 
 <% else %>
+
     $("#<%= @div_name %>").find('.search-constraint-second').hide();
 
     $("#<%= @div_name %>").find('.search-job-type').show();
