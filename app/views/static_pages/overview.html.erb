@@ -163,13 +163,15 @@
 <hr>
 
 <div class="content">
-  <% current_user.active_jobs.each do |job| %>
+  <% @jobs.each do |job| %>
       <%= link_to job, class: "job-status job-link tooltip-info",
                   "data-placement" => "left",
                   "data-title" => "Click to open job" do %>
           <%= render 'jobs/job_progress', job: job, form_editable: false, in_form: false, new_line_job_type: false, show_summary_data: true %>
       <% end %>
   <% end %>
+
+  <%= will_paginate @jobs %>
 </div>
 
 

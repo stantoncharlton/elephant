@@ -41,6 +41,8 @@ class StaticPagesController < ApplicationController
     def overview
         set_tab :overview
 
+        @jobs = current_user.jobs.paginate(page: params[:page], limit: 10)
+
     end
 
     def terms_of_use
