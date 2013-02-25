@@ -4,6 +4,8 @@ class JobsController < ApplicationController
 
     def index
 
+        @is_paged = params[:page].present? && params[:page].to_i > 1
+
         respond_to do |format|
             format.html {
                 @jobs = current_user.active_jobs

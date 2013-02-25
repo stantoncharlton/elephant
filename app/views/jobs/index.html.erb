@@ -5,7 +5,17 @@
   <h1><%= t ".title" %></h1>
 
   <h2>
-    <% if @jobs.count > 0 %>
+    <% if @is_paged %>
+        <% if @jobs_inactive.count > 0 %>
+            <% if params[:page].present? %>
+                <%= ((Integer(params[:page]) - 1) * 5) + 1 %>
+                - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %>
+                of <%= @jobs_inactive.count.to_s %>
+            <% else %>
+                1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+            <% end %>
+        <% end %>
+    <% elsif @jobs.count > 0 %>
         <% if params[:page].present? %>
             <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
             - <%= [((Integer(params[:page]) - 1) * 10) + 10, @jobs.count].min %> of <%= @jobs.count.to_s %>
@@ -29,10 +39,12 @@
 
 <% else %>
 
+    <% if !@is_paged %>
 
-    <div id="jobs" class="list">
-      <%= render @jobs %>
-    </div>
+        <div id="jobs" class="list">
+          <%= render @jobs %>
+        </div>
+    <% end %>
 
 <% end %>
 
@@ -40,22 +52,24 @@
 
 <% if @jobs_inactive.any? %>
 
-    <div class="page_header old-alerts-div">
-      <h1><%= t ".inactive_jobs" %></h1>
+    <% if !@is_paged %>
+        <div class="page_header <%= (!@is_paged || params["page"].to_i == 1) ? "old-alerts-div" : "" %>">
+          <h1><%= t ".inactive_jobs" %></h1>
 
-      <h2>
-        <% if @jobs_inactive.count > 0 %>
-            <% if params[:page].present? %>
-                <%= ((Integer(params[:page]) - 1) * 5) + 1 %>
-                - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %>
-                of <%= @jobs_inactive.count.to_s %>
-            <% else %>
-                1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+          <h2>
+            <% if @jobs_inactive.count > 0 %>
+                <% if params[:page].present? %>
+                    <%= ((Integer(params[:page]) - 1) * 5) + 1 %>
+                    - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %>
+                    of <%= @jobs_inactive.count.to_s %>
+                <% else %>
+                    1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
+                <% end %>
             <% end %>
-        <% end %>
-      </h2>
+          </h2>
 
-    </div>
+        </div>
+    <% end %>
 
 
     <div id="jobs_inactive" class="list">
