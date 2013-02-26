@@ -17,8 +17,8 @@
       <%= f.text_field :name, value: @job_template.name,
                        placeholder: I18n.t("job_templates.show.job_type_name"),
                        class: "inline txtfield  tooltip-info",
-                        "data-placement" => "bottom",
-                        "data-title" => "Job type name" %>
+                       "data-placement" => "bottom",
+                       "data-title" => "Job type name" %>
   <% end %>
 
   <div class="">
@@ -56,70 +56,145 @@
 </div>
 
 
-<div class="page_header">
-  <h1><%= t ".custom_data" %></h1>
+<div class="">
+  <hr>
+  <ul class="nav nav-pills">
+    <li class="active">
+      <a href="#" id="custom_data_toggle" class="custom-data-toggle" data-tray="custom_data">Custom Data</a>
+    </li>
+    <li>
+      <a href="#" id="documents_toggle" class="custom-data-toggle" data-tray="documents_tray">Documents</a>
+    </li>
+    <li>
+      <a href="#" id="tools_toggle" class="custom-data-toggle" data-tray="tools">Primary Tools</a>
+    </li>
+    <li>
+      <a href="#" id="failures_toggle" class="custom-data-toggle" data-tray="failures">Failures</a>
+    </li>
+    <li>
+      <a href="#" id="report_toggle" class="custom-data-toggle" data-tray="report">Post Job Report</a>
+    </li>
+  </ul>
 
-  <p class="inline push-right header-subtitle"><%= t ".job_type_specifics" %></p>
-</div>
-
-<div class="content" id="dynamic_fields">
-  <%= render @job_template.dynamic_fields %>
-</div>
-
-<div class="content">
-  <%= render 'dynamic_field_fields' %>
-</div>
-
-
-<div class="page_header">
-  <h1><%= t "jobs.show.documents" %></h1>
-
-  <p class="inline push-right header-subtitle"><%= t ".document_templates" %></p>
-</div>
-
-
-<h3 class="document-section-header"><%= t "jobs.show.notices" %></h3>
-<div class="content" id="documents3">
-  <% @job_template.notices_documents.each do |d| %>
-      <%= render 'documents/document', document: d, editable: true, can_upload: true %>
-  <% end %>
-</div>
-
-<div class="content">
-  <%= render 'document_fields', category_name: Document::NOTICES, read_only: true %>
 </div>
 
 
-<h3 class="document-section-header"><%= t "jobs.show.pre_job" %></h3>
-<div class="content" id="documents">
-  <% @job_template.pre_job_documents.each do |d| %>
-      <%= render 'documents/document', document: d, editable: true, can_upload: true %>
-  <% end %>
+<div class="tray" data-tray="custom_data">
+  <div class="page_header">
+    <h1><%= t ".custom_data" %></h1>
+
+    <p class="inline push-right header-subtitle"><%= t ".job_type_specifics" %></p>
+  </div>
+
+  <div class="content" id="dynamic_fields">
+    <%= render @job_template.dynamic_fields %>
+  </div>
+
+  <div class="content">
+    <%= render 'dynamic_field_fields' %>
+  </div>
 </div>
 
-<div class="content">
-  <%= render 'document_fields', category_name: Document::PRE_JOB, read_only: false %>
+
+<div class="tray hidden" data-tray="documents_tray">
+  <div class="page_header">
+    <h1><%= t "jobs.show.documents" %></h1>
+
+    <p class="inline push-right header-subtitle"><%= t ".document_templates" %></p>
+  </div>
+
+
+  <h3 class="document-section-header"><%= t "jobs.show.notices" %></h3>
+
+  <div class="content" id="documents3">
+    <% @job_template.notices_documents.each do |d| %>
+        <%= render 'documents/document', document: d, editable: true, can_upload: true %>
+    <% end %>
+  </div>
+
+  <div class="content">
+    <%= render 'document_fields', category_name: Document::NOTICES, read_only: true %>
+  </div>
+
+
+  <h3 class="document-section-header"><%= t "jobs.show.pre_job" %></h3>
+
+  <div class="content" id="documents">
+    <% @job_template.pre_job_documents.each do |d| %>
+        <%= render 'documents/document', document: d, editable: true, can_upload: true %>
+    <% end %>
+  </div>
+
+  <div class="content">
+    <%= render 'document_fields', category_name: Document::PRE_JOB, read_only: false %>
+  </div>
+
+  <h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>
+
+  <div class="content" id="documents2">
+    <% @job_template.post_job_documents.each do |d| %>
+        <%= render 'documents/document', document: d, editable: true, can_upload: true %>
+    <% end %>
+  </div>
+
+  <div class="content">
+    <%= render 'document_fields', category_name: Document::POST_JOB, read_only: false %>
+  </div>
 </div>
 
-<h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>
-<div class="content" id="documents2">
-  <% @job_template.post_job_documents.each do |d| %>
-      <%= render 'documents/document', document: d, editable: true, can_upload: true %>
-  <% end %>
+<div class="tray hidden" data-tray="tools">
+  <div class="page_header">
+    <h1>Primary Tools</h1>
+  </div>
+
+  <div class="content">
+    <% @job_template.primary_tools.each do |primary_tool| %>
+        <div>
+          <h3><%= primary_tool.tool.name %></h3>
+        </div>
+    <% end %>
+
+
+    <%= form_for(PrimaryTool.new, :html => {:class => "inline ", id: "new_primary_tool_form"}, remote: true) do |f| %>
+        <%= f.hidden_field :product_line_id, id: "tool_product_line_id", value: @job_template.product_line.id %>
+        <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.collect { |p| [p.name, p.id] }),
+                     prompt: "Select a Tool...",
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Select from and existing primary tool on this product line" %>
+
+        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+    <% end %>
+
+
+    <%= link_to "Add New primary tool on product line", "#", remote: true,
+                class: "inline add-job-member tooltip-info", id: "add_job_member",
+                "data-placement" => "bottom",
+                "data-title" => "Add primary tool to job type" %>
+
+    <div  class="well">
+      <b>New Primary Tool on Product Line</b>
+      <br><br>
+      <%= form_for(Tool.new, :html => {:class => ""}, remote: true) do |f| %>
+          <%= f.hidden_field :product_line_id, value: @job_template.product_line.id %>
+          <%= f.hidden_field :company_id, value: @job_template.company.id %>
+          <%= f.text_field :name,
+                           placeholder: "Name of primary tool",
+                           class: "txtfield small" %>
+          <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+      <% end %>
+    </div>
+
+  </div>
 </div>
 
-<div class="content">
-  <%= render 'document_fields', category_name: Document::POST_JOB, read_only: false %>
+<div class="tray hidden" data-tray="report">
+  <div class="page_header">
+    <h1>Post Job Report</h1>
+  </div>
 </div>
 
-<div class="page_header">
-  <h1>Tools</h1>
-</div>
-
-<div class="page_header">
-  <h1>Post Job Report</h1>
-</div>
-
+<hr>
 
 
 <div class="actions">

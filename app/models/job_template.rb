@@ -19,6 +19,7 @@ class JobTemplate < ActiveRecord::Base
     has_many :documents, order: "ordering ASC", :conditions => ['documents.template = ?', true]
     accepts_nested_attributes_for :documents, :allow_destroy => true
 
+    has_many :primary_tools
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)

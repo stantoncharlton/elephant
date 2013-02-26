@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130226163657) do
+ActiveRecord::Schema.define(:version => 20130226215458) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -307,6 +307,16 @@ ActiveRecord::Schema.define(:version => 20130226163657) do
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
+  create_table "primary_tools", :force => true do |t|
+    t.integer  "tool_id"
+    t.integer  "job_template_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "primary_tools", ["job_template_id"], :name => "index_primary_tools_on_job_template_id"
+  add_index "primary_tools", ["tool_id"], :name => "index_primary_tools_on_tool_id"
+
   create_table "product_lines", :force => true do |t|
     t.string   "name"
     t.integer  "company_id"
@@ -316,6 +326,16 @@ ActiveRecord::Schema.define(:version => 20130226163657) do
   end
 
   add_index "product_lines", ["company_id"], :name => "index_product_lines_on_company_id"
+
+  create_table "secondary_tools", :force => true do |t|
+    t.integer  "tool_id"
+    t.integer  "job_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "secondary_tools", ["job_id"], :name => "index_secondary_tools_on_job_id"
+  add_index "secondary_tools", ["tool_id"], :name => "index_secondary_tools_on_tool_id"
 
   create_table "segments", :force => true do |t|
     t.string   "name"
@@ -337,6 +357,19 @@ ActiveRecord::Schema.define(:version => 20130226163657) do
   end
 
   add_index "states", ["country_id"], :name => "index_states_on_country_id"
+
+  create_table "tools", :force => true do |t|
+    t.string   "name"
+    t.integer  "company_id"
+    t.integer  "division_id"
+    t.integer  "product_line_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "tools", ["company_id"], :name => "index_tools_on_company_id"
+  add_index "tools", ["division_id"], :name => "index_tools_on_division_id"
+  add_index "tools", ["product_line_id"], :name => "index_tools_on_product_line_id"
 
   create_table "user_roles", :force => true do |t|
     t.string   "title"

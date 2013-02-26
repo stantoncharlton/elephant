@@ -78,5 +78,9 @@ ElephantWebApp::Application.routes.draw do
 
     resources :job_process, only: [:show, :update]
 
+    resources :tools, only: [:create, :update, :destroy]
+    resources :primary_tools, only: [:create, :destroy]
+    resources :secondary_tools, only: [:create, :destroy]
+
 end
 

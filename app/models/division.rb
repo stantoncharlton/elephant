@@ -8,6 +8,7 @@ class Division < ActiveRecord::Base
     belongs_to :company
 
     has_many :segments, dependent: :destroy, order: "name ASC"
+    has_many :secondary_tools, dependent: :destroy, class_name: "Tool", order: "name ASC"
 
 
     def self.from_company(company)

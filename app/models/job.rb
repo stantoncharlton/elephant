@@ -31,6 +31,7 @@ class Job < ActiveRecord::Base
     has_many :unique_participants, through: :job_memberships, source: :user, uniq: true
 
     has_many :job_processes, order: "created_at DESC"
+    has_many :secondary_tools
 
     ACTIVE = 1
     CLOSED = 2

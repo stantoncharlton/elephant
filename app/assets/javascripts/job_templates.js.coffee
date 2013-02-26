@@ -29,3 +29,15 @@ $ ->
 
   $('.document-upload-button').live "hover", ->
     $(this).css('cursor','hand');
+
+  $('.custom-data-toggle').click ->
+    $('.tray').addClass 'hidden'
+    $('.custom-data-toggle').closest('li').removeClass 'active'
+    tray = $(this).attr 'data-tray'
+    $(".tray[data-tray=" + tray + "]").removeClass 'hidden'
+    $(this).closest('li').addClass 'active'
+    document.location.hash = tray;
+    return false
+
+  if document.location.hash != ''
+    $(".custom-data-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"

@@ -10,7 +10,7 @@ class ProductLine < ActiveRecord::Base
     belongs_to :company
 
     has_many :job_templates, dependent: :destroy, order: "name ASC"
-
+    has_many :primary_tools, dependent: :destroy, class_name: "Tool", order: "name ASC"
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
