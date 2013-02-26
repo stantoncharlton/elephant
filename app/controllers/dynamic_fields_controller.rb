@@ -12,15 +12,15 @@ class DynamicFieldsController < ApplicationController
             format.js {
                 if params[:reorder].present?
                     if params[:reorder] == "-1"
-                        if @dynamic_field.order > 0
+                        if @dynamic_field.ordering > 0
                             DynamicField.transaction do
-                                @dynamic_field.order -= 1
+                                @dynamic_field.ordering -= 1
                                 @dynamic_field.save
 
-                                collection = @dynamic_field.job_template.dynamic_fields.sort_by { |e| e.order || 0 }
+                                collection = @dynamic_field.job_template.dynamic_fields.sort_by { |e| e.ordering || 0 }
                                 collection.each do |field|
-                                    if field != @dynamic_field and (field.order || 0) == @dynamic_field.order
-                                        field.order = (field.order || 0) + 1
+                                    if field != @dynamic_field and (field.ordering || 0) == @dynamic_field.ordering
+                                        field.order = (field.ordering || 0) + 1
                                         field.save
                                     end
                                 end
@@ -53,7 +53,7 @@ class DynamicFieldsController < ApplicationController
         @dynamic_field = DynamicField.new(params[:dynamic_field])
         @dynamic_field.company = current_user.company
         @dynamic_field.job_template = JobTemplate.find_by_id(job_template_id)
-        @dynamic_field.order = @dynamic_field.job_template.dynamic_fields.count
+        @dynamic_field.ordering = @dynamic_field.job_template.dynamic_fields.count
 
         if !value.blank?
             @dynamic_field.predefined = true

@@ -10,9 +10,9 @@ $('#alert').modal({show:true});
 
 
     <% if @document.category == "Pre-Job" %>
-        $('#documents').append("<%= j render 'documents/document', document: @document, editable: false %>");
+        $('#documents').append("<%= j render 'documents/document', document: @document, editable: false, can_upload: true %>");
     <% else %>
-        $('#documents2').append("<%= j render 'documents/document', document: @document, editable: false %>");
+        $('#documents2').append("<%= j render 'documents/document', document: @document, editable: false, can_upload: true %>");
     <% end %>
 
 

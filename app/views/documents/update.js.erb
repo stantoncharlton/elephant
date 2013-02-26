@@ -13,4 +13,11 @@ $.ajax({
 $('#job-progress-status').find(':first').hide().remove();
 $('#job-progress-status').append('<%= j render 'jobs/job_progress_status', job: @document.job %>');
 
+<% if @document.job.pre_job_documents.all? { |d| d.url.present? } %>
+    $("#documents").prev().addClass("status-good");
+<% end %>
+<% if @document.job.post_job_documents.all? { |d| d.url.present? } %>
+    $("#documents2").prev().addClass("status-good");
+<% end %>
+
 <% end %>

@@ -11,7 +11,7 @@
                 <%= link_to job, class: "job-status job-link tooltip-info",
                             "data-placement" => "left",
                             "data-title" => "Click to open job" do %>
-                    <%= render 'jobs/job_progress', job: job, form_editable: false, in_form: false, new_line_job_type: false, show_summary_data: true %>
+                    <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: true %>
                 <% end %>
             <% end %>
           </div>

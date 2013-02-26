@@ -494,8 +494,12 @@
 }
 
 .job-status-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: none;
   display: inline-block;
   width: 300px;
+  height: 25px !important;
 }
 
 .job-status-guide {

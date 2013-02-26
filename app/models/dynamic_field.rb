@@ -8,7 +8,7 @@ class DynamicField < ActiveRecord::Base
                     :optional,
                     :priority,
                     :predefined,
-                    :order
+                    :ordering
 
     validates_presence_of :name
     #validates_inclusion_of :value_type_conversion , :in => %w(to_s to_i to_f to_b)

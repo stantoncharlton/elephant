@@ -12,14 +12,14 @@ class DocumentsController < ApplicationController
             format.js {
                 if params[:reorder].present?
                     if params[:reorder] == "-1"
-                        if @document.order > 0
+                        if @document.ordering > 0
                             Document.transaction do
-                                @document.order -= 1
+                                @document.ordering -= 1
                                 @document.save
 
                                 @document.document_collection.each do |document|
-                                    if document != @document and (document.order || 0) == @document.order
-                                        document.order = (document.order || 0) + 1
+                                    if document != @document and (document.ordering || 0) == @document.ordering
+                                        document.ordering = (document.ordering || 0) + 1
                                         document.save
                                     end
                                 end
@@ -56,8 +56,7 @@ class DocumentsController < ApplicationController
         else
 
             @document = Document.new(params[:document])
-            @document.order =
-                    @filename ||= File.basename(@document.url)
+            @filename ||= File.basename(@document.url)
 
             render 'documents/new'
         end
@@ -78,7 +77,7 @@ class DocumentsController < ApplicationController
         if @document.template?
 
             @document.job_template = JobTemplate.find_by_id(job_template_id)
-            @document.order = @document.document_collection.count
+            @document.ordering = @document.document_collection.count
 
             if !@document.save
                 render 'error'
@@ -90,6 +89,7 @@ class DocumentsController < ApplicationController
             @job = Job.find_by_id(job_id)
             not_found unless @job.company == current_user.company
             @document.job = @job
+            @document.ordering = @document.document_collection.count
 
             if @document.save
                 render 'documents/create_modal'

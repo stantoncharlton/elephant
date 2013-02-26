@@ -1,28 +1,33 @@
 <div class="tooltip-info"
      data-placement="right"
-data-html="true"
-data-title="<%= "<div class='well-tooltip'>" +
-  "<p>\"" + job.status_string + "\"</p>" +
-  "<p>" + job.district.name + " / " + job.client.name + "</p>" +
-  "<p>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y")  : job.created_at.strftime("%m/%d/%Y")) + "</p>" +
-  "<hr><h3>" + job.job_template.product_line.segment.division.name + "</h3>" +
-  "<h3>" + job.job_template.product_line.segment.name + "</h3>" +
-  "<h3>" + job.job_template.product_line.name + "</h3>" +
-  "<h3>" + job.job_template.name + "</h3>" +
-        (show_summary_data ? "<hr><h3>" + job.dynamic_fields.select {|df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>"  : "") +
-  "</div>" %>">
+     data-html="true"
+     data-title="<%= "<div class='well-tooltip'>" +
+                             "<p>\"" + job.status_string + "\"</p>" +
+                             "<p>" + job.district.name + " / " + job.client.name + "</p>" +
+                             "<p>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</p>" +
+                             "<hr><h3>" + job.job_template.product_line.segment.division.name + "</h3>" +
+                             "<h3>" + job.job_template.product_line.segment.name + "</h3>" +
+                             "<h3>" + job.job_template.product_line.name + "</h3>" +
+                             "<h3>" + job.job_template.name + "</h3>" +
+                             (show_summary_data ? "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" : "") +
+                             "</div>" %>">
 
   <div class="job-status-name">
-  <h2 class="job-title inline"><%= job.field.name %></h2>
-  <p class="job-title-divider">|</p>
-  <h2 class="job-title inline"><%= job.well.name %></h2>
+    <% if job_name %>
+        <h2 class="job-title inline"><%= job.job_template.name %></h2>
+    <% else %>
+        <h2 class="job-title inline"><%= job.field.name %></h2>
+
+        <p class="job-title-divider">|</p>
+
+        <h2 class="job-title inline"><%= job.well.name %></h2>
+    <% end %>
   </div>
 
   <div class="inline">
     <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
     <b><%= job.participants.count.to_s %></b>
   </div>
-
 
 
   <div class="pull-right">

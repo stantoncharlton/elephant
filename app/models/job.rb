@@ -22,8 +22,8 @@ class Job < ActiveRecord::Base
     belongs_to :well
     belongs_to :job_template
 
-    has_many :dynamic_fields
-    has_many :documents, order: "created_at DESC"
+    has_many :dynamic_fields, order: "ordering ASC"
+    has_many :documents, order: "ordering ASC"
     has_many :job_notes, order: "created_at DESC"
 
     has_many :job_memberships, foreign_key: "job_id"
@@ -196,19 +196,27 @@ class Job < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.select { |document| document.category == Document::NOTICES }.sort_by { |e| e.order || 0 }
+        self.documents.select { |document| document.category == Document::NOTICES }
     end
 
     def pre_job_documents
-        self.documents.select { |document| document.category == Document::PRE_JOB }.sort_by { |e| e.order || 0 }
+        self.documents.select { |document| document.category == Document::PRE_JOB }
     end
 
     def post_job_documents
-        self.documents.select { |document| document.category == Document::POST_JOB }.sort_by { |e| e.order || 0 }
+        self.documents.select { |document| document.category == Document::POST_JOB }
     end
 
     def post_job_report_document
         self.documents.select { |document| document.category == Document::POST_JOB_REPORT }.last
+    end
+
+    def dynamic_fields_required
+        self.dynamic_fields.where(:optional => false)
+    end
+
+    def dynamic_fields_optional
+        self.dynamic_fields.where(:optional => true)
     end
 
     def pre_job_data_good
@@ -273,7 +281,7 @@ class Job < ActiveRecord::Base
         percentage = 100
         current = 0
         pre_job_docs = self.pre_job_documents.count
-        fields = self.dynamic_fields.select { |df| !df.predefined? }.count
+        fields = self.dynamic_fields.select { |df| !df.predefined? && !df.optional? }.count
 
         if pre_job_docs > 0
             pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs.to_f
@@ -283,7 +291,7 @@ class Job < ActiveRecord::Base
         end
 
         current += (self.pre_job_documents.select { |document| !document.url.blank? }.count || 0) * pre_doc_value.to_f
-        current += (self.dynamic_fields.select { |df| !df.predefined? && !df.value.blank? }.count || 0) * fields_value.to_f
+        current += (self.dynamic_fields.select { |df| !df.predefined? && !df.optional? && !df.value.blank? }.count || 0) * fields_value.to_f
 
 
         if self.approved_to_ship

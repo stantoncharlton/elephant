@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130226151239) do
+ActiveRecord::Schema.define(:version => 20130226163657) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20130226151239) do
     t.integer  "document_template_id"
     t.integer  "user_id"
     t.boolean  "read_only",             :default => false
-    t.integer  "order",                 :default => 0
+    t.integer  "ordering",              :default => 0
     t.integer  "post_job_report_order"
   end
 
@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(:version => 20130226151239) do
     t.integer  "dynamic_field_template_id"
     t.integer  "value_type",                :default => 1
     t.integer  "default_value_type",        :default => 0
-    t.integer  "order",                     :default => 0
+    t.integer  "ordering",                  :default => 0
     t.boolean  "predefined",                :default => false
     t.boolean  "optional",                  :default => false
   end

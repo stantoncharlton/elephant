@@ -12,7 +12,7 @@
 <div class="content">
   <hr>
   <ul class="nav nav-pills">
-    <li>
+    <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
       <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
          data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
         <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
