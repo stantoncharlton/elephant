@@ -23,6 +23,9 @@ class ApplicationController < ActionController::Base
             format.js {
                 get_session_time_left
             }
+            format.json {
+                get_session_time_left
+            }
             format.html {
                 get_session_time_left
             }
