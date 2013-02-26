@@ -17,10 +17,10 @@ class DynamicFieldsController < ApplicationController
                                 @dynamic_field.ordering -= 1
                                 @dynamic_field.save
 
-                                collection = @dynamic_field.job_template.dynamic_fields.sort_by { |e| e.ordering || 0 }
+                                collection = @dynamic_field.job_template.dynamic_fields
                                 collection.each do |field|
                                     if field != @dynamic_field and (field.ordering || 0) == @dynamic_field.ordering
-                                        field.order = (field.ordering || 0) + 1
+                                        field.ordering = (field.ordering || 0) + 1
                                         field.save
                                     end
                                 end

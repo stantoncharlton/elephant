@@ -13,10 +13,10 @@ class JobTemplate < ActiveRecord::Base
     belongs_to :company
     belongs_to :product_line
 
-    has_many :dynamic_fields, :conditions => ['dynamic_fields.template = ?', true]
+    has_many :dynamic_fields, order: "ordering ASC", :conditions => ['dynamic_fields.template = ?', true]
     accepts_nested_attributes_for :dynamic_fields, :allow_destroy => true
 
-    has_many :documents, :conditions => ['documents.template = ?', true]
+    has_many :documents, order: "ordering ASC", :conditions => ['documents.template = ?', true]
     accepts_nested_attributes_for :documents, :allow_destroy => true
 
 
@@ -43,15 +43,15 @@ class JobTemplate < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.select { |document| document.category == Document::NOTICES }.sort_by{ |e| e.order || 0 }
+        self.documents.select { |document| document.category == Document::NOTICES }
     end
 
     def pre_job_documents
-        self.documents.select { |document| document.category == Document::PRE_JOB }.sort_by{ |e| e.order || 0 }
+        self.documents.select { |document| document.category == Document::PRE_JOB }
     end
 
     def post_job_documents
-        self.documents.select { |document| document.category == Document::POST_JOB }.sort_by{ |e| e.order || 0 }
+        self.documents.select { |document| document.category == Document::POST_JOB }
     end
 
 end

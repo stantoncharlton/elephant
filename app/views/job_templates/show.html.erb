@@ -1,5 +1,5 @@
 <div class="page_header">
-  <h1>Job Type Information</h1>
+  <h1>Job Type</h1><b class="push-right-small"><%= @job_template.name %></b>
 
   <%= link_to I18n.t("global.save"), divisions_path(division: @job_template.product_line.segment.division.id,
                                                     segment: @job_template.product_line.segment.id,
@@ -8,16 +8,15 @@
               "data-title" => "Save data and return to all job types" %>
 </div>
 
-<div class="content">
+<div class="well">
 
   <%= form_for(@job_template, remote: true) do |f| %>
 
-      <div><h3 class="field-title"><%= t ".job_type_name" %></h3></div>
-      <br>
+      <b><%= t ".job_type_name" %></b><br><br>
 
       <%= f.text_field :name, value: @job_template.name,
                        placeholder: I18n.t("job_templates.show.job_type_name"),
-                       class: "txtfield  job-template-name-width tooltip-info",
+                       class: "inline txtfield  tooltip-info",
                         "data-placement" => "bottom",
                         "data-title" => "Job type name" %>
   <% end %>
@@ -37,19 +36,23 @@
 
     <h3 class="inline"><%= @job_template.product_line.name %> </h3>
   </div>
-</div>
 
-<div class="content">
-  <%= form_for(@job_template, remote: true) do |f| %>
-      <%= f.text_area :description,
-                      placeholder: I18n.t("job_templates.show.description_prompt"),
-                      value: @job_template.description,
-                      class: "txtfield job-description-text job-template-description tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => I18n.t("job_templates.show.description_prompt"),
-                      autofocus: false %>
+  <hr>
 
-  <% end %>
+  <div class="">
+    <b>Job Description</b>
+    <br><br>
+    <%= form_for(@job_template, remote: true) do |f| %>
+        <%= f.text_area :description,
+                        placeholder: "Description of job for post job report",
+                        value: @job_template.description,
+                        class: "txtfield job-description-text job-template-description tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => I18n.t("job_templates.show.description_prompt"),
+                        autofocus: false %>
+
+    <% end %>
+  </div>
 </div>
 
 
@@ -60,7 +63,7 @@
 </div>
 
 <div class="content" id="dynamic_fields">
-  <%= render @job_template.dynamic_fields.sort_by { |e| e.order || 0 } %>
+  <%= render @job_template.dynamic_fields %>
 </div>
 
 <div class="content">
@@ -107,6 +110,14 @@
 
 <div class="content">
   <%= render 'document_fields', category_name: Document::POST_JOB, read_only: false %>
+</div>
+
+<div class="page_header">
+  <h1>Tools</h1>
+</div>
+
+<div class="page_header">
+  <h1>Post Job Report</h1>
 </div>
 
 
