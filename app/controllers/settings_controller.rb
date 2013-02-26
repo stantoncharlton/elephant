@@ -12,6 +12,7 @@ class SettingsController < ApplicationController
         not_found unless @user.company == current_user.company
 
         User.transaction do
+            @user.update_attribute(:phone_number, params[:user][:phone_number])
             @user.update_attribute(:language, params[:user][:language])
             @user.update_attribute(:time_zone, params[:user][:time_zone])
 

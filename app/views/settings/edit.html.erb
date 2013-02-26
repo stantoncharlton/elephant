@@ -17,8 +17,18 @@
     </div>
 
     <div class="content">
-      <%= link_to "Change password", update_password_path(email: current_user.email),
-                  class: "activity-user-link" %>
+      <div class="">
+        <%= link_to "Change password", update_password_path(email: current_user.email),
+                    class: "bluebtn gray" %>
+      </div>
+      <br>
+
+      <div class="">
+        <%= f.text_field :phone_number, placeholder: "Phone Number", class: "txtfield tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Phone Number" %>
+        <p class="push-right-small inline help-text">*Used for urgent text message job alerts</p>
+      </div>
     </div>
 
 
@@ -30,8 +40,25 @@
 
 
     <div class="content">
-      <%= f.check_box :send_daily_activity, checked: true, class: "checkbox" %>
-      <%= f.label nil, "Send Daily Activity Report Email", class: "checkbox-label inline" %>
+      <div class="inline">
+        <%= f.check_box :send_daily_activity, checked: true, class: "checkbox" %>
+        <%= f.label nil, "Daily Activity Report Email", class: "checkbox-label inline" %>
+      </div>
+
+      <div class="inline push-right">
+        <%= f.check_box :send_added_to_job, checked: true, class: "checkbox" %>
+        <%= f.label nil, "Added to Job Email", class: "checkbox-label inline" %>
+      </div>
+
+      <div class="inline push-right">
+        <%= f.check_box :send_new_message, checked: true, class: "checkbox" %>
+        <%= f.label nil, "New Message", class: "checkbox-label inline" %>
+      </div>
+
+      <div class="inline push-right">
+        <%= f.check_box :send_task_assigned, checked: true, class: "checkbox" %>
+        <%= f.label nil, "Task Assigned", class: "checkbox-label inline" %>
+      </div>
     </div>
 
     <div class="page-header-small">

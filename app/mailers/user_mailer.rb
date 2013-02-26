@@ -30,11 +30,18 @@ class UserMailer < ActionMailer::Base
            :subject => "Elephant Daily Job Activity")
   end
 
-  def assigned_task(user, activities)
+  def alert(user, alert)
       @user = user
-      @activities = activities
+      @alert = alert
       mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
-           :subject => "Elephant Daily Job Activity")
+           :subject => "You were assigned a task from " + alert.created_by.name)
+  end
+
+  def new_message(user, message)
+      @user = user
+      @message = message
+      mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
+           :subject => "You received a message from " + message.user.name)
   end
 
 end

@@ -1,0 +1,18 @@
+<html>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
+
+<div class="alert-title">
+  <% if Rails.env.production? %>
+      <%= image_tag "assign_arrow.png" %>
+  <% end %>
+  <p class="activity-user-link"><%= @alert.created_by.name %></p><%= t ".assigned_task" %> on:
+</div>
+<%= render 'job_notes/job_note_email', job_note: @alert.target %>
+
+<%= link_to @alert.job.absolute_url, class: "job-email-link" do %>
+    <%= render 'jobs/job_data_email', job: @alert.job %>
+<% end %>
+
+</body>
+</html>

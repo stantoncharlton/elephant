@@ -140,6 +140,18 @@ class User < ActiveRecord::Base
         UserMailer.registration_confirmation(user, password).deliver
     end
 
+    def send_alert_email(alert)
+        UserMailer.alert(self, alert).deliver
+    end
+
+    def send_new_message_email(message)
+        message.conversation.participants.each do |member|
+            if member != self
+                UserMailer.new_message(self, message).deliver
+            end
+        end
+    end
+
 
     private
 

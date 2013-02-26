@@ -34,6 +34,7 @@ class Alert < ActiveRecord::Base
         alert.job = job
 
         alert.save!
+        alert
     end
 
     def seen

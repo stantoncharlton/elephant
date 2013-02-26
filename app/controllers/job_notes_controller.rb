@@ -24,7 +24,8 @@ class JobNotesController < ApplicationController
             Activity.add(self.current_user, Activity::JOB_NOTE_ADDED, @job_note, nil, @job_note.job)
 
             if @job_note.assign_to.present?
-                Alert.add(@job_note.assign_to, Alert::TASK_ASSIGNED, @job_note, self.current_user, @job_note.job)
+                alert = Alert.add(@job_note.assign_to, Alert::TASK_ASSIGNED, @job_note, self.current_user, @job_note.job)
+                @job_note.assign_to.delay.send_alert_email(alert)
             end
         end
     end
