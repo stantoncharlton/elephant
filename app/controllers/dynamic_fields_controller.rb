@@ -86,6 +86,7 @@ class DynamicFieldsController < ApplicationController
                 @dynamic_field.update_attribute(:name, params[:dynamic_field][:name])
                 @dynamic_field.update_attribute(:value_type, params[:dynamic_field][:value_type])
                 @dynamic_field.update_attribute(:priority, params[:dynamic_field][:priority])
+                @dynamic_field.update_attribute(:optional, params[:dynamic_field][:optional])
                 if !params[:dynamic_field][:value].blank?
                     @dynamic_field.update_attribute(:value, params[:dynamic_field][:value])
                     @dynamic_field.update_attribute(:predefined, true)

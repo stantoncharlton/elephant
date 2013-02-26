@@ -24,9 +24,9 @@
 
   <% if in_form %>
 
-      <% if job.other_jobs.count > 0 %>
+      <% if job.well.jobs.count > 1 %>
           <p class="inline">
-            (<b><%= job.other_jobs.count.to_s %></b>)
+            (<b><%= job.well.jobs.count.to_s %></b>)
           </p>
       <% end %>
   <% end %>

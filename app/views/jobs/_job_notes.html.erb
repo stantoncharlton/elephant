@@ -1,0 +1,47 @@
+<div class="content">
+  <div class="field">
+    <% if job_editable %>
+        <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
+            <div class="new-product-line">
+              <%= f.hidden_field :job_id, value: job.id %>
+              <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
+
+              <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
+                              class: "txtfield job-notes-text tooltip-info", autofocus: false,
+                              id: "new_note_id",
+                              "data-placement" => "bottom",
+                              "data-title" => "Note/Action text" %>
+
+              <div class="job-note-options">
+                <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2], [I18n.t("job_note_types.failure"), 3]]),
+                             {},
+                             class: "job-note-type tooltip-info",
+                             "data-placement" => "right",
+                             "data-title" => "Type of note" %>
+                <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                                   placeholder: I18n.t("jobs.show.new_assign_prompt"),
+                                   id: "new_note_name",
+                                   class: "txtfield job-note-assign custom-data-input tooltip-info",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Name of person assigned this note" %>
+              </div>
+
+              <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-job-note pull-right tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Add new note/action" %>
+
+
+            </div>
+        <% end %>
+    <% elsif job.job_notes.empty? %>
+        <div class="no-alerts">
+          <p class="center"><%= t ".no_notes" %></p>
+        </div>
+    <% end %>
+  </div>
+</div>
+<div id="job_notes" class="content">
+  <% job.job_notes.each do |job_note| %>
+      <%= render 'job_notes/job_note', job_note: job_note %>
+  <% end %>
+</div>

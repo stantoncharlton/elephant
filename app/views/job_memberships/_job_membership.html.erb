@@ -1,6 +1,9 @@
 <li class="job-member-list-item" id="job_membership_<%= job_membership.id %>">
+  <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
   <div class="activity-user-link-div-short">
-    <%= render 'activities/user', user: job_membership.user %>
+    <div class="inline  push-right-small">
+      <%= render 'activities/user', user: job_membership.user %>
+    </div>
   </div>
   <p class="job-members-position-title"><%= job_membership.role_title %></p>
 

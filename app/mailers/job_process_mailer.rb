@@ -35,4 +35,11 @@ class JobProcessMailer < ActionMailer::Base
         mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
              :subject => "Added to Job: #{@job.field.name} | #{@job.well.name} | #{@job.job_template.name}")
     end
+
+    def job_inactive(user, job)
+        @user = user
+        @job = job
+        mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
+             :subject => "Job has had no Activity")
+    end
 end

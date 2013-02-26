@@ -22,12 +22,14 @@
                            class: "job-field-value-editable push-right-small" %>
         </div>
 
-        <%= f.label nil, "Show in Job Summary", class: "push-right" %>
-        <%= f.check_box :priority %>
+        <div class="inline push-right">
+          <%= f.check_box :priority, class: "push-right" %>
+          <%= f.label nil, "Show in Job Summary" %>
+        </div>
 
         <div class="inline push-right">
-          <%= f.label nil, "Tool", class: "push-right" %>
-          <%= f.check_box :is_tool %>
+          <%= f.check_box :optional, class: "push-right" %>
+          <%= f.label nil, "Optional" %>
         </div>
 
       </div>

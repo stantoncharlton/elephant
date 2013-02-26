@@ -9,3 +9,18 @@ task :daily_activity_email => :environment do
         end
     end
 end
+
+task :inactive_job_email => :environment do
+    Job.all.each do |job|
+        if job.status != Job::CLOSED && job.recent_activity(1.month.ago).count == 0
+            creator = job.creator
+            supervisor = job.supervisor
+            if !supervisor.nil?
+                JobProcessMailer.job_inactive(supervisor, job).deliver
+            end
+            if !creator.nil? && supervisor != creator
+                JobProcessMailer.job_inactive(creator, job).deliver
+            end
+        end
+    end
+end

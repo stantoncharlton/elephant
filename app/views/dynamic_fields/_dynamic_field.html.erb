@@ -12,18 +12,22 @@
 
     <div class="dynamic-field-summary-div">
 
-      <% if dynamic_field.is_tool? %>
-          <%= image_tag "tool.png" %>
-      <% end %>
-
       <% if dynamic_field.predefined? %>
           <%= dynamic_field.value_type == DynamicField::STRING ? dynamic_field.value : dynamic_field.value.to_f.round(3).to_s %>
       <% end %>
-      <% if dynamic_field.priority %>
+      <% if dynamic_field.priority? %>
           <div class="summary-text">
             <%= label_tag nil, "Shown in Summary", class: "warning-text tooltip-info",
                           "data-placement" => "bottom",
                           "data-title" => "This field is shown in the summary of the job" %>
+          </div>
+      <% end %>
+
+      <% if dynamic_field.optional? %>
+          <div class="summary-text">
+            <%= label_tag nil, "Optional", class: "tooltip-info",
+                          "data-placement" => "bottom",
+                          "data-title" => "This field is optional" %>
           </div>
       <% end %>
     </div>

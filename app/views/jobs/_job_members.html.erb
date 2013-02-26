@@ -1,0 +1,24 @@
+<div class="content">
+  <p class="job-field-title job-members-title"><%= t ".members" %></p>
+
+  <div class="job-members-div">
+    <ul class="job-members-list" id="job_members_list">
+      <% job.job_memberships.each do |jm| %>
+          <% if jm.job_role_id != 6 %>
+              <%= render 'job_memberships/job_membership', job_membership: jm %>
+          <% end %>
+      <% end %>
+    </ul>
+
+    <% if job_editable %>
+
+        <%= link_to "Add Member", new_job_membership_path, remote: true,
+                    class: "add-job-member tooltip-info", id: "add_job_member",
+                    "data-placement" => "bottom",
+                    "data-title" => "Add new project member" %>
+    <% end %>
+
+
+    <%= render 'job_memberships/fields', job: job %>
+  </div>
+</div>

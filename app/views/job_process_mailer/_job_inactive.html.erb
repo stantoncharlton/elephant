@@ -1,0 +1,15 @@
+<html>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
+
+<h3>Job has had no activity in the last month.</h3>
+<p>Is this job complete or abandoned? You can also delete the job in 'advanced actions' on the job page.</p>
+<br>
+
+<br><br>
+<%= link_to @job.absolute_url, class: "job-email-link" do %>
+    <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+</body>
+</html>

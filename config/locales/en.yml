@@ -74,7 +74,7 @@ en:
     note: "Note"
     task: "Task"
     warning: "Warning"
-    problem: "Problem"
+    failure: "Failure"
 
   document_types:
     document: "Document"
