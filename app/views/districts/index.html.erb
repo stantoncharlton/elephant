@@ -13,7 +13,7 @@
                   "data-title" => "Create new district"%>
   <% end %>
 
-  <%= form_tag districts_path, :method => 'get', :id => "districts_search", class: "inline search-box" do %>
+  <%= form_tag districts_path, :method => 'get', :id => "districts_search", remote: true, class: "inline search-box" do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query tooltip-info",
                          "data-placement" => "left",
                          "data-title" => "Search districts by name"%>
