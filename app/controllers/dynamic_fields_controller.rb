@@ -79,6 +79,8 @@ class DynamicFieldsController < ApplicationController
         @dynamic_field = DynamicField.find(params[:id])
         not_found unless @dynamic_field.company == current_user.company
 
+        @is_valid = true
+
         if @dynamic_field.template?
             DynamicField.transaction do
                 @dynamic_field.update_attribute(:name, params[:dynamic_field][:name])
@@ -93,6 +95,9 @@ class DynamicFieldsController < ApplicationController
             end
         else
             if params[:value].present?
+                if @dynamic_field.value_type != DynamicField::STRING
+                    @is_valid = params[:value].match(/\A[+-]?\d+?(\.\d+)?\Z/) != nil
+                end
                 @dynamic_field.value = params[:value]
                 @dynamic_field.save
             elsif params[:unit].present?
@@ -109,7 +114,6 @@ class DynamicFieldsController < ApplicationController
             end
         end
     end
-
 
     def destroy
         @dynamic_field = DynamicField.find(params[:id])
