@@ -166,7 +166,7 @@ class Job < ActiveRecord::Base
                 if constraint.operator == "1" or constraint.operator == "2" or constraint.operator == "3"
                     new_value = DynamicField.new.convert(value, constraint.units, DynamicField.new.get_storage_value_type(constraint.units))
                     puts value.to_s + " / " + new_value.to_s + " / " + constraint.units + "  .............."
-                    ar_query = ar_query.where("CAST(dynamic_fields.value as INT) " + operator + " :dynamic_field_value", dynamic_field_value: new_value).includes(:dynamic_fields)
+                    ar_query = ar_query.where("CAST(dynamic_fields.value as decimal) " + operator + " :dynamic_field_value", dynamic_field_value: new_value).includes(:dynamic_fields)
 
                 else
                     ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)

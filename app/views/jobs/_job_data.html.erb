@@ -39,31 +39,29 @@
               Advanced Actions
             </a>
             <ul class="dropdown-menu">
-              <% job.other_jobs.each do |other_job| %>
 
-                  <% if @job.is_supervisor_or_creator?(current_user) %>
+              <% if job.is_supervisor_or_creator?(current_user) %>
 
-                      <% if @job.status == Job::CLOSED %>
-                          <li>
-                            <%= link_to "Reopen Job", job(:reopen => "true"),
-                                        class: "dropdown-menu-link tooltip-info",
-                                        "data-placement" => "left",
-                                        "data-title" => "This will reopen the job for edit." %>
-
-                            <!--<li class="divider"></li>-->
-                          </li>
-                      <% end %>
-
+                  <% if job.status == Job::CLOSED %>
                       <li>
-                        <%= link_to "Delete Job", job, method: :delete,
+                        <%= link_to "Reopen Job", job,
                                     class: "dropdown-menu-link tooltip-info",
-                                    data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
                                     "data-placement" => "left",
-                                    "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+                                    "data-title" => "This will reopen the job for edit." %>
+
+                        <!--<li class="divider"></li>-->
                       </li>
                   <% end %>
 
+                  <li>
+                    <%= link_to "Delete Job", job, method: :delete,
+                                class: "dropdown-menu-link tooltip-info",
+                                data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
+                                "data-placement" => "left",
+                                "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+                  </li>
               <% end %>
+
             </ul>
           </div>
       <% end %>
