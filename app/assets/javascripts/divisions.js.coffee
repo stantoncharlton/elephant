@@ -13,4 +13,15 @@ $ ->
       header.removeClass "header-expanded"
       content.css "display", "none"
 
+    document.location.hash = "location_" + $(this).closest('.div-expand-root').attr 'id'
+
     return false
+
+  if document.location.hash != ''
+    root = $("#" + document.location.hash.replace('#location_', ''))
+    root.find('.div-toggle-content:first').css "display", "block"
+    root.find('.header:first').addClass "header-expanded"
+
+    root.parents('.div-expand-root').each ->
+      $(this).find('.div-toggle-content:first').css "display", "block"
+      $(this).find('.header:first').addClass "header-expanded"
