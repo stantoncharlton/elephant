@@ -41,7 +41,8 @@
         <% @job.job_template.primary_tools.each_with_index do |primary_tool, index| %>
             <fieldset class="field" id="primary_tool_<%= primary_tool.id %>">
               <div>
-                <div class="secondary-tool-name">
+                <%= image_tag "tool.png" %>
+                <div class="secondary-tool-name push-right-small">
                   <h3><%= primary_tool.tool.name %></h3>
                 </div>
               </div>
