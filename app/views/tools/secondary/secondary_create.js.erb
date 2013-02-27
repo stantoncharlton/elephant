@@ -1,0 +1,10 @@
+<% if @tool.new_record? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Tool", message: @tool.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
+$('#secondary_tools_list').append("<%= j render 'tools/secondary/secondary_tool', tool: @tool %>");
+
+<% end %>

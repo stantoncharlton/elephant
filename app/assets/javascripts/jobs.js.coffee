@@ -68,48 +68,16 @@ $ ->
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_unit_", "") + '?unit=' + $(this).val(), type: 'put', dataType: 'script'
 
 
-  resetTrays = () ->
-    $('#custom_data_toggle').closest('li').removeClass 'active'
-    $('#job_tools_toggle').closest('li').removeClass 'active'
-    $('#job_options_toggle').closest('li').removeClass 'active'
-    $('#custom_data').css "display", "none"
-    $('#job_tools').css "display", "none"
-    $('#job_options').css "display", "none"
-
-  $('#custom_data_toggle').live "click", ->
-    close = $('#custom_data').css("display") == "block"
-    resetTrays()
-    $(this).closest('li').addClass 'active'
-    if $('#custom_data').css("display") == "none"
-      $('#custom_data').css "display", "block"
-    if close
-      $(this).closest('li').removeClass 'active'
-      $('#custom_data').css "display", "none"
-    return false
-
-  $('#job_tools_toggle').live "click", ->
-    close = $('#job_tools').css("display") == "block"
-    resetTrays()
-    $(this).closest('li').addClass 'active'
-    if $('#job_tools').css("display") == "none"
+  $('.job-tray-toggle').click ->
+    close = $(this).closest('li').hasClass 'active'
+    $('.job-tray-toggle').closest('li').removeClass 'active'
+    $('.job-tray').addClass 'custom-data-closed'
+    if !close
       $(this).closest('li').addClass 'active'
-      $('#job_tools').css "display", "block"
-    if close
-      $(this).closest('li').removeClass 'active'
-      $('#job_tools').css "display", "none"
+      $(".job-tray[data-tray=" + $(this).attr('data-tray') + "]").removeClass 'custom-data-closed'
     return false
 
-  $('#job_options_toggle').live "click", ->
-    close = $('#job_options').css("display") == "block"
-    resetTrays()
-    $(this).closest('li').addClass 'active'
-    if $('#job_options').css("display") == "none"
-      $(this).closest('li').addClass 'active'
-      $('#job_options').css "display", "block"
-    if close
-      $(this).closest('li').removeClass 'active'
-      $('#job_options').css "display", "none"
-    return false
+
 
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'

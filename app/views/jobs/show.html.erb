@@ -9,41 +9,73 @@
 
 
 <div>
-<div class="content">
-  <hr>
-  <ul class="nav nav-pills">
-    <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
-      <a href="#" id="custom_data_toggle" class="custom-data-toggle tooltip-info"
-         data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
-        <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
-    </li>
+  <div class="content">
+    <hr>
+    <ul class="nav nav-pills">
+      <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
+        <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="custom_data"
+           data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
+          <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
+      </li>
 
-    <li>
-      <a href="#" id="job_tools_toggle" class="custom-data-toggle tooltip-info"
-         data-placement="bottom" data-title="List of tools used on this job">Tools</a>
-    </li>
+      <li class="push-right-small">
+        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="primary_tools"
+           data-placement="bottom" data-title="List of tools used on this job">Primary Tools</a>
+      </li>
 
-    <li>
-      <a href="#" id="job_options_toggle" class="custom-data-toggle tooltip-info"
-         data-placement="bottom" data-title="Advanced options for controlling this job">Advanced Options</a>
-    </li>
-  </ul>
+      <li class="push-right-small">
+        <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="secondary_tools"
+           data-placement="bottom" data-title="List of tools used on this job">Secondary Tools</a>
+      </li>
 
-  <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
 
-  <div class="custom-data-closed well well-large" id="job_tools">
+    </ul>
+
+    <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
+
+    <div class="job-tray custom-data-closed well well-large" data-tray="primary_tools">
+      <div>
+        <% @job.job_template.primary_tools.each_with_index do |primary_tool, index| %>
+            <fieldset class="field" id="primary_tool_<%= primary_tool.id %>">
+              <div>
+                <div class="secondary-tool-name">
+                  <h3><%= primary_tool.tool.name %></h3>
+                </div>
+              </div>
+            </fieldset>
+        <% end %>
+        </div>
+  </div>
+
+  <div class="job-tray custom-data-closed well well-large" data-tray="secondary_tools">
     <div>
+      <div id="secondary_tools_list">
+        <% @job.secondary_tools.each do |secondary_tool| %>
+            <%= render 'tools/secondary/secondary_tool', tool: secondary_tool %>
+        <% end %>
+      </div>
+
+      <hr>
+
+      <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
+          <%= f.hidden_field :job_id, value: @job.id %>
+          <%= f.select :tool_id, options_for_select(@job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
+                       prompt: "Select a Tool...",
+                       class: "tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select from and existing secondary tool on this division" %>
+
+          <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+      <% end %>
     </div>
   </div>
 
 
-  <div class="custom-data-closed well well-large" id="job_options">
-    <div>
-    </div>
-  </div>
-
   <hr>
-  </div>
+</div>
 </div>
 
 

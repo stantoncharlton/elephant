@@ -11,7 +11,7 @@ $('#modal_popup').height(0);
 
 <% if @tool.division %>
 
-$('#secondary_tools_list').append("<%= j render 'tools/secondary/secondary_tool', tool: @tool %>");
+$('#secondary_tools_list').append("<%= j render 'tools/tool', tool: @tool %>");
 
 <% else %>
 
