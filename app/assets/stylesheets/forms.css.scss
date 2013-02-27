@@ -285,6 +285,17 @@
   max-width: 600px;
 }
 
+.modal-popup-fixed {
+  position: fixed;
+  width: 600px;
+  left: 0px;
+  right:0px;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+}
+
 .modal-popup-close {
   position: relative;
   float: right;

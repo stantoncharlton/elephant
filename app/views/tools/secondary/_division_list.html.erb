@@ -1,0 +1,14 @@
+<div class="secondary-tools-div">
+  <div id="secondary_tools_list">
+    <% division.secondary_tools.each do |secondary_tool| %>
+        <%= render 'tools/secondary/secondary_tool', tool: secondary_tool %>
+    <% end %>
+  </div>
+
+  <br>
+  <%= link_to "Add New secondary tool on division", new_tool_path(:division => division.id), remote: true,
+              class: "inline add-job-member tooltip-info push-right", id: "add_job_member",
+              "data-placement" => "bottom",
+              "data-title" => "Add primary tool to job type" %>
+
+</div>

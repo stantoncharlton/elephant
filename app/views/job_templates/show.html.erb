@@ -63,7 +63,7 @@
       <a href="#" id="custom_data_toggle" class="custom-data-toggle" data-tray="custom_data">Custom Data</a>
     </li>
     <li>
-      <a href="#" id="documents_toggle" class="custom-data-toggle" data-tray="documents_tray">Documents</a>
+      <a href="#" id="documents_toggle" class="custom-data-toggle" data-tray="all_documents">Documents</a>
     </li>
     <li>
       <a href="#" id="tools_toggle" class="custom-data-toggle" data-tray="tools">Primary Tools</a>
@@ -96,7 +96,7 @@
 </div>
 
 
-<div class="tray hidden" data-tray="documents_tray">
+<div class="tray hidden" data-tray="all_documents">
   <div class="page_header">
     <h1><%= t "jobs.show.documents" %></h1>
 
@@ -148,15 +148,16 @@
   </div>
 
   <div class="content">
-    <% @job_template.primary_tools.each do |primary_tool| %>
-        <div>
-          <h3><%= primary_tool.tool.name %></h3>
-        </div>
-    <% end %>
+    <div id="primary_tools_list">
+      <% @job_template.primary_tools.each do |primary_tool| %>
+          <%= render 'tools/primary/primary_tool', tool: primary_tool %>
+      <% end %>
+    </div>
 
+    <hr>
 
-    <%= form_for(PrimaryTool.new, :html => {:class => "inline ", id: "new_primary_tool_form"}, remote: true) do |f| %>
-        <%= f.hidden_field :product_line_id, id: "tool_product_line_id", value: @job_template.product_line.id %>
+    <%= form_for(PrimaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
+        <%= f.hidden_field :job_template_id, value: @job_template.id %>
         <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.collect { |p| [p.name, p.id] }),
                      prompt: "Select a Tool...",
                      class: "tooltip-info",
@@ -167,23 +168,11 @@
     <% end %>
 
 
-    <%= link_to "Add New primary tool on product line", "#", remote: true,
+    <%= link_to "Add New primary tool on product line", new_tool_path(:product_line => @job_template.product_line.id), remote: true,
                 class: "inline add-job-member tooltip-info", id: "add_job_member",
                 "data-placement" => "bottom",
                 "data-title" => "Add primary tool to job type" %>
 
-    <div  class="well">
-      <b>New Primary Tool on Product Line</b>
-      <br><br>
-      <%= form_for(Tool.new, :html => {:class => ""}, remote: true) do |f| %>
-          <%= f.hidden_field :product_line_id, value: @job_template.product_line.id %>
-          <%= f.hidden_field :company_id, value: @job_template.company.id %>
-          <%= f.text_field :name,
-                           placeholder: "Name of primary tool",
-                           class: "txtfield small" %>
-          <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
-      <% end %>
-    </div>
 
   </div>
 </div>
@@ -212,6 +201,17 @@
   <% end %>
 </div>
 
+
+<div id="modal_popup" class="modal-popup-background">
+  <div class="modal-popup modal-popup-fixed">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+
+    <div class="modal-content">
+
+    </div>
+
+  </div>
+</div>
 
 
 

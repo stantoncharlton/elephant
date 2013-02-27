@@ -1,0 +1,48 @@
+<% provide(:title, 'Tools') %>
+
+<div class="page_header">
+  <h1>Secondary Tools</h1>
+</div>
+
+<div>
+  <br>
+
+  <div>
+
+
+    <% if current_user.company.divisions.any? %>
+        <%= render 'tools/secondary/division_list', division: current_user.company.divisions.first %>
+    <% end %>
+
+    <div class="pull-left tools-division-list">
+      <ul class="nav nav-list well">
+        <li class="nav-header">Divisions</li>
+        <br>
+        <% current_user.company.divisions.each_with_index do |division, index| %>
+            <li class="<%= (index == 0) ? "active" : "" %>"><a id="division_<%= division.id %>" class="secondary-tool tools-hover" href="#"><%= division.name %></a>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+
+
+    <div class="loading hidden">
+      <br>
+      <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div id="modal_popup" class="modal-popup-background">
+  <div class="modal-popup modal-popup-fixed">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+
+    <div class="modal-content">
+
+    </div>
+
+  </div>
+</div>

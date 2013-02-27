@@ -1,0 +1,29 @@
+.primary-tool-name {
+  width: 780px;
+  display: inline-block;
+}
+
+.tools-division-list {
+  width: 200px;
+  display: inline-block;
+}
+
+.secondary-tool-name {
+  width: 560px;
+  display: inline-block;
+}
+
+.secondary-tools-div {
+  width: 700px;
+  margin-top: 10px;
+  padding-left: 30px;
+  display: inline-block;
+}
+
+.tools-hover {
+  &:hover {
+    color: #000000 !important;
+  }
+}
+
+
