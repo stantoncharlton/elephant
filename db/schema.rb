@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130226215458) do
+ActiveRecord::Schema.define(:version => 20130227210946) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -198,6 +198,25 @@ ActiveRecord::Schema.define(:version => 20130226215458) do
   add_index "dynamic_fields", ["job_id"], :name => "index_dynamic_fields_on_job_id"
   add_index "dynamic_fields", ["job_template_id"], :name => "index_dynamic_fields_on_job_template_id"
   add_index "dynamic_fields", ["name"], :name => "index_dynamic_fields_on_name"
+
+  create_table "failures", :force => true do |t|
+    t.string   "text"
+    t.integer  "company_id"
+    t.string   "reference"
+    t.integer  "product_line_id"
+    t.integer  "job_template_id"
+    t.integer  "job_id"
+    t.boolean  "template",                   :default => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+    t.integer  "failure_master_template_id"
+  end
+
+  add_index "failures", ["company_id"], :name => "index_failures_on_company_id"
+  add_index "failures", ["failure_master_template_id"], :name => "index_failures_on_failure_template_id"
+  add_index "failures", ["job_id"], :name => "index_failures_on_job_id"
+  add_index "failures", ["job_template_id"], :name => "index_failures_on_job_template_id"
+  add_index "failures", ["product_line_id"], :name => "index_failures_on_product_line_id"
 
   create_table "fields", :force => true do |t|
     t.string   "name"

@@ -82,5 +82,8 @@ ElephantWebApp::Application.routes.draw do
     resources :primary_tools, only: [:create, :destroy]
     resources :secondary_tools, only: [:index, :new, :create, :destroy]
 
+    resources :failures, only: [:new, :create, :update, :destroy]
+
+
 end
 

@@ -39,4 +39,5 @@ $ ->
     document.location.hash = tray;
     return false
 
-    $(".custom-data-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
+  if document.location.hash != ''
+    $(".job-type-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"

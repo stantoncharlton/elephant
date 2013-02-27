@@ -60,7 +60,8 @@
   <hr>
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#" id="custom_data_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="custom_data">Custom Data</a>
+      <a href="#" id="custom_data_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="custom_data">Custom
+        Data</a>
     </li>
     <li>
       <a href="#" id="documents_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="all_documents">Documents</a>
@@ -72,7 +73,8 @@
       <a href="#" id="failures_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="failures">Failures</a>
     </li>
     <li>
-      <a href="#" id="report_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="report">Post Job Report</a>
+      <a href="#" id="report_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="report">Post Job
+        Report</a>
     </li>
   </ul>
 
@@ -162,7 +164,7 @@
                      prompt: "Select a Tool...",
                      class: "tooltip-info",
                      "data-placement" => "bottom",
-                     "data-title" => "Select from and existing primary tool on this product line" %>
+                     "data-title" => "Select from an existing primary tool on this product line" %>
 
         <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
     <% end %>
@@ -172,8 +174,39 @@
                 class: "inline add-job-member tooltip-info", id: "add_job_member",
                 "data-placement" => "bottom",
                 "data-title" => "Add primary tool to job type" %>
+  </div>
+</div>
+
+<div class="tray hidden" data-tray="failures">
+  <div class="page_header">
+    <h1>Failures</h1>
+  </div>
+
+  <div class="content">
+    <div id="failures_list">
+      <% @job_template.failures.each do |failure| %>
+          <%= render 'failures/failure', failure: failure %>
+      <% end %>
+    </div>
+
+    <hr>
+
+    <%= form_for(Failure.new, :html => {:class => "inline"}, remote: true) do |f| %>
+        <%= f.hidden_field :job_template_id, value: @job_template.id %>
+        <%= f.select :failure_master_template_id, options_for_select(@job_template.product_line.failures.collect { |p| [p.text, p.id] }),
+                     prompt: "Select a Failure...",
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Select from an existing failure on this product line" %>
+
+        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+    <% end %>
 
 
+    <%= link_to "Add New failure on product line", new_failure_path(:product_line => @job_template.product_line.id), remote: true,
+                class: "inline add-job-member tooltip-info", id: "add_failure",
+                "data-placement" => "bottom",
+                "data-title" => "Add failure to job type" %>
   </div>
 </div>
 
@@ -199,6 +232,9 @@
                   class: "bluebtn red pull-right-button tooltip-info",
                   "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
   <% end %>
+
+  <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+              "data-title" => "Cancel new message and go back"%>
 </div>
 
 

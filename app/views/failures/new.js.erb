@@ -1,0 +1,4 @@
+
+$('#modal_popup').find('.modal-content').append('<%= j render 'failures/new_failure', failure: @failure %>');
+$('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').height($(document).height() + 100);

@@ -255,6 +255,17 @@ select {
 
 
 .custom-select {
-  background: url(image_path('drop_down_arrow.png')) no-repeat 95% 50% !important;
+  height: 30px;
+  padding-left: 10px !important;
+  line-height: 30px;
+  font-size: 14px;
+  font-weight: normal;
+  background: #FFFFFF url(image_path('drop_down_arrow.png')) no-repeat 95% 50% !important;
   width: 200px !important;
+  overflow: hidden;
+  text-wrap: none;
+}
+
+.custom-select-long {
+  width: 500px !important;
 }

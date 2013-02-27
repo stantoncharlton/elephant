@@ -33,6 +33,8 @@ class Job < ActiveRecord::Base
     has_many :job_processes, order: "created_at DESC"
     has_many :secondary_tools
 
+    has_many :failures, dependent: :destroy, order: "text ASC"
+
     ACTIVE = 1
     CLOSED = 2
     ABANDONED = 3

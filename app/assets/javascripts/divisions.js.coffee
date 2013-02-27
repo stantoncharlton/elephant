@@ -17,11 +17,11 @@ $ ->
 
     return false
 
-  if document.location.hash != '' && document.location.startsWith('#location_')
-    root = $("#" + document.location.hash.replace('#location_', ''))
-    root.find('.div-toggle-content:first').css "display", "block"
-    root.find('.header:first').addClass "header-expanded"
-
-    root.parents('.div-expand-root').each ->
-      $(this).find('.div-toggle-content:first').css "display", "block"
-      $(this).find('.header:first').addClass "header-expanded"
+  if document.location.hash != ''
+    if document.location.hash.match('#location_')
+      root = $("#" + document.location.hash.replace('#location_', ''))
+      root.find('.div-toggle-content:first').css "display", "block"
+      root.find('.header:first').addClass "header-expanded"
+      root.parents('.div-expand-root').each ->
+        $(this).find('.div-toggle-content:first').css "display", "block"
+        $(this).find('.header:first').addClass "header-expanded"

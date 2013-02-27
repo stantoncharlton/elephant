@@ -1,0 +1,21 @@
+<div class="page_header">
+  <h1>Create New Failure</h1>
+</div>
+
+<br>
+<b>Text/Description of Failure</b>
+<br>
+<br>
+
+<%= form_for failure, remote: true do |f| %>
+
+    <%= f.hidden_field :product_line_id, value: failure.product_line ? failure.product_line.id : nil %>
+
+    <%= f.text_field :text,
+                     placeholder: "Text/description",
+                     class: "txtfield" %>
+
+    <div class="content actions">
+      <%= f.submit "Create Failure", class: "bluebtn pull-right" %>
+    </div>
+<% end %>
