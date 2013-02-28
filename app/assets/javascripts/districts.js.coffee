@@ -10,3 +10,7 @@ $ ->
     $('#district_state_id').removeAttr("disabled")
     $('#district_state_id').css "opacity", "1"
     $.ajax '/countries/' + $('#district_country_id').val(), dataType: 'script'
+
+
+  $('#district_name_id').keyup ->
+    $.ajax '/districts?search=' + $(this).val(), type: 'get', dataType: 'script'
