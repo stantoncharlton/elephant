@@ -9,3 +9,10 @@ $('.job-progress').hide();
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
 
+
+$.ajax({
+    url:"/failures?job_id=<%= @job_process.job.id %>",
+    type:"GET",
+    dataType:"script"
+});
+
