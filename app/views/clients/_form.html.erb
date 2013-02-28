@@ -5,6 +5,7 @@
     <%= f.text_field :name, placeholder: I18n.t("jobs.job_data.client_name"),
                      class: "txtfield tooltip-info",
                      id: "client_name_id",
+                     :autocomplete => 'off',
                      "data-placement" => "bottom",
                      "data-title" => "Customer Name" %>
   </div>
