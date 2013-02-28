@@ -1,0 +1,4 @@
+$('#modal_popup').find('.loading').addClass('hidden');
+$('#modal_popup').find('.modal-content').append('<%= j render 'failures/list', job: @job %>');
+$('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').height($(document).height() + 100);

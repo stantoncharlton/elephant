@@ -1,0 +1,21 @@
+<div class="page_header">
+  <h1>Failures</h1>
+</div>
+
+<%= form_for :failures, url: failures_path, remote: true do |f| %>
+
+    <%= f.hidden_field :job_id, value: job.id %>
+
+    <% job.job_template.failures.each do |failure| %>
+        <fieldset class="field">
+
+          <%= f.check_box failure.id.to_s, checked: (job.failures.find_by_failure_master_template_id(failure.failure_master_template.id) ? true : false) %>
+
+          <p class="push-right-small"><b><%= failure.failure_master_template.text %></b></p>
+        </fieldset>
+    <% end %>
+
+    <div class="content actions">
+      <%= f.submit "Save", class: "bluebtn pull-right" %>
+    </div>
+<% end %>

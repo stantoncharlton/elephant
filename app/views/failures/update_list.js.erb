@@ -1,0 +1,7 @@
+$('#modal_popup').css('visibility', 'hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').height(0);
+
+$('#failures_list').replaceWith("<%= j render 'jobs/job_failure_list', job: @job %>");
+
+

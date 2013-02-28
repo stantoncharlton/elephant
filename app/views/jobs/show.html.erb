@@ -48,35 +48,35 @@
               </div>
             </fieldset>
         <% end %>
-        </div>
-  </div>
+      </div>
+    </div>
 
-  <div class="job-tray custom-data-closed well well-large" data-tray="secondary_tools">
-    <div>
-      <div id="secondary_tools_list">
-        <% @job.secondary_tools.each do |secondary_tool| %>
-            <%= render 'tools/secondary/secondary_tool', tool: secondary_tool %>
+    <div class="job-tray custom-data-closed well well-large" data-tray="secondary_tools">
+      <div>
+        <div id="secondary_tools_list">
+          <% @job.secondary_tools.each do |secondary_tool| %>
+              <%= render 'tools/secondary/secondary_tool', tool: secondary_tool %>
+          <% end %>
+        </div>
+
+        <hr>
+
+        <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
+            <%= f.hidden_field :job_id, value: @job.id %>
+            <%= f.select :tool_id, options_for_select(@job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
+                         prompt: "Select a Tool...",
+                         class: "tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Select from and existing secondary tool on this division" %>
+
+            <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
         <% end %>
       </div>
-
-      <hr>
-
-      <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
-          <%= f.hidden_field :job_id, value: @job.id %>
-          <%= f.select :tool_id, options_for_select(@job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
-                       prompt: "Select a Tool...",
-                       class: "tooltip-info",
-                       "data-placement" => "bottom",
-                       "data-title" => "Select from and existing secondary tool on this division" %>
-
-          <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
-      <% end %>
     </div>
+
+
+    <hr>
   </div>
-
-
-  <hr>
-</div>
 </div>
 
 
@@ -95,15 +95,44 @@
 <%= render 'jobs/job_documents', job: @job %>
 
 
+<div class="page_header">
+  <h1>Failures</h1>
+</div>
+<div class="content">
+  <%= render 'jobs/job_failure_list', job: @job %>
+  <br>
+  <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id), remote: true,
+              class: "inline add-job-member tooltip-info", id: "add_failure",
+              "data-placement" => "bottom",
+              "data-title" => "Add failure to job type" %>
+</div>
+
 
 <div class="page_header">
-  <h1>Notes/Failures</h1>
+  <h1>Notes</h1>
 </div>
 <%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
 
 
 
 <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
+
+
+<div id="modal_popup" class="modal-popup-background">
+  <div class="modal-popup modal-popup-fixed">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+
+    <div class="modal-content">
+
+    </div>
+
+    <div class="loading hidden">
+      <br>
+      <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
+    </div>
+
+  </div>
+</div>
 
 <script type="text/javascript">
     (function ($) {

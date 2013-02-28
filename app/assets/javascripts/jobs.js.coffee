@@ -78,6 +78,12 @@ $ ->
     return false
 
 
+  $('#add_failure').click ->
+    $('#modal_popup').css('visibility', 'visible')
+    $('#modal_popup').height($(document).height() + 100)
+    $('#modal_popup').find('.loading').removeClass 'hidden'
+
+
 
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'

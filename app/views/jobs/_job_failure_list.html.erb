@@ -1,0 +1,8 @@
+<div id="failures_list">
+  <% job.failures.each do |failure| %>
+      <fieldset class="field">
+        <%= image_tag "error_red.png", class: "job-failure-image inline" %>
+        <div class="inline push-right-small"><b><%= failure.failure_master_template.text %></b></div>
+      </fieldset>
+  <% end %>
+</div>
