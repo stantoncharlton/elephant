@@ -40,6 +40,6 @@ class JobProcessMailer < ActionMailer::Base
         @user = user
         @job = job
         mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
-             :subject => "Job has had no Activity")
+             :subject => "Job Low Activity Alert")
     end
 end
