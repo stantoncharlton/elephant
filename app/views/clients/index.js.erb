@@ -1,4 +1,19 @@
+if ($('#client_name_id')) {
+    $('#similar_customer').find('*').remove();
+
+    <% @clients.take(5).each do |client| %>
+        $('#similar_customer').append("<p class='inline'><%= client.name %></p><span class='push-right-small'></span>");
+    <% end %>
+
+    <% if @query.blank? || @clients.count == 0 %>
+        $('.alert').addClass('hidden');
+    <% else %>
+        $('.alert').removeClass('hidden');
+    <% end %>
+}
+else {
 $("#clients_list").html("<%= j will_paginate %><div id='clients' class='list'><%= j render(@clients) %></div><%= j will_paginate %>");
 
 $('.paginated-count').empty();
 $('.paginated-count').append('<%= @clients.count.to_s %>');
+}

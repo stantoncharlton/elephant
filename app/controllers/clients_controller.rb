@@ -7,7 +7,10 @@ class ClientsController < ApplicationController
 
         respond_to do |format|
             format.html { @clients = Client.from_company(current_user.company).paginate(page: params[:page], limit: 20) }
-            format.js { @clients = Client.search(params, current_user.company).results }
+            format.js {
+                @query = params[:search]
+                @clients = Client.search(params, current_user.company).results
+            }
             format.json {
                 if params[:q].present?
                     params[:search] = params[:q]

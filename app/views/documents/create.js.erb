@@ -6,11 +6,11 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-<% if @document.category == "Pre-Job" %>
+<% if @document.category == Document::PRE_JOB %>
     $("#documents").append("<%= j render(@document, editable: true, can_upload: true) %>");
-<% elsif @document.category == "Post-Job" %>
+<% elsif @document.category == Document::POST_JOB %>
     $("#documents2").append("<%= j render(@document, editable: true, can_upload: true) %>");
-<% elsif @document.category == "Field Bulletins" %>
+<% elsif @document.category == Document::NOTICES %>
     $("#documents3").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% end %>
 
