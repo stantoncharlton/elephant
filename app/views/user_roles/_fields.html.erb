@@ -1,11 +1,12 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<div class="content">
-  <div class="field stripe">
+<div class="well">
+  <div class=" stripe">
     <%= f.text_field :title, placeholder: "Role Title", class: "txtfield tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "User Role Title"%>
   </div>
+  <br>
 
   <%= f.hidden_field :create_job, value: true %>
 

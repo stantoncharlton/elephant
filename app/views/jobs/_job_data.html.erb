@@ -145,7 +145,7 @@
 <div class="">
   <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
       <% if !dynamic_field.dynamic_field_template.nil? %>
-          <p class="job-field-title"><%= dynamic_field.dynamic_field_template.name %></p>
+          <p class="job-field-title"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
 
           <% if form_editable && !dynamic_field.predefined? %>
               <div class="job-field-div">
@@ -168,7 +168,7 @@
               </div>
           <% else %>
               <div class="job-field-div">
-                <p class="job-field-value2 <%= in_form ? "unit-tooltip" : "" %>"
+                <p class="job-field-value2 blue-text <%= in_form ? "unit-tooltip" : "" %>"
                    data-placement="bottom"
                    data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
                   <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>

@@ -8,12 +8,14 @@
           <p class="list-job-item-name">
             <strong><%= jt.name %></strong>
           </p>
-          <p class="list-job-item-tools-divider">
-            <span class="list-job-item-tools">Liner Hanger</span> |
-            <span class="list-job-item-tools">Hydraulic</span> |
-            <span class="list-job-item-tools">Packer</span> |
-            <span class="list-job-item-tools">Wiper Plug</span>
-          </p>
+          <% if jt.primary_tools.any? %>
+              <p class="list-job-item-tools-divider">
+                <% jt.primary_tools.each do |primary_tool| %>
+                    <span class="list-job-item-tools"><%= primary_tool.tool.name %></span>
+                    <%= jt.primary_tools.last != primary_tool ? "|" : ""  %>
+                <% end %>
+              </p>
+          <% end %>
           <p class="list-job-item-description">
             <%= jt.description %>
           </p>
