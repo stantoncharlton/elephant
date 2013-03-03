@@ -44,6 +44,10 @@ module VpnHelper
                 unless acceptable
                     send_temporary_access_code
                     sign_out
+                    if request.format == :xml
+                        render :nothing => true, :status => :expectation_failed
+                        return
+                    end
                     deny_access "You are accessing Elephant from a computer network not within your company policy. Please check your email for a special access code to authorize this network."
                 end
             end

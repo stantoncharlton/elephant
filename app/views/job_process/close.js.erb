@@ -10,9 +10,11 @@ $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
 
 
+<% if @show_failures %>
 $.ajax({
     url:"/failures?job_id=<%= @job_process.job.id %>",
     type:"GET",
     dataType:"script"
 });
+<% end %>
 

@@ -88,6 +88,10 @@ class JobProcessController < ApplicationController
         @user = current_user
 
         if @job.sent_post_job_ready_email
+            @show_failures = true
+            if params[:show_failures] && params[:show_failures] == "false"
+                @show_failures = false
+            end
 
             if !@job.approved_to_close
                 @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)

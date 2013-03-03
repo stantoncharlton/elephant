@@ -93,9 +93,9 @@ class SessionsController < ApplicationController
         if params[:session]
             if params[:session][:network_access_code]
                 if authorize_network_code params[:session][:network_access_code]
-                    redirect_to root_path
+                    redirect_to jobs_path
                 else
-                    render 'verify_network', :flash => {:error =>  "Network code invalid. Please try again." }
+                    render 'verify_network', :flash => {:error => "Network code invalid. Please try again."}
                 end
             end
         elsif params[:resend] and params[:resend] == "true"
