@@ -84,6 +84,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :failures, only: [:index, :new, :create, :update, :destroy]
 
+    resources :post_job_report_documents, only: [:create, :update, :destroy]
 
 end
 

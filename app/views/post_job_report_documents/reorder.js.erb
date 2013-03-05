@@ -1,0 +1,13 @@
+<% if @move_up %>
+
+var doc = $('#post_job_report_document_<%= @post_job_report_document.id.to_s %>');
+
+doc.find('.order-button').data('tooltip').hide();
+
+var prev = doc.prev();
+doc.remove();
+prev.before(doc);
+
+<% end %>
+
+$('.tooltip-info').tooltip();

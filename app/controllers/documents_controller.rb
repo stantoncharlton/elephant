@@ -147,6 +147,13 @@ class DocumentsController < ApplicationController
             render 'error'
         end
 
+        @document.document_collection.each do |document|
+            if document != @document and (document.ordering || 0) > @document.ordering
+                document.ordering = (document.ordering || 0) - 1
+                document.save
+            end
+        end
+
         Activity.add(self.current_user, Activity::DOCUMENT_DESTROYED, @document, @document.name)
 
     end

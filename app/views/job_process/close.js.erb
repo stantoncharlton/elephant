@@ -1,6 +1,6 @@
 
-$("#process_actions").find('#job_ready_to_close').remove();
-$('#job_closed_id').remove();
+$("#process_actions").find('#job_ready_to_close').remove().find('.bluebtn').data('tooltip').hide();
+$('#job_closed_id').remove().find('.bluebtn').data('tooltip').hide();
 
 $("#process_actions").append("<%= j render('job_process/job_closed', job_process: @job_process ) %>");
 

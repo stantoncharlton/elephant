@@ -22,6 +22,8 @@ class Document < ActiveRecord::Base
 
     before_create :default_name
 
+    has_one :post_job_report_document, :dependent => :destroy
+
 
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
@@ -124,5 +126,6 @@ class Document < ActiveRecord::Base
                    session.credentials[:secret_access_key],
                    session.credentials[:session_token]).to_xml
     end
+
 
 end

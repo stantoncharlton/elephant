@@ -8,6 +8,8 @@
 <p>This job is now complete and has been closed.</p>
 <%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %>
 
+<p>Post Job Report will be available to view/download/print.</p>
+
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data_email', job: @job %>

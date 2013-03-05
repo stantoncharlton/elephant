@@ -7,9 +7,10 @@
 
         <div class="upload-controls inline" id="div_upload_<%= !document.job.nil? ? document.job.id : "" %>">
           <div class="upload-document-container" id="file_uploads">
+            <div class="document-upload-button-container">
             <% if can_upload and (document.template? or !document.read_only?) %>
                 <% if !@job || (@job and !@job.approved_to_close) %>
-                    <div class="document-upload-button-container inline tooltip-info"
+                    <div class="inline tooltip-info"
                          data-placement="bottom" data-title="Upload new document">
                       <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
                       <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
@@ -17,6 +18,7 @@
                 <% end %>
                 </div>
             <% end %>
+              </div>
 
 
             <% if editable %>

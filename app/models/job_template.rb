@@ -20,7 +20,7 @@ class JobTemplate < ActiveRecord::Base
     accepts_nested_attributes_for :documents, :allow_destroy => true
 
     has_many :primary_tools
-
+    has_many :post_job_report_documents, order: "ordering ASC", :dependent => :destroy
     has_many :failures, dependent: :destroy, order: "text ASC"
 
     def self.from_company(company)
@@ -55,6 +55,33 @@ class JobTemplate < ActiveRecord::Base
 
     def post_job_documents
         self.documents.select { |document| document.category == Document::POST_JOB }
+    end
+
+    def post_job_report_document_options
+        collection = []
+
+        collection << ["", -1]
+        collection << ["(+) New Document exclusively for report", 0]
+        collection << ["", -1]
+
+        collection << [Document::NOTICES + " (" + notices_documents.count.to_s + ") ------------------------", -1]
+        notices_documents.each do |document|
+            collection << [document.name, document.id]
+        end
+
+        collection << ["", -1]
+        collection << [Document::PRE_JOB + " (" + pre_job_documents.count.to_s + ") ------------------------", -1]
+        pre_job_documents.each do |document|
+            collection << [document.name, document.id]
+        end
+
+        collection << ["", -1]
+        collection << [Document::POST_JOB + " (" + post_job_documents.count.to_s + ") ------------------------", -1]
+        post_job_documents.each do |document|
+            collection << [document.name, document.id]
+        end
+
+        collection
     end
 
 end
