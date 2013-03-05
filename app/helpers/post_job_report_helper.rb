@@ -39,19 +39,24 @@ def convert(document)
 
     oldFile = ""
 
-    case File.extname(document.url)
-        when ".xls", ".xlsx"
-            oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
-        when ".doc", ".docx"
-            oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
-        when ".pdf"
-            return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
+    begin
+        case File.extname(document.url)
+            when ".xls", ".xlsx"
+                oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
+            when ".doc", ".docx"
+                oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
+            when ".pdf"
+                return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
+        end
+
+        newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf?storage=elephant"
+
+        RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
+
+        return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
+    rescue
+        return ""
     end
-
-    newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf?storage=elephant"
-    RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
-
-    return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
 end
 
 def merge(job, documents)

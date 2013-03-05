@@ -214,6 +214,33 @@
   <div class="page_header">
     <h1>Post Job Report</h1>
   </div>
+
+  <div class="">
+    <div id="post_job_documents_list">
+      <% @job_template.documents.each do |document| %>
+          <%= render 'documents/document', document: document, editable: true, can_upload: true %>
+      <% end %>
+    </div>
+
+    <hr>
+
+    <%= form_for(Failure.new, :html => {:class => "inline"}, remote: true) do |f| %>
+        <%= f.hidden_field :job_template_id, value: @job_template.id %>
+        <%= f.select :failure_master_template_id, options_for_select(@job_template.product_line.failures.collect { |p| [p.text, p.id] }),
+                     prompt: "Select a Failure...",
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Select from an existing failure on this product line" %>
+
+        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+    <% end %>
+
+
+    <%= link_to "Add New failure on product line", new_failure_path(:product_line => @job_template.product_line.id), remote: true,
+                class: "inline add-job-member tooltip-info", id: "add_failure",
+                "data-placement" => "bottom",
+                "data-title" => "Add failure to job type" %>
+  </div>
 </div>
 
 <hr>

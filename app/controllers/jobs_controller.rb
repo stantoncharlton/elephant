@@ -13,8 +13,8 @@ class JobsController < ApplicationController
             }
             format.xml {
                 render xml: current_user.active_jobs,
+                       :methods => [:status_string, :status_percentage],
                        include: {
-                               #:status => {},
                                :field => {except: [:created_at, :updated_at, :company_id]},
                                :well => {except: [:created_at, :updated_at, :company_id]},
                                :district => {except: [:created_at, :updated_at, :company_id]},
@@ -105,7 +105,7 @@ class JobsController < ApplicationController
             @job.well = Well.find_by_id(params[:well])
             @job.district = @job.well.field.district
             @fields = @job.district.fields
-            @job.field =  @job.well.field
+            @job.field = @job.well.field
             @wells = @job.field.wells
             @job.client = @job.well.jobs.any? ? @job.well.jobs.first.client : nil
         end

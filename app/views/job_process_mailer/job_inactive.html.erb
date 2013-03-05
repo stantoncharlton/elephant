@@ -4,6 +4,7 @@
 
 <h3>Job has had no activity in the last month.</h3>
 <p>Is this job complete or abandoned? You can also delete the job in 'advanced actions' on the job page.</p>
+<%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %>
 <br>
 
 <br><br>

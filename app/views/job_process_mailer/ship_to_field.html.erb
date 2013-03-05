@@ -6,6 +6,7 @@
 <br>
 
 <p>This job is now shipping to location.</p>
+<%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %>
 
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>

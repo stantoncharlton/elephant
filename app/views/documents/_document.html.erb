@@ -11,8 +11,8 @@
                 <% if !@job || (@job and !@job.approved_to_close) %>
                     <div class="document-upload-button-container inline tooltip-info"
                          data-placement="bottom" data-title="Upload new document">
-                        <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
-                        <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
+                      <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
+                      <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
                     </div>
                 <% end %>
                 </div>
@@ -26,6 +26,12 @@
                 <%= link_to "order", document_path(document, reorder: "-1"), remote: true, class: "order-button tooltip-info",
                             "data-placement" => "bottom",
                             "data-title" => "Move document up by 1 row" %>
+            <% elsif document.document_template.nil? %>
+                <!-- For custom documents added on job -->
+                <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
+                            class: "delete-button tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Delete document" %>
             <% end %>
             </div>
 
