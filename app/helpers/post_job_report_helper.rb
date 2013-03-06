@@ -33,30 +33,34 @@ module PostJobReportHelper
 end
 
 def convert(document)
+    if !document.nil?
+        Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
+        Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
 
-    Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
-    Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
+        oldFile = ""
 
-    oldFile = ""
+        begin
+            case File.extname(document.url).downcase
+                when ".xls", ".xlsx"
+                    oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
+                when ".doc", ".docx"
+                    oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
+                when ".pdf"
+                    return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
+            end
 
-    begin
-        case File.extname(document.url)
-            when ".xls", ".xlsx"
-                oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
-            when ".doc", ".docx"
-                oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
-            when ".pdf"
-                return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
+            newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf?storage=elephant"
+
+            RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
+
+            return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
+        rescue
+            puts "Error #{$!}"
+            puts document.url + " " + document.id.to_s
         end
-
-        newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf?storage=elephant"
-
-        RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
-
-        return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"
-    rescue
-        return ""
     end
+
+    ""
 end
 
 def merge(job, documents)
@@ -70,6 +74,7 @@ def merge(job, documents)
         path = "docs/#{SecureRandom.hex}"
 
         document_names = documents.map { |d| convert(d) }
+        document_names = document_names.select { |name| !name.blank? }
 
         mergedFile = "http://api.saaspose.com/v1.0/pdf/#{filename}/merge?storage=elephant&folder=elephant-docs/#{path}"
 

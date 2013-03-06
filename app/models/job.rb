@@ -235,6 +235,10 @@ class Job < ActiveRecord::Base
             end
         end
 
+        if self.start_date.nil?
+            return false
+        end
+
         true
     end
 
@@ -299,8 +303,8 @@ class Job < ActiveRecord::Base
 
         if self.approved_to_ship
             if self.post_job_documents.count > 0
-               post_doc_value = 50 / self.post_job_documents.count.to_f
-               current +=  (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
+                post_doc_value = 50 / self.post_job_documents.count.to_f
+                current += (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
             else
                 current += 50
             end
@@ -372,8 +376,8 @@ class Job < ActiveRecord::Base
         end
 
         user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
-                                  alert_type: Alert::PRE_JOB_DATA_READY,
-                                  job_id: self.id).each { |a| a.destroy }
+                          alert_type: Alert::PRE_JOB_DATA_READY,
+                          job_id: self.id).each { |a| a.destroy }
     end
 
     def close_job(user)
@@ -406,10 +410,17 @@ class Job < ActiveRecord::Base
     end
 
     def generate_post_job_report
-        documents = self.documents.select { |d| !d.url.blank? }
+        documents = []
+        self.job_template.post_job_report_documents.each do |post_job_report_document|
+            if !post_job_report_document.document.url.blank?
+                documents << post_job_report_document.document
+            end
+        end
+        if !documents.any?
+            documents = self.documents.select { |d| !d.url.blank? }
+        end
 
-        document = merge self, documents
-
+        merge self, documents
     end
 
 end

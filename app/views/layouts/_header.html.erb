@@ -10,6 +10,7 @@
 
               <div class="pull-right">
                 <p class="user-name"><%= current_user.name %></p>
+
                 <p class="user-title">
                   <% if current_user.admin? %>
                       Administrator
@@ -50,7 +51,7 @@
 
           <li class="non-signed-in-header"><%= link_to "What is Elephant?", about_path, class: "non-signed-in-header-link" %></li>
 
-          <li class="non-signed-in-header"><%= link_to "Sales", sales_path, class: "non-signed-in-header-link" %></li>
+          <li class="non-signed-in-header non-signed-in-header-right"><%= link_to "Sales", sales_path, class: "non-signed-in-header-link" %></li>
 
       <% end %>
 
@@ -59,42 +60,40 @@
 
   <div class="navbar-inner">
     <div class="container container-header">
-      <%= link_to "Elephant", root_path, id: "logo" %>
-      <nav>
+        <%= link_to "Elephant", root_path, id: "logo" %>
+        <nav>
+          <% if signed_in_admin? %>
+              <%= render 'layouts/admin_tab' %>
+          <% elsif signed_in? %>
+              <%= render 'layouts/user_tab' %>
 
-        <% if signed_in_admin? %>
-            <%= render 'layouts/admin_tab' %>
-        <% elsif signed_in? %>
-            <%= render 'layouts/user_tab' %>
+              <div class="messages-icon-container tooltip-info"
+                   data-placement="bottom"
+                   data-title="Messages and conversations">
+                <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
 
-            <div class="messages-icon-container tooltip-info"
-                 data-placement="bottom"
-                 data-title="Messages and conversations">
-              <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
+                <% if !current_user.alerts.where("alert_type = 3").empty? %>
+                    <div class="messages-icon-alert">
+                      <p><%= current_user.alerts.where("alert_type = 3").count %></p>
+                    </div>
+                <% end %>
+              </div>
 
-              <% if !current_user.alerts.where("alert_type = 3").empty? %>
-                  <div class="messages-icon-alert">
-                    <p><%= current_user.alerts.where("alert_type = 3").count %></p>
-                  </div>
+
+              <%= form_tag search_index_path, :method => 'get', :id => "global_search_id", class: "inline" do %>
+                  <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search tooltip-info",
+                                     "data-placement" => "bottom",
+                                     "data-title" => "Free-form text search, type well name, job name, district, etc..." %>
               <% end %>
-            </div>
 
+              <div class="advanced-search-div">
+                <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Create complex searches for jobs based on data criteria" %>
+              </div>
+          <% end %>
 
-            <%= form_tag search_index_path, :method => 'get', :id => "global_search_id", class: "inline" do %>
-                <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search tooltip-info",
-                                   "data-placement" => "bottom",
-                                   "data-title" => "Free-form text search, type well name, job name, district, etc..." %>
-            <% end %>
-
-            <div class="advanced-search-div">
-              <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
-                          "data-placement" => "bottom",
-                          "data-title" => "Create complex searches for jobs based on data criteria" %>
-            </div>
-        <% end %>
-
-
-      </nav>
+        </nav>
     </div>
   </div>
 </header>

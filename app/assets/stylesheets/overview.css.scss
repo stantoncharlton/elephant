@@ -93,6 +93,21 @@
   }
 }
 
+.job-donut-chart-div {
+  height: 50px;
+
+  .donut-text {
+    margin-top: 20px;
+    height: 50px;
+  }
+
+  .percentage {
+    margin-top: 0px;
+    margin-left: 95px;
+    height: 50px;
+  }
+}
+
 .jqplot-grid-canvas {
   display: none;
 }

@@ -93,6 +93,8 @@ class JobProcessController < ApplicationController
                 @show_failures = false
             end
 
+            @job_process = nil
+
             if !@job.approved_to_close
                 @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_CLOSE)
 

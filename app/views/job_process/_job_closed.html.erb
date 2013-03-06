@@ -43,7 +43,7 @@
   <% else %>
       <br>
       <br>
-    <a class="document-name" href="<%= job_process.job.post_job_report_document.full_url %>"><b>Post Job Report</b></a>
+      <%= link_to "Post Job Report", job_process.job.post_job_report_document.full_url, class: "bluebtn" %>
   <% end %>
 
 </div>
