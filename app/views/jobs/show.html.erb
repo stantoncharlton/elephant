@@ -1,4 +1,5 @@
 <%= render 'jobs/duplicate_warning', job: @job %>
+<%= render 'jobs/job_process', job: @job %>
 
 <div class="">
   <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
@@ -9,7 +10,6 @@
 
 <hr>
 <%= render 'jobs/job_overview', job: @job %>
-<%= render 'jobs/job_process', job: @job %>
 
 
 <br>
