@@ -7,11 +7,26 @@
 
 <%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
 
+<hr>
+<%= render 'jobs/job_overview', job: @job %>
+<%= render 'jobs/job_process', job: @job %>
+
+
+<br>
+<br>
 
 <div>
   <div class="">
-    <hr>
-    <ul class="nav nav-pills">
+    <br>
+    <ul class="nav nav-pills alert alert-info">
+
+      <li class="<%= (params["new"].present? && params["new"] == "true") ? "" : "active" %>">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="documents_data"
+           data-placement="bottom" data-title="Custom job data and values">Documents
+          <%= "(" + @job.documents.select { |d| d.category != Document::POST_JOB_REPORT && d.category != Document::POST_JOB_REPORT_PART }.count.to_s + ")" %></a>
+      </li>
+
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
         <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="custom_data"
@@ -22,152 +37,65 @@
       <li class="push-right-small">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="primary_tools"
-           data-placement="bottom" data-title="List of tools used on this job">Primary Tools</a>
+           data-placement="bottom" data-title="List of tools used on this job">Primary Tools
+          <%= "(" + @job.job_template.primary_tools.count.to_s + ")" %></a>
       </li>
 
       <li class="push-right-small">
         <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="secondary_tools"
-           data-placement="bottom" data-title="List of tools used on this job">Secondary Tools</a>
+           data-placement="bottom" data-title="List of tools used on this job">Secondary Tools
+          <%= "(" + @job.secondary_tools.count.to_s + ")" %></a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="notes"
+           data-placement="bottom" data-title="List of tools used on this job">Notes
+          <%= "(" + @job.job_notes.count.to_s + ")" %></a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="activity"
+           data-placement="bottom" data-title="List of tools used on this job">Activity</a>
       </li>
 
 
     </ul>
 
     <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
-
-    <div class="job-tray custom-data-closed well well-large" data-tray="primary_tools">
-      <div>
-        <% @job.job_template.primary_tools.each_with_index do |primary_tool, index| %>
-            <fieldset class="field" id="primary_tool_<%= primary_tool.id %>">
-              <div>
-                <%= image_tag "tool.png" %>
-                <div class="secondary-tool-name push-right-small">
-                  <h3><%= primary_tool.tool.name %></h3>
-                </div>
-              </div>
-            </fieldset>
-        <% end %>
+    <%= render 'jobs/job_primary_tools', job: @job %>
+    <%= render 'jobs/job_secondary_tools', job: @job, job_editable: @job_editable %>
+    <%= render 'jobs/job_documents', job: @job %>
+    <%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
+    <div class="job-tray custom-data-closed" data-tray="activity">
+    <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
       </div>
-    </div>
 
-    <div class="job-tray custom-data-closed well well-large" data-tray="secondary_tools">
-      <div>
-        <div id="secondary_tools_list">
-          <% @job.secondary_tools.each do |secondary_tool| %>
-              <%= render 'tools/secondary/secondary_tool', tool: secondary_tool, is_editable: @job_editable %>
-          <% end %>
-        </div>
-
-        <% if @job_editable %>
-            <hr>
-
-            <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
-                <%= f.hidden_field :job_id, value: @job.id %>
-                <%= f.select :tool_id, options_for_select(@job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
-                             prompt: "Select a Tool...",
-                             class: "tooltip-info",
-                             "data-placement" => "bottom",
-                             "data-title" => "Select from and existing secondary tool on this division" %>
-
-                <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
-            <% end %>
-        <% end %>
-      </div>
-    </div>
-
-
-    <hr>
   </div>
 </div>
 
 
-<div id="process_actions" class=" <%= ((@job.pre_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_close || (@job.pre_job_data_good && @job.post_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_ship) ? "well" : "" %>">
-
-  <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
-      <%= render 'job_process/job_shipped', job_process: job_process %>
-  <% end %>
-  <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
-      <%= render 'job_process/job_closed', job_process: job_process %>
-  <% end %>
-
-  <% if @job.status == Job::CLOSED %>
-      <hr>
-
-      <div class="chart-block">
-        <div class="chart-title">Job Duration</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <% if @job.close_date.present? %>
-              <div class="donut-text "><%= (@job.close_date - (@job.start_date.present? ? @job.start_date : @job.created_at)).to_i / (24 * 60 * 60) %></div>
-              <div class="percentage "><%= pluralize((@job.close_date - (@job.start_date.present? ? @job.start_date : @job.created_at)).to_i / (24 * 60 * 60), "day").split(" ")[1] %></div>
-          <% else %>
-              <div class="donut-text ">1</div>
-              <div class="percentage ">day</div>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="chart-block">
-        <div class="chart-title">Failures</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= @job.failures.count.to_s %></div>
-          <div class="percentage "></div>
-        </div>
-      </div>
 
 
-  <% end %>
-</div>
-
-
-
-<%= render 'jobs/job_documents', job: @job %>
-
-
-<div class="page_header">
-  <h1>Failures</h1>
-</div>
-<div class="content">
-  <%= render 'jobs/job_failure_list', job: @job %>
-  <br>
-  <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id), remote: true,
-              class: "inline add-job-member tooltip-info", id: "add_failure",
-              "data-placement" => "bottom",
-              "data-title" => "Add failure to job type" %>
-</div>
-
-
-<div class="page_header">
-  <h1>Notes</h1>
-</div>
-<%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
-
-
-
-<%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
 
 
 <div id="modal_popup" class="modal-popup-background">
   <div class="modal-popup modal-popup-fixed">
     <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
-
     <div class="modal-content">
-
     </div>
-
     <div class="loading hidden">
       <br>
       <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
     </div>
-
   </div>
 </div>
 
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
-
-
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
             $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
@@ -183,7 +111,6 @@
                 type:"GET",
                 dataType:"script"
             });
-
         });
     }(jQuery));
 </script>

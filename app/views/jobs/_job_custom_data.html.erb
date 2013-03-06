@@ -1,8 +1,12 @@
 <% if params["new"].present? and params["new"] == "true" %>
-    <div class="job-tray well well-large" data-tray="custom_data">
+    <div class="job-tray" data-tray="custom_data">
 <% else %>
-    <div class="job-tray custom-data-closed well well-large" data-tray="custom_data">
+    <div class="job-tray custom-data-closed " data-tray="custom_data">
 <% end %>
+
+<div class="page_header">
+  <h1>Job Data</h1>
+</div>
 
 <div>
   <b><%= job.job_template.name %></b>
@@ -12,6 +16,7 @@
   <hr>
 </div>
 
+<div class="content">
 <b>Required Data</b>
 <br><br>
 <% job.dynamic_fields_required.each do |df| %>
@@ -27,5 +32,6 @@
         <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
     <% end %>
 <% end %>
+</div>
 
 </div>

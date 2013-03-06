@@ -1,3 +1,4 @@
+<div class="job-tray " data-tray="documents_data">
 <div class="page_header">
   <h1><%= t ".documents" %></h1>
 
@@ -42,4 +43,5 @@
   <% @post_job_documents.each do |d| %>
       <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
   <% end %>
+</div>
 </div>

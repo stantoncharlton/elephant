@@ -1,0 +1,34 @@
+<div class="job-tray custom-data-closed" data-tray="secondary_tools">
+  <div class="page_header">
+    <h1>Secondary Tools</h1>
+  </div>
+
+  <div>
+    <div id="secondary_tools_list">
+      <% job.secondary_tools.each do |secondary_tool| %>
+          <%= render 'tools/secondary/secondary_tool', tool: secondary_tool, is_editable: job_editable %>
+      <% end %>
+    </div>
+
+    <% if job.secondary_tools.count == 0 %>
+        <div class="no-alerts no-secondary-tools content">
+        <p class="">No secondary tools</p>
+        </div>
+    <% end %>
+
+    <% if job_editable %>
+        <hr>
+
+        <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
+            <%= f.hidden_field :job_id, value: job.id %>
+            <%= f.select :tool_id, options_for_select(job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
+                         prompt: "Select a Tool...",
+                         class: "tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Select from and existing secondary tool on this division" %>
+
+            <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+        <% end %>
+    <% end %>
+  </div>
+</div>

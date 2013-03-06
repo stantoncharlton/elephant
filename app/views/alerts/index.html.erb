@@ -11,12 +11,6 @@
   <%= render @new_alerts %>
 </div>
 
-<% if @new_alerts.empty? %>
-    <div class="no-alerts">
-      <p class="center"><%= t ".no-new" %></p>
-    </div>
-<% end %>
-
 
 <% if !@old_alerts.empty? %>
 

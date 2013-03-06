@@ -1,0 +1,9 @@
+<div id="process_actions" class=" <%= ((job.pre_job_data_good && job.is_supervisor_or_creator?(current_user)) || job.approved_to_close || (job.pre_job_data_good && job.post_job_data_good && job.is_supervisor_or_creator?(current_user)) || job.approved_to_ship) ? "well" : "" %>">
+
+  <% job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
+      <%= render 'job_process/job_shipped', job_process: job_process %>
+  <% end %>
+  <% job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
+      <%= render 'job_process/job_closed', job_process: job_process %>
+  <% end %>
+</div>
