@@ -527,7 +527,8 @@
 
 .list-job-item-description {
   font-size: 12px;
-  max-height: 50px;
+  max-height: 34px;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
