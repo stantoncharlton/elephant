@@ -69,6 +69,7 @@
 
 </div>
 
+<div class="content">
 <div class="">
 
   <div id="job-progress-status">
@@ -222,8 +223,5 @@
       <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
   <% end %>
 </div>
-
-<% if !form_editable %>
-
-<% end %>
+</div>
 

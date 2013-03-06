@@ -1,6 +1,6 @@
 <%= render 'jobs/duplicate_warning', job: @job %>
 
-<div class="content">
+<div class="">
   <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 </div>
 
@@ -9,7 +9,7 @@
 
 
 <div>
-  <div class="content">
+  <div class="">
     <hr>
     <ul class="nav nav-pills">
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
@@ -55,21 +55,23 @@
       <div>
         <div id="secondary_tools_list">
           <% @job.secondary_tools.each do |secondary_tool| %>
-              <%= render 'tools/secondary/secondary_tool', tool: secondary_tool %>
+              <%= render 'tools/secondary/secondary_tool', tool: secondary_tool, is_editable: @job_editable %>
           <% end %>
         </div>
 
-        <hr>
+        <% if @job_editable %>
+            <hr>
 
-        <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
-            <%= f.hidden_field :job_id, value: @job.id %>
-            <%= f.select :tool_id, options_for_select(@job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
-                         prompt: "Select a Tool...",
-                         class: "tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Select from and existing secondary tool on this division" %>
+            <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
+                <%= f.hidden_field :job_id, value: @job.id %>
+                <%= f.select :tool_id, options_for_select(@job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
+                             prompt: "Select a Tool...",
+                             class: "tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Select from and existing secondary tool on this division" %>
 
-            <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+                <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+            <% end %>
         <% end %>
       </div>
     </div>
@@ -80,7 +82,7 @@
 </div>
 
 
-<div id="process_actions" class="content <%= ((@job.pre_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_close || (@job.pre_job_data_good && @job.post_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_ship) ? "well" : "" %>">
+<div id="process_actions" class=" <%= ((@job.pre_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_close || (@job.pre_job_data_good && @job.post_job_data_good && @job.is_supervisor_or_creator?(current_user)) || @job.approved_to_ship) ? "well" : "" %>">
 
   <% @job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
       <%= render 'job_process/job_shipped', job_process: job_process %>
@@ -97,11 +99,11 @@
         <div class="donut-chart-div job-donut-chart-div">
           <% if @job.close_date.present? %>
               <div class="donut-text "><%= (@job.close_date - (@job.start_date.present? ? @job.start_date : @job.created_at)).to_i / (24 * 60 * 60) %></div>
-              <div class="percentage "><%= pluralize((@job.close_date - (@job.start_date.present? ? @job.start_date : @job.created_at)).to_i / (24 * 60 * 60) , "day").split(" ")[1] %></div>
-        <% else %>
+              <div class="percentage "><%= pluralize((@job.close_date - (@job.start_date.present? ? @job.start_date : @job.created_at)).to_i / (24 * 60 * 60), "day").split(" ")[1] %></div>
+          <% else %>
               <div class="donut-text ">1</div>
               <div class="percentage ">day</div>
-        <% end %>
+          <% end %>
         </div>
       </div>
 

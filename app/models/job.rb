@@ -167,9 +167,13 @@ class Job < ActiveRecord::Base
             if constraint.data_type == "2"
                 ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
                 if constraint.operator == "1" or constraint.operator == "2" or constraint.operator == "3"
-                    new_value = DynamicField.new.convert(value, constraint.units, DynamicField.new.get_storage_value_type(constraint.units))
+                    new_value = DynamicField.new.convert(value, constraint.units, DynamicField.new.get_storage_value_type(constraint.units)).to_f
                     puts value.to_s + " / " + new_value.to_s + " / " + constraint.units + "  .............."
-                    ar_query = ar_query.where("CAST(dynamic_fields.value as decimal) " + operator + " :dynamic_field_value", dynamic_field_value: new_value).includes(:dynamic_fields)
+                    if constraint.operator == "1"
+                        ar_query = ar_query.where("CAST(dynamic_fields.value as decimal) >= :lower_end AND CAST(dynamic_fields.value as decimal) <= :higher_end", lower_end: new_value.round(1), higher_end: (new_value.round(3) + 0.001)).includes(:dynamic_fields)
+                    else
+                        ar_query = ar_query.where("CAST(dynamic_fields.value as decimal) " + operator + " :dynamic_field_value", dynamic_field_value: new_value).includes(:dynamic_fields)
+                    end
 
                 else
                     ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)

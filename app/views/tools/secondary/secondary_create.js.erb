@@ -5,6 +5,6 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-$('#secondary_tools_list').append("<%= j render 'tools/secondary/secondary_tool', tool: @tool %>");
+$('#secondary_tools_list').append("<%= j render 'tools/secondary/secondary_tool', tool: @tool, is_editable: true %>");
 
 <% end %>
