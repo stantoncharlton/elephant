@@ -8,6 +8,7 @@
 
 <div class="page_header">
   <h1>Overview</h1>
+  <%= link_to "Clear filters", overview_path, class: "inline activity-user-link pull-right" %>
 </div>
 
 
@@ -32,10 +33,12 @@
                      "data-placement" => "bottom",
                      "data-title" => "Filter by Person" %>
 
-  <%= link_to "Clear filters", overview_path, class: "activity-user-link push-right" %>
-
+  <div class="push-right-small inline">
+  <%= link_to "Update", overview_path, class: "bluebtn gray" %>
+  </div>
 
   <hr>
+
   <ul class="nav nav-pills">
 
     <li class="active">
@@ -64,6 +67,8 @@
 
 
   </ul>
+
+
 </div>
 
 
