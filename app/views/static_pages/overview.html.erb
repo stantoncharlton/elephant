@@ -17,7 +17,7 @@
   <div class="donut-chart-div">
     <div id="personnel_utilization" class="donut-chart "></div>
     <div class="donut-inner-circle"></div>
-    <div class="donut-text">98</div>
+    <div class="donut-text"><%= @personnel_utilization %></div>
     <div class="percentage">%</div>
   </div>
 </div>
@@ -35,7 +35,7 @@
 <div class="chart-block">
   <div class="chart-title">Average Job Duration</div>
   <div class="donut-chart-div">
-    <div class="donut-text ">8</div>
+    <div class="donut-text "><%= @average_job_time %></div>
     <div class="percentage ">days</div>
   </div>
 </div>
@@ -56,7 +56,7 @@
   <div class="donut-chart-div">
     <div id="failure_rate" class="donut-chart "></div>
     <div class="donut-inner-circle inner-circle-red"></div>
-    <div class="donut-text chart-text-red">43</div>
+    <div class="donut-text chart-text-red"><%= @job_failure_rate %></div>
     <div class="percentage chart-text-red">%</div>
   </div>
 </div>
@@ -65,25 +65,12 @@
   <div class="chart-title">Failure Problem</div>
   <br>
 
-  <div class="chart-problem">
-    <div class="chart-problem-name">Packer Not Set<p class="inline">&nbsp;8</p></div>
-    <div class="chart-problem-bar"><div style="width: 70%"></div></div>
-  </div>
-
-  <div class="chart-problem">
-    <div class="chart-problem-name">Liner Hanger Not Set<p class="inline">&nbsp;7</p></div>
-    <div class="chart-problem-bar"><div style="width: 60%"></div></div>
-  </div>
-
-  <div class="chart-problem">
-    <div class="chart-problem-name">Hydraulic Problem<p class="inline">&nbsp;5</p></div>
-    <div class="chart-problem-bar"><div style="width: 40%"></div></div>
-  </div>
-
-  <div class="chart-problem">
-    <div class="chart-problem-name">Liner Wiper Plug Leak<p class="inline">&nbsp;3</p></div>
-    <div class="chart-problem-bar"><div style="width: 20%"></div></div>
-  </div>
+  <% @failures.each do |failure_group| %>
+      <div class="chart-problem">
+        <div class="chart-problem-name"><%= failure_group[1][0].failure_master_template.text %><p class="inline">&nbsp;<%= failure_group[1].count %></p></div>
+        <div class="chart-problem-bar"><div style="width: <%= failure_group[1].count * 10 %>%"></div></div>
+      </div>
+  <% end %>
 
 </div>
 
@@ -92,7 +79,7 @@
 
 <script>
     $(document).ready(function () {
-        var plot3 = $.jqplot('personnel_utilization', [[['a', 98], ['b', 100 - 98]]], {
+        var plot3 = $.jqplot('personnel_utilization', [[['a', <%= @personnel_utilization %>], ['b', 100 - <%= @personnel_utilization %>]]], {
             background:"#FFFFFF",
             seriesColors:[ "#458fd2", "#FFFFFF"],
             seriesDefaults:{
@@ -128,7 +115,7 @@
             }
         });
 
-        plot3 = $.jqplot('failure_rate', [[['a', 43], ['b', 100 - 43]]], {
+        plot3 = $.jqplot('failure_rate', [[['a', <%= @job_failure_rate %>], ['b', 100 - <%= @job_failure_rate %>]]], {
             background:"#FFFFFF",
             seriesColors:[ "#e4472e", "#FFFFFF"],
             seriesDefaults:{
@@ -171,7 +158,6 @@
       <% end %>
   <% end %>
 
-  <%= will_paginate @jobs %>
 </div>
 
 

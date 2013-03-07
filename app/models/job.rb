@@ -274,6 +274,10 @@ class Job < ActiveRecord::Base
         user == self.get_role(JobMembership::COORDINATOR) || user == self.get_role(JobMembership::CREATOR)
     end
 
+    def duration
+        [((self.close_date.present? ? self.close_date : Date.now) - (self.start_date.present? ? self.start_date : self.created_at)).to_i / (24 * 60 * 60), 0].max
+    end
+
     def status_string
         if self.approved_to_close
             I18n.t("jobs.job_data.status_complete")

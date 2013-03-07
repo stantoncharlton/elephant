@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+    include JobAnalysisHelper
     before_filter :signed_in_user, only: [:help, :overview, :terms_of_use]
 
     skip_before_filter :verify_traffic, only: [:home, :about, :sales, :terms_of_use]
@@ -41,8 +42,12 @@ class StaticPagesController < ApplicationController
     def overview
         set_tab :overview
 
-        @jobs = current_user.jobs.paginate(page: params[:page], limit: 10)
+        @jobs = Job.from_company(current_user.company)
+        @personnel_utilization = personnel_utilization(@jobs)
+        @average_job_time = average_job_duration(@jobs)
+        @job_failure_rate = job_failure_rate(@jobs)
 
+        @failures = failures(@jobs)
     end
 
     def terms_of_use
