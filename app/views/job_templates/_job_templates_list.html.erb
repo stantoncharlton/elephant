@@ -11,8 +11,7 @@
           <% if jt.primary_tools.any? %>
               <p class="list-job-item-tools-divider">
                 <% jt.primary_tools.each do |primary_tool| %>
-                    <span class="list-job-item-tools"><%= primary_tool.tool.name %></span>
-                    <%= jt.primary_tools.last != primary_tool ? "|" : ""  %>
+                    <span class="label"><%= primary_tool.tool.name %></span>
                 <% end %>
               </p>
           <% end %>

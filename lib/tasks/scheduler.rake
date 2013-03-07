@@ -17,15 +17,15 @@ task :inactive_job_email => :environment do
             job_process = @job.job_processes.find { |jp| jp.event_type == JobProcess::LOW_ACTIVITY }
 
             if job_process.nil?
-                creator = job.creator
-                supervisor = job.supervisor
+                creator = job.get_role(JobMembership::CREATOR)
+                coordinator = job.get_role(JobMembership::COORDINATOR)
 
                 JobProcess.record(creator, job, job.company, JobProcess::LOW_ACTIVITY)
 
-                if !supervisor.nil?
-                    JobProcessMailer.job_inactive(supervisor, job).deliver
+                if !coordinator.nil?
+                    JobProcessMailer.job_inactive(coordinator, job).deliver
                 end
-                if !creator.nil? && supervisor != creator
+                if !creator.nil? && coordinator != creator
                     JobProcessMailer.job_inactive(creator, job).deliver
                 end
             end

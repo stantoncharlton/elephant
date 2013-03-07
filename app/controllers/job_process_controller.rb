@@ -19,19 +19,19 @@ class JobProcessController < ApplicationController
             return
         end
 
-        @supervisor = @job.supervisor
-        @creator = @job.creator
+        @coordinator = @job.get_role(JobMembership::COORDINATOR)
+        @creator = @job.get_role(JobMembership::CREATOR)
 
         participant = @job.job_memberships.find { |p| p.user_id == current_user.id }
-        @is_supervisor_or_creator = participant.job_role_id == JobMembership::CREATOR || participant.job_role_id == JobMembership::SUPERVISOR
+        @is_coordinator_or_creator = @job.is_coordinator_or_creator?(current_user)
 
         mail_to = nil
 
-        if !@supervisor.nil?
-            mail_to = @supervisor
+        if !@coordinator.nil?
+            mail_to = @coordinator
         end
 
-        if @supervisor.nil? && !@creator.nil?
+        if @coordinator.nil? && !@creator.nil?
             mail_to = @creator
         end
 
@@ -74,19 +74,15 @@ class JobProcessController < ApplicationController
             return
         end
 
-        @supervisor = @job.supervisor
-        @creator = @job.creator
+        @coordinator = @job.get_role(JobMembership::COORDINATOR)
+        @creator = @job.get_role(JobMembership::CREATOR)
 
         participant = @job.job_memberships.find { |p| p.user_id == current_user.id }
-        @is_supervisor_or_creator = participant.job_role_id == JobMembership::CREATOR || participant.job_role_id == JobMembership::SUPERVISOR
-
-        if !@is_supervisor_or_creator
-            render :nothing => true, :status => :ok
-            return
-        end
+        @is_coordinator_or_creator = @job.is_coordinator_or_creator?(current_user)
 
         @user = current_user
 
+        # Allow anyone to close job
         if @job.sent_post_job_ready_email
             @show_failures = true
             if params[:show_failures] && params[:show_failures] == "false"
@@ -110,6 +106,11 @@ class JobProcessController < ApplicationController
             render 'job_process/close'
 
         elsif @job.sent_pre_job_ready_email
+
+            if !@is_coordinator_or_creator
+                render :nothing => true, :status => :ok
+                return
+            end
 
             @job_process = JobProcess.record(@user, @job, @user.company, JobProcess::APPROVED_TO_SHIP)
             @job.delay.ship_job current_user

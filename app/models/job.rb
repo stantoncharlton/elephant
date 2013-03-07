@@ -50,6 +50,12 @@ class Job < ActiveRecord::Base
         text :product_line_name, :as => :code_textp do
             job_template.product_line.name
         end
+        text :segment_name, :as => :code_textp do
+            job_template.product_line.segment.name
+        end
+        text :division_name, :as => :code_textp do
+            job_template.product_line.segment.division.name
+        end
         text :job_template_name, :as => :code_textp do
             job_template.name
         end
@@ -256,24 +262,16 @@ class Job < ActiveRecord::Base
         true
     end
 
-    def supervisor
-        membership = self.job_memberships.find { |jm| jm.job_role_id == JobMembership::SUPERVISOR }
+    def get_role(role)
+        membership = self.job_memberships.find { |jm| jm.job_role_id == role.to_i }
         if !membership.nil?
             return membership.user
         end
         nil
     end
 
-    def creator
-        membership = self.job_memberships.find { |jm| jm.job_role_id == JobMembership::CREATOR }
-        if !membership.nil?
-            return membership.user
-        end
-        nil
-    end
-
-    def is_supervisor_or_creator?(user)
-        user == self.supervisor || user == self.creator
+    def is_coordinator_or_creator?(user)
+        user == self.get_role(JobMembership::COORDINATOR) || user == self.get_role(JobMembership::CREATOR)
     end
 
     def status_string

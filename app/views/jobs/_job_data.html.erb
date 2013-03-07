@@ -40,7 +40,7 @@
             </a>
             <ul class="dropdown-menu">
 
-              <% if job.is_supervisor_or_creator?(current_user) %>
+              <% if job.is_coordinator_or_creator?(current_user) %>
 
                   <% if job.status == Job::CLOSED %>
                       <li>
@@ -65,167 +65,165 @@
             </ul>
           </div>
       <% end %>
+  <% elsif job.failures.count > 0 %>
+      <div class="pull-right">
+        <div class="job-failure-item"><%= job.failures.count %></div>
+      </div>
   <% end %>
 
 </div>
 
 <div class="content">
-<div class="">
+  <div class="">
 
 
+    <div id="job-progress-status">
+      <%= render 'jobs/job_progress_status', job: job %>
+    </div>
 
-  <div id="job-progress-status">
-    <%= render 'jobs/job_progress_status', job: job %>
+    <% if in_form %>
+        <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-title3 inline job-type-description-target",
+                    "data-placement" => "bottom",
+                    "data-html" => true,
+                    "data-title" => "<div>Field <b>" + job.field.name + "</b></div>" %>
+    <% else %>
+        <h2 class="job-title3 inline"><%= job.job_template.product_line.name %></h2>
+    <% end %>
+
+
+    <p class="inline "> - </p>
+
+    <% if in_form %>
+        <%= link_to job.job_template.name, job.job_template, class: "job-title3 inline job-type-description-target",
+                    "data-placement" => "bottom",
+                    "data-html" => true,
+                    "data-title" => "<div>Well <b>" + job.well.name + "</b>, Click to view all jobs</div>" %>
+    <% else %>
+        <h2 class="job-title3 inline"><%= job.job_template.name %></h2>
+    <% end %>
+
+    <% if !in_form && job.job_template.primary_tools.any? %>
+        <div class="inline pull-right">
+          <% job.job_template.primary_tools.each do |primary_tool| %>
+              <span class="label"><%= primary_tool.tool.name %></span>
+          <% end %>
+        </div>
+    <% end %>
+    <br>
+    <br>
+
+
+    <p class="job-field-title"><%= t ".status" %></p>
+
+    <div class="job-field-value">
+      <% if job.status == Job::CLOSED %>
+          <p class="good-text"><%= job.status_string %></p>
+      <% else %>
+          <p class=""><%= job.status_string %></p>
+      <% end %>
+    </div>
   </div>
 
+  <div class="">
+    <p class="job-field-title"><%= t ".division" %></p>
 
-
-  <p class="job-field-title"><%= t ".status" %></p>
-
-  <div class="job-field-value">
-    <% if job.status == Job::CLOSED %>
-        <p class="good-text"><%= job.status_string %></p>
+    <% if in_form %>
+        <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
+                    class: "job-field-value job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
     <% else %>
-        <p class=""><%= job.status_string %></p>
+        <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
+    <% end %>
+
+    <p class="job-field-title"><%= t ".segment" %></p>
+
+    <% if in_form %>
+        <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
+                    class: "job-field-value job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
+    <% else %>
+        <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
     <% end %>
   </div>
-</div>
-
-<div class="">
-  <p class="job-field-title"><%= t ".division" %></p>
-
-  <% if in_form %>
-      <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
-                  class: "job-field-value job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
-  <% else %>
-      <p class="job-field-value"><%= job.job_template.product_line.segment.division.name %></p>
-  <% end %>
-
-  <p class="job-field-title"><%= t ".segment" %></p>
-
-  <% if in_form %>
-      <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
-                  class: "job-field-value job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
-  <% else %>
-      <p class="job-field-value"><%= job.job_template.product_line.segment.name %></p>
-  <% end %>
-</div>
-
-<div class="">
-  <p class="job-field-title"><%= t ".product_line" %></p>
-
-  <% if in_form %>
-      <h3 class="inline">
-        <%= link_to job.job_template.product_line.name, job.job_template.product_line,
-                    class: "job-field-value job-field-value-link job-type-description-target",
-                    "data-placement" => "bottom",
-                    "data-title" => "View all jobs in " + job.job_template.product_line.name + " product line" %>
-      </h3>
-  <% else %>
-      <h3 class="job-field-value job-field-value-bold"><%= job.job_template.product_line.name %></h3>
-  <% end %>
-
-  <% if new_line_job_type %>
-      <br>
-  <% end %>
-  <p class="job-field-title"><%= t ".job_type" %></p>
-
-  <% if in_form %>
-      <h3 class="inline">
-        <%= link_to job.job_template.name, job.job_template,
-                    class: "job-field-value job-field-value-link job-type-description-target",
-                    "data-placement" => "bottom",
-                    "data-title" => "View all jobs with " + job.job_template.name + " job type" %>
-      </h3>
-  <% else %>
-      <% if new_line_job_type %>
-          <h3 class="job-field-value-long job-field-value-bold"><%= job.job_template.name %></h3>
-      <% else %>
-          <h3 class="job-field-value job-field-value-bold"><%= job.job_template.name %></h3>
-      <% end %>
-  <% end %>
-</div>
 
 
-<div class="">
-  <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
-      <% if !dynamic_field.dynamic_field_template.nil? %>
-          <p class="job-field-title"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
+  <div class="">
+    <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+        <% if !dynamic_field.dynamic_field_template.nil? %>
+            <p class="job-field-title"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
 
-          <% if form_editable && !dynamic_field.predefined? %>
-              <div class="job-field-div">
-                <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
-                       class="job-field-value-editable custom-data-input tooltip-info"
-                       data-placement="bottom" data-title="Field value, click to change"
-                       value="<%= dynamic_field.value.present? ? dynamic_field.value.to_f.round(3) : "-" %>">
+            <% if form_editable && !dynamic_field.predefined? %>
+                <div class="job-field-div">
+                  <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
+                         class="job-field-value-editable custom-data-input tooltip-info"
+                         data-placement="bottom" data-title="Field value, click to change"
+                         value="<%= dynamic_field.value.present? ? dynamic_field.value.to_f.round(3) : "-" %>">
 
-                <% if dynamic_field.value_type != 1 %>
-                    <%= select_tag "Units",
-                                   options_for_select(dynamic_field.unit_options, dynamic_field.value_type),
-                                   id: "dynamic_field_unit_" + dynamic_field.id.to_s,
-                                   class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                                   "data-html" => false, "data-title" => "Units, click to change" %>
-                <% end %>
+                  <% if dynamic_field.value_type != 1 %>
+                      <%= select_tag "Units",
+                                     options_for_select(dynamic_field.unit_options, dynamic_field.value_type),
+                                     id: "dynamic_field_unit_" + dynamic_field.id.to_s,
+                                     class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
+                                     "data-html" => false, "data-title" => "Units, click to change" %>
+                  <% end %>
 
-                <div class="job-field-conversion">
-                  <p class="inline warning-text"><%= dynamic_field.get_user_conversion(@current_user, true) %></p>
+                  <div class="job-field-conversion">
+                    <p class="inline warning-text"><%= dynamic_field.get_user_conversion(@current_user, true) %></p>
+                  </div>
                 </div>
-              </div>
-          <% else %>
-              <div class="job-field-div">
-                <p class="job-field-value2 blue-text <%= in_form ? "unit-tooltip" : "" %>"
-                   data-placement="bottom"
-                   data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
-                  <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
-                </p>
-              </div>
-          <% end %>
-      <% end %>
-  <% end %>
-</div>
+            <% else %>
+                <div class="job-field-div">
+                  <p class="job-field-value2 blue-text <%= in_form ? "unit-tooltip" : "" %>"
+                     data-placement="bottom"
+                     data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
+                    <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
+                  </p>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+  </div>
 
-<div class="">
-  <p class="job-field-title"><%= t ".district" %></p>
+  <div class="">
+    <p class="job-field-title"><%= t ".district" %></p>
 
-  <% if in_form %>
-      <%= link_to job.district.name, job.district,
-                  class: "job-field-value job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.district.name + " district" %>
-  <% else %>
-      <p class="job-field-value"><%= job.district.name %></p>
-  <% end %>
+    <% if in_form %>
+        <%= link_to job.district.name, job.district,
+                    class: "job-field-value job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs in " + job.district.name + " district" %>
+    <% else %>
+        <p class="job-field-value"><%= job.district.name %></p>
+    <% end %>
 
-  <p class="job-field-title"><%= t ".created_date" %></p>
+    <p class="job-field-title"><%= t ".created_date" %></p>
 
-  <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
-</div>
+    <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
+  </div>
 
-<div class="">
-  <p class="job-field-title"><%= t ".client_name" %></p>
+  <div class="">
+    <p class="job-field-title"><%= t ".client_name" %></p>
 
-  <% if in_form %>
-      <%= link_to job.client.name, job.client,
-                  class: "job-field-value job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs for " + job.client.name %>
-  <% else %>
-      <p class="job-field-value"><%= job.client.name %></p>
-  <% end %>
+    <% if in_form %>
+        <%= link_to job.client.name, job.client,
+                    class: "job-field-value job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs for " + job.client.name %>
+    <% else %>
+        <p class="job-field-value"><%= job.client.name %></p>
+    <% end %>
 
-  <p class="job-field-title"><%= t ".start_date" %></p>
+    <p class="job-field-title"><%= t ".start_date" %></p>
 
-  <% if form_editable %>
-      <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
-             id="job_start_date_<%= job.id.to_s %>"
-             class="job-field-value-editable job-start-date">
-  <% else %>
-      <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
-  <% end %>
-</div>
+    <% if form_editable %>
+        <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
+               id="job_start_date_<%= job.id.to_s %>"
+               class="job-field-value-editable job-start-date">
+    <% else %>
+        <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
+    <% end %>
+  </div>
 </div>
 
