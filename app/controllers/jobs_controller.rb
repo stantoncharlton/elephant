@@ -4,12 +4,17 @@ class JobsController < ApplicationController
 
     def index
 
-        @is_paged = params[:page].present? && params[:page].to_i > 1
+        @is_paged = params[:page].present?
 
         respond_to do |format|
             format.html {
-                @jobs = current_user.active_jobs
-                @jobs_inactive = current_user.inactive_jobs.paginate(page: params[:page], limit: 5)
+                if @is_paged
+                    @jobs = current_user.jobs.paginate(page: params[:page], limit: 20)
+                else
+                    @jobs = current_user.jobs.where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+                            order("created_at DESC")
+                    @failures_count = Failure.where("failures.job_id IN (?)", @jobs.map { |j| j.id }.uniq).count(:id)
+                end
             }
             format.xml {
                 render xml: current_user.active_jobs,

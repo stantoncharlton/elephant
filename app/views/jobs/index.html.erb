@@ -6,22 +6,10 @@
 
   <h2>
     <% if @is_paged %>
-        <% if @jobs_inactive.count > 0 %>
-            <% if params[:page].present? %>
-                <%= ((Integer(params[:page]) - 1) * 5) + 1 %>
-                - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %>
-                of <%= @jobs_inactive.count.to_s %>
-            <% else %>
-                1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
-            <% end %>
-        <% end %>
-    <% elsif @jobs.count > 0 %>
-        <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
-            - <%= [((Integer(params[:page]) - 1) * 10) + 10, @jobs.count].min %> of <%= @jobs.count.to_s %>
-        <% else %>
-            1 - <%= [10, @jobs.count].min %> of <%= @jobs.count.to_s %>
-        <% end %>
+        <%= ((Integer(params[:page]) - 1) * 20) + 1 %>
+        - <%= [((Integer(params[:page]) - 1) * 20) + 20, @jobs.count].min %> of <%= @jobs.count.to_s %>
+    <% else %>
+        1 - <%= @jobs.count %> of <%= @jobs.count.to_s %>
     <% end %>
   </h2>
 
@@ -31,51 +19,52 @@
 
 </div>
 
-<% if @jobs.empty? %>
+<% if !@is_paged %>
+    <div class="well">
+      <div class="chart-block">
+        <div class="chart-title">Active Jobs</div>
+        <div class="donut-chart-div job-donut-chart-div">
+              <div class="donut-text"><%= current_user.active_jobs.count %></div>
+              <div class="percentage "></div>
+        </div>
+      </div>
 
-    <div class="no-alerts">
-      <p class="center"><%= t ".no_jobs" %></p>
+      <div class="chart-block">
+        <div class="chart-title">Closed in Last 5 Days</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text"><%= @jobs.count - current_user.active_jobs.count %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Failures</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text-red failure-count"><%= @failures_count %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
     </div>
+    <br>
+<% end %>
 
+<div id="jobs" class="list">
+  <%= render @jobs %>
+</div>
+
+<% if @is_paged %>
+    <%= will_paginate %>
 <% else %>
-
-    <% if !@is_paged %>
-
-        <div id="jobs" class="list">
-          <%= render @jobs %>
-        </div>
-    <% end %>
-
-<% end %>
-
-
-
-<% if @jobs_inactive.any? %>
-
-    <% if !@is_paged %>
-        <div class="page_header <%= (!@is_paged || params["page"].to_i == 1) ? "old-alerts-div" : "" %>">
-          <h1><%= t ".inactive_jobs" %></h1>
-
-          <h2>
-            <% if @jobs_inactive.count > 0 %>
-                <% if params[:page].present? %>
-                    <%= ((Integer(params[:page]) - 1) * 5) + 1 %>
-                    - <%= [((Integer(params[:page]) - 1) * 5) + 5, @jobs_inactive.count].min %>
-                    of <%= @jobs_inactive.count.to_s %>
-                <% else %>
-                    1 - <%= [5, @jobs_inactive.count].min %> of <%= @jobs_inactive.count.to_s %>
-                <% end %>
-            <% end %>
-          </h2>
-
-        </div>
-    <% end %>
-
-
-    <div id="jobs_inactive" class="list">
-      <%= render @jobs_inactive %>
+    <br>
+    <div class="alert">
+      <%= link_to "View all jobs active and closed (" + current_user.jobs.count.to_s + ")", jobs_path(:page => "1"), class: "activity-user-link" %>
     </div>
-
-    <%= will_paginate @jobs_inactive %>
-
+    <% if @jobs.empty? %>
+        <div class="no-alerts">
+          <p class="center"><%= t ".no_jobs" %></p>
+        </div>
+    <% end %>
 <% end %>
+
+
+

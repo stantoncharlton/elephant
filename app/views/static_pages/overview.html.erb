@@ -10,7 +10,72 @@
   <h1>Overview</h1>
 </div>
 
+
+<div class="well">
+<%= select_tag "Divisions", options_for_select(current_user.company.divisions.collect { |d| [d.name, d.id] }),
+               class: "custom-select tooltip-info",
+               "data-placement" => "bottom",
+               "data-title" => "Filter list by division",
+               prompt: "Filter by division..." %>
+
+<%= select_tag "Districts", options_for_select(current_user.company.districts.collect { |d| [d.name, d.id] }),
+                 class: "custom-select tooltip-info push-right-small",
+                 "data-placement" => "bottom",
+                 "data-title" => "Filter list by district",
+                 prompt: "Filter by district..." %>
+
+  <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right-small" %>
+  <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                     placeholder: "Filter by Person",
+                     id: "new_note_name",
+                     class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Filter by Person" %>
+
+  <%= link_to "Clear filters", overview_path, class: "activity-user-link push-right" %>
+
+
+  <hr>
+  <ul class="nav nav-pills">
+
+    <li class="active">
+      <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="secondary_tools"
+         data-placement="bottom" data-title="List of tools used on this job">All time</a>
+    </li>
+
+    <li class="push-right-small">
+      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="notes"
+         data-placement="bottom" data-title="List of tools used on this job">Last 30 days</a>
+    </li>
+
+    <li class="push-right-small">
+      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="activity"
+         data-placement="bottom" data-title="List of tools used on this job">Last 60 days</a>
+    </li>
+
+    <li class="push-right-small">
+      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="activity"
+         data-placement="bottom" data-title="List of tools used on this job">Last year</a>
+    </li>
+
+
+  </ul>
+</div>
+
+
 <br>
+
+<div class="chart-block">
+  <div class="chart-title">Total Jobs</div>
+  <div class="donut-chart-div">
+    <div class="donut-text "><%= @jobs.count %></div>
+    <div class="percentage ">jobs</div>
+  </div>
+</div>
 
 <div class="chart-block">
   <div class="chart-title">Personnel Utilization</div>
@@ -40,13 +105,6 @@
   </div>
 </div>
 
-<div class="chart-block">
-  <div class="chart-title">Average Job Prep Duration</div>
-  <div class="donut-chart-div">
-    <div class="donut-text chart-text-orange">5</div>
-    <div class="percentage chart-text-orange">days</div>
-  </div>
-</div>
 
 <hr>
 
@@ -138,7 +196,7 @@
 
 
 <div class="content">
-  <h3>Job Completion Progress</h3>
+  <h3>Jobs</h3>
 
   <div class="job-status-guide pull-right">
     <p class="inline">0%</p>
