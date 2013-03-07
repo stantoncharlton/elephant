@@ -6,6 +6,7 @@ if ($('#job_ready_to_close').length > 0) {
 $('#job_closed_id').remove();
 
 $("#process_actions").append("<%= j render 'job_process/job_closed', job_process: @job_process %>");
+$("#process_actions").removeClass("hidden");
 
 $('.job-progress').hide();
 

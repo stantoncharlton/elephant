@@ -9,11 +9,10 @@
     <%= render 'activities/user', user: job_process.user %>
   </div>
 
-  <p class="activity-date push-right"><%= job_process.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+  <p class="activity-date pull-right"><%= time_ago_in_words(job_process.created_at) %> ago</p>
 
   <% if job_process.job.post_job_report_document.nil? || job_process.job.post_job_report_document.url.nil? %>
       <div class="post-job-report-generation">
-        <br>
 
         <div class="">
           <p>Generating Post Job Report</p>

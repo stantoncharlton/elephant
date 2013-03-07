@@ -1,7 +1,12 @@
-<div class="job-tray " data-tray="documents_data">
+<div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "custom-data-closed" : "" %>" data-tray="documents_data">
 <div class="page_header">
   <h1><%= t ".documents" %></h1>
 
+  <% if !job.post_job_report_document.nil? && !job.post_job_report_document.url.nil? %>
+      <div class="pull-right">
+        <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn" %>
+      </div>
+  <% end %>
   <% if @job_editable %>
       <div class="pull-right">
         <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),

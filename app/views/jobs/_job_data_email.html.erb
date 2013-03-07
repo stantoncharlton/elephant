@@ -37,7 +37,11 @@
     <td class="job-email-td">
 
       <div class="job-field-value">
-        <p class=""><%= job.status_string %></p>
+        <% if job.status == Job::CLOSED %>
+            <p class="good-text"><%= job.status_string %></p>
+        <% else %>
+            <p class=""><%= job.status_string %></p>
+        <% end %>
       </div>
     </td>
   </tr>
@@ -85,12 +89,12 @@
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <tr>
             <td class="job-email-td-title">
-              <p class="job-field-title inline"><%= dynamic_field.dynamic_field_template.name %></p>
+              <p class="job-field-title inline"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
             </td>
 
             <td class="job-email-td" colspan="3">
               <div class="job-field-div inline">
-                <p class="job-field-value2 inline"><%= dynamic_field.value %></p>
+                <p class="job-field-value2 blue-text inline"><%= dynamic_field.value %></p>
                 <% if dynamic_field.value_type != 1 %>
                     <p class="job-field-units inline">
                       <%= dynamic_field.value_type_unit %>

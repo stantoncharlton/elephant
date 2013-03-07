@@ -66,7 +66,7 @@ class JobsController < ApplicationController
         @post_job_documents = @job.post_job_documents
         @field_bulletin_documents = @job.notices_documents
 
-        @activities = @job.activity.paginate(page: params[:page], limit: 10)
+        @activities = @job.activity#.paginate(page: params[:page], limit: 10)
 
         @job_editable = @job.is_job_editable?(current_user)
     end

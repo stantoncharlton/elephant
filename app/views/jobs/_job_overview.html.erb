@@ -6,10 +6,10 @@
     <div class="chart-title">Job Duration</div>
     <div class="donut-chart-div job-donut-chart-div">
       <% if job.close_date.present? %>
-          <div class="donut-text "><%= (job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60) %></div>
-          <div class="percentage "><%= pluralize((job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), "day").split(" ")[1] %></div>
+          <div class="donut-text "><%= [(job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), 1].max %></div>
+          <div class="percentage "><%= pluralize([(job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), 1].max, "day").split(" ")[1] %></div>
       <% else %>
-          <div class="donut-text ">1</div>
+          <div class="donut-text">1</div>
           <div class="percentage ">day</div>
       <% end %>
     </div>
@@ -18,7 +18,7 @@
   <div class="chart-block">
     <div class="chart-title">Failures</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text chart-text-red"><%= job.failures.count.to_s %></div>
+      <div class="donut-text chart-text-red failure-count"><%= job.failures.count.to_s %></div>
       <div class="percentage "></div>
     </div>
   </div>

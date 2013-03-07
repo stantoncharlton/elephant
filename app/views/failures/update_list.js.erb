@@ -5,3 +5,4 @@ $('#modal_popup').height(0);
 $('#failures_list').replaceWith("<%= j render 'jobs/job_failure_list', job: @job %>");
 
 
+$('.failure-count').text('<%=  @job.failures.count.to_s %>');

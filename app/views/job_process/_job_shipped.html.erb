@@ -2,14 +2,14 @@
   <%= image_tag "approve_arrow.png" %>
 
 
-  <p class="job-approved-to-ship inline">Job approved to ship to field</p>
+  <p class="job-approved-to-ship inline">Job shipped to field</p>
 
   <p class="inline">-</p>
   <div class="inline">
     <%= render 'activities/user', user: job_process.user %>
   </div>
 
-  <p class="activity-date push-right"><%= job_process.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+  <p class="activity-date pull-right"><%= time_ago_in_words(job_process.created_at) %> ago</p>
 
 
 </div>
