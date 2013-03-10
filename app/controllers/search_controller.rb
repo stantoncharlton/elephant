@@ -23,7 +23,7 @@ class SearchController < ApplicationController
                 if params["data_type"]
 
                     if params["data_type"] == "1"
-                        @well_data = Well.accessible_attributes.select { |w| w != "" }
+                        @well_data = Well.accessible_attributes.select { |w| !w.blank? && !Well.human_attribute_name(w).include?("value type") }
                         @show_fields = true
                     elsif params["data_type"] == "2"
                         @product_lines = ProductLine.from_company(current_user.company)
@@ -37,22 +37,32 @@ class SearchController < ApplicationController
                     @job_templates = @product_line.job_templates
 
                 elsif params["job_template"]
+                    puts "./........................"
                     @show_fields = true
+                    @offshore = false
 
-                    if params["job_template"].blank?
-                        @dynamic_field = DynamicField.new(value_type:  Well.default_unit_value(params[:field].downcase))
-                        render 'search/change_units'
-                        return
-                    else
+                    @job_template = nil
+                    if !params["job_template"].blank?
                         @job_template = JobTemplate.find_by_id(params["job_template"])
                         not_found unless @job_template.company == current_user.company
+                    end
 
-                        if params[:field]
-                            field_id = params[:field]
-                            @dynamic_field = @job_template.dynamic_fields.select { |df| df.id == field_id.to_i }.first
-                            render 'search/change_units'
-                            return
+                    if params[:field]
+                        begin
+                            if @job_template
+                                field_id = params[:field]
+                                @dynamic_field = @job_template.dynamic_fields.select { |df| df.id == field_id.to_i }.first
+                            end
                         end
+
+                        if !@dynamic_field
+                            @dynamic_field = DynamicField.new(value_type: Well.default_unit_value(params[:field].downcase))
+
+                            @offshore = (params[:field].downcase == "offshore")
+                        end
+
+                        render 'search/change_units'
+                        return
                     end
                 end
 
@@ -65,7 +75,7 @@ class SearchController < ApplicationController
     def new
 
         @query = Query.new
-        @well_data = Well.accessible_attributes.select { |w| w != "" }
+        @well_data = Well.accessible_attributes.select { |w| !w.blank? && !Well.human_attribute_name(w).include?("value type") }
 
         @dynamic_field = DynamicField.new
         @dynamic_field.value_type = DynamicField::LENGTH_FT
@@ -75,7 +85,7 @@ class SearchController < ApplicationController
         @product_lines = Array.new
         @job_templates = Array.new
 
-        @division =  nil
+        @division = nil
         @segment = nil
         @product_line = nil
 
@@ -113,6 +123,10 @@ class SearchController < ApplicationController
                 constraint.field = params["query"]["constraints"][index.to_s]["field"]
                 constraint.operator = params["query"]["constraints"][index.to_s]["operator"]
                 constraint.value = params["query"]["constraints"][index.to_s]["value"]
+                if params["query"]["constraints"][index.to_s]["field"] == "offshore"
+                    constraint.operator = "1"
+                    constraint.value = "t"
+                end
                 constraint.units = params["query"]["constraints"][index.to_s]["units"]
                 constraint.client_id = params["query"]["constraints"][index.to_s]["client_id"]
                 constraint.district_id = params["query"]["constraints"][index.to_s]["district_id"]

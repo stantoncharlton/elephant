@@ -80,20 +80,22 @@
                    name: "query[constraints][" + index.to_s + "][field]" %>
 
 
-    <%= select_tag "operator", options_for_select([["equals", 1], ["similar to", 6], ["less than <=", 2], ["greater than >=", 3], ["true", 4], ["false", 5]]),
-                   name: "query[constraints][" + index.to_s + "][operator]",
-                   class: "tooltip-info",
-                   "data-placement" => "bottom",
-                   "data-title" => "Value comparison method, either by equality, greater than, less than, or the same, etc..." %>
-    <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small tooltip-info"
-           data-placement="bottom"
-           data-title="Value to use for comparison"/>
+    <div id="constraint-value-units" class="inline">
+      <%= select_tag "operator", options_for_select([["equals", 1], ["similar to", 6], ["less than <=", 2], ["greater than >=", 3]]),
+                     name: "query[constraints][" + index.to_s + "][operator]",
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Value comparison method, either by equality, greater than, less than, or the same, etc..." %>
+      <input name="query[constraints][<%= index.to_s %>][value]" type="text" value="11.0" class="txtfield small tooltip-info"
+             data-placement="bottom"
+             data-title="Value to use for comparison"/>
 
-    <%= select_tag "Units",
-                   options_for_select(@dynamic_field.get_unit_options(@dynamic_field.value_type), @dynamic_field.value_type),
-                   name: "query[constraints][" + index.to_s + "][units]",
-                   class: "search-units unit-tooltip", "data-placement" => "bottom",
-                   "data-html" => false, "data-title" => "Units, click to change" %>
+      <%= select_tag "Units",
+                     options_for_select(@dynamic_field.get_unit_options(@dynamic_field.value_type), @dynamic_field.value_type),
+                     name: "query[constraints][" + index.to_s + "][units]",
+                     class: "search-units unit-tooltip", "data-placement" => "bottom",
+                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
 
     <hr class="search-constraint-line">
 

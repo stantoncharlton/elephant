@@ -1,3 +1,8 @@
+<% if @offshore %>
+    $("#<%= @div_name %>").find("div[id=constraint-value-units]").hide();
+<% else %>
+
+$("#<%= @div_name %>").find("div[id=constraint-value-units]").show();
 var $select = $("#<%= @div_name %>").find('.search-units');
 $select.find('option').remove();
 
@@ -13,5 +18,7 @@ $option = $select.append($("<option></option>")
 
 
 $select.val('<%= @dynamic_field.value_type %>').trigger("change");
+
+<% end %>
 
 <% end %>
