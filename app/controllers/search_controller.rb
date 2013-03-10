@@ -23,12 +23,11 @@ class SearchController < ApplicationController
                 if params["data_type"]
 
                     if params["data_type"] == "1"
+                        @well_data = Well.accessible_attributes.select { |w| w != "" }
                         @show_fields = true
-                        @fields = Well.accessible_attributes.select { |w| w != "" }
                     elsif params["data_type"] == "2"
                         @product_lines = ProductLine.from_company(current_user.company)
                         @show_fields = false
-                        @fields = Array.new
                     end
                 elsif params["product_line"]
                     @show_fields = false
