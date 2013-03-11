@@ -5,7 +5,7 @@
 
     <p class="field-title">Search Type</p>
 
-    <%= select_tag "data_type", options_for_select([["Well Data", 1], ["Job Data", 2], ["Customer Name", 3], ["District Name", 4]]),
+    <%= select_tag "data_type", options_for_select([["Well Data", 1], ["Job Data", 2], ["Job Tools", 5], ["Customer Name", 3], ["District Name", 4]]),
                    prompt: "Select what to search...",
                    class: "search-constraint-data-type",
                    name: "query[constraints][" + index.to_s + "][data_type]" %>
@@ -28,7 +28,7 @@
                      prompt: "Select a Segment...", id: "job_segment_id" %>
 
       <%= select_tag "Product Lines", options_for_select(@product_lines.collect { |p| [p.name, p.id] }, @product_line),
-                     class: "tooltip-info",
+                     class: "tooltip-info search-constraint-product-line-select",
                      "data-placement" => "bottom",
                      "data-title" => "Product Line",
                      prompt: "Select a Product Line...", id: "job_product_line_id" %>

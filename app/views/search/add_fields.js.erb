@@ -23,10 +23,21 @@
         var $select = $("#<%= @div_name %>").find('.search-constraint-field-select');
         $select.find('option:gt(0)').remove();
 
-        <% @well_data.each do |p| %>
-        $select.append($("<option></option>")
-        .attr("value", '<%= p %>')
-        .text('<%= Well.human_attribute_name(p) %>'));
+        <% if !@tools.nil? %>
+            $("#<%= @div_name %>").find('.loading').addClass('hidden');
+            $("#<%= @div_name %>").find("div[id=constraint-value-units]").hide();
+
+            <% @tools.each do |p| %>
+            $select.append($("<option></option>")
+                    .attr("value", '<%= p.id %>')
+                    .text('<%= p.name %>'));
+            <% end %>
+        <% else %>
+            <% @well_data.each do |p| %>
+            $select.append($("<option></option>")
+            .attr("value", '<%= p %>')
+            .text('<%= Well.human_attribute_name(p) %>'));
+            <% end %>
         <% end %>
 
         $("#<%= @div_name %>").find(".search-constraint-field-select").prop('selectedIndex', '0');
@@ -36,9 +47,7 @@
 
 <% else %>
 
-
     $("#<%= @div_name %>").find('.search-constraint-second').hide();
-
     $("#<%= @div_name %>").find('.search-job-type').show();
 
     <% if !@product_lines.nil? %>
@@ -71,4 +80,12 @@
         <% end %>
 
     <% end %>
+
+    <% if @hide_job_type %>
+        $("#<%= @div_name %>").find('.search-constraint-job-template-select').hide();
+        $("#<%= @div_name %>").find("select[id=job_product_line_id]").prop('selectedIndex', '0');
+    <% else %>
+        $("#<%= @div_name %>").find('.search-constraint-job-template-select').show();
+    <% end %>
+
 <% end %>

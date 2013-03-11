@@ -170,7 +170,7 @@ class Job < ActiveRecord::Base
                 operator = "LIKE"
             end
 
-            if constraint.data_type == "2"
+            if constraint.data_type == 1
                 ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
                 if constraint.operator == "1" or constraint.operator == "2" or constraint.operator == "3"
                     new_value = DynamicField.new.convert(value, constraint.units, DynamicField.new.get_storage_value_type(constraint.units)).to_f
@@ -184,10 +184,12 @@ class Job < ActiveRecord::Base
                 else
                     ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)
                 end
-            elsif constraint.data_type == "3"
+            elsif constraint.data_type == 3
                 ar_query = ar_query.where("jobs.client_id = :client_id", client_id: constraint.client_id)
-            elsif constraint.data_type == "4"
+            elsif constraint.data_type == 4
                 ar_query = ar_query.where("jobs.district_id = :district_id", district_id: constraint.district_id)
+            elsif constraint.data_type == 5
+                ar_query = ar_query.where("jobs.job_template_id IN (SELECT job_template_id FROM primary_tools WHERE primary_tools.tool_id = :tool_id)", tool_id: constraint.field)
             else
                 ar_query = ar_query.where("wells." + constraint.field + " " + operator + " :well_value", well_value: value).includes(:well)
             end

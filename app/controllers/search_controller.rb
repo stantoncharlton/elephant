@@ -19,50 +19,68 @@ class SearchController < ApplicationController
             end
             format.js do
                 @div_name = params["div_name"]
+                @hide_job_type = false
+                @data_type = params[:data_type].to_i
 
-                if params["data_type"]
-
-                    if params["data_type"] == "1"
-                        @well_data = Well.accessible_attributes.select { |w| !w.blank? && !Well.human_attribute_name(w).include?("value type") }
-                        @show_fields = true
-                    elsif params["data_type"] == "2"
-                        @product_lines = ProductLine.from_company(current_user.company)
-                        @show_fields = false
-                    end
-                elsif params["product_line"]
-                    @show_fields = false
-                    @product_line = ProductLine.find_by_id(params["product_line"])
+                puts "start"
+                if params[:product_line]
+                    puts "sdfsdfsdfsdf"
+                    @product_line = ProductLine.find_by_id(params[:product_line])
                     not_found unless @product_line.company == current_user.company
 
-                    @job_templates = @product_line.job_templates
-
-                elsif params["job_template"]
-                    puts "./........................"
-                    @show_fields = true
-                    @offshore = false
-
-                    @job_template = nil
-                    if !params["job_template"].blank?
-                        @job_template = JobTemplate.find_by_id(params["job_template"])
-                        not_found unless @job_template.company == current_user.company
+                    if @data_type == Query::WELL_DATA
+                        @show_fields = false
+                        @job_templates = @product_line.job_templates
+                    elsif @data_type == Query::JOB_TOOLS
+                        @show_fields = true
+                        @tools = @product_line.primary_tools
                     end
 
-                    if params[:field]
-                        begin
-                            if @job_template
-                                field_id = params[:field]
-                                @dynamic_field = @job_template.dynamic_fields.select { |df| df.id == field_id.to_i }.first
+                elsif params[:job_template]
+                    puts "ffffff"
+
+                    if @data_type != Query::JOB_TOOLS
+                        @show_fields = true
+                        @offshore = false
+
+                        @job_template = nil
+                        if !params[:job_template].blank?
+                            @job_template = JobTemplate.find_by_id(params[:job_template])
+                            not_found unless @job_template.company == current_user.company
+                        end
+
+                        if params[:field]
+                            begin
+                                if @job_template
+                                    field_id = params[:field]
+                                    @dynamic_field = @job_template.dynamic_fields.select { |df| df.id == field_id.to_i }.first
+                                end
                             end
+
+                            if !@dynamic_field
+                                @dynamic_field = DynamicField.new(value_type: Well.default_unit_value(params[:field].downcase))
+
+                                @offshore = (params[:field].downcase == "offshore")
+                            end
+
+                            render 'search/change_units'
+                            return
                         end
-
-                        if !@dynamic_field
-                            @dynamic_field = DynamicField.new(value_type: Well.default_unit_value(params[:field].downcase))
-
-                            @offshore = (params[:field].downcase == "offshore")
-                        end
-
-                        render 'search/change_units'
+                    else
+                        render :nothing => true
                         return
+                    end
+                else
+                    puts "ddddd"
+                    if @data_type == Query::WELL_DATA
+                        @well_data = Well.accessible_attributes.select { |w| !w.blank? && !Well.human_attribute_name(w).include?("value type") }
+                        @show_fields = true
+                    elsif @data_type == Query::JOB_DATA
+                        @product_lines = ProductLine.from_company(current_user.company)
+                        @show_fields = false
+                    elsif @data_type == Query::JOB_TOOLS
+                        @hide_job_type = true
+                        @show_fields = false
                     end
                 end
 
@@ -117,8 +135,9 @@ class SearchController < ApplicationController
         while true do
             if  params["query"]["constraints"][index.to_s].present?
 
+
                 constraint = Constraint.new
-                constraint.data_type = params["query"]["constraints"][index.to_s]["data_type"]
+                constraint.data_type = params["query"]["constraints"][index.to_s]["data_type"].to_i
                 constraint.job_template = params["query"]["constraints"][index.to_s]["job_template"]
                 constraint.field = params["query"]["constraints"][index.to_s]["field"]
                 constraint.operator = params["query"]["constraints"][index.to_s]["operator"]
@@ -131,13 +150,15 @@ class SearchController < ApplicationController
                 constraint.client_id = params["query"]["constraints"][index.to_s]["client_id"]
                 constraint.district_id = params["query"]["constraints"][index.to_s]["district_id"]
 
-                if constraint.data_type == "1" || constraint.data_type == "2"
-                    if !constraint.data_type.empty? and !constraint.field.empty?
+                if constraint.data_type == Query::WELL_DATA || constraint.data_type == Query::JOB_DATA
+                    if !constraint.data_type.empty? && !constraint.field.empty?
                         query.constraints << constraint
                     end
-                elsif constraint.data_type == "3" and !constraint.client_id.blank?
+                elsif constraint.data_type == Query::CLIENT && !constraint.client_id.blank?
                     query.constraints << constraint
-                elsif constraint.data_type == "4" and !constraint.district_id.blank?
+                elsif constraint.data_type == Query::DISTRICT && !constraint.district_id.blank?
+                    query.constraints << constraint
+                elsif constraint.data_type == Query::JOB_TOOLS && !constraint.field.empty?
                     query.constraints << constraint
                 end
             else
