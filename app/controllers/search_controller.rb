@@ -33,7 +33,13 @@ class SearchController < ApplicationController
                         @job_templates = @product_line.job_templates
                     elsif @data_type == Query::JOB_TOOLS
                         @show_fields = true
-                        @tools = @product_line.primary_tools
+                        @tools = []
+                        @product_line.primary_tools.each do |tool|
+                            @tools << tool
+                        end
+                        @product_line.segment.division.secondary_tools.each do |tool|
+                            @tools << tool
+                        end
                     end
 
                 elsif params[:job_template]
@@ -167,7 +173,7 @@ class SearchController < ApplicationController
             index += 1
         end
 
-        @jobs = Job.advanced_search(query, current_user.company).paginate(page: params[:page], limit: 10)
+        @jobs = Job.advanced_search(query, current_user.company).paginate(page: params[:page], limit: 20)
     end
 
 end
