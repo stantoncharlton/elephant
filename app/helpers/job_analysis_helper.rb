@@ -2,12 +2,13 @@ module JobAnalysisHelper
 
     def personnel_utilization(jobs)
         all_users = User.where("users.district_id IN (?)", jobs.map { |j| j.district_id }.uniq).
-                where("users.product_line_id IN (?)", jobs.map { |j| j.job_template.product_line_id }.uniq).count(group: :id)
-        active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).count(group: :user_id)
+                where("users.product_line_id IN (?)", jobs.map { |j| j.job_template.product_line_id }.uniq).count(:id)
+        active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id)
 
         puts "active users: " + active_users.count.to_s
-        puts "all users: " + all_users.count.to_s
-        ((active_users.count.to_f / all_users.count.to_f) * 100).round(0)
+        puts "all users: " + all_users.to_s
+        ((active_users.count.to_f / all_users.to_f) * 100).round(0)
+
     end
 
     def average_job_duration(jobs)
