@@ -2,21 +2,20 @@ module JobAnalysisHelper
 
     def personnel_utilization(jobs)
 
-        all_users = User.where("users.district_id IN (?)", jobs.map { |j| j.district_id }.uniq).
-                where("users.product_line_id IN (?)", jobs.map { |j| j.job_template.product_line_id }.uniq)
+        all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq)
         active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq)
 
         active_users.map { |u| u.user_id }.uniq.each do |user_id|
-            puts User.find_by_id(user_id).name
+            user = User.find_by_id(user_id)
+            puts user.name + "    " + (user.district.present? ? user.district.name : "-") + "    " + (user.product_line.present? ? user.product_line.name : "-")
         end
         puts "....................."
         all_users.each do |user_id|
-           puts User.find_by_id(user_id).name
+            user = User.find_by_id(user_id)
+            puts user.name + "    " + (user.district.present? ? user.district.name : "-") + "    " + (user.product_line.present? ? user.product_line.name : "-")
         end
 
-
-        all_users = User.where("users.district_id IN (?)", jobs.map { |j| j.district_id }.uniq).
-                where("users.product_line_id IN (?)", jobs.map { |j| j.job_template.product_line_id }.uniq).count(:id)
+        all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq).count(:id)
         active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id)
 
         puts "active users: " + active_users.count.to_s
