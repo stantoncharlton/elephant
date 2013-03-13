@@ -31,13 +31,15 @@
                      class: "tooltip-info search-constraint-product-line-select",
                      "data-placement" => "bottom",
                      "data-title" => "Product Line",
-                     prompt: "Select a Product Line...", id: "job_product_line_id" %>
+                     prompt: "Select a Product Line...",
+                     id: "job_product_line_id" %>
 
       <%= select_tag "Job Type", options_for_select(@job_templates.collect { |p| [p.name, p.id] }),
                      class: "tooltip-info search-constraint-job-template-select",
                      "data-placement" => "bottom",
                      "data-title" => "Job Type",
-                     prompt: "Select a Job Type...", id: "job_job_template_id",
+                     prompt: "Select a Job Type...",
+                     id: "job_job_template_id",
                      name: "query[constraints][" + index.to_s + "][job_template]" %>
 
 

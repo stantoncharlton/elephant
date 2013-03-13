@@ -1,6 +1,7 @@
 module JobAnalysisHelper
 
     def personnel_utilization(jobs)
+        return 0 unless jobs.count > 0
 
         all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq).count(:id)
         active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id)
@@ -9,6 +10,8 @@ module JobAnalysisHelper
     end
 
     def average_job_duration(jobs)
+        return 0 unless jobs.count > 0
+
         total_time = 0
         total_jobs = 0
 
@@ -23,6 +26,8 @@ module JobAnalysisHelper
     end
 
     def job_failure_rate(jobs)
+        return 0 unless jobs.count > 0
+
         total_failures = 0
         total_jobs = 0
 

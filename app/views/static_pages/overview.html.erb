@@ -13,62 +13,65 @@
 
 
 <div class="well">
-<%= select_tag "Divisions", options_for_select(current_user.company.divisions.collect { |d| [d.name, d.id] }),
-               class: "custom-select tooltip-info",
-               "data-placement" => "bottom",
-               "data-title" => "Filter list by division",
-               prompt: "Filter by division..." %>
-
-<%= select_tag "Districts", options_for_select(current_user.company.districts.collect { |d| [d.name, d.id] }),
-                 class: "custom-select tooltip-info push-right-small",
-                 "data-placement" => "bottom",
-                 "data-title" => "Filter list by district",
-                 prompt: "Filter by district..." %>
-
-  <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right-small" %>
-  <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                     placeholder: "Filter by Person",
-                     id: "new_note_name",
-                     class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
+  <%= form_tag overview_path, :method => :post do |f| %>
+      <%= select_tag "division_id", options_for_select(current_user.company.divisions.collect { |d| [d.name, d.id] }),
+                    prompt: "Filter by division..." ,
+                     class: "custom-select tooltip-info",
                      "data-placement" => "bottom",
-                     "data-title" => "Filter by Person" %>
+                     "data-title" => "Filter list by division" %>
 
-  <div class="push-right-small inline">
-  <%= link_to "Update", overview_path, class: "bluebtn gray" %>
-  </div>
+      <%= select_tag "district_id", options_for_select(current_user.company.districts.collect { |d| [d.name, d.id] }, @district_id),
+                    prompt: "Filter by district..." ,
+                     class: "custom-select tooltip-info push-right-small",
+                     "data-placement" => "bottom",
+                     "data-title" => "Filter list by district" %>
 
-  <hr>
+      <%= hidden_field_tag "", "", name: "user_id", id: "new_note_name_id", value: @user_id %>
+      <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right-small" %>
+      <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                         placeholder: "Filter by Person",
+                         id: "new_note_name",
+                         value: @user_name,
+                         class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Filter by Person" %>
 
-  <ul class="nav nav-pills">
+      <div class="push-right-small inline">
+        <%= submit_tag "Update", class: "bluebtn gray" %>
+      </div>
 
-    <li class="active">
-      <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-         data-tray="secondary_tools"
-         data-placement="bottom" data-title="List of tools used on this job">All time</a>
-    </li>
+      <hr>
 
-    <li class="push-right-small">
-      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-         data-tray="notes"
-         data-placement="bottom" data-title="List of tools used on this job">Last 30 days</a>
-    </li>
+      <ul class="nav nav-pills">
 
-    <li class="push-right-small">
-      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-         data-tray="activity"
-         data-placement="bottom" data-title="List of tools used on this job">Last 60 days</a>
-    </li>
+        <li class="active">
+          <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+             data-tray="secondary_tools"
+             data-placement="bottom" data-title="List of tools used on this job">All time</a>
+        </li>
 
-    <li class="push-right-small">
-      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-         data-tray="activity"
-         data-placement="bottom" data-title="List of tools used on this job">Last year</a>
-    </li>
+        <li class="push-right-small">
+          <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+             data-tray="notes"
+             data-placement="bottom" data-title="List of tools used on this job">Last 30 days</a>
+        </li>
+
+        <li class="push-right-small">
+          <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+             data-tray="activity"
+             data-placement="bottom" data-title="List of tools used on this job">Last 60 days</a>
+        </li>
+
+        <li class="push-right-small">
+          <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+             data-tray="activity"
+             data-placement="bottom" data-title="List of tools used on this job">Last year</a>
+        </li>
 
 
-  </ul>
+      </ul>
 
-
+  <% end %>
 </div>
 
 
@@ -130,8 +133,11 @@
 
   <% @failures.each do |failure_group| %>
       <div class="chart-problem">
-        <div class="chart-problem-name"><%= failure_group[1][0].failure_master_template.text %><p class="inline">&nbsp;<%= failure_group[1].count %></p></div>
-        <div class="chart-problem-bar"><div style="width: <%= failure_group[1].count * 10 %>%"></div></div>
+        <div class="chart-problem-name"><%= failure_group[1][0].failure_master_template.text %>
+          <p class="inline">&nbsp;<%= failure_group[1].count %></p></div>
+        <div class="chart-problem-bar">
+          <div style="width: <%= failure_group[1].count * 10 %>%"></div>
+        </div>
       </div>
   <% end %>
 
@@ -142,7 +148,42 @@
 
 <script>
     $(document).ready(function () {
-        var plot3 = $.jqplot('personnel_utilization', [[['a', <%= @personnel_utilization %>], ['b', 100 - <%= @personnel_utilization %>]]], {
+        var plot3 = $.jqplot('personnel_utilization', [
+            [
+                ['a', <%= @personnel_utilization %>],
+                ['b', 100 - <%= @personnel_utilization %>]
+            ]
+        ], {
+            animate:true,
+            animateReplot:true,
+            background:"#FFFFFF",
+            seriesColors:[ "#458fd2", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    animation:{
+                        show:true,
+                        speed:2500
+                    },
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+
+        var plot3 = $.jqplot('elephant_utilization', [
+            [
+                ['a', 67],
+                ['b', 100 - 67]
+            ]
+        ], {
+            animate:true,
             background:"#FFFFFF",
             seriesColors:[ "#458fd2", "#FFFFFF"],
             seriesDefaults:{
@@ -160,25 +201,13 @@
             }
         });
 
-        var plot3 = $.jqplot('elephant_utilization', [[['a', 67], ['b', 100 - 67]]], {
-            background:"#FFFFFF",
-            seriesColors:[ "#458fd2", "#FFFFFF"],
-            seriesDefaults:{
-                textColor:" #00ff0000",
-                shadow:false,
-                renderer:$.jqplot.DonutRenderer,
-                rendererOptions:{
-                    padding:0,
-                    innerDiameter:95,
-                    sliceMargin:0,
-                    startAngle:-90,
-                    showDataLabels:true,
-                    dataLabels:'value'
-                }
-            }
-        });
-
-        plot3 = $.jqplot('failure_rate', [[['a', <%= @job_failure_rate %>], ['b', 100 - <%= @job_failure_rate %>]]], {
+        plot3 = $.jqplot('failure_rate', [
+            [
+                ['a', <%= @job_failure_rate %>],
+                ['b', 100 - <%= @job_failure_rate %>]
+            ]
+        ], {
+            animate:true,
             background:"#FFFFFF",
             seriesColors:[ "#e4472e", "#FFFFFF"],
             seriesDefaults:{
@@ -195,6 +224,11 @@
                 }
             }
         });
+
+        $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                    "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
+        }
     });
 </script>
 

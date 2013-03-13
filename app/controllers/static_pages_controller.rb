@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
     include JobAnalysisHelper
-    before_filter :signed_in_user, only: [:help, :overview, :terms_of_use]
+    before_filter :signed_in_user, only: [:help, :overview, :filter_overview, :terms_of_use]
 
     skip_before_filter :verify_traffic, only: [:home, :about, :sales, :terms_of_use]
     skip_before_filter :accept_terms_of_use, only: [:terms_of_use]
@@ -48,6 +48,41 @@ class StaticPagesController < ApplicationController
         @job_failure_rate = job_failure_rate(@jobs)
 
         @failures = failures(@jobs)
+    end
+
+    def filter_overview
+        set_tab :overview
+
+        @district_id = params[:district_id]
+        @division_id = params[:division_id]
+        @user_id = params[:user_id]
+
+        @jobs = Job.from_company(current_user.company)
+        if !@district_id.blank?
+            @jobs = @jobs.where(district_id: @district_id)
+        end
+
+        if !@division_id.blank?
+            @jobs = @jobs.joins(job_template: { product_line: { segment: :division } }).where("divisions.id = ?", @division_id)
+        end
+
+        if !@user_id.blank?
+            @user = User.find_by_id(@user_id)
+            not_found unless @user.company == current_user.company
+            @jobs = @user.jobs
+            @user_name = @user.name
+
+            @division_id = nil
+            @district_id = nil
+        end
+
+        @personnel_utilization = personnel_utilization(@jobs)
+        @average_job_time = average_job_duration(@jobs)
+        @job_failure_rate = job_failure_rate(@jobs)
+
+        @failures = failures(@jobs)
+
+        render 'overview'
     end
 
     def terms_of_use
