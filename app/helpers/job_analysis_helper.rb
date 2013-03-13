@@ -2,26 +2,10 @@ module JobAnalysisHelper
 
     def personnel_utilization(jobs)
 
-        all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq)
-        active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq)
-
-        active_users.map { |u| u.user_id }.uniq.each do |user_id|
-            user = User.find_by_id(user_id)
-            puts user.name + "    " + (user.district.present? ? user.district.name : "-") + "    " + (user.product_line.present? ? user.product_line.name : "-")
-        end
-        puts "....................."
-        all_users.each do |user_id|
-            user = User.find_by_id(user_id)
-            puts user.name + "    " + (user.district.present? ? user.district.name : "-") + "    " + (user.product_line.present? ? user.product_line.name : "-")
-        end
-
         all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq).count(:id)
         active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id)
 
-        puts "active users: " + active_users.count.to_s
-        puts "all users: " + all_users.to_s
         ((active_users.count.to_f / all_users.to_f) * 100).round(0)
-
     end
 
     def average_job_duration(jobs)

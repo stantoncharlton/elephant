@@ -34,6 +34,7 @@ class Job < ActiveRecord::Base
     has_many :secondary_tools
 
     has_many :failures, dependent: :destroy, order: "text ASC"
+    has_many :alerts, dependent: :destroy
 
     ACTIVE = 1
     CLOSED = 2
