@@ -5,6 +5,9 @@
   -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
+
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background.jpg')}, sizingMethod='scale');
+
   margin: 0px;
   padding-top: 140px;
 
