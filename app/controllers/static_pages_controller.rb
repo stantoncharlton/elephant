@@ -64,17 +64,22 @@ class StaticPagesController < ApplicationController
 
         if !@division_id.blank?
             parts = @division_id.split("/////")
+            name = ""
             case parts.first.downcase
                 when "division"
+                    name = Division.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: {product_line: {segment: :division}}).where("divisions.id = ?", parts.last)
                 when "segment"
+                    name = Segment.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: {product_line: :segment}).where("segments.id = ?", parts.last)
                 when "product line"
+                    name = ProductLine.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: :product_line).where("product_lines.id = ?", parts.last)
                 when "job template"
+                    name = JobTemplate.find_by_id(parts.last).name
                     @jobs = @jobs.joins(:job_template).where("job_templates.id = ?", parts.last)
             end
-
+            @division_name = name
         end
 
         if !@user_id.blank?
@@ -85,6 +90,7 @@ class StaticPagesController < ApplicationController
 
             @division_id = nil
             @district_id = nil
+            @division_name = nil
         end
 
         @personnel_utilization = personnel_utilization(@jobs)

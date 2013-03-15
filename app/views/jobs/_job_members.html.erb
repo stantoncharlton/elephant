@@ -13,7 +13,8 @@
     <% if job_editable %>
 
         <%= link_to "Add Member", new_job_membership_path, remote: true,
-                    class: "add-job-member tooltip-info", id: "add_job_member",
+                    class: "add-job-member tooltip-info",
+                    id: "add_job_member",
                     "data-placement" => "bottom",
                     "data-title" => "Add new project member" %>
     <% end %>

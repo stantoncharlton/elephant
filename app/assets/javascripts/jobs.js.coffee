@@ -36,14 +36,25 @@ $ ->
     select: (event, ui) ->
       $("#new_note_name").val(ui.item.label)
       $("#new_note_name_id").val(ui.item.id)
-  #$("#new_note_form").submit()
 
-  $('#division_search_name').autocomplete
-    source: $('#division_search_name').data('autocomplete-source')
+  $('#person_filter').autocomplete
+    source: $('#person_filter').data('autocomplete-source')
     focus: focusevent
     select: (event, ui) ->
-      $("#division_search_name").val(ui.item.division_type + " " + ui.item.name)
-      $("#division_search_name_id").val(ui.item.division_type + "/////" + ui.item.id)
+      $("#person_filter").val(ui.item.label)
+      $("#person_filter_id").val(ui.item.id)
+      $(this).closest("form").submit()
+
+  $('#person_filter').change ->
+    $("#person_filter_id").val('')
+
+  $('#division_filter').autocomplete
+    source: $('#division_filter').data('autocomplete-source')
+    focus: focusevent
+    select: (event, ui) ->
+      $("#division_filter").val(ui.item.division_type + " " + ui.item.name)
+      $("#division_filter_id").val(ui.item.division_type + "/////" + ui.item.id)
+      $(this).closest("form").submit()
 
 
   $('.job-member-list-item').live "mouseenter", ->

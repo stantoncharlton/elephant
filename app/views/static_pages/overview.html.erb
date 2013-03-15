@@ -15,10 +15,11 @@
 <div class="well">
   <%= form_tag overview_path, :method => :post do |f| %>
 
-      <%= hidden_field_tag "", "", name: "division_id", id: "division_search_name_id", value: @division_id %>
+      <%= hidden_field_tag "", "", name: "division_id", id: "division_filter_id", value: @division_id %>
       <%= text_field_tag "", "", data: {autocomplete_source: divisions_path},
                          placeholder: "Filter by Division, Segment, etc..",
-                         id: "division_search_name",
+                         id: "division_filter",
+                         value: @division_name,
                          class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
                          "data-placement" => "top",
                          "data-title" => "Filter by Division, Segment, Product Line, Job Type" %>
@@ -31,11 +32,11 @@
                      "data-placement" => "top",
                      "data-title" => "Filter list by district" %>
 
-      <%= hidden_field_tag "", "", name: "user_id", id: "new_note_name_id", value: @user_id %>
+      <%= hidden_field_tag "", "", name: "user_id", id: "person_filter_id", value: @user_id %>
       <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right-small" %>
       <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                          placeholder: "Filter by Person",
-                         id: "new_note_name",
+                         id: "person_filter",
                          value: @user_name,
                          class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
                          "data-placement" => "top",
@@ -235,11 +236,11 @@
             }
         });
 
-        $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
+        $('#person_filter').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                     "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
         }
-        $('#division_search_name').data("autocomplete")._renderItem = function (ul, item) {
+        $('#division_filter').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                     "<a><div class='job-user'><strong>" + item.name + " </strong><div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div></div></a>").appendTo(ul)
         }

@@ -1,7 +1,6 @@
 <div class="">
 
 
-
   <div class="chart-block">
     <div class="chart-title">Job Duration</div>
     <div class="donut-chart-div job-donut-chart-div">
@@ -24,16 +23,17 @@
   </div>
 
   <div class="chart-block chart-block-extended">
-    <div >
+    <div class="">
       <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id), remote: true,
-                  class: " add-job-member  tooltip-info", id: "add_failure",
+                  class: "add-job-member add-failure tooltip-info",
+                  id: "add_failure",
                   "data-placement" => "bottom",
                   "data-title" => "Add failure to job type" %>
+      <br>
+      <br>
     </div>
-    <br>
-    <%= render 'jobs/job_failure_list', job: @job %>
+    <div class="failures-list">
+      <%= render 'jobs/job_failure_list', job: @job %>
+    </div>
   </div>
-
-
-
 </div>
