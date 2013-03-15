@@ -63,7 +63,18 @@ class StaticPagesController < ApplicationController
         end
 
         if !@division_id.blank?
-            @jobs = @jobs.joins(job_template: { product_line: { segment: :division } }).where("divisions.id = ?", @division_id)
+            parts = @division_id.split("/////")
+            case parts.first.downcase
+                when "division"
+                    @jobs = @jobs.joins(job_template: {product_line: {segment: :division}}).where("divisions.id = ?", parts.last)
+                when "segment"
+                    @jobs = @jobs.joins(job_template: {product_line: :segment}).where("segments.id = ?", parts.last)
+                when "product line"
+                    @jobs = @jobs.joins(job_template: :product_line).where("product_lines.id = ?", parts.last)
+                when "job template"
+                    @jobs = @jobs.joins(:job_template).where("job_templates.id = ?", parts.last)
+            end
+
         end
 
         if !@user_id.blank?

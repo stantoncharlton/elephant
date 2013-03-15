@@ -11,6 +11,10 @@ class Segment < ActiveRecord::Base
 
   has_many :product_lines, dependent: :destroy, order: "name ASC"
 
+  searchable do
+      text :name, :as => :code_textp
+      integer :company_id
+  end
 
   def self.from_company(company)
       where("company_id = :company_id", company_id: company.id)

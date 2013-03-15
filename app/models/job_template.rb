@@ -23,6 +23,11 @@ class JobTemplate < ActiveRecord::Base
     has_many :post_job_report_documents, order: "ordering ASC", :dependent => :destroy
     has_many :failures, dependent: :destroy, order: "text ASC"
 
+    searchable do
+        text :name, :as => :code_textp
+        integer :company_id
+    end
+
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
     end

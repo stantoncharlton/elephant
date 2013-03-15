@@ -39,10 +39,10 @@ class Division < ActiveRecord::Base
     end
 
     def self.search(options, company)
-        Sunspot.search(User) do
+        Sunspot.search(Division, Segment, ProductLine, JobTemplate) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
-            order_by :name_sort
+            #order_by :name, :asc
             paginate :page => options[:page]
         end
     end

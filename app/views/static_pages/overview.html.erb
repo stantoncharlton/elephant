@@ -14,16 +14,21 @@
 
 <div class="well">
   <%= form_tag overview_path, :method => :post do |f| %>
-      <%= select_tag "division_id", options_for_select(current_user.company.divisions.collect { |d| [d.name, d.id] }),
-                    prompt: "Filter by division..." ,
-                     class: "custom-select tooltip-info",
-                     "data-placement" => "bottom",
-                     "data-title" => "Filter list by division" %>
+
+      <%= hidden_field_tag "", "", name: "division_id", id: "division_search_name_id", value: @division_id %>
+      <%= text_field_tag "", "", data: {autocomplete_source: divisions_path},
+                         placeholder: "Filter by Division, Segment, etc..",
+                         id: "division_search_name",
+                         class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
+                         "data-placement" => "top",
+                         "data-title" => "Filter by Division, Segment, Product Line, Job Type" %>
+
+
 
       <%= select_tag "district_id", options_for_select(current_user.company.districts.collect { |d| [d.name, d.id] }, @district_id),
                     prompt: "Filter by district..." ,
                      class: "custom-select tooltip-info push-right-small",
-                     "data-placement" => "bottom",
+                     "data-placement" => "top",
                      "data-title" => "Filter list by district" %>
 
       <%= hidden_field_tag "", "", name: "user_id", id: "new_note_name_id", value: @user_id %>
@@ -33,7 +38,7 @@
                          id: "new_note_name",
                          value: @user_name,
                          class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
-                         "data-placement" => "bottom",
+                         "data-placement" => "top",
                          "data-title" => "Filter by Person" %>
 
       <div class="push-right-small inline">
@@ -77,7 +82,8 @@
 
 <br>
 
-<div class="chart-block">
+<div class="chart-block tooltip-info"
+    data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
   <div class="chart-title">Total Jobs</div>
   <div class="donut-chart-div">
     <div class="donut-text "><%= @jobs.count %></div>
@@ -85,7 +91,8 @@
   </div>
 </div>
 
-<div class="chart-block">
+<div class="chart-block tooltip-info"
+     data-title="'Personnel Utilization' refers to the ratio of active users on jobs compared by district and product line to all users on Elephant.">
   <div class="chart-title">Personnel Utilization</div>
   <div class="donut-chart-div">
     <div id="personnel_utilization" class="donut-chart "></div>
@@ -95,7 +102,8 @@
   </div>
 </div>
 
-<div class="chart-block">
+<div class="chart-block tooltip-info"
+     data-title="'Elephant Utilization' is the utilization of Elephant compared to all jobs by your organization.">
   <div class="chart-title">Elephant Utilization</div>
   <div class="donut-chart-div">
     <div id="elephant_utilization" class="donut-chart "></div>
@@ -105,7 +113,8 @@
   </div>
 </div>
 
-<div class="chart-block">
+<div class="chart-block tooltip-info"
+     data-title="'Average Job Duration' is the average duration of all jobs, represented in days.">
   <div class="chart-title">Average Job Duration</div>
   <div class="donut-chart-div">
     <div class="donut-text "><%= @average_job_time %></div>
@@ -117,7 +126,8 @@
 <hr>
 
 
-<div class="chart-block">
+<div class="chart-block tooltip-info"
+     data-title="'Job Failure Rate' shows the percentage of jobs that have any failure.">
   <div class="chart-title">Job Failure Rate</div>
   <div class="donut-chart-div">
     <div id="failure_rate" class="donut-chart "></div>
@@ -228,6 +238,10 @@
         $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                     "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
+        }
+        $('#division_search_name').data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                    "<a><div class='job-user'><strong>" + item.name + " </strong><div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div></div></a>").appendTo(ul)
         }
     });
 </script>

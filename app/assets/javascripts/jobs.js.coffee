@@ -38,6 +38,13 @@ $ ->
       $("#new_note_name_id").val(ui.item.id)
   #$("#new_note_form").submit()
 
+  $('#division_search_name').autocomplete
+    source: $('#division_search_name').data('autocomplete-source')
+    focus: focusevent
+    select: (event, ui) ->
+      $("#division_search_name").val(ui.item.division_type + " " + ui.item.name)
+      $("#division_search_name_id").val(ui.item.division_type + "/////" + ui.item.id)
+
 
   $('.job-member-list-item').live "mouseenter", ->
     $(this).find('.job-member-edit-button').css('visibility', 'visible')

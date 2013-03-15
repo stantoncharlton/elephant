@@ -14,6 +14,11 @@ class ProductLine < ActiveRecord::Base
 
     has_many :failures, dependent: :destroy, order: "text ASC"
 
+    searchable do
+        text :name, :as => :code_textp
+        integer :company_id
+    end
+
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
     end
