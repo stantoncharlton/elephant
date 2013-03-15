@@ -4,16 +4,32 @@ class DivisionsController < ApplicationController
     set_tab :job_templates
 
     def index
-        if params[:division_id].present?
-            @division = Division.find_by_id(params[:division_id])
-            not_found unless @division.company == current_user.company
-        else
-            @divisions = Division.from_company(current_user.company).order("name ASC")
+        respond_to do |format|
+            format.html {
+                if params[:division_id].present?
+                    @division = Division.find_by_id(params[:division_id])
+                    not_found unless @division.company == current_user.company
+                else
+                    @divisions = Division.from_company(current_user.company).order("name ASC")
+                end
+            }
+            format.json {
+                if params[:q].present?
+                    params[:search] = params[:q]
+                end
+
+                @users = User.search(params, current_user.company).results
+
+                if params[:q].present?
+                    render json: @users.map { |user| {:name => user.name + " (" + user.role.title + " / " + user.district.name + ")", :id => user.id} }
+                else
+                    render json: @users.map { |user| {:label => user.name, :position_title => user.role.present? ? user.role.title : "", :district => user.district.present? ? user.district.name : "", :id => user.id} }
+                end
+            }
         end
     end
 
     def show
-
         @division = Division.find_by_id(params[:id])
         not_found unless @division.company == current_user.company
 

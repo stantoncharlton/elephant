@@ -22,6 +22,7 @@ module JobAnalysisHelper
             end
         end
 
+        return 0 unless (total_time.to_f > 0) && (total_jobs.to_f > 0)
         (total_time.to_f / total_jobs.to_f).round(1)
     end
 

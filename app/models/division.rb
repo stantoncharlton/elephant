@@ -11,6 +11,11 @@ class Division < ActiveRecord::Base
     has_many :secondary_tools, dependent: :destroy, class_name: "Tool", order: "name ASC"
 
 
+    searchable do
+        text :name, :as => :code_textp
+        integer :company_id
+    end
+
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
     end
@@ -29,6 +34,15 @@ class Division < ActiveRecord::Base
             end
             with(:company_id, company.id)
             order_by :created_at, :desc
+            paginate :page => options[:page]
+        end
+    end
+
+    def self.search(options, company)
+        Sunspot.search(User) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            order_by :name_sort
             paginate :page => options[:page]
         end
     end
