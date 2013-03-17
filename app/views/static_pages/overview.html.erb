@@ -25,12 +25,15 @@
                          "data-title" => "Filter by Division, Segment, Product Line, Job Type" %>
 
 
+      <%= hidden_field_tag "", "", name: "district_id", id: "district_filter_id" %>
+      <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                         placeholder: "Filter by District name",
+                         id: "district_filter",
+                         value: @district_name,
+                         class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
+                         "data-placement" => "top",
+                         "data-title" => "Filter by District Name" %>
 
-      <%= select_tag "district_id", options_for_select(current_user.company.districts.collect { |d| [d.name, d.id] }, @district_id),
-                    prompt: "Filter by district..." ,
-                     class: "custom-select tooltip-info push-right-small",
-                     "data-placement" => "top",
-                     "data-title" => "Filter list by district" %>
 
       <%= hidden_field_tag "", "", name: "user_id", id: "person_filter_id", value: @user_id %>
       <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right-small" %>
@@ -243,6 +246,10 @@
         $('#division_filter').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                     "<a><div class='job-user'><strong>" + item.name + " </strong><div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div></div></a>").appendTo(ul)
+        }
+        $('#district_filter').data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                    "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
         }
     });
 </script>

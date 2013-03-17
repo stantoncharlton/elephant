@@ -330,11 +330,16 @@
 
 .job-user-title {
   display: inline-block;
-  width: 300px;
+  width: 250px;
 }
 
 .job-user-district {
   display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: none;
+  width: 200px;
+  max-height: 17px;
 }
 
 .job-members-div {
@@ -534,6 +539,13 @@
 
 .job-status-avatar {
   margin-bottom: -10px;
+}
+
+.job-member-avatar {
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: 10px;
 }
 
 

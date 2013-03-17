@@ -60,6 +60,7 @@ class StaticPagesController < ApplicationController
         @jobs = Job.from_company(current_user.company)
         if !@district_id.blank?
             @jobs = @jobs.where(district_id: @district_id)
+            @district_name = District.find_by_id(@district_id).name
         end
 
         if !@division_id.blank?

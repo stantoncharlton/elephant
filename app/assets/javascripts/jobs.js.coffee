@@ -56,6 +56,14 @@ $ ->
       $("#division_filter_id").val(ui.item.division_type + "/////" + ui.item.id)
       $(this).closest("form").submit()
 
+  $('#district_filter').autocomplete
+    source: $('#district_filter').data('autocomplete-source')
+    focus: focusevent
+    select: (event, ui) ->
+      $("#district_filter").val(ui.item.name)
+      $("#district_filter_id").val(ui.item.id)
+      $(this).closest("form").submit()
+
 
   $('.job-member-list-item').live "mouseenter", ->
     $(this).find('.job-member-edit-button').css('visibility', 'visible')

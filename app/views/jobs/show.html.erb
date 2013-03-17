@@ -99,7 +99,7 @@
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
             $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
+                        "<a><img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
             }
             $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(

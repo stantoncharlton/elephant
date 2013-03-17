@@ -28,10 +28,12 @@
     </div>
     </body>
 <% else %>
-    <% if request.path == root_path %>
+    <% if request.path == root_path  %>
         <body class="body-non-signed-in">
-    <% elsif request.path == about_path || request.path == sales_path %>
-        <body class="body">
+    <% elsif request.path == about_path%>
+        <body class="body-about-non-signed-in">
+    <% elsif request.path == sales_path %>
+        <body class="body-sales">
     <% else %>
         <body class="body">
 
