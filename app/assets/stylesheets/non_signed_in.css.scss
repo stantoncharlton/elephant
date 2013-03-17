@@ -333,16 +333,18 @@
 
 .about-part-1 {
   background: #000000 url(image_path('about_background.jpg')) no-repeat 50% 40% fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
+  background-size:100% auto;
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('about_background.jpg')}, sizingMethod='scale');
 
   width: 100%;
+  min-width: 1050px;
   padding-top: 120px;
   padding-bottom: 120px;
+
+  @media screen and (max-width: 1024px) {
+    background: #000000 url(image_path('about_background.jpg')) no-repeat 0px 0px fixed;
+    background-size:1050px auto;
+  }
 
   p {
     text-shadow: 1px 1px 4px #000000;
@@ -352,6 +354,7 @@
 .about-part-2 {
   background: #FFFFFF;
   width: 100%;
+  min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
 }
@@ -359,6 +362,7 @@
 .about-part-3 {
   background: #2f363b;
   width: 100%;
+  min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
 
@@ -375,6 +379,7 @@
 .about-part-4 {
   background: #467595;
   width: 100%;
+  min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
 
@@ -388,6 +393,7 @@
 .about-part-5 {
   background: #FFFFFF;
   width: 100%;
+  min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
 }
@@ -395,6 +401,8 @@
 
 .sales-part-1 {
   background: #112e3b;
+  width: 100%;
+  min-width: 1050px;
   padding-top: 60px;
   padding-bottom: 100px;
 
@@ -415,6 +423,7 @@
 .sales-part-2 {
   background: #112e3b;
   width: 100%;
+  min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
 }
