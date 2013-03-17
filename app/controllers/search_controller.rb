@@ -157,7 +157,7 @@ class SearchController < ApplicationController
                 constraint.district_id = params["query"]["constraints"][index.to_s]["district_id"]
 
                 if constraint.data_type == Query::WELL_DATA || constraint.data_type == Query::JOB_DATA
-                    if !constraint.data_type.empty? && !constraint.field.empty?
+                    if !constraint.field.empty?
                         query.constraints << constraint
                     end
                 elsif constraint.data_type == Query::CLIENT && !constraint.client_id.blank?

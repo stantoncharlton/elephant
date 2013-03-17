@@ -50,6 +50,15 @@ class JobTemplate < ActiveRecord::Base
         end
     end
 
+    def self.search(options, company)
+        Sunspot.search(JobTemplate) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            #order_by :name, :asc
+            paginate :page => options[:page]
+        end
+    end
+
     def notices_documents
         self.documents.select { |document| document.category == Document::NOTICES }
     end

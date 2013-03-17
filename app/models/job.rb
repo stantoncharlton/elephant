@@ -171,7 +171,7 @@ class Job < ActiveRecord::Base
                 operator = "LIKE"
             end
 
-            if constraint.data_type == 1
+            if constraint.data_type == 2
                 ar_query = ar_query.where(:dynamic_fields => {:dynamic_field_template_id => constraint.field}).includes(:dynamic_fields)
                 if constraint.operator == "1" or constraint.operator == "2" or constraint.operator == "3"
                     new_value = DynamicField.new.convert(value, constraint.units, DynamicField.new.get_storage_value_type(constraint.units)).to_f

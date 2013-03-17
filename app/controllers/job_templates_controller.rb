@@ -4,11 +4,19 @@ class JobTemplatesController < ApplicationController
     set_tab :job_templates
 
     def index
-        @product_lines = ProductLine.from_company(current_user.company).order("name ASC")
+        respond_to do |format|
+            format.html {
+                @product_lines = ProductLine.from_company(current_user.company).order("name ASC")
 
-        @count = 0
-        @product_lines.each do |product_line|
-            @count += product_line.job_templates.count
+                @count = 0
+                @product_lines.each do |product_line|
+                    @count += product_line.job_templates.count
+                end
+            }
+            format.json {
+                @job_templates = JobTemplate.search(params, current_user.company).results
+                render json: @job_templates.map { |job_template| {:label => job_template.name, :product_line => job_template.product_line.name, :segment => job_template.product_line.segment.name, :division => job_template.product_line.segment.division.name, :id => job_template.id} }
+            }
         end
     end
 
