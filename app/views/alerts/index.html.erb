@@ -7,9 +7,43 @@
   <h2><%= @new_alerts.count() %></h2>
 </div>
 
-<div class="center">
-  <%= image_tag "calendar.gif" %>
+<div class="well">
+  <b>Upcoming Jobs <%= " (" + @active_jobs.count.to_s + ")" %></b>
   <br><br>
+
+  <div class="">
+    <div class="alerts-calendar">
+      <div class="header"></div>
+
+      <% 14.times do |i| %>
+          <div class="date">
+            <p class="number <%= (@start_date + i.days).day == Date.today.day ? "today" : "" %>"><%= (@start_date + i.days).day %></p>
+
+            <div class="jobs">
+              <% @active_jobs.select { |j| !j.start_date.nil? && (j.start_date.day == (@start_date + i.days).day) && (j.start_date.month == (@start_date + i.days).month) }.each do |job| %>
+                  <%= link_to job, class: "job" do %>
+                      <p class="tooltip-info"
+                         data-placement="right"
+                         data-html="true"
+                         data-title="<%= "<div class='well-tooltip'>" +
+                                                 "<p>\"" + job.status_string + "\"</p>" +
+                                                 "<p>" + job.district.name + " / " + job.client.name + "</p>" +
+                                                 "<p>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</p>" +
+                                                 "<hr><h3>" + job.job_template.product_line.segment.division.name + "</h3>" +
+                                                 "<h3>" + job.job_template.product_line.segment.name + "</h3>" +
+                                                 "<h3>" + job.job_template.product_line.name + "</h3>" +
+                                                 "<h3>" + job.job_template.name + "</h3>" +
+                                                 (true ? "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" : "") +
+                                                 "</div>" %>">
+                        <%= job.field.name + " | " + job.well.name %>
+                      </p>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <div id="new_alerts" class="list">

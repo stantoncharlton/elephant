@@ -19,3 +19,73 @@
   font-weight: bold;
 
 }
+
+.alerts-calendar {
+  display: inline-block;
+  background: #FFFFFF url(image_path('calendar.gif')) no-repeat;
+  width: 900px;
+  height: 236px;
+  padding: 0px;
+
+  .header {
+    margin: 0px;
+    height: 18px;
+    width: 900px;
+    background: transparent;
+  }
+
+  .date {
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+    width: 124.4px;
+    height: 105px;
+    background: transparent;
+    position: relative;
+
+    .number {
+      position: inherit;
+      display: inline-block;
+      float: right;
+      padding-left: 7px;
+      padding-right: 7px;
+      text-align: right;
+      font-family: "gothamboldregular";
+      color: #0058a8;
+    }
+
+    .today {
+      background: #ffda0f;
+      color: #000000;
+      border-radius: 3px;
+    }
+
+    .jobs {
+      width: 124.4px;
+      height: 85px;
+      display: inline-block;
+
+      .job {
+        display: inline-block;
+        border-radius: 3px;
+        background: #0058a8;
+        color: #FFFFFF;
+        width: 107px;
+        height: 15px;
+        font-size: 10px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 3px;
+        text-wrap: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        p {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
