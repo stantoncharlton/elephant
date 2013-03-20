@@ -22,16 +22,16 @@ class Job < ActiveRecord::Base
     belongs_to :well
     belongs_to :job_template
 
-    has_many :dynamic_fields, order: "ordering ASC"
-    has_many :documents, order: "ordering ASC"
-    has_many :job_notes, order: "created_at DESC"
+    has_many :dynamic_fields, dependent: :destroy, order: "ordering ASC"
+    has_many :documents, dependent: :destroy, order: "ordering ASC"
+    has_many :job_notes, dependent: :destroy, order: "created_at DESC"
 
-    has_many :job_memberships, foreign_key: "job_id"
+    has_many :job_memberships, dependent: :destroy, foreign_key: "job_id"
     has_many :participants, through: :job_memberships, source: :user
     has_many :unique_participants, through: :job_memberships, source: :user, uniq: true
 
-    has_many :job_processes, order: "created_at DESC"
-    has_many :secondary_tools
+    has_many :job_processes, dependent: :destroy, order: "created_at DESC"
+    has_many :secondary_tools, dependent: :destroy
 
     has_many :failures, dependent: :destroy, order: "text ASC"
     has_many :alerts, dependent: :destroy

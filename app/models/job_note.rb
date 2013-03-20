@@ -15,7 +15,7 @@ class JobNote < ActiveRecord::Base
     belongs_to :job
 
 
-    has_many :comments, class_name: "JobNoteComment", order: "created_at asc"
+    has_many :comments, dependent: :destroy, class_name: "JobNoteComment", order: "created_at asc"
 
 
 end

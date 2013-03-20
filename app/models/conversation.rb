@@ -6,7 +6,7 @@ class Conversation < ActiveRecord::Base
 
     belongs_to :company
 
-    has_many :messages, order: "created_at ASC"
+    has_many :messages, dependent: :destroy, order: "created_at ASC"
 
 
     has_many :conversation_memberships, foreign_key: "conversation_id"

@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
     has_many :conversation_memberships, foreign_key: "user_id"
     has_many :conversations, through: :conversation_memberships, source: :conversation
 
-    has_one :user_unit
+    has_one :user_unit, dependent: :destroy
 
     belongs_to :company
     belongs_to :district

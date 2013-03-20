@@ -24,8 +24,13 @@ class Company < ActiveRecord::Base
     has_many :segments, dependent: :destroy, order: "name ASC"
     has_many :product_lines, dependent: :destroy, order: "name ASC"
     has_many :job_templates, dependent: :destroy, order: "name ASC"
-
-    has_many :activities
+    has_many :tools, dependent: :destroy
+    has_many :failures, dependent: :destroy
+    has_many :dynamic_fields, dependent: :destroy
+    has_many :documents, dependent: :destroy
+    has_many :conversations, dependent: :destroy
+    has_many :alerts, dependent: :destroy
+    has_many :activities, dependent: :destroy
 
     belongs_to :admin
 
