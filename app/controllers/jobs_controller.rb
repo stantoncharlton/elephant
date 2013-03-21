@@ -9,10 +9,10 @@ class JobsController < ApplicationController
         respond_to do |format|
             format.html {
                 if @is_paged
-                    @jobs = current_user.jobs.paginate(page: params[:page], limit: 20)
+                    @jobs = current_user.jobs.order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
                 else
                     @jobs = current_user.jobs.where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
-                            order("created_at DESC")
+                            order("jobs.created_at DESC")
                 end
             }
             format.xml {

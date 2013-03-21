@@ -20,7 +20,13 @@ class ProductLinesController < ApplicationController
         @product_line = ProductLine.find_by_id(params[:id])
         not_found unless @product_line.company == current_user.company
 
-        @jobs = ProductLine.from_company_for_user(@product_line, params, current_user, current_user.company).results
+        @is_paged = params[:page].present?
+        if @is_paged
+            @jobs = @product_line.jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
+        else
+            @jobs = @product_line.jobs.reorder('').where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+                    order("jobs.created_at DESC")
+        end
     end
 
     def new

@@ -9,7 +9,7 @@
 
 </div>
 
-<% if !params[:page].present? || params[:page].to_i < 2 %>
+<% if !@is_paged %>
     <%= render 'jobs/index_parts/jobs_count', jobs: @division.jobs %>
     <br>
 
@@ -26,6 +26,18 @@
   <% end %>
 </div>
 
-<%= will_paginate @jobs %>
+<% if @is_paged %>
+    <%= will_paginate @jobs %>
+<% else %>
+    <br>
+    <div class="alert">
+      <%= link_to "View all jobs active and closed (" + @division.jobs.count.to_s + ")", division_path(:page => "1"), class: "activity-user-link" %>
+    </div>
+    <% if @jobs.empty? %>
+        <div class="no-alerts">
+          <p class="center"><%= t ".no_jobs" %></p>
+        </div>
+    <% end %>
+<% end %>
 
 
