@@ -12,6 +12,8 @@ class Company < ActiveRecord::Base
                     :website,
                     :vpn_range
 
+    include FakeDataHelper
+
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 
     has_many :users, dependent: :destroy, order: "name ASC"
@@ -38,6 +40,10 @@ class Company < ActiveRecord::Base
 
     def active_jobs
         self.jobs.where(:status => Job::ACTIVE)
+    end
+
+    def create_fake_data
+        create
     end
 
 end
