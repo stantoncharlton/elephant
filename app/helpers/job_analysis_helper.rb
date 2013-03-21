@@ -21,7 +21,7 @@ module JobAnalysisHelper
         if Rails.env == "development"
             jobs.group(:district_id).count(:id).count
         else
-            jobs.group(:district_id).count()
+            jobs.reorder('').group(:district_id).count()
         end
     end
 
@@ -29,7 +29,7 @@ module JobAnalysisHelper
         if Rails.env == "development"
             jobs.group(:job_template_id).count(:id).count
         else
-            jobs.group(:job_template_id).count()
+            jobs.reorder('').group(:job_template_id).count()
         end
     end
 
