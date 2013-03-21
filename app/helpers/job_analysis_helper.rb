@@ -13,7 +13,7 @@ module JobAnalysisHelper
         if Rails.env == "development"
             JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id).count.to_f.round(0)
         else
-            JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count()
+            JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count().count
         end
     end
 
@@ -21,7 +21,7 @@ module JobAnalysisHelper
         if Rails.env == "development"
             jobs.group(:district_id).count(:id).count
         else
-            jobs.reorder('').group(:district_id).count()
+            jobs.reorder('').group(:district_id).count().count
         end
     end
 
@@ -29,7 +29,7 @@ module JobAnalysisHelper
         if Rails.env == "development"
             jobs.group(:job_template_id).count(:id).count
         else
-            jobs.reorder('').group(:job_template_id).count()
+            jobs.reorder('').group(:job_template_id).count().count
         end
     end
 
