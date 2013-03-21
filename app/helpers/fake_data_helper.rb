@@ -13,7 +13,7 @@ module FakeDataHelper
         role.company = company
         role.save
 
-        2.times do |i|
+        500.times do |i|
             begin
                 district = District.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..3).to_i).join(" ").to_s.capitalize,
@@ -29,7 +29,7 @@ module FakeDataHelper
                 district.save
                 puts "District: " + district.name
 
-                2.times do |i|
+                30.times do |i|
                     begin
                         field = Field.new(
                                 :name => Faker::Lorem.words(1).first.to_s.capitalize,
@@ -39,7 +39,7 @@ module FakeDataHelper
                         field.save
                         puts "Field: " + field.name
 
-                        2.times do |w|
+                        5.times do |w|
                             well = Well.new(
                                     :name => Faker::Lorem.words(1).first.to_s.capitalize,
                             )
@@ -53,7 +53,7 @@ module FakeDataHelper
             end
         end
 
-        2.times do |i|
+        15.times do |i|
             begin
                 division = Division.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
@@ -64,7 +64,7 @@ module FakeDataHelper
 
 
                 # Secondary Tools
-                2.times do |st|
+                50.times do |st|
                     tool = Tool.new(
                             :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
@@ -74,7 +74,7 @@ module FakeDataHelper
                     puts "Secondary Tool: " + tool.name
                 end
 
-                2.times do |s|
+                10.times do |s|
                     segment = Segment.new(
                             :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
@@ -83,7 +83,7 @@ module FakeDataHelper
                     segment.save
                     puts "Segment: " + segment.name
 
-                    2.times do |p|
+                    10.times do |p|
                         product_line = ProductLine.new(
                                 :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                         )
@@ -94,7 +94,7 @@ module FakeDataHelper
 
                         tools = []
                         # Primary Tools
-                        2.times do |pt|
+                        30.times do |pt|
                             tool = Tool.new(
                                     :name => Faker::Lorem.words(1).first.to_s.capitalize,
                             )
@@ -107,7 +107,7 @@ module FakeDataHelper
 
                         failures = []
                         # Failures
-                        2.times do |f|
+                        30.times do |f|
                             failure = Failure.new(
                                     :text => Faker::Lorem.words(10).join(" ").to_s,
                                     :template => true
@@ -119,7 +119,7 @@ module FakeDataHelper
                             puts "Failure: " + failure.text
                         end
 
-                        2.times do |j|
+                        10.times do |j|
                             job_template = JobTemplate.new(
                                     :name => Faker::Lorem.words(Random.new.rand(1..6)).join(" ").to_s.capitalize,
                                     :description => Faker::Lorem.words(30).join(" ").to_s
@@ -129,7 +129,7 @@ module FakeDataHelper
                             job_template.save
                             puts "JobTemplate: " + job_template.name
 
-                            2.times do |df|
+                            20.times do |df|
                                 dynamic_field = DynamicField.new(
                                         :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
                                         :value_type => 12,
@@ -145,7 +145,7 @@ module FakeDataHelper
                                 puts "Dynamic Field on Job: " + dynamic_field.name
                             end
 
-                            2.times do |tool|
+                            Random.new.rand(1..8).times do |tool|
                                 begin
                                     primary_tool = PrimaryTool.new
                                     primary_tool.job_template = job_template
@@ -155,7 +155,7 @@ module FakeDataHelper
                                 end
                             end
 
-                            2.times do |ff|
+                            10.times do |ff|
                                 begin
                                     failure = Failure.new
                                     failure.job_template = job_template
@@ -171,7 +171,7 @@ module FakeDataHelper
             end
         end
 
-        10.times do |i|
+        60000.times do |i|
             begin
                 user = User.new(
                         :name => Faker::Name.first_name + " " + Faker::Name.last_name,
@@ -190,7 +190,7 @@ module FakeDataHelper
             end
         end
 
-        10.times do |i|
+        10000.times do |i|
             begin
                 client = Client.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..3)).join(" ").to_s.capitalize,
@@ -202,7 +202,7 @@ module FakeDataHelper
         end
 
 
-        10.times do |i|
+        200000.times do |i|
             begin
                 job = Job.new
                 job.company = company
