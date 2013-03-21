@@ -10,15 +10,27 @@ module JobAnalysisHelper
     end
 
     def total_personnel(jobs)
-        JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id).count.to_f.round(0)
+        if Rails.env == "development"
+            JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id).count.to_f.round(0)
+        else
+            JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count()
+        end
     end
 
     def total_districts(jobs)
-        jobs.group(:district_id).count(:id).count
+        if Rails.env == "development"
+            jobs.group(:district_id).count(:id).count
+        else
+            jobs.group(:district_id).count()
+        end
     end
 
     def total_job_types(jobs)
-        jobs.group(:job_template_id).count(:id).count
+        if Rails.env == "development"
+            jobs.group(:job_template_id).count(:id).count
+        else
+            jobs.group(:job_template_id).count()
+        end
     end
 
     def average_job_duration(jobs)
@@ -54,7 +66,7 @@ module JobAnalysisHelper
 
     def failures(jobs)
         failures = Failure.where("failures.job_id IN (?)", jobs.map { |j| j.id }.uniq)
-        failures.to_a.group_by {|f| f.failure_master_template.id }
+        failures.to_a.group_by { |f| f.failure_master_template.id }
     end
 
 end
