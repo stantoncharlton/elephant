@@ -110,6 +110,12 @@ $ ->
     $('#modal_popup').find('.loading').removeClass 'hidden'
 
 
+  $('.division-jobs-toggle').click ->
+    $('.division-job-item').each ->
+      if $(this).hasClass 'hidden'
+        $(this).removeClass 'hidden'
+      else
+        $(this).addClass 'hidden'
 
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'

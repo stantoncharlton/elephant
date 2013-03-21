@@ -1,19 +1,25 @@
+<div class="pull-right">
+  <a class="activity-user-link division-jobs-toggle" href="#">Show/hide All Divisions</a>
+</div>
 <h3>Divisions</h3>
+
 <hr>
 <div class="content">
   <% current_user.company.divisions.each do |division| %>
-      <%= link_to division, class: "job-link" do %>
-          <div class="chart-problem">
-            <div class="job-bar-name"><%= division.name %>
-              <p class="inline">&nbsp;<%= division.active_jobs.count %></p>
-            </div>
+      <div class="<%= (division.active_jobs.count == 0 ? "hidden division-job-item" : "") %>">
+        <%= link_to division, class: "job-link" do %>
+            <div class="chart-problem">
+              <div class="job-bar-name"><%= division.name %>
+                <p class="inline">&nbsp;<%= division.active_jobs.count %></p>
+              </div>
 
-            <% if division.active_jobs.count > 0 %>
-            <div class="job-bar">
-              <div style="width: <%= (division.active_jobs.count.to_f / current_user.company.active_jobs.count.to_f) * 100 %>%"></div>
+              <% if division.active_jobs.count > 0 %>
+                  <div class="job-bar">
+                    <div style="width: <%= (division.active_jobs.count.to_f / current_user.company.active_jobs.count.to_f) * 100 %>%"></div>
+                  </div>
+              <% end %>
             </div>
-            <% end %>
-          </div>
-      <% end %>
+        <% end %>
+      </div>
   <% end %>
 </div>
