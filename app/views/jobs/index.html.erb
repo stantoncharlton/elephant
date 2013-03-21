@@ -20,33 +20,14 @@
 </div>
 
 <% if !@is_paged %>
-    <div class="well">
-      <div class="chart-block">
-        <div class="chart-title">Active Jobs</div>
-        <div class="donut-chart-div job-donut-chart-div">
-              <div class="donut-text"><%= current_user.active_jobs.count %></div>
-              <div class="percentage "></div>
-        </div>
-      </div>
-
-      <div class="chart-block">
-        <div class="chart-title">Closed in Last 5 Days</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text"><%= @jobs.count - current_user.active_jobs.count %></div>
-          <div class="percentage "></div>
-        </div>
-      </div>
-
-      <div class="chart-block">
-        <div class="chart-title">Failures</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text chart-text-red failure-count"><%= @failures_count %></div>
-          <div class="percentage "></div>
-        </div>
-      </div>
-    </div>
+    <%= render 'jobs/index_parts/jobs_count', jobs: current_user.active_jobs %>
     <br>
+
+    <div class="alert">
+      <%= render 'jobs/index_parts/divisions' %>
+    </div>
 <% end %>
+
 
 <div id="jobs" class="list">
   <%= render @jobs %>

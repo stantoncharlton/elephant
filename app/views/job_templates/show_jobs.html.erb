@@ -9,6 +9,10 @@
 
 </div>
 
+<% if !params[:page].present? || params[:page].to_i < 2 %>
+    <%= render 'jobs/index_parts/jobs_count', jobs: @job_template.jobs %>
+    <br>
+<% end %>
 
 <div id="jobs" class="list">
   <% @jobs.each do |job| %>

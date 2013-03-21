@@ -609,3 +609,28 @@
   display: inline-block;
   width: 70px;
 }
+
+
+.job-bar-name {
+  display: inline-block;
+  font-size: 18px;
+  color: #0058a8;
+  width: 820px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+  margin-bottom: 7px;
+}
+
+.job-bar {
+  width: 820px;
+  display: inline-block;
+  height: 20px;
+  margin-bottom: 0px;
+
+  div {
+    display: inline-block;
+    background: #458fd2;
+    height: 20px;
+  }
+}

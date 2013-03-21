@@ -10,7 +10,6 @@ class Division < ActiveRecord::Base
     has_many :segments, dependent: :destroy, order: "name ASC"
     has_many :secondary_tools, dependent: :destroy, class_name: "Tool", order: "name ASC"
 
-
     searchable do
         text :name, :as => :code_textp
         integer :company_id
@@ -18,6 +17,14 @@ class Division < ActiveRecord::Base
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
+    end
+
+    def jobs
+        self.company.jobs.joins(job_template: {product_line: {segment: :division}}).where("divisions.id = ?", self.id)
+    end
+
+    def active_jobs
+        self.company.jobs.where(:status => Job::ACTIVE).joins(job_template: {product_line: {segment: :division}}).where("divisions.id = ?", self.id)
     end
 
     def self.from_company_for_user(division, options, user, company)

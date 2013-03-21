@@ -32,6 +32,14 @@ class JobTemplate < ActiveRecord::Base
         where("company_id = :company_id", company_id: company.id)
     end
 
+    def jobs
+        self.company.jobs.joins(:job_template).where("job_templates.id = ?", self.id)
+    end
+
+    def active_jobs
+        self.company.jobs.where(:status => Job::ACTIVE).joins(:job_template).where("job_templates.id = ?", self.id)
+    end
+
     def self.from_company_for_user(job_template, options, user, company)
         Sunspot.search(Job) do
             with(:job_template_id, job_template.id)

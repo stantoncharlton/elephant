@@ -1,0 +1,19 @@
+<h3>Segments</h3>
+<hr>
+<div class="content">
+  <% division.segments.each do |segment| %>
+      <%= link_to segment, class: "job-link" do %>
+          <div class="chart-problem">
+            <div class="job-bar-name"><%= segment.name %>
+              <p class="inline">&nbsp;<%= segment.active_jobs.count %></p>
+            </div>
+
+            <% if segment.active_jobs.count > 0 %>
+            <div class="job-bar">
+              <div style="width: <%= (segment.active_jobs.count.to_f / division.active_jobs.count.to_f) * 100 %>%"></div>
+            </div>
+            <% end %>
+          </div>
+      <% end %>
+  <% end %>
+</div>

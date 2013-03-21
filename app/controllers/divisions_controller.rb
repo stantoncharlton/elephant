@@ -3,6 +3,8 @@ class DivisionsController < ApplicationController
     before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
     set_tab :job_templates
 
+    include JobAnalysisHelper
+
     def index
         respond_to do |format|
             format.html {

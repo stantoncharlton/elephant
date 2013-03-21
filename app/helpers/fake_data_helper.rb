@@ -9,9 +9,10 @@ module FakeDataHelper
                 :title => "User",
                 :global_modify => true
         )
+        role.company = company
         role.save
 
-        200.times do |i|
+        300.times do |i|
             begin
                 district = District.new(
                         :name => Faker::Lorem.words(rand(1..3)).join(" ").to_s.capitalize,
@@ -27,7 +28,7 @@ module FakeDataHelper
                 district.save
                 puts "District: " + district.name
 
-                50.times do |i|
+                30.times do |i|
                     begin
                         field = Field.new(
                                 :name => Faker::Lorem.words(1).first.to_s.capitalize,
@@ -51,7 +52,7 @@ module FakeDataHelper
             end
         end
 
-        20.times do |i|
+        12.times do |i|
             begin
                 division = Division.new(
                         :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
@@ -62,7 +63,7 @@ module FakeDataHelper
 
 
                 # Secondary Tools
-                50.times do |st|
+                30.times do |st|
                     tool = Tool.new(
                             :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
                     )
@@ -72,7 +73,7 @@ module FakeDataHelper
                     puts "Secondary Tool: " + tool.name
                 end
 
-                20.times do |s|
+                10.times do |s|
                     segment = Segment.new(
                             :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
                     )
@@ -81,7 +82,7 @@ module FakeDataHelper
                     segment.save
                     puts "Segment: " + segment.name
 
-                    20.times do |p|
+                    10.times do |p|
                         product_line = ProductLine.new(
                                 :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
                         )
@@ -92,7 +93,7 @@ module FakeDataHelper
 
                         tools = []
                         # Primary Tools
-                        50.times do |pt|
+                        30.times do |pt|
                             tool = Tool.new(
                                     :name => Faker::Lorem.words(1).first.to_s.capitalize,
                             )
@@ -105,7 +106,7 @@ module FakeDataHelper
 
                         failures = []
                         # Failures
-                        50.times do |f|
+                        20.times do |f|
                             failure = Failure.new(
                                     :text => Faker::Lorem.words(10).join(" ").to_s,
                                     :template => true
@@ -117,7 +118,7 @@ module FakeDataHelper
                             puts "Failure: " + failure.text
                         end
 
-                        20.times do |j|
+                        15.times do |j|
                             job_template = JobTemplate.new(
                                     :name => Faker::Lorem.words(rand(1..6)).join(" ").to_s.capitalize,
                                     :description => Faker::Lorem.words(30).join(" ").to_s
@@ -127,7 +128,7 @@ module FakeDataHelper
                             job_template.save
                             puts "JobTemplate: " + job_template.name
 
-                            30.times do |df|
+                            20.times do |df|
                                 dynamic_field = DynamicField.new(
                                         :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
                                         :value_type => 12,
@@ -143,13 +144,13 @@ module FakeDataHelper
                                 puts "Dynamic Field on Job: " + dynamic_field.name
                             end
 
-                            10.times do |tool|
+                            5.times do |tool|
                                 begin
                                     primary_tool = PrimaryTool.new
                                     primary_tool.job_template = job_template
                                     primary_tool.tool = tools.sample
                                     primary_tool.save
-                                    puts "Primary Tool on Job: " + primary_tool.tool.name
+                                    puts "Primary Tool on Job Type: " + primary_tool.tool.name
                                 end
                             end
 
@@ -169,7 +170,7 @@ module FakeDataHelper
             end
         end
 
-        10000.times do |i|
+        100000.times do |i|
             begin
                 user = User.new(
                         :name => Faker::Name.first_name + " " + Faker::Name.last_name,
@@ -182,7 +183,7 @@ module FakeDataHelper
                 )
                 user.company = company
                 user.role = role
-                user.district = District.order('RANDOM()').limit(1).first
+                user.district = District.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                 user.save
                 puts "User:  " + user.name
             end
@@ -200,23 +201,26 @@ module FakeDataHelper
         end
 
 
-        25000.times do |i|
+        200000.times do |i|
             begin
                 job = Job.new
                 job.company = company
-                job.client = Client.order('RANDOM()').limit(1).first
-                job.job_template = JobTemplate.order('RANDOM()').limit(1).first
-                job.well = Well.order('RANDOM()').limit(1).first
+                job.client = Client.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
+                job.job_template = JobTemplate.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
+                job.well = Well.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                 job.field = job.well.field
                 job.district = job.field.district
 
+                last_user = nil
                 rand(1..8).times do |jm|
                     begin
                         job_membership = JobMembership.new(:job_role_id => rand(1..6))
-                        job_membership.user = User.order('RANDOM()').limit(1).first
+                        job_membership.user = User.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                         job_membership.job = job
                         job_membership.save
                         puts "User on Job:  " + job_membership.user.name
+
+                        last_user = job_membership.user
                     end
                 end
 
@@ -227,15 +231,15 @@ module FakeDataHelper
                     job.status = Job::ACTIVE
                 else
                     job.status = Job::CLOSED
-                    JobProcess.record(user, job, company, JobProcess::PRE_JOB_DATA_READY)
-                    JobProcess.record(user, job, company, JobProcess::APPROVED_TO_SHIP)
-                    JobProcess.record(user, job, company, JobProcess::POST_JOB_DATA_READY)
-                    JobProcess.record(user, job, company, JobProcess::APPROVED_TO_CLOSE)
+                    JobProcess.record(last_user, job, company, JobProcess::PRE_JOB_DATA_READY)
+                    JobProcess.record(last_user, job, company, JobProcess::APPROVED_TO_SHIP)
+                    JobProcess.record(last_user, job, company, JobProcess::POST_JOB_DATA_READY)
+                    JobProcess.record(last_user, job, company, JobProcess::APPROVED_TO_CLOSE)
                 end
 
                 job.job_template.dynamic_fields.each do |dynamic_field|
                     job_dynamic_field = dynamic_field.dup
-                    job_dynamic_field.value = rand(1.5000)
+                    job_dynamic_field.value = rand(1..5000)
                     job_dynamic_field.template = false
                     job_dynamic_field.dynamic_field_template = dynamic_field
                     job_dynamic_field.job_template = job.job_template

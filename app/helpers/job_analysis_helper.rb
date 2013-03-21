@@ -9,6 +9,18 @@ module JobAnalysisHelper
         ((active_users.count.to_f / all_users.to_f) * 100).round(0)
     end
 
+    def total_personnel(jobs)
+        JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id).count.to_f.round(0)
+    end
+
+    def total_districts(jobs)
+        jobs.group(:district_id).count(:id).count
+    end
+
+    def total_job_types(jobs)
+        jobs.group(:job_template_id).count(:id).count
+    end
+
     def average_job_duration(jobs)
         return 0 unless jobs.count > 0
 

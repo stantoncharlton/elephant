@@ -23,6 +23,14 @@ class ProductLine < ActiveRecord::Base
         where("company_id = :company_id", company_id: company.id)
     end
 
+    def jobs
+        self.company.jobs.joins(job_template: :product_line).where("product_lines.id = ?", self.id)
+    end
+
+    def active_jobs
+        self.company.jobs.where(:status => Job::ACTIVE).joins(job_template: :product_line).where("product_lines.id = ?", self.id)
+    end
+
     def self.from_company_for_user(product_line, options, user, company)
         Sunspot.search(Job) do
             with(:product_line_id, product_line.id)

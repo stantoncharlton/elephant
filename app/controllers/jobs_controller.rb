@@ -13,7 +13,6 @@ class JobsController < ApplicationController
                 else
                     @jobs = current_user.jobs.where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
                             order("created_at DESC")
-                    @failures_count = Failure.where("failures.job_id IN (?)", @jobs.map { |j| j.id }.uniq).count(:id)
                 end
             }
             format.xml {

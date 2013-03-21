@@ -43,11 +43,7 @@ class StaticPagesController < ApplicationController
         set_tab :overview
 
         @jobs = Job.from_company(current_user.company)
-        @personnel_utilization = personnel_utilization(@jobs)
-        @average_job_time = average_job_duration(@jobs)
-        @job_failure_rate = job_failure_rate(@jobs)
-
-        @failures = failures(@jobs)
+        analyze @jobs
     end
 
     def filter_overview
@@ -94,13 +90,19 @@ class StaticPagesController < ApplicationController
             @division_name = nil
         end
 
-        @personnel_utilization = personnel_utilization(@jobs)
-        @average_job_time = average_job_duration(@jobs)
-        @job_failure_rate = job_failure_rate(@jobs)
-
-        @failures = failures(@jobs)
+        analyze @jobs
 
         render 'overview'
+    end
+
+    def analyze(jobs)
+        @personnel_utilization = personnel_utilization(jobs)
+        @total_personnel = total_personnel(jobs)
+        @total_districts = total_districts(jobs)
+        @total_job_types = total_job_types(jobs)
+        @average_job_time = average_job_duration(jobs)
+        @job_failure_rate = job_failure_rate(jobs)
+        @failures = failures(jobs)
     end
 
     def terms_of_use

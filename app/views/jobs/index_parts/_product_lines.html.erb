@@ -1,0 +1,19 @@
+<h3>Product Lines</h3>
+<hr>
+<div class="content">
+  <% segment.product_lines.each do |product_line| %>
+      <%= link_to product_line, class: "job-link" do %>
+          <div class="chart-problem">
+            <div class="job-bar-name"><%= product_line.name %>
+              <p class="inline">&nbsp;<%= product_line.active_jobs.count %></p>
+            </div>
+
+            <% if product_line.active_jobs.count > 0 %>
+                <div class="job-bar">
+                  <div style="width: <%= (product_line.active_jobs.count.to_f / segment.active_jobs.count.to_f) * 100 %>%"></div>
+                </div>
+            <% end %>
+          </div>
+      <% end %>
+  <% end %>
+</div>

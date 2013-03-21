@@ -20,6 +20,14 @@ class Segment < ActiveRecord::Base
       where("company_id = :company_id", company_id: company.id)
   end
 
+  def jobs
+      self.company.jobs.joins(job_template: {product_line: :segment}).where("segments.id = ?", self.id)
+  end
+
+  def active_jobs
+      self.company.jobs.where(:status => Job::ACTIVE).joins(job_template: {product_line: :segment}).where("segments.id = ?", self.id)
+  end
+
   def self.from_company_for_user(segment, options, user, company)
       Sunspot.search(Job) do
           with(:segment_id, segment.id)

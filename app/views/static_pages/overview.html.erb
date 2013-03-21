@@ -46,7 +46,7 @@
                          "data-title" => "Filter by Person" %>
 
       <div class="push-right-small inline">
-        <%= submit_tag "Update", class: "bluebtn gray" %>
+        <!-- <%= submit_tag "Update", class: "bluebtn gray" %> -->
       </div>
 
       <hr>
@@ -87,8 +87,8 @@
 <br>
 
 <div class="chart-block tooltip-info"
-    data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
-  <div class="chart-title">Total Jobs</div>
+     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
+  <div class="chart-title">Jobs</div>
   <div class="donut-chart-div">
     <div class="donut-text "><%= @jobs.count %></div>
     <div class="percentage ">jobs</div>
@@ -142,7 +142,9 @@
 </div>
 
 <div class="chart-problem">
-  <div class="chart-title">Failure Problem</div>
+  <% if @failures.count > 0 %>
+      <div class="chart-title">Failure Problem</div>
+  <% end %>
   <br>
 
   <% @failures.each do |failure_group| %>
@@ -157,8 +159,36 @@
 
 </div>
 
-<br>
-<br><br>
+<hr>
+
+<div class="chart-block tooltip-info"
+     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
+  <div class="chart-title">Personnel</div>
+  <div class="donut-chart-div">
+    <div class="donut-text "><%= @total_personnel %></div>
+    <div class="percentage ">people</div>
+  </div>
+</div>
+
+<div class="chart-block tooltip-info"
+     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
+  <div class="chart-title">Districts</div>
+  <div class="donut-chart-div">
+    <div class="donut-text "><%= @total_districts %></div>
+    <div class="percentage ">districts</div>
+  </div>
+</div>
+
+<div class="chart-block tooltip-info"
+     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
+  <div class="chart-title">Job Types</div>
+  <div class="donut-chart-div">
+    <div class="donut-text "><%= @total_job_types %></div>
+    <div class="percentage ">types</div>
+  </div>
+</div>
+
+
 
 <script>
     $(document).ready(function () {
@@ -269,7 +299,7 @@
 <hr>
 
 <div class="content">
-  <% @jobs.each do |job| %>
+  <% @jobs.limit(100).each do |job| %>
       <%= link_to job, class: "job-status job-link tooltip-info",
                   "data-placement" => "left",
                   "data-title" => "Click to open job" do %>

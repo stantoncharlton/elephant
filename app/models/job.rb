@@ -405,7 +405,9 @@ class Job < ActiveRecord::Base
                           alert_type: Alert::POST_JOB_DATA_READY,
                           job_id: self.id).each { |a| a.destroy }
 
-        self.generate_post_job_report
+        if self.documents.any?
+            self.generate_post_job_report
+        end
 
     end
 
@@ -419,17 +421,20 @@ class Job < ActiveRecord::Base
     end
 
     def generate_post_job_report
-        documents = []
-        self.job_template.post_job_report_documents.each do |post_job_report_document|
-            if !post_job_report_document.document.url.blank?
-                documents << post_job_report_document.document
+        if self.documents.any?
+            self.generate_post_job_report
+            documents = []
+            self.job_template.post_job_report_documents.each do |post_job_report_document|
+                if !post_job_report_document.document.url.blank?
+                    documents << post_job_report_document.document
+                end
             end
-        end
-        if !documents.any?
-            documents = self.documents.select { |d| !d.url.blank? }
-        end
+            if !documents.any?
+                documents = self.documents.select { |d| !d.url.blank? }
+            end
 
-        merge self, documents
+            merge self, documents
+        end
     end
 
 end

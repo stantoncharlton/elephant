@@ -1,0 +1,19 @@
+<h3>Job Types</h3>
+<hr>
+<div class="content">
+  <% product_line.job_templates.each do |job_template| %>
+      <%= link_to job_template, class: "job-link" do %>
+          <div class="chart-problem">
+            <div class="job-bar-name"><%= job_template.name %>
+              <p class="inline">&nbsp;<%= job_template.active_jobs.count %></p>
+            </div>
+
+            <% if job_template.active_jobs.count > 0 %>
+                <div class="job-bar">
+                  <div style="width: <%= (job_template.active_jobs.count.to_f / product_line.active_jobs.count.to_f) * 100 %>%"></div>
+                </div>
+            <% end %>
+          </div>
+      <% end %>
+  <% end %>
+</div>
