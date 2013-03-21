@@ -214,7 +214,7 @@ module FakeDataHelper
                 job.district = well.field.district
 
                 last_user = nil
-                rand(1..8).times do |jm|
+                Random.new.rand(1..8).times do |jm|
                     begin
                         job_membership = JobMembership.new(:job_role_id => Random.new.rand(1..6))
                         job_membership.user = User.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
