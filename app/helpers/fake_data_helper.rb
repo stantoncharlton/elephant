@@ -15,7 +15,7 @@ module FakeDataHelper
         300.times do |i|
             begin
                 district = District.new(
-                        :name => Faker::Lorem.words(rand(1..3)).join(" ").to_s.capitalize,
+                        :name => Faker::Lorem.words(Random.new.rand(1..3).to_i).join(" ").to_s.capitalize,
                         :region => Faker::Lorem.words(1).first.to_s.capitalize,
                         :support_email => Faker::Internet.email,
                         :phone_number => Faker::PhoneNumber.phone_number,
@@ -55,7 +55,7 @@ module FakeDataHelper
         12.times do |i|
             begin
                 division = Division.new(
-                        :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
+                        :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                 )
                 division.company = company
                 division.save
@@ -65,7 +65,7 @@ module FakeDataHelper
                 # Secondary Tools
                 30.times do |st|
                     tool = Tool.new(
-                            :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
+                            :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
                     tool.company = company
                     tool.division = division
@@ -75,7 +75,7 @@ module FakeDataHelper
 
                 10.times do |s|
                     segment = Segment.new(
-                            :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
+                            :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
                     segment.company = company
                     segment.division = division
@@ -84,7 +84,7 @@ module FakeDataHelper
 
                     10.times do |p|
                         product_line = ProductLine.new(
-                                :name => Faker::Lorem.words(rand(1..4)).join(" ").to_s.capitalize,
+                                :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                         )
                         product_line.company = company
                         product_line.segment = segment
@@ -120,7 +120,7 @@ module FakeDataHelper
 
                         15.times do |j|
                             job_template = JobTemplate.new(
-                                    :name => Faker::Lorem.words(rand(1..6)).join(" ").to_s.capitalize,
+                                    :name => Faker::Lorem.words(Random.new.rand(1..6)).join(" ").to_s.capitalize,
                                     :description => Faker::Lorem.words(30).join(" ").to_s
                             )
                             job_template.company = company
@@ -192,7 +192,7 @@ module FakeDataHelper
         3000.times do |i|
             begin
                 client = Client.new(
-                        :name => Faker::Lorem.words(rand(1..3)).join(" ").to_s.capitalize,
+                        :name => Faker::Lorem.words(Random.new.rand(1..3)).join(" ").to_s.capitalize,
                 )
                 client.company = company
                 client.save
@@ -214,7 +214,7 @@ module FakeDataHelper
                 last_user = nil
                 rand(1..8).times do |jm|
                     begin
-                        job_membership = JobMembership.new(:job_role_id => rand(1..6))
+                        job_membership = JobMembership.new(:job_role_id => Random.new.rand(1..6))
                         job_membership.user = User.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                         job_membership.job = job
                         job_membership.save
@@ -224,10 +224,10 @@ module FakeDataHelper
                     end
                 end
 
-                job.start_date = rand(5.years.ago..(Time.now + 50.days)).to_date
+                job.start_date = Random.new.rand(5.years.ago..(Time.now + 50.days)).to_date
 
                 if job.start_date > Time.now
-                    job.close_date = job.start_date + rand(3..15).days
+                    job.close_date = job.start_date + Random.new.rand(3..15).days
                     job.status = Job::ACTIVE
                 else
                     job.status = Job::CLOSED
@@ -239,7 +239,7 @@ module FakeDataHelper
 
                 job.job_template.dynamic_fields.each do |dynamic_field|
                     job_dynamic_field = dynamic_field.dup
-                    job_dynamic_field.value = rand(1..5000)
+                    job_dynamic_field.value = Random.new.rand(1..5000)
                     job_dynamic_field.template = false
                     job_dynamic_field.dynamic_field_template = dynamic_field
                     job_dynamic_field.job_template = job.job_template
@@ -249,7 +249,7 @@ module FakeDataHelper
                     puts "DF on Job:  " + job_dynamic_field.name
                 end
 
-                rand(0..5).times do |fi|
+                Random.new.rand(0..5).times do |fi|
                     begin
                         failure = Failure.new(
                                 :template => false
