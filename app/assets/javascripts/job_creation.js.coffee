@@ -61,7 +61,6 @@ $ ->
     $('#job_product_line_id').css "opacity", ".3"
     $('#job_job_template_id').attr "disabled", "disabled"
     $('#job_job_template_id').css "opacity", ".3"
-    $('#job_description').empty()
     $('#job_segment_id').addClass "ajax-loading"
     if $('#job_division_id').val() != ''
       $.ajax '/divisions?division_id=' + $('#job_division_id').val(), dataType: 'script'
@@ -71,7 +70,6 @@ $ ->
     $('#job_product_line_id').css "opacity", ".3"
     $('#job_job_template_id').attr "disabled", "disabled"
     $('#job_job_template_id').css "opacity", ".3"
-    $('#job_description').empty()
     $('#job_product_line_id').addClass "ajax-loading"
     if $('#job_segment_id').val() != ''
       $.ajax '/segments?segment_id=' + $('#job_segment_id').val(), dataType: 'script'
@@ -79,12 +77,11 @@ $ ->
   $('#job_product_line_id').change ->
     $('#job_job_template_id').attr "disabled", "disabled"
     $('#job_job_template_id').css "opacity", ".3"
-    $('#job_description').empty()
     if $('#job_product_line_id').val() != ''
+      $(this).closest('.content').find('.loading').removeClass "hidden"
       $.ajax '/product_lines?product_line_id=' + $('#job_product_line_id').val(), dataType: 'script'
 
   $('#job_job_template_id').change ->
-    $('#job_description').empty()
     if $('#job_job_template_id').val() != ''
       $.ajax '/job_templates/' + $('#job_job_template_id').val(), dataType: 'script'
 

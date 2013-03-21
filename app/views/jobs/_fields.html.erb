@@ -37,9 +37,6 @@
 
     <hr>
 
-    <div id="job_description" class="content">
-
-    </div>
 
     <div id="job_templates_list" class="">
       <% if @job_templates.present? and @job_templates.any? %>
@@ -47,6 +44,13 @@
       <% else %>
           <b class="warning-text">No Job types on this product line (please contact IT support)</b>
       <% end %>
+    </div>
+
+    <div class="loading hidden">
+      <br>
+      <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
+      <br>
+      <br>
     </div>
 
     <hr>

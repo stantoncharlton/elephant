@@ -4,6 +4,7 @@ module FakeDataHelper
                 :name => Faker::Lorem.words(1).first.to_s.capitalize
         )
         company.save
+        puts company.name
 
         role = UserRole.new(
                 :title => "User",
@@ -207,9 +208,10 @@ module FakeDataHelper
                 job.company = company
                 job.client = Client.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                 job.job_template = JobTemplate.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
-                job.well = Well.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
-                job.field = job.well.field
-                job.district = job.field.district
+                well = Well.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
+                job.well = well
+                job.field = well.field
+                job.district = well.field.district
 
                 last_user = nil
                 rand(1..8).times do |jm|
