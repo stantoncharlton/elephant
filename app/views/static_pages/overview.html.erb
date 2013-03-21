@@ -284,8 +284,6 @@
     });
 </script>
 
-
-
 <div class="content">
   <h3>Jobs</h3>
 
@@ -298,15 +296,27 @@
 
 <hr>
 
-<div class="content">
-  <% @jobs.limit(100).each do |job| %>
+<div class="content" id="jobs">
+  <% @jobs.each do |job| %>
       <%= link_to job, class: "job-status job-link tooltip-info",
                   "data-placement" => "left",
                   "data-title" => "Click to open job" do %>
           <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
       <% end %>
   <% end %>
-
 </div>
+
+<%= will_paginate @jobs, :params=> { :district_id => @district_id } %>
+
+
+<script>
+    $(document).ready(function () {
+        if (location.search.indexOf("page") >= 0) {
+            var new_position = $('#jobs').offset();
+            window.scrollTo(0, new_position.top - 150);
+        }
+    });
+</script>
+
 
 

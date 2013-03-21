@@ -44,6 +44,10 @@ class StaticPagesController < ApplicationController
 
         @jobs = Job.from_company(current_user.company)
         analyze @jobs
+
+        @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
+
+        render 'overview'
     end
 
     def filter_overview
@@ -66,15 +70,19 @@ class StaticPagesController < ApplicationController
                 when "division"
                     name = Division.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: {product_line: {segment: :division}}).where("divisions.id = ?", parts.last)
+                    params[:division] = parts.last
                 when "segment"
                     name = Segment.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: {product_line: :segment}).where("segments.id = ?", parts.last)
+                    params[:segment] = parts.last
                 when "product line"
                     name = ProductLine.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: :product_line).where("product_lines.id = ?", parts.last)
+                    params[:product_line] = parts.last
                 when "job template"
                     name = JobTemplate.find_by_id(parts.last).name
                     @jobs = @jobs.joins(:job_template).where("job_templates.id = ?", parts.last)
+                    params[:job_template] = parts.last
             end
             @division_name = name
         end
@@ -91,6 +99,8 @@ class StaticPagesController < ApplicationController
         end
 
         analyze @jobs
+
+        @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
 
         render 'overview'
     end
