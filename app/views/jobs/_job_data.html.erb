@@ -223,9 +223,11 @@
     <p class="job-field-title"><%= t ".start_date" %></p>
 
     <% if form_editable %>
+        <div class="job-field-div">
         <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
                id="job_start_date_<%= job.id.to_s %>"
                class="job-field-value-editable job-start-date">
+        </div>
     <% else %>
         <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
     <% end %>

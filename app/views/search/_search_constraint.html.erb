@@ -11,9 +11,11 @@
                    name: "query[constraints][" + index.to_s + "][data_type]" %>
 
 
-    <div class="search-job-type hidden push-right">
+    <div class="search-job-type hidden push-right-small">
 
       <br>
+
+      <%= image_tag "division_extrasmall.png", class: "job-status-avatar push-right" %>
 
       <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, @division),
                      class: "tooltip-info",
@@ -47,17 +49,19 @@
 
     <%= text_field_tag "", "", name: "query[constraints][" + index.to_s + "][client_id]", id: "client_id", class: "hidden" %>
 
+    <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right hidden" %>
     <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
                        placeholder: "Type a customer name...",
-                       id: "client_name_" + index.to_s, class: "txtfield small push-right tooltip-info client-name hidden",
+                       id: "client_name_" + index.to_s, class: "txtfield small tooltip-info client-name hidden",
                        "data-placement" => "bottom",
                        "data-title" => "Customer Name" %>
 
     <%= text_field_tag "", "", name: "query[constraints][" + index.to_s + "][district_id]", id: "district_id", class: "hidden" %>
 
+    <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right hidden" %>
     <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
                        placeholder: "Type a district name...",
-                       id: "district_name_" + index.to_s, class: "txtfield small push-right tooltip-info district-name hidden",
+                       id: "district_name_" + index.to_s, class: "txtfield small tooltip-info district-name hidden",
                        "data-placement" => "bottom",
                        "data-title" => "District Name" %>
 

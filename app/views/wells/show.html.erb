@@ -20,9 +20,7 @@
                    "data-title" => "Filter list by division",
                    prompt: "Filter by division..." %>
 
-    <br>
-    <br>
-    <br>
+    <br><br>
 
     <%= link_to "More Well Details", "#",
                 id: "expand_well_details",
@@ -32,19 +30,23 @@
 
   <div>
     <div>
-      <p class="job-field-title">Field</p>
+      <p class="inline"><b>Field:&nbsp;</b></p>
       <%= link_to @well.field.name, @well.field, class: "activity-user-link inline" %>
+
+      <div class="inline push-right">
+        <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
+        <%= link_to @well.field.district.name, @well.field.district, class: "activity-user-link inline" %>
+
+        <% if @well.jobs.any? %>
+            <div class="inline push-right">
+              <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right-small" %>
+              <%= link_to @well.jobs.first.client.name, @well.jobs.first.client, class: "activity-user-link inline" %>
+            </div>
+        <% end %>
+      </div>
     </div>
-    <div>
-      <p class="job-field-title">District</p>
-      <%= link_to @well.field.district.name, @well.field.district, class: "activity-user-link inline" %>
-    </div>
-    <% if @well.jobs.any? %>
-        <div>
-          <p class="job-field-title">Client name</p>
-          <%= link_to @well.jobs.first.client.name, @well.jobs.first.client, class: "activity-user-link inline" %>
-        </div>
-    <% end %>
+    <br>
+    <br><br>
   </div>
 
   <div class="well-details hidden">
@@ -161,7 +163,7 @@
       <div class="job-field-div">
         <p class="job-field-value2 unit-tooltip"
            data-placement="bottom"
-           data-title="<%= @well.max_deviation.present? ? @well.max_deviation.to_s + " degrees": "No value set" %>">
+           data-title="<%= @well.max_deviation.present? ? @well.max_deviation.to_s + " degrees" : "No value set" %>">
           <%= @well.max_deviation.present? ? @well.max_deviation.to_s + " degrees" : "-" %>
         </p>
       </div>
@@ -175,7 +177,7 @@
         <div class="job-field-div">
           <p class="job-field-value2 unit-tooltip"
              data-placement="bottom"
-             data-title="<%= @well.bottom_deviation.present? ? @well.bottom_deviation.to_s + " degrees": "No value set" %>">
+             data-title="<%= @well.bottom_deviation.present? ? @well.bottom_deviation.to_s + " degrees" : "No value set" %>">
             <%= @well.bottom_deviation.present? ? @well.bottom_deviation.to_s + " degrees" : "-" %>
           </p>
         </div>

@@ -48,14 +48,14 @@ $ ->
       $(this).closest('.search-field').find('.loading').addClass 'hidden'
 
     if $(this).val() == '3'
-      $(this).closest('.search-field').find('.client-name').show()
+      $(this).closest('.search-field').find('.client-name').show().prev().show()
     else
-      $(this).closest('.search-field').find('.client-name').hide()
+      $(this).closest('.search-field').find('.client-name').hide().prev().hide()
 
     if $(this).val() == '4'
-      $(this).closest('.search-field').find('.district-name').show()
+      $(this).closest('.search-field').find('.district-name').show().prev().show()
     else
-      $(this).closest('.search-field').find('.district-name').hide()
+      $(this).closest('.search-field').find('.district-name').hide().prev().hide()
 
     if $(this).val() == '2' || $(this).val() == '1' || $(this).val() == '5'
       $.ajax '/search?data_type=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'

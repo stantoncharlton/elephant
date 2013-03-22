@@ -9,7 +9,11 @@
 
     <h2 class="users-info"><%= @user.role.title %></h2>
 
-    <%= link_to @user.district.name, @user.district, class: "user-info-link" %>
+    <div class="">
+        <%= image_tag "district_extrasmall.png", class: "job-status-avatar inline" %>
+        <%= link_to @user.district.name, @user.district, class: "activity-user-link" %>
+    </div>
+    <br>
 
     <%= link_to @user.email, "mailto:" + @user.email, class: "user-info-link tooltip-info",
                 "data-placement" => "bottom",
@@ -28,6 +32,37 @@
 
 <br><br><br>
 
+<div class="">
+
+  <div class="chart-block tooltip-info"
+       data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
+    <div class="chart-title">Active Jobs</div>
+    <div class="donut-chart-div">
+      <div class="donut-text "><%= @user.active_jobs.count %></div>
+      <div class="percentage ">jobs</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
+    <div class="chart-title">Total Jobs</div>
+    <div class="donut-chart-div">
+      <div class="donut-text "><%= @user.jobs.count %></div>
+      <div class="percentage ">jobs</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="'Elephant Utilization' is the utilization of Elephant compared to all jobs by your organization.">
+    <div class="chart-title">Elephant Utilization</div>
+    <div class="donut-chart-div">
+      <div id="elephant_utilization" class="donut-chart "></div>
+      <div class="donut-inner-circle"></div>
+      <div class="donut-text ">67</div>
+      <div class="percentage ">%</div>
+    </div>
+  </div>
+</div>
 
 <div class="page_header">
   <h1><%= t ".jobs" %></h1>
@@ -68,3 +103,33 @@
 <br>
 
 <%= render 'activities/paginated_activity', activities: @activities, inside_job: false, in_form: false %>
+
+
+
+<script>
+    $(document).ready(function () {
+        var plot3 = $.jqplot('elephant_utilization', [
+            [
+                ['a', 67],
+                ['b', 100 - 67]
+            ]
+        ], {
+            animate:true,
+            background:"#FFFFFF",
+            seriesColors:[ "#458fd2", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+    });
+</script>

@@ -6,6 +6,7 @@ class Client < ActiveRecord::Base
     validates :company, presence: true
 
     belongs_to :company
+    belongs_to :country
 
     searchable do
         text :name, :as => :code_textp

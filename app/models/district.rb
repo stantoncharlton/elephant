@@ -20,6 +20,7 @@ class District < ActiveRecord::Base
     belongs_to :state
 
     has_many :fields, order: "name ASC"
+    has_many :jobs, order: "created_at DESC"
 
 
     searchable do
@@ -47,6 +48,10 @@ class District < ActiveRecord::Base
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")
+    end
+
+    def personnel
+        User.where("district_id = ?", self.id)
     end
 
     def self.from_company_for_user(district, options, user, company)

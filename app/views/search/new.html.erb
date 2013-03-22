@@ -34,13 +34,13 @@
 
                 $('#district_name_' + i).data("autocomplete")._renderItem = function (ul, item) {
                     return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                            "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
+                            "<a><div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
                 }
 
 
                 $('#client_name_' + i).data("autocomplete")._renderItem = function (ul, item) {
                     return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                            "<a><div class='job-user'><strong>" + item.value + " </strong></div></a>").appendTo(ul)
+                            "<a><div><img src='/assets/user_avatar_client_extrasmall.png' class='job-member-avatar pull-left'></div><div class='job-user'><strong>" + item.value + " </strong><div><p>United States</p></div></div></a>").appendTo(ul)
                 }
             }
         });
