@@ -149,7 +149,7 @@
   <% end %>
   <br>
 
-  <% @failures.to_a.sort_by { |fg| fg[1].count }.reverse!.each do |failure_group| %>
+  <% @failures.to_a.sort_by { |fg| fg[1].count }.reverse!.take(7).each do |failure_group| %>
       <div class="chart-problem">
         <div class="chart-problem-name"><%= failure_group[1][0].failure_master_template.text %>
           <p class="inline">&nbsp;<%= failure_group[1].count %></p></div>
