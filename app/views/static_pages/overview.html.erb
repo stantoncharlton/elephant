@@ -88,6 +88,15 @@
 
 <br>
 
+<div class="loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
+  <br>
+</div>
+
+<div id="results">
+
 <div class="chart-block tooltip-info"
      data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
   <div class="chart-title">Jobs</div>
@@ -191,7 +200,6 @@
     <div class="percentage ">types</div>
   </div>
 </div>
-
 
 
 <script>
@@ -310,7 +318,7 @@
   <% end %>
 </div>
 
-<%= will_paginate @jobs, :params=> { :district_id => @district_id, :division_id => @division_id, :user_id => @user_id } %>
+<%= will_paginate @jobs, :params => {:district_id => @district_id, :division_id => @division_id, :user_id => @user_id} %>
 
 
 <script>
@@ -323,4 +331,4 @@
 </script>
 
 
-
+</div>

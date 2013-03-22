@@ -14,6 +14,8 @@ $ ->
     select: (event, ui) ->
       $("#person_filter").val(ui.item.label)
       $("#person_filter_id").val(ui.item.id)
+      $('.loading').removeClass 'hidden'
+      $('#results').hide()
       $(this).closest("form").submit()
 
   $('#person_filter').change ->
@@ -25,6 +27,8 @@ $ ->
     select: (event, ui) ->
       $("#division_filter").val(ui.item.division_type + " " + ui.item.name)
       $("#division_filter_id").val(ui.item.division_type + "/////" + ui.item.id)
+      $('.loading').removeClass 'hidden'
+      $('#results').hide()
       $(this).closest("form").submit()
 
   $('#district_filter').autocomplete
@@ -33,4 +37,6 @@ $ ->
     select: (event, ui) ->
       $("#district_filter").val(ui.item.name)
       $("#district_filter_id").val(ui.item.id)
+      $('.loading').removeClass 'hidden'
+      $('#results').hide()
       $(this).closest("form").submit()
