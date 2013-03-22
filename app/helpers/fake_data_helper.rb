@@ -213,6 +213,18 @@ module FakeDataHelper
                 job.field = well.field
                 job.district = well.field.district
 
+                job.start_date = Random.new.rand(5.years.ago..(Time.now + 50.days)).to_date
+
+                if job.start_date > Time.now
+                    job.close_date = job.start_date + Random.new.rand(3..15).days
+                    job.status = Job::ACTIVE
+                else
+                    job.status = Job::CLOSED
+                end
+
+                job.save
+                puts "Job:  " + job.id.to_s
+
                 last_user = nil
                 Random.new.rand(1..8).times do |jm|
                     begin
@@ -226,13 +238,7 @@ module FakeDataHelper
                     end
                 end
 
-                job.start_date = Random.new.rand(5.years.ago..(Time.now + 50.days)).to_date
-
-                if job.start_date > Time.now
-                    job.close_date = job.start_date + Random.new.rand(3..15).days
-                    job.status = Job::ACTIVE
-                else
-                    job.status = Job::CLOSED
+                if job.status == Job::CLOSED
                     JobProcess.record(last_user, job, company, JobProcess::PRE_JOB_DATA_READY)
                     JobProcess.record(last_user, job, company, JobProcess::APPROVED_TO_SHIP)
                     JobProcess.record(last_user, job, company, JobProcess::POST_JOB_DATA_READY)
@@ -240,15 +246,17 @@ module FakeDataHelper
                 end
 
                 job.job_template.dynamic_fields.each do |dynamic_field|
-                    job_dynamic_field = dynamic_field.dup
-                    job_dynamic_field.value = Random.new.rand(1..5000)
-                    job_dynamic_field.template = false
-                    job_dynamic_field.dynamic_field_template = dynamic_field
-                    job_dynamic_field.job_template = job.job_template
-                    job_dynamic_field.job = job
-                    job_dynamic_field.company = company
-                    job_dynamic_field.save
-                    puts "DF on Job:  " + job_dynamic_field.name
+                    begin
+                        job_dynamic_field = dynamic_field.dup
+                        job_dynamic_field.value = Random.new.rand(1..5000)
+                        job_dynamic_field.template = false
+                        job_dynamic_field.dynamic_field_template = dynamic_field
+                        job_dynamic_field.job_template = job.job_template
+                        job_dynamic_field.job = job
+                        job_dynamic_field.company = company
+                        job_dynamic_field.save
+                        puts "DF on Job:  " + job_dynamic_field.name
+                    end
                 end
 
                 Random.new.rand(0..5).times do |fi|
@@ -264,8 +272,7 @@ module FakeDataHelper
                     end
                 end
 
-                job.save
-                puts "Job:  " + job.id.to_s
+
             end
         end
     end

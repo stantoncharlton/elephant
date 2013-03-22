@@ -43,7 +43,9 @@ class StaticPagesController < ApplicationController
         set_tab :overview
 
         @jobs = Job.from_company(current_user.company)
-        analyze @jobs
+
+        filter
+        analyze
 
         @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
 
@@ -53,11 +55,21 @@ class StaticPagesController < ApplicationController
     def filter_overview
         set_tab :overview
 
+        @jobs = Job.from_company(current_user.company)
+
+        filter
+        analyze
+
+        @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
+
+        render 'overview'
+    end
+
+    def filter
         @district_id = params[:district_id]
         @division_id = params[:division_id]
         @user_id = params[:user_id]
 
-        @jobs = Job.from_company(current_user.company)
         if !@district_id.blank?
             @jobs = @jobs.where(district_id: @district_id)
             @district_name = District.find_by_id(@district_id).name
@@ -65,54 +77,38 @@ class StaticPagesController < ApplicationController
 
         if !@division_id.blank?
             parts = @division_id.split("/////")
-            name = ""
             case parts.first.downcase
                 when "division"
-                    name = Division.find_by_id(parts.last).name
+                    @division_name = Division.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: {product_line: {segment: :division}}).where("divisions.id = ?", parts.last)
-                    params[:division] = parts.last
                 when "segment"
-                    name = Segment.find_by_id(parts.last).name
+                    @division_name = Segment.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: {product_line: :segment}).where("segments.id = ?", parts.last)
-                    params[:segment] = parts.last
                 when "product line"
-                    name = ProductLine.find_by_id(parts.last).name
+                    @division_name = ProductLine.find_by_id(parts.last).name
                     @jobs = @jobs.joins(job_template: :product_line).where("product_lines.id = ?", parts.last)
-                    params[:product_line] = parts.last
                 when "job template"
-                    name = JobTemplate.find_by_id(parts.last).name
+                    @division_name = JobTemplate.find_by_id(parts.last).name
                     @jobs = @jobs.joins(:job_template).where("job_templates.id = ?", parts.last)
-                    params[:job_template] = parts.last
             end
-            @division_name = name
         end
 
         if !@user_id.blank?
             @user = User.find_by_id(@user_id)
             not_found unless @user.company == current_user.company
-            @jobs = @user.jobs
+            @jobs = @jobs.where("jobs.id IN (?)", @user.jobs.map { |j| j.id }.uniq)
             @user_name = @user.name
-
-            @division_id = nil
-            @district_id = nil
-            @division_name = nil
         end
-
-        analyze @jobs
-
-        @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
-
-        render 'overview'
     end
 
-    def analyze(jobs)
-        @personnel_utilization = personnel_utilization(jobs)
-        @total_personnel = total_personnel(jobs)
-        @total_districts = total_districts(jobs)
-        @total_job_types = total_job_types(jobs)
-        @average_job_time = average_job_duration(jobs)
-        @job_failure_rate = job_failure_rate(jobs)
-        @failures = failures(jobs)
+    def analyze
+        @personnel_utilization = personnel_utilization(@jobs)
+        @total_personnel = total_personnel(@jobs)
+        @total_districts = total_districts(@jobs)
+        @total_job_types = total_job_types(@jobs)
+        @average_job_time = average_job_duration(@jobs)
+        @job_failure_rate = job_failure_rate(@jobs)
+        @failures = failures(@jobs)
     end
 
     def terms_of_use

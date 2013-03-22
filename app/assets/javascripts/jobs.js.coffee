@@ -37,32 +37,7 @@ $ ->
       $("#new_note_name").val(ui.item.label)
       $("#new_note_name_id").val(ui.item.id)
 
-  $('#person_filter').autocomplete
-    source: $('#person_filter').data('autocomplete-source')
-    focus: focusevent
-    select: (event, ui) ->
-      $("#person_filter").val(ui.item.label)
-      $("#person_filter_id").val(ui.item.id)
-      $(this).closest("form").submit()
 
-  $('#person_filter').change ->
-    $("#person_filter_id").val('')
-
-  $('#division_filter').autocomplete
-    source: $('#division_filter').data('autocomplete-source')
-    focus: focusevent
-    select: (event, ui) ->
-      $("#division_filter").val(ui.item.division_type + " " + ui.item.name)
-      $("#division_filter_id").val(ui.item.division_type + "/////" + ui.item.id)
-      $(this).closest("form").submit()
-
-  $('#district_filter').autocomplete
-    source: $('#district_filter').data('autocomplete-source')
-    focus: focusevent
-    select: (event, ui) ->
-      $("#district_filter").val(ui.item.name)
-      $("#district_filter_id").val(ui.item.id)
-      $(this).closest("form").submit()
 
 
   $('.job-member-list-item').live "mouseenter", ->
