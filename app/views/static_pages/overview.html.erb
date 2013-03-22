@@ -16,6 +16,7 @@
   <%= form_tag overview_path, :method => :post do |f| %>
 
       <%= hidden_field_tag "", "", name: "division_id", id: "division_filter_id", value: @division_id %>
+      <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
       <%= text_field_tag "", "", data: {autocomplete_source: divisions_path},
                          placeholder: "Filter by Division, Segment, etc..",
                          id: "division_filter",
@@ -26,6 +27,7 @@
 
 
       <%= hidden_field_tag "", "", name: "district_id", id: "district_filter_id", value: @district_id %>
+      <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
       <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
                          placeholder: "Filter by District name",
                          id: "district_filter",

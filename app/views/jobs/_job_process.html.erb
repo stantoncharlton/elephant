@@ -1,3 +1,9 @@
+<% if job.start_date.present? && job.start_date > Time.now %>
+    <div class="alert">
+      Job starts in <%= pluralize([((job.start_date.to_date - Date.today).to_i / 365.25).to_i, 1].max, "day") %>
+    </div>
+<% end %>
+
 <% if job.post_job_report_document.nil? || job.post_job_report_document.url.nil?  %>
 <div id="process_actions" class="alert <%= (job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP || jp.event_type == JobProcess::APPROVED_TO_CLOSE }.count > 0) ? "" : "hidden" %>">
   <% job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>

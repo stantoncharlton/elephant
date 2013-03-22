@@ -70,12 +70,10 @@ $ ->
 
 
   $('.job-tray-toggle').click ->
-    close = $(this).closest('li').hasClass 'active'
     $('.job-tray-toggle').closest('li').removeClass 'active'
     $('.job-tray').addClass 'custom-data-closed'
-    if !close
-      $(this).closest('li').addClass 'active'
-      $(".job-tray[data-tray=" + $(this).attr('data-tray') + "]").removeClass 'custom-data-closed'
+    $(this).closest('li').addClass 'active'
+    $(".job-tray[data-tray=" + $(this).attr('data-tray') + "]").removeClass 'custom-data-closed'
     return false
 
 
