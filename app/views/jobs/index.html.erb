@@ -37,12 +37,13 @@
     <%= will_paginate %>
 <% else %>
     <br>
-    <div class="alert">
-      <%= link_to "View all jobs active and closed (" + current_user.jobs.count.to_s + ")", jobs_path(:page => "1"), class: "activity-user-link" %>
-    </div>
     <% if @jobs.empty? %>
         <div class="no-alerts">
           <p class="center"><%= t ".no_jobs" %></p>
+        </div>
+   <% else %>
+        <div class="alert">
+          <%= link_to "View all jobs active and closed (" + current_user.jobs.count.to_s + ")", jobs_path(:page => "1"), class: "activity-user-link" %>
         </div>
     <% end %>
 <% end %>

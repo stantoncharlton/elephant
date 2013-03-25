@@ -1,14 +1,30 @@
 <div class="page_header">
   <h1>Job Type</h1><b class="push-right-small"><%= @job_template.name %></b>
 
-  <%= link_to I18n.t("global.save"), divisions_path(division: @job_template.product_line.segment.division.id,
-                                                    segment: @job_template.product_line.segment.id,
-                                                    product_line: @job_template.product_line.id),
-              class: "bluebtn pull-right tooltip-info",
-              "data-title" => "Save data and return to all job types" %>
+
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+
+          <li>
+            <%= link_to "Delete Job Type", @job_template, method: :delete,
+                        data: {confirm: "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly."},
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
+          </li>
+
+
+    </ul>
+  </div>
 </div>
 
 <div class="well">
+
+  <%= button_tag "Save Updates", class: "bluebtn btnsmall pull-right hidden", id: "save_job_name_description" %>
+
 
   <%= form_for(@job_template, remote: true) do |f| %>
 
@@ -16,26 +32,22 @@
 
       <%= f.text_field :name, value: @job_template.name,
                        placeholder: I18n.t("job_templates.show.job_type_name"),
-                       class: "inline txtfield  tooltip-info",
+                       class: "inline txtfield  tooltip-info job-template-name",
                        "data-placement" => "bottom",
                        "data-title" => "Job type name" %>
   <% end %>
 
-  <div class="">
-    <p class="field-title"><%= t "jobs.job_data.division" %></p>
 
-    <h3 class="inline"><%= @job_template.product_line.segment.division.name %></h3>
-  </div>
-  <div class="inline">
-    <p class="field-title"><%= t "jobs.job_data.segment" %></p>
+  <div>
 
-    <h3 class="inline"><%= @job_template.product_line.segment.name %></h3>
+  <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
+      <b class="inline"><%= @job_template.product_line.segment.division.name %></b>
+    |
+      <b class="inline"><%= @job_template.product_line.segment.name %></b>
+    |
+    <b class="inline"><%= @job_template.product_line.name %></b>
   </div>
-  <div class="">
-    <p class="field-title"><%= t "jobs.job_data.product_line" %></p>
 
-    <h3 class="inline"><%= @job_template.product_line.name %> </h3>
-  </div>
 
   <hr>
 
@@ -50,9 +62,10 @@
                         "data-placement" => "bottom",
                         "data-title" => I18n.t("job_templates.show.description_prompt"),
                         autofocus: false %>
-
     <% end %>
   </div>
+
+
 </div>
 
 
@@ -60,11 +73,11 @@
   <hr>
   <ul class="nav nav-pills">
     <li class="active">
-      <a href="#" id="custom_data_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="custom_data">Custom
-        Data</a>
+      <a href="#" id="documents_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="all_documents">Documents</a>
     </li>
     <li>
-      <a href="#" id="documents_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="all_documents">Documents</a>
+      <a href="#" id="custom_data_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="custom_data">Custom
+        Data</a>
     </li>
     <li>
       <a href="#" id="tools_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="tools">Primary Tools</a>
@@ -81,7 +94,7 @@
 </div>
 
 
-<div class="tray" data-tray="custom_data">
+<div class="tray hidden" data-tray="custom_data">
   <div class="page_header">
     <h1><%= t ".custom_data" %></h1>
 
@@ -98,7 +111,7 @@
 </div>
 
 
-<div class="tray hidden" data-tray="all_documents">
+<div class="tray" data-tray="all_documents">
   <div class="page_header">
     <h1><%= t "jobs.show.documents" %></h1>
 
@@ -242,26 +255,6 @@
   </div>
 </div>
 
-<hr>
-
-
-<div class="actions">
-  <%= link_to I18n.t("global.save"), divisions_path(division: @job_template.product_line.segment.division.id,
-                                                    segment: @job_template.product_line.segment.id,
-                                                    product_line: @job_template.product_line.id),
-              class: "bluebtn pull-right tooltip-info",
-              "data-title" => "Save data and return to all job types" %>
-
-  <% if signed_in_admin? %>
-      <%= link_to I18n.t("global.delete"), @job_template, method: :delete,
-                  data: {confirm: I18n.t("delete_job_template") + " " + @job_template.name + "?"},
-                  class: "bluebtn red pull-right-button tooltip-info",
-                  "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
-  <% end %>
-
-  <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
-              "data-title" => "Cancel new message and go back"%>
-</div>
 
 
 <div id="modal_popup" class="modal-popup-background">

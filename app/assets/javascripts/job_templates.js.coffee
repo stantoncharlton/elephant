@@ -1,11 +1,24 @@
 
 $ ->
 
+  $('.job-template-name').keyup ->
+    $('#save_job_name_description').removeClass 'hidden'
+
   $('.job-template-name').change ->
     $(this).closest('form').submit()
+    $('#save_job_name_description').addClass 'hidden'
+
+  $('.job-template-description').keyup ->
+    $('#save_job_name_description').removeClass 'hidden'
 
   $('.job-template-description').change ->
     $(this).closest('form').submit()
+    $('#save_job_name_description').addClass 'hidden'
+
+  $('#save_job_name_description').click ->
+    $('.job-template-name').closest('form').submit()
+    $('.job-template-description').closest('form').submit()
+    $('#save_job_name_description').addClass 'hidden'
 
 
   $('form').on 'click', '.remove_fields', (event) ->

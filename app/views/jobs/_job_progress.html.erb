@@ -29,11 +29,13 @@
     <b><%= job.participants.count.to_s %></b>
   </div>
 
-  <div class="job-progress-data-item">
-    <% if job.failures.count > 0 %>
-        <div class="job-failure-item"><%= job.failures.count %></div>
-    <% end %>
-  </div>
+  <% if job_name %>
+      <div class="job-progress-data-item">
+        <% if job.failures.count > 0 %>
+            <div class="job-failure-item"><%= job.failures.count %></div>
+        <% end %>
+      </div>
+  <% end %>
 
 
   <div class="pull-right">
