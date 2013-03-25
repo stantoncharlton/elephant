@@ -14,6 +14,7 @@
 /log/*.log
 /tmp
 /.idea/*
-
+/solr/data/*
+/solr/pids/*
 
 /config/heroku_env.rb

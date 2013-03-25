@@ -5,7 +5,7 @@ connectUploadEvents = ->
   $('[id=fileupload]').live "DOMActivate", ->
     $(this).fileupload
       add: (e, data) ->
-        types = /(\.|\/)(doc|docx|txt|xls|xlsx|pdf)$/i
+        types = /(\.|\/)(*)$/i
         file = data.files[0]
         if types.test(file.type) || types.test(file.name)
           $(e.target).find(".document-info").hide()
