@@ -1,9 +1,19 @@
 <li class="field">
+
   <%= link_to edit_client_path(client), class: "list-item-header user-header tooltip-info",
               "data-placement" => "left",
               "data-title" => "Click to open/edit customer" do %>
-      <p class="list-item-header-text">
+
+      <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar" %>
+
+      <p class="list-item-header-text list-item-column list-item-column-long">
         <%= client.name %>
+      </p>
+
+      <p class="list-item-text list-item-column2">
+        <% if client.country.present? %>
+            <%= client.country.name %>
+        <% end %>
       </p>
 
   <% end %>

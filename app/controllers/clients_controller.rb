@@ -38,11 +38,16 @@ class ClientsController < ApplicationController
 
     def new
         @client = Client.new
+        @countries = Country.all
     end
 
     def create
+        country_id = params[:district][:country_id]
+        params[:district].delete(:country_id)
+
         @client = Client.new(params[:client])
         @client.company = current_user.company
+        @client.country = Country.find_by_id(country_id)
 
         if @client.save
 
@@ -50,6 +55,7 @@ class ClientsController < ApplicationController
             flash[:success] = "Customer created - #{@client.name}"
             redirect_to clients_path
         else
+            @countries = Country.all
             render 'new'
         end
     end
@@ -57,6 +63,7 @@ class ClientsController < ApplicationController
     def edit
         @client = Client.find(params[:id])
         not_found unless @client.company == current_user.company
+        @countries = Country.all
     end
 
     def update
@@ -64,7 +71,8 @@ class ClientsController < ApplicationController
         @client = Client.find(params[:id])
         not_found unless @client.company == current_user.company
 
-        if @client.update_attributes(params[:client])
+        if @client.update_attribute(:name, params[:client][:name])
+            @client.update_attribute(:country_id, params[:client][:country_id])
 
             Activity.add(self.current_user, Activity::CLIENT_UPDATED, @client, @client.name)
             flash[:success] = "Customer updated"

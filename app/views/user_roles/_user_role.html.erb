@@ -3,7 +3,9 @@
               "data-placement" => "left",
               "data-title" => "Click to open/edit user role" do %>
 
-      <p class="list-item-header-text">
+      <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
+
+      <p class="list-item-header-text list-item-column list-item-column-long">
         <%= user_role.title %>
       </p>
   <% end %>

@@ -15,4 +15,13 @@
     <br><br>
     <div id="similar_customer"></div>
   </div>
+
+  <hr>
+
+  <div class="field stripe">
+    <%= f.label :country_id, class: "field-title" %>
+    <%= f.select :country_id, @countries.sort_by { |c| c.name }.collect { |p| [p.name, p.id] },
+                 prompt: "Select a Country..." %>
+  </div>
+
 </div>

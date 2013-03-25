@@ -1,5 +1,20 @@
 <div class="page_header">
   <h1><%= t ".title" %></h1>
+
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to "Delete Client", @client, method: :delete,
+                    data: {confirm: I18n.t("clients.edit.delete") + " " + @client.name + "?"},
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Permanently delete customer." %>
+      </li>
+    </ul>
+  </div>
 </div>
 
 <%= form_for(@client) do |f| %>
@@ -10,11 +25,4 @@
       <%= f.submit I18n.t("clients.edit.save"), class: "bluebtn pull-right tooltip-info",
                    "data-title" => "Save customer and return to all customers"%>
     </div>
-<% end %>
-
-
-<% if signed_in_admin? %>
-    <%= link_to I18n.t("global.delete"), @client, method: :delete,
-                data: {confirm: I18n.t("clients.edit.delete") + " " + @client.name + "?"}, class: "bluebtn red pull-right-button tooltip-info",
-                "data-title" => "Permanently delete customer"%>
 <% end %>

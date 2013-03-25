@@ -1,5 +1,23 @@
 <div class="page_header">
   <h1>Update District</h1>
+
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+
+      <li>
+        <%= link_to "Delete District", @district, method: :delete,
+                    data: {confirm: "Delete district " + @district.name + "?"},
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Permanently delete district. Warning, the can't be undone. This will cause any user associated with this district to may not work properly." %>
+      </li>
+
+
+    </ul>
+  </div>
 </div>
 
 
@@ -7,18 +25,9 @@
 
     <%= render "fields", f: f %>
 
-    <div class="content actions">
+    <div class="actions">
       <%= f.submit "Save district", class: "bluebtn pull-right tooltip-info",
                    "data-title" => "Save district and return to all districts"%>
     </div>
 
 <% end %>
-
-
-<% if signed_in_admin? %>
-    <%= link_to "Delete District", @district, method: :delete,
-                data: {confirm: "Delete district " + @district.name + "?"},
-                class: "bluebtn red pull-right-button tooltip-info",
-                "data-title" => "Permanently delete district. Warning, the can't be undone. This will cause any user associated with this district to may not work properly."%>
-<% end %>
-
