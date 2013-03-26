@@ -422,7 +422,7 @@ class Job < ActiveRecord::Base
 
     def generate_post_job_report
         if self.documents.any?
-            self.generate_post_job_report
+            self.prepare_post_job_report
             documents = []
             self.job_template.post_job_report_documents.each do |post_job_report_document|
                 if !post_job_report_document.document.url.blank?
