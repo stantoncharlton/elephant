@@ -5,9 +5,9 @@ connectUploadEvents = ->
   $('[id=fileupload]').live "DOMActivate", ->
     $(this).fileupload
       add: (e, data) ->
-        types = /(\.|\/)(*)$/i
+        #types = /(\.|\/)(*)$/i
         file = data.files[0]
-        if types.test(file.type) || types.test(file.name)
+        if true # types.test(file.type) || types.test(file.name)
           $(e.target).find(".document-info").hide()
           $(e.target).find(".upload-controls").hide()
           data.context = $(tmpl("template-upload", file))

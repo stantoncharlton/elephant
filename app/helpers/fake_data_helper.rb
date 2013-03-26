@@ -13,7 +13,7 @@ module FakeDataHelper
         role.company = company
         role.save
 
-        5.times do |i|
+        300.times do |i|
             begin
                 district = District.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..3).to_i).join(" ").to_s.capitalize,
@@ -29,7 +29,7 @@ module FakeDataHelper
                 district.save
                 puts "District: " + district.name
 
-                10.times do |i|
+                30.times do |i|
                     begin
                         field = Field.new(
                                 :name => Faker::Lorem.words(1).first.to_s.capitalize,
@@ -58,7 +58,7 @@ module FakeDataHelper
             end
         end
 
-        8.times do |i|
+        10.times do |i|
             begin
                 division = Division.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
@@ -128,7 +128,7 @@ module FakeDataHelper
                             end
                         end
 
-                        5.times do |j|
+                        7.times do |j|
                             job_template = JobTemplate.new(
                                     :name => Faker::Lorem.words(Random.new.rand(1..6)).join(" ").to_s.capitalize,
                                     :description => Faker::Lorem.words(30).join(" ").to_s
@@ -225,7 +225,7 @@ module FakeDataHelper
             end
         end
 
-        500.times do |i|
+        10000.times do |i|
             begin
                 user = User.new(
                         :name => Faker::Name.first_name + " " + Faker::Name.last_name,
@@ -247,7 +247,7 @@ module FakeDataHelper
             end
         end
 
-        20.times do |i|
+        2000.times do |i|
             begin
                 client = Client.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..3)).join(" ").to_s.capitalize,
@@ -262,7 +262,7 @@ module FakeDataHelper
         end
 
 
-        1000.times do |i|
+        500000.times do |i|
             begin
                 job = Job.new
                 job.company = company
