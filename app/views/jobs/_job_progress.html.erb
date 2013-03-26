@@ -24,12 +24,12 @@
     <% end %>
   </div>
 
-  <div class="job-progress-data-item">
+  <div class="<%= job_name ? "inline" : "job-progress-data-item" %>">
     <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
     <b><%= job.participants.count.to_s %></b>
   </div>
 
-  <% if job_name %>
+  <% if !job_name %>
       <div class="job-progress-data-item">
         <% if job.failures.count > 0 %>
             <div class="job-failure-item"><%= job.failures.count %></div>

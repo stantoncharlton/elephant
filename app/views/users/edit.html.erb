@@ -1,5 +1,12 @@
 <% provide(:title, "Update user") %>
 
+<% if @user.admin? %>
+    <div class="alert">
+         This is an admin user account
+    </div>
+<% end %>
+
+
 <div class="page_header">
   <h1>Update user</h1>
 

@@ -5,7 +5,13 @@
 
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info",
+
+    <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info push-right",
                  "data-title" => "Create and save new user"
     %>
+
+    <div class="alert pull-right push-down">
+      <%= f.check_box :admin %>
+      Admin Account
+    </div>
 <% end %>

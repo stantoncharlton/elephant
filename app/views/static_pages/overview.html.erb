@@ -8,7 +8,7 @@
 
 <div class="page_header">
   <h1>Overview</h1>
-  <%= link_to "Clear filters", overview_path, class: "inline activity-user-link pull-right" %>
+  <%= link_to "Clear filters", overview_path, class: "inline activity-user-link pull-right clear-filter-link" %>
 </div>
 
 
@@ -143,12 +143,12 @@
 
 <div class="chart-block tooltip-info"
      data-title="'Job Failure Rate' shows the percentage of jobs that have any failure.">
-  <div class="chart-title">Job Failure Rate</div>
+  <div class="chart-title">Job Success Rate</div>
   <div class="donut-chart-div">
     <div id="failure_rate" class="donut-chart "></div>
-    <div class="donut-inner-circle inner-circle-red"></div>
-    <div class="donut-text chart-text-red"><%= @job_failure_rate %></div>
-    <div class="percentage chart-text-red">%</div>
+    <div class="donut-inner-circle <%= @job_success_rate > 80 ? "" : "inner-circle-red" %>"></div>
+    <div class="donut-text <%= @job_success_rate > 80 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
+    <div class="percentage <%= @job_success_rate > 80 ? "" : "chart-text-red" %>">%</div>
   </div>
 </div>
 
@@ -259,13 +259,13 @@
 
         plot3 = $.jqplot('failure_rate', [
             [
-                ['a', <%= @job_failure_rate %>],
-                ['b', 100 - <%= @job_failure_rate %>]
+                ['a', <%= @job_success_rate %>],
+                ['b', 100 - <%= @job_success_rate %>]
             ]
         ], {
             animate:true,
             background:"#FFFFFF",
-            seriesColors:[ "#e4472e", "#FFFFFF"],
+            seriesColors:[ "<%= @job_success_rate > 80 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
             seriesDefaults:{
                 textColor:" #00ff0000",
                 shadow:false,

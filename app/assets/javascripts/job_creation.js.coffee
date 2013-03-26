@@ -112,3 +112,8 @@ $ ->
     $('#job_job_template_id').removeAttr "disabled", "disabled"
     $('#job_job_template_id').val($val)
     return false
+
+
+  $('.form-loading-on-click').click ->
+    $('.loading').removeClass 'hidden'
+    $('.form').hide()

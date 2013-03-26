@@ -107,7 +107,7 @@ class StaticPagesController < ApplicationController
         @total_districts = total_districts(@jobs)
         @total_job_types = total_job_types(@jobs)
         @average_job_time = average_job_duration(@jobs)
-        @job_failure_rate = job_failure_rate(@jobs)
+        @job_success_rate = 100 - job_failure_rate(@jobs)
         @failures = failures(@jobs)
     end
 

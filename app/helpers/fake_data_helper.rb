@@ -1,28 +1,28 @@
 module FakeDataHelper
     def create
         company = Company.new(
-            :name => Faker::Lorem.words(1).first.to_s.capitalize
+                :name => Faker::Lorem.words(1).first.to_s.capitalize
         )
         company.save
         puts company.name
 
         role = UserRole.new(
-            :title => "User",
-            :global_modify => true
+                :title => "User",
+                :global_modify => true
         )
         role.company = company
         role.save
 
-        10.times do |i|
+        5.times do |i|
             begin
                 district = District.new(
-                    :name => Faker::Lorem.words(Random.new.rand(1..3).to_i).join(" ").to_s.capitalize,
-                    :region => Faker::Lorem.words(1).first.to_s.capitalize,
-                    :support_email => Faker::Internet.email,
-                    :phone_number => Faker::PhoneNumber.phone_number,
-                    :address_line_1 => Faker::Address.street_address,
-                    :city => Faker::Lorem.words(1).first.to_s.capitalize,
-                    :postal_code => Faker::Address.postcode
+                        :name => Faker::Lorem.words(Random.new.rand(1..3).to_i).join(" ").to_s.capitalize,
+                        :region => Faker::Lorem.words(1).first.to_s.capitalize,
+                        :support_email => Faker::Internet.email,
+                        :phone_number => Faker::PhoneNumber.phone_number,
+                        :address_line_1 => Faker::Address.street_address,
+                        :city => Faker::Lorem.words(1).first.to_s.capitalize,
+                        :postal_code => Faker::Address.postcode
                 )
                 district.company = company
                 district.country = Country.order('RANDOM()').limit(1).first
@@ -32,7 +32,7 @@ module FakeDataHelper
                 10.times do |i|
                     begin
                         field = Field.new(
-                            :name => Faker::Lorem.words(1).first.to_s.capitalize,
+                                :name => Faker::Lorem.words(1).first.to_s.capitalize,
                         )
                         field.company = company
                         field.district = district
@@ -41,22 +41,27 @@ module FakeDataHelper
 
                         5.times do |w|
                             well = Well.new(
-                                :name => Faker::Lorem.words(1).first.to_s.capitalize,
+                                    :name => Faker::Lorem.words(1).first.to_s.capitalize,
                             )
                             well.company = company
                             well.field = field
                             well.save
                             puts "Well: " + well.name
                         end
+                    rescue
+
                     end
                 end
+
+            rescue
+
             end
         end
 
         8.times do |i|
             begin
                 division = Division.new(
-                    :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
+                        :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                 )
                 division.company = company
                 division.save
@@ -66,7 +71,7 @@ module FakeDataHelper
                 # Secondary Tools
                 10.times do |st|
                     tool = Tool.new(
-                        :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
+                            :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
                     tool.company = company
                     tool.division = division
@@ -76,7 +81,7 @@ module FakeDataHelper
 
                 8.times do |s|
                     segment = Segment.new(
-                        :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
+                            :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
                     segment.company = company
                     segment.division = division
@@ -85,7 +90,7 @@ module FakeDataHelper
 
                     5.times do |p|
                         product_line = ProductLine.new(
-                            :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
+                                :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                         )
                         product_line.company = company
                         product_line.segment = segment
@@ -96,33 +101,37 @@ module FakeDataHelper
                         # Primary Tools
                         10.times do |pt|
                             tool = Tool.new(
-                                :name => Faker::Lorem.words(1).first.to_s.capitalize,
+                                    :name => Faker::Lorem.words(1).first.to_s.capitalize,
                             )
                             tool.company = company
                             tool.product_line = product_line
                             tool.save
-                            tools << tool
-                            puts "Primary Tool: " + tool.name
+                            if !tool.new_record?
+                                tools << tool
+                                puts "Primary Tool: " + tool.name
+                            end
                         end
 
                         failures = []
                         # Failures
                         10.times do |f|
                             failure = Failure.new(
-                                :text => Faker::Lorem.words(10).join(" ").to_s,
-                                :template => true
+                                    :text => Faker::Lorem.words(10).join(" ").to_s,
+                                    :template => true
                             )
                             failure.company = company
                             failure.product_line = product_line
                             failure.save
-                            failures << failure
-                            puts "Failure: " + failure.text
+                            if !failure.new_record?
+                                failures << failure
+                                puts "Failure: " + failure.text
+                            end
                         end
 
                         5.times do |j|
                             job_template = JobTemplate.new(
-                                :name => Faker::Lorem.words(Random.new.rand(1..6)).join(" ").to_s.capitalize,
-                                :description => Faker::Lorem.words(30).join(" ").to_s
+                                    :name => Faker::Lorem.words(Random.new.rand(1..6)).join(" ").to_s.capitalize,
+                                    :description => Faker::Lorem.words(30).join(" ").to_s
                             )
                             job_template.company = company
                             job_template.product_line = product_line
@@ -132,10 +141,10 @@ module FakeDataHelper
                             Random.new.rand(1..10).times do |df|
                                 begin
                                     dynamic_field = DynamicField.new(
-                                        :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
-                                        :value_type => 12,
-                                        :template => true,
-                                        :optional => [true, false, false, false, false, false].sample
+                                            :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
+                                            :value_type => 12,
+                                            :template => true,
+                                            :optional => [true, false, false, false, false, false].sample
                                     )
                                     if !dynamic_field.optional
                                         dynamic_field.priority = [true, false, false, false, false, false].sample
@@ -144,34 +153,42 @@ module FakeDataHelper
                                     dynamic_field.job_template = job_template
                                     dynamic_field.save
                                     puts "Dynamic Field on Job: " + dynamic_field.name
+                                rescue
+
                                 end
                             end
 
                             Random.new.rand(1..4).times do |doc|
                                 begin
                                     document = Document.new(
-                                        :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
-                                        :template => true
+                                            :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
+                                            :template => true
                                     )
                                     document.category = Document::PRE_JOB
                                     document.company = company
                                     document.job_template = job_template
                                     document.save
                                     puts "Document on Job: " + document.name
+
+                                rescue
+
                                 end
                             end
 
                             Random.new.rand(1..4).times do |doc|
                                 begin
                                     document = Document.new(
-                                        :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
-                                        :template => true
+                                            :name => Faker::Lorem.words(2).join(" ").to_s.capitalize,
+                                            :template => true
                                     )
                                     document.category = Document::POST_JOB
                                     document.company = company
                                     document.job_template = job_template
                                     document.save
                                     puts "Document on Job: " + document.name
+
+                                rescue
+
                                 end
                             end
 
@@ -182,6 +199,8 @@ module FakeDataHelper
                                     primary_tool.tool = tools.sample
                                     primary_tool.save
                                     puts "Primary Tool on Job Type: " + primary_tool.tool.name
+                                rescue
+
                                 end
                             end
 
@@ -192,42 +211,53 @@ module FakeDataHelper
                                     failure.failure_master_template = failures.sample
                                     failure.save
                                     puts "Failure on Job: " + failure.failure_master_template.text
+                                rescue
+
                                 end
                             end
 
                         end
                     end
                 end
+
+            rescue
+
             end
         end
 
-        100.times do |i|
+        500.times do |i|
             begin
                 user = User.new(
-                    :name => Faker::Name.first_name + " " + Faker::Name.last_name,
-                    :location => Faker::Lorem.words(1).to_s.capitalize,
-                    :password => "elephant",
-                    :password_confirmation => "elephant",
-                    :accepted_tou => true,
-                    :email => Faker::Internet.email,
-                    :phone_number => Faker::PhoneNumber.cell_phone
+                        :name => Faker::Name.first_name + " " + Faker::Name.last_name,
+                        :location => Faker::Lorem.words(1).first.capitalize,
+                        :password => "elephant",
+                        :password_confirmation => "elephant",
+                        :accepted_tou => true,
+                        :email => Faker::Internet.email,
+                        :phone_number => Faker::PhoneNumber.cell_phone
                 )
                 user.company = company
                 user.role = role
                 user.district = District.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                 user.save
                 puts "User:  " + user.name
+
+            rescue
+
             end
         end
 
         20.times do |i|
             begin
                 client = Client.new(
-                    :name => Faker::Lorem.words(Random.new.rand(1..3)).join(" ").to_s.capitalize,
+                        :name => Faker::Lorem.words(Random.new.rand(1..3)).join(" ").to_s.capitalize,
                 )
                 client.company = company
                 client.save
                 puts "Client:  " + client.name
+
+            rescue
+
             end
         end
 
@@ -265,6 +295,9 @@ module FakeDataHelper
                         puts "User on Job:  " + job_membership.user.name
 
                         last_user = job_membership.user
+
+                    rescue
+
                     end
                 end
 
@@ -286,22 +319,29 @@ module FakeDataHelper
                         job_dynamic_field.company = company
                         job_dynamic_field.save
                         puts "DF on Job:  " + job_dynamic_field.name
+
+                    rescue
+
                     end
                 end
 
-                Random.new.rand(0..5).times do |fi|
+                Random.new.rand(0..3).times do |fi|
                     begin
                         failure = Failure.new(
-                            :template => false
+                                :template => false
                         )
                         failure.company = company
                         failure.job = job
                         failure.failure_master_template = job.job_template.product_line.failures.order("RANDOM()").limit(1).first
                         failure.save
                         puts "Failure on Job:  " + failure.failure_master_template.text
+
+                    rescue
+
                     end
                 end
 
+            rescue
 
             end
         end

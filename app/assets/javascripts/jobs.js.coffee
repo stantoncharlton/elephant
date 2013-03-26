@@ -89,6 +89,7 @@ $ ->
         $(this).removeClass 'hidden'
       else
         $(this).addClass 'hidden'
+    return false
 
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'

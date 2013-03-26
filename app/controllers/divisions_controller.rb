@@ -15,6 +15,14 @@ class DivisionsController < ApplicationController
                     @divisions = Division.from_company(current_user.company).order("name ASC")
                 end
             }
+            format.js {
+                if params[:division_id].present?
+                    @division = Division.find_by_id(params[:division_id])
+                    not_found unless @division.company == current_user.company
+                else
+                    @divisions = Division.from_company(current_user.company).order("name ASC")
+                end
+            }
             format.json {
                 @divisions = Division.search(params, current_user.company).results
                 render json: @divisions.map { |division| {:name => division.name, :division_type => division.class.name.underscore.humanize, :label => division.class.name.underscore.humanize + ": " + division.name, :id => division.id} }

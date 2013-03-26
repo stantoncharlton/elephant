@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
+gem 'pg', '0.12.2'
 gem 'bootstrap-sass'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.0.1'
@@ -26,7 +27,7 @@ gem 'newrelic_rpm'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-    gem 'sqlite3', '1.3.5'
+    #gem 'sqlite3', '1.3.5'
     gem 'rspec-rails', '2.10.0'
     gem 'guard-rspec', '0.5.5'
 end
@@ -59,8 +60,9 @@ group :test do
 end
 
 group :production do
-    gem 'pg', '0.12.2'
 end
+
+
 
 
 # To use ActiveModel has_secure_password

@@ -3,14 +3,23 @@
 </div>
 
 
-<%= form_for(@job) do |f| %>
-    <%= render 'fields', f: f %>
-    <%= f.submit "Create Job", class: "bluebtn pull-right tooltip-info",
-                 "data-title" => "Create new job. You edit/add more job information on next page." %>
+<div class="form">
+  <%= form_for(@job) do |f| %>
+      <%= render 'fields', f: f %>
+      <%= f.submit "Create Job", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                   "data-title" => "Create new job. You edit/add more job information on next page." %>
 
-    <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
-                "data-title" => "Cancel new job and go back"%>
-<% end %>
+      <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+                  "data-title" => "Cancel new job and go back" %>
+  <% end %>
+</div>
+
+<div class="loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading push-right"><b>Creating job, please wait</b></span>
+  <br>
+</div>
 
 
 

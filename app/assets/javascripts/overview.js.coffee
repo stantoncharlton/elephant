@@ -40,3 +40,7 @@ $ ->
       $('.loading').removeClass 'hidden'
       $('#results').hide()
       $(this).closest("form").submit()
+
+  $('.clear-filter-link').click ->
+    $('.loading').removeClass 'hidden'
+    $('#results').hide()
