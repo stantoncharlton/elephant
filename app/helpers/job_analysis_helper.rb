@@ -3,10 +3,9 @@ module JobAnalysisHelper
     def personnel_utilization(jobs)
         return 0 unless jobs.count > 0
 
-        all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq).count(:id)
-        active_users = JobMembership.where("job_memberships.job_id IN (?)", jobs.map { |j| j.id }.uniq).group(:user_id).count(:user_id)
-
-        ((active_users.count.to_f / all_users.to_f) * 100).round(0)
+        all_users = User.where("users.district_id IN (:districts) OR users.product_line_id IN (:product_lines)", districts: jobs.map { |j| j.district_id }.uniq, product_lines: jobs.map { |j| j.job_template.product_line_id }.uniq)
+        active_users = JobMembership.where("job_memberships.job_id IN (:jobs) AND job_memberships.user_id IN (:users)", jobs: jobs.map { |j| j.id }.uniq, users: all_users.map { |j| j.id }.uniq).group(:user_id).count()
+        ((active_users.count.to_f / all_users.count().to_f) * 100).round(0)
     end
 
     def total_personnel(jobs)
