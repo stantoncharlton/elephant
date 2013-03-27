@@ -49,7 +49,6 @@
     <hr>
 
     <% if current_user.company.support_email.present? %>
-        <br>
         <a href="mailto:<%= current_user.company.support_email %>" class="activity-user-link"><%= image_tag "email_icon.png" %>
           <p class="inline push-right-small"><%= current_user.company.support_email %></p></a>
     <% end %>
