@@ -6,8 +6,6 @@
     <div class="chart-title">Rating</div>
     <div class="donut-chart-div job-donut-chart-div">
       <% if !job.rating.nil? %>
-          <div id="rating" class="donut-chart "></div>
-          <div class="donut-inner-circle <%= job.rating >= 3 ? "" : "inner-circle-red" %>"></div>
           <div class="donut-text <%= job.rating >= 3 ? "" : "chart-text-red" %>"><%= job.rating %></div>
           <div class="percentage <%= job.rating >= 3 ? "" : "chart-text-red" %>">of 5</div>
       <% else %>
@@ -42,34 +40,3 @@
   </div>
 </div>
 
-
-<script>
-    $(document).ready(function () {
-
-        <% if !job.rating.nil? %>
-        plot3 = $.jqplot('rating', [
-            [
-                ['a', <%= job.rating %>],
-                ['b', 5 - <%= job.rating %>]
-            ]
-        ], {
-            animate:true,
-            background:"#FFFFFF",
-            seriesColors:[ "<%= job.rating >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
-            seriesDefaults:{
-                textColor:" #00ff0000",
-                shadow:false,
-                renderer:$.jqplot.DonutRenderer,
-                rendererOptions:{
-                    padding:0,
-                    innerDiameter:95,
-                    sliceMargin:0,
-                    startAngle:-90,
-                    showDataLabels:true,
-                    dataLabels:'value'
-                }
-            }
-        });
-        <% end %>
-    });
-</script>
