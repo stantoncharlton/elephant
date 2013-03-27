@@ -1,3 +1,23 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$ ->
+
+  $('.star-button').live "mouseenter", ->
+    level = $(this).attr('level')
+    $('.star-button').each ->
+      if $(this).attr('level') <= level
+        $(this).addClass 'star-button-hover'
+      else
+        $(this).removeClass 'star-button-hover'
+
+  $('.star-button').live "mouseleave", ->
+    $('.star-button').each ->
+      $(this).removeClass 'star-button-hover'
+
+  $('.star-button').live "click", ->
+    level = $(this).attr('level')
+    #$('.star-button-level').text(level)
+    $('#performance_rating').val(level)
+    $('.star-button').each ->
+      if $(this).attr('level') <= level
+        $(this).addClass 'star-button-filled'
+      else
+        $(this).removeClass 'star-button-filled'

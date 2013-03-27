@@ -12,3 +12,33 @@
 .chart-block-extended2 {
   width: 300px !important;
 }
+
+.failure-checkbox-div {
+  margin-left: 5px;
+  margin-right: 18px;
+}
+
+.failure-checkbox-text {
+  margin-top: 8px;
+}
+
+.failure-page-header {
+  padding-bottom: 0px !important;
+
+  p {
+    margin-top: 5px;
+    color: #0058a8;
+    line-height: 10px !important;
+  }
+}
+
+.rating-level {
+  height: 35px;
+  line-height: 35px;
+  display: inline-block;
+
+  p {
+    vertical-align:bottom;
+    display: inline;
+  }
+}

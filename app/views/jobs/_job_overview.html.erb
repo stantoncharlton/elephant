@@ -1,15 +1,18 @@
 <div class="">
 
-
   <div class="chart-block">
-    <div class="chart-title">Job Duration</div>
+    <div class="chart-title">Rating</div>
     <div class="donut-chart-div job-donut-chart-div">
       <% if job.close_date.present? %>
           <div class="donut-text "><%= [(job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), 1].max %></div>
           <div class="percentage "><%= pluralize([(job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), 1].max, "day").split(" ")[1] %></div>
       <% else %>
-          <div class="donut-text">1</div>
-          <div class="percentage ">day</div>
+          <div class="donut-text">
+            <%= job.performance_rating %>
+          </div>
+          <div class="percentage ">
+            stars
+          </div>
       <% end %>
     </div>
   </div>
@@ -24,7 +27,7 @@
 
   <div class="chart-block chart-block-extended">
     <div class="">
-      <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id), remote: true,
+      <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id, :rate => "false"), remote: true,
                   class: "add-job-member add-failure tooltip-info",
                   id: "add_failure",
                   "data-placement" => "bottom",

@@ -3,7 +3,8 @@ class Job < ActiveRecord::Base
                     :start_date,
                     :end_date,
                     :close_date,
-                    :status
+                    :status,
+                    :performance_rating
 
     include PostJobReportHelper
 

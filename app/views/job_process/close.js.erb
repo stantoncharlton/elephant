@@ -16,7 +16,7 @@ $('.tooltip-info').tooltip();
 
 <% if @show_failures %>
 $.ajax({
-    url:"/failures?job_id=<%= @job_process.job.id %>",
+    url:"/failures?job_id=<%= @job_process.job.id %>&rate=true",
     type:"GET",
     dataType:"script"
 });

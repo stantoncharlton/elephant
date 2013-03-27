@@ -5,6 +5,8 @@ class FailuresController < ApplicationController
     def index
         @job = Job.find_by_id(params[:job_id])
         not_found unless @job.company == current_user.company
+
+        @rate = params[:rate]
     end
 
     def new
@@ -41,6 +43,8 @@ class FailuresController < ApplicationController
             @failure.save
         elsif params[:failures][:job_id]
 
+            @rating = params[:performance_rating]
+
             @job = Job.find_by_id(params[:failures][:job_id])
             not_found unless @job.company == current_user.company
 
@@ -57,6 +61,10 @@ class FailuresController < ApplicationController
                         job_failure.save
                     end
                 end
+            end
+
+            if !@rating.nil?
+                @job.update_attribute(:performance_rating, @rating.to_i)
             end
 
             @job = Job.find_by_id(@job.id)

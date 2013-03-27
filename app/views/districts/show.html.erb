@@ -8,7 +8,7 @@
   </h2>
 
   <%= form_tag district_path(@district), :method => 'get', id: "inline_search", class: "inline search-box" do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query" %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search in district...", class: "search-query" %>
   <% end %>
 
 </div>
