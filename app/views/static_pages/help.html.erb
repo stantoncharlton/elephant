@@ -1,52 +1,80 @@
 <% provide(:title, 'Help') %>
 
-<div class="page_header">
+<div class="page_header" xmlns="http://www.w3.org/1999/html">
   <h1>Help</h1>
 </div>
 
 <div class="">
 
 
-  <div class="content">
-    <h3><%= current_user.company.name %> Support</h3>
-    <hr>
-    <p><%= current_user.company.name %> IT and Tech support services are usually the best initial point of contact if
-      there are questions about user accounts or job types.</p>
+  <div class="well">
+    <%= form_tag "https://support.go-elephant.com/customer/portal/articles/search", :method => 'get', :id => "global_search_id", class: "inline" do %>
+        <%= text_field_tag :q, params[:q], placeholder: "Search support topics...", class: "txtfield tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Search support site topics" %>
 
-    <p>They will be able to assist in setting up any information related to company procedures or documents.</p>
+        <%= submit_tag "Search", class: "bluebtn btnsmall" %>
+    <% end %>
 
-    <p>Similarly, if there are questions on how to use the product please direct those questions to them.</p>
-    <% if current_user.company.support_email.present? %>
-        <br>
-        <%= link_to current_user.company.support_email, "mailto:" + current_user.company.support_email, class: "activity-user-link" %>
-    <% end %>
-    <% if current_user.company.phone_number.present? %>
-        <br>
-        <b><%= current_user.company.phone_number %></b>
-    <% end %>
+    <a href="https://support.go-elephant.com/" class="bluebtn btnsmall gray">Browse Support Topics</a>
 
   </div>
 
-
   <br>
+
 
   <div class="content">
 
     <h3>Elephant Support</h3>
     <hr>
-    <p>Elephant is dedicated to world class products and support. We stand behind our products and will work to resolve
-      any issues that may arise.</p>
+    <div class="pull-left">
+      <a href="mailto:support@go-elephant.com" class="activity-user-link"><%= image_tag "email_icon.png" %>
+        <p class="inline push-right-small">Support@go-elephant.com</p></a>
+      <br>
 
-    <p>You may see new features released from time to time as our designers are hard at work on new features that aim to
-      improve the core experience, improve efficiency, or just make your job easier. Don't worry, these are a normal
-      part of making a product better and better.</p>
+      <p href="tel:1-817-382-7776" class="phone-link">1-817-382-7776</p>
+    </div>
 
-    <p>If you have any questions, just reach out to us.</p>
+    <div class="">
+      <%= image_tag "bubble_help.png" %>
+    </div>
+  </div>
+
+
+  <br>
+
+
+  <div class="content">
+    <h3><%= current_user.company.name %> Support</h3>
+    <hr>
+
+    <% if current_user.company.support_email.present? %>
+        <br>
+        <a href="mailto:<%= current_user.company.support_email %>" class="activity-user-link"><%= image_tag "email_icon.png" %>
+          <p class="inline push-right-small"><%= current_user.company.support_email %></p></a>
+    <% end %>
+    <% if current_user.company.phone_number.present? %>
+        <br>
+
+        <p href="tel:<%= current_user.company.phone_number %>" class="phone-link"><%= current_user.company.phone_number %></p>
+    <% end %>
     <br>
-    <a href="mailto:support@go-elephant.com" class="activity-user-link">Support@go-elephant.com</a>
+    <p>Please contact your company regarding questions/requests on:
+    <ul>
+      <li><b>User Accounts</b></li>
+      <li><b>Jobs</b></li>
+      <li><b>Job Types (data, documents, failures, tools)</b></li>
+      <li><b>Customers</b></li>
+      <li><b>Districts</b></li>
+      <li><b>Division, Segment, and Product Lines</b></li>
+    </ul>
+    </p>
+
     <br>
-    <b>+1 (817) 382-7776</b>
-    <br>
+
+    <p>In addition, direct questions on use and training.</p>
+
+
   </div>
 
 </div>
