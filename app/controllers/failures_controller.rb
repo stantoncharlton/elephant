@@ -64,7 +64,7 @@ class FailuresController < ApplicationController
             end
 
             if !@rating.nil?
-                @job.update_attribute(:performance_rating, @rating.to_i)
+                @job.update_attribute(:rating, @rating.to_i)
             end
 
             @job = Job.find_by_id(@job.id)

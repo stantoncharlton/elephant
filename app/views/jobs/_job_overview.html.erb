@@ -1,21 +1,22 @@
 <div class="">
 
-  <div class="chart-block">
+
+  <div class="chart-block tooltip-info"
+       data-title="Job Rating is a score from 1-5 of the job performance">
     <div class="chart-title">Rating</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <% if job.close_date.present? %>
-          <div class="donut-text "><%= [(job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), 1].max %></div>
-          <div class="percentage "><%= pluralize([(job.close_date - (job.start_date.present? ? job.start_date : job.created_at)).to_i / (24 * 60 * 60), 1].max, "day").split(" ")[1] %></div>
+      <% if !job.rating.nil? %>
+          <div id="rating" class="donut-chart "></div>
+          <div class="donut-inner-circle <%= job.rating >= 3 ? "" : "inner-circle-red" %>"></div>
+          <div class="donut-text <%= job.rating >= 3 ? "" : "chart-text-red" %>"><%= job.rating %></div>
+          <div class="percentage <%= job.rating >= 3 ? "" : "chart-text-red" %>">of 5</div>
       <% else %>
-          <div class="donut-text">
-            <%= job.performance_rating %>
-          </div>
-          <div class="percentage ">
-            stars
-          </div>
+          <div class="donut-text">-</div>
+          <div class="percentage "></div>
       <% end %>
     </div>
   </div>
+
 
   <div class="chart-block">
     <div class="chart-title">Failures</div>
@@ -40,3 +41,35 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+
+        <% if !job.rating.nil? %>
+        plot3 = $.jqplot('rating', [
+            [
+                ['a', <%= job.rating %>],
+                ['b', 5 - <%= job.rating %>]
+            ]
+        ], {
+            animate:true,
+            background:"#FFFFFF",
+            seriesColors:[ "<%= job.rating >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+        <% end %>
+    });
+</script>
