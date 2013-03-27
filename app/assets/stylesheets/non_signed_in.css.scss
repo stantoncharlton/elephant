@@ -67,6 +67,7 @@
 .login h1 {
   text-align: left;
   font-family: "gothamboldregular";
+  font-weight: normal;
   font-size: 32px;
   color: #FFFFFF;
   text-shadow: 1px 1px 1px #000000;
@@ -170,51 +171,45 @@
 
 
 .quote {
-  max-width: 420px;
-  margin-left: 50px;
+
+  background: url(image_path('blurb.png')) no-repeat top left;
+
+  width: 420px;
+  height: 135px;
+  margin-left: 20px;
   position: absolute;
-  bottom: 70px;
-}
+  bottom: 60px;
+  padding: 16px 30px 16px 50px;
 
-.quote p {
-  text-align: left;
-  color: #FFF;
-  text-shadow: 1px 1px 1px #000000;
-  font-size: 32px;
-  line-height: 40px;
-  font-family: "gothamboldregular";
-  padding-bottom: 10px;
-}
-
-.quote a {
-  text-align: left;
-  color: #FFFFFF;
-  margin: 0px;
-  background: rgba(0, 0, 0, .3);
-  border-radius: 8px;
-  padding: 6px;
-  text-shadow: 1px 1px 1px #000000;
-  font-size: 22px;
-  font-family: "gothambookregular";
-  text-decoration: underline;
-
-  &:link, &:visited {
-    background: rgba(0, 0, 0, .3);
-    border-radius: 8px;
-    padding: 6px;
-    text-shadow: 1px 1px 1px #000000;
-    text-decoration: none;
-    color: #FFFFFF;
+  p {
+    margin-right: 48px;
+    text-align: left;
+    color: #FFF;
+    font-size: 18px;
+    font-family: "gothambookregular";
+    margin-bottom: 0px;
   }
-  &:hover {
-    background: rgba(0, 0, 0, .8);
-    border-radius: 8px;
-    padding: 6px;
+
+  .phone {
+    margin-top: 0px;
+    font-family: "gothamboldregular";
+    text-transform: UPPERCASE;
     color: #FFFFFF;
-    text-shadow: 1px 1px 1px #000000;
-    text-decoration: none;
+    font-size: 28px;
+  }
+
+  .link {
+    &:link, &:visited {
+      color: #95cdff;
+    }
+    &:hover {
+      background: transparent;
+      text-decoration: none;
+      color: #7abbf6;
+    }
   }
 }
+
 
 
 .body-about {
@@ -298,7 +293,6 @@
   color: #666666;
   text-align: left;
   font-family: "gothambookregular" !important;
-  font-weight: bold !important;
   font-size: 26px !important;
 
   .quote-mark {
@@ -310,6 +304,11 @@
     font-family: "gothamboldregular";
     color: #81c0f9;
     font-size: 36px;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 18px;
   }
 }
 
@@ -336,6 +335,24 @@
   p {
     text-shadow: 1px 1px 4px #000000;
   }
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 18px;
+  }
+}
+
+.about-part-6 {
+  background: #000000 url(image_path('software.jpg')) no-repeat 0px 0px fixed;
+  background-size:100% auto;
+  background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('about_background.jpg')}, sizingMethod='scale');
+
+  height: 457px;
+
+  @media screen and (max-width: 1024px) {
+    height: 0px;
+  }
 }
 
 .about-part-2 {
@@ -344,6 +361,11 @@
   min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 18px;
+  }
 }
 
 .about-part-3 {
@@ -356,7 +378,9 @@
   color: #FFFFFF;
 
   h1 {
+    text-transform: uppercase;
     color: #99c7f0;
+    font-size: 18px;
   }
   p {
     color: #FFFFFF;
@@ -372,8 +396,14 @@
 
   color: #FFFFFF;
 
-  h1, p {
+  p {
     color: #FFFFFF;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    color: #FFFFFF;
+    font-size: 18px;
   }
 }
 
@@ -383,6 +413,11 @@
   min-width: 1050px;
   padding-top: 40px;
   padding-bottom: 100px;
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 18px;
+  }
 }
 
 
@@ -433,6 +468,11 @@
     width: 100%;
   }
 
+  .bubble {
+    margin-top: 20px;
+    margin-left: 250px;
+  }
+
   h1 {
     color: #FFFFFF;
   }
@@ -462,4 +502,9 @@
   margin-right: -25px;
 }
 
+
+a[href^=tel]{
+  color:inherit;
+  text-decoration:none;
+}
 
