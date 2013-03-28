@@ -132,7 +132,7 @@
      data-title="'Average Job Duration' is the average duration of all jobs, represented in days.">
   <div class="chart-title">Average Job Duration</div>
   <div class="donut-chart-div">
-    <div class="donut-text "><%= @average_job_time %></div>
+    <div class="donut-text "><%= @average_job_time.nil? ? "0" : @average_job_time %></div>
     <div class="percentage ">days</div>
   </div>
 </div>
@@ -146,26 +146,26 @@
   <div class="chart-title">Job Success Rate</div>
   <div class="donut-chart-div">
     <div id="failure_rate" class="donut-chart "></div>
-    <div class="donut-inner-circle <%= @job_success_rate > 80 ? "" : "inner-circle-red" %>"></div>
-    <div class="donut-text <%= @job_success_rate > 80 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
-    <div class="percentage-circle <%= @job_success_rate > 80 ? "" : "chart-text-red" %>">%</div>
+    <div class="donut-inner-circle <%= @job_success_rate > 70 ? "" : "inner-circle-red" %>"></div>
+    <div class="donut-text <%= @job_success_rate > 70 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
+    <div class="percentage-circle <%= @job_success_rate > 70 ? "" : "chart-text-red" %>">%</div>
   </div>
 </div>
 
 <div class="chart-problem">
-  <% if @failures.count > 0 %>
+  <% if @failures_count > 0 %>
       <div class="chart-title">Failure Problem</div>
   <% end %>
   <br>
 
-  <% @failures.to_a.sort_by { |fg| fg[1].count }.reverse!.take(4).each do |failure_group| %>
+  <% @failures.take(4).each do |failure_group| %>
       <div class="chart-problem">
         <div class="chart-problem-name">
-          <%= failure_group[1][0].failure_master_template.text %>
-          <p class="inline job-failure-item">&nbsp;<%= failure_group[1].count %></p>
+          <%= Failure.find_by_id(failure_group[0]).text %>
+          <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
         </div>
         <div class="chart-problem-bar">
-          <div style="width: <%= failure_group[1].count * 10 %>%"></div>
+          <div style="width: <%= failure_group[1] * 10 %>%"></div>
         </div>
       </div>
   <% end %>
@@ -276,7 +276,7 @@
         ], {
             animate:true,
             background:"#FFFFFF",
-            seriesColors:[ "<%= @job_success_rate > 80 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+            seriesColors:[ "<%= @job_success_rate > 70 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
             seriesDefaults:{
                 textColor:" #00ff0000",
                 shadow:false,

@@ -110,6 +110,7 @@ class StaticPagesController < ApplicationController
         @average_job_performance = average_job_performance(@jobs)
         @job_success_rate = 100 - job_failure_rate(@jobs)
         @failures = failures(@jobs)
+        @failures_count = @failures.count()
     end
 
     def terms_of_use
