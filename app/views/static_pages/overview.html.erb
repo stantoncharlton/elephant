@@ -113,18 +113,18 @@
     <div id="personnel_utilization" class="donut-chart "></div>
     <div class="donut-inner-circle"></div>
     <div class="donut-text"><%= @personnel_utilization %></div>
-    <div class="percentage">%</div>
+    <div class="percentage-circle">%</div>
   </div>
 </div>
 
 <div class="chart-block tooltip-info"
-     data-title="'Elephant Utilization' is the utilization of Elephant compared to all jobs by your organization.">
-  <div class="chart-title">Elephant Utilization</div>
+     data-title="'Performance Rating' is the average job rating.">
+  <div class="chart-title">Performance Rating</div>
   <div class="donut-chart-div">
-    <div id="elephant_utilization" class="donut-chart "></div>
-    <div class="donut-inner-circle"></div>
-    <div class="donut-text ">67</div>
-    <div class="percentage ">%</div>
+    <div id="performance_rating" class="donut-chart "></div>
+    <div class="donut-inner-circle <%= @average_job_performance >= 3 ? "" : "inner-circle-red" %>"></div>
+    <div class="donut-text <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>"><%= @average_job_performance %></div>
+    <div class="percentage-circle <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>">of 5</div>
   </div>
 </div>
 
@@ -148,7 +148,7 @@
     <div id="failure_rate" class="donut-chart "></div>
     <div class="donut-inner-circle <%= @job_success_rate > 80 ? "" : "inner-circle-red" %>"></div>
     <div class="donut-text <%= @job_success_rate > 80 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
-    <div class="percentage <%= @job_success_rate > 80 ? "" : "chart-text-red" %>">%</div>
+    <div class="percentage-circle <%= @job_success_rate > 80 ? "" : "chart-text-red" %>">%</div>
   </div>
 </div>
 
@@ -198,6 +198,17 @@
   <div class="donut-chart-div">
     <div class="donut-text "><%= @total_job_types %></div>
     <div class="percentage ">types</div>
+  </div>
+</div>
+
+<div class="chart-block tooltip-info"
+     data-title="'Elephant Utilization' is the utilization of Elephant compared to all jobs by your organization.">
+  <div class="chart-title">Elephant Utilization</div>
+  <div class="donut-chart-div">
+    <div id="elephant_utilization" class="donut-chart "></div>
+    <div class="donut-inner-circle"></div>
+    <div class="donut-text ">67</div>
+    <div class="percentage-circle ">%</div>
   </div>
 </div>
 
@@ -266,6 +277,30 @@
             animate:true,
             background:"#FFFFFF",
             seriesColors:[ "<%= @job_success_rate > 80 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+
+        plot3 = $.jqplot('performance_rating', [
+            [
+                ['a', <%= @average_job_performance %>],
+                ['b', 5 - <%= @average_job_performance %>]
+            ]
+        ], {
+            animate:true,
+            background:"#FFFFFF",
+            seriesColors:[ "<%= @average_job_performance >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
             seriesDefaults:{
                 textColor:" #00ff0000",
                 shadow:false,

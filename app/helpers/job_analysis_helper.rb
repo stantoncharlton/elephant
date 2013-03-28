@@ -23,6 +23,8 @@ module JobAnalysisHelper
     def average_job_duration(jobs)
         return 0 unless jobs.count > 0
 
+        jobs.average(:rating).round(1).to_f
+
         total_time = 0
         total_jobs = 0
 
@@ -35,6 +37,10 @@ module JobAnalysisHelper
 
         return 0 unless (total_time.to_f > 0) && (total_jobs.to_f > 0)
         (total_time.to_f / total_jobs.to_f).round(1)
+    end
+
+    def average_job_performance(jobs)
+        jobs.average(:rating).round(1).to_f
     end
 
     def job_failure_rate(jobs)
