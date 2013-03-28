@@ -276,9 +276,9 @@ module FakeDataHelper
                 job.start_date = Random.new.rand(5.years.ago..(Time.now + 50.days)).to_date
 
                 if job.start_date > Time.now
-                    job.close_date = job.start_date + Random.new.rand(3..15).days
                     job.status = Job::ACTIVE
                 else
+                    job.close_date = job.start_date + Random.new.rand(3..15).days
                     job.status = Job::CLOSED
                 end
 
