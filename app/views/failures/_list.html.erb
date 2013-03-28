@@ -6,16 +6,16 @@
       <p>Please rate the quality and performance of the job</p>
     </div>
 
-    <%= hidden_field_tag "performance_rating", name: "rating" %>
+    <%= hidden_field_tag "performance_rating", "", name: "performance_rating", value: job.rating %>
     <div>
       <div class="rating-level"><p>poor &nbsp;</p></div>
 
       <div class="inline">
-        <a href="#" class="star-button" level="1">1</a>
-        <a href="#" class="star-button" level="2">2</a>
-        <a href="#" class="star-button" level="3">3</a>
-        <a href="#" class="star-button" level="4">4</a>
-        <a href="#" class="star-button" level="5">5</a>
+        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 1 ? "star-button-filled" : "" %>" level="1">1</a>
+        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 2 ? "star-button-filled" : "" %>" level="2">2</a>
+        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 3 ? "star-button-filled" : "" %>" level="3">3</a>
+        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 4 ? "star-button-filled" : "" %>" level="4">4</a>
+        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 5 ? "star-button-filled" : "" %>" level="5">5</a>
       </div>
 
       <div class="rating-level"><p>&nbsp; excellent</p></div>

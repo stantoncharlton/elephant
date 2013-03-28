@@ -6,7 +6,7 @@
     <div class="chart-title">Rating</div>
     <div class="donut-chart-div job-donut-chart-div">
       <% if !job.rating.nil? %>
-          <div class="donut-text <%= job.rating >= 3 ? "" : "chart-text-red" %>"><%= job.rating %></div>
+          <div class="donut-text rating-count <%= job.rating >= 3 ? "" : "chart-text-red" %>"><%= job.rating %></div>
           <div class="percentage <%= job.rating >= 3 ? "" : "chart-text-red" %>">of 5</div>
       <% else %>
           <div class="donut-text">-</div>

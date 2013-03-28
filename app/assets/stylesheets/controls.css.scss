@@ -254,7 +254,11 @@ select {
 
 
 .star-button {
-  text-indent: -10000px;
+  text-indent: 0px;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 10px;
+  color: transparent;
   overflow: hidden;
   background: transparent;
   display: inline-block;
@@ -264,11 +268,13 @@ select {
   background: url(image_path('rating_star_unfilled.png')) no-repeat top left;
 
   &:link, &:visited, &:active {
+    color: transparent;
     background: transparent;
     text-decoration: none;
     background: url(image_path('rating_star_unfilled.png')) no-repeat top left;
   }
   &:hover {
+    color: #FFFFFF;
     background: transparent;
     text-decoration: none;
     background: url(image_path('rating_star_filled.png')) no-repeat top left;
@@ -283,9 +289,9 @@ select {
 }
 
 .star-button-hover {
-  background: url(image_path('rating_star_filled.png')) no-repeat top left;
+  background: url(image_path('rating_star_hover.png')) no-repeat top left;
   &:link, &:visited, &:active {
-    background: url(image_path('rating_star_filled.png')) no-repeat top left;
+    background: url(image_path('rating_star_hover.png')) no-repeat top left;
   }
 }
 
