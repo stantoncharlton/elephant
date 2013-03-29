@@ -44,3 +44,42 @@ $ ->
   $('.clear-filter-link').click ->
     $('.loading').removeClass 'hidden'
     $('#results').hide()
+
+  $('#show_hide_overview_filters').click ->
+    if $.trim($(this).text()) == "Show Detailed Filters"
+      $(this).text("Hide Detailed Filters")
+      $('#overview_filters').removeClass 'hidden'
+      $('#all_filters_id').val('open')
+    else
+      $(this).text("Show Detailed Filters")
+      $('#overview_filters').addClass 'hidden'
+      $('#all_filters_id').val('')
+    return false
+
+
+  $('.overview-time-filter').click ->
+    $('.overview-time-filter').each ->
+      $(this).closest('li').removeClass 'active'
+    $(this).closest('li').addClass 'active'
+    $("#time_filter_id").val($(this).data('time'))
+    $('.loading').removeClass 'hidden'
+    $('#results').hide()
+    $(this).closest("form").submit()
+
+  $('.overview-rating-filter').click ->
+    $('.overview-rating-filter').each ->
+      $(this).closest('li').removeClass 'active'
+    $(this).closest('li').addClass 'active'
+    $("#rating_filter_id").val($(this).data('rating'))
+    $('.loading').removeClass 'hidden'
+    $('#results').hide()
+    $(this).closest("form").submit()
+
+  $('.overview-failure-filter').click ->
+    $('.overview-failure-filter').each ->
+      $(this).closest('li').removeClass 'active'
+    $(this).closest('li').addClass 'active'
+    $("#failure_filter_id").val($(this).data('failure'))
+    $('.loading').removeClass 'hidden'
+    $('#results').hide()
+    $(this).closest("form").submit()

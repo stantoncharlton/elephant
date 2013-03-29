@@ -8,7 +8,14 @@
 
 <div class="page_header">
   <h1>Overview</h1>
-  <%= link_to "Clear filters", overview_path, class: "inline activity-user-link pull-right clear-filter-link" %>
+
+  <div class="pull-right overview-options">
+    <%= link_to "Clear filters", overview_path, class: "inline activity-user-link clear-filter-link" %>
+    <br>
+    <a id="show_hide_overview_filters" class="activity-user-link" href="#">
+      <%= @filters_open == "open" ? "Hide Detailed Filters" : "Show Detailed Filters" %>
+    </a>
+  </div>
 </div>
 
 
@@ -51,36 +58,152 @@
         <!-- <%= submit_tag "Update", class: "bluebtn gray" %> -->
       </div>
 
-      <hr>
+      <%= hidden_field_tag "", "", name: "filters_open", id: "all_filters_id", value: @filters_open %>
+      <div id="overview_filters" class="<%= @filters_open == "open" ? "" : "hidden" %>">
+        <hr>
 
-      <ul class="nav nav-pills">
+        <%= hidden_field_tag "", "", name: "time", id: "time_filter_id", value: @time %>
+        <ul class="nav nav-pills inline">
 
-        <li class="active">
-          <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-             data-tray="secondary_tools"
-             data-placement="bottom" data-title="List of tools used on this job">All time</a>
-        </li>
-
-        <li class="push-right-small">
-          <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-             data-tray="notes"
-             data-placement="bottom" data-title="List of tools used on this job">Last 30 days</a>
-        </li>
-
-        <li class="push-right-small">
-          <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-             data-tray="activity"
-             data-placement="bottom" data-title="List of tools used on this job">Last 60 days</a>
-        </li>
-
-        <li class="push-right-small">
-          <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-             data-tray="activity"
-             data-placement="bottom" data-title="List of tools used on this job">Last year</a>
-        </li>
+          <li>
+            <a class="filter-label disabled">
+              <h3 class="inline pull-left">Time</h3>
+            </a>
+          </li>
 
 
-      </ul>
+          <li class=" <%= @time == "all" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-time-filter custom-data-toggle tooltip-info"
+               data-time="all"
+               data-placement="bottom"
+               data-title="Jobs performed in the last year">All time</a>
+          </li>
+          <li class=" <%= @time == "30" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-time-filter custom-data-toggle tooltip-info"
+               data-time="30"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">0-30 days</a>
+          </li>
+          <li class=" <%= @time == "previous 30" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-time-filter custom-data-toggle tooltip-info"
+               data-time="previous 30"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">30-60 days</a>
+          </li>
+          <li class=" <%= @time == "60" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-time-filter custom-data-toggle tooltip-info"
+               data-time="60"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">0-60 days</a>
+          </li>
+          <li class=" <%= @time == "year" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-time-filter custom-data-toggle tooltip-info"
+               data-time="year"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">Last 12 months</a>
+          </li>
+        </ul>
+
+        <hr>
+
+        <%= hidden_field_tag "", "", name: "rating", id: "rating_filter_id", value: @rating %>
+        <ul class="nav nav-pills inline">
+          <li>
+            <a class="filter-label disabled">
+              <h3 class="inline pull-left">Rating</h3>
+            </a>
+          </li>
+
+          <li class=" <%= @rating == "all" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-rating-filter custom-data-toggle tooltip-info"
+               data-rating="all"
+               data-placement="bottom"
+               data-title="Jobs performed in the last year">All rating levels</a>
+          </li>
+          <li class=" <%= @rating == "1" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-rating-filter custom-data-toggle tooltip-info"
+               data-rating="1"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">1 star</a>
+          </li>
+          <li class=" <%= @rating == "2" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-rating-filter custom-data-toggle tooltip-info"
+               data-rating="2"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">2 star</a>
+          </li>
+          <li class=" <%= @rating == "3" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-rating-filter custom-data-toggle tooltip-info"
+               data-rating="3"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">3 star</a>
+          </li>
+          <li class=" <%= @rating == "4" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-rating-filter custom-data-toggle tooltip-info"
+               data-rating="4"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">4 star</a>
+          </li>
+          <li class=" <%= @rating == "5" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-rating-filter custom-data-toggle tooltip-info"
+               data-rating="5"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">5 star</a>
+          </li>
+        </ul>
+
+        <hr>
+
+        <%= hidden_field_tag "", "", name: "failure_level", id: "failure_filter_id", value: @failure_level %>
+        <ul class="nav nav-pills inline">
+          <li>
+            <a class="filter-label disabled">
+              <h3 class="inline pull-left">Failures</h3>
+            </a>
+          </li>
+
+          <li class=" <%= @failure_level == "all" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-failure-filter custom-data-toggle tooltip-info"
+               data-failure="all"
+               data-placement="bottom"
+               data-title="Jobs performed in the last year">All failure levels</a>
+          </li>
+          <li class=" <%= @failure_level == "1" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-failure-filter custom-data-toggle tooltip-info"
+               data-failure="1"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">1 failure</a>
+          </li>
+          <li class=" <%= @failure_level == "2" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-failure-filter custom-data-toggle tooltip-info"
+               data-failure="2"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">2 failures</a>
+          </li>
+          <li class=" <%= @failure_level == "3" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-failure-filter custom-data-toggle tooltip-info"
+               data-failure="3"
+               data-placement="bottom"
+               data-title="Jobs performed in the last 0-30 days">3+ failures</a>
+          </li>
+        </ul>
+      </div>
+
 
   <% end %>
 </div>
@@ -155,19 +278,20 @@
 <div class="chart-problem">
   <% if @failures_count > 0 %>
       <div class="chart-title">Failure Problem</div>
-  <% end %>
-  <br>
+      <a href="#" class="activity-user-link pull-right">View all failures (<%= @failures_count %>)</a>
+      <br>
 
-  <% @failures.take(4).each do |failure_group| %>
-      <div class="chart-problem">
-        <div class="chart-problem-name">
-          <%= Failure.find_by_id(failure_group[0]).text %>
-          <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
-        </div>
-        <div class="chart-problem-bar">
-          <div style="width: <%= failure_group[1] * 10 %>%"></div>
-        </div>
-      </div>
+      <% @failures_list.each do |failure_group| %>
+          <div class="chart-problem">
+            <div class="chart-problem-name">
+              <%= Failure.find_by_id(failure_group[0]).text %>
+              <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
+            </div>
+            <div class="chart-problem-bar">
+              <div style="width: <%= (failure_group[1].to_f / [[@failures_list.first[1].to_f, 50].min, 50].max) * 100 %>%"></div>
+            </div>
+          </div>
+      <% end %>
   <% end %>
 
 </div>
@@ -325,8 +449,8 @@
                     "<a><div><img src='/assets/division_extrasmall.png' class='job-member-avatar pull-left'></div><div class='job-user'><strong>" + item.name + " </strong><div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div></div></a>").appendTo(ul)
         }
         $('#district_filter').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a><div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div><div><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></div></a>").appendTo(ul)
+            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                    "<a><div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div><div><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></div></a>").appendTo(ul)
         }
     });
 </script>

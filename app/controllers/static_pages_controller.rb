@@ -69,6 +69,10 @@ class StaticPagesController < ApplicationController
         @district_id = params[:district_id]
         @division_id = params[:division_id]
         @user_id = params[:user_id]
+        @time = params[:time].blank? ? "all" : params[:time]
+        @rating = params[:rating].blank? ? "all" : params[:rating]
+        @failure_level = params[:failure_level].blank? ? "all" : params[:failure_level]
+        @filters_open = params[:filters_open].blank? ? "" : params[:filters_open]
 
         if !@district_id.blank?
             @jobs = @jobs.where(district_id: @district_id)
@@ -96,9 +100,49 @@ class StaticPagesController < ApplicationController
         if !@user_id.blank?
             @user = User.find_by_id(@user_id)
             not_found unless @user.company == current_user.company
-            @jobs = @jobs.where("jobs.id IN (?)", @user.jobs.map { |j| j.id }.uniq)
+            user_jobs_query = @user.jobs.reorder('').select("jobs.id").to_sql
+            @jobs = @jobs.where("jobs.id IN (#{user_jobs_query})")
             @user_name = @user.name
         end
+
+        @start_date = 50.years.ago
+        @end_date = Time.now
+        case @time
+            when "30"
+                @start_date = 30.days.ago
+            when "previous 30"
+                @start_date = 60.days.ago
+                @end_date = 30.days.ago
+            when "60"
+                @start_date = 60.days.ago
+            when "year"
+                @start_date = 1.year.ago
+        end
+        @jobs = @jobs.where("jobs.start_date > :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @end_date)
+
+        case @rating
+            when "1"
+                @jobs = @jobs.where("jobs.rating = 1")
+            when "2"
+                @jobs = @jobs.where("jobs.rating = 2")
+            when "3"
+                @jobs = @jobs.where("jobs.rating = 3")
+            when "4"
+                @jobs = @jobs.where("jobs.rating = 4")
+            when "5"
+                @jobs = @jobs.where("jobs.rating = 5")
+        end
+
+        case @failure_level
+            when "1"
+                failures_query = Failure.where("failures.job_id IN (#{jobs_query})").order("COUNT(failure_master_template_id) DESC").select("failures.*, DISTINCT failure_master_template_id").group(:failure_master_template_id).count().to_sql
+                @jobs.where("jobs.id IN (#{failures_query})")
+            when "2"
+                @jobs = @jobs.reorder('').joins(:failures).select("distinct failures.job_id").where("failures.job_id = 2")
+            when "3"
+                @jobs = @jobs.reorder('').joins(:failures).select("distinct failures.job_id").where("failures.job_id >= 3")
+        end
+
     end
 
     def analyze
@@ -109,7 +153,9 @@ class StaticPagesController < ApplicationController
         @average_job_time = average_job_duration(@jobs)
         @average_job_performance = average_job_performance(@jobs)
         @job_success_rate = 100 - job_failure_rate(@jobs)
+
         @failures = failures(@jobs)
+        @failures_list = @failures.take(4).to_a
         @failures_count = @failures.count()
     end
 

@@ -280,6 +280,7 @@ module FakeDataHelper
                 else
                     job.close_date = job.start_date + Random.new.rand(3..15).days
                     job.status = Job::CLOSED
+                    job.rating = Random.new.rand(1..5)
                 end
 
                 job.save
