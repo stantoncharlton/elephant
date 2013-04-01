@@ -360,12 +360,8 @@ class Job < ActiveRecord::Base
 
     def can_user_view?(user)
         return true if user.role.global_read?
-
-        if !self.user_is_member?(user)
-            if user.role.district_read? and self.district == user.district
-                return true
-            end
-        end
+        return true if self.user_is_member?(user)
+        return true if user.role.district_read? and self.district == user.district
 
         false
     end

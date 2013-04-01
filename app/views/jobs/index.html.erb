@@ -28,7 +28,7 @@
           <%= render 'jobs/index_parts/divisions' %>
         </div>
     <% else %>
-        <%= render 'jobs/index_parts/jobs_count', jobs: current_user.active_jobs %>
+        <%= render 'jobs/index_parts/jobs_count', jobs: current_user.jobs %>
         <br>
     <% end %>
 <% end %>

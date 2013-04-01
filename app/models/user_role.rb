@@ -192,6 +192,10 @@ class UserRole < ActiveRecord::Base
         global_read? || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.role_id == ROLE_ADMINISTRATOR
     end
 
+    def limit_to_assigned_jobs?
+        self.role_id >= 30 && self.role_id <= 39
+    end
+
     def limit_to_district?
         self.role_id >= 30 && self.role_id <= 39
     end

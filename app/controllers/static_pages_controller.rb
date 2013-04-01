@@ -66,6 +66,15 @@ class StaticPagesController < ApplicationController
     end
 
     def filter
+
+        if current_user.role.limit_to_assigned_jobs?
+            @jobs = @jobs.where("jobs.id IN (SELECT job_id FROM job_memberships where user_id = :user_id)", user_id: current_user.id)
+        elsif current_user.role.limit_to_district?
+            @jobs = @jobs.where(:district_id => current_user.district.id)
+        elsif current_user.role.limit_to_product_line? && !current_user.product_line.nil?
+            @jobs = @jobs.where(:product_line_id => current_user.product_line.id)
+        end
+
         @district_id = params[:district_id]
         @division_id = params[:division_id]
         @user_id = params[:user_id]
