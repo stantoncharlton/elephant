@@ -18,9 +18,9 @@ class UsersController < ApplicationController
                 @users = User.search(params, current_user.company).results
 
                 if params[:q].present?
-                    render json: @users.map { |user| {:name => user.name + " (" + user.title + " / " + user.district.name + ")", :id => user.id} }
+                    render json: @users.map { |user| {:name => user.name + " (" + user.title.to_s + " / " + user.district.name + ")", :id => user.id} }
                 else
-                    render json: @users.map { |user| {:label => user.name, :position_title => user.title, :district => user.district.present? ? user.district.name : "", :id => user.id} }
+                    render json: @users.map { |user| {:label => user.name, :position_title => user.title.to_s, :district => user.district.present? ? user.district.name : "", :id => user.id} }
                 end
             }
         end
