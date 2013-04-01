@@ -113,7 +113,7 @@ class UserRole < ActiveRecord::Base
     end
 
     def self.from_role(role_id, company)
-        user_role = UserRole.new(role_id: role_id)
+        user_role = UserRole.new(role_id: role_id.nil? ? ROLE_SUPPORT : role_id)
         user_role.company = company
         user_role
     end
