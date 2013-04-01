@@ -237,7 +237,7 @@ module FakeDataHelper
                         :phone_number => Faker::PhoneNumber.cell_phone
                 )
                 user.company = company
-                user.role = role
+                user.role_id = UserRole.all_roles(company).sample.role_id
                 user.district = District.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                 user.save
                 puts "User:  " + user.name

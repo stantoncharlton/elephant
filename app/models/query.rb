@@ -1,8 +1,9 @@
 class Query < Object
-    attr_accessor :constraints
+    attr_accessor :constraints,
+                  user
 
     @constraints
-
+    @user
 
     WELL_DATA = 1
     JOB_DATA = 2

@@ -2,18 +2,36 @@
 
 <div class="page_header">
   <h1>User Roles</h1>
-
-  <h2><%= @roles.count() %></h2>
-
-  <% if signed_in_admin? %>
-      <%= link_to "+ Add New Role", new_user_role_path, class: "bluebtn page_header_button tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Create new user role"%>
-  <% end %>
 </div>
 
+<div class="page-header-small">
+  <h1>Support</h1>
+</div>
+<div class="list">
+  <%= render UserRole.support_roles current_user.company %>
+</div>
+<br><br>
 
-<div id="roles" class="list">
-  <%= render @roles %>
+<div class="page-header-small">
+  <h1>Field</h1>
+</div>
+<div class="list">
+  <%= render UserRole.field_roles current_user.company %>
+</div>
+<br><br>
+
+<div class="page-header-small">
+  <h1>Sales</h1>
+</div>
+<div class="list">
+  <%= render UserRole.sales_roles current_user.company %>
+</div>
+<br><br>
+
+<div class="page-header-small">
+  <h1>Elephant Admin</h1>
+</div>
+<div class="list">
+  <%= render UserRole.admin_roles current_user.company %>
 </div>
 

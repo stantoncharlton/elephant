@@ -30,9 +30,10 @@
     <div class="field stripe">
       <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
 
-      <%= f.select :role_id, @roles.collect { |p| [p.title, p.id] },
+      <%= f.select :role_id, options_for_select(@roles, @user.role_id),
+                   prompt: "Select a User Role...",
                    id: "roles_list",
-                   prompt: "Select a Role..." %>
+                   class: "" %>
     </div>
     <div class="field stripe">
       <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>

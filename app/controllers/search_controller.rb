@@ -99,6 +99,7 @@ class SearchController < ApplicationController
     def new
 
         @query = Query.new
+        @query.user = current_user
         @well_data = Well.accessible_attributes.select { |w| !w.blank? && !Well.human_attribute_name(w).include?("value type") }
 
         @dynamic_field = DynamicField.new
@@ -135,6 +136,7 @@ class SearchController < ApplicationController
 
     def create
         query = Query.new
+        query.user = current_user
         query.constraints = Array.new
         index = 0
 

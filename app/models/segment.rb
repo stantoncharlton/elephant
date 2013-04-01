@@ -33,10 +33,9 @@ class Segment < ActiveRecord::Base
           with(:segment_id, segment.id)
           any_of do
               with(:job_membership, user.id)
-              if user.role.district_read?
+              if user.role.limit_to_district?
                   with(:district_id, user.district.id)
-              end
-              if user.role.product_line_read? and !user.product_line.nil?
+              elsif user.role.limit_to_product_line? && !user.product_line.nil?
                   with(:product_line_id, user.product_line.id)
               end
           end

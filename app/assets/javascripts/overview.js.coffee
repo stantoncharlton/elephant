@@ -42,6 +42,7 @@ $ ->
       $(this).closest("form").submit()
 
   $('.clear-filter-link').click ->
+    $('#overview_filters').addClass 'hidden'
     $('.loading').removeClass 'hidden'
     $('#results').hide()
 

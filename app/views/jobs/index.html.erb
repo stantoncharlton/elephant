@@ -23,9 +23,11 @@
     <%= render 'jobs/index_parts/jobs_count', jobs: current_user.active_jobs %>
     <br>
 
-    <div class="alert">
-      <%= render 'jobs/index_parts/divisions' %>
-    </div>
+    <% if current_user.role.no_assigned_jobs? %>
+        <div class="">
+          <%= render 'jobs/index_parts/divisions' %>
+        </div>
+    <% end %>
 <% end %>
 
 
@@ -41,7 +43,7 @@
         <div class="no-alerts">
           <p class="center"><%= t ".no_jobs" %></p>
         </div>
-   <% else %>
+    <% else %>
         <div class="alert">
           <%= link_to "View all jobs active and closed (" + current_user.jobs.count.to_s + ")", jobs_path(:page => "1"), class: "activity-user-link" %>
         </div>

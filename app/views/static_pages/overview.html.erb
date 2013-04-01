@@ -169,7 +169,7 @@
         <ul class="nav nav-pills inline">
           <li>
             <a class="filter-label disabled">
-              <h3 class="inline pull-left">Failures</h3>
+              <h3 class="inline pull-left">Failures/job</h3>
             </a>
           </li>
 
@@ -288,7 +288,7 @@
               <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
             </div>
             <div class="chart-problem-bar">
-              <div style="width: <%= (failure_group[1].to_f / [[@failures_list.first[1].to_f, 50].min, 50].max) * 100 %>%"></div>
+              <div style="width: <%= (failure_group[1].to_f / [@failures_list.first[1].to_f, 50].max) * 100 %>%"></div>
             </div>
           </div>
       <% end %>
@@ -320,7 +320,7 @@
      data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
   <div class="chart-title">Job Types</div>
   <div class="donut-chart-div">
-    <div class="donut-text "><%= @total_job_types %></div>
+    <div class="donut-text "><%= number_with_delimiter(@total_job_types, :delimiter => ",") %></div>
     <div class="percentage ">types</div>
   </div>
 </div>

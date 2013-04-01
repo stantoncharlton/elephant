@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130327183903) do
+ActiveRecord::Schema.define(:version => 20130329150747) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -406,17 +406,9 @@ ActiveRecord::Schema.define(:version => 20130327183903) do
   create_table "user_roles", :force => true do |t|
     t.string   "title"
     t.integer  "company_id"
-    t.boolean  "create_job",                :default => false
-    t.boolean  "assign_users",              :default => false
-    t.boolean  "district_read",             :default => false
-    t.boolean  "district_modify",           :default => false
-    t.boolean  "product_line_read",         :default => false
-    t.boolean  "product_line_modify",       :default => false
-    t.boolean  "global_read",               :default => false
-    t.boolean  "global_modify",             :default => false
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
-    t.boolean  "document_templates_modify", :default => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "role_id"
   end
 
   add_index "user_roles", ["company_id"], :name => "index_user_roles_on_company_id"

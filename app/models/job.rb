@@ -139,10 +139,9 @@ class Job < ActiveRecord::Base
             fulltext options[:search]
             any_of do
                 with(:job_membership, user.id)
-                if user.role.district_read?
+                if user.role.limit_to_district?
                     with(:district_id, user.district.id)
-                end
-                if user.role.product_line_read? and !user.product_line.nil?
+                elsif user.role.limit_to_product_line? && !user.product_line.nil?
                     with(:product_line_id, user.product_line.id)
                 end
             end
@@ -155,6 +154,12 @@ class Job < ActiveRecord::Base
     def self.advanced_search(query, company)
 
         ar_query = where(:company_id => company.id)
+
+        if query.user.role.limit_to_district?
+            where(:district_id => query.user.district.id)
+        elsif query.user.role.limit_to_product_line? && !query.user.product_line.nil?
+            where(:product_line_id => query.user.product_line.id)
+        end
 
         query.constraints.each do |constraint|
             operator = "="
@@ -344,33 +349,22 @@ class Job < ActiveRecord::Base
     end
 
     def is_job_editable?(user)
+        return false if self.status == Job::CLOSED
 
         if !self.user_is_member?(user)
-            if !user.role.district_modify? and self.district == user.district
-                return false
-
-            elsif !user.role.product_line_modify? and !user.product_line.nil? and self.job_template.product_line == user.product_line
-                return false
-            end
+            return true if user.role.global_read?
         end
 
-        !self.approved_to_close
+        false
     end
 
     def can_user_view?(user)
-        if user.role.global_read?
-            return true
-        end
+        return true if user.role.global_read?
 
         if !self.user_is_member?(user)
-
             if user.role.district_read? and self.district == user.district
                 return true
-            elsif user.role.product_line_read? and !user.product_line.nil? and self.job_template.product_line == user.product_line
-                return true
             end
-        else
-            return true
         end
 
         false

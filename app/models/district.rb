@@ -58,7 +58,7 @@ class District < ActiveRecord::Base
         Sunspot.search(Job) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:district_id, district.id)
-            if !user.role.district_read?
+            if !user.role.limit_to_district?
                 with(:job_membership, user.id)
             end
             with(:company_id, company.id)

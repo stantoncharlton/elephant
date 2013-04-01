@@ -17,7 +17,7 @@
                     <% if current_user.admin? %>
                         Administrator
                     <% else %>
-                        <%= current_user.role.title %>
+                        <%= current_user.title %>
                     <% end %>
                   </p>
                 </div>

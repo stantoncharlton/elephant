@@ -18,9 +18,9 @@ class UsersController < ApplicationController
                 @users = User.search(params, current_user.company).results
 
                 if params[:q].present?
-                    render json: @users.map { |user| {:name => user.name + " (" + user.role.title + " / " + user.district.name + ")", :id => user.id} }
+                    render json: @users.map { |user| {:name => user.name + " (" + user.title + " / " + user.district.name + ")", :id => user.id} }
                 else
-                    render json: @users.map { |user| {:label => user.name, :position_title => user.role.present? ? user.role.title : "", :district => user.district.present? ? user.district.name : "", :id => user.id} }
+                    render json: @users.map { |user| {:label => user.name, :position_title => user.title, :district => user.district.present? ? user.district.name : "", :id => user.id} }
                 end
             }
         end
@@ -40,8 +40,8 @@ class UsersController < ApplicationController
         @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
-        @roles = @roles = current_user.company.roles
 
+        @roles = create_roles
         @divisions = current_user.company.divisions
 
         if !@user.product_line.nil?
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
                 redirect_back_or users_path
             else
                 @districts = current_user.company.districts
-                @roles = @roles = current_user.company.roles
+                @roles = create_roles
                 @product_lines = current_user.company.product_lines
                 render 'edit'
             end
@@ -87,7 +87,7 @@ class UsersController < ApplicationController
 
         @user = User.new
         @districts = current_user.company.districts
-        @roles = current_user.company.roles
+        @roles = create_roles
         @divisions = current_user.company.divisions
         @segments = Array.new
         @product_lines = Array.new
@@ -107,7 +107,7 @@ class UsersController < ApplicationController
         @districts = current_user.company.districts
         @user.company = current_user.company
         @user.district = District.find_by_id(district_id)
-        @user.role = UserRole.find_by_id(role_id)
+        @user.role_id = role_id
         @user.product_line = ProductLine.find_by_id(product_line_id)
         password = SecureRandom.urlsafe_base64[1..7]
         @user.password = password
@@ -128,7 +128,7 @@ class UsersController < ApplicationController
             redirect_to users_path
         else
             @districts = current_user.company.districts
-            @roles = @roles = current_user.company.roles
+            @roles = create_roles
             @divisions = current_user.company.divisions
             @segments = Array.new
             @product_lines = Array.new
@@ -150,5 +150,32 @@ class UsersController < ApplicationController
             flash[:error] = "Can't delete yourself."
             redirect_to users_path
         end
+    end
+
+private
+    def create_roles
+        roles = []
+        roles << "Select a role..."
+        roles << ["", -1]
+        roles << ["Support Roles"+ " (" + UserRole.support_roles(current_user.company).count.to_s + ") ------------------------", -1]
+        UserRole.support_roles(current_user.company).each do |role|
+            roles << [role.title, role.role_id]
+        end
+        roles << ["", -1]
+        roles << ["Field Roles"+ " (" + UserRole.field_roles(current_user.company).count.to_s + ") ------------------------", -1]
+        UserRole.field_roles(current_user.company).each do |role|
+            roles << [role.title, role.role_id]
+        end
+        roles << ["", -1]
+        roles << ["Sales Roles"+ " (" + UserRole.sales_roles(current_user.company).count.to_s + ") ------------------------", -1]
+        UserRole.sales_roles(current_user.company).each do |role|
+            roles << [role.title, role.role_id]
+        end
+        roles << ["", -1]
+        roles << ["Elephant Admin Roles"+ " (" + UserRole.admin_roles(current_user.company).count.to_s + ") ------------------------", -1]
+        UserRole.admin_roles(current_user.company).each do |role|
+            roles << [role.title, role.role_id]
+        end
+        roles
     end
 end

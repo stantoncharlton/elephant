@@ -12,7 +12,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :users, only: [:index, :show, :new, :create, :destroy, :edit, :update]
 
-    resources :user_roles, only: [:index, :new, :create, :destroy, :edit, :update]
+    resources :user_roles, only: [:index, :show, :new, :create, :destroy, :edit, :update]
 
     resources :sessions, only: [:create, :destroy]
 

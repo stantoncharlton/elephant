@@ -9,13 +9,15 @@
 
 </div>
 
-<% if !@is_paged%>
+<% if !@is_paged %>
     <%= render 'jobs/index_parts/jobs_count', jobs: @product_line.jobs %>
     <br>
 
-    <div class="alert">
-      <%= render 'jobs/index_parts/job_templates', product_line: @product_line %>
-    </div>
+    <% if current_user.role.no_assigned_jobs? %>
+        <div class="">
+          <%= render 'jobs/index_parts/job_templates', product_line: @product_line %>
+        </div>
+    <% end %>
 <% end %>
 
 

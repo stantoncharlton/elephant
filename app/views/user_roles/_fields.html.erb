@@ -1,60 +1,13 @@
-<%= render 'shared/error_messages', object: f.object %>
-
 <div class="well">
-  <div class=" stripe">
-    <%= f.text_field :title, placeholder: "Role Title", class: "txtfield tooltip-info",
+  <div class="">
+    <%= f.hidden_field :role_id,
+                       value: @role.role_id,
+                       name: "user_role[role_id]" %>
+    <%= f.text_field :title, placeholder: "Role Title",
+                     class: "txtfield tooltip-info",
+                     value: @role.title,
+                     name: "user_role[title]",
                      "data-placement" => "bottom",
                      "data-title" => "User Role Title"%>
-  </div>
-  <br>
-
-  <%= f.hidden_field :create_job, value: true %>
-
-  <div class="field">
-    <%= f.check_box :assign_users %>
-    <%= f.label "Assign Users", class: "user-role-name" %>
-    <p class="user-role-type">Ability to assign other users to a job they have access to</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :district_read %>
-    <%= f.label "Search/View District Jobs", class: "user-role-name" %>
-    <p class="user-role-type">View all jobs in the user's district</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :district_modify %>
-    <%= f.label "Modify District Jobs", class: "user-role-name" %>
-    <p class="user-role-type">Ability to modify all jobs in the user's district</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :product_line_read %>
-    <%= f.label "Search/View Product Line Jobs", class: "user-role-name" %>
-    <p class="user-role-type">View all jobs in the user's Product Line</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :product_line_modify %>
-    <%= f.label "Modify Product Line Jobs", class: "user-role-name" %>
-    <p class="user-role-type">Ability to modify all jobs in the user's Product Line</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :global_read %>
-    <%= f.label "Search/View All Jobs Worldwide", class: "user-role-name" %>
-    <p class="user-role-type">Access to view all company jobs</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :global_modify %>
-    <%= f.label "Modify All Jobs Worldwide", class: "user-role-name" %>
-    <p class="user-role-type">Ability to modify all jobs company wide</p>
-  </div>
-
-  <div class="field">
-    <%= f.check_box :document_templates_modify %>
-    <%= f.label "Modify Job Document Templates", class: "user-role-name" %>
-    <p class="user-role-type">Ability to change the template document (normally only admin role)</p>
   </div>
 </div>

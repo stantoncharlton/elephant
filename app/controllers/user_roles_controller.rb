@@ -1,5 +1,5 @@
 class UserRolesController < ApplicationController
-    before_filter :signed_in_admin, only: [:index, :new, :create, :edit, :update, :destroy]
+    before_filter :signed_in_admin, only: [:index, :show, :update]
 
     set_tab :roles
 
@@ -8,53 +8,30 @@ class UserRolesController < ApplicationController
         @roles = UserRole.from_company(current_user.company)
     end
 
-    def new
-        @role = UserRole.new
-    end
-
-    def create
-        @role = UserRole.new(params[:user_role])
-        @role.company = current_user.company
-
-        if @role.save
-            #Activity.add(self.current_user, Activity::USER_CREATED, @user, @user.name)
-            flash[:success] = "User Role created"
-            redirect_to user_roles_path
-        else
-            render 'new'
-        end
-    end
-
-    def edit
-        @role = UserRole.find_by_id(params[:id])
-        not_found unless @role.company == current_user.company
+    def show
+        @role = UserRole.from_role(params[:id], current_user.company)
     end
 
     def update
-        @role = UserRole.find_by_id(params[:id])
-        not_found unless @role.company == current_user.company
+        puts "Start..........."
+        @role = UserRole.from_role(params[:user_role][:role_id], current_user.company)
 
-        if @role.update_attributes(params[:user_role])
-            flash[:success] = "User Role updated"
-            redirect_to user_roles_path
-        else
-            render 'edit'
+        if @role.title != params[:user_role][:title]
+            puts "different.........."
+
+            UserRole.transaction do
+                existing_role = UserRole.where("company_id = :company_id AND role_id = :role_id", company_id: current_user.company.id, role_id: @role.role_id).limit(1).first
+                if existing_role
+                    existing_role.destroy
+                end
+                @role.title = params[:user_role][:title]
+                @role.save
+
+                flash[:success] = "User Role updated"
+            end
         end
 
+        redirect_to user_roles_path
     end
-
-    def destroy
-        @role = UserRole.find_by_id(params[:id])
-        not_found unless @role.company == current_user.company
-
-        if @role.destroy
-            flash[:success] = "Role destroyed."
-            redirect_to user_roles_path
-        else
-            flash[:error] = "Role deleted."
-            redirect_to user_roles_path
-        end
-    end
-
 
 end

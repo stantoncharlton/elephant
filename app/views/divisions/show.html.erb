@@ -13,9 +13,11 @@
     <%= render 'jobs/index_parts/jobs_count', jobs: @division.jobs %>
     <br>
 
-    <div class="alert">
-      <%= render 'jobs/index_parts/segments', division: @division %>
-    </div>
+    <% if current_user.role.no_assigned_jobs? %>
+        <div class="">
+          <%= render 'jobs/index_parts/segments', division: @division %>
+        </div>
+    <% end %>
 <% end %>
 
 <div id="jobs" class="list">

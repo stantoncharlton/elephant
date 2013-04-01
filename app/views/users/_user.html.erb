@@ -11,7 +11,7 @@
         <%= user.name %>
       </p>
 
-      <p class="list-item-text list-item-column2">
+      <p class="user-line-email list-item-column2">
         <% if user.district.present? %>
             <%= user.district.name %>
         <% else %>
@@ -19,14 +19,12 @@
         <% end %>
       </p>
 
-      <p class="list-item-text list-item-column2">
-        <% if user.role.present? %>
-            <%= user.role.title %>
-        <% end %>
+      <p class="user-line-email list-item-column2">
+        <%= user.title %>
       </p>
 
       <p class="list-item-column2 user-line-email inline">
-            <%= user.email %>
+        <%= user.email %>
       </p>
   <% end %>
 

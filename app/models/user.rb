@@ -59,40 +59,6 @@ class User < ActiveRecord::Base
     has_many :activities
 
 
-    # Admin
-    ROLE_ADMIN = 1
-
-    # Sales
-    ROLE_SALES_ENGINEER = 10
-    ROLE_APPLICATION_ENGINEER = 11
-    ROLE_DESIGN_ENGINEER = 12
-    ROLE_IN_HOUSE_ENGINEER = 13
-    ROLE_BUSINESS_ENGINEER = 14
-    ROLE_ENGINEER = 15
-
-    # Field
-    ROLE_DISTRICT_MANAGER = 20
-    ROLE_LOCAL_ENGINEER_MANAGER = 21
-    ROLE_INVENTORY_MANAGER = 22
-    ROLE_FIELD_ENGINEER = 30
-    ROLE_FIELD_SPECIALIST = 31
-    ROLE_OPERATIONS_COORDINATOR = 32
-    ROLE_WAREHOUSE_SPECIALIST = 33
-    ROLE_ADMINISTRATOR = 34
-    ROLE_FIELD_ENGINEER_TRAINEE = 35
-    ROLE_FIELD_SPECIALIST_TRAINEE = 36
-
-    # Support
-    ROLE_CORPORATE_MANAGER = 50
-    ROLE_RELIABILITY_MANAGER = 51
-    ROLE_GENERAL_MANAGER = 52
-    ROLE_PRODUCT_LINE_MANAGER = 53
-    ROLE_ENGINEERING_MANAGER = 54
-    ROLE_DESIGN_MANAGER = 55
-    ROLE_APP_SUPPORT_ENGINEER = 56
-    ROLE_SUPPORT = 57
-
-
 
     searchable do
         text :district_name, :as => :code_textp do
@@ -110,6 +76,9 @@ class User < ActiveRecord::Base
         end
     end
 
+    def role
+        UserRole.from_user self
+    end
 
     def active_jobs
         jobs.where(:status => Job::ACTIVE)
@@ -121,6 +90,10 @@ class User < ActiveRecord::Base
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")
+    end
+
+    def title
+        UserRole.from_role(self.role_id, self.company).title
     end
 
 
