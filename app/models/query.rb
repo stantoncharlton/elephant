@@ -1,6 +1,6 @@
 class Query < Object
     attr_accessor :constraints,
-                  user
+                  :user
 
     @constraints
     @user
