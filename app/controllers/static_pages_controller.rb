@@ -72,7 +72,7 @@ class StaticPagesController < ApplicationController
         elsif current_user.role.limit_to_district?
             @jobs = @jobs.where(:district_id => current_user.district.id)
         elsif current_user.role.limit_to_product_line? && !current_user.product_line.nil?
-            @jobs = @jobs.where(:product_line_id => current_user.product_line.id)
+            @jobs = @jobs.joins(:job_template).where("job_templates.product_line_id = ?", current_user.product_line.id)
         end
 
         @district_id = params[:district_id]
