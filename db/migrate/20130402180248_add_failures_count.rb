@@ -3,7 +3,7 @@ class AddFailuresCount < ActiveRecord::Migration
       add_column :jobs, :failures_count, :integer, :default => 0
 
       Job.reset_column_information
-      Job.all.each do |p|
+      Job.find_each do |p|
           Job.update_counters p.id, :failures_count => p.failures.count
       end
   end
