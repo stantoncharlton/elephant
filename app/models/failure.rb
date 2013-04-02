@@ -13,7 +13,7 @@ class Failure < ActiveRecord::Base
     belongs_to :company
     belongs_to :product_line
     belongs_to :job_template
-    belongs_to :job
+    belongs_to :job, :counter_cache => true
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)

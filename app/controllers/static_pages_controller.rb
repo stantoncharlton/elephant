@@ -144,12 +144,11 @@ class StaticPagesController < ApplicationController
 
         case @failure_level
             when "1"
-                failures_query = Failure.where("failures.job_id IN (#{jobs_query})").order("COUNT(failure_master_template_id) DESC").select("failures.*, DISTINCT failure_master_template_id").group(:failure_master_template_id).count().to_sql
-                @jobs.where("jobs.id IN (#{failures_query})")
+                @jobs = @jobs.where("failures_count = 1")
             when "2"
-                @jobs = @jobs.reorder('').joins(:failures).select("distinct failures.job_id").where("failures.job_id = 2")
+                @jobs = @jobs.where("failures_count = 2")
             when "3"
-                @jobs = @jobs.reorder('').joins(:failures).select("distinct failures.job_id").where("failures.job_id >= 3")
+                @jobs = @jobs.where("failures_count >= 3")
         end
 
     end

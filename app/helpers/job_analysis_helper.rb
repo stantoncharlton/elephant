@@ -32,7 +32,11 @@ module JobAnalysisHelper
 
     def average_job_duration(jobs)
         return 0 unless jobs.count > 0
-        (jobs.where("close_date IS NOT NULL").sum("close_date - start_date").to_f / jobs.where("close_date IS NOT NULL").count().to_f).round(1)
+        days = (jobs.where("close_date IS NOT NULL").sum("close_date - start_date").to_f / jobs.where("close_date IS NOT NULL").count().to_f).round(1)
+        if days.nan?
+            days = 0
+        end
+        days
 =begin
 
         total_time = 0
