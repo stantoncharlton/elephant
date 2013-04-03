@@ -4,6 +4,7 @@ ElephantWebApp::Application.routes.draw do
     root to: 'static_pages#home'
 
     match '/help', to: 'static_pages#help'
+    match '/features', to: 'static_pages#features'
     match '/about', to: 'static_pages#about'
     match '/sales', to: 'static_pages#sales'
     match '/overview', to: 'static_pages#overview', :via => :get

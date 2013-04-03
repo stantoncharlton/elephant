@@ -188,8 +188,19 @@ class UserRole < ActiveRecord::Base
         false
     end
 
+    def global_edit?
+        return true if self.role_id >= 1 && self.role_id <= 19
+        return true if self.role_id >= 50
+
+        false
+    end
+
     def district_read?
         global_read? || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.role_id == ROLE_ADMINISTRATOR
+    end
+
+    def district_edit?
+        global_read? || (self.role_id >= 20 && self.role_id <= 29)
     end
 
     def limit_to_assigned_jobs?

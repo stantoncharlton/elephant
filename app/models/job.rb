@@ -350,10 +350,9 @@ class Job < ActiveRecord::Base
 
     def is_job_editable?(user)
         return false if self.status == Job::CLOSED
-
-        if !self.user_is_member?(user)
-            return true if user.role.global_read?
-        end
+        return true if self.user_is_member?(user)
+        return true if user.role.global_edit?
+        return true if user.role.district_edit? and self.district == user.district
 
         false
     end
