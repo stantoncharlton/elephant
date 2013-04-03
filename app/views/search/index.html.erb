@@ -7,6 +7,18 @@
 
 </div>
 
+<% if @districts.count > 0 %>
+    <div id="districts_list">
+      <% @districts.each do |district| %>
+          <div>
+            <%= link_to district, class: "job-link" do %>
+                <%= render 'districts/district_line', district: district %>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+    <hr>
+<% end %>
 
 <% if @users.count > 0 %>
     <div id="users_list">

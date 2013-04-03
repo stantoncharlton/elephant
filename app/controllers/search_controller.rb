@@ -14,6 +14,7 @@ class SearchController < ApplicationController
                 if params[:search].present?
                     @jobs = Job.search(current_user, params, current_user.company).results
                     @users = User.search(params, current_user.company).results.take(10)
+                    @districts = District.search(params, current_user.company).results.take(3)
                 end
 
             end
@@ -22,9 +23,7 @@ class SearchController < ApplicationController
                 @hide_job_type = false
                 @data_type = params[:data_type].to_i
 
-                puts "start"
                 if params[:product_line]
-                    puts "sdfsdfsdfsdf"
                     @product_line = ProductLine.find_by_id(params[:product_line])
                     not_found unless @product_line.company == current_user.company
 
@@ -43,7 +42,6 @@ class SearchController < ApplicationController
                     end
 
                 elsif params[:job_template]
-                    puts "ffffff"
 
                     if @data_type != Query::JOB_TOOLS
                         @show_fields = true
@@ -77,7 +75,6 @@ class SearchController < ApplicationController
                         return
                     end
                 else
-                    puts "ddddd"
                     if @data_type == Query::WELL_DATA
                         @well_data = Well.accessible_attributes.select { |w| !w.blank? && !Well.human_attribute_name(w).include?("value type") }
                         @show_fields = true
