@@ -42,8 +42,8 @@ class ClientsController < ApplicationController
     end
 
     def create
-        country_id = params[:district][:country_id]
-        params[:district].delete(:country_id)
+        country_id = params[:client][:country_id]
+        params[:client].delete(:country_id)
 
         @client = Client.new(params[:client])
         @client.company = current_user.company
