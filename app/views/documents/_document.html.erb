@@ -5,6 +5,11 @@
         <%= render 'documents/document_metadata', document: document %>
 
 
+        <div class="document-upload-updating hidden">
+          <div class="progress progress-info progress-striped active">
+            <div class="bar" style="width: 100%"></div>
+          </div>
+        </div>
         <div class="upload-controls inline" id="div_upload_<%= !document.job.nil? ? document.job.id : "" %>">
           <div class="upload-document-container" id="file_uploads">
             <div class="document-upload-button-container">

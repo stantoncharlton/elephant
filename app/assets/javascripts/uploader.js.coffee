@@ -22,8 +22,9 @@ connectUploadEvents = ->
           data.context.find('.bar').css('width', progress + '%')
 
       done: (e, data) ->
-        $(e.target).find('.document-info').show()
-        $(e.target).find(".upload-controls").show()
+        $(e.target).find('.document-upload-updating').removeClass 'hidden'
+        #$(e.target).find('.document-info').show()
+        #$(e.target).find(".upload-controls").show()
         documentId = $(e.target).find('.upload-controls').attr('id').replace('div_upload_', '')
         filename = $(e.target).find('.document-name').text()
         file = data.files[0]
