@@ -447,3 +447,45 @@ select {
   left: 4px;
   top: 4px;
 }
+
+
+.add-button-icon {
+  display: inline-block;
+  color: #0058a8;
+  border-radius: 6px;
+  heght: 40px;
+  line-height: 40px;
+  font-size: 13px;
+  margin: 0px;
+  margin-top: -10px;
+  margin-left: -5px;
+  text-decoration: none;
+  padding-left: 50px;
+  background: #c4e0f9 url(image_path('add_hover.png')) no-repeat center left;
+  padding-right: 15px;
+
+  &:link, &:visited, &:active {
+    color: #0058a8;
+    text-decoration: none;
+    background: #c4e0f9 url(image_path('add_hover.png')) no-repeat center left;
+  }
+  &:hover {
+    color: #03294c;
+    text-decoration: none;
+    background: #c4e0f9 url(image_path('add_down.png')) no-repeat center left;
+  }
+}
+
+.filter-search-box {
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  min-height: 30px;
+  margin-left: 15px;
+  background: transparent url(image_path('search_icon.png')) no-repeat center left;
+  padding-left: 35px;
+
+  input {
+    width: 400px;
+  }
+}

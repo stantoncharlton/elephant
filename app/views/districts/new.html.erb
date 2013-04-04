@@ -2,13 +2,18 @@
   <h1>New District</h1>
 </div>
 
-<%= form_for @district do |f| %>
+<div class="form">
+  <%= form_for @district do |f| %>
 
-    <%= render "fields", f: f %>
+      <%= render "fields", f: f %>
 
-    <div class=" actions">
-      <%= f.submit "Create district", class: "bluebtn pull-right tooltip-info",
-                   "data-title" => "Save new district" %>
-    </div>
+      <div class=" actions">
+        <%= f.submit "Create district", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                     "data-title" => "Save new district" %>
+      </div>
 
-<% end %>
+  <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Creating district, please wait" %>
+

@@ -1,4 +1,4 @@
-if ($('#client_name_id')) {
+if ($('#client_name_id').length != 0) {
     $('#similar_customer').find('*').remove();
 
     <% @clients.take(5).each do |client| %>
@@ -12,7 +12,8 @@ if ($('#client_name_id')) {
     <% end %>
 }
 else {
-$("#clients_list").html("<%= j will_paginate %><div id='clients' class='list'><%= j render(@clients) %></div><%= j will_paginate %>");
+
+$("#clients_list").html("<div id='clients' class='list'><%= j render(@clients) %></div><%= j will_paginate %>");
 
 $('.paginated-count').empty();
 $('.paginated-count').append('<%= @clients.count.to_s %>');

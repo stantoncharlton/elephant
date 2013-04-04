@@ -1,13 +1,19 @@
+<% provide(:title, "New Customer") %>
+
 <div class="page_header">
 <h1><%= t ".title" %></h1>
 </div>
 
+<div class="form">
 <%= form_for(@client) do |f| %>
 
     <%= render "form", f: f %>
 
     <div class="actions">
-      <%= f.submit I18n.t("clients.new.save"), class: "bluebtn pull-right tooltip-info",
+      <%= f.submit I18n.t("clients.new.save"), class: "bluebtn pull-right tooltip-info form-loading-on-click",
                    "data-title" => "Save new customer" %>
     </div>
 <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Creating customer, please wait" %>

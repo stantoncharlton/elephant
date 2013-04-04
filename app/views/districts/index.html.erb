@@ -12,17 +12,19 @@
                   "data-placement" => "bottom",
                   "data-title" => "Create new district"%>
   <% end %>
+</div>
 
-  <%= form_tag districts_path, :method => 'get', :id => "districts_search", remote: true, class: "inline search-box" do %>
+<div class="alert alert-info">
+  <%= form_tag districts_path, :method => 'get', :id => "districts_search", remote: true, class: "filter-search-box" do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query tooltip-info",
                          "data-placement" => "left",
-                         "data-title" => "Search districts by name"%>
+                         "data-title" => "Search districts by name" %>
   <% end %>
 </div>
 
 
+
 <div id="districts_list">
-  <%= will_paginate %>
   <div id="districts" class="list">
     <%= render @districts %>
   </div>

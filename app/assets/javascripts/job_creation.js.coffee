@@ -117,3 +117,4 @@ $ ->
   $('.form-loading-on-click').click ->
     $('.loading').removeClass 'hidden'
     $('.form').hide()
+    $('body').animate({scrollTop : 0},'slow');

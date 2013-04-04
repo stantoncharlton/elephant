@@ -47,7 +47,7 @@ class Client < ActiveRecord::Base
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
             order_by :name_sort
-            paginate :page => options[:page]
+            paginate :page => options[:page], :per_page => 20
         end
     end
 

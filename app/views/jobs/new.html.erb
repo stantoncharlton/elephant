@@ -1,3 +1,5 @@
+<% provide(:title, "New Job") %>
+
 <div class="page_header">
   <h1>New Job</h1>
 </div>
@@ -14,13 +16,7 @@
   <% end %>
 </div>
 
-<div class="loading center hidden">
-  <br>
-  <br>
-  <span class="ajax-loading search-loading push-right"><b>Creating job, please wait</b></span>
-  <br>
-</div>
-
+<%= render "layouts/inline_loading", title: "Creating job, please wait" %>
 
 
 <div id="modal_popup" class="modal-popup-background">

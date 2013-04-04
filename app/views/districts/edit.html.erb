@@ -21,13 +21,16 @@
 </div>
 
 
+<div class="form">
 <%= form_for @district do |f| %>
 
     <%= render "fields", f: f %>
 
     <div class="actions">
-      <%= f.submit "Save district", class: "bluebtn pull-right tooltip-info",
+      <%= f.submit "Save district", class: "bluebtn pull-right tooltip-info form-loading-on-click",
                    "data-title" => "Save district and return to all districts"%>
     </div>
-
 <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Saving district, please wait" %>

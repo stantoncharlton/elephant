@@ -26,7 +26,7 @@
                       value: @conversation.message_text %>
 
       <div class="content actions">
-        <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info",
+        <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info form-loading-on-click",
                      "data-title" => "Send message to recipients" %>
 
         <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
@@ -35,3 +35,5 @@
     </div>
 
 <% end %>
+
+<%= render "layouts/inline_loading", title: "Sending message, please wait" %>
