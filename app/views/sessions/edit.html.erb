@@ -7,13 +7,29 @@
 
   <%= form_for(:session, url: create_password_path) do |f| %>
 
+      <% if params[:new_account] == "true" %>
+          <div class="alert ">
+            <b>To finish creating your account, you now need to create a password.</b>
+
+            <p class="">Your current password is temporary and needs to be changed.</p>
+          </div>
+      <% else %>
+          <div class="alert ">
+            <b>This form will change your current password.</b>
+
+            <p class="">Enter your current password and the new password below.</p>
+          </div>
+      <% end %>
+
       <div class="well">
         <div class="content">
-          <b class="inline">Email Address</b>
-          <br><br>
-          <%= f.text_field :email, placeholder: "Type Email", value: params[:email], class: "txtfield" %>
+          <% if params[:new_account] == "true" %>
+              <b class="inline">Email Address</b>
+              <br><br>
+              <%= f.text_field :email, placeholder: "Type Email", value: params[:email], class: "txtfield" %>
 
-          <hr>
+              <hr>
+          <% end %>
 
           <div class="">
             <div class="field">

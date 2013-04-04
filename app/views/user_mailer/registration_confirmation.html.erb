@@ -2,9 +2,15 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<p>Welcome to <b>Elephant</b>!</p>
+<h1>Welcome</h1>
+<p><b><%=  @user.company.name %></b> added you to Elephant!</p>
+<% if Rails.env.production? %>
+    <%= image_tag "blue_logo.png" %>
+<% end %>
+<p><%= link_to "www.go-elephant.com", "www.go-elephant.com", class: "activity-user-link" %></p>
 <br>
-<p>You have been added to your company account at <b><%=  @user.company.name %></b></p>
+<p>Elephant will help make your job easier in many ways as you will soon come to find out. For starters, remember that it will be the first and primary spot to find documents and communication for every job.</p>
+<br>
 
 <p>Login using your email: <%= @user.email %></p>
 <p>...and this temporary password: <span class="user-password"><%= @password %></span>

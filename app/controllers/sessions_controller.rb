@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
             respond_to do |format|
                 format.html {
                     if user.create_password?
-                        redirect_to update_password_path(email: user.email), :flash => {:error => "Please create a password"}
+                        redirect_to update_password_path(email: user.email, new_account: true), :flash => {:error => "Please create a password"}
                     else
                         sign_in(user, params[:session]["stay_logged_in"] == "1")
                         redirect_back_or root_path
