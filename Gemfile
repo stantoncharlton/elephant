@@ -20,7 +20,7 @@ gem 'roadie'
 gem 'saasposesdk'
 gem 'rest-client'
 
-gem "thin"
+gem "unicorn"
 gem 'newrelic_rpm'
 
 # Bundle edge Rails instead:
