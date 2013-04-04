@@ -2,7 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h3>You Have Been Added to a Job</h3>
+<h1>Added To Job</h1>
+<p class="center">You were added to a new job</p>
 <br>
 
 <p><%= link_to @job.absolute_url, class: "activity-user-link" do %>Click here<% end %> to view the job.</p>
@@ -10,6 +11,10 @@
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
 <% end %>
 
 </body>

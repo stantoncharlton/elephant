@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h3>Post-Job complete</h3>
+<h1>Post-Job Complete</h1>
 <br>
 
 <p>Please <%= link_to @job.absolute_url, class: "activity-user-link" do %>Click here
@@ -11,6 +11,10 @@
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
 <% end %>
 
 </body>

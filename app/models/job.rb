@@ -372,6 +372,7 @@ class Job < ActiveRecord::Base
 
         self.unique_participants.each do |participant|
             participant.send_job_shipping_email(self)
+            Alert.add(participant, Alert::JOB_SHIPPED, self, user, self)
         end
 
         user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
@@ -389,6 +390,7 @@ class Job < ActiveRecord::Base
 
         self.unique_participants.each do |participant|
             participant.send_job_completed_email(self)
+            Alert.add(participant, Alert::JOB_CLOSED, self, user, self)
         end
 
         user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",

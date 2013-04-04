@@ -2,6 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
+<h1>Job Inactive</h1>
+<br>
 <h3>Job has had no activity in the last month.</h3>
 <p>Is this job complete or abandoned? You can also delete the job in 'advanced actions' on the job page.</p>
 <%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %>
@@ -10,6 +12,10 @@
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
 <% end %>
 
 </body>

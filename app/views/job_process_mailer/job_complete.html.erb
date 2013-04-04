@@ -2,17 +2,20 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h3>Job Complete</h3>
+<h1>Job Complete</h1>
+<p class="center">Job is now complete and has been closed</p>
 <br>
 
-<p>This job is now complete and has been closed.</p>
-<%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %>
-
-<p>Post Job Report will be available to view/download/print.</p>
+<p><%= link_to @job.absolute_url, class: "activity-user-link" do %>View job now<% end %></p>
+<p>View, download, and print post job report at job page.</p>
 
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
 <% end %>
 
 </body>

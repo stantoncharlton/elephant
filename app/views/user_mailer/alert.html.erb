@@ -14,5 +14,9 @@
     <%= render 'jobs/job_data_email', job: @alert.job %>
 <% end %>
 
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+<% end %>
+
 </body>
 </html>

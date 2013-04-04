@@ -2,13 +2,11 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h1 class="history-email-title">Good Day</h1>
-<h3>This is a recap of the last day (in case you missed anything)</h3>
+<h1>Daily Recap</h1>
+<p class="center">A summarization of activity on your jobs</p>
 
-<p>You can change this in your <%= link_to edit_setting_url(@user), class: "activity-user-link" do %>settings
-  <% end %> if you don't want to receive this email.</p>
 
-<br>
+<p>Recap for <b><% 1.days.ago.to_date %></b></p>
 
 <div id="activities" class="list">
   <% @activities.each do |activity| %>
@@ -29,6 +27,16 @@
 
   <% end %>
 </div>
+
+<hr>
+
+<p>You can change this in your <%= link_to edit_setting_url(@user), class: "activity-user-link" do %>settings
+  <% end %> if you don't want to receive this email.</p>
+<br>
+
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+<% end %>
 
 </body>
 </html>

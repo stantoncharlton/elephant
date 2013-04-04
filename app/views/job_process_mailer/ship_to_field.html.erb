@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h3>Job Shipping to Field</h3>
+<h1>Job Shipping to Field</h1>
 <br>
 
 <p>This job is now shipping to location.</p>
@@ -11,6 +11,10 @@
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>
     <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
 <% end %>
 
 </body>

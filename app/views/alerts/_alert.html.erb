@@ -44,5 +44,19 @@
         <%= render 'job_notes/job_note', job_note: alert.target %>
     <% end %>
 
+    <% if alert.alert_type == Alert::JOB_SHIPPED %>
+        <div class="alert-title">
+          <%= image_tag "approve_arrow.png" %>
+
+          <p class=" inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> shipped to location</p>
+        </div>
+    <% end %>
+
+    <% if alert.alert_type == Alert::JOB_CLOSED %>
+        <div class="alert-title">
+          <%= image_tag "approve_arrow.png" %>
+          <p class=" inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> completed and closed</p>
+        </div>
+    <% end %>
 
 <% end %>
