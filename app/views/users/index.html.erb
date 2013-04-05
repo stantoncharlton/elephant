@@ -12,13 +12,16 @@
                   "data-placement" => "bottom",
                   "data-title" => "Create new user"%>
   <% end %>
+</div>
 
-  <%= form_tag users_path, :method => 'get', :id => "users_search", remote: true, class: "inline search-box" do %>
+<div class="alert alert-info">
+  <%= form_tag users_path, :method => 'get', :id => "users_search", remote: true, class: "filter-search-box" do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search users", class: "search-query tooltip-info",
                          "data-placement" => "left",
-                         "data-title" => "Filter users by name"%>
+                         "data-title" => "Search users by name" %>
   <% end %>
 </div>
+
 
 
 <div id="users_list">

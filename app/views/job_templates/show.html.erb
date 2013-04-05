@@ -8,13 +8,13 @@
     </a>
     <ul class="dropdown-menu">
 
-          <li>
-            <%= link_to "Delete Job Type", @job_template, method: :delete,
-                        data: {confirm: "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly."},
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
-          </li>
+      <li>
+        <%= link_to "Delete Job Type", @job_template, method: :delete,
+                    data: {confirm: "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly."},
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
+      </li>
 
 
     </ul>
@@ -40,10 +40,10 @@
 
   <div>
 
-  <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
-      <b class="inline"><%= @job_template.product_line.segment.division.name %></b>
+    <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
+    <b class="inline"><%= @job_template.product_line.segment.division.name %></b>
     |
-      <b class="inline"><%= @job_template.product_line.segment.name %></b>
+    <b class="inline"><%= @job_template.product_line.segment.name %></b>
     |
     <b class="inline"><%= @job_template.product_line.name %></b>
   </div>
@@ -70,8 +70,7 @@
 
 
 <div class="">
-  <hr>
-  <ul class="nav nav-pills">
+  <ul class=" alert alert-info nav nav-pills">
     <li class="active">
       <a href="#" id="documents_toggle" class="job-type-tray-toggle custom-data-toggle" data-tray="all_documents">Documents</a>
     </li>
@@ -90,15 +89,12 @@
         Report</a>
     </li>
   </ul>
-
 </div>
 
 
 <div class="tray hidden" data-tray="custom_data">
   <div class="page_header">
     <h1><%= t ".custom_data" %></h1>
-
-    <p class="inline push-right header-subtitle"><%= t ".job_type_specifics" %></p>
   </div>
 
   <div class="content" id="dynamic_fields">
@@ -108,14 +104,27 @@
   <div class="content">
     <%= render 'dynamic_field_fields' %>
   </div>
+
+  <br>
+
+  <div class="content alert">
+    <b>Custom Data</b>
+
+    <p>Add all data fields that represent the job type specifics, such as casing size, mud weight, etc...</p>
+    <hr>
+    <p><b>Preset Value</b>: A value that is persisted into the job file and can't be changed</p>
+
+    <p><b>Show in summary</b>: Displays the custom data in the all places the job summary is shown</p>
+
+    <p><b>Optional</b>: Sets the property as optional in that it is not needed to fulfill the requirements for "Pre-Job"
+    </p>
+  </div>
 </div>
 
 
 <div class="tray" data-tray="all_documents">
   <div class="page_header">
     <h1><%= t "jobs.show.documents" %></h1>
-
-    <p class="inline push-right header-subtitle"><%= t ".document_templates" %></p>
   </div>
 
 
@@ -131,6 +140,7 @@
     <%= render 'document_fields', category_name: Document::NOTICES, read_only: true %>
   </div>
 
+  <br>
 
   <h3 class="document-section-header"><%= t "jobs.show.pre_job" %></h3>
 
@@ -144,6 +154,8 @@
     <%= render 'document_fields', category_name: Document::PRE_JOB, read_only: false %>
   </div>
 
+  <br>
+
   <h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>
 
   <div class="content" id="documents2">
@@ -154,6 +166,14 @@
 
   <div class="content">
     <%= render 'document_fields', category_name: Document::POST_JOB, read_only: false %>
+  </div>
+
+  <br>
+
+  <div class="content alert">
+    <b>Documents</b>
+
+    <p>Add documents that will be used on the job to represent files such as rig checklist, tally, rig log, etc...</p>
   </div>
 </div>
 
@@ -169,24 +189,49 @@
       <% end %>
     </div>
 
-    <hr>
-
-    <%= form_for(PrimaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
-        <%= f.hidden_field :job_template_id, value: @job_template.id %>
-        <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.collect { |p| [p.name, p.id] }),
-                     prompt: "Select a Tool...",
-                     class: "tooltip-info",
-                     "data-placement" => "bottom",
-                     "data-title" => "Select from an existing primary tool on this product line" %>
-
-        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+    <% if @job_template.primary_tools.count == 0 %>
+        <p class="job-type-no-tools"><b>0 tools</b> - No tools added, please add from selection </p>
     <% end %>
+    <br>
+
+    <div class="well">
+      <%= form_for(PrimaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
+          <%= f.hidden_field :job_template_id, value: @job_template.id %>
+          <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.collect { |p| [p.name, p.id] }),
+                       {prompt: "Select a Tool..."},
+                       class: "tooltip-info custom-select custom-select-long",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select from an existing primary tool on this product line" %>
+
+          <%= f.submit "+ Add Tool to Job Type", class: "bluebtn btnsmall" %>
+      <% end %>
+
+      <div>
+        <br><br>
+
+        <p class="push-right-small">
+          <b>No tools above or not the one you want?</b>
+        </p>
+        <br>
+
+        <p class="push-right-small">Add it to the product line so you can add it to the job type...</p>
+        <br><br>
+        <%= link_to "+ Add New primary tool on product line", new_tool_path(:product_line => @job_template.product_line.id), remote: true,
+                    class: "bluebtn btnsmall gray tooltip-info", id: "add_primary_tool",
+                    "data-placement" => "bottom",
+                    "data-title" => "Add primary tool to job type" %>
+      </div>
+    </div>
 
 
-    <%= link_to "Add New primary tool on product line", new_tool_path(:product_line => @job_template.product_line.id), remote: true,
-                class: "inline add-job-member tooltip-info", id: "add_job_member",
-                "data-placement" => "bottom",
-                "data-title" => "Add primary tool to job type" %>
+  </div>
+
+  <br>
+
+  <div class="content alert">
+    <b>Primary Tools</b>
+
+    <p>All tools that are required to compose the job system</p>
   </div>
 </div>
 
@@ -195,6 +240,8 @@
     <h1>Failures</h1>
   </div>
 
+  <br>
+
   <div class="content">
     <div id="failures_list">
       <% @job_template.failures.each do |failure| %>
@@ -202,24 +249,49 @@
       <% end %>
     </div>
 
-    <hr>
-
-    <%= form_for(Failure.new, :html => {:class => "inline"}, remote: true) do |f| %>
-        <%= f.hidden_field :job_template_id, value: @job_template.id %>
-        <%= f.select :failure_master_template_id, options_for_select(@job_template.product_line.failures.collect { |p| [p.text, p.id] }),
-                     prompt: "Select a Failure...",
-                     class: "tooltip-info",
-                     "data-placement" => "bottom",
-                     "data-title" => "Select from an existing failure on this product line" %>
-
-        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+    <% if @job_template.failures.count == 0 %>
+        <p class="job-type-no-failures"><b>0 failures</b> - No failures added, please add from selection </p>
     <% end %>
 
+    <br>
 
-    <%= link_to "Add New failure on product line", new_failure_path(:product_line => @job_template.product_line.id), remote: true,
-                class: "inline add-job-member tooltip-info", id: "add_failure",
-                "data-placement" => "bottom",
-                "data-title" => "Add failure to job type" %>
+    <div class="well">
+      <%= form_for(Failure.new, :html => {:class => "inline"}, remote: true) do |f| %>
+          <%= f.hidden_field :job_template_id, value: @job_template.id %>
+          <%= f.select :failure_master_template_id, options_for_select(@job_template.product_line.failures.collect { |p| [p.text, p.id] }),
+                       {prompt: "Select a Failure..."},
+                       class: "tooltip-info custom-select custom-select-long",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select from an existing failure on this product line" %>
+
+          <%= f.submit "+ Add to Job Type", class: "bluebtn btnsmall" %>
+      <% end %>
+
+      <div>
+        <br><br>
+
+        <p class="push-right-small">
+          <b>No failures above or not the one you want?</b>
+        </p>
+        <br>
+
+        <p class="push-right-small">Add it to the product line so you can add it to the job type...</p>
+        <br><br>
+        <%= link_to "+ Add New failure on product line", new_failure_path(:product_line => @job_template.product_line.id), remote: true,
+                    class: "bluebtn btnsmall gray tooltip-info", id: "add_failure",
+                    "data-placement" => "bottom",
+                    "data-title" => "Add failure to job type" %>
+      </div>
+    </div>
+
+    <br><br>
+
+    <div class="alert">
+      <b>Failures</b>
+
+      <p>All possible failures that can happen on this job type.</p>
+    </div>
+
   </div>
 </div>
 
@@ -228,7 +300,7 @@
     <h1>Post Job Report</h1>
   </div>
 
-  <div class="">
+  <div class="content">
     <div id="post_job_documents_list">
       <% @job_template.post_job_report_documents.each do |post_job_document| %>
           <%= render 'post_job_report_documents/document',
@@ -239,18 +311,34 @@
       <% end %>
     </div>
 
-    <hr>
-
-    <%= form_for(PostJobReportDocument.new, :html => {:class => "inline"}, remote: true) do |f| %>
-        <%= f.hidden_field :job_template_id, value: @job_template.id %>
-        <%= f.select :document_id, options_for_select(@job_template.post_job_report_document_options),
-                     prompt: "Select a Document...",
-                     class: "tooltip-info",
-                     "data-placement" => "bottom",
-                     "data-title" => "Select from an document" %>
-
-        <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
+    <% if @job_template.post_job_report_documents.count == 0 %>
+        <p class="job-type-no-docs-post-jobs-report"><b>0 documents</b> - No documents added for post job report, please
+          add from selection </p>
     <% end %>
+
+    <br>
+
+
+    <div class="well">
+      <%= form_for(PostJobReportDocument.new, :html => {:class => "inline"}, remote: true) do |f| %>
+          <%= f.hidden_field :job_template_id, value: @job_template.id %>
+          <%= f.select :document_id, options_for_select(@job_template.post_job_report_document_options),
+                       {prompt: "Select a Document..."},
+                       class: "tooltip-info custom-select custom-select-long",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select from an document" %>
+
+          <%= f.submit "Add to Post Job Report", class: "bluebtn btnsmall" %>
+      <% end %>
+    </div>
+
+    <br><br>
+
+    <div class="alert">
+      <b>Post Job Report</b>
+
+      <p>This list composes all the documents that will be merged once a job is closed.</p>
+    </div>
 
   </div>
 </div>

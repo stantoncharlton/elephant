@@ -6,6 +6,7 @@ $('#alert').modal({show:true});
 
 <% else %>
 
+$('.job-type-no-docs-post-jobs-report').hide();
 $("#post_job_documents_list").append("<%= j render 'post_job_report_documents/document',
     post_job_report_document: @post_job_report_document,
     document: @post_job_report_document.document,
@@ -13,5 +14,6 @@ $("#post_job_documents_list").append("<%= j render 'post_job_report_documents/do
     can_upload: @post_job_report_document.document.category == Document::POST_JOB_REPORT_PART ? true : false %>");
 
 <% end %>
+
 
 

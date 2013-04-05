@@ -12,6 +12,7 @@ $('#modal_popup').height(0);
 
 <% if @failure.job_template %>
 
+$('.job-type-no-failures').hide();
 $('#failures_list').append("<%= j render 'failures/failure', failure: @failure %>");
 
 <% else %>
@@ -20,6 +21,8 @@ $('#failure_failure_master_template_id').append($("<option></option>")
         .attr("value", '<%= @failure.id %>')
         .text('<%= @failure.text %>'));
 $('#failure_failure_master_template_id').find("option[value='<%= @failure.id %>']").attr('selected', 'selected');
+$("#failure_failure_master_template_id").trigger("change");
+
 
 <% end %>
 

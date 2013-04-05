@@ -2,20 +2,22 @@
   <h1><%= t ".title" %></h1>
 </div>
 
-<%= form_for(@job_template) do |f| %>
+<div class="form">
+  <%= form_for(@job_template) do |f| %>
 
-    <%= render 'shared/error_messages', object: f.object %>
-
-
-    <%= render 'fields', f: f %>
-
-    <div class="actions">
-      <%= f.submit I18n.t("job_templates.new.save"), class: "bluebtn pull-right" %>
-    </div>
+      <%= render 'shared/error_messages', object: f.object %>
 
 
+      <%= render 'fields', f: f %>
 
-<% end %>
+      <div class="actions">
+        <%= f.submit I18n.t("job_templates.new.save"), class: "bluebtn pull-right form-loading-on-click" %>
+      </div>
+
+  <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Creating job type, please wait" %>
 
 
 

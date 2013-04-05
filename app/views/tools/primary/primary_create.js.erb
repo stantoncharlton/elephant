@@ -5,6 +5,7 @@ $('#alert').modal({show:true});
 
 <% else %>
 
+$('.job-type-no-tools').hide();
 $('#primary_tools_list').append("<%= j render 'tools/primary/primary_tool', tool: @tool %>");
 
 <% end %>

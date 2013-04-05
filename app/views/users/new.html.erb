@@ -3,10 +3,11 @@
 </div>
 
 
+<div class="form">
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
 
-    <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info push-right",
+    <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info push-right form-loading-on-click",
                  "data-title" => "Create and save new user"
     %>
 
@@ -15,3 +16,6 @@
       Admin Account
     </div>
 <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Creating user, please wait" %>

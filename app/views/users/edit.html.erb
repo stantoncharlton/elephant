@@ -29,8 +29,12 @@
   </div>
 </div>
 
+<div class="form">
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Save User", class: "bluebtn pull-right tooltip-info",
+    <%= f.submit "Save User", class: "bluebtn pull-right tooltip-info form-loading-on-click",
                  "data-title" => "Save user and return to list of all users"%>
 <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Saving user, please wait" %>

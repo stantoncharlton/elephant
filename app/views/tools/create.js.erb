@@ -19,6 +19,7 @@ $('#primary_tool_tool_id').append($("<option></option>")
         .attr("value", '<%= @tool.id %>')
         .text('<%= @tool.name %>'));
 $('#primary_tool_tool_id').find("option[value='<%= @tool.id %>']").attr('selected', 'selected');
+$("#primary_tool_tool_id").trigger("change");
 
 <% end %>
 
