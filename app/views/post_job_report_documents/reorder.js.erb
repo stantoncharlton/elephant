@@ -2,11 +2,17 @@
 
 var doc = $('#post_job_report_document_<%= @post_job_report_document.id.to_s %>');
 
-doc.find('.order-button').data('tooltip').hide();
+var tooltip = doc.find('.order-button').data('tooltip');
+if(tooltip != null) {
+    tooltip.hide();
+}
 
 var prev = doc.prev();
 doc.remove();
 prev.before(doc);
+
+doc.addClass('document-reorder-background');
+setTimeout(function() { doc.removeClass('document-reorder-background') }, 1000);
 
 <% end %>
 
