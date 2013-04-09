@@ -2,6 +2,7 @@
 
 <div class="page_header">
   <h1><%= @district.name %></h1>
+
   <h3 class="inline">&nbsp;District</h3>
 
   <h2 class="paginated-count">Jobs:
@@ -12,72 +13,72 @@
 
 <div class="alert alert-info">
   <%= form_tag district_path(@district), :method => 'get', :id => "inline_search", class: "filter-search-box" do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search in district...", class: "search-query tooltip-info",
+      <%= text_field_tag :search, params[:search], placeholder: "Search in district jobs...", class: "search-query tooltip-info",
                          "data-placement" => "left",
-                         "data-title" => "Search in district..." %>
+                         "data-title" => "Search in district jobs..." %>
   <% end %>
 </div>
 
-<div class="well">
+<% if @district_jobs.present? %>
+    <div class="well">
 
-  <div class="pull-right">
-    <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @district.name %>&zoom=4&size=230x230&maptype=roadmap&sensor=false&markers=color:blue%7C<%= @district.name %>&key=AIzaSyC28fW0cLbMkTbKfyBgYKG4XbOCR3QBmT4">
-  </div>
+      <div class="pull-right">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @district.name %>&zoom=4&size=230x230&maptype=roadmap&sensor=false&markers=color:blue%7C<%= @district.name %>&key=AIzaSyC28fW0cLbMkTbKfyBgYKG4XbOCR3QBmT4">
+      </div>
 
-  <div class="chart-block">
-    <div class="chart-title">Personnel</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text"><%= @district.personnel.count(:id) %></div>
-      <div class="percentage "></div>
-    </div>
-  </div>
-
-
-  <div class="chart-block chart-block-extended2">
-
-    <% if !@district.personnel.first.nil? %>
-        <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar pull-left" %>
-        <div>
-          <%= link_to @district.personnel.first.name, @district.personnel.first, class: "activity-user-link push-right-small" %>
-          <br>
-          <b class="push-right-small"><%= @district.personnel.first.role.title %></b>
+      <div class="chart-block">
+        <div class="chart-title">Personnel</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text"><%= @district.personnel.count(:id) %></div>
+          <div class="percentage "></div>
         </div>
-    <% end %>
-    <br>
-    <%= @district.phone_number %>
-    <b>+1 672.893.0900</b>
-    <%= @district.support_email %>
-    <a href="#" class="activity-user-link">support-williston@bh.com</a>
-  </div>
+      </div>
 
 
-  <br><br><br>
+      <div class="chart-block chart-block-extended2">
 
+        <% if !@district.personnel.first.nil? %>
+            <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar pull-left" %>
+            <div>
+              <%= link_to @district.personnel.first.name, @district.personnel.first, class: "activity-user-link push-right-small" %>
+              <br>
+              <b class="push-right-small"><%= @district.personnel.first.role.title %></b>
+            </div>
+        <% end %>
+        <br>
+        <%= @district.phone_number %>
+        <b>+1 672.893.0900</b>
+        <%= @district.support_email %>
+        <a href="#" class="activity-user-link">support-williston@bh.com</a>
+      </div>
 
-  <div class="chart-block">
-    <div class="chart-title">Active Jobs</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text"><%= @district.jobs.where(:status => Job::ACTIVE).count(:id) %></div>
-      <div class="percentage "></div>
+      <br><br><br>
+
+      <div class="chart-block">
+        <div class="chart-title">Active Jobs</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text"><%= @district_jobs.where(:status => Job::ACTIVE).count(:id) %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Closed in Last 5 Days</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text"><%= @district_jobs.where(:status => Job::CLOSED).where("close_date > ?", 5.days.ago).count(:id) %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Active Failures</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text-red failure-count"><%= Failure.where("failures.job_id IN (?)", @district_jobs.where(:status => Job::ACTIVE).map { |j| j.id }.uniq).count(:id) %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div class="chart-block">
-    <div class="chart-title">Closed in Last 5 Days</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text"><%= @district.jobs.where(:status => Job::CLOSED).where("close_date > ?", 5.days.ago).count(:id) %></div>
-      <div class="percentage "></div>
-    </div>
-  </div>
-
-  <div class="chart-block">
-    <div class="chart-title">Active Failures</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text chart-text-red failure-count"><%= Failure.where("failures.job_id IN (?)", @district.jobs.where(:status => Job::ACTIVE).map { |j| j.id }.uniq).count(:id) %></div>
-      <div class="percentage "></div>
-    </div>
-  </div>
-</div>
+<% end %>
 
 
 <div id="jobs" class="list">

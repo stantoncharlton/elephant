@@ -219,4 +219,16 @@ class UserRole < ActiveRecord::Base
         (self.role_id >= 50 && self.role_id <= 59) || self.role_id == 1
     end
 
+    def self.limit_jobs_scope(user, jobs)
+        if user.role.limit_to_assigned_jobs?
+            return jobs.where("jobs.id IN (SELECT job_id FROM job_memberships where user_id = :user_id)", user_id: user.id)
+        elsif user.role.limit_to_district?
+            return jobs.where(:district_id => user.district.id)
+        elsif user.role.limit_to_product_line? && !user.product_line.nil?
+            return jobs.joins(:job_template).where("job_templates.product_line_id = :product_line_id OR jobs.district_id = :district_id", product_line_id: user.product_line.id, district_id: user.district.id)
+        end
+
+        jobs
+    end
+
 end

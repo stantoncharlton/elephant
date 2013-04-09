@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
     has_many :alerts, order: "created_at DESC"
 
     has_many :job_memberships, foreign_key: "user_id"
-    has_many :jobs, through: :job_memberships, source: :job, order: "jobs.created_at DESC", uniq: true do
+    has_many :jobs, through: :job_memberships, source: :job, order: "jobs.close_date DESC, jobs.created_at DESC", uniq: true do
         def count(column_name = nil, opts = {})
             super(column_name || 'jobs.id', opts.reverse_merge(distinct: true))
         end

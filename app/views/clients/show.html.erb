@@ -3,15 +3,51 @@
 <div class="page_header">
   <h1><%= @client.name %></h1>
 
+  <h3 class="inline">&nbsp;Customer</h3>
+
   <h2 class="paginated-count"><%= t ".jobs" %>:
     <%= render 'layouts/paged_header', items: @jobs %>
   </h2>
-
-  <% if signed_in? %>
-      <%= link_to "+ " + I18n.t("clients.show.add_job"), new_job_path, class: "bluebtn page_header_button" %>
-  <% end %>
-
 </div>
+
+<div class="alert alert-info">
+  <%= form_tag clients_path(@client), :method => 'get', :id => "inline_search", class: "filter-search-box" do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search in customer jobs...", class: "search-query tooltip-info",
+                         "data-placement" => "left",
+                         "data-title" => "Search in customer jobs..." %>
+  <% end %>
+</div>
+
+
+
+<% if @client_jobs.present? %>
+    <div class="well">
+      <div class="chart-block">
+        <div class="chart-title">Active Jobs</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text"><%= @client_jobs.where(:status => Job::ACTIVE).count(:id) %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Closed in Last 5 Days</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text"><%= @client_jobs.where(:status => Job::CLOSED).where("close_date > ?", 5.days.ago).count(:id) %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Active Failures</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text-red failure-count"><%= Failure.where("failures.job_id IN (?)", @client_jobs.where(:status => Job::ACTIVE).map { |j| j.id }.uniq).count(:id) %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+    </div>
+<% end %>
+
 
 
 <div id="jobs" class="list">

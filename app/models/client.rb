@@ -8,6 +8,8 @@ class Client < ActiveRecord::Base
     belongs_to :company
     belongs_to :country
 
+    has_many :jobs, order: "close_date DESC, created_at DESC"
+
     searchable do
         text :name, :as => :code_textp
         time :created_at

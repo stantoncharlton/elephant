@@ -33,7 +33,12 @@ class ClientsController < ApplicationController
         @client = Client.find(params[:id])
         not_found unless @client.company == current_user.company
 
-        @jobs = Client.from_company_for_user(@client, params, current_user, current_user.company).results
+        if params[:search] && !params[:search].blank?
+            @jobs = Client.from_company_for_user(@client, params, current_user, current_user.company).results
+        else
+            @client_jobs = UserRole.limit_jobs_scope current_user, @client.jobs
+            @jobs = @client_jobs.paginate(page: params[:page], limit: 20)
+        end
     end
 
     def new
