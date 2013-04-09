@@ -1,7 +1,8 @@
 <% provide(:title, 'Division: ' + @division.name) %>
 
 <div class="page_header">
-  <h1>Division: <%= @division.name %></h1>
+  <h1><%= @division.name %></h1>
+  <h3 class="inline">&nbsp;Division</h3>
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>

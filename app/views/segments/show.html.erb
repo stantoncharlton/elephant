@@ -1,7 +1,8 @@
 <% provide(:title, 'Segment: ' + @segment.name) %>
 
 <div class="page_header">
-  <h1>Segment: <%= @segment.name %></h1>
+  <h1><%= @segment.name %></h1>
+  <h3 class="inline">&nbsp;Segment</h3>
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>

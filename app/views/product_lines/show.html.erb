@@ -1,7 +1,9 @@
 <% provide(:title, 'Product Line: ' + @product_line.name) %>
 
 <div class="page_header">
-  <h1>Product Line: <%= @product_line.name %></h1>
+  <h1><%= @product_line.name %></h1>
+  <h3 class="inline">&nbsp;Product Line</h3>
+
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>
