@@ -1,16 +1,21 @@
 <% provide(:title, 'District: ' + @district.name) %>
 
 <div class="page_header">
-  <h1>District: <%= @district.name %></h1>
+  <h1><%= @district.name %></h1>
+  <h3 class="inline">&nbsp;District</h3>
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>
   </h2>
+</div>
 
-  <%= form_tag district_path(@district), :method => 'get', id: "inline_search", class: "inline search-box" do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search in district...", class: "search-query" %>
+
+<div class="alert alert-info">
+  <%= form_tag district_path(@district), :method => 'get', :id => "inline_search", class: "filter-search-box" do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search in district...", class: "search-query tooltip-info",
+                         "data-placement" => "left",
+                         "data-title" => "Search in district..." %>
   <% end %>
-
 </div>
 
 <div class="well">
@@ -30,21 +35,23 @@
 
   <div class="chart-block chart-block-extended2">
 
-    <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar pull-left" %>
-    <div>
-      <%= link_to @district.personnel.first.name, @district.personnel.first, class: "activity-user-link push-right-small" %>
-      <br>
-      <b class="push-right-small"><%= @district.personnel.first.role.title %></b>
-    </div>
-
+    <% if !@district.personnel.first.nil? %>
+        <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar pull-left" %>
+        <div>
+          <%= link_to @district.personnel.first.name, @district.personnel.first, class: "activity-user-link push-right-small" %>
+          <br>
+          <b class="push-right-small"><%= @district.personnel.first.role.title %></b>
+        </div>
+    <% end %>
     <br>
-    <%= @district.phone_number %><b>+1 672.893.0900</b>
-    <%= @district.support_email %><a href="#" class="activity-user-link">support-williston@bh.com</a>
+    <%= @district.phone_number %>
+    <b>+1 672.893.0900</b>
+    <%= @district.support_email %>
+    <a href="#" class="activity-user-link">support-williston@bh.com</a>
   </div>
 
 
-
-<br><br><br>
+  <br><br><br>
 
 
   <div class="chart-block">
@@ -71,7 +78,6 @@
     </div>
   </div>
 </div>
-
 
 
 <div id="jobs" class="list">

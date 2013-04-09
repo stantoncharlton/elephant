@@ -37,7 +37,11 @@ class DistrictsController < ApplicationController
         @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
-        @jobs = District.from_company_for_user(@district, params, current_user, current_user.company).results
+        if params[:search]
+            @jobs = District.from_company_for_user(@district, params, current_user, current_user.company).results
+        else
+            @jobs = @district.jobs.paginate(page: params[:page], limit: 20)
+        end
     end
 
     def new
