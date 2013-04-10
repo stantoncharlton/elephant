@@ -19,6 +19,9 @@
       <%= text_field_tag :search, params[:search], placeholder: "Search districts", class: "search-query tooltip-info",
                          "data-placement" => "left",
                          "data-title" => "Search districts by name" %>
+      <% if params[:search].present? && !params[:search].blank? %>
+          <%= link_to "x  clear results", districts_path, class: "activity-user-link push-right-small" %>
+      <% end %>
   <% end %>
 </div>
 

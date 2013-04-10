@@ -8,7 +8,11 @@ class UsersController < ApplicationController
         respond_to do |format|
             format.html { @users = User.from_company(current_user.company).paginate(page: params[:page], limit: 20) }
             format.js {
-                        @users = User.search(params, current_user.company).results
+                if params[:search].length == 0
+                    @users = User.from_company(current_user.company).paginate(page: params[:page], limit: 20)
+                elsif params[:search].length > 1
+                    @users = User.search(params, current_user.company).results
+                end
             }
             format.json {
                 if params[:q].present?
@@ -152,7 +156,7 @@ class UsersController < ApplicationController
         end
     end
 
-private
+    private
     def create_roles
         roles = []
         roles << "Select a role..."

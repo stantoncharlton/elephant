@@ -157,7 +157,7 @@ class StaticPagesController < ApplicationController
         @total_job_types = total_job_types(@jobs)
         @average_job_time = average_job_duration(@jobs)
         @average_job_performance = average_job_performance(@jobs)
-        @job_success_rate = 100 - job_failure_rate(@jobs)
+        @job_success_rate = job_success_rate(@jobs)
 
         @failures = failures(@jobs)
         @failures_list = @failures.take(4).to_a

@@ -4,19 +4,8 @@ class CompaniesController < ApplicationController
     before_filter :signed_in_admin, only: [:edit, :update]
 
     def show
-        store_location
-
-        if current_user.elephant_admin? && request.path != company_path
-            @company = Company.find_by_id(params[:id])
-            @users = User.find_all_by_company_id(@company.id)
-        else
-            if params[:id].present? && params[:id] != current_user.company.id.to_s
-                redirect_to company_path
-            else
-                @company = current_user.company
-                @users = User.from_company(@company).paginate(page: params[:page], limit: 20)
-            end
-        end
+        @company = current_user.company
+        @users = User.from_company(@company).paginate(page: params[:page], limit: 20)
     end
 
     def new

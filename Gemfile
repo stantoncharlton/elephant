@@ -28,6 +28,7 @@ gem 'newrelic_rpm'
 
 group :development, :test do
     #gem 'sqlite3', '1.3.5'
+    gem 'webrick', '~> 1.3.1'
     gem 'rspec-rails', '2.10.0'
     gem 'guard-rspec', '0.5.5'
 end

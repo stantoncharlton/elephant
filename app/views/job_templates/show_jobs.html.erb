@@ -2,6 +2,7 @@
 
 <div class="page_header">
   <h1><%= @job_template.name %></h1>
+
   <h3 class="inline">&nbsp;Job Type</h3>
 
   <h2 class="paginated-count">Jobs:
@@ -11,7 +12,9 @@
 </div>
 
 <% if !@is_paged %>
-    <%= render 'jobs/index_parts/jobs_count', jobs: @job_template.jobs %>
+    <div class="well">
+      <%= render 'jobs/index_parts/jobs_count', jobs: @job_template.jobs %>
+    </div>
     <br>
 <% end %>
 

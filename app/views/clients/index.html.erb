@@ -20,6 +20,9 @@
       <%= text_field_tag :search, params[:search], placeholder: I18n.t("clients.index.search"), class: "search-query tooltip-info",
                          "data-placement" => "left",
                          "data-title" => "Filter customers by name" %>
+      <% if params[:search].present? && !params[:search].blank? %>
+          <%= link_to "x  clear results", clients_path, class: "activity-user-link push-right-small" %>
+      <% end %>
   <% end %>
 </div>
 

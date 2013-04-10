@@ -21,14 +21,18 @@
 
 <% if !@is_paged %>
     <% if current_user.role.no_assigned_jobs? %>
-        <%= render 'jobs/index_parts/jobs_count', jobs: current_user.company.jobs %>
+        <div class="well">
+          <%= render 'jobs/index_parts/jobs_count', jobs: current_user.company.jobs %>
+        </div>
         <br>
 
         <div class="">
           <%= render 'jobs/index_parts/divisions' %>
         </div>
     <% else %>
-        <%= render 'jobs/index_parts/jobs_count', jobs: current_user.jobs %>
+        <div class="well">
+          <%= render 'jobs/index_parts/jobs_count', jobs: current_user.jobs %>
+        </div>
         <br>
     <% end %>
 <% end %>

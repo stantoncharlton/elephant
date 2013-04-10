@@ -1,25 +1,24 @@
-<div class="well">
-  <div class="chart-block">
-    <div class="chart-title">Active Jobs</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text"><%= jobs.where(:status => Job::ACTIVE).count(:id) %></div>
-      <div class="percentage "></div>
-    </div>
+<div class="chart-block">
+  <div class="chart-title">Active Jobs</div>
+  <div class="donut-chart-div job-donut-chart-div">
+    <div class="donut-text"><%= jobs.where(:status => Job::ACTIVE).count(:id) %></div>
+    <div class="percentage "></div>
   </div>
+</div>
 
-  <div class="chart-block">
-    <div class="chart-title">Closed in Last 5 Days</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text"><%= jobs.where(:status => Job::CLOSED).where("close_date > ?", 5.days.ago).count(:id) %></div>
-      <div class="percentage "></div>
-    </div>
+<div class="chart-block">
+  <div class="chart-title">Closed in Last 5 Days</div>
+  <div class="donut-chart-div job-donut-chart-div">
+    <div class="donut-text"><%= jobs.where(:status => Job::CLOSED).where("jobs.close_date > ?", 5.days.ago).count(:id) %></div>
+    <div class="percentage "></div>
   </div>
+</div>
 
-  <div class="chart-block">
-    <div class="chart-title">Active Failures</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text chart-text-red failure-count"><%= Failure.where("failures.job_id IN (?)", jobs.where(:status => Job::ACTIVE).map { |j| j.id }.uniq).count(:id) %></div>
-      <div class="percentage "></div>
-    </div>
+<div class="chart-block">
+  <div class="chart-title">Active Failures</div>
+  <div class="donut-chart-div job-donut-chart-div">
+    <% jobs_sql =  jobs.reorder('').where(:status => Job::ACTIVE).select("jobs.id").to_sql %>
+    <div class="donut-text chart-text-red failure-count"><%= Failure.where("failures.job_id IN (#{jobs_sql})").count(:id) %></div>
+    <div class="percentage "></div>
   </div>
 </div>

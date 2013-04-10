@@ -2,6 +2,7 @@
 
 <div class="page_header">
   <h1><%= @division.name %></h1>
+
   <h3 class="inline">&nbsp;Division</h3>
 
   <h2 class="paginated-count">Jobs:
@@ -11,7 +12,9 @@
 </div>
 
 <% if !@is_paged %>
-    <%= render 'jobs/index_parts/jobs_count', jobs: @division.jobs %>
+    <div class="well">
+      <%= render 'jobs/index_parts/jobs_count', jobs: @division.jobs %>
+    </div>
     <br>
 
     <% if current_user.role.no_assigned_jobs? %>

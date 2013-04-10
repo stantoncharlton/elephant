@@ -20,7 +20,7 @@ class District < ActiveRecord::Base
     belongs_to :state
 
     has_many :fields, order: "name ASC"
-    has_many :jobs, order: "close_date DESC, created_at DESC"
+    has_many :jobs, order: "jobs.close_date DESC, jobs.created_at DESC"
 
 
     searchable do
