@@ -10,6 +10,12 @@
       <% end %>
     </ul>
 
+    <div class="member-loading hidden">
+      <span class="ajax-loading search-loading"><b>Adding project member</b></span>
+      <br><br>
+    </div>
+
+
     <% if job_editable %>
 
         <%= link_to "Add Member", new_job_membership_path, remote: true,

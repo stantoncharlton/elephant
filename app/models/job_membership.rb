@@ -13,7 +13,7 @@ class JobMembership < ActiveRecord::Base
 
 
     OBSERVER = 1
-    SUPERVISOR = 2
+    MANAGER = 2
     COORDINATOR = 3
     FIELD = 4
     SHOP = 5
@@ -24,8 +24,8 @@ class JobMembership < ActiveRecord::Base
        case self.job_role_id
            when OBSERVER
                "Observer"
-           when SUPERVISOR
-               "Supervisor"
+           when MANAGER
+               "Manager"
            when COORDINATOR
                "Coordinator"
            when FIELD

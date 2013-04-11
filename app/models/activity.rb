@@ -36,6 +36,7 @@ class Activity < ActiveRecord::Base
 
     DOCUMENT_UPLOADED = 110
     DATA_EDITED = 111
+    START_DATE = 112
 
     JOB_MEMBER_ADDED = 120
 
@@ -45,6 +46,9 @@ class Activity < ActiveRecord::Base
     JOB_APPROVED_TO_SHIP = 141
     POST_JOB_DATA_COMPLETE = 142
     JOB_APPROVED_TO_CLOSE = 143
+
+    JOB_RATING = 160
+    JOB_FAILURE = 170
 
 
     def message

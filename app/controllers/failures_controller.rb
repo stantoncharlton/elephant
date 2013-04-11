@@ -59,12 +59,15 @@ class FailuresController < ApplicationController
                         job_failure.failure_master_template = failure.failure_master_template
                         job_failure.job = @job
                         job_failure.save
+
+                        Activity.add(self.current_user, Activity::JOB_FAILURE, job_failure, nil, @job)
                     end
                 end
             end
 
             if !@rating.nil?
                 @job.update_attribute(:rating, @rating.to_i)
+                Activity.add(self.current_user, Activity::JOB_RATING, @job, @rating.to_i, @job)
             end
 
             @job = Job.find_by_id(@job.id)

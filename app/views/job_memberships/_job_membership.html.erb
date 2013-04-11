@@ -1,5 +1,12 @@
 <li class="job-member-list-item" id="job_membership_<%= job_membership.id %>">
-  <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
+  <% case job_membership.job_role_id
+         when 1 %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
+      <% when 2 %><%= image_tag "manager_icon_small.png", class: "job-status-avatar" %>
+      <% when 3 %><%= image_tag "coordinator_icon_small.png", class: "job-status-avatar" %>
+      <% when 4 %><%= image_tag "field_icon_small.png", class: "job-status-avatar" %>
+      <% when 5 %><%= image_tag "shop_icon_small.png", class: "job-status-avatar" %>
+      <% else %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
+  <% end %>
   <div class="activity-user-link-div-short">
     <div class="inline  push-right-small">
       <%= render 'activities/user', user: job_membership.user %>

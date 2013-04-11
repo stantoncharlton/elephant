@@ -11,23 +11,20 @@
           <% if activity.target.note_type == 4 %>
               <div class="job-note-task"></div>
           <% end %>
+      <% elsif activity.activity_type == Activity::JOB_FAILURE %>
+          <div class="job-note-error"></div>
       <% end %>
 
       <div class="activity-avatar-box-small">
-        <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
-            <%= image_tag "user_avatar_added.png" %>
-        <% elsif activity.activity_type == Activity::JOB_APPROVED_TO_SHIP %>
-            <%= image_tag "user_avatar_shipped.png" %>
-        <% elsif activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
-            <%= image_tag "user_avatar_complete.png" %>
-        <% elsif activity.activity_type == Activity::JOB_NOTE_ADDED %>
-            <%= image_tag "user_avatar_note.png" %>
-        <% elsif activity.activity_type == Activity::DOCUMENT_UPLOADED %>
-            <%= image_tag "user_avatar_upload_document.png" %>
-        <% elsif activity.activity_type == Activity::DATA_EDITED %>
-            <%= image_tag "user_avatar_note.png" %>
-        <% else %>
-            <%= image_tag "user_avatar_default.png" %>
+        <% if activity.job.get_membership_role(activity.user).present? %>
+            <% case activity.job.get_membership_role(activity.user).job_role_id
+                   when 1 %><%= image_tag "user_avatar_default.png" %>
+                <% when 2 %><%= image_tag "manager_icon.png" %>
+                <% when 3 %><%= image_tag "coordinator_icon.png" %>
+                <% when 4 %><%= image_tag "field_icon.png" %>
+                <% when 5 %><%= image_tag "shop_icon.png" %>
+                <% else %><%= image_tag "user_avatar_default.png" %>
+            <% end %>
         <% end %>
       </div>
 
@@ -64,36 +61,68 @@
               <p class="activity-message">Pre-Job data and documents complete</p>
           <% end %>
           <% if activity.activity_type == Activity::JOB_APPROVED_TO_SHIP %>
-              <p class="activity-message status-good">Job approved to ship to field</p>
+              <b>
+              <p class="activity-message status-good">Job approved to ship to field</p></b>
           <% end %>
           <% if activity.activity_type == Activity::POST_JOB_DATA_COMPLETE %>
+
               <p class="activity-message">Post-Job documents complete</p>
           <% end %>
           <% if activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
-              <p class="activity-message status-good">Job completed and approved to close</p>
+              <b>
+              <p class="activity-message status-good">Job completed and approved to close</p> </b>
           <% end %>
           <% if activity.activity_type == Activity::DATA_EDITED %>
               <p class="activity-message"><%= activity.metadata %> changed</p>
           <% end %>
+          <% if activity.activity_type == Activity::START_DATE %>
+              <p class="activity-message">Job set to start
+                <b><%= Date.strptime(activity.metadata).strftime("%a %m/%d/%Y") %></b></p>
+          <% end %>
+          <% if activity.activity_type == Activity::JOB_FAILURE %>
+              <p class="activity-message">Job failure:
+                <b><%= activity.target.failure_master_template.text %></b></p>
+          <% end %>
+          <% if activity.activity_type == Activity::JOB_RATING %>
+              <p class="activity-message">Job rating set to
+                <% activity.metadata.to_i.times do |i| %>
+                    <%= image_tag "rating_star_activity.png" %>
+                <% end %>
+                (<b><%= activity.metadata %> stars</b>)</p>
+          <% end %>
           <% if activity.activity_type == Activity::DOCUMENT_UPLOADED %>
-              <p class="activity-message">
-                Uploaded document
-              </p>
 
-              <div class="activity-document-name inline">
-                <%= image_tag "document_icon.png" %>
-                <%= link_to activity.target.name, activity.target.full_url, class: "tooltip-info",
+              <%= image_tag "document_icon.png" %>
+
+              <span class="activity-document-name inline">
+                <%= link_to activity.target.name, activity.target.full_url, class: "activity-user-link",
                             "data-placement" => "bottom",
                             "data-title" => "Click to download document" %>
-                <p class="activity-message">
-                </p>
-              </div>
+                <div class="activity-text">
+                  - Document Uploaded
+                </div>
+              </span>
+
+
           <% end %>
           <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
               <p class="activity-message">
-                Added
-                <%= render 'activities/user', user: activity.target.user %>
-                as project member
+                <%= image_tag "added.png" %>
+
+                <span class="inline push-right-small">
+                <% case activity.target.job_role_id
+                       when 1 %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
+                      <% when 2 %><%= image_tag "manager_icon_small.png", class: "job-status-avatar" %>
+                      <% when 3 %><%= image_tag "coordinator_icon_small.png", class: "job-status-avatar" %>
+                      <% when 4 %><%= image_tag "field_icon_small.png", class: "job-status-avatar" %>
+                      <% when 5 %><%= image_tag "shop_icon_small.png", class: "job-status-avatar" %>
+                      <% else %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
+                <% end %>
+                  <%= render 'activities/user', user: activity.target.user %>
+                  <div class="activity-text">
+                    - <%= activity.target.role_title %>
+                  </div>
+              </span>
               </p>
           <% end %>
           <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>

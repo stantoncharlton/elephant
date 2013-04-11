@@ -228,6 +228,7 @@ class JobsController < ApplicationController
 
         if params["start_date"].present?
             @job.start_date = Date.strptime(params["start_date"], '%m/%d/%Y')
+            Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
 
             render :nothing => true, :status => :ok
         else
