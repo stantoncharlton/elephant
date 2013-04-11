@@ -284,7 +284,7 @@ class Job < ActiveRecord::Base
     end
 
     def is_coordinator_or_creator?(user)
-        user == self.get_role(JobMembership::COORDINATOR) || user == self.get_role(JobMembership::CREATOR)
+        user == self.get_role(JobMembership::COORDINATOR) || user == self.get_role(JobMembership::MANAGER) || user == self.get_role(JobMembership::CREATOR)
     end
 
     def duration

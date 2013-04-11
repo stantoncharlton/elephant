@@ -8,7 +8,7 @@
 
       <br>
 
-      <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], [I18n.t("job_roles.supervisor"), 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]], job_membership.job_role_id),
+      <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], ["Manager", 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]], job_membership.job_role_id),
                    prompt: I18n.t("jobs.show.new_member_role_prompt"),
                    class: "job-note-type" %>
 

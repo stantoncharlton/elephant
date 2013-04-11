@@ -1,3 +1,10 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$ ->
+
+  delay = (time, fn) ->
+    setTimeout fn, time
+
+  $('.download-link').live "click", ->
+    $(this).closest('.document-download-message').popover('show')
+    link = $(this)
+    delay 2000, ->
+      link.closest('.document-download-message').popover('hide')

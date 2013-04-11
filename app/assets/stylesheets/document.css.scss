@@ -104,7 +104,7 @@
 }
 
 .document-upload-button {
-  cursor: pointer;
+  cursor: hand;
   color: #0058a8;
   font-size: 15px;
   margin-left: 25px;
@@ -121,7 +121,7 @@
     background: transparent url(image_path('upload_arrow.png')) no-repeat center right;
   }
   &:hover {
-    cursor: pointer;
+    cursor: hand;
     background: transparent;
     color: #273542;
     text-decoration: none;
@@ -269,4 +269,59 @@
 .document-reorder-background {
   border-radius: 0px;
   background: #badaf7;
+}
+
+
+.share-button {
+  display: inline-block;
+  font-size: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 35px;
+  height: 30px;
+  color: #0058a8;
+  text-indent: -10000;
+  text-decoration: none;
+  background: transparent url(image_path('share_up.png')) no-repeat center center;
+
+  &:link, &:visited, &:active {
+    background: transparent;
+    color: #0058a8;
+    text-decoration: none;
+    background: transparent url(image_path('share_up.png')) no-repeat center center;
+  }
+  &:hover {
+    background: transparent;
+    color: #273542;
+    text-decoration: none;
+    background: transparent url(image_path('share_hover.png')) no-repeat center center;
+  }
+}
+
+
+.document-actions-button {
+  vertical-align: bottom;
+  color: #8b8b8b;
+  font-size: 14px;
+  width: 35px;
+  height: 30px;
+  color: #0058a8;
+  text-indent: -10000;
+  font-weight: normal;
+  background: transparent;
+  display: inline-block;
+  background: url(image_path('share_up.png')) no-repeat center center;
+
+  &:active, &:link, &:visited {
+    color: #8b8b8b;
+    background: transparent;
+    text-decoration: none;
+    background: url(image_path('share_up.png')) no-repeat center center;
+  }
+  &:hover {
+    color: #000000;
+    background: transparent;
+    text-decoration: none;
+    background: url(image_path('share_hover.png')) no-repeat center center;
+  }
 }
