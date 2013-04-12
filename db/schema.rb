@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402180248) do
+ActiveRecord::Schema.define(:version => 20130412140510) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -151,6 +151,23 @@ ActiveRecord::Schema.define(:version => 20130402180248) do
   end
 
   add_index "divisions", ["company_id"], :name => "index_divisions_on_company_id"
+
+  create_table "document_shares", :force => true do |t|
+    t.integer  "document_id"
+    t.string   "email"
+    t.string   "access_code"
+    t.integer  "shared_by"
+    t.integer  "job_id"
+    t.integer  "forwarded_document_share"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "document_shares", ["document_id", "email"], :name => "index_document_shares_on_document_id_and_email", :unique => true
+  add_index "document_shares", ["document_id"], :name => "index_document_shares_on_document_id"
+  add_index "document_shares", ["email"], :name => "index_document_shares_on_email"
+  add_index "document_shares", ["forwarded_document_share"], :name => "index_document_shares_on_forwarded_document_share"
+  add_index "document_shares", ["job_id"], :name => "index_document_shares_on_job_id"
 
   create_table "documents", :force => true do |t|
     t.integer  "job_template_id"

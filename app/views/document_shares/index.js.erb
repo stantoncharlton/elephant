@@ -1,0 +1,7 @@
+$('#modal_popup').find('.loading').addClass('hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').find('.modal-content').append('<%= j render 'document_shares/index' %>');
+$('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').height($(document).height() + 100);
+
+

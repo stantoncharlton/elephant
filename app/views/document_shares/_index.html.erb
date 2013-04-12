@@ -1,0 +1,26 @@
+<div class="page_header">
+  <h1>Share Document</h1>
+</div>
+
+<div class="">
+  <%= form_for DocumentShare.new, remote: true do |f| %>
+      <b>Email Address of person to share with</b>
+      <br><br>
+      <%= f.text_field :email, class: "txtfield" %>
+      <%= f.submit "Share", class: "bluebtn btnsmall" %>
+  <% end %>
+</div>
+
+<hr>
+
+<div>
+  Existing Shares <b>0</b>
+  <br><br>
+</div>
+
+
+<hr>
+
+<div class="actions">
+  <%= link_to "Done", "#", class: "bluebtn gray pull-right", id: "close_modal" %>
+</div>
