@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130412140510) do
+ActiveRecord::Schema.define(:version => 20130413202127) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(:version => 20130412140510) do
     t.integer  "document_id"
     t.string   "email"
     t.string   "access_code"
-    t.integer  "shared_by"
+    t.integer  "shared_by_id"
     t.integer  "job_id"
     t.integer  "forwarded_document_share"
     t.datetime "created_at",               :null => false

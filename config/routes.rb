@@ -88,7 +88,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :post_job_report_documents, only: [:create, :update, :destroy]
 
-    resources :document_shares, only: [:index, :show, :new, :create, :destroy]
+    resources :document_shares, only: [:index, :show, :new, :create, :update, :destroy]
 
 end
 

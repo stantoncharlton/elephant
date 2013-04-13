@@ -5,7 +5,6 @@ class DocumentShare < ActiveRecord::Base
     belongs_to :document
     belongs_to :shared_by, class_name: "User"
     belongs_to :job
-
     belongs_to :forwarded_document_share, class_name: "DocumentShare"
 
     before_save { |document_share| document_share.email = email.downcase }
@@ -20,7 +19,7 @@ class DocumentShare < ActiveRecord::Base
 
 
     def send_share_email
-
+        DocumentShareMailer.share(self).deliver
     end
 
 end

@@ -1,0 +1,103 @@
+<fieldset id="document_share_<%= document_share.id %>">
+  <div class="field inline-form document-field document-download-message"
+       data-toggle="popover"
+       data-placement="top"
+       data-content="Document will start downloading momentarily..."
+       data-animation="true"
+       data-trigger="manual"
+       title="Download">
+
+    <div class="upload-metadata inline">
+
+      <div class="document-status">
+      </div>
+
+      <% if document_share.document.url.present? %>
+          <%= link_to document_share.document.name, document_share.document.full_url, class: "document-name tooltip-info download-link",
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to download document" %>
+      <% elsif !document_share.document.document_template.nil? && document_share.document.document_template.url.present? %>
+          <%= link_to document_share.document.name, document_share.document.document_template.full_url, class: "document-name tooltip-info download-link",
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to download document" %>
+      <% else %>
+          <p class="document-name document-name-container"><%= document_share.document.name %></p>
+      <% end %>
+
+      <div class="document-info">
+        <div class="document-modified2">
+          <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document_share.created_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+        </div>
+
+        <div class="document-file-name-box">
+          <%= link_to document_share.shared_by.name, "mailto: " + document_share.shared_by.email, class: "activity-user-link" %>
+          <p class="inline"> / <b><%= document_share.shared_by.company.name %></b></p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="upload-controls inline" id="div_upload_<%= !document_share.document.job.nil? ? document_share.document.job.id : "" %>">
+      <div class="upload-document-container" id="file_uploads">
+      </div>
+
+
+      <div class="btn-group inline pull-right">
+        <a class="document-actions-button" data-toggle="dropdown" href="#">
+          <% if document_share.forwarded_document_share.present? && document_share.forwarded_document_share.document.document_shares.any? %>
+              <div class="document-shares-count"><%= document_share.forwarded_document_share.document.document_shares.count %></div>
+          <% end %>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Share", document_shares_path(document_share: document_share), remote: true,
+                        class: "dropdown-menu-link tooltip-info share-document-button",
+                        "data-placement" => "left",
+                        "data-title" => "Share document to person or another company." %>
+          </li>
+          <% if document_share.document.url.present? %>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Download", document_share.document.full_url,
+                            class: "dropdown-menu-link tooltip-info download-link",
+                            "data-placement" => "left",
+                            "data-title" => "Download document to computer." %>
+              </li>
+          <% end %>
+          <% if !document_share.document.document_template.nil? && document_share.document.document_template.url.present? %>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Download original template", document_share.document.full_url,
+                            class: "dropdown-menu-link tooltip-info download-link",
+                            "data-placement" => "left",
+                            "data-title" => "Download document to computer." %>
+              </li>
+          <% end %>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Move shared document to another job", document_share_path(document_share, add_to_job: true, access_code: document_share.access_code),
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Changes the job the shared document is associated with." %>
+          </li>
+          <% if document_share.document.document_template.nil? %>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "x  Delete", document_share, method: :delete,
+                            class: "dropdown-menu-link tooltip-info warning-text",
+                            data: {confirm: "Delete Shared Document?"},
+                            "data-placement" => "left",
+                            "data-title" => "Delete shared document from job." %>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</fieldset>
+

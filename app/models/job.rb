@@ -37,6 +37,8 @@ class Job < ActiveRecord::Base
     has_many :failures, dependent: :destroy, order: "text ASC"
     has_many :alerts, dependent: :destroy
 
+    has_many :document_shares, order: "created_at DESC"
+
     ACTIVE = 1
     CLOSED = 2
     ABANDONED = 3

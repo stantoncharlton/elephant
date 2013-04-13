@@ -50,7 +50,17 @@
     <% end %>
   </div>
 
+  <% if job.document_shares.any? %>
+      <h3 class="document-section-header">Shared Documents</h3>
+      <div class="content" id="documents_shared">
+        <% job.document_shares.each do |document_share| %>
+            <%= render 'document_shares/document', document_share: document_share %>
+        <% end %>
+      </div>
+  <% end %>
+
   <br>
+
   <div class="content alert">
     <%= link_to "Download offline desktop app (Windows only)", "https://elephant-apps.s3.amazonaws.com/desktop/Elephant.application", class: "activity-user-link" %>
   </div>

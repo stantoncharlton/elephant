@@ -1,1 +1,3 @@
 $('#document_share_<%= @document_share.id %>').remove();
+
+$('#document_<%= @document_share.document.id %>').find('.document-shares-count').text('<%= @document_share.document.document_shares.count %>');

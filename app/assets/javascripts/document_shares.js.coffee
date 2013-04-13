@@ -9,3 +9,11 @@ $ ->
   $('.sharing-loading-on-click').live "click", ->
     $('.sharing-form').addClass('hidden')
     $('.sharing-loading').removeClass('hidden')
+
+
+  $('.share-add-to-job').live "click", ->
+    $('.form').addClass 'hidden'
+    $('.loading').removeClass 'hidden'
+    $('#document_share_job').val($(this).attr("id").replace("job_", ""))
+    $(this).closest("form").submit()
+    return false

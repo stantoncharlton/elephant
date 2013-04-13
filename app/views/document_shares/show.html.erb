@@ -1,0 +1,32 @@
+<% provide(:title, 'Add Document to Job') %>
+
+<div class="page_header">
+  <h1>Add Document to Job</h1>
+
+  <h3 class="inline">&nbsp;'<%= @document_share.document.name %>'</h3>
+</div>
+
+<div class="form content">
+  <div class="alert">
+    This will add the document <b>'<%= @document_share.document.name %>'</b> to the job selected below. It will be
+    available in the 'Shared' section of the documents tab on a job.
+  </div>
+
+  <%= form_for @document_share do |f| %>
+      <%= f.hidden_field :add_to_job, value: true %>
+      <%= f.hidden_field :job %>
+      <%= f.hidden_field :access_code, value: params[:access_code] %>
+      <div id="jobs">
+        <% current_user.jobs.each do |job| %>
+            <%= link_to "#", class: "job-status job-link tooltip-info share-add-to-job",
+                        id: "job_" + job.id.to_s,
+                        "data-placement" => "bottom",
+                        "data-title" => "Click to add document to job" do %>
+                <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
+            <% end %>
+        <% end %>
+      </div>
+  <% end %>
+</div>
+
+<%= render 'layouts/inline_loading', title: "Adding document to job" %>

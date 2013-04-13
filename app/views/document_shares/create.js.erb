@@ -12,4 +12,6 @@ $('.no-shares-text').remove();
 $('#document_share_email').val('');
 $('#document_shares_list').append($("<%= j render 'document_shares/document_share', document_share: @document_share %>"));
 
+$('#document_<%= @document_share.document.id %>').find('.document-shares-count').text('<%= @document_share.document.document_shares.count %>');
+
 <% end %>

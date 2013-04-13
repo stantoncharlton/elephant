@@ -1,5 +1,5 @@
 class DocumentSharesController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show, :new, :create, :destroy]
+    before_filter :signed_in_user, only: [:index, :show, :new, :create, :update, :destroy]
 
     def index
         @document = Document.find_by_id(params[:document])
@@ -28,7 +28,40 @@ class DocumentSharesController < ApplicationController
     end
 
     def show
+        @document_share = DocumentShare.find_by_id(params[:id])
+        @access_code = params[:access_code]
+        not_found unless @document_share.access_code == @access_code
 
+        if params[:download].present? && params[:download] == "true"
+            redirect_to @document_share.document.full_url
+        elsif params[:add_to_job].present? && params[:add_to_job] == "true"
+            #not_found unless @document_share.email.downcase == current_user.email.downcase
+            render 'show'
+        else
+            not_found
+        end
+    end
+
+    def update
+        @document_share = DocumentShare.find_by_id(params[:id])
+        @access_code = params[:document_share][:access_code]
+        not_found unless @document_share.access_code == @access_code
+
+        @job = Job.find_by_id(params[:document_share][:job])
+        not_found unless @job.company == current_user.company
+
+        if params[:document_share][:add_to_job].present? && params[:document_share][:add_to_job] == "true"
+            #not_found unless @document_share.email.downcase == current_user.email.downcase
+
+            @document_share.job = @job
+            if @document_share.save
+                flash[:success] = "Shared document '" + @document_share.document.name + "' added to job."
+                redirect_to @job
+                return
+            end
+
+            puts @document_share.errors.full_messages
+        end
     end
 
     def destroy

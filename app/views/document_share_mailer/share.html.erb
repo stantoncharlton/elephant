@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
+
+<h1><%= @document_share.shared_by.name %> Shared a Document</h1>
+<h3 class="center"><b>'<%=  @document_share.document.name %>'</b></h3>
+
+<br>
+
+<p>Add document to existing job on Elephant</p>
+<p><%= link_to "Add Document to Job", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link" %></p>
+
+<br>
+<p>Or</p>
+<br>
+
+<p><%= link_to "Download Document Now", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link" %></p>
+
+<br>
+
+<p>
+  Shared from <b><%= link_to "Elephant", "www.go-elephant.com", class: "activity-user-link" %></b> - An Energy Innovation Company
+</p>
+<% if Rails.env.production? %>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+<% end %>
+</body>
+</html>
