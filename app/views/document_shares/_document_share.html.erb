@@ -1,0 +1,11 @@
+<fieldset id="document_share_<%= document_share.id %>">
+  <div class="share-email-div">
+    <%= image_tag "user_avatar_extrasmall.png" %>
+    <h3 class="share-email-text"><%= document_share.email %></h3>
+
+    <%= link_to "remove", document_share, method: :delete, remote: true, data: {confirm: "Stop sharing with this user?"},
+                class: "delete-button tooltip-info pull-right",
+                "data-placement" => "bottom",
+                "data-title" => "Stop sharing with this user" %>
+  </div>
+</fieldset>

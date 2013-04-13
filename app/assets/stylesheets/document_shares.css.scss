@@ -1,3 +1,38 @@
-// Place all the styles related to the document_shares controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.no-shares-text {
+  color: #6fa6d8;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+.share-document-name {
+  color: #6fa6d8;
+  font-style: italic;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.share-email-div {
+  display: inline;
+  line-height: 35px;
+  vertical-align: middle;
+}
+
+.share-email-text {
+  color: #0058a8;
+  font-size: 15px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-top: 5px;
+  vertical-align: top;
+}
+
+.document-shares-count {
+  vertical-align: top;
+  color: #dfa70f;
+  display: inline-block;
+  transform:translateX(30px);
+  -ms-transform:translateX(30px);
+  -webkit-transform:translateX(30px);
+}

@@ -46,6 +46,9 @@
           <% if !document.template? %>
               <div class="btn-group inline pull-right">
                 <a class="document-actions-button" data-toggle="dropdown" href="#">
+                  <% if document.document_shares.any? %>
+                      <div class="document-shares-count "><%= document.document_shares.count %></div>
+                  <% end %>
                 </a>
                 <ul class="dropdown-menu">
                   <li>

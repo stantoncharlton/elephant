@@ -23,6 +23,7 @@ class Document < ActiveRecord::Base
     before_create :default_name
 
     has_one :post_job_report_document, :dependent => :destroy
+    has_many :document_shares, dependent: :destroy
 
 
     NOTICES = "Notices"

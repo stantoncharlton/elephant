@@ -1,0 +1,15 @@
+$('.sharing-form').removeClass('hidden');
+$('.sharing-loading').addClass('hidden');
+
+<% if @document_share.new_record? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Sharing Document", message: @document_share.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
+$('.no-shares-text').remove();
+$('#document_share_email').val('');
+$('#document_shares_list').append($("<%= j render 'document_shares/document_share', document_share: @document_share %>"));
+
+<% end %>
