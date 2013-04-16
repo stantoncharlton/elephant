@@ -76,6 +76,13 @@ $ ->
     $(".job-tray[data-tray=" + $(this).attr('data-tray') + "]").removeClass 'custom-data-closed'
     return false
 
+  $('.job-tray-toggle').click ->
+    if $(this).attr('data-tray') == "activity"
+      $('#activity_list').hide()
+      $('.activity-loading').removeClass 'hidden'
+      $('.activity-loading').find('.loading').removeClass 'hidden'
+      $.ajax '/activities?job_id=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
+    return false
 
   $('#add_failure').click ->
     $('#modal_popup').css('visibility', 'visible')

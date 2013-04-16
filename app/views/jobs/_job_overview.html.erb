@@ -4,14 +4,8 @@
   <div class="chart-block tooltip-info"
        data-title="Job Rating is a score from 1-5 of the job performance">
     <div class="chart-title">Rating</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <% if !job.rating.nil? %>
-          <div class="donut-text rating-count <%= job.rating >= 3 ? "" : "chart-text-red" %>"><%= job.rating %></div>
-          <div class="percentage <%= job.rating >= 3 ? "" : "chart-text-red" %>">of 5</div>
-      <% else %>
-          <div class="donut-text">-</div>
-          <div class="percentage "></div>
-      <% end %>
+    <div class="donut-chart-div job-donut-chart-div rating-count-div">
+        <%= render 'failures/rating', rating: job.rating %>
     </div>
   </div>
 

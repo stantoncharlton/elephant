@@ -6,6 +6,7 @@ $('#alert').modal({show:true});
 
 <% else %>
 $("#job_notes").prepend("<%= j render 'job_notes/job_note', job_note: @job_note %>");
+$('.job-notes-count').text('<%= "(" + @job_note.job.job_notes.count.to_s + ")" %>');
 $('#new_note_id').val('');
 $('#new_note_name').val('');
 

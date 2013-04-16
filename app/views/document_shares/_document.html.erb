@@ -44,9 +44,11 @@
 
       <div class="btn-group inline pull-right">
         <a class="document-actions-button" data-toggle="dropdown" href="#">
-          <% if document_share.forwarded_document_share.present? && document_share.forwarded_document_share.document.document_shares.any? %>
-              <div class="document-shares-count"><%= document_share.forwarded_document_share.document.document_shares.count %></div>
-          <% end %>
+          <div class="document-shares-count">
+            <% if document_share.forwarded_document_share.present? && document_share.forwarded_document_share.document.document_shares.any? %>
+                <%= document_share.forwarded_document_share.document.document_shares.count %>
+            <% end %>
+          </div>
         </a>
         <ul class="dropdown-menu">
           <li>

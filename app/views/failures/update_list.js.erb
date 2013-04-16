@@ -7,5 +7,5 @@ $('#failures_list').replaceWith("<%= j render 'jobs/job_failure_list', job: @job
 
 $('.failure-count').text('<%=  @job.failures.count.to_s %>');
 <% if !@job.rating.nil? %>
-$('.rating-count').text('<%=  @job.rating.to_s %>');
+$('.rating-count-div').html('<%= j render 'failures/rating', rating: @job.rating %>');
 <% end %>

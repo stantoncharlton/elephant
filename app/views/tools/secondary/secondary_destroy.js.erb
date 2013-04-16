@@ -1,1 +1,2 @@
 $('#secondary_tool_<%= @tool.id %>').remove();
+$('.secondary-tool-count').text('<%= "(" + @tool.job.secondary_tools.count.to_s + ")" %>');

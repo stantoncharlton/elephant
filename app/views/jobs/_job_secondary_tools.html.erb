@@ -21,11 +21,12 @@
 
         <%= form_for(SecondaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
             <%= f.hidden_field :job_id, value: job.id %>
+
             <%= f.select :tool_id, options_for_select(job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
-                         prompt: "Select a Tool...",
-                         class: "tooltip-info",
+                         {prompt: "Select a Tool..."},
+                         class: "tooltip-info custom-select custom-select-long",
                          "data-placement" => "bottom",
-                         "data-title" => "Select from and existing secondary tool on this division" %>
+                         "data-title" => "Select from an existing secondary tool on this division" %>
 
             <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall" %>
         <% end %>

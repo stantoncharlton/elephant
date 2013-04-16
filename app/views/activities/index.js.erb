@@ -1,3 +1,8 @@
+$('#job_activities').children().remove();
+
+$('#activity_list').show();
+$('.activity-loading').addClass('hidden')
+
 <% @activities.each do |activity| %>
-$("#job_activities").append("<%= j render 'activities/job_activity', activity: activity, inside_job: true %>");
+    $("#job_activities").append("<%= j render 'activities/job_activity', activity: activity, inside_job: true %>");
 <% end %>

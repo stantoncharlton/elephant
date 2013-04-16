@@ -173,7 +173,7 @@ class JobsController < ApplicationController
 
             Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
 
-            flash[:success] = "Job created"
+            flash[:success] = "Job created, add extra job data below."
             redirect_to job_path(@job, new: "true")
         else
 

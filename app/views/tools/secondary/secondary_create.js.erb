@@ -5,6 +5,7 @@ $('#alert').modal({show:true});
 
 <% else %>
 
+$('.no-secondary-tools').hide();
 $('#secondary_tools_list').append("<%= j render 'tools/secondary/secondary_tool', tool: @tool, is_editable: true %>");
-
+$('.secondary-tool-count').text('<%= "(" + @tool.job.secondary_tools.count.to_s + ")" %>');
 <% end %>

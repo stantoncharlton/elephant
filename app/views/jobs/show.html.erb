@@ -15,7 +15,7 @@
 <br>
 <br>
 
-<div>
+<div id="job_<%= @job.id %>" class="job-main-div">
   <div class="">
     <br>
     <ul class="nav nav-pills alert alert-info">
@@ -45,14 +45,14 @@
         <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="secondary_tools"
            data-placement="bottom" data-title="List of tools used on this job">Secondary Tools
-          <%= "(" + @job.secondary_tools.count.to_s + ")" %></a>
+          <span class="secondary-tool-count"><%= "(" + @job.secondary_tools.count.to_s + ")" %></span></a>
       </li>
 
       <li class="push-right-small">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="notes"
            data-placement="bottom" data-title="List of tools used on this job">Notes
-          <%= "(" + @job.job_notes.count.to_s + ")" %></a>
+          <span class="job-notes-count"><%= "(" + @job.job_notes.count.to_s + ")" %></span></a>
       </li>
 
       <li class="push-right-small">
@@ -70,8 +70,8 @@
     <%= render 'jobs/job_documents', job: @job %>
     <%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
     <div class="job-tray custom-data-closed" data-tray="activity">
-    <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
-      </div>
+      <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
+    </div>
 
   </div>
 </div>

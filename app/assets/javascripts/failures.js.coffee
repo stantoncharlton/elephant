@@ -21,3 +21,4 @@ $ ->
         $(this).addClass 'star-button-filled'
       else
         $(this).removeClass 'star-button-filled'
+    return false

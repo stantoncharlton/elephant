@@ -1,29 +1,34 @@
-<div class="page_header">
-  <h1>Activity</h1>
+<div id="activity_list">
+  <div class="page_header">
+    <h1>Activity</h1>
 
-  <h2>
-    <% if activities.count > 0 %>
-        <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
-            - <%= [((Integer(params[:page]) - 1) * 10) + 10, activities.count].min %> of <%= activities.count.to_s %>
-        <% else %>
-            1 - <%= [10, activities.count].min %> of <%= activities.count.to_s %>
-        <% end %>
+    <h2>
+      <% if activities.count > 0 %>
+          <% if params[:page].present? %>
+              <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
+              - <%= [((Integer(params[:page]) - 1) * 10) + 10, activities.count].min %> of <%= activities.count.to_s %>
+          <% else %>
+              1 - <%= [10, activities.count].min %> of <%= activities.count.to_s %>
+          <% end %>
+      <% end %>
+    </h2>
+  </div>
+
+  <div id="job_activities" class="list">
+    <% activities.each do |activity| %>
+        <%= render 'activities/job_activity', activity: activity, inside_job: inside_job %>
     <% end %>
-  </h2>
-</div>
-
-<div id="job_activities" class="list">
-  <% activities.each do |activity| %>
-      <%= render 'activities/job_activity', activity: activity, inside_job: inside_job %>
+  </div>
+  <% if !inside_job %>
+      <div class="content">
+        <%= will_paginate activities %>
+      </div>
   <% end %>
 </div>
-<% if !inside_job %>
-    <div class="content">
-      <%= will_paginate activities %>
-    </div>
-<% end %>
 
+<div class="activity-loading hidden">
+  <%= render 'layouts/inline_loading', title: "Please wait, loading activity..." %>
+</div>
 
 <script type="text/javascript">
     (function ($) {
