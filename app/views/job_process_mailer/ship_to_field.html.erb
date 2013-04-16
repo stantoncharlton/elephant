@@ -3,7 +3,7 @@
 <body class="email-body">
 
 <h1>Job Shipping to Field</h1>
-<br>
+<hr>
 
 <p>This job is now shipping to location.</p>
 <%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %>
@@ -14,8 +14,9 @@
 <% end %>
 
 <% if Rails.env.production? %>
-    <br><br><br><br>
+    <hr>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 
 </body>

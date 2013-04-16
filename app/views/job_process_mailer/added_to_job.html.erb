@@ -4,7 +4,8 @@
 
 <h1>Added To Job</h1>
 <p class="center">You were added to a new job</p>
-<br>
+
+<hr>
 
 <p><%= link_to @job.absolute_url, class: "activity-user-link" do %>Click here<% end %> to view the job.</p>
 
@@ -14,8 +15,9 @@
 <% end %>
 
 <% if Rails.env.production? %>
-    <br><br><br><br>
+    <hr>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 
 </body>

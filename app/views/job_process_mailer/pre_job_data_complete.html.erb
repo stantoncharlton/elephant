@@ -3,7 +3,7 @@
 <body class="email-body">
 
 <h1>Pre-Job Complete</h1>
-<br>
+<hr>
 
 <p>Please <%= link_to @job.absolute_url, class: "activity-user-link" do %>Click here
   <% end %> to review the data and documents are correct and complete. Then, approve the job to ship by clicking the
@@ -17,8 +17,9 @@
 <% end %>
 
 <% if Rails.env.production? %>
-    <br><br><br><br>
+    <hr>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 
 </body>

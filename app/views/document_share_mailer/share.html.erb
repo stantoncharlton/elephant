@@ -18,12 +18,15 @@
 
 <br><br>
 
+<hr>
+
 <p>
   Shared from <b><%= link_to "Elephant", "www.go-elephant.com", class: "activity-user-link" %></b> - An Energy Innovation Company
 </p>
 <br><br>
 <% if Rails.env.production? %>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 </body>
 </html>

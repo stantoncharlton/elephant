@@ -4,7 +4,8 @@
 
 <h1>Job Complete</h1>
 <p class="center">Job is now complete and has been closed</p>
-<br>
+
+<hr>
 
 <p><%= link_to @job.absolute_url, class: "activity-user-link" do %>View job now<% end %></p>
 <p>View, download, and print post job report at job page.</p>
@@ -15,8 +16,9 @@
 <% end %>
 
 <% if Rails.env.production? %>
-    <br><br><br><br>
+    <hr>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 
 </body>

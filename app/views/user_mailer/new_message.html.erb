@@ -2,13 +2,17 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h3><%= @message.user.name %> sent you a message</h3>
+<h1>New Message</h1>
+<hr>
+<h3 class="center"><%= @message.user.name %> sent you a message</h3>
 <br>
 <p><b>"</b><%= @message.text %><b>"</b></p>
 
-<br>
+
 <% if Rails.env.production? %>
+    <hr>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 
 </body>

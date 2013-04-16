@@ -5,6 +5,7 @@
 <h1>Daily Recap</h1>
 <p class="center">A summarization of activity on your jobs</p>
 
+<hr>
 
 <p>Recap for <b><% 1.days.ago.to_date %></b></p>
 
@@ -35,7 +36,9 @@
 <br>
 
 <% if Rails.env.production? %>
+    <hr>
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
 <% end %>
 
 </body>
