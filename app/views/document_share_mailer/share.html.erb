@@ -3,25 +3,36 @@
 <body class="email-body">
 
 <h1><%= @document_share.shared_by.name %> Shared a Document</h1>
-<h3 class="center"><b>'<%=  @document_share.document.name %>'</b></h3>
+
+<h3 class="center"><b>'<%= @document_share.document.name %>'</b></h3>
 
 <hr>
 
-<p>Add document to existing job on Elephant</p>
-<p><%= link_to "Add Document to Job", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link" %></p>
-
+<% if User.find_by_email(@document_share.email).present? %>
+    <p>Add document to existing job on Elephant</p>
+    <p>
+      <% if Rails.env.production? %>
+          <%= image_tag "added.png" %>
+      <% end %>
+      <%= link_to "Add Document to Job", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
+    <br>
+    <p>Or</p>
+<% end %>
 <br>
-<p>Or</p>
-<br>
 
-<p><%= link_to "Download Document Now", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link" %></p>
+<p>
+  <% if Rails.env.production? %>
+    <%= image_tag "document_download.png" %>
+  <% end %>
+  <%= link_to "Download Document Now", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
 
 <br><br>
 
 <hr>
 
 <p>
-  Shared from <b><%= link_to "Elephant", "www.go-elephant.com", class: "activity-user-link" %></b> - An Energy Innovation Company
+  Shared from <b><%= link_to "Elephant", "www.go-elephant.com", class: "activity-user-link" %></b> - An Energy
+  Innovation Company
 </p>
 <br><br>
 <% if Rails.env.production? %>
