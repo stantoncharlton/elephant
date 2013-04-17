@@ -15,10 +15,8 @@
           <%= image_tag "added.png" %>
       <% end %>
       <%= link_to "Add Document to Job", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
-    <br>
     <p>Or</p>
 <% end %>
-<br>
 
 <p>
   <% if Rails.env.production? %>
@@ -26,7 +24,7 @@
   <% end %>
   <%= link_to "Download Document Now", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
 
-<br><br>
+<br>
 
 <hr>
 

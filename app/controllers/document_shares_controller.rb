@@ -1,5 +1,5 @@
 class DocumentSharesController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show, :new, :create, :update, :destroy]
+    before_filter :signed_in_user, only: [:index, :new, :create, :update, :destroy]
 
     def index
         @document = Document.find_by_id(params[:document])
@@ -35,6 +35,7 @@ class DocumentSharesController < ApplicationController
         if params[:download].present? && params[:download] == "true"
             redirect_to @document_share.document.full_url
         elsif params[:add_to_job].present? && params[:add_to_job] == "true"
+            signed_in_user
             #not_found unless @document_share.email.downcase == current_user.email.downcase
             render 'show'
         else
