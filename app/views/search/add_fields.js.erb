@@ -32,6 +32,15 @@
                     .attr("value", '<%= p.id %>')
                     .text('<%= p.name %>'));
             <% end %>
+        <% elsif !@failures.nil? %>
+            $("#<%= @div_name %>").find('.loading').addClass('hidden');
+            $("#<%= @div_name %>").find("div[id=constraint-value-units]").hide();
+
+            <% @failures.each do |p| %>
+                $select.append($("<option></option>")
+                    .attr("value", '<%= p.id %>')
+                    .text('<%= p.text %>'));
+            <% end %>
         <% else %>
             <% @well_data.each do |p| %>
             $select.append($("<option></option>")

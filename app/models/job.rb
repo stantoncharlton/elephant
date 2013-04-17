@@ -199,6 +199,8 @@ class Job < ActiveRecord::Base
                 ar_query = ar_query.where("jobs.district_id = :district_id", district_id: constraint.district_id)
             elsif constraint.data_type == 5
                 ar_query = ar_query.where("(jobs.job_template_id IN (SELECT job_template_id FROM primary_tools WHERE primary_tools.tool_id = :tool_id)) OR (jobs.id IN (SELECT job_id FROM secondary_tools WHERE secondary_tools.tool_id = :tool_id))", tool_id: constraint.field)
+            elsif constraint.data_type == 6
+                ar_query = ar_query.where("(jobs.id IN (SELECT failures.job_id FROM failures WHERE failures.failure_master_template_id = :failure_id))", failure_id: constraint.field)
             else
                 ar_query = ar_query.where("wells." + constraint.field + " " + operator + " :well_value", well_value: value).includes(:well)
             end

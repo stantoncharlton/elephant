@@ -47,6 +47,11 @@ $ ->
     else
       $(this).closest('.search-field').find('.loading').addClass 'hidden'
 
+    if $(this).val() == '6'
+      $(this).closest('.search-field').find('.loading').removeClass 'hidden'
+    else
+      $(this).closest('.search-field').find('.loading').addClass 'hidden'
+
     if $(this).val() == '3'
       $(this).closest('.search-field').find('.client-name').show().prev().show()
     else
@@ -57,15 +62,15 @@ $ ->
     else
       $(this).closest('.search-field').find('.district-name').hide().prev().hide()
 
-    if $(this).val() == '2' || $(this).val() == '1' || $(this).val() == '5'
+    if $(this).val() == '2' || $(this).val() == '1' || $(this).val() == '5' || $(this).val() == '6'
       $.ajax '/search?data_type=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
   $('.search-constraint-product-line-select').live "change", ->
-    $.ajax '/search?data_type=' + $('.search-constraint-data-type').val() + '&product_line=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
+    $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&product_line=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
   $('.search-constraint-job-template-select').live "change", ->
-    $.ajax '/search?data_type=' + $('.search-constraint-data-type').val() + '&job_template=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
+    $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&job_template=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
   $('.search-constraint-field-select').live "change", ->
     job_id = $(this).closest('.search-field').find('[id=job_job_template_id]').val()
-    $.ajax '/search?data_type=' + $('.search-constraint-data-type').val() + '&field=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id") + "&job_template=" + job_id, dataType: 'script'
+    $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&field=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id") + "&job_template=" + job_id, dataType: 'script'

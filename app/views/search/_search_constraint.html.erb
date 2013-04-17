@@ -5,17 +5,17 @@
 
     <p class="field-title">Search Type</p>
 
-    <%= select_tag "data_type", options_for_select([["Well Data", 1], ["Job Data", 2], ["Job Tools", 5], ["Customer Name", 3], ["District Name", 4]]),
+    <%= select_tag "data_type", options_for_select([["Well Data", 1], ["Job Data", 2], ["Job Tools", 5], ["Failure", 6], ["Customer Name", 3], ["District Name", 4]]),
                    prompt: "Select what to search...",
                    class: "search-constraint-data-type",
                    name: "query[constraints][" + index.to_s + "][data_type]" %>
 
 
-    <div class="search-job-type hidden push-right-small">
+    <div class="search-job-type hidden">
 
-      <br>
+      <hr>
 
-      <%= image_tag "division_extrasmall.png", class: "job-status-avatar push-right" %>
+      <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
 
       <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, @division),
                      class: "tooltip-info",
@@ -67,9 +67,12 @@
 
   </div>
 
-  <hr>
 
   <div class="search-constraint-second hidden">
+    <hr>
+
+    <div class="alert">
+      <br>
     <p class="help-text">Now specify which field you will be searching for and the comparison type</p>
 
     <div class="loading hidden">
@@ -102,10 +105,14 @@
                      class: "search-units unit-tooltip", "data-placement" => "bottom",
                      "data-html" => false, "data-title" => "Units, click to change" %>
     </div>
+      <br>
+    </div>
 
-    <hr class="search-constraint-line">
 
   </div>
+
+  <hr class="search-constraint-line">
+
 
 </div>
 

@@ -10,5 +10,6 @@ class Query < Object
     CLIENT = 3
     DISTRICT = 4
     JOB_TOOLS = 5
+    FAILURE = 6
 
 end

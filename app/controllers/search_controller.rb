@@ -39,11 +39,17 @@ class SearchController < ApplicationController
                         @product_line.segment.division.secondary_tools.each do |tool|
                             @tools << tool
                         end
+                    elsif @data_type == Query::FAILURE
+                        @show_fields = true
+                        @failures = []
+                        @product_line.failures.each do |failure|
+                            @failures << failure
+                        end
                     end
 
                 elsif params[:job_template]
 
-                    if @data_type != Query::JOB_TOOLS
+                    if @data_type != Query::JOB_TOOLS && @data_type != Query::FAILURE
                         @show_fields = true
                         @offshore = false
 
@@ -82,6 +88,9 @@ class SearchController < ApplicationController
                         @product_lines = ProductLine.from_company(current_user.company)
                         @show_fields = false
                     elsif @data_type == Query::JOB_TOOLS
+                        @hide_job_type = true
+                        @show_fields = false
+                    elsif @data_type == Query::FAILURE
                         @hide_job_type = true
                         @show_fields = false
                     end
@@ -132,9 +141,9 @@ class SearchController < ApplicationController
     end
 
     def create
-        query = Query.new
-        query.user = current_user
-        query.constraints = Array.new
+        @query = Query.new
+        @query.user = current_user
+        @query.constraints = Array.new
         index = 0
 
         while true do
@@ -157,14 +166,16 @@ class SearchController < ApplicationController
 
                 if constraint.data_type == Query::WELL_DATA || constraint.data_type == Query::JOB_DATA
                     if !constraint.field.empty?
-                        query.constraints << constraint
+                        @query.constraints << constraint
                     end
                 elsif constraint.data_type == Query::CLIENT && !constraint.client_id.blank?
-                    query.constraints << constraint
+                    @query.constraints << constraint
                 elsif constraint.data_type == Query::DISTRICT && !constraint.district_id.blank?
-                    query.constraints << constraint
+                    @query.constraints << constraint
                 elsif constraint.data_type == Query::JOB_TOOLS && !constraint.field.empty?
-                    query.constraints << constraint
+                    @query.constraints << constraint
+                elsif constraint.data_type == Query::FAILURE && !constraint.field.empty?
+                    @query.constraints << constraint
                 end
             else
                 break
@@ -172,7 +183,7 @@ class SearchController < ApplicationController
             index += 1
         end
 
-        @jobs = Job.advanced_search(query, current_user.company).paginate(page: params[:page], limit: 20)
+        @jobs = Job.advanced_search(@query, current_user.company).paginate(page: params[:page], limit: 20)
     end
 
 end
