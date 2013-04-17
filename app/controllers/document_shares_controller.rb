@@ -35,7 +35,7 @@ class DocumentSharesController < ApplicationController
         if params[:download].present? && params[:download] == "true"
             redirect_to @document_share.document.full_url
         elsif params[:add_to_job].present? && params[:add_to_job] == "true"
-            signed_in_user
+            signed_in_user unless signed_in?
             #not_found unless @document_share.email.downcase == current_user.email.downcase
             render 'show'
         else
