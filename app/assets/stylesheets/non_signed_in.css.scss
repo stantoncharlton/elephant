@@ -30,7 +30,7 @@
 }
 
 .body-sales {
-  background: #05192b;
+  background: #0d365a;
   padding-top: 50px;
 }
 
@@ -46,13 +46,12 @@
   margin-right: 70px;
 }
 
-.non-signed-in-header-link {
-  &:link, &:visited {
-    color: #FFFFFF !important;
-  }
-  &:hover {
-    color: #81c0f9 !important;
-  }
+.non-signed-in-header-link a, li {
+  font-size: 15px;
+  font-family: "gothammediumregular" !important;
+  text-transform: uppercase;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
 .login {
@@ -318,17 +317,17 @@
   font-size: 22px !important;
 }
 
-.about-part-1 {
-  background: #000000 url(image_path('about_background.jpg')) no-repeat top center fixed;
+.features-part-1 {
+  background: #000000 url(image_path('features_background.jpg')) no-repeat top center fixed;
   background-size: 100% auto;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('about_background.jpg')}, sizingMethod='scale');
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('features_background.jpg')}, sizingMethod='scale');
 
   width: 100%;
   padding-top: 120px;
-  padding-bottom: 120px;
+  padding-bottom: 110px;
 
   @media screen and (max-width: 1024px) {
-    background: #000000 url(image_path('about_background.jpg')) no-repeat center top fixed;
+    background: #000000 url(image_path('features_background.jpg')) no-repeat center top fixed;
     background-size:1050px 550px;
     min-width: 1050px;
   }
@@ -386,6 +385,10 @@
   p {
     color: #FFFFFF;
   }
+
+  li {
+    text-transform: none;
+  }
 }
 
 .about-part-4 {
@@ -423,11 +426,10 @@
 
 
 .sales-part-1 {
-  background: #05192b;
+  background: #0d365a;
   width: 100%;
   min-width: 1050px;
   padding-top: 60px;
-  padding-bottom: 100px;
 
   color: #FFFFFF;
 
@@ -514,3 +516,38 @@ a[href^=tel]{
   text-decoration:none;
 }
 
+
+
+.about-part-1 {
+  background: #000000 url(image_path('about_background.jpg')) no-repeat top center fixed;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('about_background.jpg')}, sizingMethod='scale');
+
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 403px;
+
+  @media screen and (max-width: 1024px) {
+    background: #000000 url(image_path('about_background.jpg')) no-repeat center top fixed;
+    background-size:1050px 550px;
+    min-width: 1050px;
+  }
+
+  p {
+    font-size: 22px;
+    color: #000000;
+    font-family: "gothambookregular";
+    margin: 0px;
+  }
+
+  .header {
+    background: transparent;
+    font-family: "gothamboldregular";
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 36px;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 4px #000000;
+    margin: 0px;
+    margin-top: 20px;
+  }
+}

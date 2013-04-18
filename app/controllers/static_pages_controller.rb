@@ -33,12 +33,15 @@ class StaticPagesController < ApplicationController
     end
 
     def features
+        set_tab :features
     end
 
     def about
+        set_tab :about
     end
 
     def sales
+        set_tab :sales
     end
 
     def terms_of_use
