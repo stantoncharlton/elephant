@@ -46,12 +46,14 @@
   margin-right: 70px;
 }
 
-.non-signed-in-header-link a, li {
+.non-signed-in-header-link {
+  a, li {
   font-size: 15px;
   font-family: "gothammediumregular" !important;
   text-transform: uppercase;
   margin-left: 6px;
   margin-right: 6px;
+  }
 }
 
 .login {
@@ -424,6 +426,19 @@
   }
 }
 
+.features-part-6 {
+  background: #d8f3fc;
+  width: 100%;
+  min-width: 1050px;
+  padding-top: 40px;
+  padding-bottom: 100px;
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 18px;
+  }
+}
+
 
 .sales-part-1 {
   background: #0d365a;
@@ -524,7 +539,7 @@ a[href^=tel]{
 
   width: 100%;
   padding-top: 30px;
-  padding-bottom: 403px;
+  padding-bottom: 473px;
 
   @media screen and (max-width: 1024px) {
     background: #000000 url(image_path('about_background.jpg')) no-repeat center top fixed;
@@ -534,7 +549,8 @@ a[href^=tel]{
 
   p {
     font-size: 22px;
-    color: #000000;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px #6b5510;
     font-family: "gothambookregular";
     margin: 0px;
   }
