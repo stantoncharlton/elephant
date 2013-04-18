@@ -10,6 +10,7 @@ ElephantWebApp::Application.routes.draw do
     match '/overview', to: 'overview#overview', :via => :get
     match '/overview', to: 'overview#filter_overview', :via => :post
     match '/terms_of_use', to: 'static_pages#terms_of_use'
+    match '/tutorial', to: 'static_pages#tutorial'
 
     resources :users, only: [:index, :show, :new, :create, :destroy, :edit, :update]
 

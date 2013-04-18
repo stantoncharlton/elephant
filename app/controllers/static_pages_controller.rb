@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-    before_filter :signed_in_user, only: [:help, :terms_of_use]
+    before_filter :signed_in_user, only: [:help, :terms_of_use, :tutorial]
 
     skip_before_filter :verify_traffic, only: [:home, :features, :about, :sales, :terms_of_use]
     skip_before_filter :accept_terms_of_use, only: [:terms_of_use]
@@ -48,11 +48,15 @@ class StaticPagesController < ApplicationController
         if params[:accept].present?
             if params[:accept] == "true"
                 current_user.update_attribute(:accepted_tou, true)
-                redirect_to root_url
+                redirect_to tutorial_path
             elsif params[:accept] == "false"
                 sign_out
                 redirect_to root_url
             end
         end
+    end
+
+    def tutorial
+
     end
 end
