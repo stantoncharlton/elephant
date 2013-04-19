@@ -3,7 +3,7 @@ class DocumentShareMailer < ActionMailer::Base
 
     def share(document_share)
         @document_share = document_share
-        mail(:to => "ryan.dawson@go-elephant.com, michael.dawson@go-elephant.com, roberto.schuldes@go-elephant.com",
+        mail(:to => user.company.test_company ? "test@go-elephant.com" :user.email,
              :reply_to => @document_share.shared_by.email,
              :subject => "#{@document_share.shared_by.name} shared a document: '#{@document_share.document.name}'")
     end

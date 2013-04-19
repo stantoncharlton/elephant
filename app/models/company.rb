@@ -10,7 +10,8 @@ class Company < ActiveRecord::Base
                     :phone_number,
                     :support_email,
                     :website,
-                    :vpn_range
+                    :vpn_range,
+                    :test_company
 
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 

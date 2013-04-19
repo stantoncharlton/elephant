@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130413202127) do
+ActiveRecord::Schema.define(:version => 20130419193028) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -72,9 +72,10 @@ ActiveRecord::Schema.define(:version => 20130413202127) do
     t.integer  "admin_id"
     t.string   "logo"
     t.string   "logo_large"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "vpn_range"
+    t.boolean  "test_company",   :default => false
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
