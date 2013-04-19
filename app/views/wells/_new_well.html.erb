@@ -2,15 +2,19 @@
   <h1>Create New Well</h1>
 </div>
 
-<%= form_for @well, remote: true do |f| %>
+<div class="form">
+  <%= form_for @well, remote: true do |f| %>
 
-    <%= render "fields", f: f %>
+      <%= render "fields", f: f %>
 
-    <div class="content actions">
-      <%= f.submit "Create Well", class: "bluebtn pull-right" %>
-    </div>
+      <div class="content actions">
+        <%= f.submit "Create Well", class: "bluebtn pull-right form-loading-on-click" %>
+      </div>
 
-<% end %>
+  <% end %>
+</div>
+
+<%= render 'layouts/inline_loading', title: "Please wait, creating well..." %>
 
 <script type="text/javascript">
     (function ($) {

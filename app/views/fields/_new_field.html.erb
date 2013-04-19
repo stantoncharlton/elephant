@@ -2,13 +2,17 @@
   <h1>Create New Field</h1>
 </div>
 
-<%= form_for @field, remote: true do |f| %>
+<div class="form">
+  <%= form_for @field, remote: true do |f| %>
 
-    <%= render "fields", f: f %>
+      <%= render "fields", f: f %>
 
-    <div class="content actions">
-      <%= f.submit "Create Field", class: "bluebtn pull-right" %>
+      <div class="content actions">
+        <%= f.submit "Create Field", class: "bluebtn pull-right form-loading-on-click" %>
 
-    </div>
+      </div>
 
-<% end %>
+  <% end %>
+</div>
+
+<%= render 'layouts/inline_loading', title: "Please wait, creating field..." %>
