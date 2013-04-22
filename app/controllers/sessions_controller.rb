@@ -12,9 +12,9 @@ class SessionsController < ApplicationController
     end
 
     def create
-
-        user = User.find_by_email(params[:session][:email].strip.downcase)
-        if user && user.authenticate(params[:session][:password])
+        @email = params[:session][:email].strip.downcase
+        user = User.find_by_email(@email)
+        if user && user.authenticate(params[:session][:password].strip)
             response.headers['X-CSRF-Token'] = form_authenticity_token
             respond_to do |format|
                 format.html {
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
                 }
             end
         else
-            redirect_to root_path, :flash => {:error => "Invalid email/password combination"}
+            redirect_to root_path(email: @email), :flash => {:error => "Invalid email/password combination"}
         end
     end
 
@@ -46,9 +46,16 @@ class SessionsController < ApplicationController
 
     def update
         current_password = params[:session][:current_password]
+        if current_password.present?
+            current_password = current_password.strip
+        end
         params[:session].delete(:current_password)
 
-        user = User.find_by_email(params[:session][:email].strip.downcase)
+        @email = params[:session][:email]
+        if @email.present?
+            @email = @email.downcase.strip
+        end
+        user = User.find_by_email(@email)
         if user && user.authenticate(current_password)
             user.password = params[:session][:password]
             user.password_confirmation = params[:session][:password_confirmation]
@@ -58,10 +65,16 @@ class SessionsController < ApplicationController
                 sign_in(user, true)
                 redirect_to root_path
             else
-                redirect_to update_password_path(email: user.email), :flash => {:error => "Passwords do not match"}
+                params[:new_account] ||= "true"
+                params[:email] ||= @email
+                flash[:error] = "Passwords do not match"
+                render "edit"
             end
         else
-            render "edit", :flash => {:error => "Invalid email/password combination"}
+            params[:new_account] ||= "true"
+            params[:email] ||= @email
+            flash[:error] = "Invalid email/password combination"
+            render "edit"
         end
     end
 
@@ -71,28 +84,25 @@ class SessionsController < ApplicationController
             @user = User.find_by_email(@email)
 
             if @user
-
                 password = SecureRandom.urlsafe_base64[1..7]
                 @user.password = password
                 @user.password_confirmation = password
                 @user.create_password = true
 
                 if @user.save
-                    flash[:success] = "Email sent to " + @email
                     @user.delay.send_reset_password_email(password)
-                end
-            else
-                flash[:error] = "Could not find user with that email"
-            end
 
-            redirect_to reset_password_path
+                    render 'sessions/reset_password'
+                    return
+                end
+            end
         end
     end
 
     def verify_network
         if params[:session]
             if params[:session][:network_access_code]
-                if authorize_network_code params[:session][:network_access_code]
+                if authorize_network_code params[:session][:network_access_code].strip
                     redirect_to root_path
                     return
                 else

@@ -89,7 +89,8 @@
       <% if !dynamic_field.dynamic_field_template.nil? %>
           <tr>
             <td class="job-email-td-title">
-              <p class="job-field-title inline"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
+              <p class="job-field-title inline">
+                <b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
             </td>
 
             <td class="job-email-td" colspan="3">
@@ -132,12 +133,14 @@
       <p class="job-field-value inline"><%= job.client.name %></p>
     </td>
 
-    <td class="job-email-td-title">
-      <p class="job-field-title inline"><%= t "jobs.job_data.start_date" %></p>
-    </td>
-    <td class="job-email-td">
-      <p class="job-field-value inline">12/10/12</p>
-    </td>
+    <% if job.start_date.present? %>
+        <td class="job-email-td-title">
+          <p class="job-field-title inline"><%= t "jobs.job_data.start_date" %></p>
+        </td>
+        <td class="job-email-td">
+          <p class="job-field-value inline"><%= job.start_date.strftime("%m/%d/%Y") %></p>
+        </td>
+    <% end %>
   </tr>
 
 

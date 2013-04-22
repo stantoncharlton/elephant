@@ -8,37 +8,45 @@
 
   <% flash.each do |key, value| %>
       <br>
+
       <div class="alert alert-<%= key %> loginrightmargin"><b><%= value %></b>
         <%= image_tag "error_red.png", class: "login-error" %>
       </div>
 
-<% end %>
-
-  <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
-
-      <%= f.label :email %>
-      <%= f.text_field :email, placeholder: "Type Email",
-                       class: "input-controls tooltip-info",
-                       "data-placement" => "bottom",
-                       "data-title" => "Email address" %>
-
-      <%= f.label :password %>
-      <%= link_to "Forgot Password?", reset_password_path, tabindex: "4",
-                  class: "tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Request to reset your Elephant password" %>
-      <%= f.password_field :password, placeholder: "Type Password",
-                           class: "input-controls tooltip-info",
-                           "data-placement" => "bottom",
-                           "data-title" => "Password" %>
-
-      <div class="lastrow">
-
-
-        <%= f.submit "LOGIN", class: "bluebtn loginright tooltip-info",
-                     "data-placement" => "bottom",
-                     "data-title" => "Log into your elephant account" %>
-      </div>
-
   <% end %>
+
+  <div class="form">
+    <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
+
+        <%= f.label :email %>
+        <%= f.text_field :email, placeholder: "Type Email",
+                         value: params[:email],
+                         class: "input-controls tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Email address" %>
+
+        <%= f.label :password %>
+        <%= link_to "Forgot Password?", reset_password_path, tabindex: "4",
+                    class: "tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Request to reset your Elephant password" %>
+        <%= f.password_field :password, placeholder: "Type Password",
+                             class: "input-controls tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Password" %>
+
+        <div class="lastrow">
+
+
+          <%= f.submit "LOGIN", class: "bluebtn loginright tooltip-info form-loading-on-click",
+                       "data-placement" => "bottom",
+                       "data-title" => "Log into your elephant account" %>
+        </div>
+
+    <% end %>
+  </div>
+
+  <div class="white-text">
+    <%= render 'layouts/inline_loading', title: "Logging in..." %>
+  </div>
 </div>

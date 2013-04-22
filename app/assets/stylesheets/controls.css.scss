@@ -206,7 +206,7 @@ select {
   background: #ffffff !important;
   color: #4e4e4e !important;
 
-  padding-left: 30px !important;
+  padding-left: 0px !important;
   font-weight: bold !important;
   font-size: 14px !important;
 
@@ -216,6 +216,10 @@ select {
 
 .warning-text {
   color: #c71a1a !important;
+}
+
+.white-text {
+  color: #FFFFFF;
 }
 
 .good-text {
