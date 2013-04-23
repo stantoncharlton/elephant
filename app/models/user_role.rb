@@ -224,8 +224,12 @@ class UserRole < ActiveRecord::Base
             return jobs.where("jobs.id IN (SELECT job_id FROM job_memberships where user_id = :user_id)", user_id: user.id)
         elsif user.role.limit_to_district?
             return jobs.where(:district_id => user.district.id)
-        elsif user.role.limit_to_product_line? && !user.product_line.nil?
-            return jobs.joins(:job_template).where("job_templates.product_line_id = :product_line_id OR jobs.district_id = :district_id", product_line_id: user.product_line.id, district_id: user.district.id)
+        elsif user.role.limit_to_product_line?
+            if !user.product_line.nil?
+                return jobs.joins(:job_template).where("job_templates.product_line_id = :product_line_id OR jobs.district_id = :district_id", product_line_id: user.product_line.id, district_id: user.district.id)
+            else
+                return jobs.where(:district_id => user.district.id)
+            end
         end
 
         jobs

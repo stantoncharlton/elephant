@@ -81,52 +81,55 @@
     <%= render 'jobs/job_progress_status', job: job %>
   </div>
 
-  <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+  <div class="district-client-div">
 
-  <% if in_form %>
-      <%= link_to job.district.name, job.district,
-                  class: "job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.district.name + " district" %>
-  <% else %>
-      <b class="inline"><%= job.district.name %></b>
-  <% end %>
+    <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
 
-
-
-  <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right" %>
-
-  <% if in_form %>
-      <%= link_to job.client.name, job.client,
-                  class: "job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs for " + job.client.name %>
-  <% else %>
-      <b class="inline"><%= job.client.name %></b>
-  <% end %>
+    <% if in_form %>
+        <%= link_to job.district.name, job.district,
+                    class: "job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs in " + job.district.name + " district" %>
+    <% else %>
+        <b class="inline"><%= job.district.name %></b>
+    <% end %>
 
 
-  <%= image_tag "division_extrasmall.png", class: "job-status-avatar push-right" %>
 
-  <% if in_form %>
-      <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
-                  class: "job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
-  <% else %>
-      <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
-  <% end %>
+    <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right" %>
 
-  |
+    <% if in_form %>
+        <%= link_to job.client.name, job.client,
+                    class: "job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs for " + job.client.name %>
+    <% else %>
+        <b class="inline"><%= job.client.name %></b>
+    <% end %>
 
-  <% if in_form %>
-      <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
-                  class: "job-field-value-link tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
-  <% else %>
-      <b class="inline"><%= job.job_template.product_line.segment.name %></b>
-  <% end %>
+
+    <%= image_tag "division_extrasmall.png", class: "job-status-avatar push-right" %>
+
+    <% if in_form %>
+        <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
+                    class: "job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
+    <% else %>
+        <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
+    <% end %>
+
+    |
+
+    <% if in_form %>
+        <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
+                    class: "job-field-value-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
+    <% else %>
+        <b class="inline"><%= job.job_template.product_line.segment.name %></b>
+    <% end %>
+  </div>
 
 
 </div>
@@ -224,9 +227,9 @@
 
     <% if form_editable %>
         <div class="job-field-div">
-        <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
-               id="job_start_date_<%= job.id.to_s %>"
-               class="job-field-value-editable job-start-date">
+          <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
+                 id="job_start_date_<%= job.id.to_s %>"
+                 class="job-field-value-editable job-start-date">
         </div>
     <% else %>
         <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
@@ -246,8 +249,6 @@
 
     </div>
   </div>
-
-
 
 
 </div>

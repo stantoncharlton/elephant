@@ -72,7 +72,7 @@ class OverviewController < ApplicationController
         end
 
         @start_date = 50.years.ago
-        @end_date = Time.now
+        @end_date = 1.year.from_now
         case @time
             when "30"
                 @start_date = 30.days.ago
@@ -84,7 +84,9 @@ class OverviewController < ApplicationController
             when "year"
                 @start_date = 1.year.ago
         end
-        @jobs = @jobs.where("jobs.start_date > :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @end_date)
+        if @time != "all"
+            @jobs = @jobs.where("jobs.start_date > :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @end_date)
+        end
 
         case @rating
             when "1"

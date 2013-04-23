@@ -634,3 +634,13 @@
     height: 20px;
   }
 }
+
+
+.district-client-div {
+  display: inline-block;
+  max-width: 850px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 25px;
+}
