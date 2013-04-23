@@ -15,6 +15,8 @@ class SearchController < ApplicationController
                     @jobs = Job.search(current_user, params, current_user.company).results
                     @users = User.search(params, current_user.company).results.take(3)
                     @districts = District.search(params, current_user.company).results.take(3)
+                    @fields = Field.search(params, current_user.company).results.take(3)
+                    @wells = Well.search(params, current_user.company).results.take(3)
                 end
 
             end

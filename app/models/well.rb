@@ -38,6 +38,18 @@ class Well < ActiveRecord::Base
 
     has_many :jobs, order: "close_date DESC, created_at DESC"
 
+    searchable do
+        text :name, :as => :code_textp
+        time :created_at
+        time :updated_at
+        integer :company_id
+        integer :field_id
+
+        string :name_sort do
+            name
+        end
+    end
+
     def self.default_unit_value(field)
         case field
             when "measured_depth"
@@ -61,5 +73,14 @@ class Well < ActiveRecord::Base
         dynamic_field = DynamicField.new(value_type: Well.default_unit_value(field))
         dynamic_field.set_temporary_value(read_attribute(field.to_sym))
         dynamic_field
+    end
+
+    def self.search(options, company)
+        Sunspot.search(Well) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            order_by :name_sort
+            paginate :page => options[:page], :per_page => 20
+        end
     end
 end

@@ -1,5 +1,7 @@
+var scrollTop = window.pageYOffset
 
 $('#modal_popup').find('.modal-content').append('<%= j render('new_field') %>');
 $('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').find('.modal-popup').css('margin-top', scrollTop + 200);
 $('#modal_popup').height($(document).height());
 

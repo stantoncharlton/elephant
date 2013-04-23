@@ -4,6 +4,6 @@
 
   <div class="user-line-title"><%= district.country.name %></div>
 
-  <div class="user-line-district"><%= district.state.name %></div>
+  <div class="user-line-district"><%= district.state.present? ? district.state.name : "" %></div>
 
 </div>

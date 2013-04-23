@@ -25,13 +25,15 @@ $ ->
 
   $('#new_field_link').click ->
     if $('#job_district_id').val() != ''
-      $('body').animate({scrollTop : 0},'slow');
       $(this).attr 'href', "/fields/new" + '?district_id=' + $('#district_id').val()
     else
       alert('Select a District First')
 
+  $('.modal-popup-background').live "click", (e) ->
+    if e.target.id == 'modal_popup'
+      $(this).find('#close_modal').trigger "click"
+
   $('#new_well_link').click ->
-    $('body').animate({scrollTop : 0},'slow');
     $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val()
 
   if $('#job_district_id').val() == ''

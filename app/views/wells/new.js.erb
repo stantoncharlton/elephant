@@ -1,3 +1,5 @@
+var scrollTop = window.pageYOffset
+
 <% if @field.nil? %>
 
 $('#alert').remove();
@@ -6,8 +8,10 @@ $('#alert').modal({show: true});
 
 
 <% else %>
+
 $('#modal_popup').find('.modal-content').append('<%= j render('new_well') %>');
 $('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').find('.modal-popup').css('margin-top', scrollTop + 200);
 $('#modal_popup').height($(document).height() + 100);
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
