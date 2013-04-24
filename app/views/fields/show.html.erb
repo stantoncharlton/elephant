@@ -1,7 +1,9 @@
 <% provide(:title, 'Field: ' + @field.name) %>
 
 <div class="page_header">
-  <h1>Field: <%= @field.name %></h1>
+  <h1><%= @field.name %></h1>
+
+  <h3 class="inline">&nbsp;Field</h3>
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>

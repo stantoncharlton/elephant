@@ -16,7 +16,7 @@
       <div>
         <b>
           <% case constraint.data_type
-                 when 1 %><span class="label label-success">Well Data</span>
+                 when 1 %><span class="label label-success search-count">Well Data</span>
               - <%= Well.human_attribute_name(constraint.field) %>
               <% case constraint.operator.to_i
                      when 1 %> =
@@ -24,7 +24,7 @@
               <% when 3 %> >=
               <% end %>
               <%= constraint.value + " " + DynamicField.new.get_value_type_unit(constraint.units) %>
-          <% when 2 %><span class="label label-warning">Job Data</span>
+          <% when 2 %><span class="label label-warning search-count">Job Data</span>
               - <%= DynamicField.find_by_id(constraint.field).name %>
               <% case constraint.operator.to_i
                      when 1 %> =
@@ -32,12 +32,12 @@
               <% when 3 %> >=
               <% end %>
               <%= constraint.value %>
-          <% when 3 %><span class="label label-inverse">Customer</span>
+          <% when 3 %><span class="label label-inverse search-count">Customer</span>
               - <%= Client.find_by_id(constraint.client_id).name %>
-          <% when 4 %><span class="label label-inverse">District</span>
+          <% when 4 %><span class="label label-inverse search-count">District</span>
               - <%= District.find_by_id(constraint.district_id).name %>
-          <% when 5 %><span class="label label-important">Tool</span> - <%= Tool.find_by_id(constraint.field).name %>
-          <% when 6 %><span class="label label-info">Failure</span> - <%= Failure.find_by_id(constraint.field).text %>
+          <% when 5 %><span class="label label-important search-count">Tool</span> - <%= Tool.find_by_id(constraint.field).name %>
+          <% when 6 %><span class="label label-info search-count">Failure</span> - <%= Failure.find_by_id(constraint.field).text %>
           <% end %>
         </b>
       </div>

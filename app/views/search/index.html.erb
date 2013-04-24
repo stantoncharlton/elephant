@@ -3,7 +3,23 @@
 <div class="page_header">
   <h1>Search for '<%= @term %>'</h1>
 
-  <h2><%= @jobs.total_count + @users.count  %></h2>
+  <div class="inline push-right-small">
+    <% if @jobs.any? %>
+        <span class="label label-info search-count"><%= pluralize(@jobs.count, "Job") %></span>
+    <% end %>
+    <% if @districts.any? %>
+        <span class="label label-info search-count"><%= pluralize(@districts.count, "District") %></span>
+    <% end %>
+    <% if @users.any? %>
+        <span class="label label-info search-count"><%= pluralize(@users.count, "People") %></span>
+    <% end %>
+    <% if @fields.any? %>
+        <span class="label label-info search-count"><%= pluralize(@fields.count, "Field") %></span>
+    <% end %>
+    <% if @wells.any? %>
+        <span class="label label-info search-count"><%= pluralize(@wells.count, "Well") %></span>
+    <% end %>
+  </div>
 
 </div>
 
