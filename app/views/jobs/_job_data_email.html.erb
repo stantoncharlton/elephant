@@ -39,21 +39,21 @@
       </tr>
   <% end %>
   <tr>
-    <td class="job-email-title push-right-small">
+    <td class="job-email-title">
       <% if Rails.env.production? %>
-          <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+          <%= image_tag "district_extrasmall.png" %>
       <% end %>
       <b class="inline"><%= job.district.name %></b>
     </td>
     <td class="job-email-title push-right-small">
       <% if Rails.env.production? %>
-          <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar" %>
+          <%= image_tag "user_avatar_client_extrasmall.png" %>
       <% end %>
       <b class="inline"><%= job.client.name %></b>
     </td>
     <td class="job-email-title push-right-small">
       <% if Rails.env.production? %>
-          <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
+          <%= image_tag "division_extrasmall.png" %>
       <% end %>
       <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
       |

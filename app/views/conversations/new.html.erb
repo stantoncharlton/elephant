@@ -3,37 +3,39 @@
 </div>
 
 
-<%= form_for @conversation do |f| %>
+<div class="form">
+  <%= form_for @conversation do |f| %>
 
 
-    <div class="new-message-div">
-      <div class=" tooltip-info"
-      data-placement="left"
-      data-title="Type names of people to add to message. Multiple recipients can be added.">
-        <h3 class="inline">Recipients</h3>
-        <%= f.text_field :message_recipients, class: "txtfield inline",
-                         autofocus: true, id: "message_recipients_tokens",
-                         "data-pre" => @recipients.map(&:attributes).to_json %>
+      <div class="new-message-div">
+        <div class=" tooltip-info"
+             data-placement="left"
+             data-title="Type names of people to add to message. Multiple recipients can be added.">
+          <h3 class="inline">Recipients</h3>
+          <%= f.text_field :message_recipients, class: "txtfield inline",
+                           autofocus: true, id: "message_recipients_tokens",
+                           "data-pre" => @recipients.map(&:attributes).to_json %>
+        </div>
+
+        <br>
+
+
+        <%= f.text_area :message_text, class: "new-message-body tooltip-info",
+                        placeholder: "Message text...",
+                        "data-placement" => "left",
+                        "data-title" => "Message text",
+                        value: @conversation.message_text %>
+
+        <div class="content actions">
+          <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                       "data-title" => "Send message to recipients" %>
+
+          <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+                      "data-title" => "Cancel new message and go back" %>
+        </div>
       </div>
 
-      <br>
-
-
-      <%= f.text_area :message_text, class: "new-message-body tooltip-info",
-                      placeholder: "Message text...",
-                      "data-placement" => "left",
-                      "data-title" => "Message text",
-                      value: @conversation.message_text %>
-
-      <div class="content actions">
-        <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info form-loading-on-click",
-                     "data-title" => "Send message to recipients" %>
-
-        <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
-                    "data-title" => "Cancel new message and go back"%>
-      </div>
-    </div>
-
-<% end %>
+  <% end %>
+</div>
 
 <%= render "layouts/inline_loading", title: "Sending message, please wait" %>
