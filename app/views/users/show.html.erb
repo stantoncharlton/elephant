@@ -1,36 +1,61 @@
-<div class="content">
+<div class="">
+  <br>
 
   <div class="avatar-box">
     <%= image_tag "user_avatar.png" %>
   </div>
 
   <div class="users-info">
+
     <h1 class="page-title users-info"><%= @user.name %></h1>
+    <b class="users-info"><%= @user.email %></b>
+    <br><br>
 
     <h2 class="users-info"><%= @user.title %></h2>
+    <hr>
 
     <div class="">
-        <%= image_tag "district_extrasmall.png", class: "job-status-avatar inline" %>
-        <%= link_to @user.district.name, @user.district, class: "activity-user-link" %>
+      <%= image_tag "district_extrasmall.png", class: "job-status-avatar inline" %>
+      <%= link_to @user.district.name, @user.district, class: "activity-user-link" %>
     </div>
-    <br>
+    <% if @user.product_line.present? %>
+        <div class="">
+          <%= image_tag "division_extrasmall.png", class: "job-status-avatar inline" %>
+          <%= link_to @user.product_line.segment.division.name, @user.product_line.segment.division, class: "activity-user-link" %>
+          |
+          <%= link_to @user.product_line.segment.name, @user.product_line.segment, class: "activity-user-link" %>
+          |
+          <%= link_to @user.product_line.name, @user.product_line, class: "activity-user-link" %>
+        </div>
+    <% end %>
 
-    <%= link_to @user.email, "mailto:" + @user.email, class: "user-info-link tooltip-info",
-                "data-placement" => "bottom",
-                "data-title" => "Send email to " + @user.name %>
 
-    <h3><%= @user.phone_number %></h3>
+    <hr>
 
     <div class="message-box">
       <%= link_to "SEND MESSAGE", new_conversation_path(to_user_id: @user.id), class: "bluebtn tooltip-info",
                   "data-placement" => "bottom",
                   "data-title" => "Send Elephant message to " + @user.name %>
+      <div class="inline push-right-small">
+        <%= link_to "EMAIL", "mailto:" + @user.email, class: "bluebtn gray tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Send Email to " + @user.name %>
+
+        <h3 class="blue-text push-right-small"><%= @user.phone_number %></h3>
+
+      </div>
     </div>
   </div>
 
 </div>
 
+<div>
 <br><br><br>
+
+  <% if !@user.product_line.present? %>
+  <br><br>
+  <% end %>
+</div>
 
 <div class="">
 
@@ -52,71 +77,107 @@
     </div>
   </div>
 
-  <div class="chart-block tooltip-info"
-       data-title="'Elephant Utilization' is the utilization of Elephant compared to all jobs by your organization.">
-    <div class="chart-title">Elephant Utilization</div>
-    <div class="donut-chart-div">
-      <div id="elephant_utilization" class="donut-chart "></div>
-      <div class="donut-inner-circle"></div>
-      <div class="donut-text ">67</div>
-      <div class="percentage ">%</div>
-    </div>
-  </div>
-</div>
+  <% if @average_job_performance.present? %>
+      <div class="chart-block tooltip-info"
+           data-title="'Performance Rating' is the average job rating.">
+        <div class="chart-title">Performance Rating</div>
+        <div class="donut-chart-div">
+          <div id="performance_rating" class="donut-chart "></div>
+          <div class="donut-inner-circle <%= @average_job_performance >= 3 ? "" : "inner-circle-red" %>"></div>
+          <div class="donut-text <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>"><%= @average_job_performance %></div>
+          <div class="percentage-circle <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>">of 5</div>
+        </div>
+      </div>
+  <% end %>
 
-<div class="page_header">
-  <h1><%= t ".jobs" %></h1>
-
-  <h2>
-    <% if @user.active_jobs.count > 0 %>
-        <% if params[:page].present? %>
-            <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
-            - <%= [((Integer(params[:page]) - 1) * 10) + 10, @user.active_jobs.count].min %>
-            of <%= @user.active_jobs.count.to_s %>
-        <% else %>
-            1 - <%= [10, @user.active_jobs.count].min %> of <%= @user.active_jobs.count.to_s %>
-        <% end %>
-    <% end %>
-  </h2>
-</div>
-
-<div class="content">
-  <div id="jobs" class="list">
-    <% @user.active_jobs.each do |job| %>
-        <%= link_to job, class: "job-link tooltip-info",
-                    "data-placement" => "left",
-                    "data-title" => "Click to open job" do %>
-            <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false, new_line_job_type: false %>
-        <% end %>
-    <% end %>
-  </div>
-
-  <% if @user.inactive_jobs.count > 0 %>
-      <div class="content">
-        <br>
-        <%= link_to "View Completed Jobs (" + @user.inactive_jobs.count.to_s + ")", "#", class: "user-info-link" %>
-        <br>
+  <% if @job_success_rate.present? %>
+      <div class="chart-block tooltip-info"
+           data-title="'Job Success Rate' shows the percentage of jobs that are successful.">
+        <div class="chart-title">Job Success Rate</div>
+        <div class="donut-chart-div">
+          <div id="failure_rate" class="donut-chart "></div>
+          <div class="donut-inner-circle <%= @job_success_rate > 70 ? "" : "inner-circle-red" %>"></div>
+          <div class="donut-text <%= @job_success_rate > 70 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
+          <div class="percentage-circle <%= @job_success_rate > 70 ? "" : "chart-text-red" %>">%</div>
+        </div>
       </div>
   <% end %>
 </div>
 
-<br>
 
-<%= render 'activities/paginated_activity', activities: @activities, inside_job: false, in_form: false %>
+<div>
+  <div class="">
+    <br>
+    <ul class="nav nav-pills alert alert-info">
+
+      <li class="active">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="jobs"
+           data-placement="bottom" data-title="All jobs this user has been on in the past or is currently now on">Jobs
+          <%= "(" + @user.jobs.count.to_s + ")" %></a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="user-activity"
+           data-placement="bottom" data-title="All activity of this user">Activity</a>
+      </li>
+
+
+    </ul>
+
+    <div class="job-tray " data-tray="jobs">
+      <div class="page_header">
+        <h1><%= t ".jobs" %></h1>
+
+        <h2>
+          <% if @user.active_jobs.count > 0 %>
+              <% if params[:page].present? %>
+                  <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
+                  - <%= [((Integer(params[:page]) - 1) * 10) + 10, @user.active_jobs.count].min %>
+                  of <%= @user.active_jobs.count.to_s %>
+              <% else %>
+                  1 - <%= [10, @user.active_jobs.count].min %> of <%= @user.active_jobs.count.to_s %>
+              <% end %>
+          <% end %>
+        </h2>
+      </div>
+
+      <div class="content">
+        <div id="jobs" class="list">
+          <% @user.jobs.each do |job| %>
+              <%= link_to job, class: "job-status job-link tooltip-info",
+                          "data-placement" => "left",
+                          "data-title" => "Click to open job" do %>
+                  <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
+              <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-tray custom-data-closed" data-tray="user-activity">
+      <%= render 'activities/paginated_activity', activities: @activities, inside_job: false, in_form: false %>
+    </div>
+
+  </div>
+</div>
 
 
 
 <script>
     $(document).ready(function () {
-        var plot3 = $.jqplot('elephant_utilization', [
+
+        <% if @job_success_rate.present? %>
+        plot3 = $.jqplot('failure_rate', [
             [
-                ['a', 67],
-                ['b', 100 - 67]
+                ['a', <%= @job_success_rate %>],
+                ['b', 100 - <%= @job_success_rate %>]
             ]
         ], {
             animate:true,
             background:"#FFFFFF",
-            seriesColors:[ "#458fd2", "#FFFFFF"],
+            seriesColors:[ "<%= @job_success_rate > 70 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
             seriesDefaults:{
                 textColor:" #00ff0000",
                 shadow:false,
@@ -131,5 +192,33 @@
                 }
             }
         });
+        <% end %>
+
+        <% if @average_job_performance.present? %>
+        plot3 = $.jqplot('performance_rating', [
+            [
+                ['a', <%= @average_job_performance %>],
+                ['b', 5 - <%= @average_job_performance %>]
+            ]
+        ], {
+            animate:true,
+            background:"#FFFFFF",
+            seriesColors:[ "<%= @average_job_performance >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+            seriesDefaults:{
+                textColor:" #00ff0000",
+                shadow:false,
+                renderer:$.jqplot.DonutRenderer,
+                rendererOptions:{
+                    padding:0,
+                    innerDiameter:95,
+                    sliceMargin:0,
+                    startAngle:-90,
+                    showDataLabels:true,
+                    dataLabels:'value'
+                }
+            }
+        });
+        <% end %>
+
     });
 </script>

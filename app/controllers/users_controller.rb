@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+    include JobAnalysisHelper
     before_filter :signed_in_user, only: [:index, :show, :settings, :update]
     before_filter :signed_in_admin, only: [:new, :create, :destroy, :edit]
     set_tab :users
@@ -34,7 +35,12 @@ class UsersController < ApplicationController
         @user = User.find_by_id(params[:id])
         not_found unless @user.company == current_user.company
 
-        @activities = Activity.activities_for_user(@user).paginate(page: params[:page], limit: 10)
+        @activities = Activity.activities_for_user(@user).paginate(page: params[:page], limit: 20)
+
+        if current_user.role.global_read? && @user != current_user
+            @average_job_performance = average_job_performance @user.jobs
+            @job_success_rate = job_success_rate @user.jobs
+        end
     end
 
 

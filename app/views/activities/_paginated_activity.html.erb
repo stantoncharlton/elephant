@@ -5,10 +5,10 @@
     <h2>
       <% if activities.count > 0 %>
           <% if params[:page].present? %>
-              <%= ((Integer(params[:page]) - 1) * 10) + 1 %>
-              - <%= [((Integer(params[:page]) - 1) * 10) + 10, activities.count].min %> of <%= activities.count.to_s %>
+              <%= ((Integer(params[:page]) - 1) * 20) + 1 %>
+              - <%= [((Integer(params[:page]) - 1) * 20) + 20, activities.count].min %> of <%= activities.count.to_s %>
           <% else %>
-              1 - <%= [10, activities.count].min %> of <%= activities.count.to_s %>
+              1 - <%= [20, activities.count].min %> of <%= activities.count.to_s %>
           <% end %>
       <% end %>
     </h2>
