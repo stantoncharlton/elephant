@@ -39,27 +39,32 @@
       </tr>
   <% end %>
   <tr>
-    <td class="job-email-title">
-      <% if Rails.env.production? %>
-          <%= image_tag "district_extrasmall.png", class: "email-avatar" %>
-      <% end %>
-      <b class="inline"><%= job.district.name %></b>
-    </td>
-    <td class="job-email-title push-right-small">
-      <% if Rails.env.production? %>
-          <%= image_tag "user_avatar_client_extrasmall.png", class: "email-avatar" %>
-      <% end %>
-      <b class="inline"><%= job.client.name %></b>
-    </td>
-    <td class="job-email-title push-right-small">
-      <% if Rails.env.production? %>
-          <%= image_tag "division_extrasmall.png", class: "email-avatar" %>
-      <% end %>
-      <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
-      |
-      <b class="inline"><%= job.job_template.product_line.segment.name %></b>
+    <td colspan="4" class="job-email-title">
+        <span>
+          <% if Rails.env.production? %>
+              <%= image_tag "district_extrasmall.png", class: "email-avatar" %>
+          <% end %>
+        <b class="inline"><%= job.district.name %></b>
+        </span>
+
+        <span class="push-right-small">
+          <% if Rails.env.production? %>
+              <%= image_tag "user_avatar_client_extrasmall.png", class: "email-avatar" %>
+          <% end %>
+          <b class="inline"><%= job.client.name %></b>
+        </span>
+
+        <span class="push-right-small">
+          <% if Rails.env.production? %>
+              <%= image_tag "division_extrasmall.png", class: "email-avatar" %>
+          <% end %>
+          <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
+          |
+          <b class="inline"><%= job.job_template.product_line.segment.name %></b>
+        </span>
     </td>
   </tr>
+
   <tr>
     <td>
       <br>
@@ -75,20 +80,18 @@
     </td>
   </tr>
   <tr>
-    <td class="job-email-td-title">
+    <td colspan="4" class="job-email-td-title">
       <p class="job-field-title inline"><%= t "jobs.job_data.status" %></p>
-    </td>
 
-    <td class="job-email-td">
-
-      <div class="job-field-value">
+      <span class="job-field-value push-right">
         <% if job.status == Job::CLOSED %>
             <p class="good-text"><%= job.status_string %></p>
         <% else %>
             <p class=""><%= job.status_string %></p>
         <% end %>
-      </div>
+      </span>
     </td>
+
   </tr>
 
   <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
