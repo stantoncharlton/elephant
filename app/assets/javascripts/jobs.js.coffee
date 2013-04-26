@@ -73,7 +73,9 @@ $ ->
     $('.job-tray-toggle').closest('li').removeClass 'active'
     $('.job-tray').addClass 'custom-data-closed'
     $(this).closest('li').addClass 'active'
-    $(".job-tray[data-tray=" + $(this).attr('data-tray') + "]").removeClass 'custom-data-closed'
+    tray = $(this).attr('data-tray')
+    $(".job-tray[data-tray=" + tray + "]").removeClass 'custom-data-closed'
+    document.location.hash = tray;
     return false
 
   $('.job-tray-toggle').click ->
@@ -83,6 +85,9 @@ $ ->
       $('.activity-loading').find('.loading').removeClass 'hidden'
       $.ajax '/activities?job_id=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
     return false
+
+  if document.location.hash != ''
+    $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
 
   $('#add_failure').click ->
     $('#modal_popup').css('visibility', 'visible')
