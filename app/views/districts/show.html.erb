@@ -12,6 +12,19 @@
 
 
 <div class="alert alert-info">
+
+  <% if @district.fields.any? %>
+      <div class="">
+        <b class="push-left-small">Fields</b>
+        <% @district.fields.each_with_index do |field, i| %>
+            <%= link_to field, class: "activity-user-link inline" do %>
+                <%= i < @district.fields.count - 1 ? field.name + "," : field.name %>
+            <% end %>
+        <% end %>
+        <hr>
+      </div>
+  <% end %>
+
   <%= form_tag @district, :method => 'get', :id => "inline_search", class: "filter-search-box" do %>
       <%= text_field_tag :search, params[:search], placeholder: "Search in district jobs...", class: "search-query tooltip-info",
                          "data-placement" => "left",
@@ -60,6 +73,7 @@
        <%= render 'jobs/index_parts/jobs_count', jobs: @district_jobs %>
     </div>
 <% end %>
+
 
 
 <div id="jobs" class="list">

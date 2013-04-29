@@ -52,6 +52,9 @@
 <div>
 <br><br><br>
 
+  <% if @user.role_id.nil? %>
+      <br><br>
+  <% end %>
   <% if !@user.product_line.present? %>
   <br><br>
   <% end %>
