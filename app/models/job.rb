@@ -140,8 +140,9 @@ class Job < ActiveRecord::Base
         Sunspot.search(Job) do
             fulltext options[:search]
             any_of do
-                with(:job_membership, user.id)
-                if user.role.limit_to_district?
+                if user.role.limit_to_assigned_jobs?
+                    with(:job_membership, user.id)
+                elsif user.role.limit_to_district?
                     with(:district_id, user.district.id)
                 elsif user.role.limit_to_product_line? && !user.product_line.nil?
                     with(:product_line_id, user.product_line.id)

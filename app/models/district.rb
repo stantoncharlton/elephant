@@ -59,15 +59,20 @@ class District < ActiveRecord::Base
         User.where("district_id = ?", self.id)
     end
 
-    def self.from_company_for_user(district, options, user, company, master)
+    def self.from_company_for_user(district, options, user, company)
         Sunspot.search(Job) do
             fulltext options[:search].present? ? options[:search] : options[:term]
-            with(:district_id, district.id)
-            if !user.role.limit_to_district?
-                with(:job_membership, user.id)
+            any_of do
+                if user.role.limit_to_assigned_jobs?
+                    with(:job_membership, user.id)
+                elsif user.role.limit_to_district?
+                    with(:district_id, user.district.id)
+                elsif user.role.limit_to_product_line? && !user.product_line.nil?
+                    with(:product_line_id, user.product_line.id)
+                end
             end
+            with(:district_id, district.id)
             with(:company_id, company.id)
-            with(:master, master)
             order_by :created_at, :desc
             paginate :page => options[:page]
         end
@@ -82,6 +87,10 @@ class District < ActiveRecord::Base
             order_by :name_sort
             paginate :page => options[:page], :per_page => 20
         end
+    end
+
+    def map_search
+       name + " " + city + " " + (state.present? ? state.name : "") + " " + country.name
     end
 
 end
