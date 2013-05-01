@@ -8,10 +8,11 @@ class District < ActiveRecord::Base
                     :city,
                     :postal_code,
                     :phone_number,
-                    :support_email
+                    :support_email,
+                    :master
+
 
     validates :name, presence: true, length: {maximum: 50}
-    validates_uniqueness_of :name, :case_sensitive => false, scope: :company_id
     validates :company, presence: true
     validates :country, presence: true
 
@@ -19,6 +20,9 @@ class District < ActiveRecord::Base
     belongs_to :country
     belongs_to :state
 
+    belongs_to :master_district, class_name: "District"
+
+    has_many :districts, foreign_key: "master_district_id", dependent: :destroy
     has_many :fields, order: "name ASC"
     has_many :jobs, order: "jobs.close_date DESC, jobs.created_at DESC"
 
@@ -39,6 +43,7 @@ class District < ActiveRecord::Base
         time :created_at
         time :updated_at
         integer :company_id
+        boolean :master
 
         string :name_sort do
             name
@@ -54,7 +59,7 @@ class District < ActiveRecord::Base
         User.where("district_id = ?", self.id)
     end
 
-    def self.from_company_for_user(district, options, user, company)
+    def self.from_company_for_user(district, options, user, company, master)
         Sunspot.search(Job) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:district_id, district.id)
@@ -62,16 +67,18 @@ class District < ActiveRecord::Base
                 with(:job_membership, user.id)
             end
             with(:company_id, company.id)
+            with(:master, master)
             order_by :created_at, :desc
             paginate :page => options[:page]
         end
     end
 
 
-    def self.search(options, company)
+    def self.search(options, company, master)
         Sunspot.search(District) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            with(:master, master)
             order_by :name_sort
             paginate :page => options[:page], :per_page => 20
         end

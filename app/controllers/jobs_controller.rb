@@ -80,7 +80,12 @@ class JobsController < ApplicationController
         @job.district = current_user.district
 
         if !@job.district.nil?
-            @fields = @job.district.fields
+            @fields = []
+            @job.district.master_district.districts.each do |d|
+                d.fields.each do |field|
+                    @fields << field
+                end
+            end
         else
             @fields = Array.new
         end
@@ -206,7 +211,12 @@ class JobsController < ApplicationController
             end
 
             if !@job.district.nil?
-                @fields = @job.district.fields
+                @fields = []
+                @job.district.master_district.districts.each do |d|
+                    d.fields.each do |field|
+                        @fields << field
+                    end
+                end
             else
                 @fields = Array.new
             end

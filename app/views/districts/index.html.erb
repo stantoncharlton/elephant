@@ -8,7 +8,7 @@
   </h2>
 
   <% if signed_in_admin? %>
-      <%= link_to "+ Add New District", new_district_path, class: "bluebtn page_header_button tooltip-info",
+      <%= link_to "+ Add New District", new_district_path(master: true), class: "bluebtn page_header_button tooltip-info",
                   "data-placement" => "bottom",
                   "data-title" => "Create new district"%>
   <% end %>

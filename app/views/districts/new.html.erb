@@ -5,6 +5,8 @@
 <div class="form">
   <%= form_for @district do |f| %>
 
+      <%= f.hidden_field :master, value: @master %>
+      <%= f.hidden_field :master_district_id, value: @master_district_id %>
       <%= render "fields", f: f %>
 
       <div class=" actions">

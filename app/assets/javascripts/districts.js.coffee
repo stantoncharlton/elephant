@@ -13,4 +13,4 @@ $ ->
 
 
   $('#district_name_id').keyup ->
-    $.ajax '/districts?search=' + $(this).val(), type: 'get', dataType: 'script'
+    $.ajax '/districts?master=false&search=' + $(this).val(), type: 'get', dataType: 'script'

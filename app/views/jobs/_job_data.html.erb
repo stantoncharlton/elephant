@@ -85,13 +85,15 @@
 
     <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
 
-    <% if in_form %>
-        <%= link_to job.district.name, job.district,
-                    class: "job-field-value-link tooltip-info",
-                    "data-placement" => "bottom",
-                    "data-title" => "View all jobs in " + job.district.name + " district" %>
-    <% else %>
-        <b class="inline"><%= job.district.name %></b>
+    <% if job.district.present? %>
+        <% if in_form %>
+            <%= link_to job.district.name, job.district,
+                        class: "job-field-value-link tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "View all jobs in " + job.district.name + " district" %>
+        <% else %>
+            <b class="inline"><%= job.district.name %></b>
+        <% end %>
     <% end %>
 
 

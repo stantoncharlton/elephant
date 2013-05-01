@@ -5,21 +5,23 @@ class DistrictsController < ApplicationController
 
     def index
         respond_to do |format|
-            format.html { @districts = District.from_company(current_user.company).paginate(page: params[:page], limit: 20)  }
+            format.html { @districts = District.from_company(current_user.company).where(:master => true).paginate(page: params[:page], limit: 20) }
             format.js {
                 @query = params[:search]
-                @districts = District.search(params, current_user.company).results
+                master = params[:master].present? ? params[:master] == "true" : true
+                @districts = District.search(params, current_user.company, master).results
             }
             format.json {
                 if params[:q].present?
                     params[:search] = params[:q]
                 end
 
-                @districts = District.search(params, current_user.company).results
+                master = params[:master].present? ? params[:master] == "true" : false
+                @districts = District.search(params, current_user.company, master).results
 
                 puts @districts.count.to_s + "................"
                 if params[:q].present?
-                    render json: @districts.map { |district| {:name => district.name + " (" + district.region + " / " + district.country + " / " + district.state + " " + district.city +  ")", :id => district.id} }
+                    render json: @districts.map { |district| {:name => district.name + " (" + district.region + " / " + district.country + " / " + district.state + " " + district.city + ")", :id => district.id} }
                 else
                     render json: @districts.map { |district| {:label => district.name,
                                                               :region => district.region.present? ? district.region : "",
@@ -51,6 +53,18 @@ class DistrictsController < ApplicationController
 
         @countries = Country.all
         @states = State.all
+
+        @master_district_id = params[:master_district]
+        @master = params[:master] == "true"
+
+        if !params[:master_district].blank?
+            @master_district = District.find_by_id(params[:master_district])
+            not_found unless @master_district.company == current_user.company
+            @country = @master_district.country.id
+            if @master_district.state.present?
+                @state = @master_district.state.id
+            end
+        end
     end
 
     def create
@@ -60,14 +74,41 @@ class DistrictsController < ApplicationController
         state_id = params[:district][:state_id]
         params[:district].delete(:state_id)
 
+        master_district_id = params[:district][:master_district_id]
+        params[:district].delete(:master_district_id)
+
+
         @district = District.new(params[:district])
         @district.company = current_user.company
         @district.country = Country.find_by_id(country_id)
         if state_id.present?
             @district.state = State.find_by_id(state_id)
         end
+        if !master_district_id.blank?
+            @master_district_id = master_district_id
+            @district.master_district = District.find_by_id(master_district_id)
+            not_found unless @district.master_district.company == current_user.company
+            @district.master = false
 
-        saved = @district.save
+            @country = @district.master_district.country.id
+            if @district.master_district.state.present?
+                @state = @district.master_district.state.id
+            end
+        else
+            @district.master = true
+        end
+
+        @master = @district.master
+
+        if !@district.master? && District.where("lower(districts.name) = lower(:district_name) AND districts.master = FALSE AND districts.company_id = :company_id", district_name: @district.name, company_id: current_user.company.id).any?
+            @district.errors.add(:name, "has already been taken")
+            saved = false
+        elsif @district.master? && District.where("lower(districts.name) = lower(:district_name) AND districts.master = TRUE AND districts.company_id = :company_id", district_name: @district.name, company_id: current_user.company.id).any?
+            @district.errors.add(:name, "has already been taken")
+            saved = false
+        else
+            saved = @district.save
+        end
 
         respond_to do |format|
             format.html {
@@ -76,7 +117,12 @@ class DistrictsController < ApplicationController
                     Activity.add(self.current_user, Activity::DISTRICT_CREATED, @district, @district.name)
 
                     flash[:success] = "District created - #{@district.name}"
-                    redirect_to districts_path
+
+                    if @district.master?
+                        redirect_to districts_path
+                    else
+                        redirect_to edit_district_path(@district.master_district)
+                    end
                 else
                     @countries = Country.all
                     @states = State.all
@@ -98,6 +144,16 @@ class DistrictsController < ApplicationController
             @states = State.all
         else
             @states = @district.country.states
+        end
+
+        @country = @district.country.id
+        if @district.state.present?
+            @state = @district.state.id
+        end
+
+        if @district.master?
+            render "districts/edit_master"
+            return
         end
     end
 
@@ -122,7 +178,12 @@ class DistrictsController < ApplicationController
             Activity.add(self.current_user, Activity::DISTRICT_UPDATED, @district, @district.name)
 
             flash[:success] = "District updated"
-            redirect_to districts_path
+
+            if @district.master?
+                redirect_to districts_path
+            else
+                redirect_to edit_district_path(@district.master_district)
+            end
         else
             @company = current_user.company
             @countries = Country.all
@@ -139,7 +200,12 @@ class DistrictsController < ApplicationController
         Activity.add(self.current_user, Activity::DISTRICT_DESTROYED, @district, @district.name)
 
         flash[:success] = "District destroyed."
-        redirect_to districts_path
+
+        if @district.master?
+            redirect_to districts_path
+        else
+            redirect_to edit_district_path(@district.master_district)
+        end
     end
 
 

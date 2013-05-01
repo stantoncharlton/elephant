@@ -11,7 +11,12 @@ class FieldsController < ApplicationController
                 if params[:district_id].present?
                     district = District.find_by_id(params[:district_id])
                     if district.company == current_user.company
-                        @fields = district.fields
+                        @fields = []
+                        district.master_district.districts.each do |d|
+                            d.fields.each do |field|
+                                @fields << field
+                            end
+                        end
                     end
                 end
             }
@@ -25,7 +30,9 @@ class FieldsController < ApplicationController
         @field = Field.find_by_id(params[:id])
         not_found unless @field.company == current_user.company
 
-        @jobs = Field.from_company_for_user(@field, params, current_user, current_user.company).results
+        @jobs = @field.jobs current_user.company
+        @jobs = UserRole.limit_jobs_scope current_user, @jobs
+        @jobs = @jobs.paginate(page: params[:page], limit: 20)
     end
 
     def new

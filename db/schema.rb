@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130419193028) do
+ActiveRecord::Schema.define(:version => 20130430211527) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -125,8 +125,8 @@ ActiveRecord::Schema.define(:version => 20130419193028) do
   create_table "districts", :force => true do |t|
     t.string   "name"
     t.integer  "company_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "location"
     t.integer  "country_id"
     t.integer  "state_id"
@@ -138,10 +138,13 @@ ActiveRecord::Schema.define(:version => 20130419193028) do
     t.string   "region"
     t.string   "support_email"
     t.string   "time_zone"
+    t.integer  "master_district_id"
+    t.boolean  "master",             :default => true
   end
 
   add_index "districts", ["company_id"], :name => "index_districts_on_company_id"
   add_index "districts", ["country_id"], :name => "index_districts_on_country_id"
+  add_index "districts", ["master_district_id"], :name => "index_districts_on_master_district_id"
   add_index "districts", ["state_id"], :name => "index_districts_on_state_id"
 
   create_table "divisions", :force => true do |t|
