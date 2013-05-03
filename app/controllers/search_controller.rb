@@ -185,7 +185,7 @@ class SearchController < ApplicationController
             index += 1
         end
 
-        @jobs = Job.advanced_search(@query, current_user.company).paginate(page: params[:page], limit: 20)
+        @jobs = Job.advanced_search(@query, current_user.company).includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
     end
 
 end

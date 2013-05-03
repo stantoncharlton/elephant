@@ -3,7 +3,7 @@
 
   <h3><%= well.name %></h3>
 
-  <% if well.field.present? %>
+  <% if well.field.present? && well.field.district.present? %>
       <div class="user-line-title"><%= well.field.district.country.name %></div>
       <div class="user-line-district"><%= well.field.district.state.present? ? well.field.district.state.name : "" %></div>
 
