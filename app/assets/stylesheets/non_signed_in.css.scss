@@ -1,12 +1,12 @@
 .body-non-signed-in {
-  background: #000000 url(image_path('background.jpg')) no-repeat center center fixed;
+  background: #000000 url(image_path('background2.jpg')) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
 
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background.jpg')}, sizingMethod='scale');
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background2.jpg')}, sizingMethod='scale');
 
   margin: 0px;
   padding-top: 140px;
