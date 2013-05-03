@@ -2,7 +2,7 @@ class DocumentShare < ActiveRecord::Base
     attr_accessible :email,
                     :access_code
 
-    belongs_to :document
+    belongs_to :document, counter_cache: true
     belongs_to :shared_by, class_name: "User"
     belongs_to :job
     belongs_to :forwarded_document_share, class_name: "DocumentShare"

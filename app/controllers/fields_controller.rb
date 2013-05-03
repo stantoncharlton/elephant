@@ -32,7 +32,7 @@ class FieldsController < ApplicationController
 
         @jobs = @field.jobs current_user.company
         @jobs = UserRole.limit_jobs_scope current_user, @jobs
-        @jobs = @jobs.paginate(page: params[:page], limit: 20)
+        @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
     end
 
     def new

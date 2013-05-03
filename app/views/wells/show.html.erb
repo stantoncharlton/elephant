@@ -192,7 +192,7 @@
 
 
 <div id="jobs">
-  <% @well.jobs.each do |job| %>
+  <% @well.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).each do |job| %>
       <%= link_to job, class: "job-status job-link tooltip-info",
                   "data-placement" => "left",
                   "data-title" => "Click to open job" do %>

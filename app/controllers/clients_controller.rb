@@ -37,7 +37,7 @@ class ClientsController < ApplicationController
             @jobs = Client.from_company_for_user(@client, params, current_user, current_user.company).results
         else
             @client_jobs = UserRole.limit_jobs_scope current_user, @client.jobs
-            @jobs = @client_jobs.paginate(page: params[:page], limit: 20)
+            @jobs = @client_jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
         end
     end
 

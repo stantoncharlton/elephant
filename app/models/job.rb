@@ -223,27 +223,27 @@ class Job < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.select { |document| document.category == Document::NOTICES }
+        self.documents.includes(:document_template, :job).select { |document| document.category == Document::NOTICES }
     end
 
     def pre_job_documents
-        self.documents.select { |document| document.category == Document::PRE_JOB }
+        self.documents.includes(:document_template, :job).select { |document| document.category == Document::PRE_JOB }
     end
 
     def post_job_documents
-        self.documents.select { |document| document.category == Document::POST_JOB }
+        self.documents.includes(:document_template, :job).select { |document| document.category == Document::POST_JOB }
     end
 
     def post_job_report_document
-        self.documents.select { |document| document.category == Document::POST_JOB_REPORT }.last
+        self.documents.includes(:document_template, :job).select { |document| document.category == Document::POST_JOB_REPORT }.last
     end
 
     def dynamic_fields_required
-        self.dynamic_fields.where(:optional => false)
+        self.dynamic_fields.includes(:dynamic_field_template).where(:optional => false)
     end
 
     def dynamic_fields_optional
-        self.dynamic_fields.where(:optional => true)
+        self.dynamic_fields.includes(:dynamic_field_template).where(:optional => true)
     end
 
     def pre_job_data_good

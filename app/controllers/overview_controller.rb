@@ -5,7 +5,7 @@ class OverviewController < ApplicationController
     def overview
         set_tab :overview
 
-        @jobs = Job.from_company(current_user.company)
+        @jobs = Job.from_company(current_user.company).includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: { product_line: { segment: :division } })
 
         filter
         analyze
@@ -18,7 +18,7 @@ class OverviewController < ApplicationController
     def filter_overview
         set_tab :overview
 
-        @jobs = Job.from_company(current_user.company)
+        @jobs = Job.from_company(current_user.company).includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: { product_line: { segment: :division } })
 
         filter
         analyze

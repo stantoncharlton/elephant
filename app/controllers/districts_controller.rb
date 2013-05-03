@@ -43,7 +43,7 @@ class DistrictsController < ApplicationController
             @jobs = District.from_company_for_user(@district, params, current_user, current_user.company).results
         else
             @district_jobs = UserRole.limit_jobs_scope current_user, @district.jobs
-            @jobs = @district_jobs.paginate(page: params[:page], limit: 20)
+            @jobs = @district_jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
         end
     end
 
@@ -118,11 +118,7 @@ class DistrictsController < ApplicationController
 
                     flash[:success] = "District created - #{@district.name}"
 
-                    if @district.master?
-                        redirect_to districts_path
-                    else
-                        redirect_to edit_district_path(@district.master_district)
-                    end
+                    redirect_to edit_district_path(@district.master_district)
                 else
                     @countries = Country.all
                     @states = State.all

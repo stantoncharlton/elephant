@@ -31,6 +31,7 @@ group :development, :test do
     gem 'webrick', '~> 1.3.1'
     gem 'rspec-rails', '2.10.0'
     gem 'guard-rspec', '0.5.5'
+    gem 'bullet'
 end
 
 gem 'annotate', '2.5.0', group: :development

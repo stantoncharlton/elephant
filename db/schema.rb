@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430211527) do
+ActiveRecord::Schema.define(:version => 20130503171021) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20130430211527) do
     t.boolean  "read_only",             :default => false
     t.integer  "ordering",              :default => 0
     t.integer  "post_job_report_order"
+    t.integer  "document_shares_count", :default => 0,     :null => false
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"

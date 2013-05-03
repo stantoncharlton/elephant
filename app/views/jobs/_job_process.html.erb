@@ -5,11 +5,11 @@
 <% end %>
 
 <% if job.post_job_report_document.nil? || job.post_job_report_document.url.nil?  %>
-<div id="process_actions" class="alert <%= (job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP || jp.event_type == JobProcess::APPROVED_TO_CLOSE }.count > 0) ? "" : "hidden" %>">
-  <% job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
+<div id="process_actions" class="alert <%= (job.job_processes.includes(:user, job: { job_memberships: :user }).includes(job: { job_memberships: :job }).select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP || jp.event_type == JobProcess::APPROVED_TO_CLOSE }.count > 0) ? "" : "hidden" %>">
+  <% job.job_processes.includes(:user, job: { job_memberships: :user }).includes(job: { job_memberships: :job }).select { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.each do |job_process| %>
       <%= render 'job_process/job_shipped', job_process: job_process %>
   <% end %>
-  <% job.job_processes.select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
+  <% job.job_processes.includes(:user, job: { job_memberships: :user }).includes(job: { job_memberships: :job }).select { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.each do |job_process| %>
       <%= render 'job_process/job_closed', job_process: job_process %>
   <% end %>
 </div>

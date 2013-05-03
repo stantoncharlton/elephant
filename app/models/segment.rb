@@ -25,7 +25,7 @@ class Segment < ActiveRecord::Base
   end
 
   def active_jobs
-      self.company.jobs.where(:status => Job::ACTIVE).joins(job_template: {product_line: :segment}).where("segments.id = ?", self.id)
+    Job.where("jobs.company_id = ?", self.company_id).where(:status => Job::ACTIVE).includes(job_template: {product_line: :segment}).where("segments.id = ?", self.id)
   end
 
   def self.from_company_for_user(segment, options, user, company)

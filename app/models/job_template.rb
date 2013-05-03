@@ -37,7 +37,7 @@ class JobTemplate < ActiveRecord::Base
     end
 
     def active_jobs
-        self.company.jobs.where(:status => Job::ACTIVE).joins(:job_template).where("job_templates.id = ?", self.id)
+        Job.where("jobs.company_id = ?", self.company_id).where(:status => Job::ACTIVE).joins(:job_template).where("job_templates.id = ?", self.id)
     end
 
     def self.from_company_for_user(job_template, options, user, company)
