@@ -15,6 +15,20 @@ $ ->
       $("#client_name").val(ui.item.label)
       $("#client_id").val(ui.item.id)
 
+  client_focused = false
+  $('#client_name').focusin ->
+    client_focused = true
+    $('#client_name').removeClass 'ui-autocomplete-bad'
+    $('#client_name').addClass 'ui-autocomplete-typing'
+    $('#client_name').val('')
+    $('#client_id').val('')
+
+  $('#client_name').focusout ->
+    if client_focused && $('#client_id').val() == ''
+      $('#client_name').addClass 'ui-autocomplete-bad'
+      if $('#client_name').val() == ''
+        $('#client_name').removeClass 'ui-autocomplete-typing'
+
 
   $('#close_modal').live "click", ->
     $('#modal_popup').css "visibility", "hidden"
@@ -113,6 +127,8 @@ $ ->
     $val = $(this).attr('id').replace('job_template_', '')
     $('#job_job_template_id').removeAttr "disabled", "disabled"
     $('#job_job_template_id').val($val)
+    $('.job-creating-part2').removeClass 'hidden'
+    $('body').animate({scrollTop : $(document).height()}, 'slow');
     return false
 
 

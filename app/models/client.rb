@@ -19,6 +19,10 @@ class Client < ActiveRecord::Base
         string :name_sort do
             name
         end
+
+        text :country_name, :as => :code_textp do
+            country.present? ? country.name : ""
+        end
     end
 
 

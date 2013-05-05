@@ -219,7 +219,7 @@ class Job < ActiveRecord::Base
     end
 
     def other_jobs
-        self.well.jobs.select { |j| j != self }
+        self.well.jobs.includes(:job_template, :client, :district, :job_processes, :dynamic_fields).select { |j| j != self }
     end
 
     def notices_documents

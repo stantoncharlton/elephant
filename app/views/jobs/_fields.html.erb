@@ -5,7 +5,6 @@
   <div class="">
 
 
-
     <p class="">
       <strong class="job-division-segment-div">Division</strong>
       <strong class="job-division-segment-div push-right-small">Segment</strong>
@@ -39,6 +38,9 @@
     <hr>
 
 
+    <div class='alert'>
+      <b>Select the type of job to create</b>
+    </div>
     <div id="job_templates_list" class="">
       <% if @job_templates.present? and @job_templates.any? %>
           <%= render 'job_templates/job_templates_list', job_templates: @job_templates, job_template: @job.job_template %>
@@ -60,64 +62,67 @@
   </div>
 </div>
 
-<div class="content well well-large">
-
-
-  <div class="">
-
-    <%= f.hidden_field :client_id, id: "client_id" %>
-    <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar" %>
-    <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
-                       placeholder: "Type a customer name...",
-                       value: !@job.client.nil? ? @job.client.name : nil,
-                       id: "client_name", class: "txtfield small tooltip-info",
-                       "data-placement" => "bottom",
-                       "data-title" => "Customer Name" %>
-
-    <div class="inline">
-
-      <%= f.hidden_field :district_id, id: "district_id" %>
-      <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
-      <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
-                         value: !@job.district.nil? ? @job.district.name : nil,
-                         placeholder: "Type a district name...",
-                         id: "district_name", class: "txtfield small tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "District Name" %>
-    </div>
+<div class="job-creating-part2 <%= @job.errors.any? ? "" : "hidden" %>">
+  <div class='alert'>
+    <b>Now select customer, district, field, and well</b>
   </div>
 
-  <hr>
-
-
-
-  <div class="field">
-    <%= f.label :field_id, class: "field-title" %>
-    <%= f.select :field_id, options_for_select(@fields.collect { |p| [p.name, p.id] }),
-                 {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Field..."},
-                 class: "tooltip-info",
-                 "data-placement" => "bottom",
-                 "data-title" => "Field Name" %>
-    <%= link_to "New", new_field_path, remote: true, class: "add-button tooltip-info", id: "new_field_link",
-                "data-placement" => "bottom",
-                "data-title" => "Create new field" %>
+  <div class="well well-large ">
 
     <div class="">
-      <%= f.label :well_id, class: "field-title" %>
-      <%= f.select :well_id, options_for_select(@wells.collect { |p| [p.name, p.id] }),
-                   {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Well..."},
+
+      <%= f.hidden_field :client_id, id: "client_id" %>
+      <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar" %>
+      <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
+                         placeholder: "Type a customer name...",
+                         value: !@job.client.nil? ? @job.client.name : nil,
+                         id: "client_name", class: "txtfield small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Customer Name" %>
+
+      <div class="inline">
+
+        <%= f.hidden_field :district_id, id: "district_id" %>
+        <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
+        <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                           value: !@job.district.nil? ? @job.district.name : nil,
+                           placeholder: "Type a district name...",
+                           id: "district_name", class: "txtfield small tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "District Name" %>
+      </div>
+    </div>
+
+    <hr>
+
+
+    <div class="field">
+      <%= f.label :field_id, class: "field-title" %>
+      <%= f.select :field_id, options_for_select(@fields.collect { |p| [p.name, p.id] }),
+                   {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Field..."},
                    class: "tooltip-info",
                    "data-placement" => "bottom",
-                   "data-title" => "Well Name" %>
-      <%= link_to "New", new_well_path, remote: true, class: "add-button tooltip-info", id: "new_well_link",
+                   "data-title" => "Field Name" %>
+      <%= link_to "New", new_field_path, remote: true, class: "add-button tooltip-info", id: "new_field_link",
                   "data-placement" => "bottom",
-                  "data-title" => "Create new well" %>
+                  "data-title" => "Create new field" %>
+
+      <div class="">
+        <%= f.label :well_id, class: "field-title" %>
+        <%= f.select :well_id, options_for_select(@wells.collect { |p| [p.name, p.id] }),
+                     {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Well..."},
+                     class: "tooltip-info",
+                     "data-placement" => "bottom",
+                     "data-title" => "Well Name" %>
+        <%= link_to "New", new_well_path, remote: true, class: "add-button tooltip-info", id: "new_well_link",
+                    "data-placement" => "bottom",
+                    "data-title" => "Create new well" %>
+      </div>
     </div>
+
+
   </div>
-
-
 </div>
-
 
 
 <script type="text/javascript">

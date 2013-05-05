@@ -81,7 +81,7 @@ class JobsController < ApplicationController
 
         if !@job.district.nil?
             @fields = []
-            @job.district.master_district.districts.each do |d|
+            @job.district.master_district.districts.includes(:fields).each do |d|
                 d.fields.each do |field|
                     @fields << field
                 end
@@ -94,7 +94,7 @@ class JobsController < ApplicationController
         if current_user.product_line.present?
             @segments = current_user.product_line.segment.division.segments
             @product_lines = current_user.product_line.segment.product_lines
-            @job_templates = current_user.product_line.job_templates
+            @job_templates = current_user.product_line.job_templates.includes(primary_tools: :tool)
 
             @division = current_user.product_line.segment.division
             @segment = current_user.product_line.segment

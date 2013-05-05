@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     def index
 
         respond_to do |format|
-            format.html { @users = User.from_company(current_user.company).paginate(page: params[:page], limit: 20) }
+            format.html { @users = User.from_company(current_user.company).includes(:district, :company).paginate(page: params[:page], limit: 20) }
             format.js {
                 if params[:search].length == 0
                     @users = User.from_company(current_user.company).paginate(page: params[:page], limit: 20)

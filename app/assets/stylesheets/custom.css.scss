@@ -54,6 +54,16 @@ input[type='text'].ui-autocomplete-loading {
   background: url(image_path('ajax-loader.gif')) no-repeat 95% 50% !important;
 }
 
+input[type='text'].ui-autocomplete-typing {
+  color: #4d4d4d;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.ui-autocomplete-bad {
+  background: #fbd2d2 url(image_path('error_red.png')) no-repeat 95% 50% !important;
+}
+
 .ui-state-hover {
   a {
     background-color: #6cb4f6 !important;
