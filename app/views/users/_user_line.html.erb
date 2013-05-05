@@ -4,7 +4,7 @@
 
   <div class="user-line-title"><%= user.title %></div>
 
-  <div class="user-line-district"><%= user.district.name %></div>
+  <div class="user-line-district"><%= user.district.present? ? user.district.name : "" %></div>
 
   <div class="user-line-email"><%= user.email %></div>
 </div>
