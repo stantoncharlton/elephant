@@ -30,7 +30,7 @@ class JobMembershipsController < ApplicationController
 
             Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
         else
-            render template: 'layouts/error', locals: {title: "Problem Adding Member", object: @job_membership}
+            #render template: 'layouts/error', locals: {title: "Problem Adding Member", object: @job_membership}
         end
     end
 

@@ -64,6 +64,10 @@
   }
 }
 
+.no-bottom-margin {
+  margin-bottom: 0px;
+}
+
 .activity-user-link-div-short {
   display: inline-block;
   min-width: 200px;
@@ -76,11 +80,13 @@
 
 .activity-date {
   display: inline-block;
-  margin-right: 0px;
+  margin-right: 10px;
+  margin-top: 8px;
   margin-bottom: 10px;
   font-size: 13px;
   font-style: italic;
   color: #737373;
+
 }
 
 .activity-message {

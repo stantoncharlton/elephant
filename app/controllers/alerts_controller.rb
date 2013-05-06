@@ -11,7 +11,7 @@ class AlertsController < ApplicationController
         @new_alerts = Array.new
         @old_alerts = Array.new
 
-        @alerts.each do |alert|
+        @alerts.includes(:company, :created_by, :user).includes(job: { job_template: { primary_tools: :tool } }).each do |alert|
 
             if alert.expiration.nil? or alert.expiration > 6.3.days.from_now or
                     alert.alert_type == Alert::PRE_JOB_DATA_READY or alert.alert_type == Alert::POST_JOB_DATA_READY

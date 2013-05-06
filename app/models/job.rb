@@ -211,7 +211,7 @@ class Job < ActiveRecord::Base
     end
 
     def activity
-        Activity.activities_for_job(self)
+        Activity.activities_for_job(self).includes(:target, :job, :user)
     end
 
     def recent_activity(recent_date)
@@ -223,19 +223,19 @@ class Job < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.includes(:document_template, :job).select { |document| document.category == Document::NOTICES }
+        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::NOTICES }
     end
 
     def pre_job_documents
-        self.documents.includes(:document_template, :job).select { |document| document.category == Document::PRE_JOB }
+        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::PRE_JOB }
     end
 
     def post_job_documents
-        self.documents.includes(:document_template, :job).select { |document| document.category == Document::POST_JOB }
+        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::POST_JOB }
     end
 
     def post_job_report_document
-        self.documents.includes(:document_template, :job).select { |document| document.category == Document::POST_JOB_REPORT }.last
+        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::POST_JOB_REPORT }.last
     end
 
     def dynamic_fields_required
@@ -338,7 +338,7 @@ class Job < ActiveRecord::Base
     end
 
     def user_is_member?(user)
-        !self.job_memberships.find { |jm| jm.user == user }.nil?
+        !self.job_memberships.includes(:user, :job).find { |jm| jm.user == user }.nil?
     end
 
     def sent_pre_job_ready_email

@@ -18,7 +18,7 @@
     <% end %>
 
     <% if alert.alert_type == Alert::PRE_JOB_DATA_READY %>
-        <div class="alert-title">
+        <div class="alert alert-title">
           <%= image_tag "approve_arrow.png" %>
           <p class=" inline"><%= t ".waiting_to_ship" %>:</p>
         </div>
@@ -45,15 +45,14 @@
     <% end %>
 
     <% if alert.alert_type == Alert::JOB_SHIPPED %>
-        <div class="alert-title">
+        <div class="alert alert-success alert-title">
           <%= image_tag "approve_arrow.png" %>
-
-          <p class=" inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> shipped to location</p>
+          <p class="inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> shipped to location</p>
         </div>
     <% end %>
 
     <% if alert.alert_type == Alert::JOB_CLOSED %>
-        <div class="alert-title">
+        <div class="alert alert-success alert-title">
           <%= image_tag "approve_arrow.png" %>
           <p class=" inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> completed and closed</p>
         </div>
