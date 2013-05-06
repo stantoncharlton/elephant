@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
     include JobAnalysisHelper
     before_filter :signed_in_user, only: [:index, :show, :settings, :update]
-    before_filter :signed_in_admin, only: [:new, :create, :destroy, :edit]
+    before_filter :signed_in_admin, only: [:destroy, :edit]
+    before_filter :signed_in_support_role, only: [:new, :create]
     set_tab :users
 
     def index
@@ -135,7 +136,12 @@ class UsersController < ApplicationController
             Activity.add(self.current_user, Activity::USER_CREATED, @user, @user.name)
 
             flash[:success] = "User created - #{@user.email}"
-            redirect_to users_path
+
+            if signed_in_admin?
+                redirect_to users_path
+            else
+                redirect_to @user
+            end
         else
             @districts = current_user.company.districts
             @roles = create_roles
@@ -188,4 +194,12 @@ class UsersController < ApplicationController
         end
         roles
     end
+
+    def signed_in_support_role
+        unless signed_in_admin? || current_user.role.global_edit?
+            store_location
+            redirect_to signin_url, error: "Please sign in."
+        end
+    end
+
 end

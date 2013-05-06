@@ -148,7 +148,7 @@
 
       <div class="content">
         <div id="jobs" class="list">
-          <% @user.jobs.each do |job| %>
+          <% @user.jobs.includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: { product_line: { segment: :division }}).each do |job| %>
               <%= link_to job, class: "job-status job-link tooltip-info",
                           "data-placement" => "left",
                           "data-title" => "Click to open job" do %>

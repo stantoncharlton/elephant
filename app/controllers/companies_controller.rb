@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
 
     def show
         @company = current_user.company
-        @users = User.from_company(@company).paginate(page: params[:page], limit: 20)
+        @users = User.from_company(@company).includes(:district, :company).paginate(page: params[:page], limit: 20)
     end
 
     def new

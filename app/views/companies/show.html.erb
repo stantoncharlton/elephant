@@ -4,6 +4,12 @@
   <h2 class="paginated-count">
     <%= render 'layouts/paged_header', items: @users %>
   </h2>
+
+  <% if current_user.role.global_edit? %>
+      <%= link_to "+ Add New User", new_user_path, class: "bluebtn page_header_button tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Create new user"%>
+  <% end %>
 </div>
 
 <div class="alert alert-info">

@@ -4,18 +4,20 @@
 
 
 <div class="form">
-<%= form_for(@user) do |f| %>
-    <%= render 'fields', f: f %>
+  <%= form_for(@user) do |f| %>
+      <%= render 'fields', f: f %>
 
-    <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info push-right form-loading-on-click",
-                 "data-title" => "Create and save new user"
-    %>
+      <%= f.submit "Create New user", class: "bluebtn pull-right tooltip-info push-right form-loading-on-click",
+                   "data-title" => "Create and save new user"
+      %>
 
-    <div class="alert pull-right push-down">
-      <%= f.check_box :admin %>
-      Admin Account
-    </div>
-<% end %>
+      <% if signed_in_admin? %>
+          <div class="alert pull-right push-down">
+            <%= f.check_box :admin %>
+            Admin Account
+          </div>
+      <% end %>
+  <% end %>
 </div>
 
 <%= render "layouts/inline_loading", title: "Creating user, please wait" %>
