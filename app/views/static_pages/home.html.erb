@@ -1,23 +1,50 @@
-<% if signed_in? %>
-    <% provide(:title, 'Home | ' + current_user.name) %>
-    <p>Logged in</p>
+<% provide(:title, 'Home') %>
 
-<% else %>
+<div>
 
-    <% provide(:title, 'Home') %>
+  <canvas id="kenburns" width="1200" height="800">
+    <div id="kenburns_fallback"></div>
+  </canvas>
 
-    <div>
+  <div class="signin-box">
+    <%= render 'sessions/signin' %>
+  </div>
 
-      <%= render 'sessions/signin' %>
+  <div class="quote">
+    <p>Reduce non-productive time.<br> Increase efficiency &amp; Safety.<br> All with a
+      <a class="link" href="/features">comprehensive solution »</a></p>
+    <br>
+    <a href="tel:1-817-500-0360" class="phone">1-817-500-0360</a>
+  </div>
 
-      <div class="quote">
-        <p>Reduce non-productive time.<br> Increase efficiency &amp; Safety.<br> All with a <a class="link" href="/features">comprehensive solution »</a></p>
-        <br>
-        <a href="tel:1-817-500-0360" class="phone">1-817-500-0360</a>
-      </div>
-
-    </div>
+</div>
 
 
-<% end %>
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#kenburns').kenburns({
+            images:['<%= image_path('background2.jpg') %>',
+                '<%= image_path('background.jpg') %>',
+                '<%= image_path('background4.jpg') %>',
+                '<%= image_path('background3.jpg') %>',
+                '<%= image_path('background5.jpg') %>',
+                '<%= image_path('background6.jpg') %>',
+            ],
+            frames_per_second:20,
+            display_time:20000,
+            fade_time:1000,
+            zoom:1.3,
+            background_color:'transparent',
+            post_render_callback:function ($canvas, context) {
+
+            }
+        });
+
+
+
+    });
+
+</script>
 

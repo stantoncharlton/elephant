@@ -1,12 +1,5 @@
 .body-non-signed-in {
-  background: #000000 url(image_path('background2.jpg')) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
 
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background2.jpg')}, sizingMethod='scale');
 
   margin: 0px;
   padding-top: 140px;
@@ -15,6 +8,32 @@
     margin: 0px;
     padding: 0px;
   }
+}
+
+#kenburns_fallback {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #000000 url(image_path('background2.jpg')) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background2.jpg')}, sizingMethod='scale');
+}
+
+#kenburns {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.login-now-btn {
+  margin-top: 6px;
 }
 
 .body-about-non-signed-in {
@@ -62,7 +81,6 @@
   width: 513px;
   height: 514px;
   margin-top: 0px;
-  margin-left: 50%;
 }
 
 .login h1 {
@@ -170,6 +188,11 @@
   margin-right: 86px;
 }
 
+.signin-box {
+  position: absolute;
+  float: right;
+  margin-left: 50%;
+}
 
 .quote {
 
@@ -559,7 +582,7 @@ a[href^=tel]{
 
   width: 100%;
   padding-top: 30px;
-  padding-bottom: 423px;
+  padding-bottom: 323px;
 
   @media screen and (max-width: 1024px) {
     background: #000000 url(image_path('about_background.jpg')) no-repeat center top fixed;
@@ -568,7 +591,8 @@ a[href^=tel]{
   }
 
   p {
-    font-size: 22px;
+    font-size: 45px;
+    line-height: 45px;
     color: #FFFFFF;
     text-shadow: 1px 1px 1px #6b5510;
     font-family: "gothambookregular";

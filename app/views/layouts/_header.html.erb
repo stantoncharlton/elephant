@@ -60,6 +60,9 @@
 
     <% if !signed_in? %>
         <%= link_to "Elephant", root_path, id: "logo", class: "push-right-small" %>
+        <% if request.path != root_path %>
+            <%= link_to "Email Us Now", "mailto:sales@go-elephant.com", class: "login-now-btn push-right bluebtn btnsmall gray pull-left" %>
+        <% end %>
         <div class="non-signed-in-header-right pull-right">
           <%= render 'layouts/signed_out_tab' %>
         </div>
