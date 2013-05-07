@@ -29,65 +29,63 @@
                   <% end %>
                   </div>
               <% else %>
-                </div>
+                  </div>
               <% end %>
               </div>
 
 
-          <% if editable %>
-              <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"}, class: "delete-button tooltip-info",
-                          "data-placement" => "bottom",
-                          "data-title" => "Delete document" %>
-              <%= link_to "order", document_path(document, reorder: "-1"), remote: true, class: "order-button tooltip-info",
-                          "data-placement" => "bottom",
-                          "data-title" => "Move document up by 1 row" %>
-          <% end %>
+        <% if editable %>
+            <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"}, class: "delete-button tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Delete document" %>
+            <%= link_to "order", document_path(document, reorder: "-1"), remote: true, class: "order-button tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Move document up by 1 row" %>
+        <% end %>
 
-          <% if !document.template? %>
-              <div class="btn-group inline pull-right">
-                <a class="document-actions-button" data-toggle="dropdown" href="#">
-                  <% if document.document_shares.any? %>
-                      <div class="document-shares-count"><%= document.document_shares.count %></div>
-                  <% end %>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <%= link_to "Share", document_shares_path(document: document), remote: true,
-                                class: "dropdown-menu-link tooltip-info share-document-button",
-                                "data-placement" => "left",
-                                "data-title" => "Share document to person or another company." %>
-                  </li>
-                  <% if document.url.present? %>
-                      <li class="divider"></li>
-                      <li>
-                        <%= link_to "Download", document.full_url,
-                                    class: "dropdown-menu-link tooltip-info download-link",
-                                    "data-placement" => "left",
-                                    "data-title" => "Download document to computer." %>
-                      </li>
-                  <% end %>
-                  <% if !document.document_template.nil? && document.document_template.url.present? %>
-                      <li class="divider"></li>
-                      <li>
-                        <%= link_to "Download original template", document.full_url,
-                                    class: "dropdown-menu-link tooltip-info download-link",
-                                    "data-placement" => "left",
-                                    "data-title" => "Download document to computer." %>
-                      </li>
-                  <% end %>
-                  <% if document.document_template.nil? %>
-                      <li class="divider"></li>
-                      <li>
-                        <%= link_to "x  Delete", document, method: :delete,
-                                    class: "dropdown-menu-link tooltip-info warning-text",
-                                    data: {confirm: "Delete Document?"},
-                                    "data-placement" => "left",
-                                    "data-title" => "Delete document from job." %>
-                      </li>
-                  <% end %>
-                </ul>
-              </div>
-          <% end %>
+        <% if !document.template? %>
+            <div class="btn-group inline pull-right">
+              <a class="document-actions-button" data-toggle="dropdown" href="#">
+                <div class="document-shares-count"><%= document.document_shares.any? ? document.document_shares.count : "" %></div>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to "Share", document_shares_path(document: document), remote: true,
+                              class: "dropdown-menu-link tooltip-info share-document-button",
+                              "data-placement" => "left",
+                              "data-title" => "Share document to person or another company." %>
+                </li>
+                <% if document.url.present? %>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Download", document.full_url,
+                                  class: "dropdown-menu-link tooltip-info download-link",
+                                  "data-placement" => "left",
+                                  "data-title" => "Download document to computer." %>
+                    </li>
+                <% end %>
+                <% if !document.document_template.nil? && document.document_template.url.present? %>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Download original template", document.full_url,
+                                  class: "dropdown-menu-link tooltip-info download-link",
+                                  "data-placement" => "left",
+                                  "data-title" => "Download document to computer." %>
+                    </li>
+                <% end %>
+                <% if document.document_template.nil? %>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "x  Delete", document, method: :delete,
+                                  class: "dropdown-menu-link tooltip-info warning-text",
+                                  data: {confirm: "Delete Document?"},
+                                  "data-placement" => "left",
+                                  "data-title" => "Delete document from job." %>
+                    </li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
 
         </div>
 
@@ -104,5 +102,5 @@
       </div>
     </script>
 
-</fieldset>
+    </fieldset>
 
