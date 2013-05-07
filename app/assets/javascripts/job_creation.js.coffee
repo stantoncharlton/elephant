@@ -131,6 +131,35 @@ $ ->
     $('body').animate({scrollTop : $(document).height()}, 'slow');
     return false
 
+  $('.tool-type-selection').live "click", ->
+    if $(this).hasClass 'tool-type-selected'
+      $(this).removeClass('tool-type-selected')
+    else
+      $(this).addClass('tool-type-selected')
+
+    params = []
+    $('.tool-type-selection').each ->
+      if $(this).hasClass 'tool-type-selected'
+        params.push($(this).attr('data-primary-tool'))
+
+    $('.job-type-selection').each ->
+      tools = $(this).attr('data-primary-tools').split('_')
+      keep = true
+      for param in params
+        keep2 = false
+        for tool in tools
+          if param == tool
+            keep2 = true
+        if !keep2
+          keep = false
+          break
+      if keep
+        $(this).closest('.field').show()
+      else
+        $(this).closest('.field').hide()
+
+    return false
+
 
   $('.form-loading-on-click').click ->
     $('.loading').removeClass 'hidden'

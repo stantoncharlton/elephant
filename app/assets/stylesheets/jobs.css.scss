@@ -599,6 +599,32 @@
   }
 }
 
+.tool-type-selection {
+  display: inline-block;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 10px 20px 10px 20px;
+  font-family: gothambookregular;
+  cursor: pointer;
+  cursor: hand;
+
+  &:link, &:visited, &:active {
+    color: #000000;
+  }
+  &:hover {
+    background: #3b9ef7;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+    text-decoration: none;
+  }
+}
+
+.tool-type-selected {
+  background: #3b9ef7;
+  color: #FFFFFF !important;
+  text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+}
+
 .job-division-segment-div {
   display: inline-block;
   width: 200px;

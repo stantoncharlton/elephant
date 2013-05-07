@@ -1,8 +1,22 @@
+<% if job_templates.includes(:product_line).first.product_line.present? %>
+    <div class="content">
+      Filter by tools:
+      <% job_templates.first.product_line.primary_tools.each do |primary_tool| %>
+          <a class="tool-type-selection" data-primary-tool="<%= primary_tool.id %>"><%= primary_tool.name %></a>
+      <% end %>
+    </div>
+<% end %>
+
+<div class='alert'>
+  <b>Select the type of job to create</b>
+</div>
+
 <% job_templates.each do |jt| %>
     <div class="field">
       <%= link_to "#",
                   id: "job_template_" + jt.id.to_s,
                   class: "clearfix job-type-selection " + (job_template.present? && jt.id == job_template.id ? "job-type-selected" : ""),
+                  "data-primary-tools" => jt.primary_tools.map { |pt| pt.tool.id }.join("_"),
                   "data-placement" => "left",
                   "data-title" => "Click to open/edit job type" do %>
           <p class="list-job-item-name">

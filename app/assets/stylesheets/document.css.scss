@@ -104,6 +104,7 @@
 }
 
 .document-upload-button {
+  cursor: pointer;
   cursor: hand;
   color: #0058a8;
   font-size: 15px;
@@ -121,7 +122,6 @@
     background: transparent url(image_path('upload_arrow.png')) no-repeat center right;
   }
   &:hover {
-    cursor: hand;
     background: transparent;
     color: #273542;
     text-decoration: none;
@@ -132,6 +132,7 @@
 .document-upload-button-container {
   min-width: 110px;
   display: inline-block;
+  cursor: pointer;
   cursor: hand;
 }
 
