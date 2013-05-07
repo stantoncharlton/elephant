@@ -41,6 +41,17 @@
     <div class='alert'>
       <b>Select the type of job to create</b>
     </div>
+    <% if @product_line.present? %>
+        <div class="content">
+          Filter by tools:
+          <% @product_line.primary_tools.each do |primary_tool| %>
+            <span>
+                <p class="checkbox-label"><%= primary_tool.name %></p>
+            </span>
+          <% end %>
+          <hr>
+        </div>
+    <% end %>
     <div id="job_templates_list" class="">
       <% if @job_templates.present? and @job_templates.any? %>
           <%= render 'job_templates/job_templates_list', job_templates: @job_templates, job_template: @job.job_template %>

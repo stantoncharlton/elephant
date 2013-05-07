@@ -79,7 +79,7 @@ class JobsController < ApplicationController
         @job = Job.new
         @job.district = current_user.district
 
-        if !@job.district.nil?
+        if !@job.district.nil? && !@job.district.master_district.nil?
             @fields = []
             @job.district.master_district.districts.includes(:fields).each do |d|
                 d.fields.each do |field|
@@ -210,7 +210,7 @@ class JobsController < ApplicationController
                 end
             end
 
-            if !@job.district.nil?
+            if !@job.district.nil? && !@job.district.master_district.nil?
                 @fields = []
                 @job.district.master_district.districts.each do |d|
                     d.fields.each do |field|
