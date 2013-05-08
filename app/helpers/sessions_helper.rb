@@ -19,13 +19,25 @@ module SessionsHelper
         !current_user.nil? && (current_user.admin? || current_user.elephant_admin?)
     end
 
-
     def current_user=(user)
         @current_user = user
     end
 
     def current_user
-        @current_user ||= User.find_by_remember_token(cookies[:remember_token])
+        if @current_user
+            @current_user
+        else
+            @current_user ||= User.find_by_remember_token(cookies[:remember_token])
+            if @current_user.nil? && !request.headers['x-access-token'].blank?
+                api_key = ApiKey.find_by_access_token(request.headers['x-access-token'])
+                if api_key.present? && api_key.user_id == request.headers['x-user'].to_i
+                    @api_request = true
+                    @current_user ||= api_key.user
+                    self.current_user = @current_user
+                    return @current_user
+                end
+            end
+        end
     end
 
     def current_user?(user)
@@ -52,7 +64,7 @@ module SessionsHelper
             }
             format.js {
                 store_last_location
-                render 'sessions/redirect_to_login', :layout=>false
+                render 'sessions/redirect_to_login', :layout => false
             }
         end
     end

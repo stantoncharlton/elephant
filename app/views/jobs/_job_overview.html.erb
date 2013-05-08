@@ -1,22 +1,38 @@
 <div class="">
 
+  <% if job.failures.any? %>
 
-  <div class="chart-block tooltip-info"
-       data-title="Job Rating is a score from 1-5 of the job performance">
-    <div class="chart-title">Rating</div>
-    <div class="donut-chart-div job-donut-chart-div rating-count-div">
-        <%= render 'failures/rating', rating: job.rating %>
-    </div>
-  </div>
+      <div class="chart-block tooltip-info"
+           data-title="Job Rating is a score from 1-5 of the job performance">
+        <div class="chart-title">Rating</div>
+        <div class="donut-chart-div job-donut-chart-div rating-count-div">
+          <%= render 'failures/rating', rating: job.rating %>
+        </div>
+      </div>
 
 
-  <div class="chart-block">
-    <div class="chart-title">Failures</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text chart-text-red failure-count"><%= job.failures.count.to_s %></div>
-      <div class="percentage "></div>
-    </div>
-  </div>
+      <div class="chart-block">
+        <div class="chart-title">Failures</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text-red failure-count"><%= job.failures.count %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+  <% else %>
+
+      <div class="alert">
+        <h3>Warning, past failures on this job type to avoid!</h3>
+        <br>
+        <% jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 0", job_template_id: job.job_template_id).select("jobs.id").to_sql %>
+        <% failures = Failure.includes(:failure_master_template).where("failures.job_id IN (#{jobs_query})").order("COUNT(failures.failure_master_template_id) DESC").select("failures.*, DISTINCT failures.failure_master_template_id").group("failures.failure_master_template_id").count() %>
+        <% if failures.any? %>
+            <% failures.each do |failure_group| %>
+                <div><%= Failure.find_by_id(failure_group[0]).text %>&nbsp;&nbsp;<b class='blue-text'><%= failure_group[1] %></b>
+                </div>
+            <% end %>
+        <% end %>
+      </div>
+  <% end %>
 
   <div class="chart-block chart-block-extended">
     <div class="">
@@ -25,13 +41,16 @@
                   id: "add_failure",
                   "data-placement" => "bottom",
                   "data-title" => "Add failure to job type" %>
-      <br>
-      <br>
+      <% if job.failures.any? %>
+          <br>
+          <br>
+      <% end %>
     </div>
     <div class="failures-list">
       <%= render 'jobs/job_failure_list', job: @job %>
     </div>
   </div>
+
 
 </div>
 

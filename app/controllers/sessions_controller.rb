@@ -26,12 +26,21 @@ class SessionsController < ApplicationController
                     end
                 }
                 format.xml {
-                    sign_in(user, params[:session]["stay_logged_in"] == "1")
-                    render xml: user, except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password]
+
+                    render xml: user,
+                           :methods => [:api_key],
+                           except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password, :unverified_network, :verified_networks, :network_access_code, :accepted_tou]
                 }
             end
         else
-            redirect_to root_path(email: @email), :flash => {:error => "Invalid email/password combination"}
+            respond_to do |format|
+                format.html {
+                    redirect_to root_path(email: @email), :flash => {:error => "Invalid email/password combination"}
+                }
+                format.xml {
+                    render :nothing => true, :status => :unauthorized
+                }
+            end
         end
     end
 

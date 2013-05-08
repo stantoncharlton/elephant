@@ -215,7 +215,7 @@ class Job < ActiveRecord::Base
     end
 
     def recent_activity(recent_date)
-        Activity.activities_for_job(self).where("activities.created_at > ?", (recent_date - 1.day))
+        Activity.activities_for_job(self).includes(:target, :job, :user).where("activities.created_at > ?", (recent_date - 1.day))
     end
 
     def other_jobs
@@ -277,7 +277,7 @@ class Job < ActiveRecord::Base
     end
 
     def get_role(role)
-        membership = self.job_memberships.find { |jm| jm.job_role_id == role.to_i }
+        membership = self.job_memberships.includes(:user, :job).find { |jm| jm.job_role_id == role.to_i }
         if !membership.nil?
             return membership.user
         end

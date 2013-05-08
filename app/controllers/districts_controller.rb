@@ -19,7 +19,12 @@ class DistrictsController < ApplicationController
                 master = params[:master].present? ? params[:master] == "true" : false
                 @districts = District.search(params, current_user.company, master).results
 
-                puts @districts.count.to_s + "................"
+                if @districts.empty?
+                    @districts << District.new
+                    render json: @districts.map { |district| {:value => "No district found...", :name => "", :id => -1, :country => ""} }
+                    return
+                end
+
                 if params[:q].present?
                     render json: @districts.map { |district| {:name => district.name + " (" + district.region + " / " + district.country + " / " + district.state + " " + district.city + ")", :id => district.id} }
                 else

@@ -65,7 +65,7 @@ class FailuresController < ApplicationController
                 end
             end
 
-            if !@rating.nil?
+            if !@rating.blank?
                 @job.update_attribute(:rating, @rating.to_i)
                 Activity.add(self.current_user, Activity::JOB_RATING, @job, @rating.to_i, @job)
             end

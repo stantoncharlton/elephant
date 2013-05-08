@@ -18,10 +18,16 @@ class ClientsController < ApplicationController
 
                 @clients = Client.search(params, current_user.company).results
 
+                if @clients.empty?
+                    @clients << Client.new
+                    render json: @clients.map { |client| {:value => "No customer found...", :name => "", :id => -1, :country => ""} }
+                    return
+                end
+
                 if params[:q].present?
-                    render json: @clients.map { |client| {:name => client.name, :id => client.id} }
+                    render json: @clients.map { |client| {:name => client.name, :id => client.id, :country => client.country.present? ? client.country.name : ""} }
                 else
-                    render json: @clients.map { |client| {:label => client.name, :id => client.id} }
+                    render json: @clients.map { |client| {:label => client.name, :id => client.id, :country => client.country.present? ? client.country.name : ""} }
                 end
             }
         end

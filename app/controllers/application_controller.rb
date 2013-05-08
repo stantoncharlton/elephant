@@ -16,19 +16,10 @@ class ApplicationController < ActionController::Base
 
 
     def session_expiry
-        respond_to do |format|
-            format.xml {
-                # Ignore desktop session timeout
-            }
-            format.js {
-                get_session_time_left
-            }
-            format.json {
-                get_session_time_left
-            }
-            format.html {
-                get_session_time_left
-            }
+        if !request.headers['x-access-token'].blank? && current_user
+
+        else
+            get_session_time_left
         end
     end
 
@@ -45,9 +36,9 @@ class ApplicationController < ActionController::Base
     end
 
     def accept_terms_of_use
-       if signed_in? and !current_user.accepted_tou?
-           redirect_to terms_of_use_path
-       end
+        if signed_in? and !current_user.accepted_tou?
+            redirect_to terms_of_use_path
+        end
     end
 
 
@@ -75,14 +66,14 @@ class ApplicationController < ActionController::Base
         raise ActionController::RoutingError.new('Not Found')
     end
 
-private
+    private
 
     def set_user_time_zone
         Time.zone = current_user.time_zone.present? ? current_user.time_zone : "Central Time (US & Canada)" if signed_in?
     end
 
     def set_locale
-        puts  request.env["HTTP_ACCEPT_LANGUAGE"]
+        puts request.env["HTTP_ACCEPT_LANGUAGE"]
         I18n.locale = params[:locale] if params[:locale].present?
         # current_user.locale
         # request.subdomain

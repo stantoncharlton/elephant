@@ -77,7 +77,7 @@
                class="overview-time-filter custom-data-toggle tooltip-info"
                data-time="all"
                data-placement="bottom"
-               data-title="Jobs performed in the last year">All time</a>
+               data-title="Jobs performed at any time in the past">All time</a>
           </li>
           <li class=" <%= @time == "30" ? "active" : "" %> push-right-small">
             <a href="#"
@@ -91,21 +91,21 @@
                class="overview-time-filter custom-data-toggle tooltip-info"
                data-time="previous 30"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">30-60 days</a>
+               data-title="Jobs performed in the last 30-60 days">30-60 days</a>
           </li>
           <li class=" <%= @time == "60" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-time-filter custom-data-toggle tooltip-info"
                data-time="60"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">0-60 days</a>
+               data-title="Jobs performed in the last 0-60 days">0-60 days</a>
           </li>
           <li class=" <%= @time == "year" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-time-filter custom-data-toggle tooltip-info"
                data-time="year"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">Last 12 months</a>
+               data-title="Jobs performed in the last 12 months">Last 12 months</a>
           </li>
         </ul>
 
@@ -124,42 +124,42 @@
                class="overview-rating-filter custom-data-toggle tooltip-info"
                data-rating="all"
                data-placement="bottom"
-               data-title="Jobs performed in the last year">All rating levels</a>
+               data-title="Jobs with any star rating level">All rating levels</a>
           </li>
           <li class=" <%= @rating == "1" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-rating-filter custom-data-toggle tooltip-info"
                data-rating="1"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">1 star</a>
+               data-title="Jobs with 1 star rating level">1 star</a>
           </li>
           <li class=" <%= @rating == "2" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-rating-filter custom-data-toggle tooltip-info"
                data-rating="2"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">2 star</a>
+               data-title="Jobs with 2 star rating level">2 star</a>
           </li>
           <li class=" <%= @rating == "3" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-rating-filter custom-data-toggle tooltip-info"
                data-rating="3"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">3 star</a>
+               data-title="Jobs with 3 star rating level">3 star</a>
           </li>
           <li class=" <%= @rating == "4" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-rating-filter custom-data-toggle tooltip-info"
                data-rating="4"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">4 star</a>
+               data-title="Jobs with 4 star rating level">4 star</a>
           </li>
           <li class=" <%= @rating == "5" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-rating-filter custom-data-toggle tooltip-info"
                data-rating="5"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">5 star</a>
+               data-title="Jobs with 5 star rating level">5 star</a>
           </li>
         </ul>
 
@@ -178,28 +178,35 @@
                class="overview-failure-filter custom-data-toggle tooltip-info"
                data-failure="all"
                data-placement="bottom"
-               data-title="Jobs performed in the last year">All failure levels</a>
+               data-title="Jobs with any number of failures or without failures">All failure levels</a>
+          </li>
+          <li class=" <%= @failure_level == "0" ? "active" : "" %> push-right-small">
+            <a href="#"
+               class="overview-failure-filter custom-data-toggle tooltip-info"
+               data-failure="0"
+               data-placement="bottom"
+               data-title="Jobs with 0 failures">0 failures</a>
           </li>
           <li class=" <%= @failure_level == "1" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-failure-filter custom-data-toggle tooltip-info"
                data-failure="1"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">1 failure</a>
+               data-title="Jobs with 1 failure">1 failure</a>
           </li>
           <li class=" <%= @failure_level == "2" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-failure-filter custom-data-toggle tooltip-info"
                data-failure="2"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">2 failures</a>
+               data-title="Jobs with 2 failures">2 failures</a>
           </li>
           <li class=" <%= @failure_level == "3" ? "active" : "" %> push-right-small">
             <a href="#"
                class="overview-failure-filter custom-data-toggle tooltip-info"
                data-failure="3"
                data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">3+ failures</a>
+               data-title="Jobs with 3 or more failures">3+ failures</a>
           </li>
         </ul>
       </div>
@@ -325,16 +332,7 @@
   </div>
 </div>
 
-<div class="chart-block tooltip-info"
-     data-title="'Elephant Utilization' is the utilization of Elephant compared to all jobs by your organization.">
-  <div class="chart-title">Elephant Utilization</div>
-  <div class="donut-chart-div">
-    <div id="elephant_utilization" class="donut-chart "></div>
-    <div class="donut-inner-circle"></div>
-    <div class="donut-text ">67</div>
-    <div class="percentage-circle ">%</div>
-  </div>
-</div>
+
 
 
 <script>
@@ -368,29 +366,6 @@
             }
         });
 
-        var plot3 = $.jqplot('elephant_utilization', [
-            [
-                ['a', 67],
-                ['b', 100 - 67]
-            ]
-        ], {
-            animate:true,
-            background:"#FFFFFF",
-            seriesColors:[ "#458fd2", "#FFFFFF"],
-            seriesDefaults:{
-                textColor:" #00ff0000",
-                shadow:false,
-                renderer:$.jqplot.DonutRenderer,
-                rendererOptions:{
-                    padding:0,
-                    innerDiameter:95,
-                    sliceMargin:0,
-                    startAngle:-90,
-                    showDataLabels:true,
-                    dataLabels:'value'
-                }
-            }
-        });
 
         plot3 = $.jqplot('failure_rate', [
             [
@@ -442,15 +417,15 @@
 
         $('#person_filter').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a><div><img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'></div><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a>").appendTo(ul)
+                    "<a>" + (item.id > 0 ? "<div><img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
         }
         $('#division_filter').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a><div><img src='/assets/division_extrasmall.png' class='job-member-avatar pull-left'></div><div class='job-user'><strong>" + item.name + " </strong><div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div></div></a>").appendTo(ul)
+                    "<a>" + (item.id > 0 ? "<div><img src='/assets/division_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.name + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div>" : "") + "</div></a>").appendTo(ul)
         }
         $('#district_filter').data("autocomplete")._renderItem = function (ul, item) {
             return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a><div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div><div><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></div></a>").appendTo(ul)
+                    "<a>" + (item.id > 0 ? "<div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
         }
     });
 </script>

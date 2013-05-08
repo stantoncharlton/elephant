@@ -13,8 +13,9 @@ $ ->
     source: $('#district_name').data('autocomplete-source')
     focus: focusevent
     select: (event, ui) ->
-      $("#district_name").val(ui.item.label)
-      $("#district_id").val(ui.item.id).trigger("change")
+      if ui.item.id > 0
+        $("#district_name").val(ui.item.label)
+        $("#district_id").val(ui.item.id).trigger("change")
 
   district_focused = false
   $('#district_name').focusin ->

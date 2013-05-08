@@ -160,6 +160,13 @@ class User < ActiveRecord::Base
         end
     end
 
+    def api_key
+        key = ApiKey.new
+        key.user = self
+        key.save
+        key.access_token
+    end
+
 
     private
 
@@ -176,5 +183,7 @@ class User < ActiveRecord::Base
             self.remember_token = SecureRandom.urlsafe_base64
         end
     end
+
+
 
 end

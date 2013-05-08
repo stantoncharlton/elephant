@@ -12,8 +12,9 @@ $ ->
     source: $('#client_name').data('autocomplete-source')
     focus: focusevent
     select: (event, ui) ->
-      $("#client_name").val(ui.item.label)
-      $("#client_id").val(ui.item.id)
+      if ui.item.id > 0
+        $("#client_name").val(ui.item.label)
+        $("#client_id").val(ui.item.id)
 
   client_focused = false
   $('#client_name').focusin ->
