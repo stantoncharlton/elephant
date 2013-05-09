@@ -1,6 +1,6 @@
 <% if job_templates.includes(:product_line).first.product_line.present? %>
     <div class="content">
-      Filter by tools:
+      Filter by tools »
       <% job_templates.first.product_line.primary_tools.each do |primary_tool| %>
           <a class="tool-type-selection" data-primary-tool="<%= primary_tool.id %>"><%= primary_tool.name %></a>
       <% end %>
