@@ -20,18 +20,18 @@
       </div>
   <% else %>
 
-      <div class="alert">
-        <h3>Warning, past failures on this job type to avoid!</h3>
-        <br>
-        <% jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 0", job_template_id: job.job_template_id).select("jobs.id").to_sql %>
-        <% failures = Failure.includes(:failure_master_template).where("failures.job_id IN (#{jobs_query})").order("COUNT(failures.failure_master_template_id) DESC").select("failures.*, DISTINCT failures.failure_master_template_id").group("failures.failure_master_template_id").count() %>
-        <% if failures.any? %>
+      <% jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 0", job_template_id: job.job_template_id).select("jobs.id").to_sql %>
+      <% failures = Failure.includes(:failure_master_template).where("failures.job_id IN (#{jobs_query})").order("COUNT(failures.failure_master_template_id) DESC").select("failures.*, DISTINCT failures.failure_master_template_id").group("failures.failure_master_template_id").count() %>
+      <% if failures.any? %>
+          <div class="alert">
+            <h3>Warning, past failures on this job type to avoid!</h3>
+            <br>
             <% failures.each do |failure_group| %>
                 <div><%= Failure.find_by_id(failure_group[0]).text %>&nbsp;&nbsp;<b class='blue-text'><%= failure_group[1] %></b>
                 </div>
             <% end %>
-        <% end %>
-      </div>
+          </div>
+      <% end %>
   <% end %>
 
   <div class="chart-block chart-block-extended">
