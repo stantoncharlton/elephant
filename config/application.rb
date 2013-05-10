@@ -62,5 +62,7 @@ module ElephantWebApp
 
     config.active_record.observers = :user_observer
 
+    config.cache_store = :dalli_store
+
   end
 end

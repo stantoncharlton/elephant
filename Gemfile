@@ -21,6 +21,7 @@ gem 'saasposesdk'
 gem 'rest-client'
 
 gem "unicorn"
+gem 'dalli'
 gem 'newrelic_rpm'
 
 # Bundle edge Rails instead:
