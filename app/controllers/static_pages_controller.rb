@@ -6,6 +6,14 @@ class StaticPagesController < ApplicationController
     skip_before_filter :session_expiry, only: [:home, :features, :about, :sales]
     skip_before_filter :update_activity_time, only: [:home, :features, :about, :sales]
 
+    caches_action :home
+    caches_action :help
+    caches_action :features
+    caches_action :about
+    caches_action :sales
+    caches_action :terms_of_use
+    caches_action :tutorial
+
     def home
         respond_to do |format|
             format.html {
