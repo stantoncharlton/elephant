@@ -435,7 +435,7 @@ class DynamicField < ActiveRecord::Base
     def units
         units = Array.new
 
-        units << ["String", STRING]
+        units << ["Text", STRING]
         units << ["Length | Feet", LENGTH_FT]
         units << ["Length | Inches", LENGTH_IN]
         units << ["Length | Meters", LENGTH_M]

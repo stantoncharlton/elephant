@@ -1,0 +1,19 @@
+<div class="alert">
+  <h3>Warning, past failures on this job type to avoid!</h3>
+  <br>
+  <% failures.each do |failure| %>
+      <div>
+        <span class='label label-warning'><%= failure[1].count - 1 %></span>
+        &nbsp;
+        <%= failure[0].text %>
+
+        <% failure[1].each_with_index do |f, index| %>
+            <% if !f.job.nil? %>
+                <%= render 'activities/job_description', job: f.job, inside_job: false %>
+                <%= index < failure[1].count - 1 ? " - " : "" %>
+            <% end %>
+        <% end %>
+
+      </div>
+  <% end %>
+</div>

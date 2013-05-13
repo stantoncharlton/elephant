@@ -78,6 +78,7 @@ $ ->
     tray = $(this).attr('data-tray')
     $(".job-tray[data-tray=" + tray + "]").removeClass 'custom-data-closed'
     document.location.hash = tray;
+    $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
     return false
 
   $('.job-tray-toggle').click ->

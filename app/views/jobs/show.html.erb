@@ -111,6 +111,12 @@
                 type:"GET",
                 dataType:"script"
             });
+
+            $.ajax({
+                url:"/failures/" + <%= @job.job_template_id.to_s %>,
+                type:"GET",
+                dataType:"script"
+            });
         });
     }(jQuery));
 </script>

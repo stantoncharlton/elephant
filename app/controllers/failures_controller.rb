@@ -1,5 +1,5 @@
 class FailuresController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :create]
+    before_filter :signed_in_user, only: [:index, :create, :show]
     before_filter :signed_in_admin, only: [:new, :update, :destroy]
 
     def index
@@ -7,6 +7,22 @@ class FailuresController < ApplicationController
         not_found unless @job.company == current_user.company
 
         @rate = params[:rate]
+    end
+
+    def show
+        not_found unless JobTemplate.find_by_id(params[:id]).company == current_user.company
+
+        jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 0", job_template_id: params[:id]).select("jobs.id").to_sql
+        failure_groups = Failure.includes(:failure_master_template).where("failures.job_id IN (#{jobs_query})").order("COUNT(failures.failure_master_template_id) DESC").select("failures.*, DISTINCT failures.failure_master_template_id").group("failures.failure_master_template_id").count()
+
+        @failures = []
+
+        failure_groups.each do |fg|
+            master =  Failure.find_by_id(fg[0])
+            @failures << [master, Failure.where("failure_master_template_id = ?", master.id).limit(3)]
+        end
+
+
     end
 
     def new

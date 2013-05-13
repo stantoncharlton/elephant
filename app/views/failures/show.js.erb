@@ -1,0 +1,6 @@
+$('#failure_warnings').find('*').remove();
+
+$('#failure_warnings').append('<%= j render 'failures/failure_warnings', failures: @failures %>');
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches)
+    $('.activity-user-link').tooltip();
