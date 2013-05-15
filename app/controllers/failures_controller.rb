@@ -21,7 +21,7 @@ class FailuresController < ApplicationController
         failure_groups.each do |fg|
             master = Failure.find_by_id(fg[0])
             failure_list = Failure.where("failure_master_template_id = ?", master.id).limit(3)
-            failure_list.select! { |f| f.job_id != job.id }
+            failure_list.select! { |f| f.job_id.present? && f.job_id != job.id }
             if failure_list.any?
                 @failures << [master, failure_list]
             end

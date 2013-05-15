@@ -9,10 +9,8 @@
             <%= failure[0].text %>
 
             <% failure[1].each_with_index do |f, index| %>
-                <% if !f.job.nil? %>
-                    <%= render 'activities/job_description', job: f.job, inside_job: false %>
-                    <%= index < failure[1].count - 1 ? " - " : "" %>
-                <% end %>
+                <%= render 'activities/job_description', job: f.job, inside_job: false %>
+                <%= index < failure[1].count - 2 ? " - " : "" %>
             <% end %>
 
           </div>
