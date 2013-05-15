@@ -45,7 +45,7 @@
 </div>
 
 <div id="new_alerts" class="list">
-  <%= render @new_alerts %>
+  <%= render @new_alerts, new: true %>
 </div>
 
 
@@ -60,7 +60,7 @@
 
 
     <div id="old_alerts" class="list">
-      <%= render @old_alerts %>
+      <%= render @old_alerts, new: false %>
     </div>
 <% end %>
 

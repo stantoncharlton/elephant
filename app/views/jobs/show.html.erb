@@ -114,7 +114,7 @@
 
             <% if @job.status == Job::ACTIVE %>
             $.ajax({
-                url:"/failures/" + <%= @job.job_template_id.to_s %>,
+                url:"/failures/" + <%= @job.id.to_s %>,
                 type:"GET",
                 dataType:"script"
             });
