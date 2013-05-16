@@ -75,7 +75,19 @@
         <% if signed_in_admin? %>
             <%= render 'layouts/admin_tab' %>
         <% elsif signed_in? %>
-            <%= render 'layouts/user_tab' %>
+            <div class="inline">
+              <%= render 'layouts/user_tab' %>
+
+              <div class="alerts-icon-container">
+                <% if !current_user.alerts.where("alert_type != 3").empty? %>
+                    <div class="messages-icon-alert">
+                      <p><%= current_user.alerts.where("alert_type != 3").count %></p>
+                    </div>
+                <% end %>
+              </div>
+
+            </div>
+
 
             <div class="messages-icon-container tooltip-info"
                  data-placement="bottom"
