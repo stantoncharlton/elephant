@@ -17,11 +17,7 @@
         <% if new %>
             <%= render 'jobs/job', job: alert.job %>
         <% else %>
-            <%= link_to alert.job, class: "job-status job-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Click to open job" do %>
-                <%= render 'jobs/job_progress', job: alert.job, show_summary_data: true, job_name: false %>
-            <% end %>
+            <%= render 'jobs/job_data_small', job: alert.job %>
         <% end %>
     <% end %>
 
@@ -33,11 +29,7 @@
         <% if new %>
             <%= render 'jobs/job', job: alert.job %>
         <% else %>
-            <%= link_to alert.job, class: "job-status job-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Click to open job" do %>
-                <%= render 'jobs/job_progress', job: alert.job, show_summary_data: true, job_name: false %>
-            <% end %>
+            <%= render 'jobs/job_data_small', job: alert.job %>
         <% end %>
         <br><br>
     <% end %>
@@ -49,11 +41,7 @@
         <% if new %>
             <%= render 'jobs/job', job: alert.job %>
         <% else %>
-            <%= link_to alert.job, class: "job-status job-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Click to open job" do %>
-                <%= render 'jobs/job_progress', job: alert.job, show_summary_data: true, job_name: false %>
-            <% end %>
+            <%= render 'jobs/job_data_small', job: alert.job %>
         <% end %>
         <br>
     <% end %>

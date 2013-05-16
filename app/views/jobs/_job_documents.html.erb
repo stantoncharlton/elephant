@@ -4,7 +4,7 @@
 
     <% if !job.post_job_report_document.nil? && !job.post_job_report_document.url.nil? %>
         <div class="pull-right">
-          <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn" %>
+          <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn", target: "_blank" %>
         </div>
     <% end %>
     <% if @job_editable %>
