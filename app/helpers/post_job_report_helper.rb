@@ -41,9 +41,9 @@ def convert(document)
 
         begin
             case File.extname(document.url).downcase
-                when ".xls", ".xlsx"
+                when ".xls", ".xlsx", ".xlsm", ".xltx", ".xltm", ".xlsb", ".xlam", ".xll"
                     oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
-                when ".doc", ".docx"
+                when ".doc", ".docx", ".rtf", ".txt", ".docm", ".dotx", ".dotm"
                     oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"
                 when ".pdf"
                     return "elephant-docs/#{File.dirname(document.url)}/#{File.basename(document.url, '.*')}.pdf"

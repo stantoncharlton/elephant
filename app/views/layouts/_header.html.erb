@@ -79,9 +79,10 @@
               <%= render 'layouts/user_tab' %>
 
               <div class="alerts-icon-container">
-                <% if !current_user.alerts.where("alert_type != 3").empty? %>
+                <% new_alerts_count = current_user.new_alerts.count %>
+                <% if new_alerts_count > 0 %>
                     <div class="messages-icon-alert">
-                      <p><%= current_user.alerts.where("alert_type != 3").count %></p>
+                      <p><%= new_alerts_count %></p>
                     </div>
                 <% end %>
               </div>

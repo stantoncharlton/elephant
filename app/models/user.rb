@@ -88,6 +88,10 @@ class User < ActiveRecord::Base
         jobs.where("jobs.status != :active", active: Job::ACTIVE)
     end
 
+    def new_alerts
+        self.alerts.includes(:company, :created_by, :user, :target).includes(job: { job_template: { primary_tools: :tool } }).where("alert_type != 3 AND expiration is NULL")
+    end
+
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("name ASC")
     end
