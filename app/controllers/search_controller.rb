@@ -3,7 +3,7 @@ class SearchController < ApplicationController
 
 
     require 'will_paginate/array'
-    require 'axlsx'
+    include JobsExportHelper
 
     def index
 
@@ -21,25 +21,9 @@ class SearchController < ApplicationController
                 end
             end
             format.xlsx do
-
-                p = Axlsx::Package.new
-                wb = p.workbook
-
                 @jobs = Job.search(current_user, params, current_user.company).results
-
-                wb.add_worksheet(:name => "Job Search") do |sheet|
-                    #sheet.add_row ['Month', 'Year', 'Type', 'Sales', 'Region']
-                    #30.times { sheet.add_row [month, year, type, sales, region] }
-
-                    columns = Job.new.attributes.map { |j| Job.human_attribute_name(j[0]) }
-                    sheet.add_row columns
-
-                    @jobs.each do |job|
-                        sheet.add_row job.attributes.map { |j| j[1] }
-                    end
-                end
-
-                send_data p.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+                excel = to_excel @jobs
+                send_data excel.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             end
             format.js do
                 @div_name = params["div_name"]
