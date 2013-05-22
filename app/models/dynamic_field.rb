@@ -10,6 +10,8 @@ class DynamicField < ActiveRecord::Base
                     :predefined,
                     :ordering
 
+    acts_as_xlsx
+
     validates_presence_of :name
     #validates_inclusion_of :value_type_conversion , :in => %w(to_s to_i to_f to_b)
     validates :company, presence: true

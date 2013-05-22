@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508200806) do
+ActiveRecord::Schema.define(:version => 20130520155551) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -427,6 +427,7 @@ ActiveRecord::Schema.define(:version => 20130508200806) do
     t.integer  "product_line_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "description"
   end
 
   add_index "tools", ["company_id"], :name => "index_tools_on_company_id"

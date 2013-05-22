@@ -7,6 +7,7 @@ class Job < ActiveRecord::Base
                     :rating
 
     include PostJobReportHelper
+    acts_as_xlsx
 
 
     validates_presence_of :company

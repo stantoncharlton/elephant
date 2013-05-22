@@ -3,6 +3,7 @@ class SearchController < ApplicationController
 
 
     require 'will_paginate/array'
+    require 'axlsx'
 
     def index
 
@@ -18,12 +19,42 @@ class SearchController < ApplicationController
                     @fields = Field.search(params, current_user.company).results.take(3)
                     @wells = Well.search(params, current_user.company).results.take(3)
                 end
+            end
+            format.xlsx do
 
+                p = Axlsx::Package.new
+                wb = p.workbook
+
+                @jobs = Job.search(current_user, params, current_user.company).results
+
+                wb.add_worksheet(:name => "Job Search") do |sheet|
+                    #sheet.add_row ['Month', 'Year', 'Type', 'Sales', 'Region']
+                    #30.times { sheet.add_row [month, year, type, sales, region] }
+
+                    columns = Job.new.attributes.map { |j| Job.human_attribute_name(j[0]) }
+                    sheet.add_row columns
+
+                    @jobs.each do |job|
+                        sheet.add_row job.attributes.map { |j| j[1] }
+                    end
+                end
+
+                send_data p.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             end
             format.js do
                 @div_name = params["div_name"]
                 @hide_job_type = false
                 @data_type = params[:data_type].to_i
+
+                if params[:division]
+                    @division = Division.find_by_id(params[:division])
+                    not_found unless @division.company == current_user.company
+                end
+                if params[:segment]
+                    @segment = Segment.find_by_id(params[:segment])
+                    not_found unless @segment.company == current_user.company
+                end
+
 
                 if params[:product_line]
                     @product_line = ProductLine.find_by_id(params[:product_line])
@@ -185,7 +216,7 @@ class SearchController < ApplicationController
             index += 1
         end
 
-        @jobs = Job.advanced_search(@query, current_user.company).includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
+        @jobs = Job.advanced_search(@query, current_user.company).includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).paginate(page: params[:page], limit: 20)
     end
 
 end

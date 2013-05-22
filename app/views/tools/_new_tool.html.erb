@@ -11,17 +11,30 @@
 <br>
 <br>
 
-<%= form_for tool, remote: true do |f| %>
+<div class="ajax-form">
+  <%= form_for tool, remote: true do |f| %>
 
-    <%= f.hidden_field :division_id, value: tool.division ? tool.division.id : nil %>
-    <%= f.hidden_field :product_line_id, value: tool.product_line ? tool.product_line.id : nil %>
+      <%= f.hidden_field :division_id, value: tool.division ? tool.division.id : nil %>
+      <%= f.hidden_field :product_line_id, value: tool.product_line ? tool.product_line.id : nil %>
 
-    <%= f.text_field :name,
-                     autofocus: true,
-                     placeholder: "Name of tool",
-                     class: "txtfield" %>
+      <%= f.text_field :name,
+                       autofocus: true,
+                       placeholder: "Name of tool",
+                       class: "txtfield" %>
 
-    <div class="content actions">
-      <%= f.submit "Create Tool", class: "bluebtn pull-right" %>
-    </div>
-<% end %>
+      <%= f.text_field :description,
+                       placeholder: "Description of tool",
+                       class: "txtfield" %>
+
+      <div class="content actions">
+        <%= f.submit "Create Tool", class: "bluebtn pull-right ajax-form-loading-on-click" %>
+      </div>
+  <% end %>
+</div>
+
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Creating tool...</b></span>
+  <br>
+</div>

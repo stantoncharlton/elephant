@@ -3,15 +3,21 @@
     <div class="secondary-tool-name">
       <%= image_tag "tool.png" %>
       <h3 class="push-right-small"><%= tool.tool.name %></h3>
+
     </div>
 
     <% if is_editable %>
-        <div class="push-right">
+        <div class="pull-right">
           <%= link_to "remove", tool, method: :delete, remote: true,
                       data: {confirm: "Remove Secondary Tool " + tool.tool.name + "?"}, class: "delete-button tooltip-info",
                       "data-placement" => "bottom",
                       "data-title" => "Delete " + tool.tool.name + " from division" %>
         </div>
     <% end %>
+
+    <div>
+      <p><%= tool.tool.description %></p>
+    </div>
+
   </div>
 </fieldset>

@@ -1,5 +1,6 @@
 class Tool < ActiveRecord::Base
-    attr_accessible :name
+    attr_accessible :name,
+                    :description
 
     validates :name, presence: true, length: {maximum: 100}
     validates_uniqueness_of :name, :case_sensitive => false, :scope => [:division_id, :product_line_id]

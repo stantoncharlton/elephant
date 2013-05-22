@@ -1,6 +1,12 @@
 .primary-tool-name {
   width: 780px;
   display: inline-block;
+  text-wrap: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: normal;
+  font-size: 12px;
 }
 
 .tools-division-list {
@@ -11,6 +17,20 @@
 .secondary-tool-name {
   width: 560px;
   display: inline-block;
+  text-wrap: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: normal;
+  font-size: 12px;
+
+}
+
+.tool-description {
+  display: inline;
+  text-wrap: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .secondary-tools-div {

@@ -65,6 +65,12 @@ $ ->
     if $(this).val() == '2' || $(this).val() == '1' || $(this).val() == '5' || $(this).val() == '6'
       $.ajax '/search?data_type=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
+  $('.search-constraint-division-select').live "change", ->
+    $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&division=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
+
+  $('.search-constraint-segment-select').live "change", ->
+    $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&segment=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
+
   $('.search-constraint-product-line-select').live "change", ->
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&product_line=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 

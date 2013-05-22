@@ -162,7 +162,11 @@ $ ->
     return false
 
 
-  $('.form-loading-on-click').click ->
+  $('.form-loading-on-click').live "click", ->
     $('.loading').removeClass 'hidden'
     $('.form').hide()
     $('body').animate({scrollTop : 0},'slow');
+
+  $('.ajax-form-loading-on-click').live "click", ->
+    $('.ajax-loading').removeClass 'hidden'
+    $('.ajax-form').hide()

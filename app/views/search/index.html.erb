@@ -21,6 +21,24 @@
     <% end %>
   </div>
 
+
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Export Results
+    </a>
+    <ul class="dropdown-menu">
+
+      <li>
+        <%= link_to "Export as Excel", request.url + "&format=xlsx", target: "_blank",
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Export results as Microsoft Excel file." %>
+      </li>
+
+
+    </ul>
+  </div>
+
 </div>
 
 <% if @districts.count > 0 %>

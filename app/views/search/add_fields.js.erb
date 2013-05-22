@@ -59,6 +59,22 @@
     $("#<%= @div_name %>").find('.search-constraint-second').hide();
     $("#<%= @div_name %>").find('.search-job-type').show();
 
+    <% if !@division.nil? %>
+
+        var $pl = $("#<%= @div_name %>").find('.search-constraint-segment-select');
+        $pl.css("display", "inline");
+        var $select = $pl.find('select');
+        $select.find('option:gt(0)').remove();
+
+        <% @division.segments.each do |pl| %>
+            $select.append($("<option></option>")
+                .attr("value", '<%= pl.id %>')
+                .text('<%= pl.name %>'));
+        <% end %>
+
+        $("#<%= @div_name %>").find(".search-constraint-segment-select").prop('selectedIndex', '0');
+
+    <% end %>
     <% if !@product_lines.nil? %>
 
         var $pl = $("#<%= @div_name %>").find('.search-constraint-product-line');

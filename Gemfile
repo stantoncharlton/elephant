@@ -19,6 +19,7 @@ gem 'delayed_job_active_record'
 gem 'roadie'
 gem 'saasposesdk'
 gem 'rest-client'
+gem 'acts_as_xlsx'
 
 gem "unicorn"
 gem 'dalli'
