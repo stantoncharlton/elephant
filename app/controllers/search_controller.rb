@@ -163,23 +163,34 @@ class SearchController < ApplicationController
         @query.constraints = Array.new
         index = 0
 
+        @params_query = params["query"]
+
+        @constraints = params["query"]["constraints"]
+        puts @constraints
+        if @constraints == "constraints"
+            puts "helllll"
+            @constraints = params["query"].to_json
+            @constaints = @constraints["value"]["constraints"]
+            puts @constraints
+        end
+
         while true do
             if  params["query"]["constraints"][index.to_s].present?
 
 
                 constraint = Constraint.new
-                constraint.data_type = params["query"]["constraints"][index.to_s]["data_type"].to_i
-                constraint.job_template = params["query"]["constraints"][index.to_s]["job_template"]
-                constraint.field = params["query"]["constraints"][index.to_s]["field"]
-                constraint.operator = params["query"]["constraints"][index.to_s]["operator"]
-                constraint.value = params["query"]["constraints"][index.to_s]["value"]
-                if params["query"]["constraints"][index.to_s]["field"] == "offshore"
+                constraint.data_type = @constraints[index.to_s]["data_type"].to_i
+                constraint.job_template = @constraints[index.to_s]["job_template"]
+                constraint.field = @constraints[index.to_s]["field"]
+                constraint.operator = @constraints[index.to_s]["operator"]
+                constraint.value = @constraints[index.to_s]["value"]
+                if @constraints[index.to_s]["field"] == "offshore"
                     constraint.operator = "1"
                     constraint.value = "t"
                 end
-                constraint.units = params["query"]["constraints"][index.to_s]["units"]
-                constraint.client_id = params["query"]["constraints"][index.to_s]["client_id"]
-                constraint.district_id = params["query"]["constraints"][index.to_s]["district_id"]
+                constraint.units = @constraints[index.to_s]["units"]
+                constraint.client_id = @constraints[index.to_s]["client_id"]
+                constraint.district_id = @constraints[index.to_s]["district_id"]
 
                 if constraint.data_type == Query::WELL_DATA || constraint.data_type == Query::JOB_DATA
                     if !constraint.field.empty?
@@ -200,7 +211,17 @@ class SearchController < ApplicationController
             index += 1
         end
 
-        @jobs = Job.advanced_search(@query, current_user.company).includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).paginate(page: params[:page], limit: 20)
+        @jobs = Job.advanced_search(@query, current_user.company).includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}})
+
+        respond_to do |format|
+            format.html do
+                @jobs = @jobs.paginate(page: params[:page], limit: 20)
+            end
+            format.xlsx do
+                excel = to_excel @jobs
+                send_data excel.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            end
+        end
     end
 
 end

@@ -80,3 +80,6 @@ $ ->
   $('.search-constraint-field-select').live "change", ->
     job_id = $(this).closest('.search-field').find('[id=job_job_template_id]').val()
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&field=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id") + "&job_template=" + job_id, dataType: 'script'
+
+  $('.submit-form').live "click", ->
+    $(this).closest('form').submit()
