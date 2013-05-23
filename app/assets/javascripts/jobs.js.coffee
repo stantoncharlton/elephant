@@ -109,5 +109,10 @@ $ ->
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'
 
+  $('.expand-job-description').live "click", ->
+    $(this).remove()
+    $('.job-description-custom-data-div').css("max-height", 100000)
+    return false
+
 
 

@@ -681,3 +681,12 @@
   width: 15px;
   height: 15px;
 }
+
+.job-description-custom-data-div {
+  display: inline-block;
+  overflow: hidden;
+  text-wrap: normal;
+  text-overflow: ellipsis;
+  max-width: 850px;
+  max-height: 40px;
+}
