@@ -1,7 +1,7 @@
 <% provide(:title, 'Advanced Search') %>
 
 <div class="page_header">
-  <%= form_tag("/search.xlsx", :method => 'post', action: "create") do %>
+  <%= form_tag("/search.xlsx", :method => 'post', action: "create", :multipart => true) do %>
       <h1>Advanced Search</h1>
 
       <h2><%= @jobs.count() %></h2>

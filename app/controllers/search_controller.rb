@@ -165,18 +165,17 @@ class SearchController < ApplicationController
 
         @params_query = params["query"]
 
-        @constraints = params["query"]["constraints"]
-        puts @constraints
-        if @constraints == "constraints"
-            puts "helllll"
-            @constraints = params["query"].to_json
-            @constaints = @constraints["value"]["constraints"]
-            puts @constraints
+        if params["query"].is_a? String
+            puts params["query"]
+            @constraints = JSON.parse params["query"][10..-2]
+            puts "..........."
+            puts @constraints[2]
+        else
+            @constraints = params["query"]["constraints"]
         end
 
         while true do
-            if  params["query"]["constraints"][index.to_s].present?
-
+            if  @constraints[index.to_s].present?
 
                 constraint = Constraint.new
                 constraint.data_type = @constraints[index.to_s]["data_type"].to_i
