@@ -13,7 +13,8 @@
       <%= f.hidden_field :category, value: category_name %>
       <%= f.hidden_field :job_template_id, value: @job_template.id %>
 
-      <%= f.submit "+ Add new document to " + category_name, class: "bluebtn btnsmall tooltip-info",
+      <%= f.submit "+ Add new document to " + category_name,
+                   class: "bluebtn btnsmall tooltip-info add-new-document-button",
                    "data-placement" => "bottom",
                    "data-title" => "Add new document to " + category_name %>
 

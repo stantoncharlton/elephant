@@ -217,7 +217,7 @@
         <p class="push-right-small">Add it to the product line so you can add it to the job type...</p>
         <br><br>
         <%= link_to "+ Add New primary tool on product line", new_tool_path(:product_line => @job_template.product_line.id), remote: true,
-                    class: "bluebtn btnsmall gray tooltip-info", id: "add_primary_tool",
+                    class: "bluebtn btnsmall gray tooltip-info show-modal-button", id: "add_primary_tool",
                     "data-placement" => "bottom",
                     "data-title" => "Add primary tool to job type" %>
       </div>
@@ -278,7 +278,7 @@
         <p class="push-right-small">Add it to the product line so you can add it to the job type...</p>
         <br><br>
         <%= link_to "+ Add New failure on product line", new_failure_path(:product_line => @job_template.product_line.id), remote: true,
-                    class: "bluebtn btnsmall gray tooltip-info", id: "add_failure",
+                    class: "bluebtn btnsmall gray tooltip-info show-modal-button", id: "add_failure",
                     "data-placement" => "bottom",
                     "data-title" => "Add failure to job type" %>
       </div>
@@ -320,6 +320,13 @@
 
 
     <div class="well">
+      <div id="new_documents_added" class="hidden">
+        <%= image_tag "error_red.png", class: "job-status-avatar" %>
+        <b class="warning-text inline">Reresh page to see newly added documents</b>
+        <p id="new_documents_added_names" class="push-right-small inline"></p>
+        <br><br>
+      </div>
+
       <%= form_for(PostJobReportDocument.new, :html => {:class => "inline"}, remote: true) do |f| %>
           <%= f.hidden_field :job_template_id, value: @job_template.id %>
           <%= f.select :document_id, options_for_select(@job_template.post_job_report_document_options),
@@ -352,6 +359,8 @@
     <div class="modal-content">
 
     </div>
+
+    <%= render "layouts/inline_loading", title: "Loading..." %>
 
   </div>
 </div>

@@ -54,3 +54,17 @@ $ ->
 
   if document.location.hash != ''
     $(".job-type-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
+
+  $('.show-modal-button').live "click", ->
+    $('#modal_popup').css('visibility', 'visible')
+    $('#modal_popup').height($(document).height() + 100)
+    $('#modal_popup').find('.loading').removeClass 'hidden'
+    return false
+
+  $('.add-new-document-button').live "click", ->
+    $('#new_documents_added').removeClass 'hidden'
+    oldValue = $('#new_documents_added_names').text()
+    if oldValue == ''
+      $('#new_documents_added_names').text($(this).closest('.inline-form').find('[id=new_document_name]').val())
+    else
+      $('#new_documents_added_names').text(oldValue + ', ' +  $(this).closest('.inline-form').find('[id=new_document_name]').val())
