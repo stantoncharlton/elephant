@@ -1,9 +1,9 @@
-<% provide(:title, 'Job Type: ' + @job_template.name) %>
+<% provide(:title, 'Job System: ' + @job_template.name) %>
 
 <div class="page_header">
   <h1><%= @job_template.name %></h1>
 
-  <h3 class="inline">&nbsp;Job Type</h3>
+  <h3 class="inline">&nbsp;Job System</h3>
 
   <h2 class="paginated-count">Jobs:
     <%= render 'layouts/paged_header', items: @jobs %>

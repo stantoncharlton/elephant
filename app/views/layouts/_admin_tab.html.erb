@@ -1,7 +1,7 @@
 <%= tabs_tag :builder => ApplicationHelper::MenuTabBuilder, open_tabs: {class: "admin_tab"} do |tab| %>
     <%= tab.users 'Users', users_path %>
     <%= tab.roles 'Roles', user_roles_path %>
-    <%= tab.job_templates 'Job Types', divisions_path %>
+    <%= tab.job_templates 'Job Systems', divisions_path %>
     <%= tab.tools 'Tools', secondary_tools_path %>
     <%= tab.clients 'Customers', clients_path %>
     <%= tab.districts 'Districts', districts_path %>

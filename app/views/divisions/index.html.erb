@@ -1,4 +1,4 @@
-<% provide(:title, 'Job Types') %>
+<% provide(:title, 'Job Systems') %>
 
 <div class="page_header">
   <h1>Divisions</h1>
@@ -18,11 +18,11 @@
   <div class="field-title">Jump to:</div>
 
   <%= text_field_tag "", "", data: {autocomplete_source: job_templates_path},
-                     placeholder: "Type Job type name...",
+                     placeholder: "Type Job system name...",
                      id: "job_type_name",
                      class: "inline txtfield job-note-assign custom-data-input tooltip-info",
                      "data-placement" => "top",
-                     "data-title" => "Jump directly to a job type by name" %>
+                     "data-title" => "Jump directly to a job system by name" %>
 </div>
 
 <div id="divisions">

@@ -150,7 +150,7 @@
         <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-title3 inline job-type-description-target",
                     "data-placement" => "bottom",
                     "data-html" => true,
-                    "data-title" => "<div>Field <b>" + job.field.name + "</b></div>" %>
+                    "data-title" => "<div>Product Line <b>" + job.job_template.product_line.name + "</b></div>" %>
     <% else %>
         <h2 class="job-title3 inline"><%= job.job_template.product_line.name %></h2>
     <% end %>
@@ -162,7 +162,7 @@
         <%= link_to job.job_template.name, job.job_template, class: "job-title3 inline job-type-description-target",
                     "data-placement" => "bottom",
                     "data-html" => true,
-                    "data-title" => "<div>Well <b>" + job.well.name + "</b>, Click to view all jobs</div>" %>
+                    "data-title" => "<div>Job System <b>" + job.job_template.name + "</b>, Click to view all jobs</div>" %>
     <% else %>
         <h2 class="job-title3 inline"><%= job.job_template.name %></h2>
     <% end %>

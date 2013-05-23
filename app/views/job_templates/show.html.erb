@@ -1,5 +1,5 @@
 <div class="page_header">
-  <h1>Job Type</h1><b class="push-right-small"><%= @job_template.name %></b>
+  <h1>Job System</h1><b class="push-right-small"><%= @job_template.name %></b>
 
 
   <div class="btn-group inline pull-right">
@@ -9,11 +9,11 @@
     <ul class="dropdown-menu">
 
       <li>
-        <%= link_to "Delete Job Type", @job_template, method: :delete,
-                    data: {confirm: "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly."},
+        <%= link_to "Delete Job System", @job_template, method: :delete,
+                    data: {confirm: "Permanently delete job system and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly."},
                     class: "dropdown-menu-link tooltip-info",
                     "data-placement" => "left",
-                    "data-title" => "Permanently delete job type and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
+                    "data-title" => "Permanently delete job system and associated data. Warning, this can't be undone. This will cause any jobs using this template to may not function properly." %>
       </li>
 
 
@@ -28,13 +28,13 @@
 
   <%= form_for(@job_template, remote: true) do |f| %>
 
-      <b><%= t ".job_type_name" %></b><br><br>
+      <b>Job System Name</b><br><br>
 
       <%= f.text_field :name, value: @job_template.name,
                        placeholder: I18n.t("job_templates.show.job_type_name"),
                        class: "inline txtfield  tooltip-info job-template-name",
                        "data-placement" => "bottom",
-                       "data-title" => "Job type name" %>
+                       "data-title" => "Job system name" %>
   <% end %>
 
 
