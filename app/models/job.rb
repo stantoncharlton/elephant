@@ -165,6 +165,9 @@ class Job < ActiveRecord::Base
             where(:product_line_id => query.user.product_line.id)
         end
 
+        districts_consolidated = false
+        clients_consolidated = false
+
         query.constraints.each do |constraint|
             operator = "="
             value = constraint.value
@@ -196,9 +199,35 @@ class Job < ActiveRecord::Base
                     ar_query = ar_query.where("dynamic_fields.value " + operator + " :dynamic_field_value", dynamic_field_value: value).includes(:dynamic_fields)
                 end
             elsif constraint.data_type == 3
-                ar_query = ar_query.where("jobs.client_id = :client_id", client_id: constraint.client_id)
+                if !clients_consolidated
+                    clients_query = nil
+                    query.constraints.each do |c|
+                        if c.data_type == 3
+                            if !clients_query.nil?
+                                clients_query += "OR jobs.client_id = " + c.client_id
+                            else
+                                clients_query = "jobs.client_id = " + c.client_id
+                            end
+                        end
+                    end
+                    ar_query = ar_query.where(clients_query)
+                    clients_consolidated
+                end
             elsif constraint.data_type == 4
-                ar_query = ar_query.where("jobs.district_id = :district_id", district_id: constraint.district_id)
+                if !districts_consolidated
+                    districts_query = nil
+                    query.constraints.each do |c|
+                        if c.data_type == 4
+                            if !districts_query.nil?
+                                districts_query += "OR jobs.district_id = " + c.district_id
+                            else
+                                districts_query = "jobs.district_id = " + c.district_id
+                            end
+                        end
+                    end
+                    ar_query = ar_query.where(districts_query)
+                    districts_consolidated
+                end
             elsif constraint.data_type == 5
                 ar_query = ar_query.where("(jobs.job_template_id IN (SELECT job_template_id FROM primary_tools WHERE primary_tools.tool_id = :tool_id)) OR (jobs.id IN (SELECT job_id FROM secondary_tools WHERE secondary_tools.tool_id = :tool_id))", tool_id: constraint.field)
             elsif constraint.data_type == 6
