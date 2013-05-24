@@ -40,27 +40,24 @@
             </a>
             <ul class="dropdown-menu">
 
-              <% if job.is_coordinator_or_creator?(current_user) %>
-
-                  <% if job.status == Job::CLOSED %>
-                      <li>
-                        <%= link_to "Reopen Job", job,
-                                    class: "dropdown-menu-link tooltip-info",
-                                    "data-placement" => "left",
-                                    "data-title" => "This will reopen the job for edit." %>
-
-                        <!--<li class="divider"></li>-->
-                      </li>
-                  <% end %>
-
+              <% if job.status == Job::CLOSED %>
                   <li>
-                    <%= link_to "Delete Job", job, method: :delete,
+                    <%= link_to "Reopen Job", job,
                                 class: "dropdown-menu-link tooltip-info",
-                                data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
                                 "data-placement" => "left",
-                                "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+                                "data-title" => "This will reopen the job for edit." %>
+
+                    <!--<li class="divider"></li>-->
                   </li>
               <% end %>
+
+              <li>
+                <%= link_to "Delete Job", job, method: :delete,
+                            class: "dropdown-menu-link tooltip-info",
+                            data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
+                            "data-placement" => "left",
+                            "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+              </li>
 
             </ul>
           </div>
