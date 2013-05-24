@@ -222,6 +222,14 @@ p {
   text-indent: -2000px;
   overflow: hidden;
 
+  @media screen and (max-width: 1050px) {
+    width: 130px;
+    background-position: 0px 2px;
+    padding-left: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
 }
 
 #logo:hover {
@@ -282,6 +290,10 @@ p {
   &:hover {
     background: #0058a8;
     text-decoration: none;
+  }
+
+  @media screen and (max-width: 1050px) {
+    padding: 20px 15px 20px 15px;
   }
 }
 
@@ -420,6 +432,12 @@ p {
   color: #FFFFFF;
   margin: 0px;
   display: block;
+  @media screen and (max-width: 1350px) {
+    max-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .user-title {

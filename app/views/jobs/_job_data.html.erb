@@ -65,16 +65,23 @@
             </ul>
           </div>
       <% end %>
-  <% elsif job.failures.count > 0 %>
+  <% else %>
+      <% memberships = job.job_memberships.select { |p| p.job_role_id != 6 }.count %>
       <div class="pull-right push-right-small">
         <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
-        <p class="inline"><%= job.participants.count.to_s %></p>
+        <% if memberships > 0 %>
+            <p class="inline"><%= memberships %></p>
+        <% else %>
+            <p class="inline warning-text"><b><%= memberships %></b></p>
+        <% end %>
       </div>
 
-      <div class="pull-right push-left">
-        <%= image_tag "error_red.png", class: "job-status-warning" %>
-        <div class="job-failure-item"><%= job.failures.count %></div>
-      </div>
+      <% if job.failures.count > 0 %>
+          <div class="pull-right push-left">
+            <%= image_tag "error_red.png", class: "job-status-warning" %>
+            <div class="job-failure-item"><%= job.failures.count %></div>
+          </div>
+      <% end %>
   <% end %>
 
 </div>

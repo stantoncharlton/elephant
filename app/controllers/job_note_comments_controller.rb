@@ -12,6 +12,7 @@ class JobNoteCommentsController < ApplicationController
         @comment = JobNoteComment.new(params[:job_note_comment])
         @comment.job_note = @job_note
         @comment.user = current_user
+        @comment.user_name = current_user.name
         @comment.job = @job_note.job
         @comment.company = current_user.company
         @comment.save

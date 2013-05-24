@@ -9,7 +9,11 @@
   <% end %>
   <div class="activity-user-link-div-short">
     <div class="inline  push-right-small">
-      <%= render 'activities/user', user: job_membership.user %>
+      <% if job_membership.user.present? %>
+          <%= render 'activities/user', user: job_membership.user %>
+      <% else %>
+          <%= job_membership.user_name %>
+      <% end %>
     </div>
   </div>
   <p class="job-members-position-title"><%= job_membership.role_title %></p>

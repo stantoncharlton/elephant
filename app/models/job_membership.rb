@@ -1,5 +1,6 @@
 class JobMembership < ActiveRecord::Base
-    attr_accessible :job_role_id
+    attr_accessible :job_role_id,
+                    :user_name
 
     belongs_to :user
     belongs_to :job

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130520155551) do
+ActiveRecord::Schema.define(:version => 20130524192508) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20130520155551) do
     t.datetime "updated_at",    :null => false
     t.string   "metadata"
     t.integer  "job_id"
+    t.string   "user_name"
   end
 
   add_index "activities", ["company_id"], :name => "index_activities_on_company_id"
@@ -198,6 +199,7 @@ ActiveRecord::Schema.define(:version => 20130520155551) do
     t.integer  "ordering",              :default => 0
     t.integer  "post_job_report_order"
     t.integer  "document_shares_count", :default => 0,     :null => false
+    t.string   "user_name"
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"
@@ -266,6 +268,7 @@ ActiveRecord::Schema.define(:version => 20130520155551) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "job_role_id"
+    t.string   "user_name"
   end
 
   add_index "job_memberships", ["job_id"], :name => "index_job_memberships_on_job_id"
@@ -279,6 +282,7 @@ ActiveRecord::Schema.define(:version => 20130520155551) do
     t.integer  "company_id"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.string   "user_name"
   end
 
   add_index "job_note_comments", ["company_id"], :name => "index_job_note_comments_on_company_id"
@@ -295,6 +299,7 @@ ActiveRecord::Schema.define(:version => 20130520155551) do
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
     t.integer  "assign_to_id"
+    t.string   "user_name"
   end
 
   create_table "job_processes", :force => true do |t|

@@ -81,11 +81,13 @@ class UsersController < ApplicationController
         not_found unless @user.company == current_user.company
 
         User.transaction do
-            if @user.update_attribute(:location, params[:user][:location])
+            if  @user.update_attribute(:name, params[:user][:name])
+                @user.update_attribute(:location, params[:user][:location])
                 @user.update_attribute(:phone_number, params[:user][:phone_number])
                 @user.update_attribute(:district_id, params[:user][:district_id])
                 @user.update_attribute(:role_id, params[:user][:role_id])
                 @user.update_attribute(:product_line_id, params[:user][:product_line_id])
+
 
                 Activity.add(self.current_user, Activity::USER_UPDATED, @user, @user.name)
                 flash[:success] = "User updated"

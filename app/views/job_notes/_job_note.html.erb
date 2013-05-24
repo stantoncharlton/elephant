@@ -25,7 +25,11 @@
 
   <ul class="activity-content">
     <div class="activity-user-link-div">
-      <%= render 'activities/user', user: job_note.user %>
+      <% if job_note.user.present? %>
+          <%= render 'activities/user', user: job_note.user %>
+      <% else %>
+        <%= job_note.user_name %>
+      <% end %>
 
       <% if job_note.assign_to.present? %>
           <%= image_tag "to_arrow.png", class: "job-note-assign-arrow" %>
@@ -56,18 +60,18 @@
 
     <div id="job_note_comments_<%= job_note.id %>" class="all-comments-box ">
       <% job_note.comments.each do |comment| %>
-        <%=  render 'job_note_comments/comment', comment: comment %>
+          <%= render 'job_note_comments/comment', comment: comment %>
       <% end %>
     </div>
 
     <%= form_for JobNoteComment.new, remote: true do |f| %>
         <%= f.hidden_field :job_note_id, value: job_note.id %>
         <%= f.text_field :text,
-                           placeholder: "Type to add a comment...",
-                           id: "job_note_comment_text_" + job_note.id.to_s,
-                           class: "job-field-value-editable custom-data-input light-text note-comment job-note-comment-box tooltip-info",
-                           "data-placement" => "bottom",
-                           "data-title" => "Click to add comment" %>
+                         placeholder: "Type to add a comment...",
+                         id: "job_note_comment_text_" + job_note.id.to_s,
+                         class: "job-field-value-editable custom-data-input light-text note-comment job-note-comment-box tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Click to add comment" %>
     <% end %>
 
   </ul>

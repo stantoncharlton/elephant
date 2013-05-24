@@ -9,9 +9,13 @@
                        "data-title" => "Full Name" %>
 
       <div class="inline">
-        <%= f.text_field :email, placeholder: "Email Address", class: "txtfield tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Email Address" %>
+        <% if @user.new_record? %>
+            <%= f.text_field :email, placeholder: "Email Address", class: "txtfield tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Email Address" %>
+        <% else %>
+            <p class="inline blue-text push-right-small">Email &nbsp;&nbsp; <b><%= @user.email %></b></p>
+        <% end %>
       </div>
     </div>
 

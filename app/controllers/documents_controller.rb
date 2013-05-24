@@ -110,6 +110,7 @@ class DocumentsController < ApplicationController
         end
 
         @document.user = current_user
+        @document.user_name = current_user.name
         @document.delete_document
         @document.url = params[:document][:url]
 

@@ -1,7 +1,8 @@
 class Activity < ActiveRecord::Base
     attr_accessible :activity_type,
                     :target,
-                    :metadata
+                    :metadata,
+                    :user_name
 
     belongs_to :company
     belongs_to :user
@@ -118,6 +119,9 @@ class Activity < ActiveRecord::Base
 
         activity = Activity.new(activity_type: activity_type, target: target, metadata: metadata)
         activity.user = user
+        if user
+            activity.user_name = user.name
+        end
         activity.company = user.company
         activity.job = job
 

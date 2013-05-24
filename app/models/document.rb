@@ -6,7 +6,8 @@ class Document < ActiveRecord::Base
                     :template,
                     :url,
                     :read_only,
-                    :ordering
+                    :ordering,
+                    :user_name
 
 
     validates :name, presence: true, length: {maximum: 50}

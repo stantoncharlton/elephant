@@ -47,7 +47,11 @@
 
         <div class="document-file-name-box">
           <% if document.url.present? && document.user.present? %>
-              <%= render 'activities/user', user: document.user %>
+              <% if document.user.present? %>
+                  <%= render 'activities/user', user: document.user %>
+              <% else %>
+                    <%= document.user_name %>
+              <% end %>
           <% end %>
         </div>
     <% else %>

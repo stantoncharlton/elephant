@@ -37,7 +37,11 @@
         <% end %>
 
         <div class="activity-user-link-div">
-          <%= render 'activities/user', user: activity.user %>
+          <% if activity.user.present? %>
+              <%= render 'activities/user', user: activity.user %>
+          <% else %>
+            <b><%= activity.user_name %></b>
+          <% end %>
 
           <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
               <% if activity.target.assign_to.present? %>
@@ -62,7 +66,7 @@
           <% end %>
           <% if activity.activity_type == Activity::JOB_APPROVED_TO_SHIP %>
               <b>
-              <p class="activity-message status-good">Job approved to ship to field</p></b>
+                <p class="activity-message status-good">Job approved to ship to field</p></b>
           <% end %>
           <% if activity.activity_type == Activity::POST_JOB_DATA_COMPLETE %>
 
@@ -70,7 +74,7 @@
           <% end %>
           <% if activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
               <b>
-              <p class="activity-message status-good">Job completed and approved to close</p> </b>
+                <p class="activity-message status-good">Job completed and approved to close</p></b>
           <% end %>
           <% if activity.activity_type == Activity::DATA_EDITED %>
               <p class="activity-message"><%= activity.metadata %> changed</p>

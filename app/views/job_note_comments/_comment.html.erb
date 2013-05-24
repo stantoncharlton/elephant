@@ -7,7 +7,11 @@
   <ul class="comment-content">
     <div>
       <div class="comment-user-link-div">
-        <%= render 'activities/user', user: comment.user %>
+        <% if comment.user.present? %>
+            <%= render 'activities/user', user: comment.user %>
+        <% else %>
+            <%= comment.user_name %>
+        <% end %>
       </div>
 
 

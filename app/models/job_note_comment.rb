@@ -1,5 +1,6 @@
 class JobNoteComment < ActiveRecord::Base
-    attr_accessible :text
+    attr_accessible :text,
+                    :user_name
 
 
     validates_presence_of :company

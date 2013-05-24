@@ -16,6 +16,7 @@ class JobNotesController < ApplicationController
         @job_note = JobNote.new(params[:job_note])
         @job_note.company = current_user.company
         @job_note.user = current_user
+        @job_note.user_name = current_user.name
         @job_note.job = Job.find_by_id(job_id)
         @job_note.assign_to = User.find_by_id(assign_to_id)
 
