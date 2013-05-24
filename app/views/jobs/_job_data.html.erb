@@ -33,7 +33,7 @@
 
   <% if in_form %>
 
-      <% if job.other_jobs.count > 0 %>
+      <% if job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit? %>
           <div class="btn-group inline pull-right">
             <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
               Advanced Actions
