@@ -457,7 +457,7 @@ class Job < ActiveRecord::Base
             job_documents = self.documents.to_a
             documents = []
             self.job_template.post_job_report_documents.each do |post_job_report_document|
-                document = job_documents.find { |d| d.d.document_template_id == post_job_report_document.document }
+                document = job_documents.find { |d| d.document_template_id == post_job_report_document.document }
                 if document != nil
                     if !document.url.blank?
                         documents << document
