@@ -335,6 +335,10 @@ p {
   width: 45px;
   height: 58px;
   margin-left: 232px;
+
+  @media screen and (max-width: 1050px) {
+    margin-left: 195px;
+  }
 }
 
 
