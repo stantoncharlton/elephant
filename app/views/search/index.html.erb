@@ -4,19 +4,19 @@
   <h1>Search for '<%= @term %>'</h1>
 
   <div class="inline push-right-small">
-    <% if @jobs.any? %>
+    <% if !@jobs.nil? %>
         <span class="label label-info search-count"><%= pluralize(@jobs.count, "Job") %></span>
     <% end %>
-    <% if @districts.any? %>
+    <% if !@districts.nil? %>
         <span class="label label-info search-count"><%= pluralize(@districts.count, "District") %></span>
     <% end %>
-    <% if @users.any? %>
+    <% if !@users.nil? %>
         <span class="label label-info search-count"><%= pluralize(@users.count, "People") %></span>
     <% end %>
-    <% if @fields.any? %>
+    <% if !@fields.nil? %>
         <span class="label label-info search-count"><%= pluralize(@fields.count, "Field") %></span>
     <% end %>
-    <% if @wells.any? %>
+    <% if !@wells.nil? %>
         <span class="label label-info search-count"><%= pluralize(@wells.count, "Well") %></span>
     <% end %>
   </div>
@@ -41,7 +41,7 @@
 
 </div>
 
-<% if @districts.count > 0 %>
+<% if !@districts.nil? && @districts.count > 0 %>
     <div id="districts_list">
       <% @districts.each do |district| %>
           <div>
@@ -54,7 +54,7 @@
     <hr>
 <% end %>
 
-<% if @users.count > 0 %>
+<% if !@user.nil? && @users.count > 0 %>
     <div id="users_list">
       <% @users.each do |user| %>
           <div>
@@ -67,7 +67,7 @@
     <hr>
 <% end %>
 
-<% if @fields.count > 0 %>
+<% if !@fields.nil? && @fields.count > 0 %>
     <div id="fields_list">
       <% @fields.each do |field| %>
           <div>
@@ -80,7 +80,7 @@
     <hr>
 <% end %>
 
-<% if @wells.count > 0 %>
+<% if !@wells.nil? && @wells.count > 0 %>
     <div id="fields_list">
       <% @wells.each do |well| %>
           <div>
@@ -94,7 +94,7 @@
 <% end %>
 
 <div id="jobs" class="list">
-  <% @jobs.each do |job| %>
+  <% !@jobs.nil? && @jobs.each do |job| %>
       <%= link_to job, class: "job-link" do %>
           <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false, new_line_job_type: false %>
       <% end %>

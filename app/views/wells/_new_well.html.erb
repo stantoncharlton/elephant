@@ -2,19 +2,25 @@
   <h1>Create New Well</h1>
 </div>
 
-<div class="form new-well-form">
+<div class="ajax-form new-well-form">
   <%= form_for @well, remote: true do |f| %>
 
       <%= render "fields", f: f %>
 
       <div class="content actions">
-        <%= f.submit "Create Well", class: "bluebtn pull-right form-loading-on-click" %>
+        <%= f.submit "Create Well", class: "bluebtn pull-right ajax-form-loading-on-click" %>
       </div>
 
   <% end %>
 </div>
 
-<%= render 'layouts/inline_loading', title: "Please wait, creating well..." %>
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Please wait, creating well...</b></span>
+  <br>
+</div>
+
 
 <script type="text/javascript">
     (function ($) {
