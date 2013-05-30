@@ -1,41 +1,37 @@
-<% if params["new"].present? and params["new"] == "true" %>
-    <div class="job-tray" data-tray="custom_data">
-<% else %>
-    <div class="job-tray custom-data-closed " data-tray="custom_data">
-<% end %>
+<div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "" : "custom-data-closed" %>" data-tray="custom_data">
 
-<div class="page_header">
-  <h1>Job Data</h1>
-</div>
+  <div class="page_header">
+    <h1>Job Data</h1>
+  </div>
 
-<div>
-  <b><%= job.job_template.name %></b>
+  <div>
+    <b><%= job.job_template.name %></b>
 
-  <% if !job.job_template.description.empty? %>
-      <p class="job-description-custom-data-div">
-        <%= job.job_template.description %>
-      </p>
-      <a href="#" class="expand-job-description">expand</a>
-  <% end %>
-  <hr>
-</div>
+    <% if !job.job_template.description.empty? %>
+        <p class="job-description-custom-data-div">
+          <%= job.job_template.description %>
+        </p>
+        <a href="#" class="expand-job-description">expand</a>
+    <% end %>
+    <hr>
+  </div>
 
-<div class="content">
-  <b>Required Data</b>
-  <br><br>
-  <% job.dynamic_fields_required.each do |df| %>
-      <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
-  <% end %>
+  <div class="content">
+    <b>Required Data</b>
+    <br><br>
+    <% job.dynamic_fields_required.each do |df| %>
+        <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
+    <% end %>
 
-  <% if job.dynamic_fields_optional.count > 0 %>
-      <br>
-      <hr>
-      <b>Optional Data</b>
-      <br><br>
-      <% job.dynamic_fields_optional.each do |df| %>
-          <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
-      <% end %>
-  <% end %>
-</div>
+    <% if job.dynamic_fields_optional.count > 0 %>
+        <br>
+        <hr>
+        <b>Optional Data</b>
+        <br><br>
+        <% job.dynamic_fields_optional.each do |df| %>
+            <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
+        <% end %>
+    <% end %>
+  </div>
 
 </div>
