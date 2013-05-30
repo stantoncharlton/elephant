@@ -15,7 +15,7 @@
                            "data-placement" => "bottom",
                            "data-title" => "Add new note/action" %>
 
-              <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), 1], [I18n.t("job_note_types.task"), 4], [I18n.t("job_note_types.warning"), 2]]),
+              <%= f.select :note_type, options_for_select([[I18n.t("job_note_types.note"), JobNote::NOTE], [I18n.t("job_note_types.task"), JobNote::TASK], [I18n.t("job_note_types.warning"), JobNote::WARNING]]),
                            {},
                            class: "inline custom-select job-notes-type-select tooltip-info",
                            "data-placement" => "right",

@@ -18,5 +18,8 @@ class JobNote < ActiveRecord::Base
 
     has_many :comments, dependent: :destroy, class_name: "JobNoteComment", order: "created_at asc"
 
+    NOTE = 1
+    WARNING = 2
+    TASK = 4
 
 end
