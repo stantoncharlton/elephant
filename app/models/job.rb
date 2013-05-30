@@ -453,11 +453,13 @@ class Job < ActiveRecord::Base
 
     def generate_post_job_report
         if self.documents.any?
-            self.prepare_post_job_report
+            if post_job_report_document.nil?
+                self.prepare_post_job_report
+            end
             job_documents = self.documents.to_a
             documents = []
             self.job_template.post_job_report_documents.each do |post_job_report_document|
-                document = job_documents.find { |d| d.document_template_id == post_job_report_document.document }
+                document = job_documents.find { |d| d.document_template_id == post_job_report_document.document.id }
                 if document != nil
                     if !document.url.blank?
                         documents << document
