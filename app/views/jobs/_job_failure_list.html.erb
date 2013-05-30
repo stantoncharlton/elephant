@@ -1,7 +1,7 @@
 <div id="failures_list">
   <% job.failures.each do |failure| %>
       <fieldset class="">
-        <div class="job-failure-item">- <%= failure.failure_master_template.text %></div>
+        <div class="job-failure-item">- <%= failure.failure_master_template.text %></div><div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
       </fieldset>
   <% end %>
 </div>

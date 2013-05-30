@@ -1,28 +1,30 @@
 <%= form_for :failures, url: failures_path, remote: true do |f| %>
 
-    <div class="page_header failure-page-header ">
-      <h1>Performance</h1>
+    <% if @rate || @job.status == Job::CLOSED %>
+        <div class="page_header failure-page-header ">
+          <h1>Performance</h1>
 
-      <p>Please rate the quality and performance of the job</p>
-    </div>
+          <p>Please rate the quality and performance of the job</p>
+        </div>
 
-    <%= hidden_field_tag "performance_rating", "", name: "performance_rating", value: job.rating %>
-    <div>
-      <div class="rating-level"><p>poor &nbsp;</p></div>
+        <%= hidden_field_tag "performance_rating", "", name: "performance_rating", value: job.rating %>
+        <div>
+          <div class="rating-level"><p>poor &nbsp;</p></div>
 
-      <div class="inline">
-        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 1 ? "star-button-filled" : "" %>" level="1">1</a>
-        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 2 ? "star-button-filled" : "" %>" level="2">2</a>
-        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 3 ? "star-button-filled" : "" %>" level="3">3</a>
-        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 4 ? "star-button-filled" : "" %>" level="4">4</a>
-        <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 5 ? "star-button-filled" : "" %>" level="5">5</a>
-      </div>
+          <div class="inline">
+            <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 1 ? "star-button-filled" : "" %>" level="1">1</a>
+            <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 2 ? "star-button-filled" : "" %>" level="2">2</a>
+            <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 3 ? "star-button-filled" : "" %>" level="3">3</a>
+            <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 4 ? "star-button-filled" : "" %>" level="4">4</a>
+            <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 5 ? "star-button-filled" : "" %>" level="5">5</a>
+          </div>
 
-      <div class="rating-level"><p>&nbsp; excellent</p></div>
+          <div class="rating-level"><p>&nbsp; excellent</p></div>
 
-    </div>
+        </div>
 
-    <br>
+        <br>
+    <% end %>
 
     <div class="page_header failure-page-header ">
       <h1>Failures</h1>
@@ -35,13 +37,23 @@
     <% job.job_template.failures.each do |failure| %>
         <fieldset class="field">
 
+          <% job_failure = job.failures.find_by_failure_master_template_id(failure.failure_master_template.id) %>
+
           <div class="failure-checkbox-div pull-left">
-            <%= f.check_box failure.id.to_s, checked: (job.failures.find_by_failure_master_template_id(failure.failure_master_template.id) ? true : false),
-                            class: "regular-checkbox", id: "checkbox_" + failure.id.to_s %>
+            <%= f.check_box failure.id.to_s, checked: (job_failure.present? ? true : false),
+                            class: "regular-checkbox failure-checkbox", id: "checkbox_" + failure.id.to_s %>
             <label for="checkbox_<%= failure.id.to_s %>"></label>
           </div>
 
-          <p class="failure-checkbox-text"><b><%= failure.failure_master_template.text %></b></p>
+          <p class="failure-checkbox-text">
+            <b><%= failure.failure_master_template.text %></b>
+
+          <span class="inline failure-reference <%= job_failure.present? ? "" : "hidden" %>">
+            <br>
+            <%= f.text_field :reference, name: failure.id.to_s + "_reference", value: job_failure.present? ? job_failure.reference : nil, class: "inline txtfield small pull-right", placeholder: "Type reference note..." %>
+          </span>
+          </p>
+
         </fieldset>
     <% end %>
 

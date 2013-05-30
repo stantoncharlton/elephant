@@ -6,7 +6,7 @@ class FailuresController < ApplicationController
         @job = Job.find_by_id(params[:job_id])
         not_found unless @job.company == current_user.company
 
-        @rate = params[:rate]
+        @rate = params[:rate] == "true"
     end
 
     def show
@@ -86,6 +86,7 @@ class FailuresController < ApplicationController
                         job_failure = Failure.new
                         job_failure.company = current_user.company
                         job_failure.failure_master_template = failure.failure_master_template
+                        job_failure.reference = params[failure.id.to_s + "_reference"]
                         job_failure.job = @job
                         job_failure.save
 
