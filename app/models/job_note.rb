@@ -22,4 +22,20 @@ class JobNote < ActiveRecord::Base
     WARNING = 2
     TASK = 4
 
+
+    def create_job_note user
+
+        Activity.add(user, Activity::JOB_NOTE_ADDED, self, nil, self.job)
+
+        if self.assign_to.present?
+            alert = Alert.add(self.assign_to, Alert::TASK_ASSIGNED, self, user, self.job)
+            self.assign_to.send_alert_email(alert)
+        elsif self.note_type == JobNote::WARNING
+            self.job.unique_participants.each do |participant|
+                alert = Alert.add(participant, Alert::TASK_ASSIGNED, self, user, self.job)
+                participant.send_alert_email(alert)
+            end
+        end
+    end
+
 end

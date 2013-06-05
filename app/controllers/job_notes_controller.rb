@@ -21,13 +21,7 @@ class JobNotesController < ApplicationController
         @job_note.assign_to = User.find_by_id(assign_to_id)
 
         if @job_note.save
-
-            Activity.add(self.current_user, Activity::JOB_NOTE_ADDED, @job_note, nil, @job_note.job)
-
-            if @job_note.assign_to.present?
-                alert = Alert.add(@job_note.assign_to, Alert::TASK_ASSIGNED, @job_note, self.current_user, @job_note.job)
-                @job_note.assign_to.delay.send_alert_email(alert)
-            end
+            @job_note.delay.create_job_note self.current_user
         end
     end
 
@@ -38,5 +32,7 @@ class JobNotesController < ApplicationController
         #Activity.add(self.current_user, Activity::CLIENT_DESTROYED, @client, @client.name)
         @job_note.destroy
     end
+
+
 
 end

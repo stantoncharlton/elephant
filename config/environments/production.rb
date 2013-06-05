@@ -78,4 +78,8 @@ ElephantWebApp::Application.configure do
   config.assets.digest = true
   config.action_controller.perform_caching = true
 
+  if Rack::Utils.respond_to?("key_space_limit=")
+      Rack::Utils.key_space_limit = 262144 # 4 times the default size
+  end
+
 end
