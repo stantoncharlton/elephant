@@ -57,6 +57,15 @@
         <%= render 'job_notes/job_note', job_note: alert.target %>
     <% end %>
 
+    <% if alert.alert_type == Alert::JOB_WARNING %>
+        <div class="alert alert-error alert-title">
+          <%= image_tag "warning.png", class: "job-status-avatar" %>Warning
+        </div>
+        <%= render 'jobs/job_data_small', job: alert.job %>
+        <%= render 'job_notes/job_note', job_note: alert.target %>
+
+    <% end %>
+
     <% if alert.alert_type == Alert::JOB_SHIPPED %>
         <div class="alert alert-success alert-title">
           <%= image_tag "approve_arrow.png" %>

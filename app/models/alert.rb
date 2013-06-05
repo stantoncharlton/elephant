@@ -24,6 +24,7 @@ class Alert < ActiveRecord::Base
     POST_JOB_DATA_READY = 5
     JOB_SHIPPED = 6
     JOB_CLOSED = 7
+    JOB_WARNING = 8
 
 
 
