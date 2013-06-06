@@ -24,6 +24,10 @@
 
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background7.jpg')}, sizingMethod='scale');
   height: 100%;
+
+  @media only screen and (max-device-width: 768px) {
+    background: #000000 url(image_path('background7-small.jpg')) no-repeat center center fixed;
+  }
 }
 
 #kenburns_fallback {
