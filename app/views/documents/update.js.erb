@@ -1,7 +1,12 @@
 <% if @document.post_job_report_document.present? %>
     //Do this in case it is a for post job report document
-    $("#post_job_report_document_<%= @document.post_job_report_document.id %>").find('.upload-button-div').data('tooltip').hide();
+    var tooltip = $("#post_job_report_document_<%= @document.post_job_report_document.id %>").find('.upload-button-div').data('tooltip');
+    if(tooltip != null) {
+        tooltip.hide();
+    }
     $("#post_job_report_document_<%= @document.post_job_report_document.id %>").find('.upload-metadata').replaceWith("<%= j render('documents/document_metadata', document: @document) %>");
+    $("#post_job_report_document_<%= @document.post_job_report_document.id %>").find('.document-info').show();
+    $("#post_job_report_document_<%= @document.post_job_report_document.id %>").find(".upload-controls").show();
 <% end %>
 
 $("#document_<%= @document.id %>").find(".document-upload-updating").addClass("hidden");
