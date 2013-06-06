@@ -10,7 +10,7 @@
                       "data-placement" => "bottom",
                       "data-title" => "Create new advanced search" %> -->
 
-      <%= hidden_field_tag "query", value: @params_query %>
+      <%= hidden_field_tag "serialized_query", @params_query.to_json %>
       <div class="btn-group inline pull-right">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
           Export Results

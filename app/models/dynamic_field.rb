@@ -69,6 +69,9 @@ class DynamicField < ActiveRecord::Base
     WEIGHT_GRADIENT_SGF = 92
     WEIGHT_GRADIENT_SGM = 93
 
+    ANGLE = 100
+    ANGLE_100FT = 101
+
 
     def value
         storage_value_type = get_storage_value_type(read_attribute(:value_type))
@@ -361,6 +364,10 @@ class DynamicField < ActiveRecord::Base
                 "sg/ft"
             when WEIGHT_GRADIENT_SGM
                 "sg/m"
+            when ANGLE
+                "°"
+            when ANGLE_100FT
+                "°/100ft"
         end
     end
 
@@ -427,6 +434,10 @@ class DynamicField < ActiveRecord::Base
                 "Specific Gravity per Foot"
             when WEIGHT_GRADIENT_SGM
                 "Specific Gravity per Meter"
+            when ANGLE
+                "Degrees"
+            when ANGLE_100FT
+                "Degrees per 100 Feet"
         end
     end
 
@@ -465,6 +476,8 @@ class DynamicField < ActiveRecord::Base
         units << ["Weight - Gradient | PSI per Meter", WEIGHT_GRADIENT_PSIM]
         units << ["Weight - Gradient | Specific Gravity per Foot", WEIGHT_GRADIENT_SGF]
         units << ["Weight - Gradient | Specific Gravity per Meter", WEIGHT_GRADIENT_SGM]
+        units << ["Angle", ANGLE]
+        units << ["Angle - Degrees per 100 Feet", ANGLE_100FT]
 
         units
     end
@@ -595,6 +608,10 @@ class DynamicField < ActiveRecord::Base
                 WEIGHT_PPF
             when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
                 WEIGHT_GRADIENT_PSIF
+            when ANGLE
+                ANGLE
+            when ANGLE_100FT
+                ANGLE_100FT
         end
     end
 

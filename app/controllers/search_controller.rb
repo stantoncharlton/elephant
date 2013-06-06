@@ -163,13 +163,15 @@ class SearchController < ApplicationController
         @query.constraints = Array.new
         index = 0
 
-        @params_query = params["query"]
+        if params["query"].present?
+            @params_query = params["query"]["constraints"]
+        end
 
-        if params["query"].is_a? String
-            puts params["query"]
-            @constraints = JSON.parse params["query"]
+        if params["serialized_query"].present?
+            @constraints = JSON.parse params["serialized_query"].to_s
+            puts @constraints
             puts "..........."
-            puts @constraints[2]
+            puts @constraints["1"]
         else
             @constraints = params["query"]["constraints"]
         end
