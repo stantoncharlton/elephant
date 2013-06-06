@@ -43,11 +43,13 @@
       <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
 
       <%= select_tag "Divisions", options_for_select(@divisions.collect { |p| [p.name, p.id] }, !@division.nil? ? @division.id : nil),
+                     name: "user[division_id]",
                      prompt: "Select a Division...", id: "job_division_id", class: "tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "Division" %>
 
       <%= select_tag "Segments", options_for_select(@segments.collect { |p| [p.name, p.id] }, !@segment.nil? ? @segment.id : nil),
+                     name: "user[segment_id]",
                      prompt: "Select a Segment...", id: "job_segment_id", class: "tooltip-info",
                      "data-placement" => "bottom",
                      "data-title" => "Segment" %>

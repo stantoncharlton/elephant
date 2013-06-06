@@ -167,7 +167,7 @@ class SearchController < ApplicationController
 
         if params["query"].is_a? String
             puts params["query"]
-            @constraints = JSON.parse params["query"][10..-2]
+            @constraints = JSON.parse params["query"]
             puts "..........."
             puts @constraints[2]
         else

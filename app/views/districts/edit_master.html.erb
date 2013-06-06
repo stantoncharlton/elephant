@@ -9,6 +9,7 @@
     <ul class="dropdown-menu">
 
       <li>
+        <%= link_to "Change Name", edit_district_path(@district, :master => true, :edit => true) %>
         <%= link_to "Delete District", @district, method: :delete,
                     data: {confirm: "Delete district " + @district.name + "?"},
                     class: "dropdown-menu-link tooltip-info",

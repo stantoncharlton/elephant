@@ -157,8 +157,12 @@ class DistrictsController < ApplicationController
         end
 
         if @district.master?
-            render "districts/edit_master"
-            return
+            if params[:edit] == "true"
+                @master = params[:master] == "true"
+            else
+                render "districts/edit_master"
+                return
+            end
         end
     end
 

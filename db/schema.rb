@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524192508) do
+ActiveRecord::Schema.define(:version => 20130606004345) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -490,6 +490,8 @@ ActiveRecord::Schema.define(:version => 20130524192508) do
     t.string   "unverified_network"
     t.string   "network_access_code"
     t.string   "verified_networks",   :limit => 2000
+    t.integer  "division_id"
+    t.integer  "segment_id"
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"

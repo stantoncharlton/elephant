@@ -58,8 +58,8 @@
     <% end %>
 
     <% if alert.alert_type == Alert::JOB_WARNING %>
-        <div class="alert alert-error alert-title">
-          <%= image_tag "warning.png", class: "job-status-avatar" %>Warning
+        <div class="alert alert-warning alert-title">
+          <%= image_tag "warning.png", class: "job-status-avatar" %>&nbsp;Warning
         </div>
         <%= render 'jobs/job_data_small', job: alert.job %>
         <%= render 'job_notes/job_note', job_note: alert.target %>

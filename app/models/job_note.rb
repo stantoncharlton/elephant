@@ -32,10 +32,10 @@ class JobNote < ActiveRecord::Base
             self.assign_to.send_alert_email(alert)
         elsif self.note_type == JobNote::WARNING
             self.job.unique_participants.each do |participant|
-                #if user.id != participant.id
-                    alert = Alert.add(participant, Alert::JOB_WARNING, self, user, self.job)
+                alert = Alert.add(participant, Alert::JOB_WARNING, self, user, self.job)
+                if user.id != participant.id
                     participant.send_alert_email(alert)
-                #end
+                end
             end
         end
     end

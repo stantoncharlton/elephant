@@ -58,21 +58,7 @@ class UsersController < ApplicationController
         not_found unless @user.company == current_user.company
         @districts = current_user.company.districts
 
-        @roles = create_roles
-        @divisions = current_user.company.divisions
-
-        if !@user.product_line.nil?
-            @segments = @user.product_line.segment.division.segments
-            @product_lines = @user.product_line.segment.product_lines
-
-            @product_line = @user.product_line
-            @segment = @user.product_line.segment
-            @division = @user.product_line.segment.division
-        else
-            @segments = Array.new
-            @product_lines = Array.new
-        end
-
+        set_selectors
     end
 
     def update
@@ -86,6 +72,8 @@ class UsersController < ApplicationController
                 @user.update_attribute(:phone_number, params[:user][:phone_number])
                 @user.update_attribute(:district_id, params[:user][:district_id])
                 @user.update_attribute(:role_id, params[:user][:role_id])
+                @user.update_attribute(:division_id, params[:user][:division_id])
+                @user.update_attribute(:segment_id, params[:user][:segment_id])
                 @user.update_attribute(:product_line_id, params[:user][:product_line_id])
 
 
@@ -93,9 +81,7 @@ class UsersController < ApplicationController
                 flash[:success] = "User updated"
                 redirect_back_or users_path
             else
-                @districts = current_user.company.districts
-                @roles = create_roles
-                @product_lines = current_user.company.product_lines
+                set_selectors
                 render 'edit'
             end
         end
@@ -119,6 +105,10 @@ class UsersController < ApplicationController
         role_id = params[:user][:role_id]
         params[:user].delete(:role_id)
 
+        division_id = params[:user][:division_id]
+        params[:user].delete(:division_id)
+        segment_id = params[:user][:segment_id]
+        params[:user].delete(:segment_id)
         product_line_id = params[:user][:product_line_id]
         params[:user].delete(:product_line_id)
 
@@ -127,6 +117,8 @@ class UsersController < ApplicationController
         @user.company = current_user.company
         @user.district = District.find_by_id(district_id)
         @user.role_id = role_id
+        @user.division = Division.find_by_id(division_id)
+        @user.segment = Segment.find_by_id(segment_id)
         @user.product_line = ProductLine.find_by_id(product_line_id)
         password = SecureRandom.urlsafe_base64[1..7]
         @user.password = password
@@ -207,6 +199,25 @@ class UsersController < ApplicationController
         unless signed_in_admin? || current_user.role.global_edit?
             store_location
             redirect_to signin_url, error: "Please sign in."
+        end
+    end
+
+    def set_selectors
+        @roles = create_roles
+        @divisions = current_user.company.divisions
+
+        @product_line = @user.product_line
+        @segment = @user.segment
+        @division = @user.division
+
+        @segments = Array.new
+        @product_lines = Array.new
+
+        if @user.division.present?
+            @segments = @user.division.segments
+        end
+        if @user.segment.present?
+            @product_lines = @user.segment.product_lines
         end
     end
 
