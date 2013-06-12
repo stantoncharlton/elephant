@@ -163,9 +163,17 @@ $ ->
 
 
   $('.form-loading-on-click').live "click", ->
-    $('.loading').removeClass 'hidden'
-    $('.form').hide()
-    $('body').animate({scrollTop : 0},'slow');
+    if $(this).attr('data-form').length > 0
+      data = $(this).attr('data-form')
+      form = $('.form[data-form=' + data + ']')
+      loading = $('.form-loading[data-form=' + data + ']')
+      form.hide()
+      loading.removeClass 'hidden'
+      loading.find('.loading').removeClass 'hidden'
+    else
+      $('.loading').removeClass 'hidden'
+      $('.form').hide()
+      $('body').animate({scrollTop : 0},'slow');
 
   $('.ajax-form-loading-on-click').live "click", ->
     $('.ajax-loading').removeClass 'hidden'
