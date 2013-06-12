@@ -7,15 +7,6 @@
           <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn", target: "_blank" %>
         </div>
     <% end %>
-    <% if @job_editable %>
-        <div class="pull-right">
-          <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
-                      remote: true,
-                      class: "add-custom-document tooltip-info",
-                      "data-placement" => "left",
-                      "data-title" => "Add new custom document not part of original job documents" %>
-        </div>
-    <% end %>
   </div>
 
   <% if @field_bulletin_documents.any? %>
@@ -60,6 +51,18 @@
   <% end %>
 
   <br>
+
+  <% if @job_editable %>
+      <div class="push-right-small">
+        <%= link_to I18n.t("jobs.show.add_custom_document") + " (client request, etc)", new_document_path(modal: true, job_id: @job.id),
+                    remote: true,
+                    class: "add-custom-document tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Add new custom document not part of original job documents" %>
+      </div>
+  <% end %>
+
+  <br><br>
 
   <div class="content alert">
     <%= image_tag "windows_logo.png", class: "job-status-avatar" %>

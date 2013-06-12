@@ -30,6 +30,10 @@
                 <% end %>
                 <li class="divider"></li>
                 <% if !signed_in_admin? %>
+                    <li><%= link_to "Job History", history_index_path %></li>
+                    <li class="divider"></li>
+                <% end %>
+                <% if !signed_in_admin? %>
                     <li><%= link_to "Profile", user_path(current_user) %></li>
                     <li class="divider"></li>
                 <% end %>

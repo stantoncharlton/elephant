@@ -232,7 +232,7 @@
 
 
 .add-custom-document {
-  color: #bfccd7;
+  color: #828282;
   display: inline-block;
   heght: 40px;
   line-height: 40px;
@@ -240,20 +240,20 @@
   margin: 0px;
   margin-right: 10px;
   text-decoration: none;
-  padding-right: 50px;
-  background: url(image_path('add_up.png')) no-repeat center right;
+  padding-left: 50px;
+  background: url(image_path('add_up.png')) no-repeat center left;
 
   &:link, &:visited, &:active {
     background: transparent;
-    color: #bfccd7;
+    color: #828282;
     text-decoration: none;
-    background: url(image_path('add_up.png')) no-repeat center right;
+    background: url(image_path('add_up.png')) no-repeat center left;
   }
   &:hover {
     background: transparent;
     color: #0058a8;
     text-decoration: none;
-    background: url(image_path('add_hover.png')) no-repeat center right;
+    background: url(image_path('add_hover.png')) no-repeat center left;
   }
 }
 

@@ -13,6 +13,8 @@ $('.job-progress').hide();
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
 
+$('.form-loading[data-form=close_job_form]').addClass('hidden');
+
 
 <% if @show_failures %>
 $.ajax({
