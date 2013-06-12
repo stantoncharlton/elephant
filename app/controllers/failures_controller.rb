@@ -32,7 +32,8 @@ class FailuresController < ApplicationController
                 render 'failures/show'
             }
             format.xml {
-                render xml: @failures
+                render xml: @failures,
+                       except: [:created_at, :updated_at, :company_id, :job_template_id, :product_line_id, :template]
             }
         end
 

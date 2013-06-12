@@ -27,6 +27,7 @@ class JobsController < ApplicationController
                                :dynamic_fields => {except: [:created_at, :updated_at, :company_id]},
                                :job_template => {
                                        include: {
+                                               :post_job_report_documents => {except: [:created_at, :updated_at]},
                                                :product_line => {
                                                        include: {
                                                                :segment => {

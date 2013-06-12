@@ -27,6 +27,8 @@
 
   @media only screen and (max-device-width: 768px) {
     background: #000000 url(image_path('background7-small.jpg')) no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
   }
 }
 
