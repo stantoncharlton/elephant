@@ -15,8 +15,10 @@
     <hr>
 
     <div class="">
-      <%= image_tag "district_extrasmall.png", class: "job-status-avatar inline" %>
-      <%= link_to @user.district.name, @user.district, class: "activity-user-link" %>
+      <% if @user.district.present? %>
+          <%= image_tag "district_extrasmall.png", class: "job-status-avatar inline" %>
+          <%= link_to @user.district.name, @user.district, class: "activity-user-link" %>
+      <% end %>
     </div>
     <% if @user.product_line.present? %>
         <div class="">
@@ -50,13 +52,13 @@
 </div>
 
 <div>
-<br><br><br>
+  <br><br><br>
 
   <% if @user.role_id.nil? %>
       <br><br>
   <% end %>
   <% if !@user.product_line.present? %>
-  <br><br>
+      <br><br>
   <% end %>
 </div>
 
@@ -148,7 +150,7 @@
 
       <div class="content">
         <div id="jobs" class="list">
-          <% @user.jobs.includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: { product_line: { segment: :division }}).each do |job| %>
+          <% @user.jobs.includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}}).each do |job| %>
               <%= link_to job, class: "job-status job-link tooltip-info",
                           "data-placement" => "left",
                           "data-title" => "Click to open job" do %>

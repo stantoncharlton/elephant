@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130606004345) do
+ActiveRecord::Schema.define(:version => 20130617210938) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -362,6 +362,22 @@ ActiveRecord::Schema.define(:version => 20130606004345) do
 
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
+
+  create_table "parts", :force => true do |t|
+    t.string   "name"
+    t.string   "part_number"
+    t.boolean  "template",        :default => false
+    t.integer  "master_part_id"
+    t.integer  "status"
+    t.integer  "current_job_id"
+    t.integer  "primary_tool_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "district_id"
+  end
+
+  add_index "parts", ["district_id"], :name => "index_parts_on_district_id"
+  add_index "parts", ["part_number"], :name => "index_parts_on_part_number"
 
   create_table "post_job_report_documents", :force => true do |t|
     t.integer  "document_id"
