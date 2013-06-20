@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
-gem 'pg', '0.12.2'
+gem 'pg', '0.15.1'
 gem 'bootstrap-sass'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.0.1'
@@ -34,9 +34,9 @@ group :development, :test do
     gem 'rspec-rails', '2.10.0'
     gem 'guard-rspec', '0.5.5'
     gem 'bullet'
-end
+    gem 'annotate', '2.5.0'
 
-gem 'annotate', '2.5.0', group: :development
+end
 
 
 # Gems used only for assets and not required
@@ -65,6 +65,9 @@ end
 
 group :production do
 end
+
+
+gem 'rack-mini-profiler'
 
 
 

@@ -73,10 +73,10 @@
         <% end %>
       </div>
 
-      <% if job.failures.count > 0 %>
+      <% if job.failures_count > 0 %>
           <div class="pull-right push-left">
             <%= image_tag "error_red.png", class: "job-status-warning" %>
-            <div class="job-failure-item"><%= job.failures.count %></div>
+            <div class="job-failure-item"><%= job.failures_count %></div>
           </div>
       <% end %>
   <% end %>
