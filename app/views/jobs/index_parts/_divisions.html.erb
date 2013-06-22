@@ -5,17 +5,19 @@
 
 <hr>
 <div class="content">
+  <% all_active_jobs = current_user.company.active_jobs.count %>
   <% current_user.company.divisions.each do |division| %>
-      <div class="<%= (division.active_jobs.count == 0 ? "hidden division-job-item" : "") %>">
+      <% active_jobs = division.active_jobs.count %>
+      <div class="<%= (active_jobs== 0 ? "hidden division-job-item" : "") %>">
         <%= link_to division, class: "job-link" do %>
             <div class="chart-problem">
               <div class="job-bar-name"><%= division.name %>
-                <p class="inline">&nbsp;<%= division.active_jobs.count %></p>
+                <p class="inline">&nbsp;<%= active_jobs %></p>
               </div>
 
-              <% if division.active_jobs.count > 0 %>
+              <% if active_jobs > 0 %>
                   <div class="job-bar">
-                    <div style="width: <%= (division.active_jobs.count.to_f / current_user.company.active_jobs.count.to_f) * 100 %>%"></div>
+                    <div style="width: <%= (active_jobs.to_f / all_active_jobs.to_f) * 100 %>%"></div>
                   </div>
               <% end %>
             </div>

@@ -24,7 +24,7 @@
                   class: "job-member-edit-button" %>
 
       <%= link_to "remove", job_membership, method: :delete, remote: true,
-                  data: {confirm: "Remove " + job_membership.user.name + " from job?"},
+                  data: {confirm: "Remove " + (job_membership.user.present? ? job_membership.user.name : job_membership.user_name || '') + " from job?"},
                   class: "delete-button-small job-member-button" %>
   <% end %>
 </li>
