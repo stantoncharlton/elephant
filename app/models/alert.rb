@@ -4,6 +4,8 @@ class Alert < ActiveRecord::Base
                     :expiration
 
 
+    after_commit :flush_cache
+
     validates :company, presence: true
     validates :user, presence: true
     validates :created_by, presence: true
@@ -49,6 +51,19 @@ class Alert < ActiveRecord::Base
         elsif DateTime.now >= self.expiration
             self.destroy
         end
+    end
+
+    def self.cached_find_new_messages(user_id)
+        Rails.cache.fetch([name, user_id.to_s + '-nm'], expires_in: 1.day) { User.find(user_id).alerts.where("alert_type = 3").count }
+    end
+
+    def self.cached_find_new_alerts(user_id)
+        Rails.cache.fetch([name, user_id.to_s + '-na'], expires_in: 1.day) { User.find(user_id).new_alerts.count }
+    end
+
+    def flush_cache
+        Rails.cache.delete([self.class.name, user_id.to_s + '-nm'])
+        #Rails.cache.delete([self.class.name, id])
     end
 
 end

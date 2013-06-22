@@ -10,6 +10,8 @@ class Job < ActiveRecord::Base
     acts_as_xlsx
 
 
+    after_commit :flush_cache
+
     validates_presence_of :company
     validates_presence_of :client
     validates_presence_of :district
@@ -339,32 +341,40 @@ class Job < ActiveRecord::Base
     end
 
     def status_percentage
-        percentage = 100
-        current = 0
-        pre_job_docs = self.pre_job_documents.count
-        fields = self.dynamic_fields.select { |df| !df.predefined? && !df.optional? }.count
+        Rails.cache.fetch([self.class.name, id.to_s + '-sp'], expires_in: 30.days) do
+            percentage = 100
+            current = 0
 
-        if pre_job_docs > 0
-            pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs.to_f
-        end
-        if fields > 0
-            fields_value = (pre_job_docs == 0 ? 50 : 15) / fields.to_f
-        end
+            pre_job_docs = self.pre_job_documents.count
+            fields = self.dynamic_fields.select { |df| !df.predefined? && !df.optional? }.count
 
-        current += (self.pre_job_documents.select { |document| !document.url.blank? }.count || 0) * pre_doc_value.to_f
-        current += (self.dynamic_fields.select { |df| !df.predefined? && !df.optional? && !df.value.blank? }.count || 0) * fields_value.to_f
-
-
-        if self.approved_to_ship
-            if self.post_job_documents.count > 0
-                post_doc_value = 50 / self.post_job_documents.count.to_f
-                current += (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
-            else
-                current += 50
+            if pre_job_docs > 0
+                pre_doc_value = (fields == 0 ? 50 : 35) / pre_job_docs.to_f
             end
-        end
+            if fields > 0
+                fields_value = (pre_job_docs == 0 ? 50 : 15) / fields.to_f
+            end
 
-        current
+            current += (self.pre_job_documents.select { |document| !document.url.blank? }.count || 0) * pre_doc_value.to_f
+            current += (self.dynamic_fields.select { |df| !df.predefined? && !df.optional? && !df.value.blank? }.count || 0) * fields_value.to_f
+
+
+            if self.approved_to_ship
+                if self.post_job_documents.count > 0
+                    post_doc_value = 50 / self.post_job_documents.count.to_f
+                    current += (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
+                else
+                    current += 50
+                end
+            end
+
+            current
+        end
+    end
+
+
+    def flush_cache_status_percentage
+        Rails.cache.delete([self.class.name, id.to_s + '-sp'])
     end
 
     def user_is_member?(user)
@@ -474,6 +484,14 @@ class Job < ActiveRecord::Base
 
             merge self, documents
         end
+    end
+
+    def self.cached_find(id)
+        Rails.cache.fetch([name, id], expires_in: 10.minutes) { find(id) }
+    end
+
+    def flush_cache
+        Rails.cache.delete([self.class.name, id])
     end
 
 end

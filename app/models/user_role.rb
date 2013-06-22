@@ -1,6 +1,8 @@
 class UserRole < ActiveRecord::Base
     attr_accessible :role_id
 
+    after_commit :flush_cache
+
     validates :title, presence: true, length: {maximum: 50}, uniqueness: {case_sensitive: false, scope: :company_id}
     validates_presence_of :company
 
@@ -45,8 +47,8 @@ class UserRole < ActiveRecord::Base
     end
 
     def title
-        existing_role = UserRole.where("company_id = :company_id AND role_id = :role_id", company_id: self.company.id, role_id: self.role_id).limit(1).first
-        return existing_role.read_attribute(:title) unless existing_role.nil? || existing_role.read_attribute(:title).blank?
+        existing_role = UserRole.cached_find(self.company_id, self.role_id)
+        return existing_role.read_attribute(:title) unless existing_role.blank? || existing_role.read_attribute(:title).blank?
 
         case self.role_id
             when ROLE_ELEPHANT_ADMIN
@@ -233,6 +235,14 @@ class UserRole < ActiveRecord::Base
         end
 
         jobs
+    end
+
+    def self.cached_find(company_id, role_id)
+        Rails.cache.fetch([name, company_id.to_s + '-' +  role_id.to_s], expires_in: 30.days) { where("company_id = :company_id AND role_id = :role_id", company_id: company_id, role_id: role_id).limit(1).first || '' }
+    end
+
+    def flush_cache
+        Rails.cache.delete([self.class.name, company_id.to_s + '-' +  role_id.to_s])
     end
 
 end

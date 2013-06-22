@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
     end
 
     def title
-        UserRole.from_role(self.role_id, self.company).title
+        UserRole.from_role(self.role_id, Company.cached_find(self.company_id)).title
     end
 
 
@@ -172,6 +172,10 @@ class User < ActiveRecord::Base
         key.save
         key.access_token
     end
+
+
+
+
 
 
     private

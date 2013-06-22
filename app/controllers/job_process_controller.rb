@@ -6,6 +6,8 @@ class JobProcessController < ApplicationController
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
+        @job.flush_cache_status_percentage
+
         if !@job.pre_job_data_good
             render :nothing => true, :status => :ok
             return
@@ -68,6 +70,8 @@ class JobProcessController < ApplicationController
 
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
+
+        @job.flush_cache_status_percentage
 
         if !@job.pre_job_data_good
             render :nothing => true, :status => :ok

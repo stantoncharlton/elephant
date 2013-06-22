@@ -9,7 +9,7 @@
         <%= ((Integer(params[:page]) - 1) * 20) + 1 %>
         - <%= [((Integer(params[:page]) - 1) * 20) + 20, @jobs.count].min %> of <%= @jobs.count.to_s %>
     <% else %>
-        1 - <%= @jobs.count %> of <%= @jobs.count.to_s %>
+        1 - <%= @jobs.count %> of <%= @jobs.count %>
     <% end %>
   </h2>
 
@@ -31,7 +31,7 @@
         </div>
     <% else %>
         <div class="well">
-          <%= render 'jobs/index_parts/jobs_count', jobs: current_user.jobs %>
+          <%= render 'jobs/index_parts/jobs_count', jobs: @jobs %>
         </div>
         <br>
     <% end %>

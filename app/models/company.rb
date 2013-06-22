@@ -13,6 +13,8 @@ class Company < ActiveRecord::Base
                     :vpn_range,
                     :test_company
 
+    after_commit :flush_cache
+
     validates :name, presence: true, uniqueness: true, length: {maximum: 50}
 
     has_many :users, dependent: :destroy, order: "name ASC"
@@ -39,6 +41,14 @@ class Company < ActiveRecord::Base
 
     def active_jobs
         self.jobs.where(:status => Job::ACTIVE)
+    end
+
+    def self.cached_find(id)
+        Rails.cache.fetch([name, id], expires_in: 30.days) { find(id) }
+    end
+
+    def flush_cache
+        Rails.cache.delete([self.class.name, id])
     end
 
 end

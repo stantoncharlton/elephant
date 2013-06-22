@@ -198,7 +198,7 @@
 
 
   <div class="">
-    <% job.dynamic_fields.includes(:dynamic_field_template).select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
+    <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
         <% if !dynamic_field.dynamic_field_template.nil? %>
             <p class="job-field-title"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
 
