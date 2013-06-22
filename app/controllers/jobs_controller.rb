@@ -277,7 +277,7 @@ class JobsController < ApplicationController
     def destroy
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
-        not_found unless @job.is_coordinator_or_creator?(current_user) or current_user.admin?
+        not_found unless @job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit?
         @job.destroy
 
         #Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
