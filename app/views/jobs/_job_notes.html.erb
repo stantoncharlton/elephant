@@ -53,7 +53,7 @@
   </div>
 </div>
 <div id="job_notes" class="content">
-  <% job.job_notes.each do |job_note| %>
+  <% job.job_notes.includes(comments: :user).each do |job_note| %>
       <%= render 'job_notes/job_note', job_note: job_note %>
   <% end %>
 </div>

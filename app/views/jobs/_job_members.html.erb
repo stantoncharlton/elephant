@@ -3,7 +3,7 @@
 
   <div class="job-members-div">
     <ul class="job-members-list" id="job_members_list">
-      <% job.job_memberships.each do |jm| %>
+      <% job.job_memberships.includes(user: :district ).each do |jm| %>
           <% if jm.job_role_id != 6 %>
               <%= render 'job_memberships/job_membership', job_membership: jm %>
           <% end %>

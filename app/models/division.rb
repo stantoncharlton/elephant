@@ -20,7 +20,7 @@ class Division < ActiveRecord::Base
     end
 
     def jobs
-        Job.where("jobs.company_id = ?", self.company_id).where("divisions.id = ?", self.id).joins(job_template: {product_line: {segment: :division}})
+        Job.where("jobs.company_id = ?", self.company_id).where("divisions.id = ?", self.id).joins(job_template: {product_line: {segment: :division }})
     end
 
     def active_jobs

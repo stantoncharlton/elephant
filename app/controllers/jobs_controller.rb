@@ -175,7 +175,7 @@ class JobsController < ApplicationController
             end
 
             # Add to job as creator
-            @job.add_user!(current_user, 6)
+            @job.add_user!(current_user, JobMembership::CREATOR)
 
             Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
 
@@ -269,7 +269,7 @@ class JobsController < ApplicationController
         @job.save
 
         if @user.present?
-            @job.add_user!(@user)
+            @job.add_user!(@user, JobMembership::OBSERVER)
         end
 
     end
@@ -282,7 +282,7 @@ class JobsController < ApplicationController
 
         #Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
 
-        flash[:success] = "Job deleted."
+        flash[:success] = 'Job deleted.'
 
         redirect_to jobs_path
     end

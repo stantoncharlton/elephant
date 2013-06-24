@@ -31,9 +31,11 @@
                   "data-title" => "Click to open job" do %>
           <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
       <% end %>
-      <!-- <%= link_to job, class: "job-link" do %>
-          <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false, new_line_job_type: false %>
-      <% end %> -->
+      <% if false %>
+          <%= link_to job, class: "job-link" do %>
+              <%= render 'jobs/job_data', job: job, form_editable: false, in_form: false, new_line_job_type: false %>
+          <% end %>
+      <% end %>
   <% end %>
 </div>
 
@@ -42,7 +44,7 @@
 <% else %>
     <br>
     <div class="alert">
-      <%= link_to "View all jobs active and closed (" + @division.jobs.count.to_s + ")", division_path(:page => "1"), class: "activity-user-link" %>
+      <%= link_to "View all jobs active and closed (" + @division.jobs.count(:id).to_s + ")", division_path(:page => "1"), class: "activity-user-link" %>
     </div>
     <% if @jobs.empty? %>
         <div class="no-alerts">

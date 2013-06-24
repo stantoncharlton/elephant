@@ -255,15 +255,15 @@ class Job < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::NOTICES }
+        self.documents.includes(:user, :document_template, :job, :document_shares).select { |document| document.category == Document::NOTICES }
     end
 
     def pre_job_documents
-        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::PRE_JOB }
+        self.documents.includes(:user, :document_template, :job, :document_shares).select { |document| document.category == Document::PRE_JOB }
     end
 
     def post_job_documents
-        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::POST_JOB }
+        self.documents.includes(:user, :document_template, :job, :document_shares).select { |document| document.category == Document::POST_JOB }
     end
 
     def post_job_report_document
@@ -317,7 +317,7 @@ class Job < ActiveRecord::Base
     end
 
     def get_membership_role(user)
-        self.job_memberships.find { |jm| jm.user == user }
+        self.job_memberships.find { |jm| jm.user_id == user.id }
     end
 
     def is_coordinator_or_creator?(user)
