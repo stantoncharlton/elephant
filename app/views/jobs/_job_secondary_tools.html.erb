@@ -5,7 +5,7 @@
 
   <div>
     <div id="secondary_tools_list">
-      <% job.secondary_tools.each do |secondary_tool| %>
+      <% job.secondary_tools.includes(:tool).each do |secondary_tool| %>
           <%= render 'tools/secondary/secondary_tool', tool: secondary_tool, is_editable: job_editable %>
       <% end %>
     </div>
