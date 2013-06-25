@@ -286,7 +286,7 @@ class Job < ActiveRecord::Base
         end
 
         self.dynamic_fields.each do |df|
-            if !df.optional? && df.value.blank?
+            if !df.optional? && !df.predefined? && df.value.blank?
                 return false
             end
         end
