@@ -44,7 +44,7 @@ class SearchController < ApplicationController
                     @product_line = ProductLine.find_by_id(params[:product_line])
                     not_found unless @product_line.company == current_user.company
 
-                    if @data_type == Query::WELL_DATA
+                    if @data_type == Query::WELL_DATA || @data_type == Query::JOB_DATA
                         @show_fields = false
                         @job_templates = @product_line.job_templates
                     elsif @data_type == Query::JOB_TOOLS

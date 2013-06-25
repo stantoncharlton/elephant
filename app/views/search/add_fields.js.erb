@@ -106,13 +106,12 @@
     <% end %>
     <% if !@job_templates.nil? %>
 
-        var $pl = $("#<%= @div_name %>").find('.search-constraint-job-template');
-        $pl.css("display", "inline");
-        var $select = $pl.find('select');
-        $select.find('option:gt(0)').remove();
+        var $select_job_templates = $("#<%= @div_name %>").find('.search-constraint-job-template-select');
+        $select_job_templates.css("display", "inline");
+        $select_job_templates.find('option:gt(0)').remove();
 
         <% @job_templates.each do |jt| %>
-            $select.append($("<option></option>")
+            $select_job_templates.append($("<option></option>")
                     .attr("value", '<%= jt.id %>')
                     .text('<%= jt.name %>'));
         <% end %>
