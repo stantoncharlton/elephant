@@ -1,0 +1,23 @@
+<div class="page_header">
+  <h1>Create New Customer</h1>
+</div>
+
+<div class="ajax-form new-client-form">
+  <%= form_for @client, remote: true do |f| %>
+
+      <%= render "form", f: f %>
+
+      <div class="content actions">
+        <%= f.submit "Create Customer", class: "bluebtn pull-right ajax-form-loading-on-click" %>
+
+      </div>
+
+  <% end %>
+</div>
+
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Please wait, creating customer...</b></span>
+  <br>
+</div>

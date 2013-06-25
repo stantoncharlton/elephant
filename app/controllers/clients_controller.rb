@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show]
-    before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
+    before_filter :signed_in_user, only: [:new, :create, :index, :show]
+    before_filter :signed_in_admin, only: [:edit, :update, :destroy]
     set_tab :clients
 
     def index
@@ -43,7 +43,7 @@ class ClientsController < ApplicationController
             @jobs = Client.from_company_for_user(@client, params, current_user, current_user.company).results
         else
             @client_jobs = UserRole.limit_jobs_scope current_user, @client.jobs
-            @jobs = @client_jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
+            @jobs = @client_jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).paginate(page: params[:page], limit: 20)
         end
     end
 
@@ -60,15 +60,23 @@ class ClientsController < ApplicationController
         @client.company = current_user.company
         @client.country = Country.find_by_id(country_id)
 
-        if @client.save
+        respond_to do |format|
+            format.html {
+                if @client.save
 
-            Activity.add(self.current_user, Activity::CLIENT_CREATED, @client, @client.name)
-            flash[:success] = "Customer created - #{@client.name}"
-            redirect_to clients_path
-        else
-            @countries = Country.all
-            render 'new'
+                    Activity.add(self.current_user, Activity::CLIENT_CREATED, @client, @client.name)
+                    flash[:success] = "Customer created - #{@client.name}"
+                    redirect_to clients_path
+                else
+                    @countries = Country.all
+                    render 'new'
+                end
+            }
+            format.js {
+                @client.save
+            }
         end
+
     end
 
     def edit
