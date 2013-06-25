@@ -17,6 +17,8 @@ $ ->
         return false
     return false
 
+
+
   $('.client-name').each (index, element) =>
     $(element).autocomplete
       source: $(element).data('autocomplete-source')
