@@ -12,7 +12,7 @@
 
   <div class="note-avatar-box-small">
     <% membership = job_note.job.get_membership_role(job_note.user) %>
-    <% if membership.present? %>
+    <% if !membership.nil? %>
         <% case membership.job_role_id
                when 1 %><%= image_tag "user_avatar_default.png" %>
             <% when 2 %><%= image_tag "manager_icon.png" %>
@@ -21,6 +21,8 @@
             <% when 5 %><%= image_tag "shop_icon.png" %>
             <% else %><%= image_tag "user_avatar_default.png" %>
         <% end %>
+    <% else %>
+        <%= image_tag "user_avatar_default.png" %>
     <% end %>
   </div>
 
