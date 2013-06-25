@@ -1,16 +1,18 @@
-<% if !inside_job and !job.nil? %>
-    <span class="inline">
+<% if job.job_template.present? %>
+    <% if !inside_job and !job.nil? %>
+        <span class="inline">
       <%= link_to job, class: "activity-user-link no-bottom-margin", "data-placement" => "right",
                   "data-html" => true,
                   "data-title" => "<div class='well-tooltip'>" +
-                                                 (job.close_date.present? ? "" : "<p class='alert alert-info'><b class='blue-text'>" + job.status_string + "</b></p><br>") +
-                                                 "<img src='" + image_path('district_extrasmall.png') + "' class='job-status-avatar'><b>" + (job.district.present? ? job.district.name : "") + "</b><br>" +
-                                                 "<br><b class='blue-text'>" + job.client.name + "</b>" +
-                                                 "<br><b>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</b><br><br>" +
-                                                 "<h3>" + job.job_template.product_line.name + " / " + job.job_template.name + "</h3>" +
-                                                 "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" +
-                                                 "</div>"  do %>
+                          (job.close_date.present? ? "" : "<p class='alert alert-info'><b class='blue-text'>" + job.status_string + "</b></p><br>") +
+                          "<img src='" + image_path('district_extrasmall.png') + "' class='job-status-avatar'><b>" + (job.district.present? ? job.district.name : "") + "</b><br>" +
+                          "<br><b class='blue-text'>" + job.client.name + "</b>" +
+                          "<br><b>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</b><br><br>" +
+                          "<h3>" + job.job_template.product_line.name + " / " + job.job_template.name + "</h3>" +
+                          "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" +
+                          "</div>" do %>
           <%= job.field.name %> | <%= job.well.name %>
       <% end %>
     </span>
+    <% end %>
 <% end %>
