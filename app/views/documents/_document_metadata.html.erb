@@ -52,7 +52,7 @@
               <% if document.user.present? %>
                   <%= render 'activities/user', user: document.user %>
               <% else %>
-                    <%= document.user_name %>
+                    <p><b><%= document.user_name %></b></p>
               <% end %>
           <% end %>
         </div>
