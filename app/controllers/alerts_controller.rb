@@ -24,7 +24,7 @@ class AlertsController < ApplicationController
         end
 
         @start_date = Time.now.beginning_of_week - 1.days
-        @active_jobs = current_user.active_jobs.to_a
+        @active_jobs = current_user.active_jobs
 
 
 

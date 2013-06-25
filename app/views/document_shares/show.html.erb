@@ -18,11 +18,13 @@
       <%= f.hidden_field :access_code, value: params[:access_code] %>
       <div id="jobs">
         <% current_user.jobs.each do |job| %>
-            <%= link_to "#", class: "job-status job-link tooltip-info share-add-to-job",
-                        id: "job_" + job.id.to_s,
-                        "data-placement" => "bottom",
-                        "data-title" => "Click to add document to job" do %>
-                <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
+            <% if job.job_template.present? %>
+                <%= link_to "#", class: "job-status job-link tooltip-info share-add-to-job",
+                            id: "job_" + job.id.to_s,
+                            "data-placement" => "bottom",
+                            "data-title" => "Click to add document to job" do %>
+                    <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
+                <% end %>
             <% end %>
         <% end %>
       </div>
