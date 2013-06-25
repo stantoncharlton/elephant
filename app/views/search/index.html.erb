@@ -4,44 +4,46 @@
   <h1>Search for '<%= @term %>'</h1>
 
   <div class="inline push-right-small">
-    <% if !@jobs.nil? %>
+    <% if !@jobs.nil? && @jobs.any? %>
         <span class="label label-info search-count"><%= pluralize(@jobs.count, "Job") %></span>
     <% end %>
-    <% if !@districts.nil? %>
+    <% if !@districts.nil? && @districts.any? %>
         <span class="label label-info search-count"><%= pluralize(@districts.count, "District") %></span>
     <% end %>
-    <% if !@users.nil? %>
-        <span class="label label-info search-count"><%= pluralize(@users.count, "People") %></span>
+    <% if !@users.nil? && @users.any? %>
+        <span class="label label-info search-count"><%= pluralize(@users.count, "Person") %></span>
     <% end %>
-    <% if !@fields.nil? %>
+    <% if !@fields.nil? && @fields.any? %>
         <span class="label label-info search-count"><%= pluralize(@fields.count, "Field") %></span>
     <% end %>
-    <% if !@wells.nil? %>
+    <% if !@wells.nil? && @wells.any? %>
         <span class="label label-info search-count"><%= pluralize(@wells.count, "Well") %></span>
     <% end %>
   </div>
 
 
-  <div class="btn-group inline pull-right">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Export Results
-    </a>
-    <ul class="dropdown-menu">
+  <% if !@jobs.nil? && @jobs.any? %>
+      <div class="btn-group inline pull-right">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Export Results
+        </a>
+        <ul class="dropdown-menu">
 
-      <li>
-        <%= link_to "Export as Excel", request.url + "&format=xlsx",
-                    class: "dropdown-menu-link tooltip-info",
-                    "data-placement" => "left",
-                    "data-title" => "Export results as Microsoft Excel file." %>
-      </li>
+          <li>
+            <%= link_to "Export as Excel", request.url + "&format=xlsx",
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Export results as Microsoft Excel file." %>
+          </li>
 
 
-    </ul>
-  </div>
+        </ul>
+      </div>
+  <% end %>
 
 </div>
 
-<% if !@districts.nil? && @districts.count > 0 %>
+<% if !@districts.nil? && @districts.any? %>
     <div id="districts_list">
       <% @districts.each do |district| %>
           <div>
@@ -54,7 +56,7 @@
     <hr>
 <% end %>
 
-<% if !@user.nil? && @users.count > 0 %>
+<% if !@users.nil? && @users.any? %>
     <div id="users_list">
       <% @users.each do |user| %>
           <div>
@@ -67,7 +69,7 @@
     <hr>
 <% end %>
 
-<% if !@fields.nil? && @fields.count > 0 %>
+<% if !@fields.nil? && @fields.any? %>
     <div id="fields_list">
       <% @fields.each do |field| %>
           <div>
@@ -80,7 +82,7 @@
     <hr>
 <% end %>
 
-<% if !@wells.nil? && @wells.count > 0 %>
+<% if !@wells.nil? && @wells.any? %>
     <div id="fields_list">
       <% @wells.each do |well| %>
           <div>

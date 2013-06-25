@@ -154,7 +154,13 @@ class JobsController < ApplicationController
         if @job.save
 
             @job.job_template.dynamic_fields.each do |dynamic_field|
-                job_dynamic_field = dynamic_field.dup
+                job_dynamic_field = DynamicField.new
+                job_dynamic_field.name = dynamic_field.name
+                job_dynamic_field.value_type = dynamic_field.value_type
+                job_dynamic_field.optional = dynamic_field.optional
+                job_dynamic_field.priority = dynamic_field.priority
+                job_dynamic_field.predefined = dynamic_field.predefined
+                job_dynamic_field.ordering = dynamic_field.ordering
                 job_dynamic_field.template = false
                 job_dynamic_field.dynamic_field_template = dynamic_field
                 job_dynamic_field.job_template = @job.job_template
@@ -164,7 +170,13 @@ class JobsController < ApplicationController
             end
 
             @job.job_template.documents.each do |document|
-                job_document = document.dup
+                job_document = Document.new
+                job_document.category = document.category
+                job_document.name = document.name
+                job_document.status = document.status
+                job_document.document_type = document.document_type
+                job_document.read_only = document.read_only
+                job_document.ordering = document.ordering
                 job_document.template = false
                 job_document.url = nil
                 job_document.document_template = document

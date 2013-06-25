@@ -57,6 +57,8 @@ $ ->
 
   $('.show-modal-button').live "click", ->
     $('#modal_popup').css('visibility', 'visible')
+    inner = $('#modal_popup').find('.modal-popup')
+    inner.css('margin-top', $(this).offset().top - 300)
     $('#modal_popup').height($(document).height() + 100)
     $('#modal_popup').find('.loading').removeClass 'hidden'
     return false

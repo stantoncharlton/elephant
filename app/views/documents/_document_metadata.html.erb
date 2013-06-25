@@ -6,6 +6,8 @@
             <%= image_tag "document_complete.png", class: "tooltip-info",
                           "data-placement" => "bottom",
                           "data-title" => "Complete" %>
+        <% elsif document.category == Document::NOTICES %>
+            <%= image_tag "warning.png" %>
         <% end %>
       </div>
   <% end %>
