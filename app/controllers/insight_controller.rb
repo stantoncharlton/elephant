@@ -1,0 +1,4 @@
+class InsightController < ApplicationController
+
+
+end

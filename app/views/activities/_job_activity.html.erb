@@ -42,7 +42,7 @@
           <% if activity.user.present? %>
               <%= render 'activities/user', user: activity.user %>
           <% else %>
-            <b><%= activity.user_name %></b>
+            <p><b><%= activity.user_name %></b></p>
           <% end %>
 
           <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
