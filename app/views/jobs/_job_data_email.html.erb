@@ -44,7 +44,7 @@
           <% if Rails.env.production? %>
               <%= image_tag "district_extrasmall.png", class: "email-avatar" %>
           <% end %>
-        <b class="inline"><%= job.district.name %></b>
+        <b class="inline"><%= job.district.present? ? job.district.name : "" %></b>
         </span>
 
         <span class="push-right-small">

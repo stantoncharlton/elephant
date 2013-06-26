@@ -12,7 +12,7 @@ class PrimaryToolsController < ApplicationController
 
         @tool = PrimaryTool.new(params[:primary_tool])
         @tool.tool = Tool.find_by_id(tool_id)
-        not_found unless @tool.tool.company == current_user.company
+        not_found unless @tool.tool.present? &&  @tool.tool.company == current_user.company
         @tool.job_template = JobTemplate.find_by_id(job_template_id)
         not_found unless @tool.job_template.company == current_user.company
 

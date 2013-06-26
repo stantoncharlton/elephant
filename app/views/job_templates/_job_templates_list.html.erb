@@ -1,4 +1,4 @@
-<% if job_templates.includes(:product_line).first.product_line.present? %>
+<% if job_templates.includes(:product_line).any? && job_templates.includes(:product_line).first.product_line.present? %>
     <div class="content">
       Filter by tools »
       <% job_templates.first.product_line.primary_tools.each do |primary_tool| %>
@@ -11,7 +11,7 @@
   <b>Select the type of job to create</b>
 </div>
 
-<% job_templates.each do |jt| %>
+<% job_templates.includes(primary_tools: :tool).each do |jt| %>
     <div class="field">
       <%= link_to "#",
                   id: "job_template_" + jt.id.to_s,

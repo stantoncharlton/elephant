@@ -23,11 +23,11 @@ module JobAnalysisHelper
     end
 
     def total_districts(jobs)
-        jobs.reorder('').group(:district_id).count().count
+        jobs.reorder('').group("jobs.district_id").count().count
     end
 
     def total_job_types(jobs)
-        jobs.reorder('').group(:job_template_id).count().count
+        jobs.reorder('').group("jobs.job_template_id").count().count
     end
 
     def average_job_duration(jobs)

@@ -41,7 +41,7 @@ class OverviewController < ApplicationController
         @filters_open = params[:filters_open].blank? ? "" : params[:filters_open]
 
         if !@district_id.blank?
-            @jobs = @jobs.where(district_id: @district_id)
+            @jobs = @jobs.where("jobs.district_id = ?", @district_id)
             @district_name = District.find_by_id(@district_id).name
         end
 
