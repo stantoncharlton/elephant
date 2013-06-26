@@ -42,6 +42,11 @@
         <div class="alert alert-title">
           <%= image_tag "approve_arrow.png" %>
           <p class=" inline"><%= t ".waiting_to_close" %>:</p>
+
+          <p>
+            <br>
+            <%= link_to "Review Now", alert.job, class: "bluebtn btnsmall green" %>
+          </p>
         </div>
         <% if new %>
             <%= render 'jobs/job', job: alert.job %>
