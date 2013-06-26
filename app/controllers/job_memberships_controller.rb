@@ -19,7 +19,9 @@ class JobMembershipsController < ApplicationController
 
         @job_membership = JobMembership.new(params[:job_membership])
         @job_membership.user = @user
-        @job_membership.user_name = @user.name
+        if @user.present?
+            @job_membership.user_name = @user.name
+        end
         @job_membership.job = @job
         if @job_membership.save
 
