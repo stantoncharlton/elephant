@@ -15,6 +15,7 @@ class SettingsController < ApplicationController
             @user.update_attribute(:phone_number, params[:user][:phone_number])
             @user.update_attribute(:language, params[:user][:language])
             @user.update_attribute(:time_zone, params[:user][:time_zone])
+            @user.update_attribute(:send_daily_activity, params[:user][:send_daily_activity] == "1")
 
             if !@user.user_unit
                 @user.user_unit = UserUnit.new

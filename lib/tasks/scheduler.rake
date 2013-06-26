@@ -1,6 +1,6 @@
 task :daily_activity_email => :environment do
     User.all.each do |user|
-        if !user.admin?
+        if !user.admin? && user.send_daily_activity
 
             activities = Activity.activities_for_user_today(user)
             if !activities.nil? and activities.any?

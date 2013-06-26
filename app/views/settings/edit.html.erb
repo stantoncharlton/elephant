@@ -48,26 +48,28 @@
         <p class="checkbox-label">Daily Activity Report Email</p>
       </div>
 
-      <div class="">
-        <%= f.check_box :send_added_to_job, checked: true,
-                        class: "regular-checkbox", id: "checkbox_2" %>
-        <label for="checkbox_2"></label>
-        <%= f.label nil, "Added to Job Email", class: "checkbox-label" %>
-      </div>
+      <% if false %>
+          <div class="">
+            <%= f.check_box :send_added_to_job, checked: true,
+                            class: "regular-checkbox", id: "checkbox_2" %>
+            <label for="checkbox_2"></label>
+            <%= f.label nil, "Added to Job Email", class: "checkbox-label" %>
+          </div>
 
-      <div class="">
-        <%= f.check_box :send_new_message, checked: true,
-                        class: "regular-checkbox", id: "checkbox_3" %>
-        <label for="checkbox_3"></label>
-        <%= f.label nil, "New Message", class: "checkbox-label" %>
-      </div>
+          <div class="">
+            <%= f.check_box :send_new_message, checked: true,
+                            class: "regular-checkbox", id: "checkbox_3" %>
+            <label for="checkbox_3"></label>
+            <%= f.label nil, "New Message", class: "checkbox-label" %>
+          </div>
 
-      <div class="inline">
-        <%= f.check_box :send_task_assigned, checked: true,
-                        class: "regular-checkbox", id: "checkbox_4" %>
-        <label for="checkbox_4"></label>
-        <%= f.label nil, "Task Assigned", class: "checkbox-label" %>
-      </div>
+          <div class="inline">
+            <%= f.check_box :send_task_assigned, checked: true,
+                            class: "regular-checkbox", id: "checkbox_4" %>
+            <label for="checkbox_4"></label>
+            <%= f.label nil, "Task Assigned", class: "checkbox-label" %>
+          </div>
+      <% end %>
     </div>
 
     <div class="page-header-small">
