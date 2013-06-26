@@ -74,7 +74,7 @@
                          value: !@job.district.nil? ? @job.district.name : nil,
                          placeholder: "Type a district name...",
                          id: "district_name", class: "txtfield small tooltip-info",
-                         "data-placement" => "bottom",
+                         "data-placement" => "top",
                          "data-title" => "District Name, select from drop down based on search results" %>
 
 
@@ -87,7 +87,7 @@
                            placeholder: "Type a customer name...",
                            value: !@job.client.nil? ? @job.client.name : nil,
                            id: "client_name", class: "txtfield small tooltip-info",
-                           "data-placement" => "bottom",
+                           "data-placement" => "top",
                            "data-title" => "Customer Name, select from drop down based on search results" %>
 
         <% if current_user.role.district_edit? %>

@@ -67,6 +67,7 @@ ElephantWebApp::Application.routes.draw do
     resources :search, only: [:new, :create, :index]
 
     resources :history, only: [:index]
+    resources :insight, only: [:index]
 
     resources :alerts, only: [:index]
 

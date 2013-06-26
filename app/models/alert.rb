@@ -63,6 +63,7 @@ class Alert < ActiveRecord::Base
 
     def flush_cache
         Rails.cache.delete([self.class.name, user_id.to_s + '-nm'])
+        Rails.cache.delete([self.class.name, user_id.to_s + '-na'])
         #Rails.cache.delete([self.class.name, id])
     end
 

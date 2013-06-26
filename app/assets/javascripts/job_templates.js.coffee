@@ -70,3 +70,13 @@ $ ->
       $('#new_documents_added_names').text($(this).closest('.inline-form').find('[id=new_document_name]').val())
     else
       $('#new_documents_added_names').text(oldValue + ', ' +  $(this).closest('.inline-form').find('[id=new_document_name]').val())
+
+  $('.add-new-document-tool-link').live "click", ->
+    $(this).closest('fieldset').find('.add-new-document-tool').removeClass 'hidden'
+    $(this).closest('fieldset').find('.tool-add-links').addClass 'hidden'
+    return false
+
+  $('.cancel-add-document-tool').live "click", ->
+    $(this).closest('fieldset').find('.add-new-document-tool').addClass 'hidden'
+    $(this).closest('fieldset').find('.tool-add-links').removeClass 'hidden'
+    return false

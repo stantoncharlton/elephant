@@ -3,6 +3,7 @@
     <div class="primary-tool-name">
       <%= image_tag "tool.png" %>
       <h3 class="push-right-small"><%= tool.tool.name %></h3>
+
       <p class="tool-description push-right-small"><%= tool.tool.description %></p>
     </div>
 
@@ -12,6 +13,40 @@
                   data: {confirm: "Remove Primary Tool " + tool.tool.name + "?"}, class: "delete-button tooltip-info",
                   "data-placement" => "bottom",
                   "data-title" => "Delete " + tool.tool.name + " from job type" %>
+    </div>
+  </div>
+  <div>
+    <div class="add-new-document-tool hidden">
+      <%= form_for Document.new, remote: true do |f| %>
+
+          <div class="alert alert-info">
+
+            <p><b>Add New Document to Primary Tool</b></p>
+
+            <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield tooltip-info", id: "new_document_name",
+                             "data-placement" => "bottom",
+                             "data-title" => "Document name" %>
+            <%= f.hidden_field :document_type, value: "0" %>
+            <%= f.hidden_field :read_only, value: false %>
+            <%= f.hidden_field :template, value: true %>
+            <%= f.hidden_field :category, value: "primary-tools" %>
+            <%= f.hidden_field :job_template_id, value: @job_template.id %>
+
+            <%= f.submit "+ Add new document",
+                         class: "bluebtn btnsmall tooltip-info add-new-document-button",
+                         "data-placement" => "bottom",
+                         "data-title" => "Add new document" %>
+
+            <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-document-tool" %>
+
+          </div>
+
+      <% end %>
+    </div>
+
+    <div class="tool-add-links">
+      <%= link_to "+ Add new document", "#", class: "activity-user-link push-right add-new-document-tool-link" %>
+      <%= link_to "+ Add part", "#", class: "activity-user-link push-right" %>
     </div>
   </div>
 </fieldset>

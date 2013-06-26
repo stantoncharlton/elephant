@@ -280,9 +280,9 @@ class JobsController < ApplicationController
 
         @job.save
 
-        if @user.present?
-            @job.add_user!(@user, JobMembership::OBSERVER)
-        end
+        #if @user.present?
+        #    @job.add_user!(@user, JobMembership::OBSERVER)
+        #end
 
     end
 
