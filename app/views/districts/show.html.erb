@@ -62,10 +62,8 @@
             </div>
         <% end %>
         <br>
-        <%= @district.phone_number %>
-        <b>+1 672.893.0900</b>
-        <%= @district.support_email %>
-        <a href="#" class="activity-user-link">support-williston@bh.com</a>
+        <b><%= @district.phone_number %></b>
+        <a href="mailto:<%= @district.support_email %>" class="activity-user-link"><%= @district.support_email %></a>
       </div>
 
       <br><br><br>
