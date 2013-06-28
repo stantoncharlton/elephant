@@ -2,5 +2,7 @@
     <%= tab.alerts "Agenda", alerts_path %>
     <%= tab.jobs I18n.t("jobs.index.title"), jobs_path %>
     <%= tab.overview "Overview", overview_path %>
-    <%= tab.insight "Insight", insight_index_path %>
+    <% if current_user.role.global_edit? %>
+        <%= tab.insight "Insight", insight_index_path %>
+    <% end %>
 <% end %>

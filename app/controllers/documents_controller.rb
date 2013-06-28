@@ -83,6 +83,10 @@ class DocumentsController < ApplicationController
                 render 'error'
             end
 
+            if @document.category = Document::NOTICES
+                @document.delay.add_notices_on_active_jobs
+            end
+
             Activity.add(self.current_user, Activity::DOCUMENT_CREATED, @document, @document.name)
         else
 

@@ -14,7 +14,7 @@ class Document < ActiveRecord::Base
     validates :category, presence: true, length: {maximum: 50}
     validates :company, presence: true
 
-    belongs_to :job_template#, :conditions => ['documents.template = ?', true]
+    belongs_to :job_template #, :conditions => ['documents.template = ?', true]
     belongs_to :document_template, class_name: "Document"
     belongs_to :job
     belongs_to :company
@@ -129,5 +129,28 @@ class Document < ActiveRecord::Base
                    session.credentials[:session_token]).to_xml
     end
 
+
+    def add_notices_on_active_jobs
+        self.company.jobs.where("jobs.job_template_id = ?", self.job_template_id).where("jobs.status = ?", Job::ACTIVE).each do |job|
+            job_document = Document.new
+            job_document.category = self.category
+            job_document.name = self.name
+            job_document.status = self.status
+            job_document.document_type = self.document_type
+            job_document.read_only = self.read_only
+            job_document.ordering = self.ordering
+            job_document.template = false
+            job_document.url = nil
+            job_document.document_template = self
+            job_document.job_template = job.job_template
+            job_document.job = job
+            job_document.company = self.company
+            job_document.save
+
+            job.unique_participants.each do |participant|
+                UserMailer.new_notice_on_job(participant, job, self).deliver
+            end
+        end
+    end
 
 end

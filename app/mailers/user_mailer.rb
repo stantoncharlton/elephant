@@ -50,4 +50,12 @@ class UserMailer < ActionMailer::Base
            :subject => "Access Elephant Documents Offline")
   end
 
+  def new_notice_on_job(user, job, document)
+      @user = user
+      @job = job
+      @document = document
+      mail(:to => user.company.test_company ? "test-emails@go-elephant.com" :user.email,
+           :subject => "New Notice Added on: #{@job.field.name} | #{@job.well.name} | #{@job.job_template.name}")
+  end
+
 end
