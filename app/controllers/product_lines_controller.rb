@@ -22,9 +22,9 @@ class ProductLinesController < ApplicationController
 
         @is_paged = params[:page].present?
         if @is_paged
-            @jobs = @product_line.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
+            @jobs = @product_line.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
         else
-            @jobs = @product_line.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).reorder('').where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+            @jobs = @product_line.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).reorder('').where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
                     order("jobs.created_at DESC")
         end
     end
@@ -81,10 +81,14 @@ class ProductLinesController < ApplicationController
     def destroy
         @product_line = ProductLine.find(params[:id])
         not_found unless @product_line.company == current_user.company
-        @product_line.destroy
 
-        #Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
-
-        flash[:success] = "Product Line deleted."
+        if current_user.company.jobs.includes(job_template: :product_line).where("product_lines.id = ?", @product_line.id).any?
+            render 'job_templates/elephant_destroy'
+            return
+        else
+            @product_line.destroy
+            #Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
+            flash[:success] = "Product Line deleted."
+        end
     end
 end

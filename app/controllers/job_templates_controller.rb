@@ -38,9 +38,9 @@ class JobTemplatesController < ApplicationController
 
                     @is_paged = params[:page].present?
                     if @is_paged
-                        @jobs = @job_template.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
+                        @jobs = @job_template.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
                     else
-                        @jobs = @job_template.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).reorder('').where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+                        @jobs = @job_template.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).reorder('').where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
                                 order("jobs.created_at DESC")
                     end
 
@@ -133,12 +133,17 @@ class JobTemplatesController < ApplicationController
         @job_template = JobTemplate.find(params[:id])
         not_found unless @job_template.company == current_user.company
 
-        @job_template.destroy
+        if current_user.company.jobs.where("jobs.job_template_id = ?", @job_template.id).any?
+             render 'job_templates/elephant_destroy'
+            return
+        else
+            @job_template.destroy
 
-        Activity.add(self.current_user, Activity::JOB_TEMPLATE_DESTROYED, @job_template, @job_template.name)
+            Activity.add(self.current_user, Activity::JOB_TEMPLATE_DESTROYED, @job_template, @job_template.name)
 
-        flash[:success] = "Job Type deleted."
-        redirect_to divisions_path
+            flash[:success] = "Job Type deleted."
+            redirect_to divisions_path
+        end
     end
 
 end

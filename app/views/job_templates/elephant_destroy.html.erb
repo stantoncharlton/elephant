@@ -1,0 +1,9 @@
+<div class="error-page">
+  <%= image_tag "blue_logo.png" %>
+
+  <div class="message">
+    <h1>Can't Delete Item</h1>
+
+    <p>This item is being used in jobs, <br> please contact <%= link_to "Elephant Support", help_path, class: "blue-text" %> to delete this item.</p>
+  </div>
+</div>
