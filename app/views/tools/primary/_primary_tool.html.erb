@@ -1,19 +1,28 @@
-<fieldset class="field" id="primary_tool_<%= tool.id %>">
+<div class="field root-tool root_tool_<%= tool.tool.id %>" id="primary_tool_<%= tool.id %>">
   <div>
-    <div class="primary-tool-name">
-      <%= image_tag "tool.png" %>
-      <h3 class="push-right-small"><%= tool.tool.name %></h3>
 
-      <p class="tool-description push-right-small"><%= tool.tool.description %></p>
-    </div>
+    <div class="pull-right">
+      <%= link_to "edit", edit_tool_path(tool.tool), remote: true,
+                  class: "inline edit-dynamic-field-name tooltip-info show-modal-button",
+                  "data-placement" => "bottom",
+                  "data-title" => "Edit tool info" %>
 
-
-    <div class="push-right">
       <%= link_to "remove", tool, method: :delete, remote: true,
                   data: {confirm: "Remove Primary Tool " + tool.tool.name + "?"}, class: "delete-button tooltip-info",
                   "data-placement" => "bottom",
                   "data-title" => "Delete " + tool.tool.name + " from job type" %>
     </div>
+
+    <div class="primary-tool-name">
+      <%= image_tag "tool.png" %>
+      <h3 class="push-right-small tool-name"><%= tool.tool.name %></h3>
+
+      <br>
+
+      <p class="tool-description push-right-small <%= tool.tool.description.blank? ? 'hidden' : '' %>"><%= tool.tool.description %></p>
+    </div>
+
+
   </div>
   <div class="">
     <div id="documents_primary_tool_<%= tool.id %>" class="content">
@@ -44,7 +53,7 @@
                          "data-placement" => "bottom",
                          "data-title" => "Add new document" %>
 
-            <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-document-tool" %>
+            <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-document-tool btn-fix" %>
 
           </div>
 
@@ -56,4 +65,4 @@
       <%= link_to "+ Add part", "#", class: "activity-user-link push-right" %>
     </div>
   </div>
-</fieldset>
+</div>

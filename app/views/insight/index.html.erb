@@ -21,6 +21,7 @@
                               "<br><b class='blue-text'>" + job.client.name + "</b>" +
                               "<br><b>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</b><br><br>" +
                               "<h3>" + job.job_template.product_line.name + " / " + job.job_template.name + "</h3>" +
+                              "<hr><div>" + job.job_template.primary_tools.map { |pt| "<span class='label'>" + pt.tool.name + "</span>" }.join(" ") + "</div>" +
                               "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" +
                               "</div>" do %>
               <div class="">

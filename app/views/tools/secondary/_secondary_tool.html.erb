@@ -8,6 +8,8 @@
 
     <% if is_editable %>
         <div class="pull-right">
+
+
           <%= link_to "remove", tool, method: :delete, remote: true,
                       data: {confirm: "Remove Secondary Tool " + tool.tool.name + "?"}, class: "delete-button tooltip-info",
                       "data-placement" => "bottom",

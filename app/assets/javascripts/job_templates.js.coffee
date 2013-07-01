@@ -72,17 +72,17 @@ $ ->
       $('#new_documents_added_names').text(oldValue + ', ' +  $(this).closest('.inline-form').find('[id=new_document_name]').val())
 
   $('.add-new-document-tool-link').live "click", ->
-    $(this).closest('fieldset').find('.add-new-document-tool').removeClass 'hidden'
-    $(this).closest('fieldset').find('.tool-add-links').addClass 'hidden'
+    $(this).closest('.root-tool').find('.add-new-document-tool').removeClass 'hidden'
+    $(this).closest('.root-tool').find('.tool-add-links').addClass 'hidden'
     return false
 
   $('.cancel-add-document-tool').live "click", ->
-    $(this).closest('fieldset').find('input[id=new_document_name]').val('').trigger('focusout')
-    $(this).closest('fieldset').find('.add-new-document-tool').addClass 'hidden'
-    $(this).closest('fieldset').find('.tool-add-links').removeClass 'hidden'
+    $(this).closest('.root-tool').find('input[id=new_document_name]').val('').trigger('focusout')
+    $(this).closest('.root-tool').find('.add-new-document-tool').addClass 'hidden'
+    $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
     return false
 
   $('.add-new-document-tool-button').live "click", ->
-    $(this).closest('fieldset').find('.add-new-document-tool').addClass 'hidden'
-    $(this).closest('fieldset').find('.tool-add-links').removeClass 'hidden'
+    $(this).closest('.root-tool').find('.add-new-document-tool').addClass 'hidden'
+    $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
 

@@ -1,5 +1,5 @@
 class ToolsController < ApplicationController
-    before_filter :signed_in_admin, only: [:new, :create, :update, :destroy]
+    before_filter :signed_in_admin, only: [:new, :create, :edit, :update, :destroy]
 
     def new
         @tool = Tool.new
@@ -30,7 +30,18 @@ class ToolsController < ApplicationController
         end
     end
 
+    def edit
+        @tool = Tool.find_by_id(params[:id])
+        not_found unless  @tool.company == current_user.company
+    end
+
     def update
+        @tool = Tool.find(params[:id])
+        not_found unless @tool.company == current_user.company
+
+        @tool.name = params[:tool][:name]
+        @tool.description = params[:tool][:description]
+        @tool.save
 
     end
 

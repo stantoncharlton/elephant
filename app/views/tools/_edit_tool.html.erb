@@ -1,0 +1,42 @@
+<div class="page_header">
+  <h1>Edit Tool</h1>
+</div>
+
+<br>
+<% if tool.product_line %>
+    <b>Primary Tool on Product Line</b>
+<% else %>
+    <b>Secondary Tool on Division</b>
+<% end %>
+<br>
+<br>
+
+<div class="ajax-form">
+  <%= form_for tool, remote: true do |f| %>
+
+      <%= f.hidden_field :division_id, value: tool.division ? tool.division.id : nil %>
+      <%= f.hidden_field :product_line_id, value: tool.product_line ? tool.product_line.id : nil %>
+
+      <%= f.text_field :name,
+                       autofocus: true,
+                       value: tool.name,
+                       placeholder: "Name of tool",
+                       class: "txtfield" %>
+
+      <%= f.text_field :description,
+                       value: tool.description,
+                       placeholder: "Description of tool",
+                       class: "txtfield" %>
+
+      <div class="content actions">
+        <%= f.submit "Update Tool", class: "bluebtn pull-right ajax-form-loading-on-click" %>
+      </div>
+  <% end %>
+</div>
+
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Saving tool...</b></span>
+  <br>
+</div>

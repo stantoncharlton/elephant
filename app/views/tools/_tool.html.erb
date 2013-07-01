@@ -1,13 +1,19 @@
-<fieldset class="field" id="tool_<%= tool.id %>">
+<fieldset class="field root_tool_<%= tool.id %>" id="tool_<%= tool.id %>">
   <div>
 
     <div class="secondary-tool-name">
       <%= image_tag "tool.png" %>
-      <h3 class="push-right-small"><%= tool.name %></h3>
+      <h3 class="push-right-small tool-name"><%= tool.name %></h3>
       <p class="tool-description push-right-small"><%= tool.description %></p>
     </div>
 
-    <div class="push-right">
+    <div class="pull-right">
+
+      <%= link_to "edit", edit_tool_path(tool), remote: true,
+                  class: "inline edit-dynamic-field-name tooltip-info show-modal-button",
+                  "data-placement" => "bottom",
+                  "data-title" => "Edit tool info" %>
+
       <%= link_to "remove", tool, method: :delete, remote: true,
                   data: {confirm: "Remove Secondary Tool " + tool.name + "?"}, class: "delete-button tooltip-info",
                   "data-placement" => "bottom",

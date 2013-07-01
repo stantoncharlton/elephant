@@ -1,0 +1,6 @@
+
+$('#modal_popup').find('.modal-content').append('<%= j render 'tools/edit_tool', tool: @tool %>');
+$('#modal_popup').css('visibility', 'visible');
+//$('#modal_popup').height($(document).height() + 100);
+
+$('#modal_popup').find('.loading').addClass('hidden');

@@ -1,0 +1,18 @@
+$('#modal_popup').css('visibility', 'hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').height(0);
+
+<% if @tool.errors.any? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem updating tool", message: @tool.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+
+
+<% else %>
+
+$('.root_tool_<%= @tool.id %>').find('.tool-name').text("<%= @tool.name %>");
+<% if !@tool.description.blank? %>
+$('.root_tool_<%= @tool.id %>').find('.tool-description').text("<%= @tool.description %>").removeClass('hidden');
+<% end %>
+
+<% end %>
