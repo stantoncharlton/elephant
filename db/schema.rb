@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624152007) do
+ActiveRecord::Schema.define(:version => 20130701154649) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -200,12 +200,14 @@ ActiveRecord::Schema.define(:version => 20130624152007) do
     t.integer  "post_job_report_order"
     t.integer  "document_shares_count", :default => 0,     :null => false
     t.string   "user_name"
+    t.integer  "primary_tool_id"
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"
   add_index "documents", ["document_template_id"], :name => "index_documents_on_document_template_id"
   add_index "documents", ["job_id"], :name => "index_documents_on_job_id"
   add_index "documents", ["job_template_id"], :name => "index_documents_on_job_template_id"
+  add_index "documents", ["primary_tool_id"], :name => "index_documents_on_primary_tool_id"
 
   create_table "dynamic_fields", :force => true do |t|
     t.integer  "job_template_id"

@@ -18,6 +18,7 @@ class Document < ActiveRecord::Base
     belongs_to :document_template, class_name: "Document"
     belongs_to :job
     belongs_to :company
+    belongs_to :primary_tool
 
     belongs_to :user, class_name: "User"
 
@@ -32,6 +33,7 @@ class Document < ActiveRecord::Base
     POST_JOB = "Post-Job"
     POST_JOB_REPORT_PART = "Post Job Report Part"
     POST_JOB_REPORT = "Post Job Report"
+    PRIMARY_TOOL = "Primary Tool"
 
     def default_name
         self.name ||= File.basename(url, '.*').titleize if url

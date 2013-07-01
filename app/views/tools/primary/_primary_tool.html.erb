@@ -15,7 +15,13 @@
                   "data-title" => "Delete " + tool.tool.name + " from job type" %>
     </div>
   </div>
-  <div>
+  <div class="">
+    <div id="documents_primary_tool_<%= tool.id %>" class="content">
+      <% tool.template_documents.each do |d| %>
+          <%= render 'documents/document', document: d, editable: true, can_upload: true %>
+      <% end %>
+    </div>
+
     <div class="add-new-document-tool hidden">
       <%= form_for Document.new, remote: true do |f| %>
 
@@ -26,14 +32,15 @@
             <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield tooltip-info", id: "new_document_name",
                              "data-placement" => "bottom",
                              "data-title" => "Document name" %>
+            <%= f.hidden_field :primary_tool_id, value: tool.id %>
             <%= f.hidden_field :document_type, value: "0" %>
             <%= f.hidden_field :read_only, value: false %>
             <%= f.hidden_field :template, value: true %>
-            <%= f.hidden_field :category, value: "primary-tools" %>
+            <%= f.hidden_field :category, value: Document::PRIMARY_TOOL %>
             <%= f.hidden_field :job_template_id, value: @job_template.id %>
 
             <%= f.submit "+ Add new document",
-                         class: "bluebtn btnsmall tooltip-info add-new-document-button",
+                         class: "bluebtn btnsmall tooltip-info add-new-document-tool-button",
                          "data-placement" => "bottom",
                          "data-title" => "Add new document" %>
 

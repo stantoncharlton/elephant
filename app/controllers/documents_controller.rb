@@ -71,6 +71,9 @@ class DocumentsController < ApplicationController
         job_template_id = params[:document][:job_template_id]
         params[:document].delete(:job_template_id)
 
+        primary_tool_id = params[:document][:primary_tool_id]
+        params[:document].delete(:primary_tool_id)
+
         @document = Document.new(params[:document])
         @document.company = current_user.company
 
@@ -79,11 +82,15 @@ class DocumentsController < ApplicationController
             @document.job_template = JobTemplate.find_by_id(job_template_id)
             @document.ordering = @document.document_collection.count
 
+            if !primary_tool_id.blank?
+                @document.primary_tool = PrimaryTool.find_by_id primary_tool_id
+            end
+
             if !@document.save
                 render 'error'
             end
 
-            if @document.category = Document::NOTICES
+            if @document.category == Document::NOTICES
                 @document.delay.add_notices_on_active_jobs
             end
 

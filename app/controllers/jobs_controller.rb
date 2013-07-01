@@ -182,6 +182,11 @@ class JobsController < ApplicationController
                 job_document.document_template = document
                 job_document.job_template = @job.job_template
                 job_document.job = @job
+
+                if !document.primary_tool_id.blank?
+                    job_document.primary_tool_id = document.primary_tool_id
+                end
+
                 job_document.company = current_user.company
                 job_document.save
             end

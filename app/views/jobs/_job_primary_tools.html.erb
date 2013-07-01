@@ -16,6 +16,11 @@
               <p><%= primary_tool.tool.description %></p>
             </div>
           </div>
+          <div class="content">
+            <% primary_tool.documents.each do |d| %>
+                <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+            <% end %>
+          </div>
         </fieldset>
     <% end %>
   </div>
