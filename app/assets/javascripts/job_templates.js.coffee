@@ -77,7 +77,7 @@ $ ->
     return false
 
   $('.cancel-add-document-tool').live "click", ->
-    $(this).closest('fieldset').find('input[id=new_document_name]').val('')
+    $(this).closest('fieldset').find('input[id=new_document_name]').val('').trigger('focusout')
     $(this).closest('fieldset').find('.add-new-document-tool').addClass 'hidden'
     $(this).closest('fieldset').find('.tool-add-links').removeClass 'hidden'
     return false
