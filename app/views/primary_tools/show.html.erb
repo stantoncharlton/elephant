@@ -1,0 +1,23 @@
+<% provide(:title, 'Primary Tool: ' + @primary_tool.tool.name) %>
+
+<div class="page_header">
+  <h1><%= @primary_tool.tool.name %></h1>
+
+  <h3 class="inline">&nbsp;Primary Tool</h3>
+
+
+  <h2 class="paginated-count">
+    <%= render 'layouts/paged_header', items: @jobs %>
+  </h2>
+
+</div>
+
+
+<div id="jobs" class="list">
+  <% @jobs.each do |job| %>
+      <%= render 'jobs/job_progress_link', job: job %>
+  <% end %>
+</div>
+
+<%= will_paginate @jobs %>
+

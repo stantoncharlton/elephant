@@ -1,6 +1,16 @@
 class PrimaryToolsController < ApplicationController
     before_filter :signed_in_admin, only: [:create, :destroy]
+    before_filter :signed_in_user, only: [:show]
 
+
+
+    def show
+        @primary_tool = PrimaryTool.find_by_id(params[:id])
+        not_found unless @primary_tool.tool.company == current_user.company
+
+        job_templates_query = PrimaryTool.select("primary_tools.job_template_id").where("primary_tools.tool_id = ?", @primary_tool.tool_id).uniq.to_sql
+        @jobs = Job.where("jobs.job_template_id IN (#{job_templates_query})").paginate(page: params[:page], limit: 20)
+    end
 
     def create
 
