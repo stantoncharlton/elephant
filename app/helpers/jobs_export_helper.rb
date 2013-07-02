@@ -10,11 +10,16 @@ module JobsExportHelper
             #sheet.add_row ['Month', 'Year', 'Type', 'Sales', 'Region']
             #30.times { sheet.add_row [month, year, type, sales, region] }
 
-            columns = Job.new.attributes.map { |j| Job.human_attribute_name(j[0]) }
+
+            # exclude rating, failure count, people count - include summary data
+            columns = Job.new.attributes.select { |j| include_column(j)  }.map { |j| Job.human_attribute_name(j[0]) }
+            columns << "Data"
             sheet.add_row columns
 
             jobs.each do |job|
-                sheet.add_row job.attributes.map { |j| get_expanded_name job, j }
+                data = job.attributes.select { |j| include_column(j)  }.map { |j| get_expanded_name job, j }
+                data << job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join(", ")
+                sheet.add_row data
             end
         end
 
@@ -40,5 +45,15 @@ module JobsExportHelper
          end
 
          entry[1]
+    end
+
+    def include_column property
+        puts property + " ................."
+        case property.to_s
+            when "client_contact_name", "end_date", "updated_at", "company_id", "rating", "failures_count", "job_memberships_count"
+                return false
+        end
+
+        return true
     end
 end
