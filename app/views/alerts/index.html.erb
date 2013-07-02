@@ -6,7 +6,7 @@
 </div>
 
 <div class="well">
-  <b>Upcoming Jobs <%= " (" + @active_jobs.where("jobs.start_date <= ?", 2.weeks.from_now).count.to_s + ")" %></b>
+  <b>Upcoming Jobs <%= " (" + @active_jobs.where("jobs.start_date >= :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @start_date + 2.weeks).count.to_s + ")" %></b>
   <br><br>
 
   <div class="">
