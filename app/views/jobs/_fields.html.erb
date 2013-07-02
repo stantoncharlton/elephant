@@ -104,7 +104,7 @@
 
     <div class="field">
       <%= f.label :field_id, class: "field-title" %>
-      <%= f.select :field_id, options_for_select(@fields.collect { |p| [p.name, p.id] }),
+      <%= f.select :field_id, options_for_select(@fields.collect { |p| [sanitize(p.name), p.id] }),
                    {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Field..."},
                    class: "tooltip-info custom-select-long ",
                    "data-placement" => "bottom",
@@ -115,7 +115,7 @@
 
       <div class="">
         <%= f.label :well_id, class: "field-title" %>
-        <%= f.select :well_id, options_for_select(@wells.collect { |p| [p.name, p.id] }),
+        <%= f.select :well_id, options_for_select(@wells.collect { |p| [sanitize(p.name), p.id] }),
                      {selected: !@job.field.nil? ? @job.field.id : nil, prompt: "Select a Well..."},
                      class: "tooltip-info custom-select-long ",
                      "data-placement" => "bottom",

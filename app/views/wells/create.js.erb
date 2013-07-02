@@ -11,7 +11,7 @@ $('#modal_popup').height(0);
 
 $('#job_well_id').append($("<option></option>")
         .attr("value", '<%= @well.id %>')
-        .text('<%= @well.name %>'));
+        .text('<%= sanitize(@well.name) %>'));
 $('#job_well_id').find("option[value='<%= @well.id %>']").attr('selected', 'selected');
 
 $('#job_well_id').removeAttr("disabled");

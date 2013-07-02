@@ -1,7 +1,12 @@
 <div id="failures_list">
   <% job.failures.each do |failure| %>
       <fieldset class="">
-        <div class="job-failure-item">- <%= failure.failure_master_template.text %></div><div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
+        <%= link_to failure.failure_master_template, class: "failure-link tooltip-info",
+                    "data-placement" => "right",
+                    "data-title" => "Click to view failure instances" do %>
+            <div class="job-failure-item">- <%= failure.failure_master_template.text %></div>
+            <div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
+        <% end %>
       </fieldset>
   <% end %>
 </div>

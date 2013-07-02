@@ -284,20 +284,29 @@
 
 <div class="chart-problem">
   <% if @failures_count > 0 %>
-      <div class="chart-title">Failure Problem</div>
-      <a href="#" class="activity-user-link pull-right">View all failures (<%= @failures_count %>)</a>
+      <div class="chart-title">Top Failures</div>
+      <% if false %>
+          <a href="#" class="activity-user-link pull-right">View all failures (<%= @failures_count %>)</a>
+      <% else %>
+          <p class="help-text inline">(<%= @failures_count %> total failures)</p>
+      <% end %>
       <br>
 
       <% @failures_list.each do |failure_group| %>
-          <div class="chart-problem">
-            <div class="chart-problem-name">
-              <%= Failure.find_by_id(failure_group[0]).text %>
-              <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
-            </div>
-            <div class="chart-problem-bar">
-              <div style="width: <%= (failure_group[1].to_f / [@failures_list.first[1].to_f, 50].max) * 100 %>%"></div>
-            </div>
-          </div>
+          <% failure = Failure.find_by_id(failure_group[0]) %>
+          <%= link_to failure, class: " failure-link tooltip-info",
+                      "data-placement" => "right",
+                      "data-title" => "Click to view failures" do %>
+              <div class="chart-problem">
+                <div class="chart-problem-name">
+                  <%= failure.text %>
+                  <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
+                </div>
+                <div class="chart-problem-bar">
+                  <div style="width: <%= (failure_group[1].to_f / [@failures_list.first[1].to_f, 50].max) * 100 %>%"></div>
+                </div>
+              </div>
+          <% end %>
       <% end %>
   <% end %>
 
@@ -333,8 +342,6 @@
 </div>
 
 
-
-
 <script>
     $(document).ready(function () {
         var plot3 = $.jqplot('personnel_utilization', [
@@ -343,25 +350,25 @@
                 ['b', 100 - <%= @personnel_utilization %>]
             ]
         ], {
-            animate:true,
-            animateReplot:true,
-            background:"#FFFFFF",
-            seriesColors:[ "#458fd2", "#FFFFFF"],
-            seriesDefaults:{
-                textColor:" #00ff0000",
-                shadow:false,
-                renderer:$.jqplot.DonutRenderer,
-                rendererOptions:{
-                    animation:{
-                        show:true,
-                        speed:2500
+            animate: true,
+            animateReplot: true,
+            background: "#FFFFFF",
+            seriesColors: [ "#458fd2", "#FFFFFF"],
+            seriesDefaults: {
+                textColor: " #00ff0000",
+                shadow: false,
+                renderer: $.jqplot.DonutRenderer,
+                rendererOptions: {
+                    animation: {
+                        show: true,
+                        speed: 2500
                     },
-                    padding:0,
-                    innerDiameter:95,
-                    sliceMargin:0,
-                    startAngle:-90,
-                    showDataLabels:true,
-                    dataLabels:'value'
+                    padding: 0,
+                    innerDiameter: 95,
+                    sliceMargin: 0,
+                    startAngle: -90,
+                    showDataLabels: true,
+                    dataLabels: 'value'
                 }
             }
         });
@@ -373,20 +380,20 @@
                 ['b', 100 - <%= @job_success_rate %>]
             ]
         ], {
-            animate:true,
-            background:"#FFFFFF",
-            seriesColors:[ "<%= @job_success_rate > 70 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
-            seriesDefaults:{
-                textColor:" #00ff0000",
-                shadow:false,
-                renderer:$.jqplot.DonutRenderer,
-                rendererOptions:{
-                    padding:0,
-                    innerDiameter:95,
-                    sliceMargin:0,
-                    startAngle:-90,
-                    showDataLabels:true,
-                    dataLabels:'value'
+            animate: true,
+            background: "#FFFFFF",
+            seriesColors: [ "<%= @job_success_rate > 70 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+            seriesDefaults: {
+                textColor: " #00ff0000",
+                shadow: false,
+                renderer: $.jqplot.DonutRenderer,
+                rendererOptions: {
+                    padding: 0,
+                    innerDiameter: 95,
+                    sliceMargin: 0,
+                    startAngle: -90,
+                    showDataLabels: true,
+                    dataLabels: 'value'
                 }
             }
         });
@@ -397,20 +404,20 @@
                 ['b', 5 - <%= @average_job_performance %>]
             ]
         ], {
-            animate:true,
-            background:"#FFFFFF",
-            seriesColors:[ "<%= @average_job_performance >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
-            seriesDefaults:{
-                textColor:" #00ff0000",
-                shadow:false,
-                renderer:$.jqplot.DonutRenderer,
-                rendererOptions:{
-                    padding:0,
-                    innerDiameter:95,
-                    sliceMargin:0,
-                    startAngle:-90,
-                    showDataLabels:true,
-                    dataLabels:'value'
+            animate: true,
+            background: "#FFFFFF",
+            seriesColors: [ "<%= @average_job_performance >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+            seriesDefaults: {
+                textColor: " #00ff0000",
+                shadow: false,
+                renderer: $.jqplot.DonutRenderer,
+                rendererOptions: {
+                    padding: 0,
+                    innerDiameter: 95,
+                    sliceMargin: 0,
+                    startAngle: -90,
+                    showDataLabels: true,
+                    dataLabels: 'value'
                 }
             }
         });

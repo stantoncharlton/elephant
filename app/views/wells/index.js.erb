@@ -4,7 +4,7 @@ $('#job_well_id').find('option').remove();
 $('<option>').val('-1').text('Select a Well...').appendTo('#job_well_id');
 
 <% @wells.each do |w| %>
-    $('<option>').val('<%= w.id %>').text('<%= w.name %>').appendTo('#job_well_id');
+    $('<option>').val('<%= w.id %>').text('<%= sanitize(w.name) %>').appendTo('#job_well_id');
 <% end %>
 
 <% if @wells.count == 0 %>
