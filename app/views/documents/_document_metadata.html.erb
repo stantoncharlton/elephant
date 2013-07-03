@@ -18,7 +18,7 @@
                       "data-placement" => "bottom",
                       "data-title" => "Click to download document" %>
       <% elsif !document.document_template.nil? && document.document_template.url.present? %>
-          <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (document.category == Document::NOTICES ? "long-column-text" : ""),
+          <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
                       "data-placement" => "bottom",
                       "data-title" => "Click to download document" %>
       <% else %>
@@ -34,7 +34,7 @@
       <% end %>
   <% end %>
 
-  <div class="document-info">
+  <div class="document-info <%= (!document.template? && document.category == Document::NOTICES ? "hidden" : "") %>">
     <% if !document.template? and !document.read_only? %>
         <div class="document-modified2">
           <% if document.updated_at != document.created_at %>
