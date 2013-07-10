@@ -1,0 +1,40 @@
+<% provide(:title, "Update user") %>
+
+<% if @user.admin? %>
+    <div class="alert">
+         This is an admin user account
+    </div>
+<% end %>
+
+
+<div class="page_header">
+  <h1>Update user</h1>
+
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+
+      <li>
+        <%= link_to "Delete User", @user, method: :delete,
+                    data: {confirm: "Delete User " + @user.name + "?"},
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Permanently delete user. Jobs and data created will still exist however." %>
+      </li>
+
+
+    </ul>
+  </div>
+</div>
+
+<div class="form">
+<%= form_for(@user) do |f| %>
+    <%= render 'fields', f: f %>
+    <%= f.submit "Save User", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                 "data-title" => "Save user and return to list of all users"%>
+<% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Saving user, please wait" %>

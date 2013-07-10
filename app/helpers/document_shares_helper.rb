@@ -1,2 +1,0 @@
-module DocumentSharesHelper
-end

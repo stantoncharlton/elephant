@@ -23,18 +23,47 @@
                 </div>
               </a>
               <ul class="dropdown-menu">
+                <% if !signed_in_admin? %>
+                    <li>
+                      <%= link_to user_path(current_user), class: "menu-avatar" do %>
+                          <%= image_tag "user_avatar_extrasmall.png" %>
+                          <span>Profile</span>
+                      <% end %>
+                    </li>
+                    <li class="divider"></li>
+                    <% if current_user.district_id.present? %>
+                        <li>
+                          <%= link_to current_user.district, class: "menu-avatar" do %>
+                              <%= image_tag "district_extrasmall.png" %>
+                              <span><%= current_user.district.name %></span>
+                          <% end %>
+                        </li>
+                        <li class="divider"></li>
+
+                        <% if current_user.role.global_read? && !current_user.role.show_inventory? && current_user.company.inventory_active? %>
+                            <li>
+                              <%= link_to inventory_index_path, class: "menu-avatar" do %>
+                                  <%= image_tag "tool.png", class: "job-status-avatar" %>
+                                  <span class="push-right-small">Inventory</span>
+                              <% end %>
+                            </li>
+                            <li class="divider"></li>
+                        <% end %>
+                    <% end %>
+                <% end %>
                 <% if signed_in_admin? %>
                     <li><%= link_to "Company Info", edit_company_path(current_user.company) %></li>
                 <% else %>
-                    <li><%= link_to "Company Directory", Company.cached_find(current_user.company_id) %></li>
+                    <li>
+                      <%= link_to Company.cached_find(current_user.company_id), class: "menu-avatar" do %>
+                          <%= image_tag "user_avatar_client_extrasmall.png" %>
+                          <span>Company Directory</span>
+                      <% end %>
+                    </li>
                 <% end %>
                 <li class="divider"></li>
                 <% if !signed_in_admin? %>
                     <li><%= link_to "Job History", history_index_path %></li>
-                    <li class="divider"></li>
-                <% end %>
-                <% if !signed_in_admin? %>
-                    <li><%= link_to "Profile", user_path(current_user) %></li>
                     <li class="divider"></li>
                 <% end %>
                 <% if !signed_in_admin? %>

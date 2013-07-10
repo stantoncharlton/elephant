@@ -1,0 +1,16 @@
+<div id="new_part_fields">
+  <%= form_for sub_part, html: {  class: "" }, remote: true do |f| %>
+
+      <%= f.hidden_field :master_part_id, value: sub_part.master_part_id %>
+
+      <div class="new-product-line">
+        <%= f.text_field :serial_number, placeholder: "Serial Number", class: "txtfield small", autofocus: true %>
+        <%= f.text_field :district_serial_number, placeholder: "District Serial Number", class: "txtfield small" %>
+
+        <%= f.submit "Add", class: "bluebtn btnsmall" %>
+        <%= link_to "Cancel", "#", id: "cancel_part", class: "bluebtn btnsmall red" %>
+
+      </div>
+
+  <% end %>
+</div>

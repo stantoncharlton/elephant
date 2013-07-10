@@ -1,0 +1,9 @@
+$('.part-loading').addClass('hidden');
+$('.part-loading').find('.loading').addClass('hidden');
+$('.part-name-div').removeClass('hidden');
+
+<% if @part.present? %>
+$('#part_name').val('<%= @part.name %>').trigger('focusout');
+<% else %>
+$('#part_name').val('').trigger('focusout');
+<% end %>

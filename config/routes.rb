@@ -92,5 +92,10 @@ ElephantWebApp::Application.routes.draw do
 
     resources :document_shares, only: [:index, :show, :new, :create, :update, :destroy]
 
+
+    # Inventory
+    resources :inventory, only: [:index]
+    resources :parts, only: [:index, :show, :new, :create, :update, :destroy]
+
 end
 

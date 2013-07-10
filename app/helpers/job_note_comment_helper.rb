@@ -1,2 +1,0 @@
-module JobNoteCommentHelper
-end

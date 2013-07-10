@@ -1,6 +1,7 @@
 (function ($) {
     'use strict';
     $(function () {
+        return;
         $('[placeholder]')
             .focus(function () {
                 var input = $(this);

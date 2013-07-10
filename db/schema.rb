@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130701154649) do
+ActiveRecord::Schema.define(:version => 20130708190422) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -80,10 +80,11 @@ ActiveRecord::Schema.define(:version => 20130701154649) do
     t.integer  "admin_id"
     t.string   "logo"
     t.string   "logo_large"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.string   "vpn_range"
-    t.boolean  "test_company",   :default => false
+    t.boolean  "test_company",     :default => false
+    t.boolean  "inventory_active", :default => true
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
@@ -369,16 +370,26 @@ ActiveRecord::Schema.define(:version => 20130701154649) do
   create_table "parts", :force => true do |t|
     t.string   "name"
     t.string   "part_number"
-    t.boolean  "template",        :default => false
+    t.boolean  "template",                             :default => false
     t.integer  "master_part_id"
     t.integer  "status"
     t.integer  "current_job_id"
     t.integer  "primary_tool_id"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
     t.integer  "district_id"
+    t.boolean  "active",                               :default => true
+    t.string   "material_number",        :limit => 30
+    t.string   "serial_number",          :limit => 30
+    t.string   "district_serial_number", :limit => 30
+    t.integer  "total_count",                          :default => 0
+    t.integer  "on_hand_count",                        :default => 0
+    t.string   "location"
+    t.integer  "total_uses",                           :default => 0
+    t.integer  "company_id"
   end
 
+  add_index "parts", ["company_id"], :name => "index_parts_on_company_id"
   add_index "parts", ["district_id"], :name => "index_parts_on_district_id"
   add_index "parts", ["part_number"], :name => "index_parts_on_part_number"
 

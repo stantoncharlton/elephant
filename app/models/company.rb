@@ -11,7 +11,8 @@ class Company < ActiveRecord::Base
                     :support_email,
                     :website,
                     :vpn_range,
-                    :test_company
+                    :test_company,
+                    :inventory_active
 
     after_commit :flush_cache
 

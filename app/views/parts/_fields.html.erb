@@ -1,0 +1,88 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<%= f.hidden_field :template, value: @part.template %>
+
+<% if @part.template? %>
+    <div class="alert alert-info">
+
+      <h3 class="blue-text">Material Number</h3>
+      <br>
+
+      <%= f.text_field :material_number, placeholder: "Material Number", class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Material Number" %>
+    </div>
+<% end %>
+
+
+
+
+<% if @part.template? %>
+
+    <%= f.hidden_field :district_id, id: "district_id", value: @district.id %>
+
+    <div class="part-name-div well hidden">
+
+      <div>
+        <b class="field-title">Part Name / Description</b>
+        <br>
+        <br>
+        <% if @part.template? %>
+            <%= f.text_field :name, placeholder: "Name", class: "txtfield part-name-field tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Part Name" %>
+        <% else %>
+            <b><%= @part.name %></b>
+        <% end %>
+
+      </div>
+
+    </div>
+
+    <div class='part-loading hidden'>
+      <%= render 'layouts/inline_loading', title: "Finding existing part..." %>
+    </div>
+
+<% else %>
+
+    <div>
+      <%= f.text_field :serial_number, placeholder: "Serial Number", class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Serial Number" %>
+      <%= f.label :serial_number, class: "inline help-text" %>
+    </div>
+
+    <div>
+      <%= f.text_field :location, placeholder: "Location in warehouse", class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Location in warehouse" %>
+    </div>
+
+    <hr>
+
+    <div>
+      <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+
+      <%= f.hidden_field :district_id, id: "district_id", value: @part.master_part.district_id %>
+      <b><%= @part.master_part.district.name %></b>
+
+      <%= f.text_field :district_serial_number, placeholder: "District Serial Number", class: "inline txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "District Serial Number" %>
+    </div>
+<% end %>
+
+
+
+
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a>" + (item.id > 0 ? "<div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div>" : "") + "</div></a>").appendTo(ul)
+            }
+        });
+    }(jQuery));
+</script>

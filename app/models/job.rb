@@ -68,7 +68,7 @@ class Job < ActiveRecord::Base
         end
 
         text :district_name, :as => :code_textp do
-            district.name
+            district.present? ? district.name : ""
         end
 
         text :client_name, :as => :code_textp do

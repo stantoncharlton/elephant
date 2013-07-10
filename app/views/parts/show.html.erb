@@ -1,0 +1,97 @@
+<% provide(:title, 'Part: ' + (@part.master_part.present? ? @part.master_part.name : @part.name)) %>
+
+<div class="page_header">
+  <h1><%= @part.master_part.present? ? @part.master_part.name : @part.name %></h1>
+
+  <h3 class="inline">&nbsp;Part</h3>
+
+  <% if @part.template? %>
+      <h2 class="paginated-count">Parts:
+        <%= render 'layouts/paged_header', items: @parts %>
+      </h2>
+
+
+      <%= link_to "+ Add Part", new_part_path(master_part: @part.id), remote: true,
+                  class: "bluebtn page_header_button tooltip-info",
+                  id: "new_part_link",
+                  "data-placement" => "bottom",
+                  "data-title" => "Create new part under this material number" %>
+
+  <% else %>
+      <%= link_to "Master Part", @part.master_part,
+                  class: "bluebtn gray page_header_button tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Show all parts of this material number on district" %>
+  <% end %>
+
+</div>
+
+<div class="well">
+  <div class="pull-right">
+    <span class="help-text">Material Number:</span> <%= @part.material_number %>
+  </div>
+
+  <% if @part.template? %>
+      <div class="chart-block">
+        <div class="chart-title">Parts</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text part-count"><%= @parts.count %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">On Hand</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text part-on-hand"><%= @parts.count %></div>
+          <div class="percentage "></div>
+        </div>
+      </div>
+
+  <% else %>
+
+      <div class="inline"><span class="help-text">District Serial Number: </span>
+
+        <h3 class="blue-text inline"><%= @part.district_serial_number %></h3></div>
+      <div class="inline push-right"><span class="help-text">Serial Number: </span><b><%= @part.serial_number %></b>
+      </div>
+
+      <hr>
+
+      <span class="status-good">Available</span>
+  <% end %>
+</div>
+
+<% if @part.template? %>
+    <div class="push-right-small">
+      <p class="help-text list-item-column2">
+        District Number
+      </p>
+
+      <p class="help-text list-item-column2">
+        Serial Number
+      </p>
+
+      <p class="help-text list-item-column2">
+        Status
+      </p>
+    </div>
+
+    <div id="parts" class="list">
+      <% @parts.each do |part| %>
+          <div class="field">
+            <%= link_to part, class: "job-link" do %>
+                <%= render 'parts/sub_part', part: part %>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+
+    <%= will_paginate @parts %>
+
+<% else %>
+    <h3>Run History <span class="help-text">(0)</span></h3>
+    <p class="center help-text"><br>This tool has not been run on any jobs...</p>
+<% end %>
+
+
