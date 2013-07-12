@@ -41,7 +41,7 @@
      data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
   <div class="chart-title">Parts</div>
   <div class="donut-chart-div">
-    <div class="donut-text "><%= number_with_delimiter("8359", :delimiter => ",") %></div>
+    <div class="donut-text "><%= number_with_delimiter(@district.parts.count, :delimiter => ",") %></div>
     <div class="percentage ">parts</div>
   </div>
 </div>
@@ -113,4 +113,16 @@
         });
 
     });
+</script>
+
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('#part_search').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div>" + (item.district_serial_number != null ? ("<p class='job-user-title'><span class='help-text'>District # </span><b class='blue-text'>" + item.district_serial_number + "</b></p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "<p class='job-user-district'><span class='help-text'>Material # </span>" + item.material_number + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
+            }
+        });
+    }(jQuery));
 </script>

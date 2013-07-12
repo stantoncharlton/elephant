@@ -5,7 +5,7 @@
 
   <div>
     <% job.job_template.primary_tools.includes(:tool).each_with_index do |primary_tool, index| %>
-        <fieldset class="field" id="primary_tool_<%= primary_tool.id %>">
+        <fieldset class="" id="primary_tool_<%= primary_tool.id %>">
           <div>
             <%= image_tag "tool.png" %>
             <div class="secondary-tool-name push-right-small">
@@ -15,7 +15,7 @@
             </div>
             <br>
 
-            <div>
+            <div class="content">
               <p><%= primary_tool.tool.description %></p>
             </div>
           </div>
@@ -24,6 +24,19 @@
                 <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
             <% end %>
           </div>
+          <% if primary_tool.part_memberships.any? %>
+            <div class="well content">
+                <% primary_tool.part_memberships.each_with_index do |p, index| %>
+                    <%= render 'part_memberships/job_part_membership', part_membership: p %>
+
+                  <% if index <  primary_tool.part_memberships.count - 1 %>
+                      <hr>
+                  <% end %>
+                <% end %>
+            </div>
+          <% end %>
+
+          <hr class="search-constraint-line">
         </fieldset>
     <% end %>
   </div>

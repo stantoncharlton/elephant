@@ -68,7 +68,18 @@
 
       <br><br><br>
 
-       <%= render 'jobs/index_parts/jobs_count', jobs: @district_jobs %>
+      <%= render 'jobs/index_parts/jobs_count', jobs: @district_jobs %>
+
+      <% if current_user.role.access_to_inventory? && current_user.company.inventory_active? %>
+          <hr>
+
+          <div class="push-right-small">
+            <%= image_tag "tool.png" %>
+            <%= link_to inventory_index_path(district: @district.id), class: "push-right-small activity-user-link" do %>
+                Warehouse Inventory <span class="help-text">(<%= @district.parts.count %>)</span>
+            <% end %>
+          </div>
+      <% end %>
     </div>
 <% end %>
 

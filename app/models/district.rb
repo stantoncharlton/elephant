@@ -26,6 +26,8 @@ class District < ActiveRecord::Base
     has_many :fields, order: "name ASC"
     has_many :jobs, order: "jobs.close_date DESC, jobs.created_at DESC"
 
+    has_many :parts, :conditions => { :template => false }
+
 
     searchable do
         text :name, :as => :code_textp

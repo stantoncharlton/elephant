@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130708190422) do
+ActiveRecord::Schema.define(:version => 20130711151020) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -367,6 +367,20 @@ ActiveRecord::Schema.define(:version => 20130708190422) do
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
+  create_table "part_memberships", :force => true do |t|
+    t.integer  "primary_tool_id"
+    t.string   "material_number", :limit => 30
+    t.integer  "job_id"
+    t.integer  "part_id"
+    t.boolean  "template",                      :default => true
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"
+  add_index "part_memberships", ["material_number"], :name => "index_part_memberships_on_material_number"
+  add_index "part_memberships", ["primary_tool_id"], :name => "index_part_memberships_on_primary_tool_id"
+
   create_table "parts", :force => true do |t|
     t.string   "name"
     t.string   "part_number"
@@ -391,7 +405,10 @@ ActiveRecord::Schema.define(:version => 20130708190422) do
 
   add_index "parts", ["company_id"], :name => "index_parts_on_company_id"
   add_index "parts", ["district_id"], :name => "index_parts_on_district_id"
+  add_index "parts", ["district_serial_number"], :name => "index_parts_on_district_serial_number"
+  add_index "parts", ["material_number"], :name => "index_parts_on_material_number"
   add_index "parts", ["part_number"], :name => "index_parts_on_part_number"
+  add_index "parts", ["serial_number"], :name => "index_parts_on_serial_number"
 
   create_table "post_job_report_documents", :force => true do |t|
     t.integer  "document_id"

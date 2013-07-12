@@ -89,3 +89,19 @@ $ ->
     $(this).closest('.root-tool').find('.add-new-document-tool').addClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
 
+
+  $('.add-new-part-tool-link').live "click", ->
+    $(this).closest('.root-tool').find('.add-new-part-tool').removeClass 'hidden'
+    $(this).closest('.root-tool').find('.tool-add-links').addClass 'hidden'
+    return false
+
+  $('.cancel-add-part-tool').live "click", ->
+    $(this).closest('.root-tool').find('input[id=new_part_material_number]').val('').trigger('focusout')
+    $(this).closest('.root-tool').find('.add-new-part-tool').addClass 'hidden'
+    $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
+    return false
+
+  $('.add-new-part-tool-button').live "click", ->
+    $(this).closest('.root-tool').find('.add-new-part-tool').addClass 'hidden'
+    $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
+

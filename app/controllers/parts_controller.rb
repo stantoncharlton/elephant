@@ -25,9 +25,9 @@ class PartsController < ApplicationController
                 end
 
                 if params[:q].present?
-                    render json: @parts.map { |part| {:name => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number} }
+                    render json: @parts.map { |part| {:name => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number, :serial_number => part.serial_number, material_number: part.material_number} }
                 else
-                    render json: @parts.map { |part| {:label => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number} }
+                    render json: @parts.map { |part| {:label => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number, :serial_number => part.serial_number, material_number: part.material_number} }
                 end
             }
         end
@@ -77,6 +77,7 @@ class PartsController < ApplicationController
             @part.material_number = @part.master_part.material_number
             @part.district = @part.master_part.district
             @part.template = false
+            @part.status = Part::AVAILABLE
         else
             @part.district = District.find_by_id(district_id)
             @part.template = true

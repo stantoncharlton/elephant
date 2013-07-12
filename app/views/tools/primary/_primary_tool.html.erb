@@ -1,4 +1,4 @@
-<div class="field root-tool root_tool_<%= tool.tool.id %>" id="primary_tool_<%= tool.id %>">
+<div class="root-tool root_tool_<%= tool.tool.id %>" id="primary_tool_<%= tool.id %>">
   <div>
 
     <div class="pull-right">
@@ -31,6 +31,12 @@
       <% end %>
     </div>
 
+    <div id="parts_primary_tool_<%= tool.id %>" class="content">
+      <% tool.part_memberships.each do |p| %>
+          <%= render 'part_memberships/part_membership', part_membership: p %>
+      <% end %>
+    </div>
+
     <div class="add-new-document-tool hidden">
       <%= form_for Document.new, remote: true do |f| %>
 
@@ -38,7 +44,8 @@
 
             <p><b>Add New Document to Primary Tool</b></p>
 
-            <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield tooltip-info", id: "new_document_name",
+            <%= f.text_field :name, placeholder: I18n.t("job_templates.document_fields.name"), class: "txtfield tooltip-info",
+                             id: "new_document_name",
                              "data-placement" => "bottom",
                              "data-title" => "Document name" %>
             <%= f.hidden_field :primary_tool_id, value: tool.id %>
@@ -60,9 +67,39 @@
       <% end %>
     </div>
 
+    <div class="add-new-part-tool hidden">
+      <%= form_for PartMembership.new, remote: true do |f| %>
+
+          <div class="alert alert-info">
+
+            <p><b>Add New Part to Primary Tool</b></p>
+
+            <%= f.text_field :material_number, placeholder: "Part Material Number",
+                             class: "txtfield tooltip-info",
+                             id: "new_part_material_number",
+                             "data-placement" => "bottom",
+                             "data-title" => "Part Material Number" %>
+            <%= f.hidden_field :primary_tool_id, value: tool.id %>
+            <%= f.hidden_field :template, value: true %>
+
+            <%= f.submit "+ Add new part",
+                         class: "bluebtn btnsmall tooltip-info add-new-part-tool-button",
+                         "data-placement" => "bottom",
+                         "data-title" => "Add new part" %>
+
+            <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-part-tool btn-fix" %>
+
+          </div>
+
+      <% end %>
+    </div>
+
     <div class="tool-add-links">
       <%= link_to "+ Add new document", "#", class: "activity-user-link push-right add-new-document-tool-link" %>
-      <%= link_to "+ Add part", "#", class: "activity-user-link push-right" %>
+      <%= link_to "+ Add part", "#", class: "activity-user-link push-right add-new-part-tool-link" %>
     </div>
   </div>
+
+  <hr class="search-constraint-line">
 </div>
+

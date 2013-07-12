@@ -1,0 +1,13 @@
+<fieldset id="part_membership_<%= part_membership.id %>" class="field">
+  <div>
+    <p class="help-text inline">Part</p>
+    <%= part_membership.material_number %>
+
+    <%= link_to "remove", part_membership, method: :delete, remote: true, data: {confirm: "Remove Part?"},
+                class: "pull-right delete-button tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Delete part" %>
+
+  </div>
+</fieldset>
+

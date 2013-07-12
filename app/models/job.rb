@@ -42,6 +42,8 @@ class Job < ActiveRecord::Base
 
     has_many :document_shares, order: "created_at DESC"
 
+    has_many :part_memberships, dependent: :destroy, foreign_key: "job_id"
+
     ACTIVE = 1
     CLOSED = 2
     ABANDONED = 3
