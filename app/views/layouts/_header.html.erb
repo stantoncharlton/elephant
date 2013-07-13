@@ -31,7 +31,7 @@
                       <% end %>
                     </li>
                     <li class="divider"></li>
-                    <% if current_user.district_id.present? %>
+                    <% if current_user.district.present? %>
                         <li>
                           <%= link_to current_user.district, class: "menu-avatar" do %>
                               <%= image_tag "district_extrasmall.png" %>
