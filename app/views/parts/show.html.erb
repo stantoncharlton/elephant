@@ -90,8 +90,17 @@
     <%= will_paginate @parts %>
 
 <% else %>
-    <h3>Run History <span class="help-text">(0)</span></h3>
-    <p class="center help-text"><br>This tool has not been run on any jobs...</p>
+    <h3>Run History <span class="help-text">(<%= @part.jobs.count %>)</span></h3>
+    <% if @part.jobs.any? %>
+        <br><br>
+        <div>
+          <% @part.jobs.each do |job| %>
+              <%= render 'jobs/job_progress_link', job: job %>
+          <% end %>
+        </div>
+    <% else %>
+        <p class="center help-text"><br>This tool has not been run on any jobs...</p>
+    <% end %>
 <% end %>
 
 

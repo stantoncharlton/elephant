@@ -14,4 +14,12 @@ class PartMembership < ActiveRecord::Base
     def not_template
         !self.template?
     end
+
+    def template_part_membership
+        PartMembership.where('part_memberships.material_number = ? AND part_memberships.template IS TRUE', self.material_number).limit(1).first
+    end
+
+    def usage_part_membership(job_id)
+        PartMembership.where('part_memberships.material_number = :material_number AND part_memberships.job_id = :job_id AND part_memberships.template IS FALSE', material_number: self.material_number, job_id: job_id).limit(1).first
+    end
 end

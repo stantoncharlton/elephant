@@ -16,7 +16,11 @@ class PartsController < ApplicationController
                     params[:search] = params[:q]
                 end
 
-                @parts = Part.search(params, current_user.company).results
+                if params[:material_number].present?
+                    @parts = Part.search_parts(params, current_user.company, params[:material_number]).results
+                else
+                    @parts = Part.search(params, current_user.company).results
+                end
 
                 if @parts.empty?
                     @parts << Part.new

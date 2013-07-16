@@ -16,6 +16,7 @@ class PartMembershipsController < ApplicationController
         params[:part_membership].delete(:primary_tool_id)
 
         @part_membership = PartMembership.new(params[:part_membership])
+
         if @part_membership.template?
             @part_membership.primary_tool = PrimaryTool.find_by_id(primary_tool_id)
             not_found unless @part_membership.primary_tool.job_template.company == current_user.company

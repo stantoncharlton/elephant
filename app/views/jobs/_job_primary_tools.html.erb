@@ -27,7 +27,8 @@
           <% if primary_tool.part_memberships.any? %>
             <div class="well content">
                 <% primary_tool.part_memberships.each_with_index do |p, index| %>
-                    <%= render 'part_memberships/job_part_membership', part_membership: p %>
+                    <% real = p.usage_part_membership(job.id)  %>
+                    <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
 
                   <% if index <  primary_tool.part_memberships.count - 1 %>
                       <hr>

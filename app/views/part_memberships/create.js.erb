@@ -2,11 +2,18 @@
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Part", message: @part_membership.errors.full_messages.join(', ').html_safe %>");
 $('#alert').modal({show: true});
-
 <% else %>
 
+
+<% if @part_membership.template? %>
 $('#parts_primary_tool_<%= @part_membership.primary_tool_id %>').append("<%= j render 'part_memberships/part_membership', part_membership: @part_membership %>");
 $('[id=new_part_material_number]').val('').trigger('focusout');
+<% else %>
+
+<% template = @part_membership.template_part_membership  %>
+$('#part_membership_<%= template.id %>').replaceWith('<%= j render 'part_memberships/job_part_membership', part_membership: @part_membership, job: @part_membership.job %>');
+
+<% end %>
 
 
 <% end %>

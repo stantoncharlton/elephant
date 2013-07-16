@@ -48,10 +48,14 @@ class Part < ActiveRecord::Base
         time :updated_at
         integer :company_id
         text :part_number
-        text :material_number
+        text :material_number_text do
+            material_number
+        end
         text :serial_number
         text :district_serial_number
+        string :material_number
         integer :district_id
+        boolean :template
 
         string :name_sort do
             name
@@ -70,6 +74,17 @@ class Part < ActiveRecord::Base
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            order_by :name_sort
+            paginate :page => options[:page], :per_page => 20
+        end
+    end
+
+    def self.search_parts(options, company, material_number)
+        Sunspot.search(Part) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            with(:material_number, material_number)
+            with(:template, false)
             order_by :name_sort
             paginate :page => options[:page], :per_page => 20
         end
