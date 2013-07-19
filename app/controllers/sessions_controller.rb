@@ -50,10 +50,15 @@ class SessionsController < ApplicationController
     end
 
     def edit
-
+        @email = params[:email]
+        @new_account = params[:new_account] == "true"
     end
 
     def update
+
+        @new_account = params[:session][:new_account]
+        params[:session].delete(:new_account)
+
         current_password = params[:session][:current_password]
         if current_password.present?
             current_password = current_password.strip
@@ -74,16 +79,12 @@ class SessionsController < ApplicationController
                 sign_in(user, true)
                 redirect_to root_path
             else
-                params[:new_account] ||= "true"
-                params[:email] ||= @email
-                flash[:error] = "Passwords do not match"
-                render "edit"
+                flash[:error] = user.errors.full_messages.join(', ').html_safe
+                render :edit
             end
         else
-            params[:new_account] ||= "true"
-            params[:email] ||= @email
             flash[:error] = "Invalid email/password combination"
-            render "edit"
+            render :edit
         end
     end
 

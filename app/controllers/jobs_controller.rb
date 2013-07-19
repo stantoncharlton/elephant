@@ -9,9 +9,9 @@ class JobsController < ApplicationController
         respond_to do |format|
             format.html {
                 if @is_paged
-                    @jobs = current_user.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
+                    @jobs = current_user.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
                 else
-                    @jobs = current_user.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+                    @jobs = current_user.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
                             order("jobs.created_at DESC")
                 end
             }
@@ -62,18 +62,20 @@ class JobsController < ApplicationController
         not_found unless @job.can_user_view?(current_user)
 
 
-        #@activities = Activity.activities_for_job(@job)
+        if params[:section].blank?
+            #@activities = Activity.activities_for_job(@job)
 
-        @job_note = JobNote.new
-        @job_member = JobMembership.new
+            @job_note = JobNote.new
+            @job_member = JobMembership.new
 
-        @pre_job_documents = @job.pre_job_documents
-        @post_job_documents = @job.post_job_documents
-        @field_bulletin_documents = @job.notices_documents
+            @pre_job_documents = @job.pre_job_documents
+            @post_job_documents = @job.post_job_documents
+            @field_bulletin_documents = @job.notices_documents
 
-        @activities = [] #.paginate(page: params[:page], limit: 10)
+            @activities = [] #.paginate(page: params[:page], limit: 10)
 
-        @job_editable = @job.is_job_editable?(current_user)
+            @job_editable = @job.is_job_editable?(current_user)
+        end
     end
 
     def new

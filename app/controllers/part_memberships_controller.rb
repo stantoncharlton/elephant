@@ -29,7 +29,11 @@ class PartMembershipsController < ApplicationController
         end
 
 
-        @part_membership.save
+        if @part_membership.save && !@part_membership.template?
+            @part_membership.part.status = Part::ON_JOB
+            @part_membership.part.current_job =  @part_membership.job
+            @part_membership.part.save
+        end
     end
 
     def destroy
@@ -40,7 +44,11 @@ class PartMembershipsController < ApplicationController
             not_found unless @part_membership.part.company == current_user.company
         end
 
-        @part_membership.destroy
+        if @part_membership.destroy  && !@part_membership.template?
+            @part_membership.part.status = Part::AVAILABLE
+            @part_membership.part.current_job = nil
+            @part_membership.part.save
+        end
     end
 
 end

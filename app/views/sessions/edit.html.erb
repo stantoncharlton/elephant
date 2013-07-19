@@ -26,10 +26,14 @@
           <% if params[:new_account] == "true" %>
               <b class="inline">Email Address</b>
               <br><br>
-              <%= f.text_field :email, placeholder: "Type Email", value: params[:email], class: "txtfield" %>
+              <%= f.text_field :email, placeholder: "Type Email", value: @email, class: "txtfield" %>
 
               <hr>
+          <% else %>
+            <%= f.hidden_field :email, value: @email %>
           <% end %>
+
+          <%= f.hidden_field :new_account, value: @new_account %>
 
           <div class="">
             <div class="field">

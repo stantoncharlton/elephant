@@ -56,6 +56,7 @@ class Part < ActiveRecord::Base
         string :material_number
         integer :district_id
         boolean :template
+        integer :status
 
         string :name_sort do
             name
@@ -85,6 +86,7 @@ class Part < ActiveRecord::Base
             with(:company_id, company.id)
             with(:material_number, material_number)
             with(:template, false)
+            with(:status, Part::AVAILABLE)
             order_by :name_sort
             paginate :page => options[:page], :per_page => 20
         end

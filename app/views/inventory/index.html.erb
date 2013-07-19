@@ -1,3 +1,5 @@
+<% on_hand = @district.parts.where(:status => Part::AVAILABLE).count %>
+
 <% provide(:title, 'Inventory') %>
 
 <div class="page_header">
@@ -52,7 +54,7 @@
   <div class="donut-chart-div">
     <div id="personnel_utilization" class="donut-chart "></div>
     <div class="donut-inner-circle"></div>
-    <div class="donut-text"><%= "56" %></div>
+    <div class="donut-text"><%= on_hand %></div>
     <div class="percentage-circle">%</div>
   </div>
 </div>
@@ -85,8 +87,8 @@
     $(document).ready(function () {
         var plot3 = $.jqplot('personnel_utilization', [
             [
-                ['a', <%= "56" %>],
-                ['b', 100 - <%= "56" %>]
+                ['a', <%= on_hand %>],
+                ['b', 100 - <%= on_hand %>]
             ]
         ], {
             animate: true,

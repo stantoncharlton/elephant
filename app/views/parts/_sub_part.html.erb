@@ -8,8 +8,23 @@
     <%= part.serial_number %>
   </p>
 
-  <p class="list-item-text list-item-column2">
-    <span class="help-text status-good"><%= part.status_string %></span>
+  <p class="list-item-text list-item-column list-item-column-long">
+
+    <% if part.status == Part::AVAILABLE %>
+        <span class="help-text status-good"><%= part.status_string %></span>
+    <% else %>
+        <span class=""><%= part.status_string %></span>
+        <% if part.current_job.present? %>
+              <span class="part-job-name">
+                             - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
+              </span>
+        <% end %>
+    <% end %>
+
+  </p>
+
+  <p class="list-item-text list-item-column list-item-column-count">
+    <span class="help-text"><%= part.jobs.count %></span>
   </p>
 
 </li>

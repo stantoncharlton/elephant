@@ -41,4 +41,12 @@
   </div>
 
 
+  <% if part_membership.part.present? && job.approved_to_ship %>
+      <div class="">
+        <br>
+        <%= link_to "Receive Part", new_district_path(master: true), class: "bluebtn green tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Receive part" %>
+      </div>
+  <% end %>
 </div>

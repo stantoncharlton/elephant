@@ -43,7 +43,7 @@
       <div class="chart-block">
         <div class="chart-title">On Hand</div>
         <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text part-on-hand"><%= @parts.count %></div>
+          <div class="donut-text part-on-hand"><%= @parts.where(:status => Part::AVAILABLE).count %></div>
           <div class="percentage "></div>
         </div>
       </div>
@@ -58,7 +58,16 @@
 
       <hr>
 
-      <span class="status-good"><%= @part.status_string %></span>
+      <% if @part.status == Part::AVAILABLE %>
+          <span class="status-good"><%= @part.status_string %></span>
+      <% else %>
+          <span class=""><%= @part.status_string %></span>
+          <% if @part.current_job.present? %>
+              <span class="push-right-small">
+                            (<%= render 'activities/job_description', job: @part.current_job, inside_job: false %>)
+              </span>
+          <% end %>
+      <% end %>
   <% end %>
 </div>
 
@@ -72,8 +81,12 @@
         Serial Number
       </p>
 
-      <p class="help-text list-item-column2">
+      <p class="help-text list-item-column list-item-column-long">
         Status
+      </p>
+
+      <p class="help-text list-item-column list-item-column-count">
+        Runs
       </p>
     </div>
 

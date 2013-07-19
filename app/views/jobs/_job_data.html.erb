@@ -190,7 +190,7 @@
 
         <div class="job-field-value">
           <% if job.status == Job::CLOSED %>
-              <p class="good-text"><%= job.status_string %></p>
+              <span class="label label-success"><%= job.status_string %></span>
           <% else %>
               <p class=""><%= job.status_string %></p>
           <% end %>
