@@ -372,16 +372,16 @@
 }
 
 .features-part-1 {
-  background: #000000 url(image_path('features_background.jpg')) no-repeat top center fixed;
+  background: #000000 url(image_path('features_background2.jpg')) no-repeat top center fixed;
   background-size: 100% auto;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('features_background.jpg')}, sizingMethod='scale');
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('features_background2.jpg')}, sizingMethod='scale');
 
   width: 100%;
-  padding-top: 120px;
-  padding-bottom: 110px;
+  padding-top: 200px;
+  padding-bottom: 350px;
 
   @media screen and (max-width: 1024px) {
-    background: #000000 url(image_path('features_background.jpg')) no-repeat center top fixed;
+    background: #000000 url(image_path('features_background2.jpg')) no-repeat center top fixed;
     background-size: 1050px 550px;
     min-width: 1050px;
   }
