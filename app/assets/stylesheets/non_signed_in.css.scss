@@ -385,9 +385,10 @@
   padding-bottom: 350px;
 
   @media screen and (max-width: 1024px) {
-    background: #000000 url(image_path('features_background2.jpg')) no-repeat center top fixed;
-    background-size: 1050px 550px;
+    background: #000000 url(image_path('features_background2.jpg')) no-repeat;
+    background-size: cover;
     min-width: 1050px;
+    max-height: 550px;
   }
 
   p {
