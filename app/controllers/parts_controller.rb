@@ -104,4 +104,19 @@ class PartsController < ApplicationController
         end
     end
 
+    def update
+        @part = Part.find(params[:id])
+        not_found unless @part.company == current_user.company
+
+        if params[:receive] == "true"
+            @part.status = Part::IN_REDRESS
+            @part.current_job = nil
+            @part.save
+        elsif params[:cleaned] == "true"
+            @part.status = Part::AVAILABLE
+            @part.current_job = nil
+            @part.save
+        end
+    end
+
 end

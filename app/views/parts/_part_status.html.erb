@@ -1,0 +1,39 @@
+<div class="part-status">
+  <div data-form="update-part-status">
+    <% if part.status == Part::AVAILABLE %>
+        <span class="status-good"><%= part.status_string %></span>
+    <% elsif part.status == Part::ON_JOB %>
+        <span class=""><%= part.status_string %></span>
+        <% if part.current_job.present? %>
+        <span class="push-right-small">
+                            (<%= render 'activities/job_description', job: part.current_job, inside_job: false %>)
+              </span>
+        <% end %>
+
+        <br><br>
+
+        <%= link_to "Receive Part", part_path(part, receive: true), method: :put,
+                    remote: true,
+                    class: "bluebtn green tooltip-info form-loading-on-click",
+                    "data-form" => "update-part-status",
+                    "data-placement" => "bottom",
+                    "data-title" => "Receive part" %>
+    <% else %>
+        <span class="warning-text"><%= part.status_string %></span>
+        <span>since <%= time_ago_in_words(part.updated_at) %> ago</span>
+
+        <br><br>
+
+        <%= link_to "Part Cleaned/Ready", part_path(part, cleaned: true), method: :put,
+                    remote: true,
+                    class: "bluebtn green tooltip-info form-loading-on-click",
+                    "data-form" => "update-part-status",
+                    "data-placement" => "bottom",
+                    "data-title" => "Receive cleaned/ready" %>
+    <% end %>
+  </div>
+
+  <div class="form-loading hidden" data-form="update-part-status">
+    <%= render 'layouts/inline_loading', title: "Updating..." %>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<% if @part.errors.any? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Receiving Part", message: @part.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+<% else %>
+
+if($('.part-status').length > 0) {
+    $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
+}
+else {
+    $('.inline-part-receive').remove();
+}
+
+<% end %>

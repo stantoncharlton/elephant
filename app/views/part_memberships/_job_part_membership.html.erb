@@ -25,10 +25,12 @@
     <% if part_membership.part.present? %>
         <%= link_to 'District #: ' + part_membership.part.district_serial_number + ' - Serial #:' + part_membership.part.serial_number, part_membership.part, class: "activity-user-link" %>
     <% end %>
-    <%= link_to "remove", part_membership, method: :delete, remote: true,
-                data: {confirm: "Remove Part from job?"}, class: "delete-button tooltip-info",
-                "data-placement" => "bottom",
-                "data-title" => "Remove part from job" %>
+    <% if job.status == Job::ACTIVE %>
+        <%= link_to "remove", part_membership, method: :delete, remote: true,
+                    data: {confirm: "Remove Part from job?"}, class: "delete-button tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Remove part from job" %>
+    <% end %>
   </div>
 
 
@@ -42,11 +44,24 @@
 
 
   <% if part_membership.part.present? && job.approved_to_ship %>
-      <div class="">
-        <br>
-        <%= link_to "Receive Part", new_district_path(master: true), class: "bluebtn green tooltip-info",
-                    "data-placement" => "bottom",
-                    "data-title" => "Receive part" %>
+      <div class="inline-part-receive">
+        <div class="" data-form="receive-part-form">
+          <br>
+
+          <% if part_membership.part.present? %>
+              <%= link_to "Receive Part", part_path(part_membership.part, receive: true),
+                          method: :put,
+                          remote: true,
+                          class: "bluebtn green tooltip-info form-loading-on-click",
+                          "data-form" => "receive-part-form",
+                          "data-placement" => "bottom",
+                          "data-title" => "Receive part" %>
+          <% end %>
+        </div>
+
+        <div class="form-loading hidden" data-form="receive-part-form">
+          <%= render 'layouts/inline_loading', title: "Receiving..." %>
+        </div>
       </div>
   <% end %>
 </div>

@@ -165,7 +165,7 @@ $ ->
   $('.form-loading-on-click').live "click", ->
     if $(this).attr('data-form').length > 0
       data = $(this).attr('data-form')
-      form = $('.form[data-form=' + data + ']')
+      form = $(this).closest('[data-form=' + data + ']')
       loading = $('.form-loading[data-form=' + data + ']')
       form.hide()
       loading.removeClass 'hidden'

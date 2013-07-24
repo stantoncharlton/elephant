@@ -257,10 +257,10 @@ class JobsController < ApplicationController
         not_found unless @job.company == current_user.company
 
         if params["start_date"].present?
-            @job.start_date = Date.strptime(params["start_date"], '%m/%d/%Y')
+            @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y'))
             Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
-
             render :nothing => true, :status => :ok
+            return
         else
             district_manager_id = params[:job][:district_manager_id]
             params[:job].delete(:district_manager_id)
@@ -283,9 +283,11 @@ class JobsController < ApplicationController
                 @tag_name = 'sales_engineer'
                 @job.sales_engineer = @user
             end
+
+            @job.save
+
         end
 
-        @job.save
 
         #if @user.present?
         #    @job.add_user!(@user, JobMembership::OBSERVER)

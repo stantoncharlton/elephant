@@ -12,13 +12,15 @@
 
     <% if part.status == Part::AVAILABLE %>
         <span class="help-text status-good"><%= part.status_string %></span>
-    <% else %>
+    <% elsif part.status == Part::ON_JOB %>
         <span class=""><%= part.status_string %></span>
         <% if part.current_job.present? %>
               <span class="part-job-name">
                              - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
               </span>
         <% end %>
+    <% else %>
+        <span class="warning-text"><%= part.status_string %></span>
     <% end %>
 
   </p>
