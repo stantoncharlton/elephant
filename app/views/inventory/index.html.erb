@@ -54,7 +54,7 @@
   <div class="donut-chart-div">
     <div id="personnel_utilization" class="donut-chart "></div>
     <div class="donut-inner-circle"></div>
-    <div class="donut-text"><%= ((on_hand.to_f / @district.parts.count.to_f) * 100).round(0) %></div>
+    <div class="donut-text"><%= @district.parts.any? ? ((on_hand.to_f / @district.parts.count.to_f) * 100).round(0) : "0" %></div>
     <div class="percentage-circle">%</div>
   </div>
 </div>
