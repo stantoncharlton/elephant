@@ -5,10 +5,11 @@
 </div>
 
 
-<div class="form">
+<div class="form" data-form="new-job-form">
   <%= form_for(@job) do |f| %>
       <%= render 'fields', f: f %>
       <%= f.submit "Create Job", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                   "data-form" => "new-job-form",
                    "data-title" => "Create new job. You edit/add more job information on next page." %>
 
       <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
@@ -16,7 +17,9 @@
   <% end %>
 </div>
 
-<%= render "layouts/inline_loading", title: "Creating job, please wait" %>
+<div class="form-loading hidden" data-form="new-job-form">
+  <%= render "layouts/inline_loading", title: "Creating job, please wait" %>
+</div>
 
 
 <div id="modal_popup" class="modal-popup-background">

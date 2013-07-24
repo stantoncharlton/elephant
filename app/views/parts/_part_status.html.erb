@@ -1,5 +1,5 @@
 <div class="part-status">
-  <div data-form="update-part-status">
+  <div class="form" data-form="update-part-status">
     <% if part.status == Part::AVAILABLE %>
         <span class="status-good"><%= part.status_string %></span>
     <% elsif part.status == Part::ON_JOB %>

@@ -165,11 +165,16 @@ $ ->
   $('.form-loading-on-click').live "click", ->
     if $(this).attr('data-form').length > 0
       data = $(this).attr('data-form')
-      form = $(this).closest('[data-form=' + data + ']')
+      form = $('.form[data-form=' + data + ']')
       loading = $('.form-loading[data-form=' + data + ']')
+
+      if form.height() > 400
+        $('body').animate({scrollTop : form.position().top - 200},'slow');
+
       form.hide()
       loading.removeClass 'hidden'
       loading.find('.loading').removeClass 'hidden'
+
     else
       $('.loading').removeClass 'hidden'
       $('.form').hide()
