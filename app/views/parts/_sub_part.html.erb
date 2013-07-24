@@ -1,32 +1,34 @@
-<li class="field">
+<div class="field">
+  <%= link_to part, class: "job-link" do %>
 
-  <h3 class="blue-text list-item-column2">
-    <%= part.district_serial_number %>
-  </h3>
+      <h3 class="blue-text list-item-column2">
+        <%= part.district_serial_number %>
+      </h3>
 
-  <p class="list-item-text list-item-column2">
-    <%= part.serial_number %>
-  </p>
+      <p class="list-item-text list-item-column2">
+        <%= part.serial_number %>
+      </p>
 
-  <p class="list-item-text list-item-column list-item-column-long">
+      <p class="list-item-text list-item-column list-item-column-long">
 
-    <% if part.status == Part::AVAILABLE %>
-        <span class="help-text status-good"><%= part.status_string %></span>
-    <% elsif part.status == Part::ON_JOB %>
-        <span class=""><%= part.status_string %></span>
-        <% if part.current_job.present? %>
+        <% if part.status == Part::AVAILABLE %>
+            <span class="help-text status-good"><%= part.status_string %></span>
+        <% elsif part.status == Part::ON_JOB %>
+            <span class=""><%= part.status_string %></span>
+            <% if part.current_job.present? %>
               <span class="part-job-name">
                              - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
               </span>
+            <% end %>
+        <% else %>
+            <span class="warning-text"><%= part.status_string %></span>
         <% end %>
-    <% else %>
-        <span class="warning-text"><%= part.status_string %></span>
-    <% end %>
 
-  </p>
+      </p>
 
-  <p class="list-item-text list-item-column list-item-column-count">
-    <span class="help-text"><%= part.jobs.count %></span>
-  </p>
+      <p class="list-item-text list-item-column list-item-column-count">
+        <span class="help-text"><%= part.jobs.count %></span>
+      </p>
 
-</li>
+  <% end %>
+</div>

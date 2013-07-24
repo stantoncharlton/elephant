@@ -58,7 +58,7 @@
 
       <hr>
 
-       <%= render 'parts/part_status', part: @part %>
+      <%= render 'parts/part_status', part: @part %>
   <% end %>
 </div>
 
@@ -83,11 +83,7 @@
 
     <div id="parts" class="list">
       <% @parts.each do |part| %>
-          <div class="field">
-            <%= link_to part, class: "job-link" do %>
-                <%= render 'parts/sub_part', part: part %>
-            <% end %>
-          </div>
+          <%= render 'parts/sub_part', part: part %>
       <% end %>
     </div>
 
