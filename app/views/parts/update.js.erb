@@ -9,7 +9,7 @@ if($('.part-status').length > 0) {
     $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
 }
 else {
-    $('.inline-part-receive').remove();
+    $('#inline_part_<%= @part.id %>').remove();
 }
 
 <% end %>
