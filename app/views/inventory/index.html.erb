@@ -80,7 +80,7 @@
         var plot3 = $.jqplot('personnel_utilization', [
             [
                 ['a', <%= @district.parts.count %>],
-                ['b', <%= on_hand %>]
+                ['b', <%= @district.parts.count - on_hand %>]
             ]
         ], {
             animate: true,
