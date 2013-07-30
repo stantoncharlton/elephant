@@ -60,6 +60,9 @@
   </div>
 </div>
 
+<div class="content">
+  <%= link_to 'View Full Inventory List', 'inventory/' + @district.id.to_s, class: "activity-user-link" %>
+</div>
 
 
 <div class="content">
@@ -73,6 +76,8 @@
       <%= render 'jobs/job_progress_link', job: job %>
   <% end %>
 </div>
+
+
 
 
 <script>

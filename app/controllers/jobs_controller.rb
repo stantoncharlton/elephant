@@ -257,7 +257,7 @@ class JobsController < ApplicationController
         not_found unless @job.company == current_user.company
 
         if params["start_date"].present?
-            @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y'))
+            @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y').to_time_in_current_zone)
             Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
             render :nothing => true, :status => :ok
             return

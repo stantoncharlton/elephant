@@ -110,7 +110,6 @@ class PartsController < ApplicationController
 
         if params[:receive] == "true"
             @part.status = Part::IN_REDRESS
-            @part.current_job = nil
             @part.save
         elsif params[:cleaned] == "true"
             @part.status = Part::AVAILABLE
