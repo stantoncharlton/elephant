@@ -24,12 +24,24 @@
 
         <br><br>
 
-        <%= link_to "Part Cleaned/Ready", part_path(part, cleaned: true), method: :put,
-                    remote: true,
-                    class: "bluebtn green tooltip-info form-loading-on-click",
-                    "data-form" => "update-part-status",
-                    "data-placement" => "bottom",
-                    "data-title" => "Receive cleaned/ready" %>
+        <%= form_for part, method: :put, remote: true do |f| %>
+
+            <%= hidden_field_tag :cleaned, "true" %>
+
+            <%= text_area :notes,
+                          {},
+                            name: "notes",
+                            placeholder: "Notes/Comments about service or problems",
+                            class: "txtfield job-description-text job-template-description tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Notes for redress" %>
+
+            <%= f.submit "Part Finished Redress (Cleaned)",
+                         class: "bluebtn green tooltip-info form-loading-on-click",
+                         "data-form" => "update-part-status",
+                         "data-placement" => "bottom",
+                         "data-title" => "Receive cleaned/ready" %>
+        <% end %>
     <% end %>
   </div>
 

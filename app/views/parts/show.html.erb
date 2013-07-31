@@ -95,6 +95,17 @@
         <br><br>
         <div>
           <% @part.jobs.each do |job| %>
+              <% redress = PartRedress.where(:job_id => job.id).where(:part_id => @part.id).first %>
+              <% if redress.present? %>
+                  <div class="content">
+                    <%= redress.created_at.strftime("%m/%d/%Y") %>
+                    <% if !redress.notes.blank? %>
+                        <br>
+                    <span class='help-text'>Redress Notes</span>
+                    <%= redress.notes %>
+                        <% end %>
+                  </div>
+              <% end %>
               <%= render 'jobs/job_progress_link', job: job %>
           <% end %>
         </div>

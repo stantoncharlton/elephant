@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130711151020) do
+ActiveRecord::Schema.define(:version => 20130730202949) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -380,6 +380,15 @@ ActiveRecord::Schema.define(:version => 20130711151020) do
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"
   add_index "part_memberships", ["material_number"], :name => "index_part_memberships_on_material_number"
   add_index "part_memberships", ["primary_tool_id"], :name => "index_part_memberships_on_primary_tool_id"
+
+  create_table "part_redresses", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "part_id"
+    t.integer  "job_id"
+    t.string   "notes"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "parts", :force => true do |t|
     t.string   "name"
