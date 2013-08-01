@@ -61,6 +61,7 @@ class JobsController < ApplicationController
         not_found unless @job.company == current_user.company
         not_found unless @job.can_user_view?(current_user)
 
+        @job_editable = @job.is_job_editable?(current_user)
 
         if params[:section].blank?
             #@activities = Activity.activities_for_job(@job)
@@ -74,7 +75,6 @@ class JobsController < ApplicationController
 
             @activities = [] #.paginate(page: params[:page], limit: 10)
 
-            @job_editable = @job.is_job_editable?(current_user)
         end
     end
 
