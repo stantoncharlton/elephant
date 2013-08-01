@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730202949) do
+ActiveRecord::Schema.define(:version => 20130801192252) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -558,24 +558,25 @@ ActiveRecord::Schema.define(:version => 20130730202949) do
     t.string   "name"
     t.integer  "company_id"
     t.integer  "field_id"
-    t.datetime "created_at",                                                   :null => false
-    t.datetime "updated_at",                                                   :null => false
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
     t.float    "measured_depth"
     t.float    "true_vertical_depth"
     t.float    "water_depth"
-    t.boolean  "offshore",                                  :default => false
+    t.boolean  "offshore",                                                :default => false
     t.float    "bottom_hole_temperature"
     t.float    "bottom_hole_formation_pressure"
     t.float    "frac_pressure"
     t.float    "max_deviation"
     t.float    "bottom_deviation"
     t.string   "rig_name"
-    t.integer  "measured_depth_value_type",                 :default => 1
-    t.integer  "true_vertical_depth_value_type",            :default => 1
-    t.integer  "water_depth_value_type",                    :default => 1
-    t.integer  "bottom_hole_temperature_value_type",        :default => 1
-    t.integer  "bottom_hole_formation_pressure_value_type", :default => 1
-    t.integer  "frac_pressure_value_type",                  :default => 1
+    t.integer  "measured_depth_value_type",                               :default => 1
+    t.integer  "true_vertical_depth_value_type",                          :default => 1
+    t.integer  "water_depth_value_type",                                  :default => 1
+    t.integer  "bottom_hole_temperature_value_type",                      :default => 1
+    t.integer  "bottom_hole_formation_pressure_value_type",               :default => 1
+    t.integer  "frac_pressure_value_type",                                :default => 1
+    t.string   "location",                                  :limit => 50
   end
 
   add_index "wells", ["company_id"], :name => "index_wells_on_company_id"

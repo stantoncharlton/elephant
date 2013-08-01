@@ -72,3 +72,16 @@ $ ->
 
 
   Parts.init()
+
+
+  $('#new_part_link').live "click", ->
+    $('#part_serial_number').val('')
+    $('#part_district_serial_number').val('')
+    $(this).addClass 'hidden'
+    $('#new_part_fields').removeClass 'hidden'
+    $('#part_serial_number').focus()
+    return false
+
+  $('#cancel_part').live "click", ->
+    $('#new_part_link').removeClass 'hidden'
+    $('#new_part_fields').addClass 'hidden'

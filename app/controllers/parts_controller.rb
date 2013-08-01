@@ -121,4 +121,13 @@ class PartsController < ApplicationController
         end
     end
 
+    def destroy
+        @part = Part.find(params[:id])
+        not_found unless @part.company == current_user.company
+
+        if @part.destroy
+            redirect_back_or @part.master_part
+        end
+    end
+
 end

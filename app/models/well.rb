@@ -1,6 +1,7 @@
 class Well < ActiveRecord::Base
     attr_accessible :name,
                     :rig_name,
+                    :location,
                     :measured_depth,
                     :measured_depth_value_type,
                     :true_vertical_depth,

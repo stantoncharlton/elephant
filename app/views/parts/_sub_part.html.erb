@@ -1,12 +1,12 @@
 <div class="field">
   <%= link_to part, class: "job-link" do %>
 
-      <h3 class="blue-text list-item-column2">
-        <%= part.district_serial_number %>
+      <h3 class="blue-text list-item-column">
+        <%= part.serial_number %>
       </h3>
 
       <p class="list-item-text list-item-column2">
-        <%= part.serial_number %>
+        <%= part.district_serial_number.blank? ? '-' : part.district_serial_number %>
       </p>
 
       <p class="list-item-text list-item-column list-item-column-long">

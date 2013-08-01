@@ -1,3 +1,6 @@
+$('#new_part_fields').find('.form').show();
+$('#new_part_fields').find('.form-loading').addClass('hidden');
+
 <% if @part.new_record? %>
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Part", message: @part.errors.full_messages.join(', ').html_safe %>");
@@ -5,8 +8,8 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-$('#new_part_fields').remove();
-$('#new_part_link').show();
+$('#new_part_fields').addClass('hidden');
+$('#new_part_link').removeClass('hidden');
 
 $('#parts').prepend($("<%= j render 'parts/sub_part', part: @part %>"));
 

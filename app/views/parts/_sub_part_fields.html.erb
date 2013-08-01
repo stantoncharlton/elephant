@@ -1,16 +1,25 @@
-<div id="new_part_fields">
-  <%= form_for sub_part, html: {  class: "" }, remote: true do |f| %>
+<div class="form-loading hidden" data-form="new_part">
+  <%= render 'layouts/inline_loading', title: "Creating part..." %>
+  <br>
+  <br>
+</div>
 
-      <%= f.hidden_field :master_part_id, value: sub_part.master_part_id %>
+<div class="form" data-form="new_part">
+  <%= form_for Part.new, html: {  class: "" }, remote: true do |f| %>
+
+      <%= f.hidden_field :master_part_id, value: sub_part.id %>
+      <%= f.hidden_field :template, value: false %>
 
       <div class="new-product-line">
         <%= f.text_field :serial_number, placeholder: "Serial Number", class: "txtfield small", autofocus: true %>
-        <%= f.text_field :district_serial_number, placeholder: "District Serial Number", class: "txtfield small" %>
+        <%= f.text_field :district_serial_number, placeholder: "Optional District Serial Number", class: "txtfield small" %>
 
-        <%= f.submit "Add", class: "bluebtn btnsmall" %>
+        <%= f.submit "Add", class: "bluebtn btnsmall form-loading-on-click",
+                     "data-form" => "new_part" %>
         <%= link_to "Cancel", "#", id: "cancel_part", class: "bluebtn btnsmall red" %>
 
       </div>
 
   <% end %>
 </div>
+

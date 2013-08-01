@@ -1,5 +1,14 @@
 $ ->
 
+  $('.map-latlong-text-entry').live "keyup", ->
+    if $(this).val().length > 0
+      $('.map-latlong-link').removeClass 'hidden'
+    else
+      $('.map-latlong-link').addClass 'hidden'
+
+  $('.map-latlong-link').live "click", ->
+    $(this).attr 'href', 'http://maps.google.com/maps?z=10&q=' + $('.map-latlong-text-entry').val()
+
   if $('#offshore_checkbox').is(':checked')
     $('#offshore_fields').css('display', 'inline')
 
@@ -23,4 +32,7 @@ $ ->
         $(this).show()
       else
         $(this).hide()
+
+
+
 

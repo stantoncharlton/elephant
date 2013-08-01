@@ -11,18 +11,44 @@
       </h2>
 
 
-      <%= link_to "+ Add Part", new_part_path(master_part: @part.id), remote: true,
+      <%= link_to "+ Add Part", "#",
                   class: "bluebtn page_header_button tooltip-info",
                   id: "new_part_link",
                   "data-placement" => "bottom",
                   "data-title" => "Create new part under this material number" %>
 
+      <div id="new_part_fields" class="alert alert-info hidden push-down">
+        <%= render 'parts/sub_part_fields', sub_part: @part %>
+      </div>
+
   <% else %>
-      <%= link_to "Master Part", @part.master_part,
-                  class: "bluebtn gray page_header_button tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Show all parts of this material number on district" %>
-  <% end %>
+
+
+
+      <div class="btn-group inline pull-right push-right-small">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Advanced Actions
+        </a>
+        <ul class="dropdown-menu">
+
+          <li>
+            <%= link_to "Delete Part", @part, method: :delete,
+                        data: {confirm: "Delete Part"},
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Permanently delete part." %>
+          </li>
+
+
+        </ul>
+      </div>
+
+      <%= link_to "View Master Part (" + @part.master_part.parts.count.to_s + ")",  @part.master_part, class: "activity-user-link pull-right" %>
+
+
+
+
+<% end %>
 
 </div>
 
@@ -50,11 +76,15 @@
 
   <% else %>
 
-      <div class="inline"><span class="help-text">District Serial Number: </span>
-
-        <h3 class="blue-text inline"><%= @part.district_serial_number %></h3></div>
-      <div class="inline push-right"><span class="help-text">Serial Number: </span><b><%= @part.serial_number %></b>
+      <div class="inline"><span class="help-text">Serial Number: </span>
+        <h3 class="blue-text inline"><%= @part.serial_number %></h3>
       </div>
+
+      <div class="inline push-right"><span class="help-text">District Serial Number: </span>
+        <b><%= @part.district_serial_number.blank? ? '-' : @part.district_serial_number %></b>
+      </div>
+
+
 
       <hr>
 
@@ -64,12 +94,12 @@
 
 <% if @part.template? %>
     <div class="push-right-small">
-      <p class="help-text list-item-column2">
-        District Number
+      <p class="help-text list-item-column">
+        Serial Number
       </p>
 
       <p class="help-text list-item-column2">
-        Serial Number
+        District Number
       </p>
 
       <p class="help-text list-item-column list-item-column-long">
@@ -116,7 +146,6 @@
                       <% end %>
                   <% end %>
               <% end %>
-
 
 
           <% end %>

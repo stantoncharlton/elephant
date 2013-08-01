@@ -45,8 +45,19 @@
         <% end %>
       </div>
     </div>
+
     <br>
-    <br><br>
+
+    <% if @well.location.blank? %>
+        <br><br>
+    <% else %>
+        <div class="">
+          <%= link_to "http://maps.google.com/maps?q=" + @well.location,
+                      class: "activity-user-link", target: "_blank" do %>
+              <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @well.location %>&zoom=9&size=600x200&maptype=roadmap&sensor=false&markers=color:blue%7C<%= @well.location %>&key=<%= Rails.env.production? ? 'AIzaSyC28fW0cLbMkTbKfyBgYKG4XbOCR3QBmT4' : 'AIzaSyAbuYOZMWlhjk2gKQaoqso7MoARROW9-fs' %>">
+          <% end %>
+        </div>
+    <% end %>
   </div>
 
   <div class="well-details hidden">
