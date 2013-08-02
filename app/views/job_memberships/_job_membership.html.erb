@@ -11,20 +11,27 @@
     <div class="inline  push-right-small">
       <% if job_membership.user.present? %>
           <%= render 'activities/user', user: job_membership.user %>
-      <% else %>
+
+          <% if false %>
+          <span class="help-text">- <%= pluralize(job_membership.user.jobs.where(:status => Job::ACTIVE).count, "job") %></span>
+              <% end %>
+    <% else %>
           <%= job_membership.user_name %>
       <% end %>
     </div>
   </div>
   <p class="job-members-position-title"><%= job_membership.role_title %></p>
 
+
   <% if !job_membership.job.approved_to_close %>
 
+      <div class="push-right">
       <%= link_to "change role", edit_job_membership_path(job_membership), remote: true,
                   class: "job-member-edit-button" %>
 
       <%= link_to "remove", job_membership, method: :delete, remote: true,
                   data: {confirm: "Remove " + (job_membership.user.present? ? job_membership.user.name : job_membership.user_name || '') + " from job?"},
                   class: "delete-button-small job-member-button" %>
+      </div>
   <% end %>
 </li>

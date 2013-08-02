@@ -26,12 +26,17 @@ $ ->
   $('.custom-select').change ->
     division = $(this).val()
 
+    count = 0
     $('.job-link').each ->
       id = $(this).attr("id").replace('division_', '')
       if division == '0' || id == division
         $(this).show()
+        count = count + 1
       else
         $(this).hide()
+
+    $('#jobs_count_container').removeClass 'hidden'
+    $('#jobs_count').text(count)
 
 
 

@@ -17,6 +17,7 @@
 //= require jquery-fileupload/vendor/tmpl
 //= require jquery.tokeninput
 //= require customSelect.jquery
+//= require Chart.min
 //= require jquery.jqplot.min
 //= require plugins/jqplot.donutRenderer.min
 //= require plugins/jqplot.pieRenderer.min

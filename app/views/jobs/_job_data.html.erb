@@ -150,6 +150,16 @@
     <div class="content">
       <div class="">
 
+        <% if in_form && @job.well.present? && !@job.well.location.blank? %>
+            <%= link_to "http://maps.google.com/?q=" + @job.well.location.to_s,
+                        class: "activity-user-link pull-right",
+                        "data-placement" => "bottom",
+                        "data-title" => "Click to open map of well location. Lat/long: " + @job.well.location.to_s,
+                        target: "_blank" do %>
+                <%= image_tag "map_icon.png", class: "job-status-avatar" %>
+                map
+            <% end %>
+        <% end %>
 
         <% if in_form %>
             <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-title3 inline job-type-description-target",
@@ -185,7 +195,6 @@
       </div>
 
 
-
       <div>
         <p class="job-field-title"><%= t ".status" %></p>
 
@@ -197,6 +206,40 @@
           <% end %>
         </div>
       </div>
+
+      <% if in_form %>
+
+      <div  class="pull-right">
+        <canvas id="canvas" height="200" width="500"></canvas>
+      </div>
+
+      <script>
+
+          var lineChartData = {
+              labels : ["January","February","March","April","May","June","July"],
+              datasets : [
+                  {
+                      fillColor : "rgba(220,220,220,0.5)",
+                      strokeColor : "rgba(220,220,220,1)",
+                      pointColor : "rgba(220,220,220,1)",
+                      pointStrokeColor : "#fff",
+                      data : [65,59,90,81,56,55,40]
+                  },
+                  {
+                      fillColor : "rgba(151,187,205,0.5)",
+                      strokeColor : "rgba(151,187,205,1)",
+                      pointColor : "rgba(151,187,205,1)",
+                      pointStrokeColor : "#fff",
+                      data : [28,48,40,19,96,27,100]
+                  }
+              ]
+
+          }
+
+          var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+
+      </script>
+      <% end %>
 
 
       <div class="">
@@ -231,6 +274,9 @@
                         <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
                       </p>
                     </div>
+                <% end %>
+                <% if in_form %>
+                <br>
                 <% end %>
             <% end %>
         <% end %>
