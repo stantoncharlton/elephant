@@ -36,6 +36,9 @@ class JobsController < ApplicationController
                                                                }
                                                        },
                                                        except: [:created_at, :updated_at, :segment_id, :company_id]
+                                               },
+                                               :primary_tools => {
+                                                       include: { :tool => {} }
                                                }
                                        },
                                        except: [:created_at, :updated_at, :product_line_id, :company_id]
