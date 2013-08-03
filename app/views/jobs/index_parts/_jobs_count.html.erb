@@ -27,10 +27,10 @@
 </div>
 
 <div class="pull-right">
-  <canvas id="canvas2" height="100" width="100"></canvas>
+  <canvas id="canvas" height="100" width="100"></canvas>
 </div>
 
-<div class="pull-right help-text">Pre/Post</div>
+<div class="pull-right help-text">Failure %</div>
 
 
 <script>
@@ -39,17 +39,16 @@
         animationEasing : "easeOutQuart"
     }
 
-
-    var chartData2 = [
+    var chartData = [
         {
-            value: <%= 40 %>,
-            color:"#62c462"
+            value: <%= (active_failures_count.to_f / active_jobs_count.to_f) * 100  %>,
+            color:"#F7464A"
         },
         {
-            value : <%= 60 %>,
-            color : "#5bc0de"
+            value : <%= 100 - ((active_failures_count.to_f / active_jobs_count.to_f) * 100 ) %>,
+            color : "#E2EAE9"
         }]
 
-    var myLine2 = new Chart(document.getElementById("canvas2").getContext("2d")).Doughnut(chartData2, options);
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(chartData, options);
 
 </script>
