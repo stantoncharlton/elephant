@@ -72,20 +72,20 @@
 
           <div class="alert alert-info">
 
-            <p><b>Add New Part to Primary Tool</b></p>
+            <p><b>Add New Asset to Primary Tool</b></p>
 
-            <%= f.text_field :material_number, placeholder: "Part Material Number",
+            <%= f.text_field :material_number, placeholder: "Asset Material Number",
                              class: "txtfield tooltip-info",
                              id: "new_part_material_number",
                              "data-placement" => "bottom",
-                             "data-title" => "Part Material Number" %>
+                             "data-title" => "Asset Material Number" %>
             <%= f.hidden_field :primary_tool_id, value: tool.id %>
             <%= f.hidden_field :template, value: true %>
 
             <%= f.submit "+ Add new part",
                          class: "bluebtn btnsmall tooltip-info add-new-part-tool-button",
                          "data-placement" => "bottom",
-                         "data-title" => "Add new part" %>
+                         "data-title" => "Add new asset" %>
 
             <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-part-tool btn-fix" %>
 

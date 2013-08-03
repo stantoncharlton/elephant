@@ -12,12 +12,12 @@
 
         <br><br>
 
-        <%= link_to "Receive Part", part_path(part, receive: true), method: :put,
+        <%= link_to "Receive asset", part_path(part, receive: true), method: :put,
                     remote: true,
                     class: "bluebtn green tooltip-info form-loading-on-click",
                     "data-form" => "update-part-status",
                     "data-placement" => "bottom",
-                    "data-title" => "Receive part" %>
+                    "data-title" => "Receive asset" %>
     <% else %>
         <span class="warning-text"><%= part.status_string %></span>
         <span>since <%= time_ago_in_words(part.updated_at) %> ago</span>
@@ -36,7 +36,7 @@
                             "data-placement" => "bottom",
                             "data-title" => "Notes for redress" %>
 
-            <%= f.submit "Part Finished Redress (Cleaned)",
+            <%= f.submit "Asset Finished Redress (Cleaned)",
                          class: "bluebtn green tooltip-info form-loading-on-click",
                          "data-form" => "update-part-status",
                          "data-placement" => "bottom",

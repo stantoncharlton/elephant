@@ -1,21 +1,21 @@
-<% provide(:title, 'Part: ' + (@part.master_part.present? ? @part.master_part.name : @part.name)) %>
+<% provide(:title, 'Asset: ' + (@part.master_part.present? ? @part.master_part.name : @part.name)) %>
 
 <div class="page_header">
   <h1><%= @part.master_part.present? ? @part.master_part.name : @part.name %></h1>
 
-  <h3 class="inline">&nbsp;Part</h3>
+  <h3 class="inline">&nbsp;Asset</h3>
 
   <% if @part.template? %>
-      <h2 class="paginated-count">Parts:
+      <h2 class="paginated-count">Assets:
         <%= render 'layouts/paged_header', items: @parts %>
       </h2>
 
 
-      <%= link_to "+ Add Part", "#",
+      <%= link_to "+ Add Asset", "#",
                   class: "bluebtn page_header_button tooltip-info",
                   id: "new_part_link",
                   "data-placement" => "bottom",
-                  "data-title" => "Create new part under this material number" %>
+                  "data-title" => "Create new asset under this material number" %>
 
       <div id="new_part_fields" class="alert alert-info hidden push-down">
         <%= render 'parts/sub_part_fields', sub_part: @part %>
@@ -32,18 +32,18 @@
         <ul class="dropdown-menu">
 
           <li>
-            <%= link_to "Delete Part", @part, method: :delete,
-                        data: {confirm: "Delete Part"},
+            <%= link_to "Delete Asset", @part, method: :delete,
+                        data: {confirm: "Delete Asset"},
                         class: "dropdown-menu-link tooltip-info",
                         "data-placement" => "left",
-                        "data-title" => "Permanently delete part." %>
+                        "data-title" => "Permanently delete asset." %>
           </li>
 
 
         </ul>
       </div>
 
-      <%= link_to "View Master Part (" + @part.master_part.parts.count.to_s + ")",  @part.master_part, class: "activity-user-link pull-right" %>
+      <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")",  @part.master_part, class: "activity-user-link pull-right" %>
 
 
 
@@ -59,7 +59,7 @@
 
   <% if @part.template? %>
       <div class="chart-block">
-        <div class="chart-title">Parts</div>
+        <div class="chart-title">Assets</div>
         <div class="donut-chart-div job-donut-chart-div">
           <div class="donut-text part-count"><%= @parts.count %></div>
           <div class="percentage "></div>

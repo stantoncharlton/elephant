@@ -10,9 +10,9 @@
     - <%= [((page - 1) * 30) + 30, @parts.count].min %> of <%= @parts.count.to_s %>
   </h2>
 
-  <%= link_to "+ Add New Master Part", new_part_path(template: true, district: @district.id), class: "bluebtn tooltip-info pull-right",
+  <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district.id), class: "bluebtn tooltip-info pull-right",
               "data-placement" => "bottom",
-              "data-title" => "Create new part" %>
+              "data-title" => "Create new master asset" %>
 
 </div>
 

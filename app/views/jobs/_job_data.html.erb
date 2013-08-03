@@ -214,27 +214,45 @@
       </div>
 
       <script>
-
           var lineChartData = {
-              labels : ["January","February","March","April","May","June","July"],
+          labels : ["January","February","March","April","May","June","July"],
+                  datasets : [
+              {
+                  fillColor : "rgba(220,220,220,0.5)",
+                  strokeColor : "rgba(220,220,220,1)",
+                  pointColor : "rgba(220,220,220,1)",
+                  pointStrokeColor : "#fff",
+                  data : [65,59,90,81,56,55,40]
+              },
+              {
+                  fillColor : "rgba(151,187,205,0.5)",
+                  strokeColor : "rgba(151,187,205,1)",
+                  pointColor : "rgba(151,187,205,1)",
+                  pointStrokeColor : "#fff",
+                  data : [28,48,40,19,96,27,100]
+              }
+          ]
+          }
+
+          <% if false %>
+        <% activities = Activity.activities_for_job(job).select("DISTINCT created_at") %>
+
+        alert('<%= activities.count %>');
+        var lineChartData = {
+              labels : <%= raw activities.map { |a| a.created_at.day }.to_json %>,
               datasets : [
-                  {
-                      fillColor : "rgba(220,220,220,0.5)",
-                      strokeColor : "rgba(220,220,220,1)",
-                      pointColor : "rgba(220,220,220,1)",
-                      pointStrokeColor : "#fff",
-                      data : [65,59,90,81,56,55,40]
-                  },
+
                   {
                       fillColor : "rgba(151,187,205,0.5)",
                       strokeColor : "rgba(151,187,205,1)",
                       pointColor : "rgba(151,187,205,1)",
                       pointStrokeColor : "#fff",
-                      data : [28,48,40,19,96,27,100]
+                      data : <%= raw activities.map { rand(5..30) }.to_json %>
                   }
               ]
 
           }
+          <% end %>
 
           var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
 

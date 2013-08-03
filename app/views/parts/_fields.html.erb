@@ -24,13 +24,13 @@
     <div class="part-name-div well hidden">
 
       <div>
-        <b class="field-title">Part Name / Description</b>
+        <b class="field-title">Asset Name / Description</b>
         <br>
         <br>
         <% if @part.template? %>
             <%= f.text_field :name, placeholder: "Name", class: "txtfield part-name-field tooltip-info",
                              "data-placement" => "bottom",
-                             "data-title" => "Part Name" %>
+                             "data-title" => "Asset Name" %>
         <% else %>
             <b><%= @part.name %></b>
         <% end %>
@@ -40,7 +40,7 @@
     </div>
 
     <div class='part-loading hidden'>
-      <%= render 'layouts/inline_loading', title: "Finding existing part..." %>
+      <%= render 'layouts/inline_loading', title: "Finding existing asset..." %>
     </div>
 
 <% else %>

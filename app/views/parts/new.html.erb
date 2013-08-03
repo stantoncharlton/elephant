@@ -1,5 +1,5 @@
 <div class="page_header">
-  <h1>New Part</h1>
+  <h1>New Asset</h1>
   <h3>District - <%= @district.name %></h3>
 </div>
 
@@ -8,13 +8,13 @@
   <%= form_for(@part) do |f| %>
       <%= render 'fields', f: f %>
 
-      <%= f.submit "Create New Part",
+      <%= f.submit "Create New Asset",
                    class: "bluebtn pull-right tooltip-info push-right form-loading-on-click",
                    "data-form" => "new_part",
-                   "data-title" => "Create and save new part" %>
+                   "data-title" => "Create and save new asset" %>
   <% end %>
 </div>
 
 <div class="form-loading hidden" data-form="new_part">
-  <%= render "layouts/inline_loading", title: "Creating part, please wait..." %>
+  <%= render "layouts/inline_loading", title: "Creating asset, please wait..." %>
 </div>

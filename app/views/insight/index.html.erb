@@ -2,10 +2,65 @@
 
 <div class="page_header">
   <h1>Insight</h1>
+
   <p class="help-text">Elephant surfaces relevant information that might help in mitigating future problems.</p>
 </div>
 
+
+
+<div class="pull-right">
+  <canvas id="canvas" height="200" width="960"></canvas>
+</div>
+
+<span class="help-text pull-right blue-text2">This year in blue verse last year</span>
+
+<script>
+    var lineChartData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: [65, 59, 90, 81, 56, 55, 40, 65, 59, 90, 81, 56, 55, 40]
+            },
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                data: [28, 48, 40, 19, 96, 27, 100, 28, 48, 40, 19, 96, 27, 100]
+            }
+        ]
+    }
+
+    <% if false %>
+    <% activities = Activity.activities_for_job(job).select("DISTINCT created_at") %>
+
+    alert('<%= activities.count %>');
+    var lineChartData = {
+        labels: <%= raw activities.map { |a| a.created_at.day }.to_json %>,
+        datasets: [
+
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                data: <%= raw activities.map { rand(5..30) }.to_json %>
+            }
+        ]
+
+    }
+    <% end %>
+
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+
+</script>
 <br>
+<br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
 <h3>New Failures (<%= @failures.count %>)</h3>
 <br>
 
@@ -27,10 +82,11 @@
                               "</div>" do %>
               <div class="">
                 <span><b><%= failure.job.job_template.name %></b></span>
+
                 <div class="job-failure-item">- <%= failure.failure_master_template.text %></div>
                 <div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
               </div>
-                <p><%= time_ago_in_words(failure.created_at) %> ago</p>
+              <p><%= time_ago_in_words(failure.created_at) %> ago</p>
 
           <% end %>
       <% end %>
