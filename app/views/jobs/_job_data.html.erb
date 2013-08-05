@@ -207,56 +207,56 @@
         </div>
       </div>
 
-      <% if in_form %>
+      <% if false && in_form %>
 
-      <div  class="pull-right">
-        <canvas id="canvas" height="200" width="500"></canvas>
-      </div>
+          <div class="pull-right">
+            <canvas id="canvas" height="200" width="500"></canvas>
+          </div>
 
-      <script>
-          var lineChartData = {
-          labels : ["January","February","March","April","May","June","July"],
-                  datasets : [
-              {
-                  fillColor : "rgba(220,220,220,0.5)",
-                  strokeColor : "rgba(220,220,220,1)",
-                  pointColor : "rgba(220,220,220,1)",
-                  pointStrokeColor : "#fff",
-                  data : [65,59,90,81,56,55,40]
-              },
-              {
-                  fillColor : "rgba(151,187,205,0.5)",
-                  strokeColor : "rgba(151,187,205,1)",
-                  pointColor : "rgba(151,187,205,1)",
-                  pointStrokeColor : "#fff",
-                  data : [28,48,40,19,96,27,100]
+          <script>
+              var lineChartData = {
+                  labels: ["January", "February", "March", "April", "May", "June", "July"],
+                  datasets: [
+                      {
+                          fillColor: "rgba(220,220,220,0.5)",
+                          strokeColor: "rgba(220,220,220,1)",
+                          pointColor: "rgba(220,220,220,1)",
+                          pointStrokeColor: "#fff",
+                          data: [65, 59, 90, 81, 56, 55, 40]
+                      },
+                      {
+                          fillColor: "rgba(151,187,205,0.5)",
+                          strokeColor: "rgba(151,187,205,1)",
+                          pointColor: "rgba(151,187,205,1)",
+                          pointStrokeColor: "#fff",
+                          data: [28, 48, 40, 19, 96, 27, 100]
+                      }
+                  ]
               }
-          ]
-          }
 
-          <% if false %>
-        <% activities = Activity.activities_for_job(job).select("DISTINCT created_at") %>
+              <% if false %>
+              <% activities = Activity.activities_for_job(job).select("DISTINCT created_at") %>
 
-        alert('<%= activities.count %>');
-        var lineChartData = {
-              labels : <%= raw activities.map { |a| a.created_at.day }.to_json %>,
-              datasets : [
+              alert('<%= activities.count %>');
+              var lineChartData = {
+                  labels: <%= raw activities.map { |a| a.created_at.day }.to_json %>,
+                  datasets: [
 
-                  {
-                      fillColor : "rgba(151,187,205,0.5)",
-                      strokeColor : "rgba(151,187,205,1)",
-                      pointColor : "rgba(151,187,205,1)",
-                      pointStrokeColor : "#fff",
-                      data : <%= raw activities.map { rand(5..30) }.to_json %>
-                  }
-              ]
+                      {
+                          fillColor: "rgba(151,187,205,0.5)",
+                          strokeColor: "rgba(151,187,205,1)",
+                          pointColor: "rgba(151,187,205,1)",
+                          pointStrokeColor: "#fff",
+                          data: <%= raw activities.map { rand(5..30) }.to_json %>
+                      }
+                  ]
 
-          }
-          <% end %>
+              }
+              <% end %>
 
-          var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+              var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
 
-      </script>
+          </script>
       <% end %>
 
 
@@ -293,8 +293,8 @@
                       </p>
                     </div>
                 <% end %>
-                <% if in_form %>
-                <br>
+                <% if false && in_form %>
+                    <br>
                 <% end %>
             <% end %>
         <% end %>
