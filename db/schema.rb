@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801192252) do
+ActiveRecord::Schema.define(:version => 20130806003816) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20130801192252) do
     t.string   "vpn_range"
     t.boolean  "test_company",     :default => false
     t.boolean  "inventory_active", :default => true
+    t.string   "city"
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true

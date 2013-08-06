@@ -40,7 +40,7 @@
                         </li>
                         <li class="divider"></li>
 
-                        <% if current_user.role.global_read? && !current_user.role.show_inventory? && current_user.company.inventory_active? %>
+                        <% if current_user.role.global_read? && !current_user.role.show_inventory? %>
                             <li>
                               <%= link_to inventory_index_path, class: "menu-avatar" do %>
                                   <%= image_tag "tool.png", class: "job-status-avatar" %>

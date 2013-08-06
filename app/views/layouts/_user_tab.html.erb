@@ -5,7 +5,7 @@
     <% if current_user.role.global_edit? %>
         <%= tab.insight "Insight", insight_index_path %>
     <% end %>
-    <% if current_user.role.show_inventory? && current_user.company.inventory_active?  %>
+    <% if current_user.role.show_inventory?  %>
         <%= tab.inventory "Inventory", inventory_index_path %>
     <% end %>
 <% end %>

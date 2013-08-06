@@ -6,8 +6,12 @@
     <%= image_tag "tutorial_welcome.png" %>
   </div>
 
+
+
   <div class="form center">
-    <%= link_to "I got it, Get Started Now!", root_path, class: "bluebtn form-loading-on-click" %>
+    <div>Click below to continue...</div>
+    <br>
+    <%= link_to "Start using Elephant Now", root_path, class: "bluebtn red form-loading-on-click" %>
   </div>
 
   <%= render 'layouts/inline_loading', title: "Please wait, setting up profile..." %>

@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
                     :address_line_1,
                     :address_line_2,
                     :postal_code,
+                    :city,
                     :state,
                     :country,
                     :logo,

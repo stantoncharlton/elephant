@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
     end
 
     def signed_in_user_inventory
-        unless signed_in? && current_user.company.inventory_active? && current_user.role.access_to_inventory?
+        unless signed_in? && current_user.role.access_to_inventory?
             store_location
             redirect_to signin_url, error: "Please sign in."
         end

@@ -70,7 +70,7 @@
 
       <%= render 'jobs/index_parts/jobs_count', jobs: @district_jobs %>
 
-      <% if current_user.role.access_to_inventory? && current_user.company.inventory_active? %>
+      <% if current_user.role.access_to_inventory? %>
           <hr>
 
           <div class="push-right-small">
