@@ -32,6 +32,7 @@ class Parts
           $(this).removeClass 'ui-autocomplete-typing'
 
 
+
 $ ->
 
   $('#part_material_number').keyup (e) ->

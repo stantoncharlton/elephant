@@ -25,6 +25,10 @@
             focus: focusevent,
             select: function(event, ui) {
                 $(this).closest('form').find('.part-id').val(ui.item.id);
+                $(this).closest('form').hide();
+                loading = $(this).closest('.form').parent().find(".form-loading[data-form='part_membership']");
+                loading.removeClass('hidden');
+                loading.find('.loading').removeClass('hidden');
                 return $(this).closest('form').submit();
             }
         });
