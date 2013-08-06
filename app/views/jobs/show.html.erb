@@ -109,21 +109,28 @@
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
+
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
+            if($('#new_member_name').length > 0) {
             $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                         "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
             }
+            }
+            if($('#new_note_name').length > 0) {
             $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                         "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
             }
+            }
+
 
             $.ajax({
                 url: "/job_process/" + <%= @job.id.to_s %>,
                 type: "GET",
                 dataType: "script"
             });
+
 
             <% if @job.status == Job::ACTIVE %>
             $.ajax({
