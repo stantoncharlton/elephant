@@ -38,6 +38,9 @@
                     "data-title" => "Remove asset from job" %>
     <% end %>
   </div>
+  <% if job.status != Job::ACTIVE && !part_membership.part.present? %>
+      <span class='help-text pull-right warning-text'>No Asset configured...</span>
+    <% end %>
 
 
   <div>
