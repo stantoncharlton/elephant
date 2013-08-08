@@ -4,8 +4,8 @@ class InventoryController < ApplicationController
 
     def index
 
-        job_process_sql = JobProcess.select("job_processes.id").where("job_processes.company_id = ?", current_user.company_id).order("job_processes.created_at ASC").limit(5).to_sql
-        @jobs = Job.where("jobs.id IN (#{job_process_sql})").order("jobs.created_at DESC")
+        job_process_sql = JobProcess.select("job_processes.id").where("job_processes.company_id = ?", current_user.company_id).order("job_processes.created_at DESC").to_sql
+        @jobs = Job.where("jobs.id IN (#{job_process_sql})").order("jobs.created_at DESC").limit(5)
 
         if params[:district].present?
             @district = District.find_by_id(params[:district])
