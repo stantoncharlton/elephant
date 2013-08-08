@@ -155,4 +155,10 @@ class Document < ActiveRecord::Base
         end
     end
 
+    def delete_notice_on_jobs document_id
+        Document.where("documents.document_template_id = ?", document_id).each do |document|
+            document.destroy
+        end
+    end
+
 end

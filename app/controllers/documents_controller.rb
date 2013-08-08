@@ -159,6 +159,10 @@ class DocumentsController < ApplicationController
             render 'error'
         end
 
+        if @document.category == Document::NOTICES
+            @document.delay.delete_notice_on_jobs @document.id
+        end
+
         @document.document_collection.each do |document|
             if document != @document and (document.ordering || 0) > @document.ordering
                 document.ordering = (document.ordering || 0) - 1
