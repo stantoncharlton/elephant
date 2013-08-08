@@ -1,8 +1,8 @@
 <% active_jobs_count = jobs.where(:status => Job::ACTIVE).count(:id) %>
-<% jobs_sql =  jobs.reorder('').where(:status => Job::ACTIVE).select("jobs.id").to_sql %>
+<% jobs_sql = jobs.reorder('').where(:status => Job::ACTIVE).select("jobs.id").to_sql %>
 <% active_failures_count = Failure.where("failures.job_id IN (#{jobs_sql})").count(:id) %>
 
-   <div class="chart-block">
+<div class="chart-block">
   <div class="chart-title">Active Jobs</div>
   <div class="donut-chart-div job-donut-chart-div">
     <div class="donut-text"><%= active_jobs_count %></div>
@@ -26,29 +26,32 @@
   </div>
 </div>
 
-<div class="pull-right">
-  <canvas id="canvas" height="100" width="100"></canvas>
-</div>
+<% if !@district.present? %>
+    <div class="pull-right">
+      <canvas id="canvas" height="100" width="100"></canvas>
+    </div>
 
-<div class="pull-right help-text">Failure %</div>
+    <div class="pull-right help-text">Failure %</div>
 
 
-<script>
+    <script>
 
-    var options = {
-        animationEasing : "easeOutQuart"
-    }
+        var options = {
+            animationEasing: "easeOutQuart"
+        }
 
-    var chartData = [
-        {
-            value: <%= (active_failures_count.to_f / active_jobs_count.to_f) * 100  %>,
-            color:"#F7464A"
-        },
-        {
-            value : <%= 100 - ((active_failures_count.to_f / active_jobs_count.to_f) * 100 ) %>,
-            color : "#E2EAE9"
-        }]
+        var chartData = [
+            {
+                value: <%= (active_failures_count.to_f / active_jobs_count.to_f) * 100  %>,
+                color: "#F7464A"
+            },
+            {
+                value: <%= 100 - ((active_failures_count.to_f / active_jobs_count.to_f) * 100 ) %>,
+                color: "#E2EAE9"
+            }
+        ]
 
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(chartData, options);
+        var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(chartData, options);
 
-</script>
+    </script>
+<% end %>
