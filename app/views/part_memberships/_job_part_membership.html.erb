@@ -40,11 +40,16 @@
   </div>
   <% if job.status != Job::ACTIVE && !part_membership.part.present? %>
       <span class='help-text pull-right warning-text'>No Asset configured...</span>
-    <% end %>
+  <% end %>
 
 
   <div>
-    <p class="help-text inline">Asset</p><b class="push-right-small"><%= part.present? ? part.name : '(**No parts in district, add to inventory)' %></b>
+    <p class="help-text inline">Asset</p>
+    <% if part.present? %>
+        <b class="push-right-small"><%= part.name %></b>
+    <% else %>
+        <p class="inline warning-text">**No parts in district, add to inventory</p>
+    <% end %>
     <br>
 
     <p class="help-text inline">Material Number</p>
