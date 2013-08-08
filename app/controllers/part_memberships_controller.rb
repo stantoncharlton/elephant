@@ -25,6 +25,7 @@ class PartMembershipsController < ApplicationController
             not_found unless @part_membership.job.company == current_user.company
 
             @part_membership.part = Part.find_by_id(part_id)
+            not_found unless @part_membership.part.present?
             not_found unless @part_membership.part.company == current_user.company
         end
 

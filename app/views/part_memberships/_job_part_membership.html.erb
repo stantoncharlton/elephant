@@ -1,4 +1,4 @@
-<% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: job.district_id, material_number: part_membership.material_number).limit(1).first %>
+<% part = Part.where("parts.district_id = :district_id AND parts.material_number = ':material_number' AND parts.template is TRUE", district_id: job.district_id, material_number: part_membership.material_number).limit(1).first %>
 <div id="part_membership_<%= part_membership.id %>" class="">
 
   <% if @job.status == Job::ACTIVE %>
