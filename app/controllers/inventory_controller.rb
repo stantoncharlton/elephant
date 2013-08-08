@@ -16,6 +16,8 @@ class InventoryController < ApplicationController
             redirect_to root_path
         end
 
+        @average_redress = PartRedress.includes(:job).where("jobs.district_id = ?", @district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1)
+
     end
 
 

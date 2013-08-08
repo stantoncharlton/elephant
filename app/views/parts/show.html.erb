@@ -74,6 +74,14 @@
         </div>
       </div>
 
+      <div class="chart-block">
+        <div class="chart-title">Avg Redress</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.material_number = ?", @part.material_number).where("jobs.district_id = ?", @part.district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
+          <div class="percentage ">days</div>
+        </div>
+      </div>
+
   <% else %>
 
       <div class="inline"><span class="help-text">Serial Number: </span>
@@ -136,7 +144,7 @@
 
                       <% if redress.present? %>
                           <div class="content alert">
-                            <span class='help-text'>Redress - </span><%= redress.finished_redress_at.strftime("%m/%d/%Y") %>
+                            <span class='help-text'>Redress - </span><%= redress.finished_redress_at.strftime("%m/%d/%Y") %> <span class='pull-right'><%= distance_of_time_in_words(redress.received_at, redress.finished_redress_at) %></span>
                             <% if !redress.notes.blank? %>
                                 <br>
                                 <span class='help-text'>Notes - </span>
