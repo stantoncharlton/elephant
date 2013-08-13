@@ -1,7 +1,7 @@
 <% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
 <div id="part_membership_<%= part_membership.id %>" class="">
 
-  <% if @job.status == Job::ACTIVE %>
+  <% if job.status == Job::ACTIVE %>
       <div class="form inline add-part-match <%= part_membership.part.present? ? 'hidden' : '' %>" data-form="part_membership">
         <%= form_for(PartMembership.new, :html => {class: "inline"}, remote: true) do |f| %>
             <%= f.hidden_field :template, value: false %>

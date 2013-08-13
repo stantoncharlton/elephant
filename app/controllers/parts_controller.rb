@@ -24,7 +24,7 @@ class PartsController < ApplicationController
 
                 if @parts.empty?
                     @parts << Part.new
-                    render json: @parts.map { |part| {:value => "No part found...", :name => "", :id => -1, :district_serial_number => -1} }
+                    render json: @parts.map { |part| {:value => "No part found or available...", :name => "", :id => -1, :district_serial_number => -1} }
                     return
                 end
 
