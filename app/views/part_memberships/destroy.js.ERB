@@ -1,3 +1,3 @@
-<% template = @part_membership.template_part_membership  %>
-$('#part_membership_<%= @part_membership.id %>').replaceWith('<%= j render 'part_memberships/job_part_membership', part_membership: template, job: @part_membership.job %>');
-
+alert('destroy');
+$('#part_membership_<%= @part_membership.id %>').replaceWith('<%= j render 'part_memberships/job_part_membership', part_membership: @part_membership.template_part_membership, job: @part_membership.job %>');
+alert('finished');
