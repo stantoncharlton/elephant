@@ -24,12 +24,14 @@
             source: $(element).data('autocomplete-source'),
             focus: focusevent,
             select: function(event, ui) {
+                if(ui.item.id > 0) {
                 $(this).closest('form').find('.part-id').val(ui.item.id);
                 $(this).closest('form').hide();
                 loading = $(this).closest('.form').parent().find(".form-loading[data-form='part_membership']");
                 loading.removeClass('hidden');
                 loading.find('.loading').removeClass('hidden');
                 return $(this).closest('form').submit();
+                }
             }
         });
     });
@@ -58,6 +60,8 @@
             box.autocomplete('close');
         } else {
             box.autocomplete('search', $(this).attr('data-part-fill'));
+
+            box.trigger('focus');
         }
         return false;
     });
@@ -69,4 +73,6 @@
                     "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div class='asset-serials'>" + (item.serial_number != null ? ("<p class=''><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b> / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b></p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "<p class='job-user-district'><span class='help-text'>Material # </span>" + item.material_number + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
         }
     });
+
+
 <% end %>

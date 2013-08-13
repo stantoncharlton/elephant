@@ -15,8 +15,9 @@ class Parts
         source: $(element).data('autocomplete-source')
         focus: focusevent
         select: (event, ui) ->
-          $(this).closest('form').find('.part-id').val(ui.item.id)
-          $(this).closest('form').submit()
+          if ui.item.id > 0
+            $(this).closest('form').find('.part-id').val(ui.item.id)
+            $(this).closest('form').submit()
 
     $('.part-match').live "focusin", ->
       part_focused = true
