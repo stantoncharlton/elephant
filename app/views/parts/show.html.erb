@@ -24,13 +24,27 @@
   <% else %>
 
 
-
       <div class="btn-group inline pull-right push-right-small">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
           Advanced Actions
         </a>
         <ul class="dropdown-menu">
 
+          <li>
+            <% if @part.status == Part::DECOMMISSIONED %>
+                <%= link_to "Recommission Asset", part_path(@part, recommission: true),
+                            method: :put,
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Recommission asset from decommissioned state" %>
+            <% else %>
+                <%= link_to "Decommission Asset", part_path(@part, decommission: true),
+                            method: :put,
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Decommission asset from use for reason of broken, old, etc" %>
+            <% end %>
+          </li>
           <li>
             <%= link_to "Delete Asset", @part, method: :delete,
                         data: {confirm: "Delete Asset"},
@@ -43,12 +57,10 @@
         </ul>
       </div>
 
-      <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")",  @part.master_part, class: "activity-user-link pull-right" %>
+      <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")", @part.master_part, class: "activity-user-link pull-right" %>
 
 
-
-
-<% end %>
+  <% end %>
 
 </div>
 
@@ -85,13 +97,13 @@
   <% else %>
 
       <div class="inline"><span class="help-text">Serial Number: </span>
+
         <h3 class="blue-text inline"><%= @part.serial_number %></h3>
       </div>
 
       <div class="inline push-right"><span class="help-text">District Serial Number: </span>
         <b><%= @part.district_serial_number.blank? ? '-' : @part.district_serial_number %></b>
       </div>
-
 
 
       <hr>
@@ -125,7 +137,15 @@
       <% end %>
     </div>
 
-    <%= will_paginate @parts %>
+    <%= will_paginate @parts, :params => {show_decommissioned: @showing_decommissioned } %>
+
+    <% if !@showing_decommissioned %>
+        <div class="pull-right">
+          <br>
+          <br>
+          <%= link_to "Show all assets, including decommissioned", part_path(@part, show_decommissioned: true), class: "activity-user-link" %>
+        </div>
+    <% end %>
 
 <% else %>
     <h3>Run History <span class="help-text">(<%= @part.jobs.count %>)</span></h3>
@@ -144,7 +164,8 @@
 
                       <% if redress.present? %>
                           <div class="content alert">
-                            <span class='help-text'>Redress - </span><%= redress.finished_redress_at.present? ? redress.finished_redress_at.strftime("%m/%d/%Y") : '' %> <span class='pull-right'><%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) : '' %></span>
+                            <span class='help-text'>Redress - </span><%= redress.finished_redress_at.present? ? redress.finished_redress_at.strftime("%m/%d/%Y") : '' %>
+                            <span class='pull-right'><%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) : '' %></span>
                             <% if !redress.notes.blank? %>
                                 <br>
                                 <span class='help-text'>Notes - </span>

@@ -17,14 +17,14 @@ class PartsController < ApplicationController
                 end
 
                 if params[:material_number].present?
-                    @parts = Part.search_parts(params, current_user.company, params[:material_number]).results
+                    @parts = Part.search_parts(params, current_user.company, params[:material_number], params[:district_id]).results
                 else
-                    @parts = Part.search(params, current_user.company).results
+                    @parts = Part.search(params, current_user.company, params[:district_id]).results
                 end
 
                 if @parts.empty?
                     @parts << Part.new
-                    render json: @parts.map { |part| {:value => "No part found or available...", :name => "", :id => -1, :district_serial_number => -1} }
+                    render json: @parts.map { |part| {:value => "No asset found or available...", :name => "", :id => -1, :district_serial_number => -1} }
                     return
                 end
 
@@ -46,7 +46,13 @@ class PartsController < ApplicationController
             @part = Part.find(params[:id])
             not_found unless @part.company == current_user.company
 
-            @parts = @part.parts.paginate(page: params[:page], limit: 20)
+            if params[:show_decommissioned] == "true"
+                @showing_decommissioned = true
+                @parts = @part.parts.paginate(page: params[:page], limit: 20)
+            else
+                @showing_decommissioned = false
+                @parts = @part.parts.where("parts.status != ?", Part::DECOMMISSIONED).paginate(page: params[:page], limit: 20)
+            end
         end
     end
 
@@ -90,7 +96,7 @@ class PartsController < ApplicationController
         respond_to do |format|
             format.html {
                 if @part.save
-                    flash[:success] = "Part created - #{@part.name}"
+                    flash[:success] = "Asset created - #{@part.name}"
                     redirect_to @part
                 else
                     @district = District.find_by_id(district_id)
@@ -121,6 +127,18 @@ class PartsController < ApplicationController
 
             @part.current_job = nil
             @part.save
+        elsif params[:decommission] == "true"
+            @part.status = Part::DECOMMISSIONED
+            @part.save
+
+            flash[:success] = "Asset Decommissioned"
+            redirect_to @part
+        elsif params[:recommission] == "true"
+            @part.status = Part::AVAILABLE
+            @part.save
+
+            flash[:success] = "Asset Recommissioned"
+            redirect_to @part
         end
     end
 

@@ -27,7 +27,7 @@ class Part < ActiveRecord::Base
     belongs_to :master_part, class_name: "Part"
     belongs_to :primary_tool
 
-    has_many :parts, foreign_key: "master_part_id"
+    has_many :parts, foreign_key: "master_part_id", order: "serial_number ASC"
 
     has_many :part_memberships, foreign_key: "part_id"
     has_many :jobs, through: :part_memberships, source: :job
@@ -37,6 +37,7 @@ class Part < ActiveRecord::Base
     ON_JOB = 2
     USED = 3
     IN_REDRESS = 4
+    DECOMMISSIONED = 5
 
 
     searchable do
@@ -71,19 +72,21 @@ class Part < ActiveRecord::Base
         where("company_id = :company_id", company_id: company.id).order("parts.district_serial_number_id ASC")
     end
 
-    def self.search(options, company)
+    def self.search(options, company, district_id)
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            with(:district_id, district_id)
             order_by :name_sort
             paginate :page => options[:page], :per_page => 20
         end
     end
 
-    def self.search_parts(options, company, material_number)
+    def self.search_parts(options, company, material_number, district_id)
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            with(:district_id, district_id)
             with(:material_number, material_number)
             with(:template, false)
             with(:status, Part::AVAILABLE)
@@ -102,6 +105,8 @@ class Part < ActiveRecord::Base
                 return "Waiting for Redress"
             when IN_REDRESS
                 return "In Redress"
+            when DECOMMISSIONED
+                return "Decommissioned"
         end
     end
 end

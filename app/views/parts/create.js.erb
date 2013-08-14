@@ -17,4 +17,5 @@ $('#parts').prepend($("<%= j render 'parts/sub_part', part: @part %>"));
 $('.part-count').text('<%= @part.master_part.parts.count %>');
 $('.part-on-hand').text('<%= @part.master_part.parts.count %>');
 
+
 <% end %>

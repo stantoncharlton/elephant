@@ -18,7 +18,7 @@
                     "data-form" => "update-part-status",
                     "data-placement" => "bottom",
                     "data-title" => "Receive asset" %>
-    <% else %>
+    <% elsif part.status == Part::IN_REDRESS %>
         <span class="warning-text"><%= part.status_string %></span>
         <span>since <%= time_ago_in_words(part.updated_at) %> ago</span>
 
@@ -30,11 +30,11 @@
 
             <%= text_area :notes,
                           {},
-                            name: "notes",
-                            placeholder: "Notes/Comments about service or problems",
-                            class: "txtfield job-description-text job-template-description tooltip-info",
-                            "data-placement" => "bottom",
-                            "data-title" => "Notes for redress" %>
+                          name: "notes",
+                          placeholder: "Notes/Comments about service or problems",
+                          class: "txtfield job-description-text job-template-description tooltip-info",
+                          "data-placement" => "bottom",
+                          "data-title" => "Notes for redress" %>
 
             <%= f.submit "Asset Finished Redress (Cleaned)",
                          class: "bluebtn green tooltip-info form-loading-on-click",
@@ -42,6 +42,8 @@
                          "data-placement" => "bottom",
                          "data-title" => "Receive cleaned/ready" %>
         <% end %>
+    <% else %>
+        <span class="warning-text"><%= part.status_string %></span>
     <% end %>
   </div>
 

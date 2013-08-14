@@ -46,10 +46,12 @@ class PartMembershipsController < ApplicationController
                 not_found unless @part_membership.part.company == current_user.company
             end
 
-            if @part_membership.destroy && !@part_membership.template?
-                @part_membership.part.status = Part::AVAILABLE
-                @part_membership.part.current_job = nil
-                @part_membership.part.save
+            if @part_membership.destroy
+                if !@part_membership.template?
+                    @part_membership.part.status = Part::AVAILABLE
+                    @part_membership.part.current_job = nil
+                    @part_membership.part.save
+                end
             end
         end
     end

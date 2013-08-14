@@ -1,3 +1,74 @@
-alert('destroy');
 $('#part_membership_<%= @part_membership.id %>').replaceWith('<%= j render 'part_memberships/job_part_membership', part_membership: @part_membership.template_part_membership, job: @part_membership.job %>');
-alert('finished');
+
+
+
+var focusevent, last_selected_item, part_focused, _this = this;
+
+last_selected_item = null;
+
+focusevent = function(event, ui) {
+    var selected_item;
+    if (last_selected_item !== null) {
+        $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+    }
+    selected_item = $('.item_' + ui.item.id);
+    selected_item.addClass('ui-state-hover');
+    return last_selected_item = ui.item;
+};
+
+part_focused = false;
+
+$('.part-match').each(function(index, element) {
+    return $(element).autocomplete({
+        source: $(element).data('autocomplete-source'),
+        focus: focusevent,
+        select: function(event, ui) {
+            if(ui.item.id > 0) {
+                $(this).closest('form').find('.part-id').val(ui.item.id);
+                $(this).closest('form').hide();
+                loading = $(this).closest('.form').parent().find(".form-loading[data-form='part_membership']");
+                loading.removeClass('hidden');
+                loading.find('.loading').removeClass('hidden');
+                return $(this).closest('form').submit();
+            }
+        }
+    });
+});
+
+$('.part-match').live("focusin", function() {
+    part_focused = true;
+    $(this).removeClass('ui-autocomplete-bad');
+    $(this).addClass('ui-autocomplete-typing');
+    return $(this).val('');
+});
+
+$('.part-match').live("focusout", function() {
+    if (part_focused) {
+        $(this).addClass('ui-autocomplete-bad');
+        if ($(this).val() === '') {
+            return $(this).removeClass('ui-autocomplete-typing');
+        }
+    }
+});
+
+
+$('.show-all-parts-material-number').live("click", function() {
+    var box;
+    box = $(this).closest('.filter-search-box').find('.part-match');
+    if ($(box.autocomplete('widget')).is(':visible')) {
+        box.autocomplete('close');
+    } else {
+        box.autocomplete('search', $(this).attr('data-part-fill'));
+
+        box.trigger('focus');
+    }
+    return false;
+});
+
+
+$('.part-match').each(function (index, element) {
+    $(element).data("autocomplete")._renderItem = function (ul, item) {
+        return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div class='asset-serials'>" + (item.serial_number != null ? ("<p class=''><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b> / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b></p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "<p class='job-user-district'><span class='help-text'>Material # </span>" + item.material_number + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
+    }
+});
