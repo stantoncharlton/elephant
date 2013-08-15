@@ -77,7 +77,7 @@ class Part < ActiveRecord::Base
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
             with(:district_id, district_id)
-            order_by :name_sort
+            order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
         end
     end
@@ -90,7 +90,7 @@ class Part < ActiveRecord::Base
             with(:material_number, material_number)
             with(:template, false)
             with(:status, Part::AVAILABLE)
-            order_by :name_sort
+            order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
         end
     end
