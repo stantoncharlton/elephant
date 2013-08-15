@@ -38,33 +38,22 @@ class PartMembershipsController < ApplicationController
     end
 
     def destroy
-        puts "Start Destroy......................"
         @part_membership = PartMembership.find_by_id(params[:id])
         if @part_membership.present?
-            puts "Present"
             if @part_membership.template?
-                puts "Template"
                 not_found unless @part_membership.primary_tool.job_template.company == current_user.company
             else
-                puts "Not Template"
                 not_found unless @part_membership.part.company == current_user.company
             end
 
-            puts "Passed Check"
-
             if @part_membership.destroy
-
-                puts "Destroyed"
                 if !@part_membership.template?
-                    puts "Enter"
                     @part_membership.part.status = Part::AVAILABLE
                     @part_membership.part.current_job = nil
                     @part_membership.part.save
-                    puts "Part Saves"
                 end
             end
         end
-        puts "End........................"
     end
 
 end
