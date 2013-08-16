@@ -19,7 +19,7 @@
         <% end %>
 
         <% activity.job.recent_activity(Time.now).each do |a| %>
-            <%= render 'activities/job_activity', activity: a, inside_job: false %>
+            <%= render 'activities/job_activity_email', activity: a, inside_job: false %>
         <% end %>
 
         <hr class="search-constraint-line">

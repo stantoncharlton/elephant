@@ -1,19 +1,21 @@
 <div class="activity">
 
-  <% if job_note.note_type == 2 %>
-      <div class="job-note-warning"></div>
-  <% end %>
-  <% if job_note.note_type == 3 %>
-      <div class="job-note-error"></div>
-  <% end %>
-  <% if job_note.note_type == 4 %>
-      <div class="job-note-task"></div>
-  <% end %>
+  <% if false %>
+      <% if job_note.note_type == 2 %>
+          <div class="job-note-warning"></div>
+      <% end %>
+      <% if job_note.note_type == 3 %>
+          <div class="job-note-error"></div>
+      <% end %>
+      <% if job_note.note_type == 4 %>
+          <div class="job-note-task"></div>
+      <% end %>
 
-  <% if Rails.env.production? %>
-      <div class="note-avatar-box-small">
-        <%= image_tag "user_avatar_small.png" %>
-      </div>
+      <% if Rails.env.production? %>
+          <div class="note-avatar-box-small">
+            <%= image_tag "user_avatar_small.png" %>
+          </div>
+      <% end %>
   <% end %>
 
   <ul class="activity-content">
