@@ -94,7 +94,7 @@ class DocumentsController < ApplicationController
                 @document.delay.add_notices_on_active_jobs
             end
 
-            Activity.add(self.current_user, Activity::DOCUMENT_CREATED, @document, @document.name)
+            Activity.delay.add(self.current_user, Activity::DOCUMENT_CREATED, @document, @document.name)
         else
 
             @job = Job.find_by_id(job_id)
@@ -129,7 +129,7 @@ class DocumentsController < ApplicationController
         @document.save
 
         if !@document.template?
-            Activity.add(current_user, Activity::DOCUMENT_UPLOADED, @document, @document.file_name, @document.job)
+            Activity.delay.add(current_user, Activity::DOCUMENT_UPLOADED, @document, @document.file_name, @document.job)
         end
 
         respond_to do |format|
@@ -170,7 +170,7 @@ class DocumentsController < ApplicationController
             end
         end
 
-        Activity.add(self.current_user, Activity::DOCUMENT_DESTROYED, @document, @document.name)
+        Activity.delay.add(self.current_user, Activity::DOCUMENT_DESTROYED, @document, @document.name)
 
     end
 

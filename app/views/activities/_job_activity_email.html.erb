@@ -36,7 +36,7 @@
 
         <% if !inside_job %>
             <div class="pull-right">
-              <%= render 'activities/job_description', job: activity.job, inside_job: false %></p>
+              <%= render 'activities/job_description', job: activity.job, inside_job: true %></p>
             </div>
         <% end %>
 
@@ -58,7 +58,7 @@
         <p class="activity-date tooltip-info"
            data-placement="bottom"
            data-title="<%= activity.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
-          <%= time_ago_in_words(activity.created_at) %> ago
+          <%= activity.created_at.strftime("%a %m/%d/%Y %l:%M %p") %> ago
         </p>
 
         <div class="">

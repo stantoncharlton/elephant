@@ -42,7 +42,7 @@
           <% if activity.user.present? %>
               <%= render 'activities/user', user: activity.user %>
           <% else %>
-            <p><b><%= activity.user_name %></b></p>
+              <p><b><%= activity.user_name %></b></p>
           <% end %>
 
           <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
@@ -80,6 +80,23 @@
           <% end %>
           <% if activity.activity_type == Activity::DATA_EDITED %>
               <p class="activity-message"><%= activity.metadata %> changed</p>
+          <% end %>
+          <% if activity.activity_type == Activity::ASSET_ADDED %>
+              <% if activity.target.present? %>
+                  <p class="activity-message"><b>Asset</b></p>
+                  <%= link_to activity.target.part.master_part.name, activity.target.part, class: "activity-user-link" %>
+                  <p class="activity-message">added to job</p>
+                  <br>
+                  <p  class="activity-message">
+                  <b>Material #</b> <%= activity.target.part.material_number %><br>
+                  <b>Serial #</b> <%= activity.target.part.serial_number %><br>
+                  <% if !activity.target.part.district_serial_number.blank? %>
+                    <b>District #</b> <%= activity.target.part.district_serial_number %>
+                  <% end %>
+                  </p>
+              <% else %>
+                  <p class="activity-message"><%= activity.metadata %></p>
+              <% end %>
           <% end %>
           <% if activity.activity_type == Activity::START_DATE %>
               <p class="activity-message">Job set to start
