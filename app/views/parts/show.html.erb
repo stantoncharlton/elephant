@@ -1,7 +1,7 @@
 <% provide(:title, 'Asset: ' + (@part.master_part.present? ? @part.master_part.name : @part.name)) %>
 
 <div class="page_header">
-  <h1><%= @part.master_part.present? ? @part.master_part.name : @part.name %></h1>
+  <h1 id="part_name"><%= @part.master_part.present? ? @part.master_part.name : @part.name %></h1>
 
   <h3 class="inline">&nbsp;Asset</h3>
 
@@ -10,15 +10,49 @@
         <%= render 'layouts/paged_header', items: @parts %>
       </h2>
 
+      <div class="btn-group inline pull-right push-right-small">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Advanced Actions
+        </a>
+        <ul class="dropdown-menu">
 
-      <%= link_to "+ Add Asset", "#",
-                  class: "bluebtn page_header_button tooltip-info",
-                  id: "new_part_link",
-                  "data-placement" => "bottom",
-                  "data-title" => "Create new asset under this material number" %>
+          <li>
+            <%= link_to "Rename Asset", "#",
+                        id: "rename_part_link",
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Rename asset." %>
+          </li>
+          <li>
+            <%= link_to "Change Material Number", "#",
+                        id: "change_material_number_part_link",
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Change material number of asset and all sub assets." %>
+          </li>
+          <li>
+            <% if @part.parts.count == 0 %>
+                <%= link_to "Delete Asset", @part, method: :delete,
+                            data: {confirm: "Delete Asset"},
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Permanently delete asset." %>
+            <% else %>
+                <%= link_to "Delete Asset", "#",
+                            id: "no_delete_asset",
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Permanently delete asset." %>
+            <% end %>
+          </li>
 
-      <div id="new_part_fields" class="alert alert-info hidden push-down">
-        <%= render 'parts/sub_part_fields', sub_part: @part %>
+
+        </ul>
+      </div>
+
+      <div id="rename_part_fields" class="hidden push-down">
+        <hr>
+        <%= render 'parts/rename_fields', sub_part: @part %>
       </div>
 
   <% else %>
@@ -67,6 +101,12 @@
 <div class="well">
   <div class="pull-right">
     <span class="help-text">Material Number:</span> <%= @part.material_number %>
+    <br><br>
+    <%= link_to "+ Add Asset", "#",
+                class: "bluebtn page_header_button tooltip-info",
+                id: "new_part_link",
+                "data-placement" => "bottom",
+                "data-title" => "Create new asset under this material number" %>
   </div>
 
   <% if @part.template? %>
@@ -113,6 +153,11 @@
 </div>
 
 <% if @part.template? %>
+
+    <div id="new_part_fields" class="alert alert-info hidden push-down">
+      <%= render 'parts/sub_part_fields', sub_part: @part %>
+    </div>
+
     <div class="push-right-small">
       <p class="help-text list-item-column">
         Serial Number
@@ -137,13 +182,13 @@
       <% end %>
     </div>
 
-    <%= will_paginate @parts, :params => {show_decommissioned: @showing_decommissioned } %>
+    <%= will_paginate @parts, :params => {show_decommissioned: @showing_decommissioned} %>
 
     <% if !@showing_decommissioned %>
         <div class="pull-right">
           <br>
           <br>
-          <%= link_to "Show all assets, including decommissioned", part_path(@part, show_decommissioned: true), class: "activity-user-link" %>
+          <%= link_to "Include decommissioned assets", part_path(@part, show_decommissioned: true), class: "activity-user-link" %>
         </div>
     <% end %>
 
@@ -184,4 +229,15 @@
     <% end %>
 <% end %>
 
+
+<div id="modal_popup" class="modal-popup-background">
+  <div class="modal-popup">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+    <div class="modal-content">
+      <%= image_tag "error_red.png" %> <h3 class="inline push-right-small">Can't Delete</h3>
+      <hr>
+      Can't delete a master asset with sub assets. First, remove all sub assets if this is the intended action.
+    </div>
+  </div>
+</div>
 

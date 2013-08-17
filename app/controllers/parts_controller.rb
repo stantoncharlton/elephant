@@ -139,6 +139,9 @@ class PartsController < ApplicationController
 
             flash[:success] = "Asset Recommissioned"
             redirect_to @part
+        elsif params[:part][:name].present?
+            @part_update = true
+            @part.update_attribute(:name, params[:part][:name])
         end
     end
 

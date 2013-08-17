@@ -35,7 +35,7 @@ class PartMembershipsController < ApplicationController
             @part_membership.part.current_job = @part_membership.job
             @part_membership.part.save
 
-            Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership, @part_membership.part.serial_number, @part_membership.job)
+            Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
         end
     end
 
@@ -53,6 +53,8 @@ class PartMembershipsController < ApplicationController
                     @part_membership.part.status = Part::AVAILABLE
                     @part_membership.part.current_job = nil
                     @part_membership.part.save
+
+                    Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
                 end
             end
         end

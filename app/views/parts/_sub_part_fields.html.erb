@@ -5,6 +5,7 @@
 </div>
 
 <div class="form" data-form="new_part">
+  <b>Add new asset</b>
   <%= form_for Part.new, html: {  class: "" }, remote: true do |f| %>
 
       <%= f.hidden_field :master_part_id, value: sub_part.id %>

@@ -87,3 +87,20 @@ $ ->
   $('#cancel_part').live "click", ->
     $('#new_part_link').removeClass 'hidden'
     $('#new_part_fields').addClass 'hidden'
+    return false
+
+  $('#no_delete_asset').live "click", ->
+    $('#modal_popup').css('visibility', 'visible')
+    $('#modal_popup').height($(document).height() + 100)
+    $('#modal_popup').find('.modal-popup').css('margin-top', $('body').scrollTop() + 100)
+    return false
+
+  $('#rename_part_link').live "click", ->
+    $('#part_name').val('')
+    $('#rename_part_fields').removeClass 'hidden'
+    $('#part_name').focus()
+    return false
+
+  $('#cancel_rename_part').live "click", ->
+    $('#rename_part_fields').addClass 'hidden'
+    return false

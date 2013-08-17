@@ -1,0 +1,24 @@
+<div id="rename_loader" class="form-loading hidden" data-form="new_part">
+  <%= render 'layouts/inline_loading', title: "Renaming asset..." %>
+  <br>
+  <br>
+</div>
+
+<div id="rename_form" class="form" data-form="new_part">
+
+  <b>Rename asset</b><span class="help-text push-right-small">Warning, this will affect the name of all sub assets!</span>
+
+  <%= form_for @part, html: {  class: "" }, remote: true do |f| %>
+
+      <div class="new-product-line">
+        <%= f.text_field :name, placeholder: "Name", class: "txtfield small", autofocus: true %>
+
+        <%= f.submit "Save", class: "bluebtn btnsmall form-loading-on-click",
+                     "data-form" => "new_part" %>
+        <%= link_to "Cancel", "#", id: "cancel_rename_part", class: "bluebtn btnsmall red" %>
+
+      </div>
+
+  <% end %>
+</div>
+

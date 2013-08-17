@@ -39,6 +39,7 @@ class Activity < ActiveRecord::Base
     DATA_EDITED = 111
     START_DATE = 112
     ASSET_ADDED = 113
+    ASSET_REMOVED = 114
 
     JOB_MEMBER_ADDED = 120
 
@@ -101,6 +102,8 @@ class Activity < ActiveRecord::Base
                 "Document uploaded to job"
             when ASSET_ADDED
                 "Asset added to job"
+            when ASSET_REMOVED
+                "Asset removed from job"
             when JOB_MEMBER_ADDED
                 "Project member added to job"
             when JOB_NOTE_ADDED
