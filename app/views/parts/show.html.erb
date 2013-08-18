@@ -55,6 +55,11 @@
         <%= render 'parts/rename_fields', sub_part: @part %>
       </div>
 
+      <div id="material_number_part_fields" class="hidden push-down">
+        <hr>
+        <%= render 'parts/material_number_fields', sub_part: @part %>
+      </div>
+
   <% else %>
 
 
@@ -100,13 +105,15 @@
 
 <div class="well">
   <div class="pull-right">
-    <span class="help-text">Material Number:</span> <%= @part.material_number %>
-    <br><br>
-    <%= link_to "+ Add Asset", "#",
-                class: "bluebtn page_header_button tooltip-info",
-                id: "new_part_link",
-                "data-placement" => "bottom",
-                "data-title" => "Create new asset under this material number" %>
+    <span class="help-text">Material Number:</span> <span id="material_number"><%= @part.material_number %></span>
+    <% if @part.template? %>
+        <br><br>
+        <%= link_to "+ Add Asset", "#",
+                    class: "bluebtn page_header_button tooltip-info",
+                    id: "new_part_link",
+                    "data-placement" => "bottom",
+                    "data-title" => "Create new asset under this material number" %>
+    <% end %>
   </div>
 
   <% if @part.template? %>

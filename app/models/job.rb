@@ -281,6 +281,7 @@ class Job < ActiveRecord::Base
     end
 
     def pre_job_data_good
+
         self.pre_job_documents.each do |document|
             if document.url.blank?
                 return false
@@ -294,6 +295,15 @@ class Job < ActiveRecord::Base
         end
 
         if self.start_date.nil?
+            return false
+        end
+
+        # Check assets all complete
+        total_parts = 0
+        self.job_template.primary_tools.each do |tool|
+            total_parts += tool.part_memberships.count
+        end
+        if self.part_memberships.count != total_parts
             return false
         end
 

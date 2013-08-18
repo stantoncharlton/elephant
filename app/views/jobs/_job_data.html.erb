@@ -69,6 +69,8 @@
           <% end %>
 
     <% else %>
+
+
           <% memberships = job.job_memberships.select { |p| p.job_role_id != 6 }.count %>
           <div class="pull-right push-right-small">
             <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>

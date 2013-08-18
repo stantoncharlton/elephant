@@ -104,3 +104,15 @@ $ ->
   $('#cancel_rename_part').live "click", ->
     $('#rename_part_fields').addClass 'hidden'
     return false
+
+  $('#change_material_number_part_link').live "click", ->
+    $('#part_material_number').val('')
+    $('#material_number_part_fields').removeClass 'hidden'
+    $('#part_material_number').focus()
+    return false
+
+  $('#cancel_material_number_part').live "click", ->
+    $('material_number_part_fields').addClass 'hidden'
+    return false
+
+

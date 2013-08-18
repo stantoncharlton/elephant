@@ -6,10 +6,17 @@ $('#alert').modal({show:true});
 <% else %>
 
 <% if @part_update.present? && @part_update %>
+    <% if @material_number_update.present? && @material_number_update %>
+    $('#material_number').text('<%= @part.material_number %>');
+    $('#material_number_loader').addClass('hidden');
+    $('#material_number_part_fields').addClass('hidden');
+    $('#material_number_form').show();
+    <% else %>
     $('#part_name').text('<%= @part.name %>');
     $('#rename_loader').addClass('hidden');
     $('#rename_part_fields').addClass('hidden');
     $('#rename_form').show();
+    <% end %>
 <% else %>
 if($('.part-status').length > 0) {
     $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');

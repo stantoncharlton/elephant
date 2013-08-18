@@ -142,6 +142,15 @@ class PartsController < ApplicationController
         elsif params[:part][:name].present?
             @part_update = true
             @part.update_attribute(:name, params[:part][:name])
+        elsif params[:part][:material_number].present?
+            @part_update = true
+            @material_number_update = true
+            Part.transaction do
+                @part.parts.each do |p|
+                    p.update_attribute(:material_number, params[:part][:material_number])
+                end
+                @part.update_attribute(:material_number, params[:part][:material_number])
+            end
         end
     end
 
