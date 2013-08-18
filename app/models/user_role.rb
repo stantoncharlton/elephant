@@ -222,7 +222,7 @@ class UserRole < ActiveRecord::Base
     end
 
     def access_to_inventory?
-        global_read? || self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_WAREHOUSE_SPECIALIST
+        global_read? || self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_WAREHOUSE_SPECIALIST || self.role_id == ROLE_OPERATIONS_COORDINATOR
     end
 
     def show_inventory?
