@@ -30,9 +30,13 @@
                 (<b><%= job.well.jobs.count.to_s %></b>)
               </p>
           <% end %>
-      <% end %>
+
+
+    <% end %>
 
       <% if in_form %>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
 
           <% if job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit? %>
               <div class="btn-group inline pull-right">
@@ -63,7 +67,8 @@
                 </ul>
               </div>
           <% end %>
-      <% else %>
+
+    <% else %>
           <% memberships = job.job_memberships.select { |p| p.job_role_id != 6 }.count %>
           <div class="pull-right push-right-small">
             <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
