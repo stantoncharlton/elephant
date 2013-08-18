@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="content">
-            <% primary_tool.documents.each do |d| %>
+            <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
                 <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
             <% end %>
           </div>

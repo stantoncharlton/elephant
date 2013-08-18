@@ -438,16 +438,16 @@ class Job < ActiveRecord::Base
         self.close_date = DateTime.now
         self.save
 
+        user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+                          alert_type: Alert::POST_JOB_DATA_READY,
+                          job_id: self.id).each { |a| a.destroy }
+
         Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)
 
         self.unique_participants.each do |participant|
             participant.send_job_completed_email(self)
             Alert.add(participant, Alert::JOB_CLOSED, self, user, self)
         end
-
-        user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
-                          alert_type: Alert::POST_JOB_DATA_READY,
-                          job_id: self.id).each { |a| a.destroy }
 
         if self.documents.any?
             self.generate_post_job_report
