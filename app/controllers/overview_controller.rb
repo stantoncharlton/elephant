@@ -102,6 +102,8 @@ class OverviewController < ApplicationController
         end
 
         case @failure_level
+            when "0"
+                @jobs = @jobs.where("failures_count = 0")
             when "1"
                 @jobs = @jobs.where("failures_count = 1")
             when "2"
