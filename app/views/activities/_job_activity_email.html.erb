@@ -83,6 +83,44 @@
           <% if activity.activity_type == Activity::DATA_EDITED %>
               <p class="activity-message"><%= activity.metadata %> changed</p>
           <% end %>
+          <% if activity.activity_type == Activity::ASSET_ADDED %>
+              <% if activity.target.present? %>
+                  <p class="activity-message"><b>Asset</b></p>
+                  <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link" %>
+                  <p class="activity-message">added to job</p>
+                  <br>
+                  <p  class="activity-message">
+                    <b>Material #</b> <%= activity.target.material_number %><br>
+                    <b>Serial #</b> <%= activity.target.serial_number %><br>
+                    <% if !activity.target.district_serial_number.blank? %>
+                        <b>District #</b> <%= activity.target.district_serial_number %>
+                    <% end %>
+                  </p>
+              <% else %>
+                  <p class="activity-message"><b>Asset</b> added to job</p>
+                  <br>
+                  <p class="activity-message"><b>Serial #</b> <%= activity.metadata %></p>
+              <% end %>
+          <% end %>
+          <% if activity.activity_type == Activity::ASSET_REMOVED %>
+              <% if activity.target.present? %>
+                  <p class="activity-message"><b>Asset</b></p>
+                  <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link" %>
+                  <p class="activity-message">removed from job</p>
+                  <br>
+                  <p  class="activity-message">
+                    <b>Material #</b> <%= activity.target.material_number %><br>
+                    <b>Serial #</b> <%= activity.target.serial_number %><br>
+                    <% if !activity.target.district_serial_number.blank? %>
+                        <b>District #</b> <%= activity.target.district_serial_number %>
+                    <% end %>
+                  </p>
+              <% else %>
+                  <p class="activity-message"><b>Asset</b> removed from job</p>
+                  <br>
+                  <p class="activity-message"><b>Serial #</b> <%= activity.metadata %></p>
+              <% end %>
+          <% end %>
           <% if activity.activity_type == Activity::START_DATE %>
               <p class="activity-message">Job set to start
                 <b><%= Date.strptime(activity.metadata).strftime("%a %m/%d/%Y") %></b></p>

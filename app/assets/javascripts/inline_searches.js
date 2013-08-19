@@ -9,6 +9,11 @@ $(function() {
     });
 
     $("#inline_search input").keyup(function() {
+        if($('#search_results').length > 0) {
+            $('#search_results').addClass('hidden');
+            $('#search_loading').removeClass('hidden');
+            $('#search_loading').find('.loading').removeClass('hidden');
+        }
         $.get($("#inline_search").attr("action"), $("#inline_search").serialize(), null, "script");
         return false;
     });
