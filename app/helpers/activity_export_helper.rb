@@ -10,7 +10,11 @@ module ActivityExportHelper
             sheet.add_row ['User', 'Action', 'Data', 'Date']
 
             activities.each do |activity|
-                sheet.add_row [activity.user_name, activity.message, activity.metadata, activity.created_at.strftime("%a %m/%d/%Y %l:%M %p")]
+                if activity.target.instance_of?(JobNote)
+                    sheet.add_row [activity.user_name, activity.message, activity.target.text, activity.created_at.strftime("%a %m/%d/%Y %l:%M %p")]
+                else
+                    sheet.add_row [activity.user_name, activity.message, activity.metadata, activity.created_at.strftime("%a %m/%d/%Y %l:%M %p")]
+                end
             end
         end
 

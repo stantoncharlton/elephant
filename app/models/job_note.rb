@@ -25,7 +25,7 @@ class JobNote < ActiveRecord::Base
 
     def create_job_note user
 
-        Activity.add(user, Activity::JOB_NOTE_ADDED, self, self.text, self.job)
+        Activity.add(user, Activity::JOB_NOTE_ADDED, self, nil, self.job)
 
         if self.assign_to.present?
             alert = Alert.add(self.assign_to, Alert::TASK_ASSIGNED, self, user, self.job)
