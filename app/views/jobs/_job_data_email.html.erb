@@ -1,6 +1,8 @@
 <table class="job-email-table" cellspacing="0" cellpadding="0">
   <tr class="job-email-title">
     <td colspan="4">
+      <%= link_to job.absolute_url do %>
+
       <h2 class="job-title inline"><%= job.field.name %></h2>
 
       <p class="job-well-field-title inline">Field</p>
@@ -11,6 +13,7 @@
 
       <p class="job-well-field-title inline">Well</p>
 
+      <% end %>
     </td>
   </tr>
 

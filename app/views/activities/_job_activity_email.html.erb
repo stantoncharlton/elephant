@@ -42,7 +42,7 @@
 
         <div class="activity-user-link-div">
           <% if activity.user.present? %>
-              <%= render 'activities/user', user: activity.user %>
+              <%= render 'activities/user_email', user: activity.user %>
           <% else %>
               <p><b><%= activity.user_name %></b></p>
           <% end %>
