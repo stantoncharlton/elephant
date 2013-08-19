@@ -19,10 +19,14 @@
       </a>
       <ul class="dropdown-menu">
         <li>
-          <%= link_to "Export as Excel", "#",
-                      class: "dropdown-menu-link tooltip-info submit-form",
-                      "data-placement" => "left",
-                      "data-title" => "Export activity as Microsoft Excel file." %>
+          <% if inside_job %>
+              <%= link_to "Export as Excel", "/activities/#{@job.id}?job_activity=true&format=xlsx",
+                          target: "_blank",
+                          class: "dropdown-menu-link tooltip-info submit-form",
+                          "data-placement" => "left",
+                          "data-title" => "Export activity as Microsoft Excel file." %>
+          <% else %>
+          <% end %>
         </li>
       </ul>
     </div>

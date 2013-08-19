@@ -98,6 +98,10 @@ class Activity < ActiveRecord::Base
 
             when JOB_CREATED
                 "Job was created"
+            when DATA_EDITED
+                "Data edited"
+            when START_DATE
+                "Start date set"
             when DOCUMENT_UPLOADED
                 "Document uploaded to job"
             when ASSET_ADDED

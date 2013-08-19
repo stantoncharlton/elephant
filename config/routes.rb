@@ -52,7 +52,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :dynamic_fields, only: [:show, :new, :create, :edit, :update, :destroy]
 
-    resources :activities, only: [:index]
+    resources :activities, only: [:index, :show]
 
 
 

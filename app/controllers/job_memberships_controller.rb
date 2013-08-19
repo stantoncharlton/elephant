@@ -29,7 +29,7 @@ class JobMembershipsController < ApplicationController
                 @user.delay.send_added_to_job_email(@job)
             end
 
-            Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, nil, @job)
+            Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, @user.name, @job)
 
             Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
         else
