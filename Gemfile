@@ -25,6 +25,7 @@ gem 'acts_as_xlsx'
 gem "unicorn"
 gem 'dalli'
 gem 'newrelic_rpm'
+gem 'rollbar'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
