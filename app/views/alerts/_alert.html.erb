@@ -77,19 +77,25 @@
     <% end %>
 
     <% if alert.alert_type == Alert::JOB_SHIPPED %>
-        <div class="alert alert-success alert-title">
+        <div class="<% alert.expiration <= 6.3.days.from_now ? 'alert alert-success' : '' %> alert-title">
           <%= image_tag "approve_arrow.png" %>
           <p class="inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> shipped to
             location</p>
         </div>
+        <% if alert.expiration > 6.3.days.from_now %>
+            <hr>
+        <% end %>
     <% end %>
 
     <% if alert.alert_type == Alert::JOB_CLOSED %>
-        <div class="alert alert-success alert-title">
+        <div class="<% alert.expiration <= 6.3.days.from_now ? 'alert alert-success' : '' %> alert-title">
           <%= image_tag "approve_arrow.png" %>
           <p class=" inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> completed
             and closed</p>
         </div>
+        <% if alert.expiration > 6.3.days.from_now %>
+            <hr>
+        <% end %>
     <% end %>
 
 <% end %>
