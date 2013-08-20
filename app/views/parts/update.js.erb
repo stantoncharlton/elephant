@@ -22,7 +22,7 @@ if($('.part-status').length > 0) {
     $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
 }
 else {
-    $('#inline_part_<%= @part.id %>').remove();
+    $('#inline_part_<%= @part.id %>').replaceWith("<br><br><b class='good-text'>Asset Received</b>");
 }
 <% end %>
 

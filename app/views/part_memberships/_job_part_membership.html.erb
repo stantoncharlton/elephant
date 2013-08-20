@@ -70,24 +70,29 @@
 
 
   <% if part_membership.part.present? && job.approved_to_ship %>
-      <div class="inline-part-receive" id="inline_part_<%= part_membership.part.id %>">
-        <div class="form" data-form="receive-part-form">
-          <br>
+      <% if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job.present? &&  part_membership.part.current_job.id == job.id %>
+          <div class="inline-part-receive" id="inline_part_<%= part_membership.part.id %>">
+            <div class="form" data-form="receive-part-form-<%= part_membership.part.id %>">
+              <br>
 
-          <% if part_membership.part.present? %>
-              <%= link_to "Receive Asset", part_path(part_membership.part, receive: true),
-                          method: :put,
-                          remote: true,
-                          class: "bluebtn green tooltip-info form-loading-on-click",
-                          "data-form" => "receive-part-form",
-                          "data-placement" => "bottom",
-                          "data-title" => "Receive asset" %>
-          <% end %>
-        </div>
+              <% if part_membership.part.present? %>
+                  <%= link_to "Receive Asset", part_path(part_membership.part, receive: true),
+                              method: :put,
+                              remote: true,
+                              class: "bluebtn green tooltip-info form-loading-on-click",
+                              "data-form" => "receive-part-form-" + part_membership.part.id.to_s,
+                              "data-placement" => "bottom",
+                              "data-title" => "Receive asset" %>
+              <% end %>
+            </div>
 
-        <div class="form-loading hidden" data-form="receive-part-form">
-          <%= render 'layouts/inline_loading', title: "Receiving..." %>
-        </div>
-      </div>
+            <div class="form-loading hidden" data-form="receive-part-form-<%= part_membership.part.id %>">
+              <%= render 'layouts/inline_loading', title: "Receiving..." %>
+            </div>
+          </div>
+      <% else %>
+          <br><br>
+            <b class='good-text'>Asset Received</b>
+      <% end %>
   <% end %>
 </div>
