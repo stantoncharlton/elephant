@@ -14,7 +14,7 @@ task :inactive_job_email => :environment do
     Job.all.each do |job|
         if job.status != Job::CLOSED && job.recent_activity(1.month.ago).count == 0
 
-            job_process = @job.job_processes.find { |jp| jp.event_type == JobProcess::LOW_ACTIVITY }
+            job_process = job.job_processes.find { |jp| jp.event_type == JobProcess::LOW_ACTIVITY }
 
             if job_process.nil?
                 creator = job.get_role(JobMembership::CREATOR)
