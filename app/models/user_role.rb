@@ -110,6 +110,67 @@ class UserRole < ActiveRecord::Base
         end
     end
 
+    def description
+        case self.role_id
+            when ROLE_ELEPHANT_ADMIN
+                "CCT"
+
+            # Sales
+            when ROLE_SALES_ENGINEER
+                "ALL"
+            when ROLE_APPLICATION_ENGINEER
+                "ALL"
+            when ROLE_DESIGN_ENGINEER
+                "ALL"
+            when ROLE_IN_HOUSE_ENGINEER
+                "ALL"
+            when ROLE_BUSINESS_ENGINEER
+                "ALL"
+            when ROLE_ENGINEER
+                "ALL"
+
+            # Field
+            when ROLE_DISTRICT_MANAGER
+                "District"
+            when ROLE_LOCAL_ENGINEER_MANAGER
+                "District"
+            when ROLE_INVENTORY_MANAGER
+                "District"
+            when ROLE_FIELD_ENGINEER
+                "Limited"
+            when ROLE_FIELD_SPECIALIST
+                "Limited"
+            when ROLE_OPERATIONS_COORDINATOR
+                "District"
+            when ROLE_WAREHOUSE_SPECIALIST
+                "Limited"
+            when ROLE_ADMINISTRATOR
+                "Limited"
+            when ROLE_FIELD_ENGINEER_TRAINEE
+                "Limited"
+            when ROLE_FIELD_SPECIALIST_TRAINEE
+                "Limited"
+
+            # Support
+            when ROLE_CORPORATE_MANAGER
+                "ALL"
+            when ROLE_RELIABILITY_MANAGER
+                "ALL"
+            when ROLE_GENERAL_MANAGER
+                "ALL"
+            when ROLE_PRODUCT_LINE_MANAGER
+                "ALL"
+            when ROLE_ENGINEERING_MANAGER
+                "ALL"
+            when ROLE_DESIGN_MANAGER
+                "ALL"
+            when ROLE_APP_SUPPORT_ENGINEER
+                "ALL"
+            when ROLE_SUPPORT
+                "ALL"
+        end
+    end
+
     def self.from_user(user)
         UserRole.from_role user.role_id, user.company
     end
