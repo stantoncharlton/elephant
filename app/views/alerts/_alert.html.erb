@@ -81,10 +81,10 @@
           <%= image_tag "approve_arrow.png" %>
           <p class="inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> shipped to
             location</p>
+          <% if alert.expiration > 6.3.days.from_now %>
+              <hr>
+          <% end %>
         </div>
-        <% if alert.expiration > 6.3.days.from_now %>
-            <hr>
-        <% end %>
     <% end %>
 
     <% if alert.alert_type == Alert::JOB_CLOSED %>
@@ -92,10 +92,10 @@
           <%= image_tag "approve_arrow.png" %>
           <p class=" inline">Job <%= render 'activities/job_description', job: alert.job, inside_job: false %> completed
             and closed</p>
+          <% if alert.expiration > 6.3.days.from_now %>
+              <hr>
+          <% end %>
         </div>
-        <% if alert.expiration > 6.3.days.from_now %>
-            <hr>
-        <% end %>
     <% end %>
 
 <% end %>
