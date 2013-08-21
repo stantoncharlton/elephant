@@ -25,9 +25,9 @@ class ClientsController < ApplicationController
                 end
 
                 if params[:q].present?
-                    render json: @clients.map { |client| {:name => client.name, :id => client.id, :country => client.country.present? ? client.country.name : ""} }
+                    render json: @clients.map { |client| {:name => client.name, :id => client.id, :country => client.country.present? ? client.country.name : "Global"} }
                 else
-                    render json: @clients.map { |client| {:label => client.name, :id => client.id, :country => client.country.present? ? client.country.name : ""} }
+                    render json: @clients.map { |client| {:label => client.name, :id => client.id, :country => client.country.present? ? client.country.name : "Global"} }
                 end
             }
         end
