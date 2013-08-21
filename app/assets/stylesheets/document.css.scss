@@ -245,15 +245,15 @@
 
   &:link, &:visited, &:active {
     background: transparent;
-    color: #828282;
-    text-decoration: none;
-    background: url(image_path('add_up.png')) no-repeat center left;
-  }
-  &:hover {
-    background: transparent;
     color: #0058a8;
     text-decoration: none;
     background: url(image_path('add_hover.png')) no-repeat center left;
+  }
+  &:hover {
+    background: transparent;
+    color: #0a1f31;
+    text-decoration: none;
+    background: url(image_path('add_down.png')) no-repeat center left;
   }
 }
 

@@ -7,7 +7,8 @@ class Document < ActiveRecord::Base
                     :url,
                     :read_only,
                     :ordering,
-                    :user_name
+                    :user_name,
+                    :access_level
 
 
     validates :name, presence: true, length: {maximum: 50}

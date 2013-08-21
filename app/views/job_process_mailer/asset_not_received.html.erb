@@ -1,0 +1,35 @@
+<html>
+<link rel="stylesheet" type="text/css" href="/application.css"/>
+<body class="email-body">
+
+<h1>Job Asset Not Received</h1>
+<p class="center">Please check the job and asset to fix any problems</p>
+<hr>
+<b>Job asset was never returned to shop or asset was not properly received in Elephant.</b>
+<%= link_to @job.absolute_url, class: "activity-user-link" do %>View job<% end %> now
+<br>
+<p>
+<h3 class='blue-test'><%= link_to @part.master_part.present? ? @part.master_part.name : 'Asset', "https://www.go-elephant.com/parts" + @part.id.to_s, class: "activity-user-link" %></h3>
+<p class="content">
+  <b>Material #</b> <%= @part.material_number %><br>
+  <b>Serial #</b> <%= @part.serial_number %><br>
+  <% if !@part.district_serial_number.blank? %>
+      <b>District #</b> <%= @part.district_serial_number %>
+  <% end %>
+</p>
+</p>
+
+<hr>
+
+<%= link_to @job.absolute_url, class: "job-email-link" do %>
+    <%= render 'jobs/job_data_email', job: @job %>
+<% end %>
+
+<% if Rails.env.production? %>
+    <hr>
+    <div class="center"><%= image_tag "blue_logo_small.png" %></div>
+    <br>
+<% end %>
+
+</body>
+</html>

@@ -1,3 +1,6 @@
 $('#alert').remove();
 $('body').append("<%= j render 'documents/modal_new_document', document: @document, job_id: @job_id %>");
 $('#alert').modal({show: true});
+
+
+$('.custom-select').customSelect();

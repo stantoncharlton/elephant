@@ -11,12 +11,37 @@
         <%= f.hidden_field :template, value: "false" %>
         <%= f.hidden_field :job_id, value: job_id %>
 
-        <%= f.text_field :name, class: "txtfield small",
-                         placeholder: "Document Name..." %>
+        <div class="well">
+          <b>New Document Name</b><br><br>
+          <%= f.text_field :name, class: "txtfield",
+                           placeholder: "Document Name..." %>
+        </div>
 
-        <%= f.select :category, options_for_select([["Pre-Job", "Pre-Job"], ["Post-Job", "Post-Job"]]),
-                     class: "job-note-type" %>
 
+        <div class="content">
+        <div class="">
+          <div class="list-item-column2">Category</div>
+          <%= f.select :category, options_for_select([["Pre-Job", "Pre-Job"], ["Post-Job", "Post-Job"]]),
+                       {},
+                       class: "job-note-type custom-select" %>
+        </div>
+
+
+        <% if !current_user.role.limit_to_assigned_jobs? %>
+            <br>
+
+            <div>
+              <div class="list-item-column2">Access Level <%= image_tag "warning.png", class: "inline job-status-avatar push-right-small" %></div>
+              <%= f.select :access_level, options_for_select([["Available to All", 0], ["Restricted to Corporate", 3]]),
+                           {},
+                           class: "job-note-type custom-select inline" %>
+            </div>
+
+        <% end %>
+        </div>
+
+
+        <br>
 
         <div class="custom-document-footer">
           <%= f.submit class: "bluebtn pull-right",

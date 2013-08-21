@@ -37,6 +37,7 @@ class Company < ActiveRecord::Base
     has_many :conversations, dependent: :destroy
     has_many :alerts, dependent: :destroy
     has_many :activities, dependent: :destroy
+    has_many :parts, dependent: :destroy
 
     belongs_to :admin
 
