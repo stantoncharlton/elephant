@@ -21,6 +21,7 @@ gem 'roadie'
 gem 'saasposesdk'
 gem 'rest-client'
 gem 'acts_as_xlsx'
+gem 'memcachier'
 
 gem "unicorn"
 gem 'dalli'
