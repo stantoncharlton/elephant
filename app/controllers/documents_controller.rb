@@ -9,6 +9,9 @@ class DocumentsController < ApplicationController
         not_found unless @document.company == current_user.company
 
         respond_to do |format|
+            format.html {
+                not_found
+            }
             format.js {
                 if params[:reorder].present?
                     if params[:reorder] == "-1"

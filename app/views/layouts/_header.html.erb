@@ -10,7 +10,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <b class="caret pull-left"></b>
 
-                <div class="pull-right">
+                <div class="pull-left">
                   <p class="user-name"><%= current_user.name %></p>
 
                   <p class="user-title">
@@ -49,6 +49,23 @@
                             </li>
                             <li class="divider"></li>
                         <% end %>
+                    <% elsif current_user.role.global_read? %>
+                        <li>
+                          <%= link_to districts_path, class: "menu-avatar" do %>
+                              <%= image_tag "district_extrasmall.png" %>
+                              <span>Districts</span>
+                          <% end %>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                          <%= link_to inventory_index_path, class: "menu-avatar" do %>
+                              <%= image_tag "tool.png", class: "job-status-avatar" %>
+                              <span class="push-right-small">Inventory</span>
+                          <% end %>
+                        </li>
+                        <li class="divider"></li>
                     <% end %>
                 <% end %>
                 <% if signed_in_admin? %>

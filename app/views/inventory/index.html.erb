@@ -1,31 +1,49 @@
-<% on_hand = @district.parts.where(:status => Part::AVAILABLE).count %>
+<% if @district.present? %>
+    <% parts = @district.parts %>
+<% else %>
+    <% parts = current_user.company.parts %>
+<% end %>
+<% on_hand = parts.where(:status => Part::AVAILABLE).count %>
 
 <% provide(:title, 'Inventory') %>
 
 <div class="page_header">
   <h1>Inventory</h1>
 
-  <div class="pull-right">
-    <h3 class="inline push-left-small">&nbsp;District</h3>
-    <%= link_to @district.name, @district, class: "activity-user-link" %>
-  </div>
+  <% if @district.present? %>
+      <div class="pull-right">
+        <h3 class="inline push-left-small">&nbsp;District</h3>
+        <%= link_to @district.name, @district, class: "activity-user-link" %>
+      </div>
+  <% end %>
 </div>
 
 
 <div class="well">
 
   <div class="filter-search-box">
-    <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @district.id)},
-                       placeholder: "Search for part...",
-                       class: "txtfield search-query tooltip-info part-search",
-                       id: "part_search",
-                       "data-placement" => "left",
-                       "data-title" => "Search in parts..." %>
+    <% if @district.present? %>
+        <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @district.id)},
+                           placeholder: "Search for part...",
+                           class: "txtfield search-query tooltip-info part-search",
+                           id: "part_search",
+                           "data-placement" => "left",
+                           "data-title" => "Search in parts..." %>
+    <% else %>
+        <%= text_field_tag "", "", data: {autocomplete_source: parts_path},
+                           placeholder: "Search for part...",
+                           class: "txtfield search-query tooltip-info part-search",
+                           id: "part_search",
+                           "data-placement" => "left",
+                           "data-title" => "Search in parts..." %>
+    <% end %>
   </div>
 
-  <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district.id), class: "bluebtn tooltip-info pull-right",
-              "data-placement" => "bottom",
-              "data-title" => "Create new asset" %>
+  <% if @district.present? %>
+      <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district.id), class: "bluebtn tooltip-info pull-right",
+                  "data-placement" => "bottom",
+                  "data-title" => "Create new asset" %>
+  <% end %>
 </div>
 
 
@@ -35,7 +53,7 @@
      data-title="Total assets in district inventory">
   <div class="chart-title">Assets</div>
   <div class="donut-chart-div">
-    <div class="donut-text "><%= number_with_delimiter(@district.parts.count, :delimiter => ",") %></div>
+    <div class="donut-text "><%= number_with_delimiter(parts.count, :delimiter => ",") %></div>
     <div class="percentage ">assets</div>
   </div>
 </div>
@@ -46,7 +64,7 @@
   <div class="donut-chart-div">
     <div id="personnel_utilization" class="donut-chart "></div>
     <div class="donut-inner-circle"></div>
-    <div class="donut-text"><%= @district.parts.any? ? ((on_hand.to_f / @district.parts.count.to_f) * 100).round(0) : "0" %></div>
+    <div class="donut-text"><%= parts.any? ? ((on_hand.to_f / parts.count.to_f) * 100).round(0) : "0" %></div>
     <div class="percentage-circle">%</div>
   </div>
 </div>
@@ -60,9 +78,11 @@
   </div>
 </div>
 
-<div class="content">
-  <%= link_to 'View Full Inventory List', 'inventory/' + @district.id.to_s, class: "activity-user-link" %>
-</div>
+<% if @district.present? %>
+    <div class="content">
+      <%= link_to 'View Full Inventory List', 'inventory/' + @district.id.to_s, class: "activity-user-link" %>
+    </div>
+<% end %>
 
 
 <div class="content">
@@ -84,8 +104,8 @@
     $(document).ready(function () {
         var plot3 = $.jqplot('personnel_utilization', [
             [
-                ['a', <%= @district.parts.count %>],
-                ['b', <%= @district.parts.count - on_hand %>]
+                ['a', <%= parts.count %>],
+                ['b', <%= parts.count - on_hand %>]
             ]
         ], {
             animate: true,

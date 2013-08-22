@@ -72,6 +72,15 @@ class Part < ActiveRecord::Base
         where("company_id = :company_id", company_id: company.id).order("parts.district_serial_number_id ASC")
     end
 
+    def self.search_no_district(options, company)
+        Sunspot.search(Part) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            order_by :name_sort, :desc
+            paginate :page => options[:page], :per_page => 20
+        end
+    end
+
     def self.search(options, company, district_id)
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]

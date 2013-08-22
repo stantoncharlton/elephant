@@ -19,7 +19,11 @@ class PartsController < ApplicationController
                 if params[:material_number].present?
                     @parts = Part.search_parts(params, current_user.company, params[:material_number], params[:district_id]).results
                 else
-                    @parts = Part.search(params, current_user.company, params[:district_id]).results
+                    if current_user.role.global_read? && current_user.district.nil?
+                        @parts = Part.search_no_district(params, current_user.company).results
+                    else
+                        @parts = Part.search(params, current_user.company, params[:district_id]).results
+                    end
                 end
 
                 if @parts.empty?
