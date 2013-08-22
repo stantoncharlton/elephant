@@ -43,6 +43,7 @@
 
   <% if job.document_shares.any? %>
       <h3 class="document-section-header">Shared Documents</h3>
+
       <div class="content" id="documents_shared">
         <% job.document_shares.each do |document_share| %>
             <%= render 'document_shares/document', document_share: document_share %>

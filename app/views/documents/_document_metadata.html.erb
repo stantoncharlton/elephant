@@ -13,17 +13,24 @@
   <% end %>
 
   <% if !document.template? %>
-      <% if document.url.present? %>
-          <%= link_to document.name, document.full_url, class: "document-name tooltip-info download-link",
-                      "data-placement" => "bottom",
-                      "data-title" => "Click to download document" %>
-      <% elsif !document.document_template.nil? && document.document_template.url.present? %>
-          <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
-                      "data-placement" => "bottom",
-                      "data-title" => "Click to download document" %>
-      <% else %>
-          <p class="document-name document-name-container"><%= document.name %></p>
-      <% end %>
+
+
+
+        <% if document.url.present? %>
+            <%= link_to document.name, document.full_url, class: "document-name tooltip-info download-link",
+                        "data-placement" => "bottom",
+                        "data-title" => "Click to download document" %>
+
+        <% elsif !document.document_template.nil? && document.document_template.url.present? %>
+            <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
+                        "data-placement" => "bottom",
+                        "data-title" => "Click to download document" %>
+        <% else %>
+            <p class="document-name document-name-container"><%= document.name %></p>
+
+        <% end %>
+
+
   <% else %>
       <% if document.url.present? %>
           <%= link_to document.name, document.full_url, class: "document-name tooltip-info",
@@ -55,6 +62,12 @@
                   <p><b><%= document.user_name %></b></p>
               <% end %>
           <% end %>
+
+          <% if document.access_level > 1 %>
+              <%= image_tag "lock_icon.png", class: "document-restricted tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Restricted Access" %>
+          <% end %>
         </div>
     <% else %>
         <% if document.updated_at != document.created_at %>
@@ -76,6 +89,8 @@
                                 "data-title" => "No Document, please upload a template" %>
               <% end %>
           <% end %>
+
+
         </div>
     <% end %>
   </div>
