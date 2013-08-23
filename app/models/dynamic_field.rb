@@ -531,6 +531,10 @@ class DynamicField < ActiveRecord::Base
                 units << ["psi/m", WEIGHT_GRADIENT_PSIM]
                 units << ["sg/ft", WEIGHT_GRADIENT_SGF]
                 units << ["sg/m", WEIGHT_GRADIENT_SGM]
+            when ANGLE
+                units << ["°", ANGLE]
+            when ANGLE_100FT
+                units << ["°", ANGLE_100FT]
         end
 
         units
@@ -577,6 +581,10 @@ class DynamicField < ActiveRecord::Base
                 units << ["PSI per Meter", WEIGHT_GRADIENT_PSIM]
                 units << ["Specific Gravity per Foot", WEIGHT_GRADIENT_SGF]
                 units << ["Specific Gravity per Meter", WEIGHT_GRADIENT_SGM]
+            when ANGLE
+                units << ["Degrees", ANGLE]
+            when ANGLE_100FT
+                units << ["Degrees per 100 Feet", ANGLE_100FT]
         end
 
         units

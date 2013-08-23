@@ -1,4 +1,4 @@
-<% if !rating.nil? %>
+<% if rating.present? %>
     <div class="donut-text rating-count <%= rating >= 3 ? "" : "chart-text-red" %>"><%= rating %></div>
     <div class="percentage <%= rating >= 3 ? "" : "chart-text-red" %>">of 5</div>
 <% else %>

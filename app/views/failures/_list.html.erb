@@ -1,30 +1,32 @@
 <div class="form" data-form="failures_list">
   <%= form_for :failures, url: failures_path, remote: true do |f| %>
 
-      <% if @rate || @job.status == Job::CLOSED %>
-          <div class="page_header failure-page-header ">
-            <h1>Performance</h1>
+      <% if !current_user.role.limit_to_assigned_jobs? || current_user == @job.get_role(JobMembership::CREATOR) || current_user == @job.get_role(JobMembership::MANAGER) || current_user == @job.get_role(JobMembership::COORDINATOR) %>
+          <% if @rate || @job.status == Job::CLOSED %>
+              <div class="page_header failure-page-header ">
+                <h1>Performance</h1>
 
-            <p>Please rate the quality and performance of the job</p>
-          </div>
+                <p>Please rate the quality and performance of the job</p>
+              </div>
 
-          <%= hidden_field_tag "performance_rating", "", name: "performance_rating", value: job.rating %>
-          <div>
-            <div class="rating-level"><p>poor &nbsp;</p></div>
+              <%= hidden_field_tag "performance_rating", "", name: "performance_rating", value: job.rating %>
+              <div>
+                <div class="rating-level"><p>poor &nbsp;</p></div>
 
-            <div class="inline">
-              <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 1 ? "star-button-filled" : "" %>" level="1">1</a>
-              <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 2 ? "star-button-filled" : "" %>" level="2">2</a>
-              <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 3 ? "star-button-filled" : "" %>" level="3">3</a>
-              <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 4 ? "star-button-filled" : "" %>" level="4">4</a>
-              <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 5 ? "star-button-filled" : "" %>" level="5">5</a>
-            </div>
+                <div class="inline">
+                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 1 ? "star-button-filled" : "" %>" level="1">1</a>
+                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 2 ? "star-button-filled" : "" %>" level="2">2</a>
+                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 3 ? "star-button-filled" : "" %>" level="3">3</a>
+                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 4 ? "star-button-filled" : "" %>" level="4">4</a>
+                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 5 ? "star-button-filled" : "" %>" level="5">5</a>
+                </div>
 
-            <div class="rating-level"><p>&nbsp; excellent</p></div>
+                <div class="rating-level"><p>&nbsp; excellent</p></div>
 
-          </div>
+              </div>
 
-          <br>
+              <br>
+          <% end %>
       <% end %>
 
       <div class="page_header failure-page-header ">
