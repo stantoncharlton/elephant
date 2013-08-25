@@ -26,6 +26,11 @@
                           "data-placement" => "left",
                           "data-title" => "Export activity as Microsoft Excel file." %>
           <% else %>
+              <%= link_to "Export as Excel", "/activities/#{@user.id}?user_activity=true&format=xlsx",
+                          target: "_blank",
+                          class: "dropdown-menu-link tooltip-info submit-form",
+                          "data-placement" => "left",
+                          "data-title" => "Export activity as Microsoft Excel file." %>
           <% end %>
         </li>
       </ul>
