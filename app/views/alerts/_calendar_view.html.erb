@@ -28,9 +28,9 @@
 
     <% if @show_full_calendar %>
         <div class="pull-right">
-          <%= link_to "<< previous ", alerts_path(calendar: true, page: @page - 1), class: "start-loader activity-user-link", remote: true %>
-          <span class='push-right-small'> month </span>
-          <%= link_to " next >>", alerts_path(calendar: true, page: @page + 1), class: "start-loader activity-user-link push-right-small", remote: true %>
+          <%= link_to "◄ previous ", alerts_path(calendar: true, page: @page - 1), class: "start-loader activity-user-link", remote: true %>
+          <span class=''> | <%= @real_date.strftime("%B") %> | </span>
+          <%= link_to " next ►", alerts_path(calendar: true, page: @page + 1), class: "start-loader activity-user-link ", remote: true %>
 
 
         </div>
