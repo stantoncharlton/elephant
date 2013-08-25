@@ -90,6 +90,10 @@
         jobs.where("jobs.status != :active", active: Job::ACTIVE)
     end
 
+    def active_or_recently_closed_jobs
+        jobs.where("jobs.status = :active OR jobs.close_date > :close_date", active: Job::ACTIVE, close_date: 5.days.ago)
+    end
+
     def new_alerts
         self.alerts.includes(:company, :created_by, :user, :target).includes(job: { job_template: { primary_tools: :tool } }).where("alert_type != 3 AND expiration is NULL")
     end

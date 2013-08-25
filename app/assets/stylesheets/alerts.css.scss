@@ -20,6 +20,11 @@
 
 }
 
+.alerts-calendar-large {
+  background: #FFFFFF url(image_path('calendar_large.gif')) no-repeat !important;
+  height: 547px !important;
+}
+
 .alerts-calendar {
   display: inline-block;
   background: #FFFFFF url(image_path('calendar.gif')) no-repeat;
@@ -52,6 +57,17 @@
       text-align: right;
       font-family: "gothamboldregular";
       color: #0058a8;
+    }
+
+    .number2 {
+      position: inherit;
+      display: inline-block;
+      float: right;
+      padding-left: 7px;
+      padding-right: 7px;
+      text-align: right;
+      font-family: "gothambookregular";
+      color: #909090;
     }
 
     .today {

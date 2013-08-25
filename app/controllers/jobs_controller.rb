@@ -16,7 +16,7 @@ class JobsController < ApplicationController
                 end
             }
             format.xml {
-                render xml: current_user.active_jobs,
+                render xml: current_user.active_or_recently_closed_jobs,
                        :methods => [:status_string, :status_percentage],
                        include: {
                                :field => {except: [:created_at, :updated_at, :company_id]},

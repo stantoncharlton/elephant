@@ -1,0 +1,32 @@
+<div class="">
+  <div class="alerts-calendar alerts-calendar-large">
+    <div class="header"></div>
+
+    <% 35.times do |i| %>
+        <div class="date">
+          <p class="<%= Date.today.month != (start_date + i.days).month ? "number2" : "number" %> <%= (start_date + i.days).day == Date.today.day ? "today" : "" %>"><%= (start_date + i.days).day %></p>
+
+          <div class="jobs">
+            <% jobs.select { |j| !j.start_date.nil? && (j.start_date.day == (@start_date + i.days).day) && (j.start_date.month == (@start_date + i.days).month) }.each do |job| %>
+                <%= link_to job, class: "job" do %>
+                    <p class="tooltip-info"
+                       data-placement="right"
+                       data-html="true"
+                       data-title="<%= "<div class='well-tooltip'>" +
+                                               (job.close_date.present? ? "" : "<p class='alert alert-info'><b class='blue-text'>" + job.status_string + "</b></p><br>") +
+                                               "<img src='" + image_path('district_extrasmall.png') + "' class='job-status-avatar'><b>" + (job.district.present? ? job.district.name : "") + "</b><br>" +
+                                               "<br><b class='blue-text'>" + job.client.name + "</b>" +
+                                               "<br><b>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</b><br><br>" +
+                                               "<h3>" + job.job_template.product_line.name + " / " + job.job_template.name + "</h3>" +
+                                               "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" +
+                                               "</div>" %>">
+                      <%= job.field.name + " | " + job.well.name %>
+                    </p>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+
+  </div>
+</div>

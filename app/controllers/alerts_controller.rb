@@ -1,4 +1,3 @@
-
 class AlertsController < ApplicationController
     before_filter :signed_in_user, only: [:index]
 
@@ -6,7 +5,7 @@ class AlertsController < ApplicationController
 
     def index
 
-        @alerts = current_user.alerts.includes(:company, :created_by, :user, :target).includes(job: { job_template: { primary_tools: :tool } }).where("alert_type != 3")
+        @alerts = current_user.alerts.includes(:company, :created_by, :user, :target).includes(job: {job_template: {primary_tools: :tool}}).where("alert_type != 3")
 
         @new_alerts = Array.new
         @old_alerts = Array.new
@@ -23,9 +22,10 @@ class AlertsController < ApplicationController
             alert.seen
         end
 
-        @start_date = Time.now.beginning_of_week - 1.days
+        #@start_date = Time.now.beginning_of_week - 1.days
+        @real_date =  Time.now
+        @start_date = @real_date.beginning_of_week - 1.days - (@real_date.beginning_of_week.day + (7 - (@real_date.beginning_of_week.day % 7))).days
         @active_jobs = current_user.active_jobs
-
 
 
     end
