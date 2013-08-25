@@ -1,0 +1,48 @@
+<div id="calendar">
+
+  <div class="pull-right">
+    <span class="inline"><%= @real_date.strftime("%B, %Y").upcase %></span>
+  </div>
+
+  <% if @show_full_calendar %>
+      <b>Jobs Calendar</b>
+  <% else %>
+      <b>Upcoming
+        Jobs <%= " (" + @active_jobs.where("jobs.start_date >= :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @start_date + 2.weeks).count.to_s + ")" %></b>
+  <% end %>
+
+
+  <br><br>
+
+  <%= render 'alerts/calendar', jobs: @active_jobs, start_date: @start_date, show_full_calendar: @show_full_calendar %>
+
+  <div id="calendar_loader" class="hidden center">
+    <br>
+    <div class="alert alert-info">
+      <span class="ajax-loading search-loading"><b>loading..</b></span>
+    </div>
+  </div>
+
+  <div id="calendar_navigation">
+    <br>
+
+    <% if @show_full_calendar %>
+        <div class="pull-right">
+          <%= link_to "<< previous ", alerts_path(calendar: true, page: @page - 1), class: "start-loader activity-user-link", remote: true %>
+          <span class='push-right-small'> month </span>
+          <%= link_to " next >>", alerts_path(calendar: true, page: @page + 1), class: "start-loader activity-user-link push-right-small", remote: true %>
+
+
+        </div>
+
+        <% if @page != 1 %>
+            <%= link_to "back to " + Time.now.strftime("%B"), alerts_path(calendar: true, page: 1), class: "start-loader activity-user-link pull-left", remote: true %>
+        <% end %>
+    <% else %>
+        <%= link_to "show full calendar", alerts_path(calendar: true), class: "start-loader activity-user-link pull-right", remote: true %>
+    <% end %>
+    <br>
+  </div>
+
+
+</div>

@@ -1,10 +1,10 @@
 <div class="">
-  <div class="alerts-calendar alerts-calendar-large">
+  <div class="alerts-calendar <%= show_full_calendar ? "alerts-calendar-large" : ""  %>">
     <div class="header"></div>
 
-    <% 35.times do |i| %>
+    <% (show_full_calendar ? 42 : 14).times do |i| %>
         <div class="date">
-          <p class="<%= Date.today.month != (start_date + i.days).month ? "number2" : "number" %> <%= (start_date + i.days).day == Date.today.day ? "today" : "" %>"><%= (start_date + i.days).day %></p>
+          <p class="<%= @real_date.month != (start_date + i.days).month ? "number2" : "number" %> <%= ((start_date + i.days).day == Date.today.day && (start_date + i.days).month == Date.today.month) ? "today" : "" %>"><%= (start_date + i.days).day %></p>
 
           <div class="jobs">
             <% jobs.select { |j| !j.start_date.nil? && (j.start_date.day == (@start_date + i.days).day) && (j.start_date.month == (@start_date + i.days).month) }.each do |job| %>

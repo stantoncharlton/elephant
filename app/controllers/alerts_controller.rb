@@ -22,11 +22,17 @@ class AlertsController < ApplicationController
             alert.seen
         end
 
-        #@start_date = Time.now.beginning_of_week - 1.days
-        @real_date =  Time.now
-        @start_date = @real_date.beginning_of_week - 1.days - (@real_date.beginning_of_week.day + (7 - (@real_date.beginning_of_week.day % 7))).days
-        @active_jobs = current_user.active_jobs
+        @show_full_calendar = params[:calendar] == "true"
+        @page = (params[:page] || "1").to_i
+        @real_date = Time.now
+        if @show_full_calendar
+            @real_date = @real_date + (@page - 1).months
+            @start_date = @real_date.beginning_of_week - 1.days - (@real_date.beginning_of_week.day + (7 - (@real_date.beginning_of_week.day % 7))).days
+        else
+            @start_date = Time.now.beginning_of_week - 1.days
+        end
 
+        @active_jobs = current_user.active_jobs
 
     end
 
