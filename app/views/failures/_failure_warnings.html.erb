@@ -2,12 +2,15 @@
 <% if failures.any? || active_warnings.any? %>
     <div class="alert">
       <% if active_warnings.any? %>
-          <h3>Active Warnings</h3>
+          <h3>Warnings</h3>
           <br>
-          <% active_warnings.each do |note| %>
+          <% active_warnings.each_with_index do |note, i| %>
               <div>
-                <%= image_tag "warning.png", class: "inline job-status-avatar" %>
-                <span><%= note.text %></span>
+                <%= image_tag "warning.png", class: " job-status-avatar" %>
+                <span><%= note.text %></span> - <%= time_ago_in_words(note.created_at) %> ago
+                <% if i < active_warnings.count - 1 %>
+                    <br><br>
+                <% end %>
               </div>
           <% end %>
           <br>
