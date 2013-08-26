@@ -101,11 +101,11 @@ class Document < ActiveRecord::Base
     end
 
     def delete_document
-        if !self.url.blank?
-            s3 = AWS::S3.new
-            obj = s3.buckets['elephant-docs'].objects[self.url].delete
-            obj.to_s
-        end
+        #if !self.url.blank?
+        #    s3 = AWS::S3.new
+        #    obj = s3.buckets['elephant-docs'].objects[self.url].delete
+        #    obj.to_s
+        #end
     end
 
     def upload_info
