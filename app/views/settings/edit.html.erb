@@ -82,7 +82,7 @@
         <div class="content">
           <div class="">
             <%= f.label :language, class: "field-title" %>
-            <%= f.select :language, options_for_select([["English", "en-US"], ["Spanish", "es-MX"]], @user.language),
+            <%= f.select :language, options_for_select([["English", "en-US"]], @user.language),
                          html: {class: "long-select"},
                          default: "en-US" %>
           </div>

@@ -9,7 +9,6 @@ class Job < ActiveRecord::Base
     include PostJobReportHelper
     acts_as_xlsx
 
-
     after_commit :flush_cache
 
     validates_presence_of :company
