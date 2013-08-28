@@ -95,8 +95,8 @@
                 if (isMobile.any()) {
                     // Mobile - take any browser
                 } else {
-                    var isChrome = window.chrome;
-                    if (!isChrome) {
+                    var isWebkit = $.browser.webkit;
+                    if (!isWebkit) {
                         $('#wrong_browser_alert').removeClass('hidden');
                     }
                 }
