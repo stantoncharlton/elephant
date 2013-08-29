@@ -25,6 +25,7 @@ class PrimaryToolsController < ApplicationController
         not_found unless @tool.tool.present? &&  @tool.tool.company == current_user.company
         @tool.job_template = JobTemplate.find_by_id(job_template_id)
         not_found unless @tool.job_template.company == current_user.company
+        @tool.company = current_user.company
 
         @tool.save
 

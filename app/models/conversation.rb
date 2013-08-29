@@ -29,6 +29,8 @@ class Conversation < ActiveRecord::Base
         recipients.each do |recipient_id|
             recipient = ConversationMembership.new
             recipient.user = User.find_by_id(recipient_id)
+            not_found unless recipient.user.company == current_user.company
+            recipient.company = recipient.user.company
             recipient.conversation = self
             recipient.save
         end
@@ -40,6 +42,7 @@ class Conversation < ActiveRecord::Base
 
         message = Message.new(text: text)
         message.user = user
+        message.company = user.company
         message.conversation = self
 
         message.save!

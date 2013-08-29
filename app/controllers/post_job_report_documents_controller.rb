@@ -25,6 +25,7 @@ class PostJobReportDocumentsController < ApplicationController
         not_found unless @post_job_report_document.document.company == current_user.company
         @post_job_report_document.job_template = JobTemplate.find_by_id(job_template_id)
         not_found unless @post_job_report_document.job_template.company == current_user.company
+        @post_job_report_document.company = current_user.company
 
         @post_job_report_document.ordering = @post_job_report_document.job_template.post_job_report_documents.count
         @post_job_report_document.save

@@ -29,6 +29,7 @@ class SecondaryToolsController < ApplicationController
         not_found unless @tool.tool.company == current_user.company
         @tool.job = Job.find_by_id(job_id)
         not_found unless @tool.job.company == current_user.company
+        @tool.company = current_user.company
 
         @tool.save
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130821091543) do
+ActiveRecord::Schema.define(:version => 20130829203005) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.integer  "conversation_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "company_id"
   end
 
   add_index "conversation_memberships", ["conversation_id"], :name => "index_conversation_memberships_on_conversation_id"
@@ -175,6 +176,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.integer  "forwarded_document_share"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
+    t.integer  "company_id"
   end
 
   add_index "document_shares", ["document_id", "email"], :name => "index_document_shares_on_document_id_and_email", :unique => true
@@ -274,6 +276,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.datetime "updated_at",  :null => false
     t.integer  "job_role_id"
     t.string   "user_name"
+    t.integer  "company_id"
   end
 
   add_index "job_memberships", ["job_id"], :name => "index_job_memberships_on_job_id"
@@ -364,6 +367,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.string   "text",            :limit => 2000
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+    t.integer  "company_id"
   end
 
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
@@ -377,6 +381,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.boolean  "template",                      :default => true
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
+    t.integer  "company_id"
   end
 
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"
@@ -429,6 +434,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.integer  "ordering"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "company_id"
   end
 
   add_index "post_job_report_documents", ["document_id"], :name => "index_post_job_report_documents_on_document_id"
@@ -439,6 +445,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.integer  "job_template_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "company_id"
   end
 
   add_index "primary_tools", ["job_template_id"], :name => "index_primary_tools_on_job_template_id"
@@ -459,6 +466,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.integer  "job_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "company_id"
   end
 
   add_index "secondary_tools", ["job_id"], :name => "index_secondary_tools_on_job_id"
@@ -523,6 +531,7 @@ ActiveRecord::Schema.define(:version => 20130821091543) do
     t.integer  "weight"
     t.integer  "weight_casing"
     t.integer  "weight_gradient"
+    t.integer  "company_id"
   end
 
   add_index "user_units", ["user_id"], :name => "index_user_units_on_user_id"

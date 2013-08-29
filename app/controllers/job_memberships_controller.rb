@@ -23,6 +23,7 @@ class JobMembershipsController < ApplicationController
             @job_membership.user_name = @user.name
         end
         @job_membership.job = @job
+        @job_membership.company = @job.company
         if @job_membership.save
 
             if current_user.id != @user.id

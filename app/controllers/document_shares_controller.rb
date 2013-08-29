@@ -20,6 +20,7 @@ class DocumentSharesController < ApplicationController
         @document_share = DocumentShare.new(params[:document_share])
         @document_share.document = @document
         @document_share.shared_by = current_user
+        @document_share.company = current_user.company
         @document_share.access_code = SecureRandom.urlsafe_base64[1..20]
 
         if @document_share.save
