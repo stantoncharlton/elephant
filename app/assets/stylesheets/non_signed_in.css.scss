@@ -514,6 +514,10 @@
   }
 }
 
+.features-gray-background {
+   background: #fbf6d3 !important;
+}
+
 .sales-part-1 {
   background: #0d365a;
   width: 100%;
@@ -638,4 +642,19 @@ a[href^=tel] {
     margin: 0px;
     margin-top: 20px;
   }
+}
+
+
+.empty-checkbox {
+  margin-top: -5px !important;
+  margin-right: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.empty-checkbox-text {
+  width: 850px;
+  display: inline-block;
+  vertical-align: top;
+
 }
