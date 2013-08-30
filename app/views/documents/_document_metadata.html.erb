@@ -1,8 +1,11 @@
 <div class="upload-metadata inline">
 
+  <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
+
+
   <% if !document.template? %>
       <div class="document-status">
-        <% if document.url.present? %>
+        <% if document.url.present? || last_entry.present? %>
             <%= image_tag "document_complete.png", class: "tooltip-info",
                           "data-placement" => "bottom",
                           "data-title" => "Complete" %>
@@ -46,14 +49,19 @@
   <div class="document-info <%= (!document.template? && document.category == Document::NOTICES ? "hidden" : "") %>">
     <% if !document.template? and !document.read_only? %>
         <div class="document-modified2">
-          <% if document.updated_at != document.created_at %>
-              <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
-          <% else %>
-              <% if document.document_type == Document::DOCUMENT %>
+          <% if document.document_type == Document::DOCUMENT %>
+              <% if document.updated_at != document.created_at %>
+                  <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+              <% else %>
                   <p class="warning-text tooltip-info"
                      data-placement="bottom"
                      data-title="No document uploaded, please download the document by clicking the document name and upload the completed one">No
                     Document Uploaded</p>
+              <% end %>
+          <% else %>
+              <% if last_entry.present? %>
+                  <p class="">
+                    <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %></p>
               <% else %>
                   <p class="warning-text tooltip-info"
                      data-placement="bottom"
@@ -64,11 +72,17 @@
         </div>
 
         <div class="document-file-name-box">
-          <% if document.url.present? %>
-              <% if document.user.present? %>
-                  <%= render 'activities/user', user: document.user %>
-              <% else %>
-                  <p><b><%= document.user_name %></b></p>
+          <% if document.document_type == Document::DOCUMENT %>
+              <% if document.url.present? %>
+                  <% if document.user.present? %>
+                      <%= render 'activities/user', user: document.user %>
+                  <% else %>
+                      <p><b><%= document.user_name %></b></p>
+                  <% end %>
+              <% end %>
+          <% else %>
+              <% if last_entry.present? %>
+                  <%= render 'activities/user', user: last_entry.user %>
               <% end %>
           <% end %>
 
