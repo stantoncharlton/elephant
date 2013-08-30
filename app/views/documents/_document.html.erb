@@ -1,5 +1,5 @@
 <% if document.access_level <= 1 || (document.access_level > 1 && !current_user.role.limit_to_assigned_jobs?) %>
-    <fieldset id="document_<%= document.id %>">
+    <div id="document_<%= document.id %>">
       <div class="field inline-form document-field document-download-message"
            data-toggle="popover"
            data-placement="top"
@@ -105,6 +105,6 @@
           </div>
         </script>
 
-        </fieldset>
+        </div>
 
 <% end %>

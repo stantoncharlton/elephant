@@ -1,0 +1,2 @@
+module JobLogHelper
+end

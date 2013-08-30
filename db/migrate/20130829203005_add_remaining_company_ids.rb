@@ -12,51 +12,67 @@ class AddRemainingCompanyIds < ActiveRecord::Migration
 
         ConversationMembership.reset_column_information
         ConversationMembership.find_each do |p|
-            p.update_attribute(:company_id, p.user.company_id)
+            if p.user.present?
+                p.update_attribute(:company_id, p.user.company_id)
+            end
         end
 
         DocumentShare.reset_column_information
         DocumentShare.find_each do |p|
-            p.update_attribute(:company_id, p.shared_by.company_id)
+            if p.shared_by.present?
+                p.update_attribute(:company_id, p.shared_by.company_id)
+            end
         end
 
         JobMembership.reset_column_information
         JobMembership.find_each do |p|
-            p.update_attribute(:company_id, p.job.company_id)
+            if p.job.present?
+                p.update_attribute(:company_id, p.job.company_id)
+            end
         end
 
         Message.reset_column_information
         Message.find_each do |p|
-            p.update_attribute(:company_id, p.user.company_id)
+            if p.user.present?
+                p.update_attribute(:company_id, p.user.company_id)
+            end
         end
 
         PartMembership.reset_column_information
         PartMembership.find_each do |p|
             if p.primary_tool.present?
                 p.update_attribute(:company_id, p.primary_tool.company_id)
-            else
+            elsif p.job.present?
                 p.update_attribute(:company_id, p.job.company_id)
             end
         end
 
         PostJobReportDocument.reset_column_information
         PostJobReportDocument.find_each do |p|
-            p.update_attribute(:company_id, p.job_template.company_id)
+            if p.job_template.present?
+                p.update_attribute(:company_id, p.job_template.company_id)
+            end
         end
 
         PrimaryTool.reset_column_information
         PrimaryTool.find_each do |p|
-            p.update_attribute(:company_id, p.tool.company_id)
+            if p.tool.present?
+                p.update_attribute(:company_id, p.tool.company_id)
+            end
         end
 
         SecondaryTool.reset_column_information
         SecondaryTool.find_each do |p|
-            p.update_attribute(:company_id, p.tool.company_id)
+            if p.tool.present?
+                p.update_attribute(:company_id, p.tool.company_id)
+            end
         end
 
         UserUnit.reset_column_information
         UserUnit.find_each do |p|
-            p.update_attribute(:company_id, p.user.company_id)
+            if p.user.present?
+                p.update_attribute(:company_id, p.user.company_id)
+            end
         end
     end
 

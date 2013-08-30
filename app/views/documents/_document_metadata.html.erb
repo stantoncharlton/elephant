@@ -15,20 +15,19 @@
   <% if !document.template? %>
 
 
+      <% if document.url.present? %>
+          <%= link_to document.name, document.full_url, class: "document-name tooltip-info download-link",
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to download document" %>
 
-        <% if document.url.present? %>
-            <%= link_to document.name, document.full_url, class: "document-name tooltip-info download-link",
-                        "data-placement" => "bottom",
-                        "data-title" => "Click to download document" %>
+      <% elsif !document.document_template.nil? && document.document_template.url.present? %>
+          <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to download document" %>
+      <% else %>
+          <p class="document-name document-name-container"><%= document.name %></p>
 
-        <% elsif !document.document_template.nil? && document.document_template.url.present? %>
-            <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
-                        "data-placement" => "bottom",
-                        "data-title" => "Click to download document" %>
-        <% else %>
-            <p class="document-name document-name-container"><%= document.name %></p>
-
-        <% end %>
+      <% end %>
 
 
   <% else %>
@@ -70,27 +69,30 @@
           <% end %>
         </div>
     <% else %>
-        <% if document.updated_at != document.created_at %>
-            <div class="document-modified">
-              <% if document.url.present? %>
-                  <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
-              <% end %>
-            </div>
-        <% end %>
+        <div class="document-modified">
+          <% if document.url.present? %>
+              <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+          <% end %>
+        </div>
 
 
         <div class="document-file-name-box">
-          <% if document.template? or !document.read_only? %>
-              <% if !document.url.nil? %>
-                  <%= label_tag '"' + document.file_name + '"', nil, class: "document-file-name" %>
-              <% else %>
-                  <%= label_tag "no document uploaded", nil, class: "warning-text tooltip-info",
-                                "data-placement" => "bottom",
-                                "data-title" => "No Document, please upload a template" %>
+          <% if document.document_type == Document::DOCUMENT %>
+              <% if document.template? or !document.read_only? %>
+                  <% if !document.url.nil? %>
+                      <p class="document-file-name"><%= '"' + document.file_name + '"' %></p>
+                  <% else %>
+                      <p class="warning-text tooltip-info"
+                         data-placement="bottom"
+                         data-title="No document uploaded, please upload a template">No
+                        Document Uploaded</p>
+                  <% end %>
               <% end %>
+          <% else %>
+              <p class="tooltip-info"
+                 data-placement="bottom"
+                 data-title="Job Log document type"><b><%= document.document_type_string %></b></p>
           <% end %>
-
-
         </div>
     <% end %>
   </div>

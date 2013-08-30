@@ -28,6 +28,10 @@ class Document < ActiveRecord::Base
     has_one :post_job_report_document, :dependent => :destroy
     has_many :document_shares, dependent: :destroy
 
+    DOCUMENT = 0
+    CHECKLIST = 1
+    JOB_LOG = 2
+    DRILLING_LOG = 3
 
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
@@ -45,10 +49,15 @@ class Document < ActiveRecord::Base
     end
 
     def document_type_string
-        if self.document_type == 0
-            "Document"
-        else
-            "Checklist"
+        case self.document_type
+            when Document::DOCUMENT
+                "Document"
+            when Document::CHECKLIST
+                "Checklist"
+            when Document::JOB_LOG
+                "Job Log"
+            when Document::DRILLING_LOG
+                "Drilling Log"
         end
     end
 
