@@ -21,7 +21,7 @@
         <div class="content">
         <div class="">
           <div class="list-item-column2">Category</div>
-          <%= f.select :category, options_for_select([["Pre-Job", "Pre-Job"], ["Post-Job", "Post-Job"]]),
+          <%= f.select :category, options_for_select([["Pre-Job", Document::PRE_JOB], ["On-Job", Document::ON_JOB], ["Post-Job", Document::POST_JOB]]),
                        {},
                        class: "job-note-type custom-select" %>
         </div>

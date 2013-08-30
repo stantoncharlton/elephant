@@ -100,6 +100,6 @@ ElephantWebApp::Application.routes.draw do
     resources :part_memberships, only: [:new, :create, :destroy]
 
 
-    resources :job_log, only: [:index]
+    resources :job_logs, only: [:index, :create, :show]
 end
 

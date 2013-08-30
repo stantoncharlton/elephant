@@ -22,7 +22,7 @@
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "" : "active" %>">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="documents_data"
-           data-placement="bottom" data-title="Custom job data and values">Documents
+           data-placement="bottom" data-title="Custom job data and values">Documents/Logs
           <%= "(" + @job.documents.select { |d| d.category != Document::POST_JOB_REPORT && d.category != Document::POST_JOB_REPORT_PART }.count.to_s + ")" %></a>
       </li>
 

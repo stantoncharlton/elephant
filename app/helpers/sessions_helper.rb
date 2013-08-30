@@ -7,6 +7,7 @@ module SessionsHelper
             cookies[:remember_token] = user.remember_token
         end
 
+        UserLogin.add(user, request.remote_ip.to_ip)
         update_session_expiration
         self.current_user = user
     end

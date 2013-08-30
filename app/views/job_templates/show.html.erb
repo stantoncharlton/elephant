@@ -154,6 +154,22 @@
     <%= render 'document_fields', category_name: Document::PRE_JOB, read_only: false %>
   </div>
 
+
+  <br>
+
+  <h3 class="document-section-header">On-Job</h3>
+
+  <div class="content" id="documents_on_job">
+    <% @job_template.on_job_documents.each do |d| %>
+        <%= render 'documents/document', document: d, editable: true, can_upload: true %>
+    <% end %>
+  </div>
+
+  <div class="content">
+    <%= render 'document_fields', category_name: Document::ON_JOB, read_only: false %>
+  </div>
+
+
   <br>
 
   <h3 class="document-section-header"><%= t "jobs.show.post_job" %></h3>

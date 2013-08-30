@@ -8,6 +8,8 @@ $('#alert').modal({show:true});
 
 <% if @document.category == Document::PRE_JOB %>
     $("#documents").append("<%= j render(@document, editable: true, can_upload: true) %>");
+<% elsif @document.category == Document::ON_JOB %>
+    $("#documents_on_job").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% elsif @document.category == Document::POST_JOB %>
     $("#documents2").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% elsif @document.category == Document::NOTICES %>

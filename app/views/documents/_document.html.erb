@@ -33,17 +33,19 @@
                   <% end %>
                 </div>
               </div>
+
+              <% if editable %>
+                  <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
+                              class: "delete-button tooltip-info",
+                              "data-placement" => "bottom",
+                              "data-title" => "Delete document" %>
+                  <%= link_to "order", document_path(document, reorder: "-1"), remote: true,
+                              class: "order-button tooltip-info",
+                              "data-placement" => "bottom",
+                              "data-title" => "Move document up by 1 row" %>
+              <% end %>
             </div>
 
-
-            <% if editable %>
-                <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"}, class: "delete-button tooltip-info",
-                            "data-placement" => "bottom",
-                            "data-title" => "Delete document" %>
-                <%= link_to "order", document_path(document, reorder: "-1"), remote: true, class: "order-button tooltip-info",
-                            "data-placement" => "bottom",
-                            "data-title" => "Move document up by 1 row" %>
-            <% end %>
 
             <% if !document.template? %>
                 <div class="btn-group inline pull-right">

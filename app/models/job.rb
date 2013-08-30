@@ -256,19 +256,23 @@ class Job < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).select { |document| document.category == Document::NOTICES }
+        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::NOTICES)
     end
 
     def pre_job_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).select { |document| document.category == Document::PRE_JOB }
+        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::PRE_JOB)
+    end
+
+    def on_job_documents
+        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::ON_JOB)
     end
 
     def post_job_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).select { |document| document.category == Document::POST_JOB }
+        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::POST_JOB)
     end
 
     def post_job_report_document
-        self.documents.includes(:user, :document_template, :job).select { |document| document.category == Document::POST_JOB_REPORT }.last
+        self.documents.includes(:user, :document_template, :job).where(:category => Document::POST_JOB_REPORT).last
     end
 
     def dynamic_fields_required

@@ -36,6 +36,7 @@ class Document < ActiveRecord::Base
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
     POST_JOB = "Post-Job"
+    ON_JOB = "On-Job"
     POST_JOB_REPORT_PART = "Post Job Report Part"
     POST_JOB_REPORT = "Post Job Report"
     PRIMARY_TOOL = "Primary Tool"
@@ -90,6 +91,8 @@ class Document < ActiveRecord::Base
                     collection = self.job_template.pre_job_documents
                 when Document::POST_JOB
                     collection = self.job_template.post_job_documents
+                when Document::ON_JOB
+                    collection = self.job_template.on_job_documents
             end
         elsif !self.job.nil?
             case self.category
@@ -99,6 +102,8 @@ class Document < ActiveRecord::Base
                     collection = self.job.pre_job_documents
                 when Document::POST_JOB
                     collection = self.job.post_job_documents
+                when Document::ON_JOB
+                    collection = self.job.on_job_documents
             end
         end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130830140912) do
+ActiveRecord::Schema.define(:version => 20130830230727) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -274,9 +274,10 @@ ActiveRecord::Schema.define(:version => 20130830140912) do
     t.integer  "document_id"
     t.integer  "job_id"
     t.integer  "user_id"
-    t.string   "comment"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "comment",     :limit => 500
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.datetime "entry_at"
   end
 
   add_index "job_logs", ["company_id"], :name => "index_job_logs_on_company_id"
@@ -521,6 +522,17 @@ ActiveRecord::Schema.define(:version => 20130830140912) do
   add_index "tools", ["company_id"], :name => "index_tools_on_company_id"
   add_index "tools", ["division_id"], :name => "index_tools_on_division_id"
   add_index "tools", ["product_line_id"], :name => "index_tools_on_product_line_id"
+
+  create_table "user_logins", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.string   "ip_address", :limit => 200
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "user_logins", ["company_id"], :name => "index_user_logins_on_company_id"
+  add_index "user_logins", ["user_id"], :name => "index_user_logins_on_user_id"
 
   create_table "user_roles", :force => true do |t|
     t.string   "title"

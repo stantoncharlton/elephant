@@ -247,6 +247,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  vertical-align: top;
 }
 
 .list-item-column-long {
@@ -265,6 +266,11 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-right: 10px;
+}
+
+.list-item-column3 {
+  width: 250px;
+  display: inline-block;
 }
 
 .list-item-text {
@@ -357,4 +363,9 @@
   button {
     height: 40px;
   }
+}
+
+
+.full-width {
+  width: 868px !important;
 }

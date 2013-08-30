@@ -73,6 +73,7 @@ class JobsController < ApplicationController
             @job_member = JobMembership.new
 
             @pre_job_documents = @job.pre_job_documents
+            @on_job_documents = @job.on_job_documents
             @post_job_documents = @job.post_job_documents
             @field_bulletin_documents = @job.notices_documents
 

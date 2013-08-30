@@ -1,7 +1,9 @@
 class JobLog < ActiveRecord::Base
-    attr_accessible :comment
+    attr_accessible :comment,
+                    :entry_at
 
-    validates :comment, presence: true
+    validates :comment, presence: true, length: {maximum: 500}
+    validates :entry_at, presence: true
     validates_presence_of :company
     validates_presence_of :job
     validates_presence_of :document

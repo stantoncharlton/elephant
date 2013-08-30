@@ -15,6 +15,7 @@ class DocumentsController < ApplicationController
             format.js {
                 if params[:reorder].present?
                     if params[:reorder] == "-1"
+                        puts @document.ordering.to_s + "....................."
                         if @document.ordering > 0
                             Document.transaction do
                                 @document.ordering -= 1

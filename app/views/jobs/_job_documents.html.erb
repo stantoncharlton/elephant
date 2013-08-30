@@ -1,6 +1,6 @@
 <div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "custom-data-closed" : "" %>" data-tray="documents_data">
   <div class="page_header">
-    <h1><%= t ".documents" %></h1>
+    <h1>Documents/Logs</h1>
 
     <% if !job.post_job_report_document.nil? && !job.post_job_report_document.url.nil? %>
         <div class="pull-right">
@@ -29,6 +29,18 @@
         <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
     <% end %>
   </div>
+
+  <% if @on_job_documents.all? { |d| d.url.present? } %>
+      <h3 class="document-section-header status-good">On Job</h3>
+  <% else %>
+      <h3 class="document-section-header">On Job</h3>
+  <% end %>
+  <div class="content" id="documents_on_job">
+    <% @on_job_documents.each do |d| %>
+        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+    <% end %>
+  </div>
+
 
   <% if @post_job_documents.all? { |d| d.url.present? } %>
       <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>

@@ -68,15 +68,19 @@ class JobTemplate < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.select { |document| document.category == Document::NOTICES }
+        self.documents.where(:category => Document::NOTICES)
     end
 
     def pre_job_documents
-        self.documents.select { |document| document.category == Document::PRE_JOB }
+        self.documents.where(:category => Document::PRE_JOB)
+    end
+
+    def on_job_documents
+        self.documents.where(:category => Document::ON_JOB)
     end
 
     def post_job_documents
-        self.documents.select { |document| document.category == Document::POST_JOB }
+        self.documents.where(:category => Document::POST_JOB)
     end
 
     def post_job_report_document_options
