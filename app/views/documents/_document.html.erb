@@ -20,20 +20,20 @@
             <div class="upload-controls inline" id="div_upload_<%= !document.job.nil? ? document.job.id : "" %>">
               <div class="upload-document-container" id="file_uploads">
                 <div class="document-upload-button-container">
-                  <% if can_upload and (document.template? or !document.read_only?) %>
-                      <% if !@job || (@job and !@job.approved_to_close) %>
-                          <div class="inline tooltip-info upload-button-div"
-                               data-placement="bottom" data-title="Upload new document">
-                            <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
-                            <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
-                          </div>
+                  <% if document.document_type == Document::DOCUMENT %>
+                      <% if can_upload and (document.template? or !document.read_only?) %>
+                          <% if !@job || (@job and !@job.approved_to_close) %>
+                              <div class="inline tooltip-info upload-button-div"
+                                   data-placement="bottom" data-title="Upload new document">
+                                <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
+                                <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
+                              </div>
+                          <% end %>
                       <% end %>
-                      </div>
-                  <% else %>
-                      </div>
                   <% end %>
-                  </div>
-
+                </div>
+              </div>
+            </div>
 
 
             <% if editable %>
@@ -90,21 +90,19 @@
                 </div>
             <% end %>
 
-            </div>
-
         <% end %>
 
-        </div>
+      </div>
 
 
-        <script id="template-upload" type="text/x-tmpl">
-          <div class="upload">
-            <div class="progress progress-striped active">
-              <div class="bar" style="width: 0%"></div>
-            </div>
+      <script id="template-upload" type="text/x-tmpl">
+        <div class="upload">
+          <div class="progress progress-striped active">
+            <div class="bar" style="width: 0%"></div>
           </div>
-        </script>
-
         </div>
+      </script>
+
+    </div>
 
 <% end %>

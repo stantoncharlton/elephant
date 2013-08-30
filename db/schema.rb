@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130829203005) do
+ActiveRecord::Schema.define(:version => 20130830140912) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(:version => 20130829203005) do
     t.boolean  "template",              :default => false
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
-    t.integer  "document_type"
+    t.integer  "document_type",         :default => 0
     t.integer  "company_id"
     t.integer  "document_template_id"
     t.integer  "user_id"
@@ -268,6 +268,21 @@ ActiveRecord::Schema.define(:version => 20130829203005) do
 
   add_index "fields", ["company_id"], :name => "index_fields_on_company_id"
   add_index "fields", ["district_id"], :name => "index_fields_on_district_id"
+
+  create_table "job_logs", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "document_id"
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.string   "comment"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "job_logs", ["company_id"], :name => "index_job_logs_on_company_id"
+  add_index "job_logs", ["document_id"], :name => "index_job_logs_on_document_id"
+  add_index "job_logs", ["job_id"], :name => "index_job_logs_on_job_id"
+  add_index "job_logs", ["user_id"], :name => "index_job_logs_on_user_id"
 
   create_table "job_memberships", :force => true do |t|
     t.integer  "user_id"
