@@ -10,6 +10,7 @@ class PartMembership < ActiveRecord::Base
     belongs_to :job
     belongs_to :part
     belongs_to :primary_tool
+    belongs_to :company
 
     def not_template
         !self.template?

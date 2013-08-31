@@ -4,6 +4,7 @@ class PrimaryTool < ActiveRecord::Base
 
     belongs_to :tool
     belongs_to :job_template
+    belongs_to :company
 
     has_many :template_documents, class_name: "Document", :conditions => { :template => true }
     has_many :documents, :conditions => { :template => false }

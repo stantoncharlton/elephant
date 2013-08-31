@@ -5,5 +5,6 @@ class PostJobReportDocument < ActiveRecord::Base
 
     belongs_to :document
     belongs_to :job_template
+    belongs_to :company
 
 end

@@ -7,6 +7,7 @@ class JobMembership < ActiveRecord::Base
 
     belongs_to :user
     belongs_to :job
+    belongs_to :company
 
     validates :user, presence: true
     validates :job, presence: true

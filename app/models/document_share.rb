@@ -6,6 +6,7 @@ class DocumentShare < ActiveRecord::Base
     belongs_to :shared_by, class_name: "User"
     belongs_to :job
     belongs_to :forwarded_document_share, class_name: "DocumentShare"
+    belongs_to :company
 
     before_save { |document_share| document_share.email = email.downcase }
 

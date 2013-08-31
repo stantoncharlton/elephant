@@ -11,4 +11,6 @@ class UserUnit < ActiveRecord::Base
                   :weight_gradient
 
   belongs_to :user
+  belongs_to :company
+
 end
