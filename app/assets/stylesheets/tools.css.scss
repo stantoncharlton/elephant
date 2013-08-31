@@ -33,6 +33,14 @@
   text-overflow: ellipsis;
 }
 
+.tool-long-description {
+  display: inline-block;
+  margin-left: 40px;
+  max-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .secondary-tools-div {
   width: 700px;
   margin-top: 10px;

@@ -12,7 +12,8 @@ $('#alert').modal({show: true});
 
 $('.root_tool_<%= @tool.id %>').find('.tool-name').text("<%= @tool.name %>");
 <% if !@tool.description.blank? %>
-$('.root_tool_<%= @tool.id %>').find('.tool-description').text("<%= @tool.description %>").removeClass('hidden');
+$('.root_tool_<%= @tool.id %>').find('.tool-description').removeClass('hidden');
+$('.root_tool_<%= @tool.id %>').find('.tool-description').text("<%= @tool.description %>");
 <% end %>
 
 <% end %>
