@@ -102,6 +102,12 @@ class JobTemplate < ActiveRecord::Base
         end
 
         collection << ["", -1]
+        collection << [Document::ON_JOB + " (" + on_job_documents.count.to_s + ") ------------------------", -1]
+        on_job_documents.each do |document|
+            collection << [document.name, document.id]
+        end
+
+        collection << ["", -1]
         collection << [Document::POST_JOB + " (" + post_job_documents.count.to_s + ") ------------------------", -1]
         post_job_documents.each do |document|
             collection << [document.name, document.id]

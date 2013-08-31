@@ -88,7 +88,7 @@ $ ->
     $('#job_job_template_id').attr "disabled", "disabled"
     $('#job_job_template_id').css "opacity", ".3"
     $('#job_product_line_id').addClass "ajax-loading"
-    if $('#job_segment_id').val() != ''
+    if $('#job_segment_id').val() != '' && $('#job_segment_id').val() != '-1'
       $.ajax '/segments?segment_id=' + $('#job_segment_id').val(), dataType: 'script'
 
   $('#job_product_line_id').change ->

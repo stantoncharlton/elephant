@@ -6,10 +6,10 @@ class PartsController < ApplicationController
     def index
 
         respond_to do |format|
-            format.html { @parts = Part.from_company(current_user.company).paginate(page: params[:page], limit: 20) }
+            format.html { not_found}
             format.js {
                 @query = params[:search]
-                @parts = Part.search(params, current_user.company).results
+                @parts = Part.search_no_district(params, current_user.company).results
             }
             format.json {
                 if params[:q].present?
