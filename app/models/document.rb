@@ -176,4 +176,14 @@ class Document < ActiveRecord::Base
         end
     end
 
+    def empty?
+        if self.document_type == DOCUMENT
+            return self.url.blank?
+        elsif self.document_type == JOB_LOG
+            return JobLog.where(:document_id => self.id).count == 0
+        end
+
+        return true
+    end
+
 end

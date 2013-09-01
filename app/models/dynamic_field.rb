@@ -652,6 +652,10 @@ class DynamicField < ActiveRecord::Base
                     user_value_type = user.user_unit.weight_casing || self.value_type
                 when WEIGHT_GRADIENT_PSIF, WEIGHT_GRADIENT_PSIM, WEIGHT_GRADIENT_SGF, WEIGHT_GRADIENT_SGM
                     user_value_type = user.user_unit.weight_gradient || self.value_type
+                when ANGLE
+                    user_value_type =  self.value_type
+                when ANGLE_100FT
+                    user_value_type =  self.value_type
             end
         end
 

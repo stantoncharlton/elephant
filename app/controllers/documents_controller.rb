@@ -3,6 +3,8 @@ class DocumentsController < ApplicationController
 
     respond_to :js
 
+    include JobLogHelper
+
     def show
 
         @document = Document.find(params[:id])
@@ -11,6 +13,16 @@ class DocumentsController < ApplicationController
         respond_to do |format|
             format.html {
                 not_found
+            }
+            format.xlsx {
+                excel = nil
+                case @document.document_type
+                    when Document::JOB_LOG
+                        excel = logs_to_excel(JobLog.where(:company_id => current_user.company_id).where(:document_id => @document.id).order("entry_at ASC"), @document)
+                end
+                if excel.present?
+                    send_data excel.to_stream.read, :filename => "#{@document.name}.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+                end
             }
             format.js {
                 if params[:reorder].present?

@@ -1,5 +1,7 @@
 module PostJobReportHelper
 
+    include JobLogHelper
+
     def upload
 
         Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
@@ -40,6 +42,19 @@ def convert(document)
         oldFile = ""
 
         begin
+
+            if document.document_type == Document::JOB_LOG
+                document.url = "docs/#{SecureRandom.hex}/#{document.name}.xlsx"
+
+                excel = logs_to_excel(JobLog.where(:document_id => document.id).order("entry_at ASC"), document)
+
+                s3 = AWS::S3.new
+                s3.buckets['elephant-docs'].objects[document.url].write(excel.to_stream)
+
+                document.save
+
+            end
+
             case File.extname(document.url).downcase
                 when ".xls", ".xlsx", ".xlsm", ".xltx", ".xltm", ".xlsb", ".xlam", ".xll"
                     oldFile = "http://api.saaspose.com/v1.0/cells/#{File.basename(document.url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(document.url)}"

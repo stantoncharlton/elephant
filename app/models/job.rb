@@ -286,7 +286,7 @@ class Job < ActiveRecord::Base
     def pre_job_data_good
 
         self.pre_job_documents.each do |document|
-            if document.url.blank?
+            if document.empty?
                 return false
             end
         end
@@ -314,8 +314,14 @@ class Job < ActiveRecord::Base
     end
 
     def post_job_data_good
+        self.on_job_documents.each do |document|
+            if document.empty?
+                return false
+            end
+        end
+
         self.post_job_documents.each do |document|
-            if document.url.blank?
+            if document.empty?
                 return false
             end
         end
@@ -487,10 +493,14 @@ class Job < ActiveRecord::Base
             self.job_template.post_job_report_documents.each do |post_job_report_document|
                 document = job_documents.find { |d| d.document_template_id == post_job_report_document.document.id }
                 if document != nil
-                    if !document.url.blank?
+                    if document.document_type == Document::DOCUMENT
+                        if !document.url.blank?
+                            documents << document
+                        elsif document.document_template.present? && !document.document_template.url.blank?
+                            documents << document.document_template
+                        end
+                    elsif document.document_type == Document::JOB_LOG
                         documents << document
-                    elsif document.document_template.present? && !document.document_template.url.blank?
-                        documents << document.document_template
                     end
                 end
             end
