@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130902140041) do
+ActiveRecord::Schema.define(:version => 20130902145004) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -264,6 +264,9 @@ ActiveRecord::Schema.define(:version => 20130902140041) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "location"
+    t.string   "county"
+    t.integer  "country_id"
+    t.integer  "state_id"
   end
 
   add_index "fields", ["company_id"], :name => "index_fields_on_company_id"
@@ -620,6 +623,8 @@ ActiveRecord::Schema.define(:version => 20130902140041) do
     t.integer  "bottom_hole_formation_pressure_value_type",               :default => 1
     t.integer  "frac_pressure_value_type",                                :default => 1
     t.string   "location",                                  :limit => 50
+    t.string   "formation"
+    t.string   "bottom_hole_location",                      :limit => 50
   end
 
   add_index "wells", ["company_id"], :name => "index_wells_on_company_id"

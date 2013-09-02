@@ -210,6 +210,40 @@
 
     </div>
 
+    <div class="content">
+
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Max Deviation">Bottom Hole Location</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :bottom_hole_location,
+                         placeholder: "BH Latitude, Longitude of well",
+                         class: " tooltip-info job-field-long",
+                         "data-placement" => "bottom",
+                         "data-title" => "Bottom Hole Location latitude, longitude" %>
+      </div>
+
+    </div>
+
+    <div class="content">
+
+      <p class="job-field-title tooltip-info"
+         data-placement="bottom"
+         data-title="Formation">Formation</p>
+
+      <div class="job-field-div">
+
+        <%= f.text_field :formation,
+                         placeholder: "Formation",
+                         class: " tooltip-info job-field-long",
+                         "data-placement" => "bottom",
+                         "data-title" => "Well formation" %>
+      </div>
+
+    </div>
+
     <div class="wellIdentifier" id="<%= @well.id %>"/>
   </div>
 </div>

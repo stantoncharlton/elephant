@@ -32,19 +32,37 @@ class FieldsController < ApplicationController
 
         @jobs = @field.jobs current_user.company
         @jobs = UserRole.limit_jobs_scope current_user, @jobs
-        @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => { :primary_tools => :tool }).includes(job_template: { product_line: { segment: :division } }).paginate(page: params[:page], limit: 20)
+        @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).paginate(page: params[:page], limit: 20)
     end
 
     def new
         @field = Field.new
         @district = District.find_by_id(params[:district_id])
+
+        @countries = Country.all
+        @states = State.all
     end
 
     def create
+        country_id = params[:field][:country_id]
+        params[:field].delete(:country_id)
+
+        state_id = params[:field][:state_id]
+        params[:field].delete(:state_id)
+
         district_id = params[:field][:district_id]
         params[:field].delete(:district_id)
 
         @field = Field.new(params[:field])
+
+        if country_id.present?
+            @field.country = Country.find_by_id(country_id)
+
+            if state_id.present?
+                @field.state = State.find_by_id(state_id)
+            end
+        end
+
         @field.company = current_user.company
         @field.district = District.find_by_id(district_id)
         @field.save

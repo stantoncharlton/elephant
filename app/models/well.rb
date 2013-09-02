@@ -16,7 +16,9 @@ class Well < ActiveRecord::Base
                     :frac_pressure,
                     :frac_pressure_value_type,
                     :max_deviation,
-                    :bottom_deviation
+                    :bottom_deviation,
+                    :formation,
+                    :bottom_hole_location
 
 
     validates :name, presence: true, length: {maximum: 50}
@@ -36,6 +38,7 @@ class Well < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :field
+
 
     has_many :jobs, order: "close_date DESC, created_at DESC"
 

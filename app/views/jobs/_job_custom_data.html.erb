@@ -18,6 +18,14 @@
   </div>
 
   <div class="content">
+    <%= link_to "View/Edit Well Data - " + job.well.name, edit_well_path(job.well),
+                class: "activity-user-link" %>
+    <p class="inline help-text"> (Depth, Frac, Bottom Hole, etc.)</p>
+  </div>
+
+  <hr>
+
+  <div class="content">
     <b>Required Data</b>
     <br><br>
     <% job.dynamic_fields_required.each do |df| %>
@@ -34,5 +42,7 @@
         <% end %>
     <% end %>
   </div>
+
+
 
 </div>
