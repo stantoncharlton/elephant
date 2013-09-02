@@ -65,7 +65,13 @@
     <br>
 
     <p class="help-text inline">Material Number</p>
-    <span class="push-right-small"><%= part_membership.material_number %></span>
+    <span class="push-right-small">
+      <% if part.present? %>
+        <%= link_to part_membership.material_number, part, class: "activity-user-link" %>
+      <% else %>
+          <%= part_membership.material_number %>
+      <% end %>
+    </span>
   </div>
 
 
@@ -84,7 +90,7 @@
 
 
         <div class='usage-hours-updated hidden status-good push-right-small'>
-            Updated
+          Updated
         </div>
       </div>
   <% end %>

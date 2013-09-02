@@ -35,17 +35,19 @@
 
       <li class="push-right-small">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="primary_tools"
-           data-placement="bottom" data-title="List of tools used on this job">Primary Tools
+           data-tray="tools_assets"
+           data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
           <%= "(" + @job.job_template.primary_tools.count.to_s + ")" %></a>
       </li>
 
+      <% if false %>
       <li class="push-right-small">
         <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="secondary_tools"
            data-placement="bottom" data-title="List of secondary tools used on this job">Secondary Tools
           <span class="secondary-tool-count"><%= "(" + @job.secondary_tools.count.to_s + ")" %></span></a>
       </li>
+      <% end %>
 
       <li class="push-right-small">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
@@ -64,7 +66,7 @@
     </ul>
 
     <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
-    <div class="job-tray custom-data-closed" data-tray="primary_tools">
+    <div class="job-tray custom-data-closed" data-tray="tools_assets">
       <div id="primary_tools_loading">
         <div class="remote-loading">
           <br>
@@ -73,13 +75,12 @@
           <div class="loading center">
             <br>
             <br>
-            <span class="ajax-loading search-loading"><b>Loading Primary Tools...</b></span>
+            <span class="ajax-loading search-loading"><b>Loading Tools/Assets...</b></span>
             <br>
           </div>
         </div>
       </div>
     </div>
-    <%= render 'jobs/job_secondary_tools', job: @job, job_editable: @job_editable %>
     <%= render 'jobs/job_documents', job: @job %>
     <%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
     <div class="job-tray custom-data-closed" data-tray="activity">

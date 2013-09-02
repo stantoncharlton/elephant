@@ -32,6 +32,7 @@ class Client < ActiveRecord::Base
 
     def self.from_company_for_user(client, options, user, company)
         Sunspot.search(Job) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
             with(:client_id, client.id)
             any_of do
                 if user.role.limit_to_assigned_jobs?

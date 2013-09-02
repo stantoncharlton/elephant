@@ -83,7 +83,7 @@ class Document < ActiveRecord::Base
 
     def document_collection
         collection = []
-        if self.template? and !self.job_template.nil?
+        if self.template? && !self.job_template.nil? && self.primary_tool.nil?
             case self.category
                 when Document::NOTICES
                     collection = self.job_template.notices_documents
@@ -105,6 +105,8 @@ class Document < ActiveRecord::Base
                 when Document::ON_JOB
                     collection = self.job.on_job_documents
             end
+        elsif self.primary_tool.present?
+            collection = Document.where(:job_template_id =>  self.job_template_id).where(:primary_tool_id => self.primary_tool_id)
         end
 
         if collection.nil?
