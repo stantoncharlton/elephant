@@ -155,6 +155,34 @@
 
       <hr>
 
+
+      <div class="chart-block">
+        <div class="chart-title">Jobs</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text part-count"><%= @part.jobs.count%></div>
+          <div class="percentage ">runs</div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Usage</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text part-on-hand"><%= @part.part_memberships.sum(:usage) %></div>
+          <div class="percentage ">hours</div>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-title">Avg Redress</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.serial_number = ?", @part.serial_number).where("jobs.district_id = ?", @part.district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
+          <div class="percentage ">days</div>
+        </div>
+      </div>
+
+
+      <hr>
+
       <%= render 'parts/part_status', part: @part %>
   <% end %>
 </div>
@@ -211,6 +239,12 @@
                   <%= link_to job, class: "job-status job-link tooltip-info",
                               "data-placement" => "left",
                               "data-title" => "Click to open job" do %>
+
+                      <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")  %>
+
+                      <div class="pull-right">
+                        <b><%= @part.part_memberships.where(:job_id => job.id).first.usage %> hours</b>
+                      </div>
                       <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
 
 

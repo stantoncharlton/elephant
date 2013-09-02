@@ -1,6 +1,8 @@
 class PartMembership < ActiveRecord::Base
     attr_accessible :material_number,
-                    :template
+                    :template,
+                    :track_usage,
+                    :usage
 
     validates_presence_of :material_number
     validates_presence_of :primary_tool, :if => :template?

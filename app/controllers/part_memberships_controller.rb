@@ -1,5 +1,5 @@
 class PartMembershipsController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :create, :destroy]
+    before_filter :signed_in_user, only: [:new, :create, :update, :destroy]
 
     def new
         @part_membership = PartMembership.new
@@ -29,6 +29,7 @@ class PartMembershipsController < ApplicationController
             not_found unless @part_membership.part.present?
             not_found unless @part_membership.part.company == current_user.company
             @part_membership.company = current_user.company
+            @part_membership.track_usage = @part_membership.template_part_membership.track_usage
         end
 
 
@@ -38,6 +39,17 @@ class PartMembershipsController < ApplicationController
             @part_membership.part.save
 
             Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
+        end
+    end
+
+    def update
+        if params[:usage].present?
+            @part_membership = PartMembership.find_by_id(params[:id])
+            if !@part_membership.template?
+                not_found unless @part_membership.part.company == current_user.company
+
+                @part_membership.update_attribute(:usage, Float(params[:usage]))
+            end
         end
     end
 

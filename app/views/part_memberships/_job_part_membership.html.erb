@@ -1,5 +1,5 @@
 <% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
-<div id="part_membership_<%= part_membership.id %>" class="">
+<div id="part_membership_<%= part_membership.id %>" class="parent-part-membership">
 
   <% if part_membership.part.present? %>
       <div class="document-status pull-left">
@@ -69,8 +69,28 @@
   </div>
 
 
+  <% if part_membership.part.present? && part_membership.track_usage %>
+      <div class="">
+        <br>
+        Usage Hours
+
+        <%= text_field_tag "", part_membership.usage.present? ? part_membership.usage.to_s : "0.0",
+                           placeholder: "Usage hours...",
+                           class: "txtfield small push-right-small usage-hours",
+                           "data-placement" => "bottom",
+                           "data-title" => "Usage Hours..." %>
+
+        <%= link_to "Update", "#", class: "bluebtn btnsmall gray update-usage-hours" %>
+
+
+        <div class='usage-hours-updated hidden status-good push-right-small'>
+            Updated
+        </div>
+      </div>
+  <% end %>
+
   <% if part_membership.part.present? && job.approved_to_ship %>
-      <% if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job.present? &&  part_membership.part.current_job.id == job.id %>
+      <% if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job.present? && part_membership.part.current_job.id == job.id %>
           <div class="inline-part-receive" id="inline_part_<%= part_membership.part.id %>">
             <div class="form" data-form="receive-part-form-<%= part_membership.part.id %>">
               <br>
@@ -92,7 +112,9 @@
           </div>
       <% else %>
           <br><br>
-            <b class='good-text'>Asset Received</b>
+          <b class='good-text'>Asset Received</b>
       <% end %>
   <% end %>
+
+
 </div>

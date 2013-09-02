@@ -84,6 +84,7 @@
                              id: "new_part_material_number",
                              "data-placement" => "bottom",
                              "data-title" => "Asset Material Number" %>
+
             <%= f.hidden_field :primary_tool_id, value: tool.id %>
             <%= f.hidden_field :template, value: true %>
 
@@ -93,6 +94,13 @@
                          "data-title" => "Add new asset" %>
 
             <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-part-tool btn-fix" %>
+
+            <div class="">
+              <%= f.check_box :track_usage, checked: false,
+                              class: "regular-checkbox", id: "track_usage" %>
+              <label for="track_usage"></label>
+              <p class="checkbox-label">Track Usage Hours</p>
+            </div>
 
           </div>
 
