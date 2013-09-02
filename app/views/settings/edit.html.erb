@@ -198,6 +198,17 @@
             </div>
           </div>
 
+          <br>
+
+          <div class="">
+            <%= label_tag nil, "Viscosity", class: "field-title" %>
+            <%= select_tag "[user_unit][viscosity]", options_for_select(DynamicField.new.get_unit_options_full(DynamicField::VISCOSITY_PAS),
+                                                                            @current_user.user_unit ? @current_user.user_unit.viscosity : nil),
+                           class: "units-default unit-select-long",
+                           default: "english" %>
+
+          </div>
+
         </div>
 
     <% end %>

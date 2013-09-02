@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130902145004) do
+ActiveRecord::Schema.define(:version => 20130902183029) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -565,6 +565,7 @@ ActiveRecord::Schema.define(:version => 20130902145004) do
     t.integer  "weight_casing"
     t.integer  "weight_gradient"
     t.integer  "company_id"
+    t.integer  "viscosity"
   end
 
   add_index "user_units", ["user_id"], :name => "index_user_units_on_user_id"

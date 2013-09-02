@@ -8,7 +8,8 @@ class UserUnit < ActiveRecord::Base
                   :volume,
                   :weight,
                   :weight_casing,
-                  :weight_gradient
+                  :weight_gradient,
+                  :viscosity
 
   belongs_to :user
   belongs_to :company
