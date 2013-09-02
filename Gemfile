@@ -12,6 +12,7 @@ gem "tabs_on_rails"
 gem "mail", "2.4.4"
 gem 'jquery-rails'
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-timepicker-rails-addon'
 gem 'aws-sdk'
 gem "select2-rails"
 gem 'sunspot_rails'

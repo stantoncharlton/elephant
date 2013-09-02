@@ -40,6 +40,30 @@
                         "data-placement" => "bottom",
                         "data-title" => "Comment/description text of entry" %>
 
+
+        <div class="pull-left">
+          <div class="inline-block push-down">
+            <%= f.check_box :override_date, checked: false,
+                            class: "regular-checkbox", id: "checkbox_override_date" %>
+            <label for="checkbox_override_date"></label>
+
+            <p class="checkbox-label">Override Date/Time</p>
+          </div>
+
+          <div class="inline-block date-fields push-right-small hidden">
+            <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
+                   name="date"
+                   id="entry_date"
+                   class="job-field-value-editable job-start-date">
+
+
+            <div class="inline bootstrap-timepicker">
+              <input id="entry_time" type="text" class="job-field-value-editable input-small timepicker">
+              <span class="add-on"><i class="icon-time"></i></span>
+            </div>
+          </div>
+        </div>
+
         <%= f.submit "+ Add Entry", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
                      "data-form" => "new-job-log",
                      "data-placement" => "bottom",
@@ -80,8 +104,9 @@
         <% last_time = @job_logs.first.entry_at %>
         <h3 class='push-right-small orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
         <% @job_logs.each do |entry| %>
-            <% if entry.entry_at.day != last_time.day && entry.entry_at.month != last_time.month %>
+            <% if entry.entry_at.day != last_time.day || entry.entry_at.month != last_time.month %>
                 <% last_time = entry.entry_at %>
+                <br><br>
                 <h3 class='push-right-small orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
             <% end %>
             <%= render 'job_logs/job_log', entry: entry %>
