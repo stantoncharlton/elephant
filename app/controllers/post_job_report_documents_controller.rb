@@ -18,6 +18,13 @@ class PostJobReportDocumentsController < ApplicationController
             document.company = current_user.company
             document.save
             document_id = document.id
+        elsif document_id.to_i == -10
+            document = Document.new(name: "Job Data", category: Document::POST_JOB_REPORT_PART, template: true)
+            document.document_type = Document::CUSTOM_DATA
+            document.job_template = JobTemplate.find_by_id(job_template_id)
+            document.company = current_user.company
+            document.save
+            document_id = document.id
         end
 
         @post_job_report_document = PostJobReportDocument.new(params[:post_job_report_document])

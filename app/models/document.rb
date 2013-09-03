@@ -32,6 +32,7 @@ class Document < ActiveRecord::Base
     CHECKLIST = 1
     JOB_LOG = 2
     DRILLING_LOG = 3
+    CUSTOM_DATA = 4
 
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"

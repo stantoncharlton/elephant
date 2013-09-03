@@ -1,8 +1,24 @@
 class DynamicFieldsController < ApplicationController
     before_filter :signed_in_admin, only: [:new, :create, :destroy]
-    before_filter :signed_in_user, only: [:show, :update]
+    before_filter :signed_in_user, only: [:index, :show, :update]
 
     respond_to :js
+    include JobsHelper
+
+    def index
+        @job = Job.find_by_id(params[:job])
+        not_found unless @job.company == current_user.company
+
+        respond_to do |format|
+            format.html {
+                not_found
+            }
+            format.xlsx {
+                excel = custom_data_to_excel @job
+                send_data excel.to_stream.read, :filename => "#{@job.field.name} | #{@job.well.name} - Job Data.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
+        end
+    end
 
     def show
         @dynamic_field = DynamicField.find(params[:id])
@@ -96,10 +112,12 @@ class DynamicFieldsController < ApplicationController
             end
         else
             if params[:value].present?
+                @save_value = params[:value]
                 if @dynamic_field.value_type != DynamicField::STRING
-                    @is_valid = params[:value].match(/\A[+-]?\d+?(\.\d+)?\Z/) != nil
+                    @save_value.gsub!(',','')
+                    @is_valid = @save_value.match(/\A[+-]?\d+?(\.\d+)?\Z/) != nil
                 end
-                @dynamic_field.value = params[:value]
+                @dynamic_field.value = @save_value
                 @dynamic_field.save
             elsif params[:unit].present?
                 @dynamic_field.value_type = params[:unit]

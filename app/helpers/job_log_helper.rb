@@ -6,7 +6,7 @@ module JobLogHelper
         wb = p.workbook
 
         wb.styles do |s|
-            title_cell = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 20, :alignment => {:horizontal => :center}
+            title_cell = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 18, :alignment => {:horizontal => :center}
             title_cell2 = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 14, :alignment => {:horizontal => :center}
             column_name_cell = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :sz => 15, :alignment => {:horizontal => :left}, :border => { :style => :thin, :color =>"00", :edges => [:top, :bottom] }
 
@@ -14,8 +14,8 @@ module JobLogHelper
             cell2 = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :b => false, :sz => 13
 
 
-            margins = {:left => 0, :right => 0, :top => 0, :bottom => 0, :header => 0, :footer => 0}
-            setup = {:fit_to_width => 1, :orientation => :landscape, :paper_width => "21cm", :paper_height => "29.7cm"}
+            margins = {:left => 1, :right => 1, :top => 1, :bottom => 1, :header => 0, :footer => 0}
+            setup = {:fit_to_width => 1, :orientation => :portrait, :paper_width => "21cm", :paper_height => "29.7cm"}
             options = {:grid_lines => true, :headings => true, :horizontal_centered => true}
 
             wb.add_worksheet(:name => "Job Log", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|

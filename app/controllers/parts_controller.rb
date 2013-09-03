@@ -121,13 +121,13 @@ class PartsController < ApplicationController
         if params[:receive] == "true"
             @part.status = Part::IN_REDRESS
 
-            PartRedress.receive(@part.company, @part.current_job, @part)
+            PartRedress.receive(@part.company, @part.current_job, @part, current_user)
 
             @part.save
         elsif params[:cleaned] == "true"
             @part.status = Part::AVAILABLE
 
-            PartRedress.finish_redress(@part.company, @part.current_job, @part, params[:notes])
+            PartRedress.finish_redress(@part.company, @part.current_job, @part, current_user, params[:notes])
 
             @part.current_job = nil
             @part.save

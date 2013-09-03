@@ -121,6 +121,28 @@
   }
 }
 
+.light-blue {
+
+  color: #03203d;
+  background: #ddedfd;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #9bbad9;
+  text-shadow: 0px 0px 0px #000000;
+
+  &:link, &:visited, &:active {
+    color: #03203d;
+    background: #ddedfd;
+    text-decoration: none;
+
+  }
+  &:hover {
+    background: #add2f7;
+    border-color: #9bbad9;
+    text-decoration: none;
+  }
+}
+
 .pull-right-button {
   float: right;
   margin-right: 20px;

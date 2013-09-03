@@ -12,6 +12,9 @@ class JobLogsController < ApplicationController
         document_id = params[:job_log][:document_id]
         params[:job_log].delete(:document_id)
 
+        @document = Document.find(document_id)
+        not_found unless @document.company == current_user.company && @document.document_type == Document::JOB_LOG
+
         override_date = nil
         if params[:job_log][:override_date] == "1"
             override_date = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]}:00 #{params[:meridian]}", '%m/%d/%Y %I:%M:%S %p').in_time_zone(Time.zone)
@@ -19,13 +22,13 @@ class JobLogsController < ApplicationController
 
         params[:job_log].delete(:override_date)
 
-
         @job_log = JobLog.new(params[:job_log])
-        @job_log.document = Document.find_by_id(document_id)
+        @job_log.document = @document
         not_found unless @job_log.document.company == current_user.company
         @job_log.company = current_user.company
         @job_log.job = @job_log.document.job
         @job_log.user = current_user
+        @job_log.user_name = current_user.name
 
         if override_date.nil?
             @job_log.entry_at = Time.now

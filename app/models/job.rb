@@ -501,6 +501,8 @@ class Job < ActiveRecord::Base
                         end
                     elsif document.document_type == Document::JOB_LOG
                         documents << document
+                    elsif document.document_type == Document::CUSTOM_DATA
+                        documents << document
                     end
                 end
             end

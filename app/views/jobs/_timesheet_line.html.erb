@@ -1,0 +1,14 @@
+<hr>
+
+<div class="timesheet">
+  <div class="name"><%= render 'activities/user', user: user %></div>
+
+  <% 11.times do |i| %>
+      <div class="day-header"><%= link_to (job.start_date + (i - 2).days).day, "#",
+                                          class: "bluebtn day-button gray day-button-schedule",
+                                          "data-schedule-type" => "none" %>
+      </div>
+  <% end %>
+
+</div>
+

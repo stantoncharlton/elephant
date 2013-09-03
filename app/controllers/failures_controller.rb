@@ -14,7 +14,7 @@ class FailuresController < ApplicationController
             @job = Job.find_by_id(params[:id])
             not_found unless @job.company == current_user.company
 
-            jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 0", job_template_id: @job.job_template_id).select("jobs.id").to_sql
+            jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 1", job_template_id: @job.job_template_id).select("jobs.id").to_sql
             failure_groups = Failure.includes(:failure_master_template).where("failures.job_id IN (#{jobs_query})").order("COUNT(failures.failure_master_template_id) DESC").select("failures.*, DISTINCT failures.failure_master_template_id").group("failures.failure_master_template_id").count()
 
             @failures = []

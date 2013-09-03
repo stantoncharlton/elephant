@@ -1,0 +1,43 @@
+<div class="job-tray custom-data-closed" data-tray="time">
+  <div class="page_header">
+    <h1>Time/Scheduling</h1>
+  </div>
+
+  <% users = job.job_memberships.where("job_role_id != ?", JobMembership::CREATOR) %>
+  <% if job.start_date.present? && users.any? %>
+      <div class="timesheet">
+        <div class="name"></div>
+        <% 11.times do |i| %>
+            <div class="day-header <%= i == 2 ? "orange-text" : "" %>"><%= (job.start_date + (i - 2).days).strftime("%a") %></div>
+        <% end %>
+      </div>
+
+      <% users.each do |job_membership| %>
+          <%= render 'jobs/timesheet_line', job: job, user: job_membership.user %>
+      <% end %>
+
+      <br><br><br><br>
+
+      <div class="">
+        <p class="inline">Press once to schedule <span class="blue">█</span></p>
+
+        <p class="inline push-right">Press again after work day to confirm work <span class="good-text">█</span></p>
+      </div>
+
+  <% elsif job.start_date.nil? %>
+      <br><br>
+
+      <p class="center">
+        <b class="blue-text help-text">Set job start date to show scheduling</b>
+
+      <p class="help-text center">Click refresh afterwards</p>
+
+      <p class="center">
+        <%= link_to "Refresh", job, class: "bluebtn center" %>
+      </p>
+      </p>
+  <% elsif users.empty? %>
+      <br><br>
+      <p class="center"><b>No Job Members. Add users to job...</b></p>
+  <% end %>
+</div>

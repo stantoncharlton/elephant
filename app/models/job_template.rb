@@ -88,6 +88,7 @@ class JobTemplate < ActiveRecord::Base
 
         collection << ["", -1]
         collection << ["(+) New Document exclusively for report", 0]
+        collection << ["(+) Job Custom Data", -10]
         collection << ["", -1]
 
         collection << [Document::NOTICES + " (" + notices_documents.count.to_s + ") ------------------------", -1]

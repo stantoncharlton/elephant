@@ -323,7 +323,7 @@
                      post_job_report_document: post_job_document,
                      document: post_job_document.document,
                      editable: true,
-                     can_upload: post_job_document.document.category == Document::POST_JOB_REPORT_PART ? true : false %>
+                     can_upload: post_job_document.document.category == Document::POST_JOB_REPORT_PART && post_job_document.document.document_type == Document::DOCUMENT ? true : false %>
       <% end %>
     </div>
 

@@ -62,6 +62,12 @@
            data-placement="bottom" data-title="All Job Activity">Activity</a>
       </li>
 
+      <li class="push-right-small">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="time"
+           data-placement="bottom" data-title="Time/Scheduling">Time/Scheduling</a>
+      </li>
+
 
     </ul>
 
@@ -86,7 +92,7 @@
     <div class="job-tray custom-data-closed" data-tray="activity">
       <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
     </div>
-
+    <%= render 'jobs/job_time', job: @job %>
   </div>
 </div>
 

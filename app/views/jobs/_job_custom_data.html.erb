@@ -2,6 +2,21 @@
 
   <div class="page_header">
     <h1>Job Data</h1>
+
+    <div class="btn-group inline pull-right">
+      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+        Export
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to "Export as Excel", dynamic_fields_path(job: job.id, format: "xlsx"),
+                      target: "_blank",
+                      class: "dropdown-menu-link tooltip-info submit-form",
+                      "data-placement" => "left",
+                      "data-title" => "Export data as Microsoft Excel file." %>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div>

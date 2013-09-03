@@ -32,7 +32,7 @@
           <% end %>
 
 
-    <% end %>
+      <% end %>
 
       <% if in_form %>
           <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -68,7 +68,7 @@
               </div>
           <% end %>
 
-    <% else %>
+      <% else %>
 
 
           <% memberships = job.job_memberships.select { |p| p.job_role_id != 6 }.count %>

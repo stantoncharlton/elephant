@@ -35,6 +35,31 @@ class Well < ActiveRecord::Base
     validates :max_deviation, numericality: true, allow_nil: true
     validates :bottom_deviation, numericality: true, allow_nil: true
 
+    def measured_depth=(num)
+        num.gsub!(',','') if num.is_a?(String)
+        self[:measured_depth] = num.to_f.round(3)
+    end
+
+    def true_vertical_depth=(num)
+        num.gsub!(',','') if num.is_a?(String)
+        self[:true_vertical_depth] = num.to_f.round(3)
+    end
+
+    def water_depth=(num)
+        num.gsub!(',','') if num.is_a?(String)
+        self[:water_depth] = num.to_f.round(3)
+    end
+
+    def frac_pressure=(num)
+        num.gsub!(',','') if num.is_a?(String)
+        self[:frac_pressure] = num.to_f.round(3)
+    end
+
+    def bottom_hole_formation_pressure=(num)
+        num.gsub!(',','') if num.is_a?(String)
+        self[:bottom_hole_formation_pressure] = num.to_f.round(3)
+    end
+
 
     belongs_to :company
     belongs_to :field
