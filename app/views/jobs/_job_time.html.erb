@@ -8,13 +8,25 @@
       <div class="timesheet">
         <div class="name"></div>
         <% 11.times do |i| %>
-            <div class="day-header <%= i == 2 ? "orange-text" : "" %>"><%= (job.start_date + (i - 2).days).strftime("%a") %></div>
+            <div class="day-header <%= i == 2 ? "orange-text" : "" %>">
+              <%= (job.start_date + (i - 2).days).strftime("%a") %>
+              <br>
+              <%= (job.start_date + (i - 2).days).day %>
+            </div>
         <% end %>
       </div>
 
       <% users.each do |job_membership| %>
           <%= render 'jobs/timesheet_line', job: job, user: job_membership.user %>
       <% end %>
+
+      <br><br>
+      <div class="pull-right">
+        <h3 class="list-item-column2">Total Scheduled</h3><h3 class="light-blue-text inline total-scheduled">0</h3>
+        <br>
+        <h3 class="list-item-column2">Total Worked</h3><h3 class="inline total-worked">0</h3>
+      </div>
+
 
       <br><br><br><br>
 

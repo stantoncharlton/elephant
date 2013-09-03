@@ -35,7 +35,7 @@
   background: #eaeaea;
   border-radius: 3px;
   border-width: 1px;
-  border-color: #bcbcbc;
+  border-color: #eaeaea;
 
   &:link, &:visited, &:active {
     color: #575757;
@@ -146,6 +146,10 @@
 .pull-right-button {
   float: right;
   margin-right: 20px;
+}
+
+.light-blue-text {
+   color: #9bbad9;
 }
 
 input[type=text] {

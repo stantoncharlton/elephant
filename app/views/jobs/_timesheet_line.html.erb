@@ -4,11 +4,25 @@
   <div class="name"><%= render 'activities/user', user: user %></div>
 
   <% 11.times do |i| %>
-      <div class="day-header"><%= link_to (job.start_date + (i - 2).days).day, "#",
-                                          class: "bluebtn day-button gray day-button-schedule",
-                                          "data-schedule-type" => "none" %>
+      <div class="day">
+        <input type='submit' value='8'
+               data-type='none'
+               data-day="<%= (job.start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
+               data-user="<%= user.id %>"
+               class="bluebtn day-button gray day-button-schedule popover-control"
+            data-html="true"
+            data-content="<%= render 'jobs/timesheet_timepicker', user: user, job: job, date: (job.start_date + (i - 2).days) %>"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-trigger="click"
+            data-original-title="Choose Hours"
+            data-schedule-type="none">
       </div>
   <% end %>
+
+  <div class="inline push-down-small">
+  <b class="inline user-total-time pull-right push-down">0</b>
+  </div>
 
 </div>
 

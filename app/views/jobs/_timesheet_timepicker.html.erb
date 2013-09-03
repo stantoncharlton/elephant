@@ -1,0 +1,10 @@
+<div class='timesheet'
+     data-day='<%= date.strftime("%d-%m-%Y") %>'
+     data-user='<%= user.id %>'>
+  <a class='delete-button-small time-close-button'>x</a>
+  <div class='center'>
+    <input type='submit' class='bluebtn day-button gray time-decrease-button' value='▼'>
+    <input type='submit' class='bluebtn day-button gray time-increase-button' value='▲'>
+    <input type='submit' class='bluebtn day-button green time-confirm-button' value='8'>
+  </div>
+</div>
