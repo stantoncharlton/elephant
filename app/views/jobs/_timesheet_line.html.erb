@@ -2,20 +2,22 @@
 <div class="timesheet">
   <div class="name"><%= render 'activities/user', user: user %></div>
 
+
   <% 11.times do |i| %>
       <div class="day">
-        <input type='submit' value='8'
-               data-type='none'
+        <% job_time = @job_times.find { |jt| jt.user_id == user.id && jt.time_for.strftime("%d-%m-%Y") == (job.start_date + (i - 2).days).strftime("%d-%m-%Y") } %>
+        <input type='submit' value='<%= job_time.present? ? job_time.hours : current_user.company.minimum_work_day %>'
+               data-type='<%= job_time.present? ? job_time.status_string : "none" %>'
+               data-job="<%= job.id %>"
                data-day="<%= (job.start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
                data-user="<%= user.id %>"
-               class="bluebtn day-button gray day-button-schedule popover-control"
+               class="bluebtn day-button day-button-schedule popover-control <%= job_time.present? ? (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") : "gray" %>"
             data-html="true"
             data-content="<%= render 'jobs/timesheet_timepicker', user: user, job: job, date: (job.start_date + (i - 2).days) %>"
             data-toggle="popover"
             data-placement="bottom"
             data-trigger="click"
-            data-original-title="Choose Hours"
-            data-schedule-type="none">
+            data-original-title="Choose Hours">
       </div>
   <% end %>
 

@@ -16,15 +16,22 @@
         <% end %>
       </div>
 
+      <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:job_id => job.id).where("job_times.time_for >= :start_date AND job_times.time_for <= :end_date", start_date: (job.start_date - 2.days).beginning_of_day, end_date: (job.start_date + 8.days).end_of_day).to_a %>
       <% users.each do |job_membership| %>
           <%= render 'jobs/timesheet_line', job: job, user: job_membership.user %>
       <% end %>
 
       <br><br>
+
       <div class="pull-right">
-        <h3 class="list-item-column2">Total Scheduled</h3><h3 class="light-blue-text inline total-scheduled">0</h3>
+        <h3 class="list-item-column2">Total Scheduled</h3>
+
+        <h3 class="light-blue-text inline total-scheduled">0</h3>
         <br>
-        <h3 class="list-item-column2">Total Worked</h3><h3 class="inline total-worked">0</h3>
+
+        <h3 class="list-item-column2">Total Worked</h3>
+
+        <h3 class="inline total-worked">0</h3>
       </div>
 
 
@@ -50,6 +57,7 @@
       </p>
   <% elsif users.empty? %>
       <br><br>
+
       <p class="center"><b>No Job Members. Add users to job...</b></p>
   <% end %>
 </div>

@@ -20,28 +20,49 @@ class Timesheet
 $ ->
 
   $('.day-button-schedule').live "click", ->
-    if $(this).attr("data-schedule-type") == "none"
-      $(this).attr("data-schedule-type", "scheduled")
+    job = $(this).attr('data-job')
+    user = $(this).attr('data-user')
+    date = $(this).attr('data-day')
+    if $(this).attr("data-type") == "none"
+      $(this).attr("data-type", "scheduled")
       $(this).removeClass "gray"
       $(this).addClass "light-blue"
       $(this).attr('data-type', 'scheduled')
       Timesheet.recount()
-    else if $(this).attr("data-schedule-type") == "scheduled"
-      $(this).attr("data-schedule-type", "confirmed")
+      $.ajax '/job_times/' + job,
+        data: {schedule: true, user: user, date: date, hours: $(this).val()},
+        type: 'put', dataType: 'script'
+    else if $(this).attr("data-type") == "scheduled"
+      $(this).attr("data-type", "worked")
       $(this).removeClass "light-blue"
       $(this).addClass "green"
       $(this).popover('show')
     else
-      $(this).attr("data-schedule-type", "none")
+      $(this).attr("data-type", "none")
       $(this).removeClass "green"
       $(this).addClass "gray"
       $(this).attr('data-type', 'none')
+      Timesheet.recount()
+      $.ajax '/job_times/' + job,
+        data: {schedule: true, user: user, date: date},
+        type: 'put', dataType: 'script'
 
     return false
 
 
   $('.time-close-button').live "click", ->
+    popup = $(this).closest('.timesheet')
+    main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + ']')
+    job = main_button.attr('data-job')
+    user = main_button.attr('data-user')
+    date = main_button.attr('data-day')
+
+    Timesheet.recount()
     $('.day-button').popover('hide')
+
+    $.ajax '/job_times/' + job,
+      data: {worked: true, user: user, date: date, hours: main_button.val()},
+      type: 'put', dataType: 'script'
     return false
 
   $('.time-decrease-button').live "click", ->
@@ -55,10 +76,21 @@ $ ->
   $('.time-confirm-button').live "click", ->
     popup = $(this).closest('.timesheet')
     main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + ']')
+    job = main_button.attr('data-job')
+    user = main_button.attr('data-user')
+    date = main_button.attr('data-day')
     main_button.val($(this).val())
     main_button.attr('data-type', 'worked')
 
     Timesheet.recount()
 
     $('.day-button').popover('hide')
+
+    $.ajax '/job_times/' + job,
+      data: {worked: true, user: user, date: date, hours: main_button.val()},
+      type: 'put', dataType: 'script'
     return false
+
+
+  Timesheet.recount()
+

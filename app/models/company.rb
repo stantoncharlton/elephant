@@ -13,7 +13,8 @@ class Company < ActiveRecord::Base
                     :website,
                     :vpn_range,
                     :test_company,
-                    :inventory_active
+                    :inventory_active,
+                    :minimum_work_day
 
     after_commit :flush_cache
 

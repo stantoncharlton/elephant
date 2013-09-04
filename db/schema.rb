@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130903151030) do
+ActiveRecord::Schema.define(:version => 20130903232549) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20130903151030) do
     t.boolean  "test_company",     :default => false
     t.boolean  "inventory_active", :default => true
     t.string   "city"
+    t.integer  "minimum_work_day", :default => 8
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
@@ -354,6 +355,21 @@ ActiveRecord::Schema.define(:version => 20130903151030) do
 
   add_index "job_templates", ["company_id"], :name => "index_job_templates_on_company_id"
   add_index "job_templates", ["product_line_id"], :name => "index_job_templates_on_product_line_id"
+
+  create_table "job_times", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.datetime "time_for"
+    t.integer  "status"
+    t.integer  "hours"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "job_times", ["company_id"], :name => "index_job_times_on_company_id"
+  add_index "job_times", ["job_id"], :name => "index_job_times_on_job_id"
+  add_index "job_times", ["user_id"], :name => "index_job_times_on_user_id"
 
   create_table "jobs", :force => true do |t|
     t.integer  "job_template_id"
