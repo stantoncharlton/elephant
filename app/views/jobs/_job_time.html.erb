@@ -16,7 +16,7 @@
         <% end %>
       </div>
 
-      <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:job_id => job.id).where("job_times.time_for >= :start_date AND job_times.time_for <= :end_date", start_date: (job.start_date - 2.days).beginning_of_day, end_date: (job.start_date + 8.days).end_of_day).to_a %>
+      <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:job_id => job.id).to_a %>
       <% users.each do |job_membership| %>
           <%= render 'jobs/timesheet_line', job: job, user: job_membership.user %>
       <% end %>
