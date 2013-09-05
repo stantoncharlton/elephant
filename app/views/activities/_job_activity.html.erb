@@ -79,7 +79,7 @@
                 <p class="activity-message status-good">Job completed and approved to close</p></b>
           <% end %>
           <% if activity.activity_type == Activity::DATA_EDITED %>
-              <p class="activity-message"><%= activity.metadata %> changed</p>
+              <p class="activity-message"><b>Job Data changed</b>: <%= activity.metadata %></p>
           <% end %>
           <% if activity.activity_type == Activity::ASSET_ADDED %>
               <% if activity.target.present? %>
