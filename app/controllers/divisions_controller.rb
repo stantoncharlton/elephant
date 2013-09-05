@@ -12,7 +12,7 @@ class DivisionsController < ApplicationController
                     @division = Division.find_by_id(params[:division_id])
                     not_found unless @division.company == current_user.company
                 else
-                    @divisions = Division.from_company(current_user.company).order("name ASC")
+                    @divisions = Division.includes(segments: {product_lines: :job_templates}).from_company(current_user.company).order("name ASC")
                 end
             }
             format.js {

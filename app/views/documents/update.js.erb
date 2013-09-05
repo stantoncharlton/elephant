@@ -23,9 +23,9 @@ $("#document_<%= @document.id %>").find('.upload-metadata').replaceWith("<%= j r
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
 
-<% if !signed_in_admin? %>
+<% if !signed_in_admin? && @document.job_id.present? %>
 $.ajax({
-    url:"/job_process/" + <%= @document.job.id.to_s %>,
+    url:"/job_process/" + <%= @document.job_id.to_s %>,
     type:"GET",
     dataType:"script"
 });

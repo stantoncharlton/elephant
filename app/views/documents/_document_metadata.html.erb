@@ -3,7 +3,7 @@
   <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
 
 
-  <% if !document.template? %>
+  <% if !document.template? && document.job_id.present? %>
       <div class="document-status">
         <% if document.url.present? || last_entry.present? %>
             <%= image_tag "document_complete.png", class: "tooltip-info",

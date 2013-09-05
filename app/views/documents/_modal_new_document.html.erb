@@ -9,7 +9,14 @@
 
         <%= f.hidden_field :document_type, value: "0" %>
         <%= f.hidden_field :template, value: "false" %>
-        <%= f.hidden_field :job_id, value: job_id %>
+        <% if job_id.present? %>
+            <%= f.hidden_field :job_id, value: job_id %>
+        <% end %>
+        <% if @part_redress.present? %>
+            <%= f.hidden_field :owner_id, value: part_redress_id %>
+            <%= f.hidden_field :owner_type, value: "PartRedress" %>
+            <%= f.hidden_field :category, value: Document::PART_REDRESS %>
+        <% end %>
 
         <div class="well">
           <b>New Document Name</b><br><br>
@@ -17,31 +24,33 @@
                            placeholder: "Document Name..." %>
         </div>
 
+        <% if @job_id.present? %>
+            <div class="content">
+              <div class="">
+                <div class="list-item-column2">Category</div>
+                <%= f.select :category, options_for_select([["Pre-Job", Document::PRE_JOB], ["On-Job", Document::ON_JOB], ["Post-Job", Document::POST_JOB]]),
+                             {},
+                             class: "job-note-type custom-select" %>
+              </div>
 
-        <div class="content">
-        <div class="">
-          <div class="list-item-column2">Category</div>
-          <%= f.select :category, options_for_select([["Pre-Job", Document::PRE_JOB], ["On-Job", Document::ON_JOB], ["Post-Job", Document::POST_JOB]]),
-                       {},
-                       class: "job-note-type custom-select" %>
-        </div>
 
+              <% if !current_user.role.limit_to_assigned_jobs? %>
+                  <br>
 
-        <% if !current_user.role.limit_to_assigned_jobs? %>
-            <br>
+                  <div>
+                    <div class="list-item-column2">Access
+                      Level <%= image_tag "warning.png", class: "inline job-status-avatar push-right-small" %></div>
+                    <%= f.select :access_level, options_for_select([["Available to All", 0], ["Restricted to Corporate", 3]]),
+                                 {},
+                                 class: "job-note-type custom-select inline" %>
+                  </div>
 
-            <div>
-              <div class="list-item-column2">Access Level <%= image_tag "warning.png", class: "inline job-status-avatar push-right-small" %></div>
-              <%= f.select :access_level, options_for_select([["Available to All", 0], ["Restricted to Corporate", 3]]),
-                           {},
-                           class: "job-note-type custom-select inline" %>
+              <% end %>
             </div>
 
+            <br>
         <% end %>
-        </div>
 
-
-        <br>
 
         <div class="custom-document-footer">
           <%= f.submit class: "bluebtn pull-right",

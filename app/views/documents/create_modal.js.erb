@@ -15,6 +15,8 @@ $('#alert').modal({show:true});
         $('#documents_on_job').append("<%= j render 'documents/document', document: @document, editable: false, can_upload: true %>");
     <% elsif  @document.category == Document::POST_JOB %>
         $('#documents2').append("<%= j render 'documents/document', document: @document, editable: false, can_upload: true %>");
+    <% elsif @document.category == Document::PART_REDRESS %>
+        $('#documents_part_redress').append("<%= j render(@document, editable: false, can_upload: true) %>");
     <% end %>
 
 

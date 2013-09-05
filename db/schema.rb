@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130903232549) do
+ActiveRecord::Schema.define(:version => 20130905193136) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -207,12 +207,15 @@ ActiveRecord::Schema.define(:version => 20130903232549) do
     t.string   "user_name"
     t.integer  "primary_tool_id"
     t.integer  "access_level",          :default => 0
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
 
   add_index "documents", ["company_id"], :name => "index_documents_on_company_id"
   add_index "documents", ["document_template_id"], :name => "index_documents_on_document_template_id"
   add_index "documents", ["job_id"], :name => "index_documents_on_job_id"
   add_index "documents", ["job_template_id"], :name => "index_documents_on_job_template_id"
+  add_index "documents", ["owner_id", "owner_type"], :name => "index_documents_on_owner_id_and_owner_type"
   add_index "documents", ["primary_tool_id"], :name => "index_documents_on_primary_tool_id"
 
   create_table "dynamic_fields", :force => true do |t|
@@ -435,8 +438,8 @@ ActiveRecord::Schema.define(:version => 20130903232549) do
     t.datetime "updated_at",               :null => false
     t.datetime "received_at"
     t.datetime "finished_redress_at"
-    t.integer  "received_by"
-    t.integer  "finished_redress_by"
+    t.integer  "received_by_id"
+    t.integer  "finished_redress_by_id"
     t.string   "received_by_name"
     t.string   "finished_redress_by_name"
   end

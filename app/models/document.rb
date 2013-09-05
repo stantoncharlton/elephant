@@ -22,6 +22,7 @@ class Document < ActiveRecord::Base
     belongs_to :primary_tool
 
     belongs_to :user, class_name: "User"
+    belongs_to :owner, :polymorphic => true
 
     before_create :default_name
 
@@ -41,6 +42,7 @@ class Document < ActiveRecord::Base
     POST_JOB_REPORT_PART = "Post Job Report Part"
     POST_JOB_REPORT = "Post Job Report"
     PRIMARY_TOOL = "Primary Tool"
+    PART_REDRESS = "Part Redress"
 
     def default_name
         self.name ||= File.basename(url, '.*').titleize if url

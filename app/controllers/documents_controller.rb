@@ -67,6 +67,7 @@ class DocumentsController < ApplicationController
 
         if params["modal"].present? && params["modal"] == "true"
             @job_id = params[:job_id]
+            @part_redress = params[:part_redress]
             @document = Document.new
             render 'documents/new_modal'
         else
@@ -89,6 +90,12 @@ class DocumentsController < ApplicationController
 
         primary_tool_id = params[:document][:primary_tool_id]
         params[:document].delete(:primary_tool_id)
+
+        owner_id = params[:document][:owner_id]
+        params[:document].delete(:owner_id)
+
+        owner_type = params[:document][:owner_type]
+        params[:document].delete(:owner_type)
 
         @document = Document.new(params[:document])
         @document.company = current_user.company
@@ -113,10 +120,16 @@ class DocumentsController < ApplicationController
             Activity.delay.add(self.current_user, Activity::DOCUMENT_CREATED, @document, @document.name)
         else
 
-            @job = Job.find_by_id(job_id)
-            not_found unless @job.company == current_user.company
-            @document.job = @job
-            @document.ordering = @document.document_collection.count
+            if job_id.present?
+                @job = Job.find_by_id(job_id)
+                not_found unless @job.company == current_user.company
+                @document.job = @job
+                @document.ordering = @document.document_collection.count
+            elsif owner_id.present?
+                owner = owner_type.constantize.find(owner_id)
+                not_found unless owner.company == current_user.company
+                @document.owner = owner
+            end
 
             if @document.save
                 render 'documents/create_modal'

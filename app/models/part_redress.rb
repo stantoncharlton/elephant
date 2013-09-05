@@ -17,6 +17,10 @@ class PartRedress < ActiveRecord::Base
     belongs_to :finished_redress_by, class_name: "User"
 
 
+    def documents
+       Document.where(:company_id => company_id).where("documents.owner_id = ?", self.id).where("documents.owner_type = 'PartRedress'").order("created_at ASC")
+    end
+
     def self.receive(company, job, part, user)
         return false if company.nil? or job.nil? or part.nil?
 
@@ -42,8 +46,17 @@ class PartRedress < ActiveRecord::Base
         part_redress.finished_redress_by = user
         part_redress.finished_redress_by_name = user.present? ? user.name : ''
 
+        part_redress.documents.each do |document|
+            if document.url.nil?
+                document.destroy
+            end
+        end
+
+
         part_redress.save!
         part_redress
     end
+
+
 
 end
