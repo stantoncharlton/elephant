@@ -19,12 +19,13 @@ class UserRole < ActiveRecord::Base
     ROLE_BUSINESS_ENGINEER = 14
     ROLE_ENGINEER = 15
 
-    # Field
+    # District
     ROLE_DISTRICT_MANAGER = 20
     ROLE_LOCAL_ENGINEER_MANAGER = 21
     ROLE_INVENTORY_MANAGER = 22
     ROLE_OPERATIONS_COORDINATOR = 23
 
+    # Field
     ROLE_FIELD_ENGINEER = 30
     ROLE_FIELD_SPECIALIST = 31
     ROLE_WAREHOUSE_SPECIALIST = 33
@@ -246,7 +247,7 @@ class UserRole < ActiveRecord::Base
 
     def global_read?
         return true if self.role_id >= 1 && self.role_id <= 19
-        return true if self.role_id == ROLE_DISTRICT_MANAGER || self.role_id == ROLE_LOCAL_ENGINEER_MANAGER || self.role_id == ROLE_INVENTORY_MANAGER
+        return true if self.role_id == ROLE_DISTRICT_MANAGER
         return true if self.role_id >= 50
 
         false
@@ -260,7 +261,7 @@ class UserRole < ActiveRecord::Base
     end
 
     def district_read?
-        global_read? || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.role_id == ROLE_ADMINISTRATOR
+        global_read? || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.role_id == ROLE_ADMINISTRATOR || self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_LOCAL_ENGINEER_MANAGER
     end
 
     def district_edit?
@@ -272,11 +273,11 @@ class UserRole < ActiveRecord::Base
     end
 
     def limit_to_district?
-        self.role_id >= 30 && self.role_id <= 39
+        (self.role_id >= 30 && self.role_id <= 39) || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_LOCAL_ENGINEER_MANAGER
     end
 
     def limit_to_product_line?
-        self.role_id >= 20 && self.role_id <= 29
+        self.role_id >= 20 && self.role_id <= 29 && self.role_id == ROLE_DISTRICT_MANAGER
     end
 
     def no_assigned_jobs?
