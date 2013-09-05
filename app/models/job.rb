@@ -96,6 +96,9 @@ class Job < ActiveRecord::Base
         integer :division_id do
             job_template.product_line.segment.division.id
         end
+        integer :master_district_id do
+            district.present? ? district.master_district_id : -1
+        end
 
         integer :job_membership, :multiple => true do
             unique_participants.map { |u| u.id }
@@ -147,7 +150,7 @@ class Job < ActiveRecord::Base
                 if user.role.limit_to_assigned_jobs?
                     with(:job_membership, user.id)
                 elsif user.role.limit_to_district?
-                    with(:district_id, user.district.id)
+                    with(:master_district_id, user.district.master_district_id)
                 elsif user.role.limit_to_product_line? && !user.product_line.nil?
                     with(:product_line_id, user.product_line.id)
                 end
@@ -163,7 +166,8 @@ class Job < ActiveRecord::Base
         ar_query = where(:company_id => company.id)
 
         if query.user.role.limit_to_district?
-            where(:district_id => query.user.district.id)
+            where("jobs.district_id IN (SELECT district_id FROM districts where master_district_id = :district_id)", district_id: user.district.master_district_id)
+            #where(:district_id => query.user.district.id)
         elsif query.user.role.limit_to_product_line? && !query.user.product_line.nil?
             where(:product_line_id => query.user.product_line.id)
         end
@@ -423,7 +427,7 @@ class Job < ActiveRecord::Base
         return false if self.status == Job::CLOSED
         return true if self.user_is_member?(user)
         return true if user.role.global_edit?
-        return true if user.role.district_edit? and self.district == user.district
+        return true if user.role.district_edit? && self.district.master_district_id == user.district.master_district_id
 
         false
     end
@@ -431,7 +435,7 @@ class Job < ActiveRecord::Base
     def can_user_view?(user)
         return true if user.role.global_read?
         return true if self.user_is_member?(user)
-        return true if user.role.district_read? and self.district == user.district
+        return true if user.role.district_read? && self.district.master_district_id == user.district.master_district_id
 
         false
     end
