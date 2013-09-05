@@ -36,6 +36,16 @@
                           "data-placement" => "bottom",
                           "data-title" => "Notes for redress" %>
 
+            <div class="">
+              <%= link_to "Add Document", new_document_path(modal: true),
+                          remote: true,
+                          class: "add-custom-document tooltip-info",
+                          "data-placement" => "left",
+                          "data-title" => "Add new document" %>
+              <span class='help-text'>(quality check, repairs, etc)</span>
+              <br><br>
+            </div>
+
             <%= f.submit "Asset Finished Redress (Cleaned)",
                          class: "bluebtn green tooltip-info form-loading-on-click",
                          "data-form" => "update-part-status",

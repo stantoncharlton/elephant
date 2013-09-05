@@ -265,30 +265,6 @@ class JobsController < ApplicationController
             Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
             render :nothing => true, :status => :ok
             return
-        else
-            district_manager_id = params[:job][:district_manager_id]
-            params[:job].delete(:district_manager_id)
-
-            sales_engineer_id = params[:job][:sales_engineer_id]
-            params[:job].delete(:sales_engineer_id)
-
-            if district_manager_id.present?
-                @user = User.find_by_id(district_manager_id)
-                if @job.district_manager.present?
-                    @job.remove_user!(@user)
-                end
-                @tag_name = 'district_manager'
-                @job.district_manager = @user
-            elsif sales_engineer_id.present?
-                @user = User.find_by_id(sales_engineer_id)
-                if @job.sales_engineer.present?
-                    @job.remove_user!(@user)
-                end
-                @tag_name = 'sales_engineer'
-                @job.sales_engineer = @user
-            end
-
-            @job.save
 
         end
 

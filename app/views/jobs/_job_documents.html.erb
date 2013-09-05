@@ -78,8 +78,10 @@
 
   <br><br>
 
-  <div class="content alert">
-    <%= image_tag "windows_logo.png", class: "job-status-avatar" %>
-    <%= link_to "Download offline desktop app (Windows only)", "https://elephant-apps.s3.amazonaws.com/desktop/Elephant.application", class: "activity-user-link" %>
-  </div>
+  <% if false %>
+      <div class="content alert">
+        <%= image_tag "windows_logo.png", class: "job-status-avatar" %>
+        <%= link_to "Download offline desktop app (Windows only)", "https://elephant-apps.s3.amazonaws.com/desktop/Elephant.application", class: "activity-user-link" %>
+      </div>
+  <% end %>
 </div>
