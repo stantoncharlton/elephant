@@ -1,4 +1,4 @@
-<% if job.job_template.present? %>
+<% if job.present? && job.job_template.present? %>
     <% if !inside_job and !job.nil? %>
         <span class="inline">
       <%= link_to job, class: "activity-user-link no-bottom-margin", "data-placement" => "right",

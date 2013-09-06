@@ -16,7 +16,7 @@
       <% end %>
 
       <div class="activity-avatar-box-small">
-        <% if activity.user.present? && activity.job.get_membership_role(activity.user).present? %>
+        <% if activity.user.present? && activity.job.present? && activity.job.get_membership_role(activity.user).present? %>
             <% case activity.job.get_membership_role(activity.user).job_role_id
                    when 1 %><%= image_tag "user_avatar_default.png" %>
                 <% when 2 %><%= image_tag "manager_icon.png" %>

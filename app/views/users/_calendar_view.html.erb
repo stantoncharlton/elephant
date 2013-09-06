@@ -1,0 +1,67 @@
+<div id="calendar">
+
+  <% job_times_array = @job_times.to_a %>
+
+  <div class="page_header">
+    <h1>Time/Scheduling</h1>
+
+    <div class="pull-right">
+      <span class="inline pull-right"><%= @adjusted_today_date.strftime("%B, %Y").upcase %></span>
+      <br>
+      <%= link_to "Export " + @adjusted_today_date.strftime("%B")  + "", "#", class: "activity-user-link" %>
+    </div>
+  </div>
+
+  <%= render 'users/calendar', job_times: job_times_array, adjusted_today_date: @adjusted_today_date, start_date: @start_date, show_full_calendar: true %>
+
+  <div id="calendar_loader" class="hidden center">
+    <br>
+
+    <div class="alert alert-info">
+      <span class="ajax-loading search-loading"><b>loading..</b></span>
+    </div>
+  </div>
+
+
+  <div id="calendar_navigation">
+    <br>
+    <div class="pull-right">
+      <%= link_to "◄ previous ", job_times_path(user: @user.id, page: @page - 1), class: "start-loader activity-user-link", remote: true %>
+      <span class=''> | <%= @adjusted_today_date.strftime("%B") %> | </span>
+      <%= link_to " next ►", job_times_path(user: @user.id, page: @page + 1), class: "start-loader activity-user-link ", remote: true %>
+
+
+    </div>
+
+    <% if @page != 1 %>
+        <%= link_to "back to " + Time.now.strftime("%B"), job_times_path(user: @user.id, page: 1), class: "start-loader activity-user-link pull-left", remote: true %>
+        <br>
+    <% end %>
+    <br>
+  </div>
+
+  <% total_scheduled_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map{ |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+  <% total_work_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map{ |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+
+  <% puts  job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::SCHEDULED }.map(&:id) %>
+  <div>
+    <div class="chart-block tooltip-info"
+         data-title="Total days scheduled for month">
+      <div class="chart-title">Scheduled</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text "><%= total_scheduled_time %></div>
+        <div class="percentage ">days</div>
+      </div>
+    </div>
+
+    <div class="chart-block tooltip-info"
+         data-title="Total days actually worked for month">
+      <div class="chart-title">Worked</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text "><%= total_work_time %></div>
+        <div class="percentage ">days</div>
+      </div>
+    </div>
+  </div>
+
+</div>

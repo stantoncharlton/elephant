@@ -3,15 +3,10 @@ class Timesheet
     total_scheduled = 0
     total_worked = 0
 
-    $('.timesheet').each (root_index, timesheet) =>
-      user_worked = 0
-      $(timesheet).find('.day-button').each (index, element) =>
-        if $(element).attr('data-type') == 'worked'
-          user_worked += parseInt($(element).val())
-          total_scheduled += parseInt($(element).val())
-        else if $(element).attr('data-type') == 'scheduled'
-          total_scheduled += parseInt($(element).val())
-        $(timesheet).find('.user-total-time').text(user_worked)
+    $('.user-timesheet').each (root_index, timesheet) =>
+      user_scheduled = parseInt($(timesheet).find('.user-total-time-scheduled').attr('data-hours'))
+      user_worked = parseInt($(timesheet).find('.user-total-time').attr('data-hours'))
+      total_scheduled += user_scheduled
       total_worked += user_worked
 
     $('.total-scheduled').text(total_scheduled)
@@ -44,7 +39,7 @@ $ ->
       $(this).attr('data-type', 'none')
       Timesheet.recount()
       $.ajax '/job_times/' + job,
-        data: {schedule: true, user: user, date: date},
+        data: {none: true, user: user, date: date},
         type: 'put', dataType: 'script'
 
     return false

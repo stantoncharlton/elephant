@@ -1,7 +1,7 @@
 <div id="calendar">
 
   <div class="pull-right">
-    <span class="inline"><%= @real_date.strftime("%B, %Y").upcase %></span>
+    <span class="inline"><%= @adjusted_today_date.strftime("%B, %Y").upcase %></span>
   </div>
 
   <% if @show_full_calendar %>
@@ -14,7 +14,7 @@
 
   <br><br>
 
-  <%= render 'alerts/calendar', jobs: @active_jobs, start_date: @start_date, show_full_calendar: @show_full_calendar %>
+  <%= render 'alerts/calendar', jobs: @active_jobs, start_date: @start_date, adjusted_today_date: @adjusted_today_date, show_full_calendar: @show_full_calendar %>
 
   <div id="calendar_loader" class="hidden center">
     <br>
@@ -29,7 +29,7 @@
     <% if @show_full_calendar %>
         <div class="pull-right">
           <%= link_to "◄ previous ", alerts_path(calendar: true, page: @page - 1), class: "start-loader activity-user-link", remote: true %>
-          <span class=''> | <%= @real_date.strftime("%B") %> | </span>
+          <span class=''> | <%= @adjusted_today_date.strftime("%B") %> | </span>
           <%= link_to " next ►", alerts_path(calendar: true, page: @page + 1), class: "start-loader activity-user-link ", remote: true %>
 
 

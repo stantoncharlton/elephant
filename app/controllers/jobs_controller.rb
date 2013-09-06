@@ -38,7 +38,7 @@ class JobsController < ApplicationController
                                                        except: [:created_at, :updated_at, :segment_id, :company_id]
                                                },
                                                :primary_tools => {
-                                                       include: { :tool => {} }
+                                                       include: {:tool => {}}
                                                }
                                        },
                                        except: [:created_at, :updated_at, :product_line_id, :company_id]
@@ -256,13 +256,28 @@ class JobsController < ApplicationController
         #end
     end
 
+    include ActionView::Helpers::DateHelper
     def update
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
 
         if params["start_date"].present?
+            start = @job.start_date
             @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y').to_time_in_current_zone)
             Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
+
+            if start.present? && start != @job.start_date
+                change = @job.start_date - start
+                puts "....................................."
+                puts distance_of_time_in_words(@job.start_date, start)
+                job_times = JobTime.where(:company_id => @job.company_id).where(:job_id => @job.id)
+                job_times.each do |jt|
+                    jt.time_for = jt.time_for + change
+                    jt.save
+                end
+            end
+
+
             render :nothing => true, :status => :ok
             return
 

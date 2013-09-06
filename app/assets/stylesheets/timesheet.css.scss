@@ -9,7 +9,7 @@
     display: inline-block;
     width: 60px;
     height: 25px;
-    padding:  0px;
+    padding: 0px;
     margin: 0px;
     text-align: center;
     font-weight: bold;
@@ -19,7 +19,7 @@
     display: inline-block;
     width: 60px;
     height: 20px;
-    padding:  0px;
+    padding: 0px;
     margin: 0px;
   }
 
@@ -38,4 +38,27 @@
     float: right;
     margin-top: -45px;
   }
+}
+
+.user-calendar-day {
+  margin: 10px;
+  margin-top: -7px;
+  width: 90%;
+  height: 77px;
+
+  div {
+    p {
+      margin: 5px;
+      font-size: 10px;
+      color: #043664;
+    }
+
+    h1 {
+      color: #043664;
+    }
+  }
+}
+
+.not-in-month {
+  opacity: 0.5;
 }

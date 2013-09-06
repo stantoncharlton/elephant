@@ -4,10 +4,10 @@
 
     <% (show_full_calendar ? 42 : 14).times do |i| %>
         <div class="date">
-          <p class="<%= @real_date.month != (start_date + i.days).month ? "number2" : "number" %> <%= ((start_date + i.days).day == Date.today.day && (start_date + i.days).month == Date.today.month) ? "today" : "" %>"><%= (start_date + i.days).day %></p>
+          <p class="<%= adjusted_today_date.month != (start_date + i.days).month ? "number2" : "number" %> <%= ((start_date + i.days).day == Date.today.day && (start_date + i.days).month == Date.today.month) ? "today" : "" %>"><%= (start_date + i.days).day %></p>
 
           <div class="jobs">
-            <% day_jobs = jobs.select { |j| !j.start_date.nil? && (j.start_date.day == (@start_date + i.days).day) && (j.start_date.month == (@start_date + i.days).month) } %>
+            <% day_jobs = jobs.select { |j| !j.start_date.nil? && (j.start_date.day == (start_date + i.days).day) && (j.start_date.month == (start_date + i.days).month) } %>
             <% use_menu = day_jobs.count > 3 %>
             <% day_jobs.each_with_index do |job, i| %>
                 <% if !use_menu || (use_menu && i < 2)  %>
