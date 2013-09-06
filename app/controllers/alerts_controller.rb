@@ -27,7 +27,7 @@ class AlertsController < ApplicationController
         @adjusted_today_date = Time.now
         if @show_full_calendar
             @adjusted_today_date = @adjusted_today_date + (@page - 1).months
-            @start_date =@adjusted_today_date.beginning_of_week - 1.days - (@adjusted_today_date.beginning_of_week.day + (7 - (@adjusted_today_date.beginning_of_week.day % 7))).days
+            @start_date = @adjusted_today_date.beginning_of_month.beginning_of_week - 1.days
         else
             @start_date = Time.now.beginning_of_week - 1.days
         end

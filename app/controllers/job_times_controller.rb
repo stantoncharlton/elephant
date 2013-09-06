@@ -6,11 +6,8 @@ class JobTimesController < ApplicationController
 
         @page = (params[:page] || "1").to_i
         @adjusted_today_date = Time.now
-        puts @page.to_s + "...................[age"
         @adjusted_today_date = @adjusted_today_date + (@page - 1).months
         @start_date = @adjusted_today_date.beginning_of_month.beginning_of_week - 1.days
-        puts @adjusted_today_date.to_s + "..................."
-        puts @start_date.to_s + "..................."
 
         @user = User.find_by_id(params[:user])
         not_found unless @user.company == current_user.company
