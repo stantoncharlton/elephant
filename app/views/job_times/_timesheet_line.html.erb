@@ -10,7 +10,7 @@
           <input type='submit' value='<%= job_time.present? ? job_time.hours : current_user.company.minimum_work_day %>'
                  data-type='<%= job_time.present? ? job_time.status_string : "none" %>'
                  data-job="<%= job.id %>"
-                 data-day="<%= (job.start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
+                 data-day="<%= (start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
                  data-user="<%= user.id %>"
                  class="bluebtn day-button day-button-schedule popover-control <%= job_time.present? ? (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") : "gray" %>"
                  data-html="true"

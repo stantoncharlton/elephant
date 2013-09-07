@@ -13,6 +13,10 @@ $ ->
 
   $('.job-start-date').change ->
     $.ajax '/jobs/' + $(this).attr("id").replace("job_start_date_", "") + '?start_date=' + $(this).val(), type: 'put', dataType: 'script'
+    if $('#job_time_content').length() > 0
+      $('#job_time_content').addClass 'hidden'
+      $('#job_time_loader').removeClass 'hidden'
+
 
   last_selected_item = null
   focusevent = (event, ui) ->

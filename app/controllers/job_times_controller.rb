@@ -4,16 +4,27 @@ class JobTimesController < ApplicationController
 
     def index
 
-        @page = (params[:page] || "1").to_i
-        @adjusted_today_date = Time.now
-        @adjusted_today_date = @adjusted_today_date + (@page - 1).months
-        @start_date = @adjusted_today_date.beginning_of_month.beginning_of_week - 1.days
+        if params[:user].present?
+            @page = (params[:page] || "1").to_i
+            @adjusted_today_date = Time.now
+            @adjusted_today_date = @adjusted_today_date + (@page - 1).months
+            @start_date = @adjusted_today_date.beginning_of_month.beginning_of_week - 1.days
 
-        @user = User.find_by_id(params[:user])
-        not_found unless @user.company == current_user.company
+            @user = User.find_by_id(params[:user])
+            not_found unless @user.company == current_user.company
 
-        @job_times = JobTime.where(:company_id => current_user.company_id).where(:user_id => @user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month)
+            @job_times = JobTime.where(:company_id => current_user.company_id).where(:user_id => @user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month)
+        elsif params[:job].present?
+            @page = (params[:page] || "0").to_i
+            @job = Job.find_by_id(params[:job])
+            not_found unless @job.company == current_user.company
 
+            @start_date = @job.start_date
+            if @page != 0
+                @start_date = @start_date + (@page * 10.days)
+            end
+
+        end
     end
 
     def update

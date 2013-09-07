@@ -256,7 +256,6 @@ class JobsController < ApplicationController
         #end
     end
 
-    include ActionView::Helpers::DateHelper
     def update
         @job = Job.find_by_id(params[:id])
         not_found unless @job.company == current_user.company
@@ -268,25 +267,17 @@ class JobsController < ApplicationController
 
             if start.present? && start != @job.start_date
                 change = @job.start_date - start
-                puts "....................................."
-                puts distance_of_time_in_words(@job.start_date, start)
                 job_times = JobTime.where(:company_id => @job.company_id).where(:job_id => @job.id)
+                if job_times.any?
+                    @job_times_changed = true
+                end
                 job_times.each do |jt|
                     jt.time_for = jt.time_for + change
                     jt.save
                 end
             end
 
-
-            render :nothing => true, :status => :ok
-            return
-
         end
-
-
-        #if @user.present?
-        #    @job.add_user!(@user, JobMembership::OBSERVER)
-        #end
 
     end
 

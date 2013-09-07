@@ -152,6 +152,12 @@
                 type: "GET",
                 dataType: "script"
             });
+
+            $.ajax({
+                url: "/job_times?job=" + <%= @job.id.to_s %>,
+                type: "GET",
+                dataType: "script"
+            });
         });
     }(jQuery));
 </script>

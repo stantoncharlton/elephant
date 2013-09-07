@@ -37,6 +37,7 @@ $ ->
       $(this).removeClass "green"
       $(this).addClass "gray"
       $(this).attr('data-type', 'none')
+      $('.day-button').popover('hide')
       Timesheet.recount()
       $.ajax '/job_times/' + job,
         data: {none: true, user: user, date: date},
@@ -86,6 +87,10 @@ $ ->
       type: 'put', dataType: 'script'
     return false
 
+
+  $('.start-job-time-loader').live "click", ->
+    $('#job_time_loader').removeClass 'hidden'
+    return false
 
   Timesheet.recount()
 
