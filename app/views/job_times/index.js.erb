@@ -3,6 +3,7 @@ $('#calendar').replaceWith("<%= j render 'users/calendar_view' %>");
 <% elsif @job.present? %>
 $('#job_time').replaceWith("<%= j render 'job_times/job_time', job: @job %>");
 
+function recount() {
 var total_scheduled, total_worked,
         _this = this;
 total_scheduled = 0;
@@ -16,6 +17,11 @@ $('.user-timesheet').each(function(root_index, timesheet) {
 });
 $('.total-scheduled').text(total_scheduled);
 $('.total-worked').text(total_worked);
+}
+
+
+recount();
+
 
 <% end %>
 $('.tooltip-info').tooltip();
