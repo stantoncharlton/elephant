@@ -11,6 +11,8 @@ class Job < ActiveRecord::Base
 
     after_commit :flush_cache
 
+    acts_as_tenant(:company)
+
     validates_presence_of :company
     validates_presence_of :client
     validates_presence_of :district

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130905193136) do
+ActiveRecord::Schema.define(:version => 20130909152044) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -56,6 +56,34 @@ ActiveRecord::Schema.define(:version => 20130905193136) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
+
+  create_table "bha_items", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "bha_id"
+    t.integer  "tool_id"
+    t.string   "tool_type"
+    t.decimal  "inner_diameter"
+    t.decimal  "outer_diameter"
+    t.decimal  "length"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "ordering"
+  end
+
+  add_index "bha_items", ["bha_id"], :name => "index_bha_items_on_bha_id"
+  add_index "bha_items", ["company_id"], :name => "index_bha_items_on_company_id"
+
+  create_table "bhas", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "job_id"
+    t.integer  "document_id"
+    t.string   "name"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "bhas", ["company_id"], :name => "index_bhas_on_company_id"
+  add_index "bhas", ["document_id"], :name => "index_bhas_on_document_id"
 
   create_table "clients", :force => true do |t|
     t.string   "name"

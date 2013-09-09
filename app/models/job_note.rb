@@ -3,6 +3,8 @@ class JobNote < ActiveRecord::Base
                     :text,
                     :user_name
 
+    acts_as_tenant(:company)
+
     validates_presence_of :company
     validates_presence_of :user
     validates_presence_of :job

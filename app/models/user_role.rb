@@ -3,6 +3,8 @@ class UserRole < ActiveRecord::Base
 
     after_commit :flush_cache
 
+    acts_as_tenant(:company)
+
     validates :title, presence: true, length: {maximum: 50}, uniqueness: {case_sensitive: false, scope: :company_id}
     validates_presence_of :company
 

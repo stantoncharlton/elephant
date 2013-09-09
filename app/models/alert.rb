@@ -3,6 +3,8 @@ class Alert < ActiveRecord::Base
                     :target,
                     :expiration
 
+    acts_as_tenant(:company)
+
 
     after_commit :flush_cache
 

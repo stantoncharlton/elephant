@@ -1,5 +1,7 @@
 class ConversationMembership < ActiveRecord::Base
 
+    acts_as_tenant(:company)
+
     validates :user, presence: true
     validates :conversation, presence: true
 

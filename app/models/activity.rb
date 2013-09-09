@@ -4,6 +4,8 @@ class Activity < ActiveRecord::Base
                     :metadata,
                     :user_name
 
+    acts_as_tenant(:company)
+
     belongs_to :company
     belongs_to :user
     belongs_to :job

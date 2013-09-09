@@ -1,5 +1,7 @@
 class PrimaryTool < ActiveRecord::Base
 
+    acts_as_tenant(:company)
+
     validates_uniqueness_of :tool_id, scope: :job_template_id
 
     belongs_to :tool

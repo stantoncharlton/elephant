@@ -12,6 +12,8 @@ class DynamicField < ActiveRecord::Base
 
     acts_as_xlsx
 
+    acts_as_tenant(:company)
+
     validates_presence_of :name
     #validates_inclusion_of :value_type_conversion , :in => %w(to_s to_i to_f to_b)
     validates :company, presence: true

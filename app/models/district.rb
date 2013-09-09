@@ -11,6 +11,8 @@ class District < ActiveRecord::Base
                     :support_email,
                     :master
 
+    acts_as_tenant(:company)
+
 
     validates :name, presence: true, length: {maximum: 50}
     validates :company, presence: true

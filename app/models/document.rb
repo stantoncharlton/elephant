@@ -10,6 +10,8 @@ class Document < ActiveRecord::Base
                     :user_name,
                     :access_level
 
+    acts_as_tenant(:company)
+
 
     validates :name, presence: true, length: {maximum: 50}
     validates :category, presence: true, length: {maximum: 50}
@@ -34,6 +36,7 @@ class Document < ActiveRecord::Base
     JOB_LOG = 2
     DRILLING_LOG = 3
     CUSTOM_DATA = 4
+    BOTTOM_HOLE_ASSEMBLY = 5
 
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
@@ -62,6 +65,8 @@ class Document < ActiveRecord::Base
                 "Job Log"
             when Document::DRILLING_LOG
                 "Drilling Log"
+            when Document::BOTTOM_HOLE_ASSEMBLY
+                "Bottom Hole Assembly"
         end
     end
 
@@ -185,6 +190,8 @@ class Document < ActiveRecord::Base
         if self.document_type == DOCUMENT
             return self.url.blank?
         elsif self.document_type == JOB_LOG
+            return JobLog.where(:document_id => self.id).count == 0
+        elsif self.document_type == BOTTOM_HOLE_ASSEMBLY
             return JobLog.where(:document_id => self.id).count == 0
         end
 

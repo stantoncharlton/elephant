@@ -103,5 +103,7 @@ ElephantWebApp::Application.routes.draw do
     resources :job_logs, only: [:index, :create, :show]
 
     resources :job_times, only: [:index, :update]
+
+    resources :bha, only: [:show, :edit, :update]
 end
 

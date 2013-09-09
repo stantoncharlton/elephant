@@ -12,6 +12,8 @@ class Part < ActiveRecord::Base
                     :total_uses,
                     :location
 
+    acts_as_tenant(:company)
+
     validates_presence_of :company
     validates_presence_of :material_number
     validates_uniqueness_of :material_number, :case_sensitive => false, scope: [:company_id, :district_id], :if => :template?

@@ -29,8 +29,14 @@
           <% else %>
               <p class="document-name document-name-container"><%= document.name %></p>
           <% end %>
-      <% else %>
+      <% elsif document.document_type == Document::JOB_LOG %>
           <%= link_to document.name, job_logs_path(document: document.id),
+                      target: "_blank",
+                      class: "document-name tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Open " + document.document_type_string %>
+      <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
+          <%= link_to document.name, bha_path(document),
                       target: "_blank",
                       class: "document-name tooltip-info",
                       "data-placement" => "bottom",

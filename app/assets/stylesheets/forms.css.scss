@@ -263,8 +263,9 @@
 }
 
 .list-item-column-count {
-  width: 50px;
+  width: 50px !important;
 }
+
 
 .list-item-column2 {
   width: 185px;
@@ -279,6 +280,10 @@
 .list-item-column3 {
   width: 250px;
   display: inline-block;
+}
+
+.list-item-column-short {
+  width: 100px !important;
 }
 
 .list-item-text {

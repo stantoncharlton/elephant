@@ -12,9 +12,9 @@
               </div>
             </div>
 
-            <%= link_to "❮", job_times_path(job: job.id, page: @page - 1),
+            <%= link_to "<", job_times_path(job: job.id, page: @page - 1),
                         remote: true,
-                        class: "pull-right push-down activity-user-link start-job-time-loader" %>
+                        class: "bold pull-right push-down activity-user-link start-job-time-loader" %>
           </div>
           <% 11.times do |i| %>
               <div class="day-header <%= i == 2 && @page == 0 ? "orange-text" : "" %>">
@@ -24,9 +24,9 @@
               </div>
           <% end %>
 
-          <%= link_to "❯", job_times_path(job: job.id, page: @page + 1),
+          <%= link_to ">", job_times_path(job: job.id, page: @page + 1),
                       remote: true,
-                      class: "activity-user-link start-job-time-loader" %>
+                      class: "bold activity-user-link start-job-time-loader" %>
         </div>
 
         <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:job_id => job.id).to_a %>

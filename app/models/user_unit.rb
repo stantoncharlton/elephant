@@ -11,6 +11,8 @@ class UserUnit < ActiveRecord::Base
                   :weight_gradient,
                   :viscosity
 
+  acts_as_tenant(:company)
+
   belongs_to :user
   belongs_to :company
 

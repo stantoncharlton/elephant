@@ -4,6 +4,8 @@ class JobTemplate < ActiveRecord::Base
                     :documents_attributes,
                     :description
 
+    acts_as_tenant(:company)
+
 
     validates :name, presence: true, length: {maximum: 100}
     validates_uniqueness_of :name, :case_sensitive => false, :scope => :product_line_id

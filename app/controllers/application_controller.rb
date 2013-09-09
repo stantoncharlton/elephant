@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
     include SessionsHelper
     include VpnHelper
 
+
     before_filter :session_expiry
     before_filter :update_session_expiration
 
@@ -13,6 +14,9 @@ class ApplicationController < ActionController::Base
     before_filter :set_current_user_for_observer
 
     before_filter :accept_terms_of_use
+
+    set_current_tenant_through_filter
+    before_filter :set_tenant
 
 
     def session_expiry
@@ -45,6 +49,13 @@ class ApplicationController < ActionController::Base
     def set_current_user_for_observer
         puts request.path
         UserObserver.current_user = current_user
+    end
+
+
+    def set_tenant
+        if current_user.present?
+            set_current_tenant(current_user.company)
+        end
     end
 
 

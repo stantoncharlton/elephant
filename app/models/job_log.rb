@@ -3,6 +3,8 @@ class JobLog < ActiveRecord::Base
                     :entry_at,
                     :user_name
 
+    acts_as_tenant(:company)
+
     validates :comment, presence: true, length: {minimum: 1, maximum: 500}
     validates :entry_at, presence: true
     validates_presence_of :company_id

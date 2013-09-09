@@ -20,6 +20,7 @@ class Well < ActiveRecord::Base
                     :formation,
                     :bottom_hole_location
 
+    acts_as_tenant(:company)
 
     validates :name, presence: true, length: {maximum: 50}
     validates_uniqueness_of :name, :case_sensitive => false, scope: :field_id

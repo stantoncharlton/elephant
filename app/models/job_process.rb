@@ -1,6 +1,7 @@
 class JobProcess < ActiveRecord::Base
     attr_accessible :event_type
 
+    acts_as_tenant(:company)
 
     validates_presence_of :company
     validates_presence_of :user

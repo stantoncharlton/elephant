@@ -1,0 +1,46 @@
+<div id="bha" class="well">
+  <div class="form" data-form="new_bha">
+    <%= form_for @bha, :url => bha_path(@document.id, bha_id: @bha), :html => {:method => :put, :action => :update}, remote: true do |f| %>
+        <% if @bha.new_record? %>
+            <h3 class="blue-text">New BHA</h3>
+            <br>
+        <% end %>
+        <div class="">
+          <b>Bottom Hole Assembly Name</b>
+          <br><br>
+          <%= text_field_tag :name, "", class: "txtfield",
+                             placeholder: "BHA Name..." %>
+        </div>
+
+        <hr>
+
+        <div class="content">
+          <% @document.job.job_template.primary_tools.each do |primary_tool| %>
+              <%= render 'bha/bha_tool', tool: primary_tool, document: @document, f: f %>
+          <% end %>
+
+          <% @document.job.secondary_tools.each do |secondary_tool| %>
+              <%= render 'bha/bha_tool', tool: secondary_tool, document: @document, f: f %>
+          <% end %>
+        </div>
+
+        <hr>
+
+        <%= f.submit "Save", class: "bluebtn pull-right push-right-small form-loading-on-click",
+                     remote: true,
+                     "data-form" => "new_bha" %>
+
+        <%= f.submit "Cancel", class: "bluebtn red pull-right cancel-bha",
+                remote: true %>
+
+
+        <br><br>
+    <% end %>
+  </div>
+
+  <div class="form-loading hidden" data-form="new_bha">
+    <br>
+    <%= render 'layouts/inline_loading', title: "Saving..." %>
+  </div>
+
+</div>

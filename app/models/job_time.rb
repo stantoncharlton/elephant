@@ -3,6 +3,8 @@ class JobTime < ActiveRecord::Base
                     :status,
                     :time_for
 
+    acts_as_tenant(:company)
+
     validates_presence_of :company
     validates_presence_of :user
     validates_presence_of :job

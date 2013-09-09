@@ -8,7 +8,9 @@
                        "data-placement" => "bottom",
                        "data-title" => "Document name" %>
 
-      <%= f.select :document_type, options_for_select([["Document", Document::DOCUMENT], ["Job Log", Document::JOB_LOG]]),
+      <%= f.select :document_type, options_for_select([["Document", Document::DOCUMENT],
+                                                       ["Job Log", Document::JOB_LOG],
+                                                       ["Bottom Hole Assembly", Document::BOTTOM_HOLE_ASSEMBLY]]),
                    {},
                    class: "job-note-type custom-select" %>
 

@@ -1,0 +1,105 @@
+<div id="bha" class="">
+  <div class="bha-content">
+    <div class="page_header">
+      <h1><%= bha.name %></h1>
+    </div>
+
+    <div class="content">
+      <p class="list-item-column list-item-column-long help-text">
+        Tool
+      </p>
+
+      <p class="list-item-column2 list-item-column-short  help-text">
+        ID <span class='help-text'>(in)</span>
+      </p>
+
+      <p class="list-item-column2 list-item-column-short  help-text">
+        OD <span class='help-text'>(in)</span>
+      </p>
+
+      <p class="list-item-column2 list-item-column-short  help-text">
+        Length <span class='help-text'>(in)</span>
+      </p>
+
+      <p class="list-item-column2 list-item-column-short  help-text">
+        Depth <span class='help-text'>(in)</span>
+      </p>
+    </div>
+
+
+    <% depth = 0.0 %>
+    <div id="items" class="list">
+      <% bha.bha_items.each do |item| %>
+
+          <% depth = depth + item.length %>
+
+          <div class="field">
+
+            <div class="push-right-small">
+              <p class="list-item-column list-item-column-long orange-text">
+                <b class="inline"><%= item.tool.tool.name %></b>
+              </p>
+
+              <p class="list-item-column2 list-item-column-short">
+                <%= item.inner_diameter.to_s %>
+              </p>
+
+              <p class="list-item-column2 list-item-column-short ">
+                <%= item.outer_diameter.to_s %>
+              </p>
+
+              <p class="list-item-column2 list-item-column-short">
+                <%= item.length.to_s %>
+              </p>
+
+              <p class="list-item-column2 list-item-column-short ">
+                <%= depth %>
+              </p>
+            </div>
+
+            <% if item.tool.is_a?(PrimaryTool) %>
+                <% if item.tool.part_memberships.any? %>
+                    <div class="">
+                      <% item.tool.part_memberships.each_with_index do |part_membership, index| %>
+                          <div>
+                            <% real = part_membership.usage_part_membership(item.bha.document.job.id) %>
+                            <% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: item.bha.document.job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
+
+                            <div class='inline-block push-right'>
+                              <% if part.present? %>
+                                  <p class="inline"><b><%= part.name %></b> -</p>
+                                  <%= link_to part_membership.material_number, part, class: "inline activity-user-link" %>
+                              <% else %>
+                                  <%= part_membership.material_number %>
+                              <% end %>
+
+                              <div class="inline">
+                                <% if real.present? && real.part.present? %>
+                                    <p class="inline">-</p>
+                                    <% if !real.part.district_serial_number.blank? %>
+                                        <%= link_to 'Serial #: ' + real.part.serial_number + '  |  District #: ' + real.part.district_serial_number, real.part, class: "activity-user-link" %>
+                                    <% else %>
+                                        <%= link_to 'Serial #: ' + real.part.serial_number, real.part, class: "activity-user-link" %>
+                                    <% end %>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                      <% end %>
+                    </div>
+                <% end %>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div id="bha_loader" class="push-down center hidden inline">
+    <br><br>
+
+    <div class="">
+      <span class="ajax-loading search-loading"><b>Loading..</b></span>
+    </div>
+  </div>
+</div>

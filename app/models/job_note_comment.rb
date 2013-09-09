@@ -2,6 +2,7 @@ class JobNoteComment < ActiveRecord::Base
     attr_accessible :text,
                     :user_name
 
+    acts_as_tenant(:company)
 
     validates_presence_of :company
     validates_presence_of :user

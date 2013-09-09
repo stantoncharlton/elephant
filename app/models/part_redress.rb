@@ -5,6 +5,8 @@ class PartRedress < ActiveRecord::Base
                     :received_by_name,
                     :finished_redress_by_name
 
+    acts_as_tenant(:company)
+
     validates_presence_of :company
     validates_presence_of :job
     validates_presence_of :part

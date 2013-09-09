@@ -2,6 +2,8 @@ class JobMembership < ActiveRecord::Base
     attr_accessible :job_role_id,
                     :user_name
 
+    acts_as_tenant(:company)
+
     after_save :after_save
     after_destroy :after_destroy
 

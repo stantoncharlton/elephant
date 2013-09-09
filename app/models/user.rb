@@ -16,6 +16,7 @@
 
     has_secure_password
 
+    acts_as_tenant(:company)
 
     before_save { |user| user.email = email.downcase }
     before_save :create_remember_token

@@ -1,6 +1,8 @@
 class ProductLine < ActiveRecord::Base
     attr_accessible :name
 
+    acts_as_tenant(:company)
+
     validates :name, presence: true, length: {maximum: 50}
     validates_uniqueness_of :name, :case_sensitive => false, scope: :segment_id
     validates_presence_of :company

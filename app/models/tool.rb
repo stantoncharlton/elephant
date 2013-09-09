@@ -14,6 +14,8 @@ class Tool < ActiveRecord::Base
     has_many :primary_tools, dependent: :destroy
     has_many :secondary_tools, dependent: :destroy
 
+    acts_as_tenant(:company)
+
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)
