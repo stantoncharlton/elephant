@@ -62,3 +62,10 @@
 .not-in-month {
   opacity: 0.5;
 }
+
+.user-calendar-job {
+  max-height: 20px;
+  text-wrap: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
