@@ -56,7 +56,7 @@ class BhaController < ApplicationController
                             id = key.sub! 'pt_tool_', ''
                             tool = PrimaryTool.find_by_id(id)
                         elsif k.starts_with? 'st_tool_'
-                            id = key.sub! 'pt_tool_', ''
+                            id = key.sub! 'st_tool_', ''
                             tool = SecondaryTool.find_by_id(id)
                         end
 
