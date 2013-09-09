@@ -1,5 +1,7 @@
 $('#bha_header').replaceWith('<%= j render "bha/bha_header", document: @document, bhas: @bhas %>');
 $('#bha').replaceWith('<%= j render 'bha/bha_tally', bha: @bha %>');
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.tooltip-info').tooltip();
+}
 $('.unitsSelect').customSelect();

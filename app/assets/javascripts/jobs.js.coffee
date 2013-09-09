@@ -11,6 +11,7 @@ $ ->
 
   $('.job-start-date').datepicker()
 
+
   $('.job-start-date').change ->
     $.ajax '/jobs/' + $(this).attr("id").replace("job_start_date_", "") + '?start_date=' + $(this).val(), type: 'put', dataType: 'script'
     if $('#job_time_content').length() > 0

@@ -14,7 +14,9 @@ $('.no-job-log-entries').remove();
 $("#list").append("<%= j render 'job_logs/job_log', entry: @job_log %>");
 $('#new_job_log_id').val('');
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
+}
 
 <% end %>

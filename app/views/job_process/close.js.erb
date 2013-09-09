@@ -10,8 +10,10 @@ $("#process_actions").removeClass("hidden");
 
 $('.job-progress').hide();
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
+}
 
 $('.form-loading[data-form=close_job_form]').addClass('hidden');
 

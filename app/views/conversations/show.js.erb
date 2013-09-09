@@ -5,8 +5,10 @@ $('.conversation-link').each(function(index) {
 });
 $('#conversation_<%= @conversation.id %> div:first').addClass('message-selected');
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.tooltip-info').tooltip();
 $('.activity-user-link').tooltip();
+}
 
 
 $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);

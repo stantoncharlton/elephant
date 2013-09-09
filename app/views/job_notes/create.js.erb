@@ -10,8 +10,10 @@ $('.job-notes-count').text('<%= "(" + @job_note.job.job_notes.count.to_s + ")" %
 $('#new_note_id').val('');
 $('#new_note_name').val('');
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
+}
 
 $('.form[data-form=new-note-form]').show();
 $('.form-loading[data-form=new-note-form]').addClass('hidden');

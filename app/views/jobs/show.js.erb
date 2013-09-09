@@ -76,3 +76,7 @@
 
 
 <% end %>
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+}

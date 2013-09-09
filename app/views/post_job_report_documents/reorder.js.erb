@@ -16,4 +16,6 @@ setTimeout(function() { doc.removeClass('document-reorder-background') }, 1000);
 
 <% end %>
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.tooltip-info').tooltip();
+}

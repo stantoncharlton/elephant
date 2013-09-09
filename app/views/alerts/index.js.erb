@@ -1,4 +1,6 @@
 $('#calendar').replaceWith("<%= j render 'alerts/calendar_view' %>");
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.tooltip-info').tooltip();
+}
 
 //window.location = "/alerts?calendar=<%= @show_full_calendar ? "true" : "false"  %>&page=<%= @page.to_s %>";

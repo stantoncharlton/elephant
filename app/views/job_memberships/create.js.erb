@@ -20,7 +20,9 @@ $('#new_member_id').val('');
 $('#add_job_member').show();
 $('#new_member_form').hide();
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
+}
 
 <% end %>
 

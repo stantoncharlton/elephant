@@ -4,6 +4,8 @@ $('#modal_popup').find('.modal-content').append('<%= j render 'document_shares/i
 $('#modal_popup').css('visibility', 'visible');
 $('#modal_popup').height($(document).height() + 100);
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.tooltip-info').tooltip();
+}
 
 

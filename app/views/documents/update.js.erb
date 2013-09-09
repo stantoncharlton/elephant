@@ -20,8 +20,10 @@ if(tooltip != null) {
 }
 $("#document_<%= @document.id %>").find('.upload-metadata').replaceWith("<%= j render 'documents/document_metadata', document: @document %>");
 
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
+}
 
 <% if !signed_in_admin? && @document.job_id.present? %>
 $.ajax({

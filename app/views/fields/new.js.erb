@@ -6,7 +6,10 @@ $('#modal_popup').css('visibility', 'visible');
 $('#modal_popup').find('.modal-popup').css('margin-top', scrollTop + 200);
 $('#modal_popup').height($(document).height());
 
-    $('.custom-select').customSelect();
+
+$('.custom-select').customSelect();
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.tooltip-info').tooltip();
+}
 }
 
