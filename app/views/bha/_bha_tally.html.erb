@@ -2,6 +2,25 @@
   <div class="bha-content">
     <div class="page_header">
       <h1><%= bha.name %></h1>
+
+      <div class="btn-group inline pull-right">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Advanced Actions
+        </a>
+        <ul class="dropdown-menu">
+
+          <li>
+            <%= link_to "Delete Assembly", bha, method: :delete,
+                        remote: true,
+                        data: {confirm: "Delete Assembly?"},
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Delete assembly?" %>
+          </li>
+
+
+        </ul>
+      </div>
     </div>
 
     <div class="content">
@@ -96,10 +115,13 @@
   </div>
 
   <div id="bha_loader" class="push-down center hidden inline">
-    <br><br>
+    <br>
 
     <div class="">
       <span class="ajax-loading search-loading"><b>Loading..</b></span>
     </div>
+
+    <br>
+    <br>
   </div>
 </div>

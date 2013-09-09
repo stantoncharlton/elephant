@@ -115,8 +115,10 @@ class Job < ActiveRecord::Base
     def add_user!(user, role)
 
         membership = job_memberships.new
+        membership.company = user.company
         membership.job_role_id = role
         membership.user = user
+        membership.user_name = user.name
         membership.job = self
         membership.save
     end

@@ -1,6 +1,7 @@
 <div class="upload-metadata inline">
 
   <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
+  <% bha = document.document_type == Document::BOTTOM_HOLE_ASSEMBLY ? Bha.where(:company_id => current_user.company_id).where(:document_id => document.id).order("bhas.updated_at DESC").limit(1).first : nil %>
 
 
   <% if !document.template? && document.job_id.present? %>
@@ -64,15 +65,27 @@
                      data-title="No document uploaded, please download the document by clicking the document name and upload the completed one">No
                     Document Uploaded</p>
               <% end %>
-          <% else %>
+          <% elsif document.document_type == Document::JOB_LOG %>
               <% if last_entry.present? %>
                   <p class="">
-                    <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+                    <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  </p>
               <% else %>
                   <p class="warning-text tooltip-info"
                      data-placement="bottom"
                      data-title="No entries have been added to <%= document.document_type_string %>">
                     No Entries Added</p>
+              <% end %>
+          <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
+              <% if bha.present? %>
+                  <p>
+                    <%= bha.updated_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  </p>
+              <% else %>
+                  <p class="warning-text tooltip-info"
+                     data-placement="bottom"
+                     data-title="No assemblies have been added to <%= document.document_type_string %>">
+                    No Assemblies Added</p>
               <% end %>
           <% end %>
         </div>
@@ -89,6 +102,7 @@
           <% else %>
               <% if last_entry.present? %>
                   <%= render 'activities/user', user: last_entry.user %>
+              <% elsif bha.present? %>
               <% end %>
           <% end %>
 

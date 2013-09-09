@@ -192,7 +192,7 @@ class Document < ActiveRecord::Base
         elsif self.document_type == JOB_LOG
             return JobLog.where(:document_id => self.id).count == 0
         elsif self.document_type == BOTTOM_HOLE_ASSEMBLY
-            return JobLog.where(:document_id => self.id).count == 0
+            return Bha.where(:document_id => self.id).count == 0
         end
 
         return true

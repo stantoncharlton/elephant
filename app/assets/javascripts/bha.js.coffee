@@ -9,13 +9,15 @@ $ ->
 
   $('.cancel-bha').live "click", ->
     $('.bha-button').first().trigger('click')
+    $('body').animate({scrollTop : 0 }, 'fast')
     return false
 
   $('.bha-button').live "click", ->
     $('.bha-button').each (index, element) ->
       $(element).addClass 'gray'
     $(this).removeClass 'gray'
-    $('body').scrollTop($('#bha').top())
+    $('body').animate({scrollTop : $('#bha').position().top - 70 }, 'fast')
+    return false
 
 
   $('.bha-show-fields').live "click", ->

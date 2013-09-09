@@ -9,7 +9,7 @@
           <b>Bottom Hole Assembly Name</b>
           <br><br>
           <%= text_field_tag :name, "", class: "txtfield",
-                             placeholder: "BHA Name..." %>
+                             placeholder: "BHA Name...", autofocus: true %>
         </div>
 
         <hr>
@@ -39,8 +39,8 @@
   </div>
 
   <div class="form-loading hidden" data-form="new_bha">
-    <br>
     <%= render 'layouts/inline_loading', title: "Saving..." %>
+    <br><br>
   </div>
 
 </div>

@@ -1,5 +1,5 @@
 class BhaController < ApplicationController
-    before_filter :signed_in_user, only: [:show, :edit, :update]
+    before_filter :signed_in_user, only: [:show, :edit, :update, :destroy]
 
     def show
         if params[:bha].present? && params[:bha] == "true"
@@ -76,6 +76,18 @@ class BhaController < ApplicationController
         end
 
         @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
+    end
+
+
+    def destroy
+        @bha = Bha.find_by_id(params[:id])
+        not_found unless @bha.company == current_user.company
+
+        @document = @bha.document
+        @bha.destroy
+
+        @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
+        @bha = @bhas.first
     end
 
 end
