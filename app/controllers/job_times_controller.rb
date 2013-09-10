@@ -34,9 +34,9 @@ class JobTimesController < ApplicationController
         not_found unless @user.company == current_user.company
 
         if params[:schedule] == "true"
-            JobTime.schedule(current_user.company, @job, @user, Date.strptime(params[:date], "%d-%m-%Y").to_time_in_current_zone, Integer(params[:hours]))
+            JobTime.schedule(current_user.company, @job, @user, Date.strptime(params[:date], "%d-%m-%Y").to_time_in_current_zone, Float(params[:hours]))
         elsif params[:worked] == "true"
-            JobTime.worked(current_user.company, @job, @user, Date.strptime(params[:date], "%d-%m-%Y").to_time_in_current_zone, Integer(params[:hours]))
+            JobTime.worked(current_user.company, @job, @user, Date.strptime(params[:date], "%d-%m-%Y").to_time_in_current_zone, Float(params[:hours]))
         elsif params[:none] == "true"
             JobTime.remove(current_user.company, @job, @user, Date.strptime(params[:date], "%d-%m-%Y").to_time_in_current_zone)
         end

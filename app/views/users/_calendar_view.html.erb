@@ -8,7 +8,7 @@
     <div class="pull-right">
       <span class="inline pull-right"><%= @adjusted_today_date.strftime("%B, %Y").upcase %></span>
       <br>
-      <%= link_to "Export " + @adjusted_today_date.strftime("%B")  + "", "#", class: "activity-user-link" %>
+      <%= link_to "Export " + @adjusted_today_date.strftime("%B") + "", "#", class: "activity-user-link" %>
     </div>
   </div>
 
@@ -25,6 +25,7 @@
 
   <div id="calendar_navigation">
     <br>
+
     <div class="pull-right">
       <%= link_to "◄ previous ", job_times_path(user: @user.id, page: @page - 1), class: "start-loader activity-user-link", remote: true %>
       <span class=''> | <%= @adjusted_today_date.strftime("%B") %> | </span>
@@ -40,10 +41,15 @@
     <br>
   </div>
 
-  <% total_scheduled_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map{ |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
-  <% total_work_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map{ |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+  <% if current_user.company.work_day_type == Company::HOURLY_WORK_DAY %>
+      <% total_scheduled_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+      <% total_work_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+  <% else %>
+      <% total_scheduled_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+      <% total_work_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+  <% end %>
 
-  <% puts  job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::SCHEDULED }.map(&:id) %>
+  <% puts job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::SCHEDULED }.map(&:id) %>
   <div>
     <div class="chart-block tooltip-info"
          data-title="Total days scheduled for month">

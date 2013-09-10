@@ -23,7 +23,7 @@
                                                "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" +
                                                "</div>" %>">
                       <p class="user-calendar-job <%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job.field.name + " | " + job.well.name %></p>
-                      <h1 class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job_time.hours %></h1>
+                      <h1 class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) %></h1>
                     </div>
                 <% end %>
             <% end %>

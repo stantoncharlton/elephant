@@ -14,7 +14,8 @@ class Company < ActiveRecord::Base
                     :vpn_range,
                     :test_company,
                     :inventory_active,
-                    :minimum_work_day
+                    :minimum_work_day,
+                    :work_day_type
 
     after_commit :flush_cache
 
@@ -42,6 +43,9 @@ class Company < ActiveRecord::Base
 
     belongs_to :admin
 
+
+    HOURLY_WORK_DAY = 1
+    DAILY_WORK_DAY = 2
 
     def active_jobs
         self.jobs.where(:status => Job::ACTIVE)

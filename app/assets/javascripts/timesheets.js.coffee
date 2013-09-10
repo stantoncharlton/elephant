@@ -4,8 +4,8 @@ class Timesheet
     total_worked = 0
 
     $('.user-timesheet').each (root_index, timesheet) =>
-      user_scheduled = parseInt($(timesheet).find('.user-total-time-scheduled').attr('data-hours'))
-      user_worked = parseInt($(timesheet).find('.user-total-time').attr('data-hours'))
+      user_scheduled = parseFloat($(timesheet).find('.user-total-time-scheduled').attr('data-hours'))
+      user_worked = parseFloat($(timesheet).find('.user-total-time').attr('data-hours'))
       total_scheduled += user_scheduled
       total_worked += user_worked
 
@@ -24,7 +24,7 @@ $ ->
       $(this).addClass "light-blue"
       $(this).attr('data-type', 'scheduled')
       user_scheduled = $(this).closest('.user-timesheet').find('.user-total-time-scheduled')
-      user_scheduled.attr('data-hours', parseInt(user_scheduled.attr('data-hours')) + parseInt($(this).val()))
+      user_scheduled.attr('data-hours', parseFloat(user_scheduled.attr('data-hours')) + parseFloat($(this).val()))
       Timesheet.recount()
       $.ajax '/job_times/' + job,
         data: {schedule: true, user: user, date: date, hours: $(this).val()},
@@ -41,9 +41,9 @@ $ ->
       $(this).attr('data-type', 'none')
       $('.day-button').popover('hide')
       user_scheduled = $(this).closest('.user-timesheet').find('.user-total-time-scheduled')
-      user_scheduled.attr('data-hours', parseInt(user_scheduled.attr('data-hours')) - parseInt($(this).val()))
+      user_scheduled.attr('data-hours', parseFloat(user_scheduled.attr('data-hours')) - parseFloat($(this).val()))
       user_worked = $(this).closest('.user-timesheet').find('.user-total-time')
-      user_worked.attr('data-hours', parseInt(user_worked.attr('data-hours')) - parseInt($(this).val()))
+      user_worked.attr('data-hours', parseFloat(user_worked.attr('data-hours')) - parseFloat($(this).val()))
       Timesheet.recount()
       $.ajax '/job_times/' + job,
         data: {none: true, user: user, date: date},
@@ -60,7 +60,7 @@ $ ->
     date = main_button.attr('data-day')
 
     user_worked = main_button.closest('.user-timesheet').find('.user-total-time')
-    user_worked.attr('data-hours', parseInt(user_worked.attr('data-hours')) + parseInt(main_button.val()))
+    user_worked.attr('data-hours', parseFloat(user_worked.attr('data-hours')) + parseFloat(main_button.val()))
     Timesheet.recount()
     $('.day-button').popover('hide')
 
@@ -70,11 +70,15 @@ $ ->
     return false
 
   $('.time-decrease-button').live "click", ->
-    $('.time-confirm-button').val(parseInt($('.time-confirm-button').val()) - 1)
+    unit = parseFloat($(this).attr('data-unit'))
+    new_value = parseFloat($('.time-confirm-button').val()) - unit
+    if new_value >= 0
+      $('.time-confirm-button').val(new_value)
     return false
 
   $('.time-increase-button').live "click", ->
-    $('.time-confirm-button').val(parseInt($('.time-confirm-button').val()) + 1)
+    unit = parseFloat($(this).attr('data-unit'))
+    $('.time-confirm-button').val(parseFloat($('.time-confirm-button').val()) + unit)
     return false
 
   $('.time-confirm-button').live "click", ->
@@ -87,7 +91,7 @@ $ ->
     main_button.attr('data-type', 'worked')
 
     user_worked = main_button.closest('.user-timesheet').find('.user-total-time')
-    user_worked.attr('data-hours', parseInt(user_worked.attr('data-hours')) + parseInt(main_button.val()))
+    user_worked.attr('data-hours', parseFloat(user_worked.attr('data-hours')) + parseFloat(main_button.val()))
     Timesheet.recount()
 
     $('.day-button').popover('hide')

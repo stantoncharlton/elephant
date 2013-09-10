@@ -10,8 +10,8 @@ total_scheduled = 0;
 total_worked = 0;
 $('.user-timesheet').each(function(root_index, timesheet) {
     var user_scheduled, user_worked;
-    user_scheduled = parseInt($(timesheet).find('.user-total-time-scheduled').attr('data-hours'));
-    user_worked = parseInt($(timesheet).find('.user-total-time').attr('data-hours'));
+    user_scheduled = parseFloat($(timesheet).find('.user-total-time-scheduled').attr('data-hours'));
+    user_worked = parseFloat($(timesheet).find('.user-total-time').attr('data-hours'));
     total_scheduled += user_scheduled;
     return total_worked += user_worked;
 });

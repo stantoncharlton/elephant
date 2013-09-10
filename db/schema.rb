@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909152044) do
+ActiveRecord::Schema.define(:version => 20130910000016) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20130909152044) do
     t.boolean  "inventory_active", :default => true
     t.string   "city"
     t.integer  "minimum_work_day", :default => 8
+    t.integer  "work_day_type",    :default => 1
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true
@@ -393,7 +394,7 @@ ActiveRecord::Schema.define(:version => 20130909152044) do
     t.integer  "user_id"
     t.datetime "time_for"
     t.integer  "status"
-    t.integer  "hours"
+    t.decimal  "hours"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

@@ -3,8 +3,8 @@
      data-user='<%= user.id %>'>
   <a class='delete-button-small time-close-button'>x</a>
   <div class='center'>
-    <input type='submit' class='bluebtn day-button gray time-decrease-button' value='▼'>
-    <input type='submit' class='bluebtn day-button gray time-increase-button' value='▲'>
+    <input type='submit' class='bluebtn day-button gray time-decrease-button' data-unit='<%= current_user.company.work_day_type == Company::HOURLY_WORK_DAY ? '1' : '0.5' %>' value='▼'>
+    <input type='submit' class='bluebtn day-button gray time-increase-button' data-unit='<%= current_user.company.work_day_type == Company::HOURLY_WORK_DAY ? '1' : '0.5' %>' value='▲'>
     <input type='submit' class='bluebtn day-button green time-confirm-button' value='<%= current_user.company.minimum_work_day %>'>
   </div>
 </div>

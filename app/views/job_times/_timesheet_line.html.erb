@@ -7,7 +7,7 @@
     <% 11.times do |i| %>
         <div class="day">
           <% job_time = @job_times.find { |jt| jt.user_id == user.id && jt.time_for.strftime("%d-%m-%Y") == (start_date + (i - 2).days).strftime("%d-%m-%Y") } %>
-          <input type='submit' value='<%= job_time.present? ? job_time.hours : current_user.company.minimum_work_day %>'
+          <input type='submit' value='<%= job_time.present? ? (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) : current_user.company.minimum_work_day %>'
                  data-type='<%= job_time.present? ? job_time.status_string : "none" %>'
                  data-job="<%= job.id %>"
                  data-day="<%= (start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
