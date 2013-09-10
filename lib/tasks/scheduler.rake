@@ -16,7 +16,7 @@ task :inactive_job_email => :environment do
 
             job_process = job.job_processes.find { |jp| jp.event_type == JobProcess::LOW_ACTIVITY }
 
-            if job_process.nil?
+            if job_process.nil? || job_process.created_at.day = Time.now.day
                 creator = job.get_role(JobMembership::CREATOR)
                 coordinator = job.get_role(JobMembership::COORDINATOR)
 

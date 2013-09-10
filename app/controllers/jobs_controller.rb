@@ -275,6 +275,8 @@ class JobsController < ApplicationController
                     jt.time_for = jt.time_for + change
                     jt.save
                 end
+            else
+                @job_times_changed = true
             end
 
         end

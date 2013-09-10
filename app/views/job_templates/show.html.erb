@@ -196,61 +196,7 @@
   </div>
 </div>
 
-<div class="tray hidden" data-tray="tools">
-  <div class="page_header">
-    <h1>Tools/Assets</h1>
-  </div>
-
-  <div class="">
-    <div id="primary_tools_list">
-      <% @job_template.primary_tools.each do |primary_tool| %>
-          <%= render 'tools/primary/primary_tool', tool: primary_tool %>
-      <% end %>
-    </div>
-
-    <% if @job_template.primary_tools.count == 0 %>
-        <p class="job-type-no-tools"><b>0 tools</b> - No tools added, please add from selection </p>
-    <% end %>
-    <br>
-
-    <div class="well">
-      <%= form_for(PrimaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
-          <%= f.hidden_field :job_template_id, value: @job_template.id %>
-          <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.collect { |p| [p.name, p.id] }),
-                       {prompt: "Select a Tool..."},
-                       class: "tooltip-info custom-select custom-select-long",
-                       "data-placement" => "bottom",
-                       "data-title" => "Select from an existing primary tool on this product line" %>
-
-          <%= f.submit "+ Add Tool to Job Type", class: "bluebtn btnsmall" %>
-      <% end %>
-
-      <div>
-        <br><br>
-
-        <p class="push-right-small">
-          <b>No tools above or not the one you want?</b>
-        </p>
-        <br>
-
-        <p class="push-right-small">Add it to the product line so you can add it to the job type...</p>
-        <br><br>
-        <%= link_to "+ Add New primary tool on product line", new_tool_path(:product_line => @job_template.product_line.id), remote: true,
-                    class: "bluebtn btnsmall gray tooltip-info show-modal-button", id: "add_primary_tool",
-                    "data-placement" => "bottom",
-                    "data-title" => "Add primary tool to job type" %>
-      </div>
-    </div>
-  </div>
-
-  <br>
-
-  <div class="content alert">
-    <b>Primary Tools</b>
-
-    <p>All tools that are required to compose the job system</p>
-  </div>
-</div>
+<%= render 'job_templates/tray_tools' %>
 
 <%= render 'job_templates/tray_accessories' %>
 

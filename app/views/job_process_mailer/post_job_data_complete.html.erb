@@ -3,11 +3,12 @@
 <body class="email-body">
 
 <h1>Post-Job Complete</h1>
+<p class="center">Job is ready to close</p>
 
 <hr>
 
 <p>Please <%= link_to @job.absolute_url, class: "activity-user-link" do %>Click here
-  <% end %> to review the Post-Job documents and make sure they are correct and close the job.</p>
+  <% end %> to review the Post-Job documents and make sure they are correct. Then, close the job.</p>
 
 <br><br>
 <%= link_to @job.absolute_url, class: "job-email-link" do %>

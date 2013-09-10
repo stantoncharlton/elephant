@@ -8,6 +8,9 @@
     <% if part_membership.track_usage %>
         <p class="inline push-right-small orange-text">Tracking Usage Hours</p>
     <% end %>
+    <% if part_membership.optional %>
+        <p class="inline push-right-small orange-text">Optional</p>
+    <% end %>
 
     <%= link_to "remove", part_membership, method: :delete, remote: true, data: {confirm: "Remove Asset?"},
                 class: "pull-right delete-button tooltip-info",

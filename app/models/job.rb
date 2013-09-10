@@ -312,9 +312,9 @@ class Job < ActiveRecord::Base
         # Check assets all complete
         total_parts = 0
         self.job_template.primary_tools.each do |tool|
-            total_parts += tool.part_memberships.count
+            total_parts += tool.part_memberships.where(:optional => false).count
         end
-        if self.part_memberships.count != total_parts
+        if self.part_memberships.count < total_parts
             return false
         end
 

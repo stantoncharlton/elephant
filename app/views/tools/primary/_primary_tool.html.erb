@@ -95,11 +95,19 @@
 
             <%= link_to "Cancel", "#", class: "bluebtn btnsmall red cancel-add-part-tool btn-fix" %>
 
-            <div class="">
+            <br>
+            <div class="inline">
               <%= f.check_box :track_usage, checked: false,
                               class: "regular-checkbox", id: "track_usage" %>
               <label for="track_usage"></label>
               <p class="checkbox-label">Track Usage Hours</p>
+            </div>
+
+            <div class="inline push-right">
+              <%= f.check_box :optional, checked: false,
+                              class: "regular-checkbox", id: "optional" %>
+              <label for="optional"></label>
+              <p class="checkbox-label">Optional</p>
             </div>
 
           </div>

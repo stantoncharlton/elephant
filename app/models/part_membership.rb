@@ -2,7 +2,8 @@ class PartMembership < ActiveRecord::Base
     attr_accessible :material_number,
                     :template,
                     :track_usage,
-                    :usage
+                    :usage,
+                    :optional
 
     acts_as_tenant(:company)
 
