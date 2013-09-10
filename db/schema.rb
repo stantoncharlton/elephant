@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910000016) do
+ActiveRecord::Schema.define(:version => 20130910133756) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -380,9 +380,10 @@ ActiveRecord::Schema.define(:version => 20130910000016) do
     t.string   "name"
     t.integer  "product_line_id"
     t.integer  "company_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.string   "description",     :limit => 2000
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
+    t.string   "description",       :limit => 2000
+    t.boolean  "track_accessories",                 :default => false
   end
 
   add_index "job_templates", ["company_id"], :name => "index_job_templates_on_company_id"
@@ -538,9 +539,11 @@ ActiveRecord::Schema.define(:version => 20130910000016) do
   create_table "secondary_tools", :force => true do |t|
     t.integer  "tool_id"
     t.integer  "job_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "company_id"
+    t.string   "serial_number"
+    t.boolean  "received",      :default => false
   end
 
   add_index "secondary_tools", ["job_id"], :name => "index_secondary_tools_on_job_id"

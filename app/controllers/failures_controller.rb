@@ -1,6 +1,6 @@
 class FailuresController < ApplicationController
     before_filter :signed_in_user, only: [:index, :create, :show]
-    before_filter :signed_in_admin, only: [:new, :update, :destroy]
+    before_filter :signed_in_admin, only: [:new, :update, :edit, :destroy]
 
     def index
         @job = Job.find_by_id(params[:job_id])
@@ -117,7 +117,19 @@ class FailuresController < ApplicationController
         end
     end
 
+    def edit
+        @failure = Failure.find_by_id(params[:id])
+        not_found unless  @failure.company == current_user.company
+    end
+
     def update
+        @failure = Failure.find_by_id(params[:id])
+        not_found unless  @failure.company == current_user.company
+
+        @master_failure = @failure.failure_master_template
+
+        @master_failure.text = params[:failure][:text]
+        @master_failure.save
 
     end
 

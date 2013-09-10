@@ -102,30 +102,37 @@ class JobTemplatesController < ApplicationController
     end
 
     def update
+        if params[:track_accessories].present?
+            @job_template = JobTemplate.find(params[:id])
+            not_found unless @job_template.company == current_user.company
 
-        product_line_id = params[:job_template][:product_line_id]
-        params[:job_template].delete(:product_line_id)
-
-        @job_template = JobTemplate.find(params[:id])
-        not_found unless @job_template.company == current_user.company
-
-        @fields = params[:job_template][:dynamic_fields]
-        @documents = params[:job_template][:document_fields]
-
-        @job_template.company = current_user.company
-        if product_line_id.present?
-            @job_template.product_line = ProductLine.find(product_line_id)
-        end
-
-        if @job_template.update_attributes(params[:job_template])
-
-            #Activity.add(self.current_user, Activity::JOB_TEMPLATE_UPDATED, @job_template, @job_template.name)
-
-            flash[:success] = "Job Template updated"
-            redirect_to job_templates_path
+            @job_template.update_attribute(:track_accessories, params[:track_accessories] == "true")
+            render :nothing => true, :status => 200
         else
-            @product_lines = ProductLine.from_company(current_user.company)
-            render 'edit'
+            product_line_id = params[:job_template][:product_line_id]
+            params[:job_template].delete(:product_line_id)
+
+            @job_template = JobTemplate.find(params[:id])
+            not_found unless @job_template.company == current_user.company
+
+            @fields = params[:job_template][:dynamic_fields]
+            @documents = params[:job_template][:document_fields]
+
+            @job_template.company = current_user.company
+            if product_line_id.present?
+                @job_template.product_line = ProductLine.find(product_line_id)
+            end
+
+            if @job_template.update_attributes(params[:job_template])
+
+                #Activity.add(self.current_user, Activity::JOB_TEMPLATE_UPDATED, @job_template, @job_template.name)
+
+                flash[:success] = "Job Template updated"
+                redirect_to job_templates_path
+            else
+                @product_lines = ProductLine.from_company(current_user.company)
+                render 'edit'
+            end
         end
     end
 
@@ -134,7 +141,7 @@ class JobTemplatesController < ApplicationController
         not_found unless @job_template.company == current_user.company
 
         if current_user.company.jobs.where("jobs.job_template_id = ?", @job_template.id).any?
-             render 'job_templates/elephant_destroy'
+            render 'job_templates/elephant_destroy'
             return
         else
             @job_template.destroy

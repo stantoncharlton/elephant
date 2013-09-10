@@ -1,4 +1,6 @@
 class SecondaryTool < ActiveRecord::Base
+    attr_accessible :serial_number,
+                    :received
 
     acts_as_tenant(:company)
 

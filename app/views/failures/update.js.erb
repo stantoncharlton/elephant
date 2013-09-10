@@ -1,0 +1,15 @@
+$('#modal_popup').css('visibility', 'hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').height(0);
+
+<% if @failure.errors.any? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem updating failure", message: @failure.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+
+
+<% else %>
+
+$('#failure_<%= @failure.id %>').find('.tool-name').text("<%= @failure.failure_master_template.text %>");
+
+<% end %>

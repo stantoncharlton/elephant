@@ -86,7 +86,7 @@ ElephantWebApp::Application.routes.draw do
     resources :primary_tools, only: [:create, :destroy, :show]
     resources :secondary_tools, only: [:index, :new, :create, :destroy]
 
-    resources :failures, only: [:index, :new, :show, :create, :update, :destroy]
+    resources :failures, only: [:index, :new, :show, :create, :edit, :update, :destroy]
 
     resources :post_job_report_documents, only: [:create, :update, :destroy]
 

@@ -1,0 +1,28 @@
+<div class="page_header">
+  <h1>Edit Failure</h1>
+</div>
+
+<div class="ajax-form">
+  <br>
+  <b>Text/Description of Failure</b>
+  <br>
+  <br>
+
+  <%= form_for failure, remote: true do |f| %>
+
+      <%= f.text_field :text, value: failure.failure_master_template.text,
+                       placeholder: "Text/description",
+                       class: "txtfield txtfield-long" %>
+
+      <div class="content actions">
+        <%= f.submit "Update Failure", class: "bluebtn pull-right" %>
+      </div>
+  <% end %>
+</div>
+
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Saving tool...</b></span>
+  <br>
+</div>

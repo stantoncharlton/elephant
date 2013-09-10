@@ -1,0 +1,4 @@
+
+$('#modal_popup').find('.modal-content').append('<%= j render 'failures/edit_failure', failure: @failure %>');
+$('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').find('.loading').addClass('hidden');

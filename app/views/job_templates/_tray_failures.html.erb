@@ -1,0 +1,62 @@
+<div class="tray hidden" data-tray="failures">
+  <div class="page_header">
+    <h1>Failures</h1>
+  </div>
+
+  <br>
+
+  <div class="content">
+    <div id="failures_list">
+      <% @job_template.failures.each do |failure| %>
+          <%= render 'failures/failure', failure: failure %>
+      <% end %>
+    </div>
+
+    <% if @job_template.failures.count == 0 %>
+        <p class="job-type-no-failures"><b>0 failures</b> - No failures added, please add from selection </p>
+    <% end %>
+
+    <br>
+
+    <div class="well">
+      <%= form_for(Failure.new, :html => {:class => "inline"}, remote: true) do |f| %>
+          <%= f.hidden_field :job_template_id, value: @job_template.id %>
+          <%= f.select :failure_master_template_id, options_for_select(@job_template.product_line.failures.collect { |p| [p.text, p.id] }),
+                       {prompt: "Select a Failure..."},
+                       class: "tooltip-info custom-select custom-select-long",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select from an existing failure on this product line" %>
+
+          <%= f.submit "+ Add to Job Type", class: "bluebtn btnsmall" %>
+      <% end %>
+
+      <div>
+        <br><br>
+
+        <p class="push-right-small">
+          <b>No failures above or not the one you want?</b>
+        </p>
+        <br>
+
+        <p class="push-right-small">Add it to the product line so you can add it to the job type...</p>
+        <br><br>
+        <%= link_to "+ Add New failure on product line",
+                    new_failure_path(:product_line => @job_template.product_line.id),
+                    remote: true,
+                    class: "bluebtn btnsmall gray tooltip-info show-modal-button",
+                    id: "add_new_failure",
+                    "data-placement" => "bottom",
+                    "data-title" => "Add failure to job type" %>
+      </div>
+    </div>
+
+    <br><br>
+
+    <div class="alert">
+      <b>Failures</b>
+
+      <p>All possible failures that can happen on this job type.</p>
+    </div>
+
+  </div>
+</div>

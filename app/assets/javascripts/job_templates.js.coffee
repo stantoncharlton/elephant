@@ -58,10 +58,11 @@ $ ->
   $('.show-modal-button').live "click", ->
     $('#modal_popup').css('visibility', 'visible')
     inner = $('#modal_popup').find('.modal-popup')
-    if $(this).offset().top > 380
-      inner.css('margin-top', $(this).offset().top - 300)
-    else
-      inner.css('margin-top', $(this).offset().top)
+    inner.css('margin-top', 100)
+    #if $(this).position().top > 380
+    #  inner.css('margin-top', $(this).position().top - 300)
+    #else
+    #  inner.css('margin-top', $(this).position().top - 300)
     $('#modal_popup').height($(document).height() + 100)
     $('#modal_popup').find('.loading').removeClass 'hidden'
     return false
@@ -105,3 +106,8 @@ $ ->
     $(this).closest('.root-tool').find('.add-new-part-tool').addClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
 
+
+  $('#track_accessories').live "click", ->
+    $.ajax '/job_templates/' + $(this).attr('data-job-template'),
+      data: {track_accessories: $(this).is(':checked')},
+      type: 'put', dataType: 'script'

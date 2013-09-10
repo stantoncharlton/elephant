@@ -1,0 +1,54 @@
+<div class="tray hidden" data-tray="report">
+  <div class="page_header">
+    <h1>Post Job Report</h1>
+  </div>
+
+  <div class="content">
+    <div id="post_job_documents_list">
+      <% @job_template.post_job_report_documents.each do |post_job_document| %>
+          <%= render 'post_job_report_documents/document',
+                     post_job_report_document: post_job_document,
+                     document: post_job_document.document,
+                     editable: true,
+                     can_upload: post_job_document.document.category == Document::POST_JOB_REPORT_PART && post_job_document.document.document_type == Document::DOCUMENT ? true : false %>
+      <% end %>
+    </div>
+
+    <% if @job_template.post_job_report_documents.count == 0 %>
+        <p class="job-type-no-docs-post-jobs-report"><b>0 documents</b> - No documents added for post job report, please
+          add from selection </p>
+    <% end %>
+
+    <br>
+
+
+    <div class="well">
+      <div id="new_documents_added" class="hidden">
+        <%= image_tag "error_red.png", class: "job-status-avatar" %>
+        <b class="warning-text inline">Reresh page to see newly added documents</b>
+        <p id="new_documents_added_names" class="push-right-small inline"></p>
+        <br><br>
+      </div>
+
+      <%= form_for(PostJobReportDocument.new, :html => {:class => "inline"}, remote: true) do |f| %>
+          <%= f.hidden_field :job_template_id, value: @job_template.id %>
+          <%= f.select :document_id, options_for_select(@job_template.post_job_report_document_options),
+                       {prompt: "Select a Document..."},
+                       class: "tooltip-info custom-select custom-select-long",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select from an document" %>
+
+          <%= f.submit "Add to Post Job Report", class: "bluebtn btnsmall" %>
+      <% end %>
+    </div>
+
+    <br><br>
+
+    <div class="alert">
+      <b>Post Job Report</b>
+
+      <p>This list composes all the documents that will be merged once a job is closed.</p>
+    </div>
+
+  </div>
+</div>

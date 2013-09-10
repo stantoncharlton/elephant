@@ -1,11 +1,18 @@
 <fieldset class="field" id="failure_<%= failure.id %>">
   <div>
-    <div class="primary-tool-name">
-      <h3><%= failure.failure_master_template.text %></h3>
+    <div class="secondary-tool-name">
+      <h3 class="tool-name"><%= failure.failure_master_template.text %></h3>
     </div>
 
 
     <div class="push-right">
+
+      <%= link_to "edit", edit_failure_path(failure), remote: true,
+                  class: "inline edit-dynamic-field-name tooltip-info show-modal-button",
+                  "data-placement" => "bottom",
+                  "data-title" => "Edit failure info" %>
+
+
       <%= link_to "remove", failure, method: :delete, remote: true,
                   data: {confirm: "Remove Failure?"}, class: "delete-button tooltip-info",
                   "data-placement" => "bottom",

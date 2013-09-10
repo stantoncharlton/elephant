@@ -2,7 +2,8 @@ class JobTemplate < ActiveRecord::Base
     attr_accessible :name,
                     :dynamic_fields_attributes,
                     :documents_attributes,
-                    :description
+                    :description,
+                    :track_accessories
 
     acts_as_tenant(:company)
 

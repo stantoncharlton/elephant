@@ -1,0 +1,34 @@
+<div class="tray hidden" data-tray="accessories">
+  <div class="page_header">
+    <h1>Accessories</h1>
+
+    <div class="pull-right push-down">
+      <%= check_box_tag "track_accessories", "track_accessories", @job_template.track_accessories,
+                        "data-job-template" => @job_template.id.to_s,
+                        class: "regular-checkbox", id: "track_accessories" %>
+      <label for="track_accessories"></label>
+
+      <p class="checkbox-label">Track Accessories with Serial Number</p>
+    </div>
+  </div>
+
+  <div>
+    <br>
+
+    <div>
+
+
+      <% division = @job_template.product_line.segment.division %>
+      <%= render 'tools/secondary/division_list', division: division %>
+
+      <div class="loading hidden">
+        <br>
+        <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
