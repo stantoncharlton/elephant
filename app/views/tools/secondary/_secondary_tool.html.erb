@@ -44,7 +44,7 @@
                 <% if !tool.received %>
                     <div class="inline-block" id="inline_part_<%= tool.id %>">
                       <div class="form" data-form="receive-part-form-<%= tool.id %>">
-                        <%= link_to "Receive Asset", secondary_tools_path(tool, received: true),
+                        <%= link_to "Receive Asset", secondary_tool_path(tool, received: true),
                                     method: :put,
                                     remote: true,
                                     class: "bluebtn green tooltip-info form-loading-on-click",
@@ -54,11 +54,11 @@
                       </div>
 
                       <div class="form-loading hidden" data-form="receive-part-form-<%= tool.id %>">
-                        <span class="ajax-loading search-loading"><b>Receiving...</b></span>
+                        <span class="ajax-loading search-loading"><p>Receiving...</p></span>
                       </div>
                     </div>
                 <% else %>
-                    <b class='good-text'>Asset Received</b>
+                    <p class="inline"><b class='good-text'>Asset Received</b></p>
                 <% end %>
                 <br>
               </div>

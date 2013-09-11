@@ -1,3 +1,15 @@
-<% if @tool.present? && @tool.received? %>
-$('#secondary_tool_<%= @tool.id %>').replaceWith("<%= j render 'tools/secondary/secondary_tool', tool: @tool %>");
+<% if @tool.present? %>
+    <% if @tool.serial_number.blank? %>
+        $(".form[data-form=receive-part-form-<%= @tool.id %>]").show();
+        $(".form-loading-on-click[data-form=receive-part-form-<%= @tool.id %>]").show();
+
+        $(".form-loading[data-form=receive-part-form-<%= @tool.id %>]").addClass('hidden');
+
+        $('#alert').remove();
+        $('body').append("<%= j render 'layouts/modal_error', title: "Problem Receiving", message: "Set serial number before receiving accessory." %>");
+        $('#alert').modal({show:true});
+
+    <% elsif @tool.received? %>
+        $('#secondary_tool_<%= @tool.id %>').replaceWith("<%= j render 'tools/secondary/secondary_tool', tool: @tool, is_editable: @tool.job.is_job_editable?(current_user) %>");
+    <% end %>
 <% end %>

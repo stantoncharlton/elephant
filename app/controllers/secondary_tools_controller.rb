@@ -44,7 +44,11 @@ class SecondaryToolsController < ApplicationController
             @tool.update_attribute(:serial_number, params[:serial])
             render :nothing => true, :status => 200
         elsif params[:received].present?
+            if params[:received] == "true" && !@tool.serial_number.blank?
+                @tool.update_attribute(:received, true)
+            end
 
+            render 'tools/secondary/update'
         end
     end
 
