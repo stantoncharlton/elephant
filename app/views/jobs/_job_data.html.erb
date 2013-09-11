@@ -273,10 +273,17 @@
 
                 <% if form_editable && !dynamic_field.predefined? %>
                     <div class="job-field-div">
-                      <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
-                             class="job-field-value-editable custom-data-input tooltip-info"
-                             data-placement="bottom" data-title="Field value, click to change"
-                             value="<%= dynamic_field.value.present? ? dynamic_field.value.to_f.round(3) : "-" %>">
+                      <% if dynamic_field.value_type != 1 %>
+                          <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
+                                 class="job-field-value-editable custom-data-input tooltip-info"
+                                 data-placement="bottom" data-title="Field value, click to change"
+                                 value="<%= dynamic_field.value.present? ? dynamic_field.value.to_f.round(3) : "-" %>">
+                      <% else %>
+                          <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
+                                 class="job-field-value-editable custom-data-input tooltip-info"
+                                 data-placement="bottom" data-title="Field value, click to change"
+                                 value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
+                      <% end %>
 
                       <% if dynamic_field.value_type != 1 %>
                           <%= select_tag "Units",
