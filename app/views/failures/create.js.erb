@@ -19,7 +19,7 @@ $('#failures_list').append("<%= j render 'failures/failure', failure: @failure %
 
 $('#failure_failure_master_template_id').append($("<option></option>")
         .attr("value", '<%= @failure.id %>')
-        .text('<%= @failure.text %>'));
+        .text('<%= sanitize(@failure.text) %>'));
 $('#failure_failure_master_template_id').find("option[value='<%= @failure.id %>']").attr('selected', 'selected');
 $("#failure_failure_master_template_id").trigger("change");
 

@@ -19,7 +19,7 @@ class JobProcessMailer < ActionMailer::Base
         @user = user
         @job = job
         mail(:to => user.company.test_company ? "test-emails@go-elephant.com" : user.email,
-             :subject => "Job Shipping to Field: #{@job.field.name} | #{@job.well.name} | #{@job.job_template.name}")
+             :subject => "Job Shipping to Location: #{@job.field.name} | #{@job.well.name} | #{@job.job_template.name}")
     end
 
     def job_complete(user, job)

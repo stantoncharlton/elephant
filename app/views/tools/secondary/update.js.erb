@@ -1,0 +1,3 @@
+<% if @tool.present? && @tool.received? %>
+$('#secondary_tool_<%= @tool.id %>').replaceWith("<%= j render 'tools/secondary/secondary_tool', tool: @tool %>");
+<% end %>

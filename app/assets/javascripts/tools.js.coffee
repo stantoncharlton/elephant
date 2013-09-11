@@ -8,3 +8,7 @@ $ ->
     $.ajax '/secondary_tools?division=' + $(this).attr('id').replace('division_', ''), dataType: 'script'
     return false
 
+
+  $('.secondary-tool-serial').live "change", ->
+    $.ajax '/secondary_tools/' + $(this).attr("data-tool-id") + '?serial=' + $(this).val(), type: 'put', dataType: 'script'
+

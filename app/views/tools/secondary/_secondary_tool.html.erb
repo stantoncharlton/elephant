@@ -1,9 +1,8 @@
-<fieldset class="field" id="secondary_tool_<%= tool.id %>">
+<div class="field" id="secondary_tool_<%= tool.id %>">
   <div>
     <div class="secondary-tool-name">
       <%= image_tag "tool.png" %>
       <h3 class="push-right-small"><%= tool.tool.name %></h3>
-
     </div>
 
     <% if is_editable %>
@@ -17,9 +16,56 @@
         </div>
     <% end %>
 
-    <div>
-      <p><%= tool.tool.description %></p>
-    </div>
+    <% if !tool.tool.description.blank? %>
+        <div>
+          <p class="inline-block push-right"><%= tool.tool.description %></p>
+        </div>
+    <% end %>
+
+    <% if tool.job.job_template.track_accessories %>
+        <div class='well content'>
+          <div class="inline push-right">
+            <p class="inline">Serial Number</p>
+
+            <% if !tool.received %>
+                <%= text_field_tag "", "", value: tool.serial_number,
+                                   placeholder: "Serial Number...",
+                                   "data-tool-id" => tool.id.to_s,
+                                   class: "inline txtfield small push-right-small secondary-tool-serial",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Serial Number of Tool" %>
+            <% else %>
+                <b><%= tool.serial_number %></b>
+            <% end %>
+          </div>
+
+          <% if tool.job.approved_to_ship %>
+              <div class="inline push-right-small">
+                <% if !tool.received %>
+                    <div class="inline-block" id="inline_part_<%= tool.id %>">
+                      <div class="form" data-form="receive-part-form-<%= tool.id %>">
+                        <%= link_to "Receive Asset", secondary_tools_path(tool, received: true),
+                                    method: :put,
+                                    remote: true,
+                                    class: "bluebtn green tooltip-info form-loading-on-click",
+                                    "data-form" => "receive-part-form-" + tool.id.to_s,
+                                    "data-placement" => "bottom",
+                                    "data-title" => "Receive asset" %>
+                      </div>
+
+                      <div class="form-loading hidden" data-form="receive-part-form-<%= tool.id %>">
+                        <span class="ajax-loading search-loading"><b>Receiving...</b></span>
+                      </div>
+                    </div>
+                <% else %>
+                    <b class='good-text'>Asset Received</b>
+                <% end %>
+                <br>
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+
 
   </div>
-</fieldset>
+</div>

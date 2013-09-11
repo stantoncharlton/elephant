@@ -1,5 +1,5 @@
 class SecondaryToolsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :new, :create, :destroy]
+    before_filter :signed_in_user, only: [:index, :new, :create, :update, :destroy]
 
     set_tab :tools
 
@@ -34,6 +34,18 @@ class SecondaryToolsController < ApplicationController
         @tool.save
 
         render 'tools/secondary/secondary_create'
+    end
+
+    def update
+        @tool = SecondaryTool.find_by_id(params[:id])
+        not_found unless  @tool.tool.company == current_user.company
+
+        if params[:serial].present?
+            @tool.update_attribute(:serial_number, params[:serial])
+            render :nothing => true, :status => 200
+        elsif params[:received].present?
+
+        end
     end
 
     def destroy

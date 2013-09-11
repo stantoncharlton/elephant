@@ -17,7 +17,7 @@ $('#secondary_tools_list').append("<%= j render 'tools/tool', tool: @tool %>");
 
 $('#primary_tool_tool_id').append($("<option></option>")
         .attr("value", '<%= @tool.id %>')
-        .text('<%= @tool.name %>'));
+        .text('<%= sanitize(@tool.name) %>'));
 $('#primary_tool_tool_id').find("option[value='<%= @tool.id %>']").attr('selected', 'selected');
 $("#primary_tool_tool_id").trigger("change");
 
