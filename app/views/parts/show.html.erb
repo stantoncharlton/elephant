@@ -233,76 +233,7 @@
         <br><br>
         <div>
           <% @part.jobs.each do |job| %>
-              <% redress = PartRedress.where(:job_id => job.id).where(:part_id => @part.id).first %>
-
-              <% if job.job_template.present? %>
-
-
-                  <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y") %>
-
-                  <div class="pull-right">
-                    <% part_membership = @part.part_memberships.where(:job_id => job.id).first %>
-                    <% if part_membership.present? && part_membership.track_usage? %>
-                        <b><%= @part.part_memberships.where(:job_id => job.id).first.usage %> hours</b>
-                    <% end %>
-                  </div>
-
-                  <%= link_to job, class: "job-status job-link tooltip-info",
-                              "data-placement" => "left",
-                              "data-title" => "Click to open job" do %>
-                      <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
-                  <% end %>
-
-
-                  <% if redress.present? %>
-                      <div class="content alert">
-                        <span class='help-text'>Received - </span><%= redress.received_at.present? ? redress.received_at.strftime("%m/%d/%Y %l:%M %p") : '' %>
-                        <span class='pull-right'>
-                              <% if redress.received_by.present? %>
-                                <%= render 'activities/user', user: redress.received_by %>
-                              <% else %>
-                                <b><%= redress.received_by_name %></b>
-                              <% end %>
-                            </span>
-
-                        <hr>
-
-                        <span class='help-text'>Redress Finished - </span><%= redress.finished_redress_at.present? ? redress.finished_redress_at.strftime("%m/%d/%Y %l:%M %p") : '' %>
-                        <span class='pull-right'>
-                              <% if redress.finished_redress_by.present? %>
-                                <%= render 'activities/user', user: redress.finished_redress_by %>
-                              <% else %>
-                                <b><%= redress.finished_redress_by_name %></b>
-                              <% end %>
-                        </span>
-                        <br>
-                        <span class='help-text'>Duration - </span> <%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) + "" : '' %>
-                        <% if !redress.notes.blank? %>
-                            <br>
-                            <span class='help-text'>Notes - </span>
-                            <%= redress.notes %>
-                        <% end %>
-
-                        <% documents = redress.documents %>
-                        <% if documents.any? %>
-                            <hr>
-                            <div class="content">
-                              <% documents.each do |d| %>
-                                  <% if !d.blank? %>
-                                      <div>
-                                        <%= render 'documents/document_metadata', document: d %>
-                                      </div>
-                                  <% end %>
-                              <% end %>
-                            </div>
-                        <% end %>
-
-                      </div>
-
-                  <% end %>
-              <% end %>
-
-
+            <%= render 'parts/part_run', job: job %>
           <% end %>
         </div>
     <% else %>

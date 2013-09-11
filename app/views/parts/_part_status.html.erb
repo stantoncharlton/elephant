@@ -24,7 +24,6 @@
 
         <br><br>
 
-        <% redress = PartRedress.where(:job_id => part.current_job.id).where(:part_id => part.id).first %>
         <%= form_for part, method: :put, remote: true do |f| %>
 
             <%= hidden_field_tag :cleaned, "true" %>
@@ -37,21 +36,25 @@
                           "data-placement" => "bottom",
                           "data-title" => "Notes for redress" %>
 
-            <div class="">
-              <div class="content" id="documents_part_redress">
-                <% redress.documents.each do |d| %>
-                    <%= render 'documents/document', document: d, editable: false, can_upload: true %>
-                <% end %>
-              </div>
+            <% if part.current_job.present? %>
+                <% redress = PartRedress.where(:job_id => part.current_job.id).where(:part_id => part.id).first %>
 
-              <%= link_to "Add Document", new_document_path(modal: true, part_redress: redress.id),
-                          remote: true,
-                          class: "add-custom-document tooltip-info",
-                          "data-placement" => "left",
-                          "data-title" => "Add new document" %>
-              <span class='help-text'>(quality check, repairs, etc)</span>
-              <br><br>
-            </div>
+                <div class="">
+                  <div class="content" id="documents_part_redress">
+                    <% redress.documents.each do |d| %>
+                        <%= render 'documents/document', document: d, editable: false, can_upload: true %>
+                    <% end %>
+                  </div>
+
+                  <%= link_to "Add Document", new_document_path(modal: true, part_redress: redress.id),
+                              remote: true,
+                              class: "add-custom-document tooltip-info",
+                              "data-placement" => "left",
+                              "data-title" => "Add new document" %>
+                  <span class='help-text'>(quality check, repairs, etc)</span>
+                  <br><br>
+                </div>
+            <% end %>
 
             <%= f.submit "Asset Finished Redress (Cleaned)",
                          class: "bluebtn green tooltip-info form-loading-on-click",

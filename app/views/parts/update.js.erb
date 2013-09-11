@@ -20,6 +20,9 @@ $('#alert').modal({show:true});
 <% else %>
 if($('.part-status').length > 0) {
     $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
+    <% if @part_redress.present? && @part_redress %>
+        $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job %>');
+    <% end %>
 }
 else {
     $('#inline_part_<%= @part.id %>').replaceWith("<br><br><b class='good-text'>Asset Received</b>");
