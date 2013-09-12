@@ -3,6 +3,7 @@ class JobLogsController < ApplicationController
 
     def index
         @document = Document.find(params[:document])
+        not_found unless !@document.nil?
         not_found unless @document.company == current_user.company && @document.document_type == Document::JOB_LOG
 
         @job_logs = JobLog.where(:company_id => current_user.company_id).where(:document_id => @document.id).order("entry_at ASC")

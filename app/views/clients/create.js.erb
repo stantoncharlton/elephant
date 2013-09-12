@@ -3,8 +3,13 @@ $('#modal_popup').find(".modal-content").children().remove();
 $('#modal_popup').height(0);
 
 <% if @client.new_record? %>
+
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Customer", message: @client.errors.full_messages.join(', ').html_safe %>");
 $('#alert').modal({show:true});
+
+<% else %>
+    $('#client_id').val("<%= @client.id %>");
+    $('#client_name').val("<%= @client.name %>");
 
 <% end %>

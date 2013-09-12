@@ -101,6 +101,7 @@ ElephantWebApp::Application.routes.draw do
 
 
     resources :job_logs, only: [:index, :create, :show]
+    resources :drilling_logs, only: [:index, :create]
 
     resources :job_times, only: [:index, :update]
 

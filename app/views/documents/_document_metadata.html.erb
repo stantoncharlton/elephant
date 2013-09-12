@@ -36,6 +36,12 @@
                       class: "document-name tooltip-info",
                       "data-placement" => "bottom",
                       "data-title" => "Open " + document.document_type_string %>
+      <% elsif document.document_type == Document::DRILLING_LOG %>
+          <%= link_to document.name, drilling_logs_path(document: document.id),
+                      target: "_blank",
+                      class: "document-name tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Open " + document.document_type_string %>
       <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
           <%= link_to document.name, bha_path(document),
                       target: "_blank",
@@ -66,6 +72,17 @@
                     Document Uploaded</p>
               <% end %>
           <% elsif document.document_type == Document::JOB_LOG %>
+              <% if last_entry.present? %>
+                  <p class="">
+                    <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  </p>
+              <% else %>
+                  <p class="warning-text tooltip-info"
+                     data-placement="bottom"
+                     data-title="No entries have been added to <%= document.document_type_string %>">
+                    No Entries Added</p>
+              <% end %>
+          <% elsif document.document_type == Document::DRILLING_LOG %>
               <% if last_entry.present? %>
                   <p class="">
                     <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>

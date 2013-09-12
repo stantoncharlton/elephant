@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910154825) do
+ActiveRecord::Schema.define(:version => 20130912194449) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -246,6 +246,28 @@ ActiveRecord::Schema.define(:version => 20130910154825) do
   add_index "documents", ["job_template_id"], :name => "index_documents_on_job_template_id"
   add_index "documents", ["owner_id", "owner_type"], :name => "index_documents_on_owner_id_and_owner_type"
   add_index "documents", ["primary_tool_id"], :name => "index_documents_on_primary_tool_id"
+
+  create_table "drilling_logs", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "document_id"
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.datetime "entry_at"
+    t.decimal  "depth"
+    t.integer  "activity_code"
+    t.string   "comment"
+    t.integer  "bha_id"
+    t.decimal  "usage_hours"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "drilling_logs", ["bha_id"], :name => "index_drilling_logs_on_bha_id"
+  add_index "drilling_logs", ["company_id"], :name => "index_drilling_logs_on_company_id"
+  add_index "drilling_logs", ["document_id"], :name => "index_drilling_logs_on_document_id"
+  add_index "drilling_logs", ["job_id"], :name => "index_drilling_logs_on_job_id"
+  add_index "drilling_logs", ["user_id"], :name => "index_drilling_logs_on_user_id"
 
   create_table "dynamic_fields", :force => true do |t|
     t.integer  "job_template_id"
