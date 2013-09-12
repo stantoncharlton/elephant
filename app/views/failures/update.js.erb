@@ -10,6 +10,6 @@ $('#alert').modal({show: true});
 
 <% else %>
 
-$('#failure_<%= @failure.id %>').find('.tool-name').text("<%= @failure.failure_master_template.text %>");
+$('#failure_<%= @failure.id %>').find('.tool-name').text("<%= sanitize(@failure.failure_master_template.text) %>");
 
 <% end %>

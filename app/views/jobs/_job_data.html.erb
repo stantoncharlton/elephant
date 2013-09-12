@@ -1,42 +1,7 @@
 <% if job.job_template.present? %>
     <div class="field">
-      <% if in_form %>
-          <%= link_to job.field.name, job.field, class: "job-title inline job-type-description-target",
-                      "data-placement" => "bottom",
-                      "data-html" => true,
-                      "data-title" => "<div>Field <b>" + job.field.name + "</b></div>" %>
-      <% else %>
-          <h2 class="job-title inline"><%= job.field.name %></h2>
-      <% end %>
-      <p class="job-well-field-title">Field</p>
-
-
-      <p class="job-title-divider">|</p>
 
       <% if in_form %>
-          <%= link_to job.well.name, job.well, class: "job-title inline job-type-description-target",
-                      "data-placement" => "bottom",
-                      "data-html" => true,
-                      "data-title" => "<div>Well <b>" + job.well.name + "</b>, Click to view all jobs</div>" %>
-      <% else %>
-          <h2 class="job-title inline"><%= job.well.name %></h2>
-      <% end %>
-      <p class="job-well-field-title">Well</p>
-
-      <% if in_form %>
-
-          <% if job.well.jobs.count > 1 %>
-              <p class="inline">
-                (<b><%= job.well.jobs.count.to_s %></b>)
-              </p>
-          <% end %>
-
-
-      <% end %>
-
-      <% if in_form %>
-
-
           <% if job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit? %>
               <div class="btn-group inline pull-right">
                 <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -66,9 +31,43 @@
                 </ul>
               </div>
           <% end %>
+      <% end %>
 
+
+      <% if in_form %>
+          <%= link_to job.field.name, job.field, class: "job-title inline job-type-description-target",
+                      "data-placement" => "bottom",
+                      "data-html" => true,
+                      "data-title" => "<div>Field <b>" + job.field.name + "</b></div>" %>
       <% else %>
+          <h2 class="job-title inline"><%= job.field.name %></h2>
+      <% end %>
+      <p class="job-well-field-title">Field</p>
 
+
+      <p class="job-title-divider">|</p>
+
+      <div class="inline-block">
+        <% if in_form %>
+            <%= link_to job.well.name, job.well, class: "job-title inline job-type-description-target",
+                        "data-placement" => "bottom",
+                        "data-html" => true,
+                        "data-title" => "<div>Well <b>" + job.well.name + "</b>, Click to view all jobs</div>" %>
+        <% else %>
+            <h2 class="job-title inline"><%= job.well.name %></h2>
+        <% end %>
+        <p class="job-well-field-title">Well</p>
+
+        <% if in_form %>
+            <% if job.well.jobs.count > 1 %>
+                <p class="inline">
+                  (<b><%= job.well.jobs.count.to_s %></b>)
+                </p>
+            <% end %>
+        <% end %>
+      </div>
+
+      <% if !in_form %>
 
           <% memberships = job.job_memberships.select { |p| p.job_role_id != 6 }.count %>
           <div class="pull-right push-right-small">

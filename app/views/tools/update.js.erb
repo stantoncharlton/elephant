@@ -10,10 +10,10 @@ $('#alert').modal({show: true});
 
 <% else %>
 
-$('.root_tool_<%= @tool.id %>').find('.tool-name').text("<%= @tool.name %>");
+$('.root_tool_<%= @tool.id %>').find('.tool-name').text("<%= sanitize(@tool.name) %>");
 <% if !@tool.description.blank? %>
 $('.root_tool_<%= @tool.id %>').find('.tool-description').removeClass('hidden');
-$('.root_tool_<%= @tool.id %>').find('.tool-description').text("<%= @tool.description %>");
+$('.root_tool_<%= @tool.id %>').find('.tool-description').text("<%= sanitize(@tool.description) %>");
 <% end %>
 
 <% end %>
