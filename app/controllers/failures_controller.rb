@@ -85,6 +85,7 @@ class FailuresController < ApplicationController
             @rating = params[:performance_rating]
 
             @job = Job.find_by_id(params[:failures][:job_id])
+            not_found unless @job.present?
             not_found unless @job.company == current_user.company
 
             Failure.transaction do
