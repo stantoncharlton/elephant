@@ -18,7 +18,7 @@
                  data-user="<%= job_membership.user_id %>"
                  class="bluebtn day-button day-button-schedule popover-control <%= job_time.present? ? (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") : "gray" %>"
                  data-html="true"
-                 data-content="<%= render 'job_times/timesheet_timepicker', user: user, job: job, date: (start_date + (i - 2).days) %>"
+                 data-content="<%= render 'job_times/timesheet_timepicker', user: user, job: job, date: (start_date + (i - 2).days), job_membership: job_membership %>"
                  data-toggle="popover"
                  data-placement="bottom"
                  data-trigger="click"
