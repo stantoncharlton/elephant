@@ -63,7 +63,7 @@ class ConversationsController < ApplicationController
 
             if @conversation.save
 
-                @conversation.add_recipients(current_user, @recipients)
+                @conversation.add_recipients(current_user, @recipients, current_user.company)
                 @conversation.send_message(current_user, message_text)
 
                 flash[:success] = "Message sent."

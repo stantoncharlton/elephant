@@ -24,17 +24,19 @@ class Conversation < ActiveRecord::Base
     end
 
 
-    def add_recipients(user, recipients)
+    def add_recipients(user, recipients, company)
 
         recipients.push(user.id)
 
         recipients.each do |recipient_id|
             recipient = ConversationMembership.new
             recipient.user = User.find_by_id(recipient_id)
-            not_found unless recipient.user.company == current_user.company
-            recipient.company = recipient.user.company
-            recipient.conversation = self
-            recipient.save
+            if recipient.user.present?
+                not_found unless recipient.user.company == company
+                recipient.company = recipient.user.company
+                recipient.conversation = self
+                recipient.save
+            end
         end
 
     end
