@@ -61,6 +61,7 @@ class JobsController < ApplicationController
 
     def show
         @job = Job.find_by_id(params[:id])
+        not_found unless @job.present?
         not_found unless @job.company == current_user.company
         not_found unless @job.can_user_view?(current_user)
 
@@ -258,6 +259,7 @@ class JobsController < ApplicationController
 
     def update
         @job = Job.find_by_id(params[:id])
+        not_found unless @job.present?
         not_found unless @job.company == current_user.company
 
         if params["start_date"].present?
@@ -285,6 +287,7 @@ class JobsController < ApplicationController
 
     def destroy
         @job = Job.find_by_id(params[:id])
+        not_found unless @job.present?
         not_found unless @job.company == current_user.company
         not_found unless @job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit?
         @job.destroy
