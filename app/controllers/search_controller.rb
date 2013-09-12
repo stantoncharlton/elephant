@@ -32,10 +32,12 @@ class SearchController < ApplicationController
 
                 if params[:division]
                     @division = Division.find_by_id(params[:division])
+                    not_found unless @division.present?
                     not_found unless @division.company == current_user.company
                 end
                 if params[:segment]
                     @segment = Segment.find_by_id(params[:segment])
+                    not_found unless @segment.present?
                     not_found unless @segment.company == current_user.company
                 end
 

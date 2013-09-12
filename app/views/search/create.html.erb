@@ -6,31 +6,37 @@
 
       <h2><%= @jobs.count() %></h2>
 
+
       <!--<%= link_to "New Search", new_search_path, class: "bluebtn page_header_button tooltip-info",
                       "data-placement" => "bottom",
                       "data-title" => "Create new advanced search" %> -->
 
       <%= hidden_field_tag "serialized_query", @params_query.to_json %>
-      <div class="btn-group inline pull-right">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Export Results
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            <%= link_to "Export as Excel", "#",
-                        class: "dropdown-menu-link tooltip-info submit-form",
-                        "data-placement" => "left",
-                        "data-title" => "Export results as Microsoft Excel file." %>
-          </li>
-        </ul>
+      <div class="pull-right">
+        <div class="btn-group inline">
+          <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+            Export Results
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to "Export as Excel", "#",
+                          class: "dropdown-menu-link tooltip-info submit-form",
+                          "data-placement" => "left",
+                          "data-title" => "Export results as Microsoft Excel file." %>
+            </li>
+          </ul>
+        </div>
       </div>
   <% end %>
-
-
 </div>
 
 
 <div class="alert alert-info">
+
+  <div class="pull-right">
+    <%= link_to "+ New Search", new_search_path, class: "activity-user-link" %>
+  </div>
+
   <% @query.constraints.each do |constraint| %>
       <div>
         <b>

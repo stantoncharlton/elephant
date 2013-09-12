@@ -125,7 +125,7 @@ class DynamicFieldsController < ApplicationController
             end
 
             activity = @dynamic_field.job.activity.limit(1).last
-            if activity != nil and (activity.created_at > 10.minutes.ago) and activity.activity_type == Activity::DATA_EDITED
+            if activity != nil && (activity.created_at > 10.minutes.ago) && activity.activity_type == Activity::DATA_EDITED
                 activity.metadata += ", " + @dynamic_field.name + " - " + @dynamic_field.value + " " + @dynamic_field.get_value_type_unit(@dynamic_field.value_type)
                 activity.save
             else

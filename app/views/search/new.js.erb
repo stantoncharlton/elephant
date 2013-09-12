@@ -3,8 +3,8 @@ $('#search_criteria').append('<%= j render 'search/search_constraint', index: 1 
 var constraint = $('#search_criteria').last();
 
 var last_selected_item = null
-var focusevent = function(event, ui) {
-    if ( last_selected_item != null) {
+var focusevent = function (event, ui) {
+    if (last_selected_item != null) {
         $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
     }
     selected_item = $('.item_' + ui.item.id);
@@ -15,7 +15,7 @@ var focusevent = function(event, ui) {
 $('input[id=client_name]').autocomplete({
     source: $('[id=client_name]').data('autocomplete-source'),
     focus: focusevent,
-    select:function (event, ui) {
+    select: function (event, ui) {
         $(this).closest('.search-field').find("[id=client_id]").val(ui.item.id);
     }
 });
@@ -23,20 +23,21 @@ $('input[id=client_name]').autocomplete({
 $('input[id=district_name]').autocomplete({
     source: $('[id=district_name]').data('autocomplete-source'),
     focus: focusevent,
-    select:function (event, ui) {
+    select: function (event, ui) {
         $(this).closest('.search-field').find("[id=district_id]").val(ui.item.id);
     }
 });
 
 
 
-        $('input[id=district_name]').data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
-        }
+$('input[id=district_name]').data("autocomplete")._renderItem = function (ul, item) {
+    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+            "<a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div></div></a>").appendTo(ul)
+}
 
-        $('input[id=client_name]').data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a><div class='job-user'><strong>" + item.value + " </strong></div></a>").appendTo(ul)
-        }
+$('input[id=client_name]').data("autocomplete")._renderItem = function (ul, item) {
+    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+            "<a><div class='job-user'><strong>" + item.value + " </strong></div></a>").appendTo(ul)
+}
+
 
