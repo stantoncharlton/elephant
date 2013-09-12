@@ -11,7 +11,8 @@
       <%= f.select :document_type, options_for_select([["Document", Document::DOCUMENT],
                                                        ["Job Log", Document::JOB_LOG],
                                                        ["Bottom Hole Assembly", Document::BOTTOM_HOLE_ASSEMBLY],
-                                                       ["Drilling Log", Document::DRILLING_LOG]]),
+                                                       #["Drilling Log", Document::DRILLING_LOG]
+                                                        ]),
                    {},
                    class: "job-note-type custom-select" %>
 
