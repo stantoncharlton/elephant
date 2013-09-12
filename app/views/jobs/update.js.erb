@@ -1,7 +1,13 @@
-<% if @job_times_changed.present? && @job_times_changed %>
+<% if @job_times_changed %>
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Time/Schedule Changed", message: "Job employee schedules were automatically shifted based on the shift in the start date." %>");
 $('#alert').modal({show: true});
+
+<% end %>
+
+
+
+<% if @update_calendar %>
 
 $.ajax({
     url: "/job_times?job=" + <%= @job.id.to_s %>,
@@ -9,9 +15,4 @@ $.ajax({
     dataType: "script"
 });
 
-<% else %>
-//$('#<%= @tag_name %>_div').css('display', 'inline-block');
-//$('#<%= @tag_name %>_form').css('display', 'none');
-
-//$('#<%= @tag_name %>_link').replaceWith('<%= j link_to @user.name, @user, class: "job-field-value-link", id: @tag_name + "_link" %>');
 <% end %>

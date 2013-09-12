@@ -37,7 +37,7 @@
                       "data-placement" => "bottom",
                       "data-title" => "Open " + document.document_type_string %>
       <% elsif document.document_type == Document::DRILLING_LOG %>
-          <%= link_to document.name, job_logs_path(document: document.id),
+          <%= link_to document.name, drilling_logs_path(document: document.id),
                       target: "_blank",
                       class: "document-name tooltip-info",
                       "data-placement" => "bottom",
