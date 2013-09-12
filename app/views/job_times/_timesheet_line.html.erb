@@ -7,7 +7,7 @@
   <% end %>
 
 
-  <div class="timesheet-line-view">
+  <div class="timesheet-line-view <%= user.nil? ? "disabled-user-line" : "" %>">
     <% 11.times do |i| %>
         <div class="day">
           <% job_time = @job_times.find { |jt| jt.user_id == job_membership.user_id && jt.time_for.strftime("%d-%m-%Y") == (start_date + (i - 2).days).strftime("%d-%m-%Y") } %>
@@ -30,9 +30,9 @@
   <% total_scheduled_time = @job_times.select { |jt| jt.user_id == job_membership.user_id }.map(&:hours).reduce(:+) || 0 %>
   <% total_work_time = @job_times.select { |jt| jt.user_id == job_membership.user_id && jt.status == JobTime::WORKED }.map(&:hours).reduce(:+) || 0 %>
 
-  <div class="inline push-down-small">
-    <b class="inline user-total-time-scheduled pull-right push-down hidden" data-hours="<%= total_scheduled_time %>"><%= total_scheduled_time %></b>
-    <b class="inline user-total-time pull-right push-down" data-hours="<%= total_work_time %>"><%= total_work_time %></b>
+  <div class="push-down-small pull-right">
+    <b class="inline user-total-time-scheduled push-down hidden" data-hours="<%= total_scheduled_time %>"><%= total_scheduled_time %></b>
+    <b class="inline user-total-time push-down" data-hours="<%= total_work_time %>"><%= total_work_time %></b>
   </div>
 
 </div>

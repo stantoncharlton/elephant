@@ -32,12 +32,18 @@
     &:hover {
       cursor: hand !important;
     }
+
   }
 
   .time-close-button {
     float: right;
     margin-top: -45px;
   }
+}
+
+.disabled-user-line {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .user-calendar-day {
