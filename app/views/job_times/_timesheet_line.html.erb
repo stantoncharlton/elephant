@@ -1,17 +1,21 @@
 <hr>
 <div class="timesheet user-timesheet">
-  <div class="name"><%= render 'activities/user', user: user %></div>
+  <% if user.present? %>
+      <div class="name"><%= render 'activities/user', user: user %></div>
+  <% else %>
+      <div class="name"><%= job_membership.user_name %></div>
+  <% end %>
 
 
   <div class="timesheet-line-view">
     <% 11.times do |i| %>
         <div class="day">
-          <% job_time = @job_times.find { |jt| jt.user_id == user.id && jt.time_for.strftime("%d-%m-%Y") == (start_date + (i - 2).days).strftime("%d-%m-%Y") } %>
+          <% job_time = @job_times.find { |jt| jt.user_id == job_membership.user_id && jt.time_for.strftime("%d-%m-%Y") == (start_date + (i - 2).days).strftime("%d-%m-%Y") } %>
           <input type='submit' value='<%= job_time.present? ? (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) : current_user.company.minimum_work_day %>'
                  data-type='<%= job_time.present? ? job_time.status_string : "none" %>'
                  data-job="<%= job.id %>"
                  data-day="<%= (start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
-                 data-user="<%= user.id %>"
+                 data-user="<%= job_membership.user_id %>"
                  class="bluebtn day-button day-button-schedule popover-control <%= job_time.present? ? (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") : "gray" %>"
                  data-html="true"
                  data-content="<%= render 'job_times/timesheet_timepicker', user: user, job: job, date: (start_date + (i - 2).days) %>"
@@ -23,8 +27,8 @@
     <% end %>
   </div>
 
-  <% total_scheduled_time = @job_times.select { |jt| jt.user_id == user.id }.map(&:hours).reduce(:+) || 0 %>
-  <% total_work_time = @job_times.select { |jt| jt.user_id == user.id && jt.status == JobTime::WORKED }.map(&:hours).reduce(:+) || 0 %>
+  <% total_scheduled_time = @job_times.select { |jt| jt.user_id == job_membership.user_id }.map(&:hours).reduce(:+) || 0 %>
+  <% total_work_time = @job_times.select { |jt| jt.user_id == job_membership.user_id && jt.status == JobTime::WORKED }.map(&:hours).reduce(:+) || 0 %>
 
   <div class="inline push-down-small">
     <b class="inline user-total-time-scheduled pull-right push-down hidden" data-hours="<%= total_scheduled_time %>"><%= total_scheduled_time %></b>

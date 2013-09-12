@@ -35,7 +35,7 @@
 
         <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:job_id => job.id).to_a %>
         <% users.each do |job_membership| %>
-            <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date %>
+            <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership %>
         <% end %>
 
         <br><br>
