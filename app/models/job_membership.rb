@@ -25,6 +25,7 @@ class JobMembership < ActiveRecord::Base
     FIELD = 4
     SHOP = 5
     CREATOR = 6
+    TOOL_COORDINATOR = 7
 
 
     def role_title
@@ -41,9 +42,32 @@ class JobMembership < ActiveRecord::Base
                "Shop"
            when CREATOR
                "Creator"
+           when TOOL_COORDINATOR
+               "Tool Coordinator"
            else
                "-"
        end
+    end
+
+    def icon_css_style
+        case self.job_role_id
+            when OBSERVER
+                ""
+            when MANAGER
+                "member-icon-manager"
+            when COORDINATOR
+                "member-icon-coordinator"
+            when FIELD
+                "member-icon-field"
+            when SHOP
+                "member-icon-shop"
+            when TOOL_COORDINATOR
+                "member-icon-tool-coordinator"
+            when CREATOR
+                ""
+            else
+                ""
+        end
     end
 
 private

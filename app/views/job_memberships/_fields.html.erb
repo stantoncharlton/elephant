@@ -5,9 +5,15 @@
     <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                        placeholder: I18n.t("jobs.show.new_member_prompt"),
                        id: "new_member_name", class: "txtfield small" %>
-    <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], ["Manager", 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]]),
+    <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+                                                   ["Manager", JobMembership::MANAGER],
+                                                   ["Coordinator", JobMembership::COORDINATOR],
+                                                   ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
+                                                   ["Field", JobMembership::FIELD],
+                                                   ["Shop", JobMembership::SHOP]]),
                  {},
                  prompt: I18n.t("jobs.show.new_member_role_prompt"),
                  class: "custom-select" %>
     <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-member-loading-button" %>
+    <%= link_to "cancel", "#", class: "bluebtn btnsmall red", id: "cancel_add_member" %>
 <% end %>

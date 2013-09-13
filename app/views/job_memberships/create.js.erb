@@ -12,8 +12,9 @@ $('#alert').modal({show: true});
 
 <% else %>
 
-
+$("#job_members_list_short").append("<%= j render 'job_memberships/icon', job_membership: @job_membership %>");
 $("#job_members_list").append("<%= j render 'job_memberships/job_membership', job_membership: @job_membership %>");
+
 $('#new_member_name').val('');
 $('#new_member_id').val('');
 

@@ -1,6 +1,70 @@
-
 .new-job-member {
   background: #f4f8fb;
   border-radius: 4px;
   padding: 16px 20px 8px 20px;
+}
+
+.member-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 250px;
+  background: #cfcfcf;
+
+  p {
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-top: 6px;
+    font-family: "gothambookregular";
+    text-align: center;
+  }
+}
+
+.member-icon-large {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  border-radius: 250px;
+  background: #cfcfcf;
+  margin-top: 20px;
+
+  p {
+    font-size: 26px;
+    color: #FFFFFF;
+    margin-top: 27px;
+    font-family: "gothamlightregular";
+    text-align: center;
+  }
+}
+
+.member-tooltip {
+  background: #535353;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.member-icon-shop {
+  background: #f36d1d;
+}
+
+.member-icon-coordinator {
+  background: #0088cc;
+}
+
+.member-icon-tool-coordinator {
+  background: #25daf0;
+}
+
+.member-icon-field {
+  background: #f0b925;
+}
+
+.member-icon-manager {
+  background: #02dd78;
+}
+
+
+.tooltip.in {
+  opacity: 1;
+  filter: alpha(opacity=100);
 }

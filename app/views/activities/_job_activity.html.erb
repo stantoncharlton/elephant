@@ -1,4 +1,4 @@
-<% if activity.target.present? || (activity.activity_type == Activity::ASSET_ADDED || activity.activity_type == Activity::ASSET_REMOVED)  %>
+<% if activity.target.present? || (activity.activity_type == Activity::ASSET_ADDED || activity.activity_type == Activity::ASSET_REMOVED) %>
     <div class="activity">
 
       <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
@@ -16,15 +16,22 @@
       <% end %>
 
       <div class="activity-avatar-box-small">
-        <% if activity.user.present? && activity.job.present? && activity.job.get_membership_role(activity.user).present? %>
-            <% case activity.job.get_membership_role(activity.user).job_role_id
-                   when 1 %><%= image_tag "user_avatar_default.png" %>
-                <% when 2 %><%= image_tag "manager_icon.png" %>
-                <% when 3 %><%= image_tag "coordinator_icon.png" %>
-                <% when 4 %><%= image_tag "field_icon.png" %>
-                <% when 5 %><%= image_tag "shop_icon.png" %>
-                <% else %><%= image_tag "user_avatar_default.png" %>
-            <% end %>
+        <% if activity.user.present? && activity.job.present? %>
+            <% @job_membership = activity.job.get_membership_role(activity.user) %>
+            <% names = @job_membership.user.present? ? @job_membership.user.name.split : @job_membership.user_name.split %>
+            <div class="inline-block">
+              <div class="member-icon-large <%= @job_membership.icon_css_style %> tooltip-info"
+                   data-placement="bottom" data-html="true"
+                   data-title="<div class='activity-tooltip'><h2 class='white-text'><%= @job_membership.user_name %></h2><span class='member-tooltip <%= @job_membership.icon_css_style %>'><%= @job_membership.role_title %></span><br><br><%= @job_membership.user.title.to_s %></h2><p><%= (@job_membership.user.district.present? ? @job_membership.user.district.name : "-") %></p></div>">
+                <p>
+                  <% if names.any? %>
+                      <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                  <% else %>
+                      -
+                  <% end %>
+                </p>
+              </div>
+            </div>
         <% else %>
             <%= image_tag "user_avatar_default.png" %>
         <% end %>
@@ -40,7 +47,11 @@
 
         <div class="activity-user-link-div">
           <% if activity.user.present? %>
-              <%= render 'activities/user', user: activity.user %>
+              <% if @job_membership.present? %>
+                  <%= render 'jobs/user', job_membership: @job_membership, include_icon: false %>
+              <% else %>
+                  <%= render 'activities/user', user: activity.user %>
+              <% end %>
           <% else %>
               <p><b><%= activity.user_name %></b></p>
           <% end %>
@@ -87,16 +98,18 @@
                   <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link" %>
                   <p class="activity-message">added to job</p>
                   <br>
-                  <p  class="activity-message">
-                  <b>Material #</b> <%= activity.target.material_number %><br>
-                  <b>Serial #</b> <%= activity.target.serial_number %><br>
-                  <% if !activity.target.district_serial_number.blank? %>
-                    <b>District #</b> <%= activity.target.district_serial_number %>
-                  <% end %>
+
+                  <p class="activity-message">
+                    <b>Material #</b> <%= activity.target.material_number %><br>
+                    <b>Serial #</b> <%= activity.target.serial_number %><br>
+                    <% if !activity.target.district_serial_number.blank? %>
+                        <b>District #</b> <%= activity.target.district_serial_number %>
+                    <% end %>
                   </p>
               <% else %>
                   <p class="activity-message"><b>Asset</b> added to job</p>
                   <br>
+
                   <p class="activity-message"><b>Serial #</b> <%= activity.metadata %></p>
               <% end %>
           <% end %>
@@ -106,7 +119,8 @@
                   <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link" %>
                   <p class="activity-message">removed from job</p>
                   <br>
-                  <p  class="activity-message">
+
+                  <p class="activity-message">
                     <b>Material #</b> <%= activity.target.material_number %><br>
                     <b>Serial #</b> <%= activity.target.serial_number %><br>
                     <% if !activity.target.district_serial_number.blank? %>
@@ -116,6 +130,7 @@
               <% else %>
                   <p class="activity-message"><b>Asset</b> removed from job</p>
                   <br>
+
                   <p class="activity-message"><b>Serial #</b> <%= activity.metadata %></p>
               <% end %>
           <% end %>
@@ -152,20 +167,13 @@
           <% if activity.activity_type == Activity::JOB_MEMBER_ADDED %>
               <p class="activity-message">
                 <%= image_tag "added.png" %>
-
                 <span class="inline push-right-small">
-                <% case activity.target.job_role_id
-                       when 1 %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
-                      <% when 2 %><%= image_tag "manager_icon_small.png", class: "job-status-avatar" %>
-                      <% when 3 %><%= image_tag "coordinator_icon_small.png", class: "job-status-avatar" %>
-                      <% when 4 %><%= image_tag "field_icon_small.png", class: "job-status-avatar" %>
-                      <% when 5 %><%= image_tag "shop_icon_small.png", class: "job-status-avatar" %>
-                      <% else %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
-                <% end %>
-                  <%= render 'activities/user', user: activity.target.user %>
-                  <div class="activity-text">
-                    - <%= activity.target.role_title %>
+                  <div class="inline-block">
+                    <%= render 'jobs/user', job_membership: activity.target, include_icon: true %>
                   </div>
+                    <div class="activity-text">
+                      - <%= activity.target.role_title %>
+                    </div>
               </span>
               </p>
           <% end %>

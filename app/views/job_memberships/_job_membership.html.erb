@@ -1,21 +1,14 @@
 <li class="job-member-list-item" id="job_membership_<%= job_membership.id %>">
-  <% case job_membership.job_role_id
-         when 1 %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
-      <% when 2 %><%= image_tag "manager_icon_small.png", class: "job-status-avatar" %>
-      <% when 3 %><%= image_tag "coordinator_icon_small.png", class: "job-status-avatar" %>
-      <% when 4 %><%= image_tag "field_icon_small.png", class: "job-status-avatar" %>
-      <% when 5 %><%= image_tag "shop_icon_small.png", class: "job-status-avatar" %>
-      <% else %><%= image_tag "observer_icon_small.png", class: "job-status-avatar" %>
-  <% end %>
+
   <div class="activity-user-link-div-short">
     <div class="inline  push-right-small">
       <% if job_membership.user.present? %>
-          <%= render 'activities/user', user: job_membership.user %>
+          <%= render 'jobs/user', job_membership: job_membership, include_icon: false  %>
 
           <% if false %>
-          <span class="help-text">- <%= pluralize(job_membership.user.jobs.where(:status => Job::ACTIVE).count, "job") %></span>
-              <% end %>
-    <% else %>
+              <span class="help-text">- <%= pluralize(job_membership.user.jobs.where(:status => Job::ACTIVE).count, "job") %></span>
+          <% end %>
+      <% else %>
           <%= job_membership.user_name %>
       <% end %>
     </div>
@@ -26,12 +19,12 @@
   <% if !job_membership.job.approved_to_close %>
 
       <div class="push-right">
-      <%= link_to "change role", edit_job_membership_path(job_membership), remote: true,
-                  class: "job-member-edit-button" %>
+        <%= link_to "change role", edit_job_membership_path(job_membership), remote: true,
+                    class: "job-member-edit-button" %>
 
-      <%= link_to "remove", job_membership, method: :delete, remote: true,
-                  data: {confirm: "Remove " + (job_membership.user.present? ? job_membership.user.name : job_membership.user_name || '') + " from job?"},
-                  class: "delete-button-small job-member-button" %>
+        <%= link_to "remove", job_membership, method: :delete, remote: true,
+                    data: {confirm: "Remove " + (job_membership.user.present? ? job_membership.user.name : job_membership.user_name || '') + " from job?"},
+                    class: "delete-button-small job-member-button" %>
       </div>
   <% end %>
 </li>

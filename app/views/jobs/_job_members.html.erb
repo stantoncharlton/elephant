@@ -1,31 +1,51 @@
 <div class="content">
-  <p class="job-field-title job-members-title"><%= t ".members" %></p>
+  <p class="job-field-title job-members-title"><b>People</b></p>
 
   <div class="job-members-div">
-    <ul class="job-members-list" id="job_members_list">
-      <% job.job_memberships.includes(user: :district ).each do |jm| %>
-          <% if jm.job_role_id != 6 %>
-              <%= render 'job_memberships/job_membership', job_membership: jm %>
-          <% end %>
+    <div class="member-short-list">
+      <div class="inline-block" id="job_members_list_short">
+        <% job.job_memberships.includes(user: :district).each do |jm| %>
+            <% if jm.job_role_id != 6 %>
+                <%= render 'job_memberships/icon', job_membership: jm %>
+            <% end %>
+        <% end %>
+      </div>
+      <% if job_editable %>
+          <div class="inline-block push-right-small">
+            <%= link_to "Add Member", "#",
+                        class: "inline-block add-job-member tooltip-info",
+                        id: "add_job_member",
+                        "data-placement" => "bottom",
+                        "data-title" => "Add new project member" %>
+          </div>
       <% end %>
-    </ul>
+    </div>
 
+    <br>
+
+    <%= render 'job_memberships/fields', job: job %>
     <div class="member-loading hidden">
       <span class="ajax-loading search-loading"><b>Adding project member</b></span>
       <br><br>
     </div>
 
+    <div class="member-full-list hidden">
+      <ul class="job-members-list" id="job_members_list">
+        <% job.job_memberships.includes(user: :district).each do |jm| %>
+            <% if jm.job_role_id != 6 %>
+                <%= render 'job_memberships/job_membership', job_membership: jm %>
+            <% end %>
+        <% end %>
+      </ul>
+    </div>
 
-    <% if job_editable %>
-
-        <%= link_to "Add Member", new_job_membership_path, remote: true,
-                    class: "add-job-member tooltip-info",
-                    id: "add_job_member",
-                    "data-placement" => "bottom",
-                    "data-title" => "Add new project member" %>
-    <% end %>
+    <div>
+      <%= link_to "#", class: "activity-user-link", id: "toggle_member_names" do %>
+          <span id="toggle_member_show"><i class="icon-chevron-down"></i> view names</span>
+          <span id="toggle_member_hide" class="hidden"><i class="icon-chevron-up"></i> hide names</span>
+      <% end %>
+    </div>
 
 
-    <%= render 'job_memberships/fields', job: job %>
   </div>
 </div>

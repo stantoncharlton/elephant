@@ -31,7 +31,7 @@ class Job < ActiveRecord::Base
     has_many :documents, dependent: :destroy, order: "ordering ASC"
     has_many :job_notes, dependent: :destroy, order: "created_at DESC"
 
-    has_many :job_memberships, dependent: :destroy, foreign_key: "job_id"
+    has_many :job_memberships, dependent: :destroy, foreign_key: "job_id", order: "created_at ASC"
     has_many :participants, through: :job_memberships, source: :user
     has_many :unique_participants, through: :job_memberships, source: :user, uniq: true
 
