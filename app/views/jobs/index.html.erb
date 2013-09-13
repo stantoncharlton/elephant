@@ -37,9 +37,17 @@
     <% end %>
 <% end %>
 
-<div id="jobs" class="list">
-  <%= render @jobs %>
-</div>
+<% if current_user.role.no_assigned_jobs? || @is_paged %>
+    <div id="jobs" class="list">
+      <% @jobs.each do |job| %>
+          <%= render 'jobs/job_progress_link', job: job %>
+      <% end %>
+    </div>
+<% else %>
+    <div id="jobs" class="list">
+      <%= render @jobs %>
+    </div>
+<% end %>
 
 <% if @is_paged %>
     <%= will_paginate %>
@@ -53,7 +61,7 @@
         <% end %>
     <% else %>
         <div class="alert">
-          <%= link_to "View all jobs active and closed (" + current_user.jobs.count.to_s + ")", jobs_path(:page => "1"), class: "activity-user-link" %>
+          <%= link_to "View all jobs active and closed (" + @jobs.count.to_s + ")", jobs_path(:page => "1"), class: "activity-user-link" %>
         </div>
     <% end %>
 <% end %>
