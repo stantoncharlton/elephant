@@ -23,12 +23,15 @@ gem 'saasposesdk'
 gem 'rest-client'
 gem 'acts_as_xlsx'
 gem 'memcachier'
+gem 'redis'
 
 gem "unicorn"
 gem 'dalli'
 gem 'newrelic_rpm'
 gem 'rollbar'
 gem 'acts_as_tenant'
+
+gem 'rollout'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

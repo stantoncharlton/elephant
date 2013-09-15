@@ -3,6 +3,7 @@
 
   <div class="job-members-div">
     <div class="member-short-list">
+
       <div class="inline-block" id="job_members_list_short">
         <% job.job_memberships.includes(user: :district).each do |jm| %>
             <% if jm.job_role_id != 6 %>
@@ -10,6 +11,7 @@
             <% end %>
         <% end %>
       </div>
+
       <% if job_editable %>
           <div class="inline-block push-right-small">
             <%= link_to "Add Member", "#",
