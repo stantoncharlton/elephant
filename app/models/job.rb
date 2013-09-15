@@ -170,7 +170,7 @@ class Job < ActiveRecord::Base
         ar_query = where(:company_id => company.id)
 
         if query.user.role.limit_to_district?
-            where("jobs.district_id IN (SELECT district_id FROM districts where master_district_id = :district_id)", district_id: query.user.district.master_district_id)
+            where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: query.user.district.master_district_id)
             #where(:district_id => query.user.district.id)
         elsif query.user.role.limit_to_product_line? && !query.user.product_line.nil?
             where(:product_line_id => query.user.product_line.id)
