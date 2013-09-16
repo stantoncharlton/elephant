@@ -18,11 +18,11 @@
       <div class="activity-avatar-box-small">
         <% if activity.user.present? && activity.job.present? %>
             <% @job_membership = activity.job.get_membership_role(activity.user) %>
-            <% names = @job_membership.user.present? ? @job_membership.user.name.split : @job_membership.user_name.split %>
+            <% names = activity.user.present? ? activity.user.name.split : activity.user_name.split %>
             <div class="inline-block">
-              <div class="member-icon-large <%= @job_membership.icon_css_style %> tooltip-info"
+              <div class="member-icon-large <%= @job_membership.present? ? @job_membership.icon_css_style : "" %> tooltip-info"
                    data-placement="bottom" data-html="true"
-                   data-title="<div class='activity-tooltip'><h2 class='white-text'><%= @job_membership.user_name %></h2><span class='member-tooltip <%= @job_membership.icon_css_style %>'><%= @job_membership.role_title %></span><br><br><%= @job_membership.user.title.to_s %></h2><p><%= (@job_membership.user.district.present? ? @job_membership.user.district.name : "-") %></p></div>">
+                   data-title="<div class='activity-tooltip'><h2 class='white-text'><%= activity.user.present? ? activity.user.name : activity.user_name %></h2><span class='member-tooltip <%= @job_membership.present? ? @job_membership.icon_css_style : "" %>'><%= @job_membership.present? ? @job_membership.role_title : "--" %></span><br><br><%= activity.user.title.to_s %></h2><p><%= (activity.user.district.present? ? activity.user.district.name : "-") %></p></div>">
                 <p>
                   <% if names.any? %>
                       <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
@@ -30,10 +30,30 @@
                       -
                   <% end %>
                 </p>
+
+                <div class="member-icon-image member-icon-image-user"></div>
+                <div class="member-icon-image-function <%= @job_membership.present? ?  @job_membership.icon_image_css_style : "" %>"></div>
+
               </div>
             </div>
         <% else %>
+            <% if false %>
             <%= image_tag "user_avatar_default.png" %>
+            <% end %>
+
+            <% names = activity.user.present? ? activity.user.name.split : activity.user_name.split %>
+            <div class="inline-block">
+              <div class="member-icon-large <%= @job_membership.present? ? @job_membership.icon_css_style : "" %> tooltip-info">
+                <p>
+                  <% if names.any? %>
+                      <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                  <% else %>
+                      -
+                  <% end %>
+                </p>
+                <div class="member-icon-image member-icon-image-user"></div>
+              </div>
+            </div>
         <% end %>
       </div>
 

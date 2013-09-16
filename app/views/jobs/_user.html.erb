@@ -1,6 +1,6 @@
 <% if job_membership.present? %>
     <% if job_membership.user.present? %>
-        <%= link_to user, class: "activity-user-link tooltip-info", "data-placement" => "bottom",
+        <%= link_to job_membership.user, class: "activity-user-link tooltip-info", "data-placement" => "bottom",
                     "data-html" => true, "data-title" => "<div class='activity-tooltip'><h2 class='white-text'>" +
                         job_membership.user.name + "</h2>" +
                         "<span class='member-tooltip  " + job_membership.icon_css_style + "'>" + job_membership.role_title + "</span><br><br>" +

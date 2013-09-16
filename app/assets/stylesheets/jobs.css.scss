@@ -27,6 +27,12 @@
   font-size: 18px;
 }
 
+.job-title4 {
+  color: #0058a8;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 .blue-text {
   color: #0058a8 !important;
 }
@@ -50,6 +56,16 @@
   font-weight: normal;
   margin-left: 10px;
   margin-right: 10px;
+  color: #d1d1d1;
+}
+
+.job-title-divider2 {
+  display: inline;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: normal;
+  margin-left: 5px;
+  margin-right: 5px;
   color: #d1d1d1;
 }
 
@@ -541,8 +557,12 @@
   text-wrap: none;
   white-space: nowrap;
   display: inline-block;
-  width: 300px;
+  width: 450px;
   height: 35px !important;
+}
+
+.job-progress-bar {
+  width: 300px !important;
 }
 
 .job-status-guide {
@@ -656,7 +676,7 @@
 
 .job-progress-data-item {
   display: inline-block;
-  width: 70px;
+  width: 50px;
 }
 
 

@@ -27,6 +27,7 @@
   border-radius: 250px;
   background: #cfcfcf;
   margin-top: 20px;
+  position: relative;
 
   p {
     font-size: 26px;
@@ -37,6 +38,48 @@
   }
 }
 
+.member-icon-image {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 41px;
+  height: 41px;
+  margin-right: -10px;
+  margin-bottom: -10px;
+}
+
+.member-icon-image-function {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 41px;
+  height: 41px;
+  margin-left: -10px;
+  margin-top:  -10px;
+}
+
+.member-icon-image-field {
+  background: transparent url(image_path('icon_field.png')) no-repeat;
+}
+
+.member-icon-image-coordinator {
+  background: transparent url(image_path('icon_coordinator.png')) no-repeat;
+}
+
+.member-icon-image-shop {
+  background: transparent url(image_path('icon_shop.png')) no-repeat;
+}
+
+.member-icon-image-manager {
+  background: transparent url(image_path('icon_manager.png')) no-repeat;
+}
+
+.member-icon-image-user {
+  background: transparent url(image_path('icon_user.png')) no-repeat;
+}
+
 .member-tooltip {
   background: #535353;
   padding: 3px;
@@ -44,7 +87,7 @@
 }
 
 .member-icon-shop {
-  background: #f36d1d;
+  background: #46a6de;
 }
 
 .member-icon-coordinator {
@@ -56,7 +99,7 @@
 }
 
 .member-icon-field {
-  background: #f0b925;
+  background: #78919a;
 }
 
 .member-icon-manager {

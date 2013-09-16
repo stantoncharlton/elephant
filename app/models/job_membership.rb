@@ -70,6 +70,27 @@ class JobMembership < ActiveRecord::Base
         end
     end
 
+    def icon_image_css_style
+        case self.job_role_id
+            when OBSERVER
+                ""
+            when MANAGER
+                "member-icon-image-manager"
+            when COORDINATOR
+                "member-icon-image-coordinator"
+            when FIELD
+                "member-icon-image-field"
+            when SHOP
+                "member-icon-image-shop"
+            when TOOL_COORDINATOR
+                "member-icon-image-coordinator"
+            when CREATOR
+                "member-icon-image-manager"
+            else
+                ""
+        end
+    end
+
 private
     def after_save
         update_counter_cache

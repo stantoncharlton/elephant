@@ -347,7 +347,12 @@ class Job < ActiveRecord::Base
 
     def get_membership_role(user)
         return nil unless user.present?
-        self.job_memberships.find { |jm| jm.user_id == user.id }
+        roles = self.job_memberships.to_a.select { |jm| jm.user_id == user.id }
+        if roles.length > 0
+            roles.find { |jm| jm.job_role_id != JobMembership::CREATOR }
+        else
+            roles[0]
+        end
     end
 
     def is_coordinator_or_creator?(user)
