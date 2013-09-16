@@ -75,7 +75,8 @@ class DynamicField < ActiveRecord::Base
     ANGLE_100FT = 101
 
     VISCOSITY_PAS = 110
-    VISCOSITY_KGSM = 110
+    VISCOSITY_KGSM = 111
+    VISCOSITY_CP = 112
 
 
     def value
@@ -307,10 +308,21 @@ class DynamicField < ActiveRecord::Base
                 case new_value_type
                     when VISCOSITY_KGSM
                         value
+                    when VISCOSITY_CP
+                        value
                 end
             when VISCOSITY_KGSM
                 case new_value_type
                     when VISCOSITY_PAS
+                        value
+                    when VISCOSITY_CP
+                        value
+                end
+            when VISCOSITY_CP
+                case new_value_type
+                    when VISCOSITY_PAS
+                        value
+                    when VISCOSITY_KGSM
                         value
                 end
         end
@@ -387,6 +399,8 @@ class DynamicField < ActiveRecord::Base
                 "Pas/s"
             when VISCOSITY_KGSM
                 "KG/s*m"
+            when VISCOSITY_CP
+                "cP"
         end
     end
 
@@ -461,6 +475,8 @@ class DynamicField < ActiveRecord::Base
                 "Pascal per Second"
             when VISCOSITY_KGSM
                 "Kilogram per Second Meter"
+            when VISCOSITY_CP
+                "centi-Poise"
         end
     end
 
@@ -503,6 +519,7 @@ class DynamicField < ActiveRecord::Base
         units << ["Angle - Degrees per 100 Feet", ANGLE_100FT]
         units << ["Viscosity | Pascal per Second", VISCOSITY_PAS]
         units << ["Viscosity | Kilogram per Second Meter", VISCOSITY_KGSM]
+        units << ["Viscosity | centi-Poise", VISCOSITY_CP]
 
         units
     end
@@ -560,7 +577,8 @@ class DynamicField < ActiveRecord::Base
                 units << ["°", ANGLE]
             when ANGLE_100FT
                 units << ["°", ANGLE_100FT]
-            when VISCOSITY_PAS, VISCOSITY_KGSM
+            when VISCOSITY_PAS, VISCOSITY_KGSM, VISCOSITY_CP
+                units << ["cP", VISCOSITY_CP]
                 units << ["Pas/s", VISCOSITY_PAS]
                 units << ["Kg/s*m", VISCOSITY_KGSM]
         end
@@ -613,7 +631,8 @@ class DynamicField < ActiveRecord::Base
                 units << ["Degrees", ANGLE]
             when ANGLE_100FT
                 units << ["Degrees per 100 Feet", ANGLE_100FT]
-            when VISCOSITY_PAS, VISCOSITY_KGSM
+            when VISCOSITY_PAS, VISCOSITY_KGSM, VISCOSITY_CP
+                units << ["centi-Poise", VISCOSITY_CP]
                 units << ["Pascal/Second", VISCOSITY_PAS]
                 units << ["Kilogram per Second Meter", VISCOSITY_KGSM]
         end
@@ -651,8 +670,8 @@ class DynamicField < ActiveRecord::Base
                 ANGLE
             when ANGLE_100FT
                 ANGLE_100FT
-            when VISCOSITY_PAS, VISCOSITY_KGSM
-                VISCOSITY_PAS
+            when VISCOSITY_PAS, VISCOSITY_KGSM, VISCOSITY_CP
+                VISCOSITY_CP
         end
     end
 
@@ -689,7 +708,7 @@ class DynamicField < ActiveRecord::Base
                     user_value_type =  self.value_type
                 when ANGLE_100FT
                     user_value_type =  self.value_type
-                when VISCOSITY_PAS, VISCOSITY_KGSM
+                when VISCOSITY_PAS, VISCOSITY_KGSM, VISCOSITY_CP
                     user_value_type = user.user_unit.viscosity || self.value_type
             end
         end
