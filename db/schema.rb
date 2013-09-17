@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912194449) do
+ActiveRecord::Schema.define(:version => 20130916212247) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -544,6 +544,7 @@ ActiveRecord::Schema.define(:version => 20130912194449) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "company_id"
+    t.integer  "job_id"
   end
 
   add_index "primary_tools", ["job_template_id"], :name => "index_primary_tools_on_job_template_id"

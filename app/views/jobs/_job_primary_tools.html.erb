@@ -1,44 +1,11 @@
-  <div class="page_header">
-    <h1>Tools/Assets</h1>
-  </div>
+<div class="page_header">
+  <h1>Tools/Assets</h1>
+</div>
 
-  <div>
-    <% job.job_template.primary_tools.includes(:tool).each_with_index do |primary_tool, index| %>
-        <fieldset class="" id="primary_tool_<%= primary_tool.id %>">
-          <div>
-            <%= image_tag "tool.png" %>
-            <div class="secondary-tool-name push-right-small">
-              <%= link_to primary_tool, class: "activity-user-link" do %>
-                  <h3><%= primary_tool.tool.name %></h3>
-              <% end %>
-            </div>
-            <br>
+<div>
+  <% job.job_template.primary_tools.includes(:tool).order("tools.name ASC, primary_tools.created_at ASC").each_with_index do |primary_tool, index| %>
+        <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: index, job: job %>
+  <% end %>
+</div>
 
-            <div class="">
-              <p class="tool-long-description "><%= primary_tool.tool.description %></p>
-            </div>
-          </div>
-          <div class="content">
-            <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
-                <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-            <% end %>
-          </div>
-          <% if primary_tool.part_memberships.any? %>
-            <div class="well content">
-                <% primary_tool.part_memberships.each_with_index do |p, index| %>
-                    <% real = p.usage_part_membership(job.id)  %>
-                    <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
-
-                  <% if index <  primary_tool.part_memberships.count - 1 %>
-                      <hr>
-                  <% end %>
-                <% end %>
-            </div>
-          <% end %>
-
-          <hr class="search-constraint-line">
-        </fieldset>
-    <% end %>
-  </div>
-
-  <%= render 'jobs/job_secondary_tools', job: job, job_editable: @job_editable %>
+<%= render 'jobs/job_secondary_tools', job: job, job_editable: @job_editable %>

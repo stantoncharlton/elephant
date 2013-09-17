@@ -1,0 +1,53 @@
+<div class="" id="primary_tool_<%= primary_tool.id %>">
+  <div class="pull-right">
+    <%= link_to primary_tools_path(id: primary_tool.id, duplicate: true, job_id: job.id),
+                remote: true, method: :post, action: :create,
+                class: "activity-user-link pull-right duplicate-tool" do %>
+        <span class="duplicate-message"><i class="icon-plus-sign"></i> Duplicate Tool</span>
+        <span class="duplicate-loading hidden"><span class="ajax-loading search-loading">Creating...</span></span>
+    <% end %>
+    <% if !primary_tool.job.nil? %>
+        <div>
+          <br>
+          <%= link_to "remove", primary_tool, method: :delete, remote: true, data: {confirm: "Remove Tool?"},
+                      class: "delete-button tooltip-info pull-right",
+                      "data-placement" => "bottom",
+                      "data-title" => "Delete Tool from Job" %>
+        </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= image_tag "tool.png" %>
+    <div class="secondary-tool-name push-right-small">
+      <%= link_to primary_tool, class: "activity-user-link" do %>
+          <h3><%= primary_tool.tool.name %></h3>
+      <% end %>
+    </div>
+    <br>
+
+    <div class="">
+      <p class="tool-long-description "><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
+    </div>
+  </div>
+  <div class="content">
+    <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
+        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+    <% end %>
+  </div>
+  <% if primary_tool.part_memberships.any? %>
+      <div class="well content">
+        <% part_memberships = primary_tool.part_memberships.where(:template => true) %>
+        <% part_memberships.each_with_index do |p, index| %>
+            <% real = p.usage_part_membership(job.id) %>
+            <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
+
+            <% if index < part_memberships.count - 1 %>
+                <hr>
+            <% end %>
+        <% end %>
+      </div>
+  <% end %>
+
+  <hr class="search-constraint-line">
+</div>

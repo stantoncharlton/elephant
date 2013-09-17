@@ -114,7 +114,7 @@ class Document < ActiveRecord::Base
                     collection = self.job.on_job_documents
             end
         elsif self.primary_tool.present?
-            collection = Document.where(:job_template_id =>  self.job_template_id).where(:primary_tool_id => self.primary_tool_id)
+            collection = Document.where(:job_template_id => self.job_template_id).where(:primary_tool_id => self.primary_tool_id)
         end
 
         if collection.nil?
@@ -196,6 +196,25 @@ class Document < ActiveRecord::Base
         end
 
         return true
+    end
+
+
+    def duplicate
+        document = Document.new
+        document.category = self.category
+        document.name = self.name
+        document.status = self.status
+        document.document_type = self.document_type
+        document.read_only = self.read_only
+        document.ordering = self.ordering
+        document.template = self.template
+        document.url = self.url
+        document.document_template = self.document_template
+        document.job_template = self.job_template
+        document.job = self.job
+        document.primary_tool_id = self.primary_tool_id
+        document.company = document.company
+        document
     end
 
 end

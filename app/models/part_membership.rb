@@ -22,10 +22,32 @@ class PartMembership < ActiveRecord::Base
     end
 
     def template_part_membership
-        PartMembership.where('part_memberships.material_number = ? AND part_memberships.template IS TRUE', self.material_number).limit(1).first
+        if self.primary_tool.present?
+            PartMembership.where('part_memberships.material_number = :material_number AND part_memberships.primary_tool_id = :primary_tool_id AND part_memberships.template IS TRUE', material_number: self.material_number, primary_tool_id: primary_tool_id).limit(1).first
+        else
+            PartMembership.where('part_memberships.material_number = :material_number AND part_memberships.template IS TRUE', material_number: self.material_number).limit(1).first
+        end
     end
 
     def usage_part_membership(job_id)
-        PartMembership.where('part_memberships.material_number = :material_number AND part_memberships.job_id = :job_id AND part_memberships.template IS FALSE', material_number: self.material_number, job_id: job_id).limit(1).first
+        if self.primary_tool.present?
+            PartMembership.where('part_memberships.material_number = :material_number AND part_memberships.primary_tool_id = :primary_tool_id AND part_memberships.job_id = :job_id AND part_memberships.template IS FALSE', material_number: self.material_number, primary_tool_id: primary_tool_id, job_id: job_id).limit(1).first
+        else
+            PartMembership.where('part_memberships.material_number = :material_number AND part_memberships.job_id = :job_id AND part_memberships.template IS FALSE', material_number: self.material_number, job_id: job_id).limit(1).first
+        end
     end
+
+    def duplicate
+        part_membership = PartMembership.new
+        part_membership.job = self.job
+        part_membership.part = self.part
+        part_membership.primary_tool = self.primary_tool
+        part_membership.company = self.company
+        part_membership.material_number = self.material_number
+        part_membership.template = self.template
+        part_membership.track_usage = self.track_usage
+        part_membership.optional = part_membership
+        part_membership
+    end
+
 end

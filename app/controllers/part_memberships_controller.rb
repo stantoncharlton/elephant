@@ -24,6 +24,8 @@ class PartMembershipsController < ApplicationController
         else
             @part_membership.job = Job.find_by_id(job_id)
             not_found unless @part_membership.job.company == current_user.company
+            @part_membership.primary_tool = PrimaryTool.find_by_id(primary_tool_id)
+            not_found unless @part_membership.primary_tool.job_template.company == current_user.company
 
             @part_membership.part = Part.find_by_id(part_id)
             not_found unless @part_membership.part.present?

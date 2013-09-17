@@ -16,6 +16,7 @@
             <%= f.hidden_field :material_number, value: part_membership.material_number %>
             <%= f.hidden_field :job_id, value: job.id %>
             <%= f.hidden_field :part_id, class: "part-id" %>
+            <%= f.hidden_field :primary_tool_id, value: part_membership.primary_tool.id %>
             <div class="filter-search-box pull-right">
               <%= text_field_tag "", "", data: {autocomplete_source: parts_path(material_number: part_membership.material_number, district_id: job.district_id, template: false)},
                                  placeholder: "Search for asset by district, serial, or material number...",

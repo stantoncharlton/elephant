@@ -79,7 +79,7 @@
             <% if item.tool.is_a?(PrimaryTool) %>
                 <% if item.tool.part_memberships.any? %>
                     <div class="">
-                      <% item.tool.part_memberships.each_with_index do |part_membership, index| %>
+                      <% item.tools.part_memberships.where(:template => true).each_with_index do |part_membership, index| %>
                           <div>
                             <% real = part_membership.usage_part_membership(item.bha.document.job.id) %>
                             <% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: item.bha.document.job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
@@ -89,7 +89,7 @@
                                   <p class="inline"><b><%= part.name %></b> -</p>
                                   <%= link_to part_membership.material_number, part, class: "inline activity-user-link" %>
                               <% else %>
-                                  <%= part_membership.material_number %>
+                                  <p><b><%= part_membership.material_number %></b></p>
                               <% end %>
 
                               <div class="inline">
