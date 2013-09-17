@@ -33,7 +33,7 @@
     </div>
 
     <div id="parts_primary_tool_<%= tool.id %>" class="">
-      <% tool.part_memberships.each do |p| %>
+      <% tool.part_memberships.where(:template => true).each do |p| %>
           <%= render 'part_memberships/part_membership', part_membership: p %>
       <% end %>
     </div>
