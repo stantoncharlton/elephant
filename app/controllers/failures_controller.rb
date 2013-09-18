@@ -89,19 +89,30 @@ class FailuresController < ApplicationController
             not_found unless @job.company == current_user.company
 
             Failure.transaction do
-                @job.failures.each do |failure|
-                    failure.destroy
+                failures_array = @job.failures.to_a
+                failures_array.each do |failure|
+                    if params[:failures][failure.id.to_s] != "1"
+                        Failure.find_by_id(failure.id)
+                        if failure.company == current_user.company
+                            failure.destroy
+                            Issue.remove(failure)
+                        end
+                    end
                 end
                 @job.job_template.failures.each do |failure|
                     if params[:failures][failure.id.to_s] == "1"
-                        job_failure = Failure.new
-                        job_failure.company = current_user.company
-                        job_failure.failure_master_template = failure.failure_master_template
-                        job_failure.reference = params[failure.id.to_s + "_reference"]
-                        job_failure.job = @job
-                        job_failure.save
+                        if failures_array.find { |f| f.failure_master_template_id = failure.id } == nil
+                            job_failure = Failure.new
+                            job_failure.company = current_user.company
+                            job_failure.failure_master_template = failure.failure_master_template
+                            job_failure.reference = params[failure.id.to_s + "_reference"]
+                            job_failure.job = @job
+                            job_failure.save
 
-                        Activity.add(self.current_user, Activity::JOB_FAILURE, job_failure, nil, @job)
+                            Issue.add(job_failure, current_user.company, @job)
+
+                            Activity.add(self.current_user, Activity::JOB_FAILURE, job_failure, nil, @job)
+                        end
                     end
                 end
             end
@@ -139,4 +150,5 @@ class FailuresController < ApplicationController
         not_found unless  @failure.company == current_user.company
         @failure.destroy
     end
+
 end

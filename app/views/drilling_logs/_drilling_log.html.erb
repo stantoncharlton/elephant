@@ -9,15 +9,17 @@
       <%= (minutes / 60).round(2) %>
     </p>
 
-    <p class="list-item-column list-item-column-short">
-      <%= last_entry.depth %>
-    </p>
-    <p class="list-item-column list-item-column-short">
-      <%= entry.depth %>
+    <p class="list-item-column2">
+      <b><%= entry.depth %></b>
+      <span class="help-text push-right-small <%= entry.depth - last_entry.depth < 0  ? "warning-text" : "" %>"><%= entry.depth - last_entry.depth %></span>
     </p>
 
     <p class="list-item-column list-item-column-short">
-      <%= entry.activity_code_string %>
+      <% if entry.activity_code == DrillingLog::DRILLING %>
+          <span class="good-text"><b><%= entry.activity_code_string %></b></span>
+      <% else %>
+          <%= entry.activity_code_string %>
+      <% end %>
     </p>
 
     <p class="list-item-column">

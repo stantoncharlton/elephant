@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130916212247) do
+ActiveRecord::Schema.define(:version => 20130918145758) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -326,6 +326,19 @@ ActiveRecord::Schema.define(:version => 20130916212247) do
 
   add_index "fields", ["company_id"], :name => "index_fields_on_company_id"
   add_index "fields", ["district_id"], :name => "index_fields_on_district_id"
+
+  create_table "issues", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "job_id"
+    t.integer  "failure_id"
+    t.integer  "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "issues", ["company_id"], :name => "index_issues_on_company_id"
+  add_index "issues", ["failure_id"], :name => "index_issues_on_failure_id"
+  add_index "issues", ["job_id"], :name => "index_issues_on_job_id"
 
   create_table "job_logs", :force => true do |t|
     t.integer  "company_id"

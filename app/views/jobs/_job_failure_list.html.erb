@@ -1,12 +1,30 @@
 <div id="failures_list">
   <% job.failures.each do |failure| %>
-      <fieldset class="">
-        <%= link_to failure.failure_master_template, class: "failure-link tooltip-info",
-                    "data-placement" => "right",
-                    "data-title" => "Click to view failure instances" do %>
-            <div class="job-failure-item">- <%= failure.failure_master_template.text %></div>
-            <div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
-        <% end %>
-      </fieldset>
+      <div class="">
+        <div>
+          <div>
+            <h3 class="warning-text"><%= failure.failure_master_template.text %></h3>
+          </div>
+          <div>
+            <span class="label label-success">OPEN</span>
+
+            <p class="inline push-right-small"><%= failure.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+
+          </div>
+
+
+          <div>
+            <%= link_to "view case", failure.issue, class: "activity-user-link inline" %>  |
+
+            <%= link_to failure.failure_master_template, class: "inline activity-user-link tooltip-info",
+                        "data-placement" => "right",
+                        "data-title" => "Click to view failure instances" do %>
+                failure history
+
+                <div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
   <% end %>
 </div>
