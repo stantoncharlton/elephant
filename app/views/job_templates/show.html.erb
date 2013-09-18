@@ -1,3 +1,27 @@
+<div class="alert alert-info">
+  <div class="field-title">Quick jump to job system</div>
+
+  <%= text_field_tag "", "", data: {autocomplete_source: job_templates_path},
+                     placeholder: "Type Job system name...",
+                     id: "job_type_name",
+                     class: "inline txtfield job-note-assign custom-data-input tooltip-info",
+                     "data-placement" => "right",
+                     "data-title" => "Jump directly to a job system by name" %>
+
+  <div class="btn-group inline pull-right push-down">
+    <a class="custom-data-toggle-jobs blue-text" data-toggle="dropdown" href="#">
+      Related Job Systems
+    </a>
+    <ul class="dropdown-menu">
+      <% @job_template.product_line.job_templates.each do |jt| %>
+          <li>
+            <%= link_to jt.name, jt, class: "dropdown-menu-link tooltip-info" %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
 <div class="page_header">
   <h1>Job System</h1><b class="push-right-small"><%= @job_template.name %></b>
 
@@ -219,3 +243,13 @@
 </div>
 
 
+
+
+<script>
+    $(document).ready(function () {
+        $('#job_type_name').data("autocomplete")._renderItem = function (ul, item) {
+            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                    "<a><div class='job-user'><strong>" + item.label + " </strong><div><p class=''>" + item.division + " | " + item.segment + " | " + item.product_line + "</p></div></div></a>").appendTo(ul)
+        }
+    });
+</script>

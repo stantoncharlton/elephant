@@ -1,5 +1,17 @@
 <% provide(:title, 'Job Systems') %>
 
+
+<div class="alert alert-info">
+  <div class="field-title">Quick jump to job system</div>
+
+  <%= text_field_tag "", "", data: {autocomplete_source: job_templates_path},
+                     placeholder: "Type Job system name...",
+                     id: "job_type_name",
+                     class: "inline txtfield job-note-assign custom-data-input tooltip-info",
+                     "data-placement" => "right",
+                     "data-title" => "Jump directly to a job system by name" %>
+</div>
+
 <div class="page_header">
   <h1>Divisions</h1>
 
@@ -14,16 +26,7 @@
               "data-title" => "Create new division for job types" %>
 </div>
 
-<div class="alert alert-info">
-  <div class="field-title">Jump to:</div>
 
-  <%= text_field_tag "", "", data: {autocomplete_source: job_templates_path},
-                     placeholder: "Type Job system name...",
-                     id: "job_type_name",
-                     class: "inline txtfield job-note-assign custom-data-input tooltip-info",
-                     "data-placement" => "top",
-                     "data-title" => "Jump directly to a job system by name" %>
-</div>
 
 <div id="divisions">
   <%= render @divisions %>
