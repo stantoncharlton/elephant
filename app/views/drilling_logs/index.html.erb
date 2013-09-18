@@ -1,6 +1,6 @@
 <% provide(:title, @document.name) %>
 
-<div class="page_header">
+<div class="page_header page-header-no-line">
   <h1 id="part_name"><%= @document.name %></h1>
 
   <h3 class="inline">&nbsp;Drilling Log</h3>
@@ -27,19 +27,118 @@
 
 
 
-<div class="well">
+<div>
+  <div class="pull-right tooltip-info" data-title="ROP">
+    <canvas id="canvas" height="120" width="270"></canvas>
+  </div>
+
+
+  <div class="chart-block tooltip-info"
+       data-title="Total days scheduled for month">
+    <div class="chart-title">Avg Total ROP</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= "36" %></div>
+      <div class="percentage ">ft/min</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Total days actually worked for month">
+    <div class="chart-title">Total Drilled</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= "5,678" %></div>
+      <div class="percentage "><span class="push-right-small">ft</span></div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Total days actually worked for month">
+    <div class="chart-title">Below Rotary</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= "4.98" %></div>
+      <div class="percentage ">hours</div>
+    </div>
+  </div>
+
+
+</div>
+
+<br><br>
+
+<ul class="nav nav-pills alert alert-info">
+
+  <li class="active">
+    <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="jobs"
+       data-placement="bottom" data-title="All jobs this user has been on in the past or is currently now on">
+      Drilling Log
+      <%= "(0)" %></a>
+  </li>
+
+  <li class="push-right-small">
+    <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="user-activity"
+       data-placement="bottom" data-title="All activity of this user">Overview</a>
+  </li>
+
+  <li class="push-right-small">
+    <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="time"
+       data-placement="bottom" data-title="Time/Scheduling">Daily Totals</a>
+  </li>
+
+  <li class="push-right-small">
+    <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="time"
+       data-placement="bottom" data-title="Time/Scheduling">ROP Factors</a>
+  </li>
+
+
+</ul>
+
+<div class="well content">
   <%= form_for DrillingLog.new, remote: true do |f| %>
       <div class="form" data-form="new-job-log">
-        <b>Add New Entry</b>
+
+
+        <div class="pull-right">
+          <%= f.select :bha_id, options_for_select(@bhas.collect { |bha| [bha.name, bha.id] }, nil),
+                       {prompt: "Select BHA..."},
+                       class: "inline  custom-select tooltip-info",
+                       "data-placement" => "right",
+                       "data-title" => "Current Bottom Hole Assembly" %>
+        </div>
+
+        <div>
+          <b>Add New Entry</b>
+        </div>
+        <br><br>
         <%= f.hidden_field :document_id, value: @document.id %>
 
-        <%= f.text_area :comment, placeholder: "Enter comment/description of entry",
-                        class: "txtfield job-notes-text tooltip-info full-width submit-enter",
-                        autofocus: true,
-                        id: "new_job_log_id",
-                        "data-placement" => "bottom",
-                        "data-title" => "Comment/description text of entry" %>
+        <div>
+          <%= f.text_field :depth, placeholder: "Depth",
+                           class: "txtfield small tooltip-info submit-enter",
+                           id: "depth_log_id",
+                           "data-placement" => "bottom",
+                           "data-title" => "Depth of log entry" %>
 
+          <%= f.select :activity_code, options_for_select([["Start", DrillingLog::START],
+                                                           ["Circulating", DrillingLog::CIRCULATING],
+                                                           ["Drilling", DrillingLog::DRILLING],
+                                                           ["Connection", DrillingLog::CONNECTION],
+                                                           ["Survey", DrillingLog::SURVEY],
+                                                           ["Sliding", DrillingLog::SLIDING]], nil),
+                       {prompt: "Select Activity..."},
+                       class: "inline custom-select  tooltip-info",
+                       "data-placement" => "right",
+                       "data-title" => "Type of log entry" %>
+
+          <%= f.text_field :comment, placeholder: "Comment/description of entry",
+                           class: "txtfield tooltip-info submit-enter push-right-small",
+                           id: "new_job_log_id",
+                           "data-placement" => "bottom",
+                           "data-title" => "Comment/description text of entry" %>
+        </div>
 
         <div class="pull-left">
           <div class="inline-block push-down">
@@ -62,14 +161,29 @@
               <span class="add-on"><i class="icon-time"></i></span>
             </div>
           </div>
+
         </div>
 
-        <%= f.submit "+ Add Entry", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
-                     "data-form" => "new-job-log",
-                     "data-placement" => "bottom",
-                     "data-title" => "Add new note/action" %>
+        <div class="pull-right">
+
+          <%= f.submit "+ Add Entry",
+                       class: "bluebtn btnsmall inline tooltip-info form-loading-on-click",
+                       "data-form" => "new-job-log",
+                       "data-placement" => "bottom",
+                       "data-title" => "Add new note/action" %>
+        </div>
 
         <br><br>
+
+        <hr>
+
+        <%= link_to "#",
+                    class: "activity-user-link tooltip-info",
+                    "data-form" => "new-job-log",
+                    "data-placement" => "bottom",
+                    "data-title" => "Update Drilling Parameters/Mud/Bit Records" do %>
+            <i class="icon-chevron-down"></i> Update Drilling Parameters/Mud/Bit Records
+        <% end %>
 
 
       </div>
@@ -83,13 +197,27 @@
 </div>
 
 
-<div>
-  <div class="push-right-small">
-    <p class="help-text list-item-column">
+<div class="content">
+  <div class="">
+    <p class="help-text list-item-column list-item-column-short">
       Date/Time
     </p>
+    <p class="help-text list-item-column list-item-column-short">
+      Hours
+    </p>
 
-    <p class="help-text list-item-column long-column-text">
+    <p class="help-text list-item-column list-item-column-short">
+      Start Depth
+    </p>
+    <p class="help-text list-item-column list-item-column-short">
+      End Depth
+    </p>
+
+    <p class="help-text list-item-column list-item-column-short">
+      Activity
+    </p>
+
+    <p class="help-text list-item-column">
       Comment/Description
     </p>
 
@@ -102,14 +230,17 @@
   <div class="" id="list">
     <% if @drilling_logs.any? %>
         <% last_time = @drilling_logs.first.entry_at %>
-        <h3 class='push-right-small orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
+        <% last_entry = @drilling_logs.first %>
+        <h3 class='orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
         <% @drilling_logs.each do |entry| %>
             <% if entry.entry_at.day != last_time.day || entry.entry_at.month != last_time.month %>
                 <% last_time = entry.entry_at %>
                 <br><br>
+
                 <h3 class='push-right-small orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
             <% end %>
-            <%= render 'drilling_logs/drilling_log', entry: entry %>
+            <%= render 'drilling_logs/drilling_log', entry: entry, last_entry: last_entry %>
+            <% last_entry = entry %>
         <% end %>
     <% end %>
   </div>
@@ -120,4 +251,22 @@
 
 </div>
 
+
+<script>
+    var lineChartData = {
+        labels: ["", "", "", "", "", "", ""],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: [0, 2, 30, 40, 30, 36, 30]
+            }
+        ]
+    }
+
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+
+</script>
 

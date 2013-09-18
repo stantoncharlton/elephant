@@ -1,11 +1,27 @@
 <div class='field'>
-  <div class="push-right-small">
-    <p class="help-text list-item-column">
+  <div class="">
+    <p class="list-item-column list-item-column-short">
       <b class='blue-text'><%= entry.entry_at.strftime("%l:%M %p") %></b>
     </p>
 
-    <p class="list-item-column3 long-column-text">
-      <b><%= entry.comment %></b>
+    <p class="list-item-column list-item-column-short">
+      <% minutes = (entry.entry_at - last_entry.entry_at) / 60 %>
+      <%= (minutes / 60).round(2) %>
+    </p>
+
+    <p class="list-item-column list-item-column-short">
+      <%= last_entry.depth %>
+    </p>
+    <p class="list-item-column list-item-column-short">
+      <%= entry.depth %>
+    </p>
+
+    <p class="list-item-column list-item-column-short">
+      <%= entry.activity_code_string %>
+    </p>
+
+    <p class="list-item-column">
+      <%= entry.comment %>
     </p>
 
     <p class="help-text pull-right push-down-small">
