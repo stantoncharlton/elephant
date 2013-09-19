@@ -539,6 +539,14 @@ select {
   }
 }
 
+.part-search-box {
+  background: transparent;
+
+  input {
+    width: 200px;
+  }
+}
+
 .tooltip.in {
   opacity: 1;
   filter: alpha(opacity=100);

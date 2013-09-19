@@ -1,35 +1,47 @@
-<div class="" id="primary_tool_<%= primary_tool.id %>">
+<div class="root-primary-tool" id="primary_tool_<%= primary_tool.id %>">
   <div class="pull-right">
-    <%= link_to primary_tools_path(id: primary_tool.id, duplicate: true, job_id: job.id),
-                remote: true, method: :post, action: :create,
-                class: "activity-user-link pull-right duplicate-tool" do %>
-        <span class="duplicate-message"><i class="icon-plus-sign"></i> Duplicate Tool</span>
-        <span class="duplicate-loading hidden"><span class="ajax-loading search-loading">Creating...</span></span>
-    <% end %>
-    <% if !primary_tool.job.nil? %>
-        <div>
-          <br>
-          <%= link_to "remove", primary_tool, method: :delete, remote: true, data: {confirm: "Remove Tool?"},
-                      class: "delete-button tooltip-info pull-right",
-                      "data-placement" => "bottom",
-                      "data-title" => "Delete Tool from Job" %>
-        </div>
-    <% end %>
+    <div class="btn-group inline duplicate-message">
+      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+        Tool Actions
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to "Duplicate Tool", primary_tools_path(id: primary_tool.id, duplicate: true, job_id: job.id),
+                      remote: :true, method: :post, action: :create,
+                      class: "dropdown-menu-link tooltip-info",
+                      "data-placement" => "left",
+                      "data-title" => "Duplicate this tool to create another instance" %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to "Remove Tool", primary_tool, method: :delete, remote: true, data: {confirm: "Remove Tool?"},
+                      method: :delete,
+                      class: "dropdown-menu-link tooltip-info",
+                      "data-placement" => "left",
+                      "data-title" => "Delete tool instance" %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to "Change to Rental", primary_tools_path(id: primary_tool.id, rental: true, job_id: job.id),
+                      remote: :true, method: :post, action: :create,
+                      class: "dropdown-menu-link tooltip-info",
+                      "data-placement" => "left",
+                      "data-title" => "Change tool to rental" %>
+        </li>
+      </ul>
+    </div>
+    <div class="duplicate-loading hidden"><span class="ajax-loading search-loading">Duplicating tool...</span></div>
   </div>
+
 
   <div>
     <%= image_tag "tool.png" %>
     <div class="secondary-tool-name push-right-small">
-      <%= link_to primary_tool, class: "activity-user-link" do %>
-          <h3><%= primary_tool.tool.name %></h3>
-      <% end %>
-    </div>
-    <br>
-
-    <div class="">
-      <p class="tool-long-description "><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
+      <%= link_to primary_tool.tool.name, primary_tool, class: "primary-tool-link" %>
+      <p class="tool-long-description inline"><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
     </div>
   </div>
+
   <div class="content">
     <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
         <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
@@ -46,6 +58,10 @@
                 <hr>
             <% end %>
         <% end %>
+
+        <hr>
+        <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+
       </div>
   <% end %>
 

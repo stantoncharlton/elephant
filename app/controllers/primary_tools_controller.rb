@@ -1,5 +1,5 @@
 class PrimaryToolsController < ApplicationController
-    before_filter :signed_in_user, only: [:show, :create, :destroy]
+    before_filter :signed_in_user, only: [:show, :create, :update, :destroy]
 
 
     def show
@@ -16,6 +16,7 @@ class PrimaryToolsController < ApplicationController
 
             PrimaryTool.transaction do
                 @tool = PrimaryTool.new
+                @tool.template = false
                 @tool.tool = @existing_tool.tool
                 @tool.job = Job.find_by_id(params[:job_id])
                 not_found unless @tool.job.company == current_user.company
@@ -51,6 +52,7 @@ class PrimaryToolsController < ApplicationController
             params[:primary_tool].delete(:job_template_id)
 
             @tool = PrimaryTool.new(params[:primary_tool])
+            @tool.template = true
             @tool.tool = Tool.find_by_id(tool_id)
             not_found unless @tool.tool.present? && @tool.tool.company == current_user.company
             @tool.job_template = JobTemplate.find_by_id(job_template_id)
@@ -60,6 +62,17 @@ class PrimaryToolsController < ApplicationController
             @tool.save
 
             render 'tools/primary/primary_create'
+        end
+    end
+
+    def update
+        @tool = PrimaryTool.find_by_id(params[:id])
+        not_found unless  @tool.tool.company == current_user.company
+        if !@tool.template?
+            if params[:comments].present?
+                @tool.update_attribute(:comments, params[:comments])
+                render 'tools/primary/update'
+            end
         end
     end
 

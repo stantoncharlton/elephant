@@ -1,10 +1,13 @@
 class PrimaryTool < ActiveRecord::Base
+    attr_accessible :comments
 
     before_destroy :destroy_part_memberships
 
     acts_as_tenant(:company)
 
     validates_uniqueness_of :tool_id, scope: :job_template_id, :if => :job_not_present
+
+    validates :comments, length: {minimum: 0, maximum: 500}
 
     belongs_to :tool
     belongs_to :job_template

@@ -11,6 +11,8 @@ class PartRedress < ActiveRecord::Base
     validates_presence_of :job
     validates_presence_of :part
 
+    validates :notes, length: {minimum: 0, maximum: 500}
+
     belongs_to :company
     belongs_to :job
     belongs_to :part

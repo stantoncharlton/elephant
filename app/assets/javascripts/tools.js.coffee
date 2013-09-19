@@ -18,3 +18,10 @@ $ ->
     $(this).find('.duplicate-message').addClass 'hidden'
     $(this).find('.duplicate-loading').removeClass 'hidden'
     return false
+
+
+  $('.primary-tool-comments').live "change", ->
+    $.ajax '/primary_tools/' + $(this).closest('.root-primary-tool').attr('id').replace('primary_tool_', ''),
+      data: {comments: $(this).val() },
+      type: 'put', dataType: 'script'
+    return false

@@ -5,7 +5,7 @@
 
   <div class="">
     <div id="primary_tools_list">
-      <% @job_template.primary_tools.includes(:tool).where(:job_id => nil).order("tools.name ASC").each do |primary_tool| %>
+      <% @job_template.primary_tools.includes(:tool).where(:template => true).order("tools.name ASC").each do |primary_tool| %>
           <%= render 'tools/primary/primary_tool', tool: primary_tool %>
       <% end %>
     </div>

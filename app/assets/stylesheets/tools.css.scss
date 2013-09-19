@@ -54,4 +54,22 @@
   }
 }
 
+.primary-tool-link {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+
+  &:active, &:link, &:visited {
+    color: #0058a8;
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #0058a8;
+    background: transparent;
+    text-decoration: underline;
+  }
+}
+
+
 

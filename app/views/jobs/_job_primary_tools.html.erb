@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <% job.job_template.primary_tools.includes(:tool).order("tools.name ASC, primary_tools.created_at ASC").each_with_index do |primary_tool, index| %>
+  <% job.job_template.primary_tools.where(:template => false).includes(:tool).order("tools.name ASC, primary_tools.created_at ASC").each_with_index do |primary_tool, index| %>
         <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: index, job: job %>
   <% end %>
 </div>

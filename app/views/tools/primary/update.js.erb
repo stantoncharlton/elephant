@@ -1,0 +1,8 @@
+
+<% if @tool.errors.any? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem updating tool", message: @tool.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+<% else %>
+
+<% end %>

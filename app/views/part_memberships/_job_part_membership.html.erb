@@ -17,15 +17,17 @@
             <%= f.hidden_field :job_id, value: job.id %>
             <%= f.hidden_field :part_id, class: "part-id" %>
             <%= f.hidden_field :primary_tool_id, value: part_membership.primary_tool.id %>
-            <div class="filter-search-box pull-right">
+            <div class="filter-search-box part-search-box pull-right">
+              <b>Add Asset</b>
               <%= text_field_tag "", "", data: {autocomplete_source: parts_path(material_number: part_membership.material_number, district_id: job.district_id, template: false)},
-                                 placeholder: "Search for asset by district, serial, or material number...",
-                                 class: "txtfield search-query tooltip-info part-match",
+                                 placeholder: "Search for asset...",
+                                 class: "txtfield small search-query tooltip-info part-match push-right-small",
                                  "data-placement" => "left",
                                  "data-title" => "Search in assets..." %>
 
-              <a class="custom-data-toggle-jobs show-all-parts-material-number" data-part-fill="<%= (part.present? ? part.name : '') + ' ' + part_membership.material_number %>" href="#">
-                All
+              <span class="help-text">or</span>
+              <a class="custom-data-toggle-jobs show-all-parts-material-number blue-text push-right-small" data-part-fill="<%= (part.present? ? part.name : '') + ' ' + part_membership.material_number %>" href="#">
+                Show All Available
               </a>
             </div>
         <% end %>
@@ -39,9 +41,19 @@
   <div class="inline part-match-link part-field pull-right <%= part_membership.part.present? ? '' : 'hidden' %>">
     <% if part_membership.part.present? %>
         <% if !part_membership.part.district_serial_number.blank? %>
-            <%= link_to 'Serial #: ' + part_membership.part.serial_number + '  |  District #: ' + part_membership.part.district_serial_number, part_membership.part, class: "activity-user-link" %>
+            <%= link_to part_membership.part, class: "activity-user-link" do %>
+                <span class="help-text">Serial #</span>
+                <%= part_membership.part.serial_number %>
+
+                <span class="help-text">District #</span>
+                <%= part_membership.part.district_serial_number %>
+            <% end %>
         <% else %>
-            <%= link_to 'Serial #: ' + part_membership.part.serial_number, part_membership.part, class: "activity-user-link" %>
+            <%= link_to part_membership.part, class: "activity-user-link" do %>
+                <span class="help-text">Serial #</span>
+
+                <h3 class="blue-text inline"><%= part_membership.part.serial_number %></h3>
+            <% end %>
         <% end %>
     <% end %>
     <% if job.status == Job::ACTIVE %>
