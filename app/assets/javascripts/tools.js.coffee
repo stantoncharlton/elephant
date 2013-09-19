@@ -12,11 +12,17 @@ $ ->
   $('.secondary-tool-serial').live "change", ->
     $.ajax '/secondary_tools/' + $(this).attr("data-tool-id") + '?serial=' + $(this).val(), type: 'put', dataType: 'script'
 
-
+  $('.primary-tool-serial').live "change", ->
+    $.ajax '/primary_tools/' + $(this).attr("data-tool-id") + '?serial=' + $(this).val(), type: 'put', dataType: 'script'
 
   $('.duplicate-tool').live "click", ->
-    $(this).find('.duplicate-message').addClass 'hidden'
-    $(this).find('.duplicate-loading').removeClass 'hidden'
+    $(this).closest('.root-primary-tool').find('.duplicate-message').addClass 'hidden'
+    $(this).closest('.root-primary-tool').find('.duplicate-loading').removeClass 'hidden'
+    return false
+
+  $('.change-tool').live "click", ->
+    $(this).closest('.root-primary-tool').find('.duplicate-message').addClass 'hidden'
+    $(this).closest('.root-primary-tool').find('.tool-changing-loading').removeClass 'hidden'
     return false
 
 

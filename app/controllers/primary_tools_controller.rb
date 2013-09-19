@@ -72,6 +72,26 @@ class PrimaryToolsController < ApplicationController
             if params[:comments].present?
                 @tool.update_attribute(:comments, params[:comments])
                 render 'tools/primary/update'
+            elsif params[:simple_tracking].present?
+                @tool.update_attribute(:simple_tracking, true)
+                @update_tool = true
+                render 'tools/primary/update'
+            elsif params[:advanced_tracking].present?
+                @tool.update_attribute(:simple_tracking, false)
+                @update_tool = true
+                render 'tools/primary/update'
+            elsif params[:serial].present?
+                @update_tool = true
+                @tracking = true
+                @tool.update_attribute(:serial_number, params[:serial])
+                render :nothing => true, :status => 200
+            elsif params[:received].present?
+                @update_tool = true
+                @tracking = true
+                if params[:received] == "true" && !@tool.serial_number.blank?
+                    @tool.update_attribute(:received, true)
+                end
+                render 'tools/primary/update'
             end
         end
     end

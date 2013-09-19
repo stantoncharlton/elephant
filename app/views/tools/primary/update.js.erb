@@ -1,8 +1,27 @@
+$tool = $('#primary_tool_<%= @tool.id %>');
+$tool.find('.duplicate-message').removeClass('hidden');
+$tool.find('.duplicate-loading').addClass('hidden');
+$tool.find('.tool-changing-loading').addClass('hidden');
 
 <% if @tool.errors.any? %>
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Problem updating tool", message: @tool.errors.full_messages.join(', ').html_safe %>");
 $('#alert').modal({show: true});
 <% else %>
+
+    <% if @tracking.present? && @tracking && @tool.serial_number.blank? %>
+    $(".form[data-form=receive-part-form-<%= @tool.id %>]").show();
+    $(".form-loading-on-click[data-form=receive-part-form-<%= @tool.id %>]").show();
+
+    $(".form-loading[data-form=receive-part-form-<%= @tool.id %>]").addClass('hidden');
+
+    $('#alert').remove();
+    $('body').append("<%= j render 'layouts/modal_error', title: "Problem Receiving", message: "Set serial number before receiving accessory." %>");
+    $('#alert').modal({show: true});
+    <% end %>
+
+    <% if @update_tool.present? && @update_tool %>
+    $('#primary_tool_<%= @tool.id %>').replaceWith("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
+    <% end %>
 
 <% end %>
