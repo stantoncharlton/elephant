@@ -28,7 +28,7 @@ module JobsHelper
 
                 sheet.add_row ['Required Data', '', '', ''], :style => column_name_cell
                 job.dynamic_fields_required.each_with_index do |field, index|
-                    sheet.add_row [field.name, field.value.to_f.round(3).to_s + " " + field.get_value_type_unit(field.value_type), '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
+                    sheet.add_row [field.name, (field.value_type != 1 && !field.value.nil? ? field.value.to_f.round(3).to_s : field.value || '') + " " + (field.get_value_type_unit(field.value_type)  || ''), '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
                 end
 
                 sheet.add_row ['', '', '', ''], :style => cell1
@@ -36,7 +36,7 @@ module JobsHelper
 
                 sheet.add_row ['Optional Data', '', '', ''], :style => column_name_cell
                 job.dynamic_fields_optional.each_with_index do |field, index|
-                    sheet.add_row [field.name, (field.value_type > 1 ? field.value.to_f.round(3).to_s : field.value)  + " " + (field.get_value_type_unit(field.value_type) || ''), '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
+                    sheet.add_row [field.name, (field.value_type != 1 && !field.value.nil? ? field.value.to_f.round(3).to_s : field.value || '')  + " " + (field.get_value_type_unit(field.value_type) || ''), '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
                 end
 
                 sheet.add_row ['', '', '', ''], :style => cell1
