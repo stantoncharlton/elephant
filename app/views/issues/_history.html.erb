@@ -1,0 +1,25 @@
+<% failures = Failure.includes(:issue).includes(:job).where(:company_id => current_user.company_id).where(:failure_master_template_id => failure.failure_master_template_id).where("jobs.job_template_id IS NOT NULL").order("failures.created_at DESC") %>
+<div>
+  <h3 class="inline">Incident History</h3> <span class="inline"> <%= failures.count %></span>
+  <hr>
+  <% failures.each do |f| %>
+      <% if f.job.present? && f.job.job_template.present? %>
+          <br>
+          <div>
+            <%= time_ago_in_words(f.created_at) %> ago
+            <br><br>
+            <div>
+              <% if f.issue.present? %>
+                  <% if f.issue.status == Issue::OPEN %>
+                      <span class="label label-success">OPEN</span>
+                  <% elsif f.issue.status == Issue::CLOSED %>
+                      <span class="label label-important">CLOSED</span>
+                  <% end %>
+              <% end %>
+              <%= link_to "view case", f.issue, class: "inline push-right-small activity-user-link" %>
+            </div>
+          </div>
+          <%= render 'jobs/job_progress_link', job: f.job, show_summary_data: false, job_name: false %>
+      <% end %>
+  <% end %>
+</div>

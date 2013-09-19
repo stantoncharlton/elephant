@@ -50,11 +50,6 @@
 
             <p class="failure-checkbox-text">
               <b><%= failure.failure_master_template.text %></b>
-
-          <span class="inline failure-reference <%= job_failure.present? ? "" : "hidden" %>">
-            <br>
-            <%= f.text_field :reference, name: failure.id.to_s + "_reference", value: job_failure.present? ? job_failure.reference : nil, class: "inline txtfield small pull-right", placeholder: "Type reference note..." %>
-          </span>
             </p>
 
           </fieldset>

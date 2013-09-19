@@ -5,6 +5,9 @@ class Issue < ActiveRecord::Base
     belongs_to :failure
     belongs_to :job
 
+    has_many :job_notes
+    has_many :documents, :dependent => :destroy, as: :owner, :class_name => "Document"
+
     OPEN = 1
     CLOSED = 2
 
@@ -23,10 +26,22 @@ class Issue < ActiveRecord::Base
         issue.company = company
         issue.job = job
         issue.save
+
+        document = Document.new
+        document.name = "Issue Report"
+        document.category = Document::ISSUES
+        document.document_type = Document::DOCUMENT
+        document.read_only = false
+        document.ordering = 0
+        document.template = false
+        document.owner = issue
+        document.company = company
+        document.save
+
         issue
     end
 
-    def remove(failure)
+    def self.remove(failure)
         issue = Issue.find_by_failure_id(failure.id)
         issue.destroy
     end

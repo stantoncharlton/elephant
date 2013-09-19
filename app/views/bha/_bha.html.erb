@@ -15,7 +15,7 @@
         <hr>
 
         <div class="content">
-          <% @document.job.job_template.primary_tools.includes(:tool).order("tools.name ASC").each do |primary_tool| %>
+          <% @document.job.job_template.primary_tools.where(:template => false).includes(:tool).order("tools.name ASC").each do |primary_tool| %>
               <%= render 'bha/bha_tool', tool: primary_tool, document: @document, f: f %>
           <% end %>
 

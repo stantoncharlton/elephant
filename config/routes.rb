@@ -107,6 +107,6 @@ ElephantWebApp::Application.routes.draw do
 
     resources :bha, only: [:show, :edit, :update, :destroy]
 
-    resources :issues, only: [:show]
+    resources :issues, only: [:show, :update]
 end
 

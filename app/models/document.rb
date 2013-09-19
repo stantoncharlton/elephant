@@ -46,6 +46,7 @@ class Document < ActiveRecord::Base
     POST_JOB_REPORT = "Post Job Report"
     PRIMARY_TOOL = "Primary Tool"
     PART_REDRESS = "Part Redress"
+    ISSUES = "Issues"
 
     def default_name
         self.name ||= File.basename(url, '.*').titleize if url

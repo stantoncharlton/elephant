@@ -1,0 +1,19 @@
+$('.issue-closing-loading').addClass('hidden');
+
+<% if @issue.new_record? %>
+
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem updating issue", message: @issue.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+
+<% else %>
+
+    <% if @issue.status == Issue::CLOSED %>
+    $('.close-case-link').addClass('hidden');
+    $('.status-open').addClass("hidden");
+    $('.status-closed').removeClass("hidden");
+    <% else %>
+    $('.close-case-link').removeClass('hidden');
+    <% end %>
+
+<% end %>

@@ -2,14 +2,38 @@
 
 <div class="page_header">
   <h1>Issue</h1>
-  <span class="push-right-small">Status <span class="label label-success"><%= @issue.status_string %></span></span>
-  <span class="push-right">Opened <p class="inline push-right-small"><%= @issue.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p></span>
+  <span class="push-right-small">
+    Status
+    <span class="label label-success status-open <%= @issue.status == Issue::OPEN ? "" : "hidden" %>">OPEN</span>
+    <span class="label label-important status-closed <%= @issue.status == Issue::CLOSED ? "" : "hidden" %>">CLOSED</span>
+  </span>
+  <span class="push-right">Created <p class="inline push-right-small"><%= @issue.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p></span>
 
-  <%= link_to "CLOSE CASE", "#", class: "bluebtn red pull-right" %>
+  <div class="pull-right">
+    <% if @issue.status == Issue::OPEN %>
+        <%= link_to "CLOSE CASE", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
+        <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
+    <% end %>
+  </div>
 </div>
 
 <div>
+  <div><%= @issue.failure.failure_master_template.product_line.name %>
+    / <%= @issue.failure.job.job_template.name %></div>
+  <div><h3 class="warning-text"><%= @issue.failure.failure_master_template.text %></h3></div>
+</div>
+
+<div>
+  <br>
   <%= render 'jobs/job_progress_link', job: @issue.job, show_summary_data: false, job_name: false %>
+</div>
+
+<div>
+  <div class="content">
+    <% @issue.documents.each do |document| %>
+        <%= render 'documents/document', document: document, editable: false, can_upload: true %>
+    <% end %>
+  </div>
 </div>
 
 <div class="content">
@@ -17,8 +41,7 @@
     <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
         <div class="new-product-line well">
           <div class="form" data-form="new-note-form">
-            <%= f.hidden_field :job_id, value: @issue.job.id %>
-            <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
+            <%= f.hidden_field :issue_id, value: @issue.id %>
 
             <b>Add new note</b>
 
@@ -47,7 +70,10 @@
   </div>
 </div>
 <div id="job_notes" class="content">
-  <% @issue.job.job_notes.includes(comments: :user).each do |job_note| %>
+  <% @issue.job_notes.includes(comments: :user).each do |job_note| %>
       <%= render 'job_notes/job_note', job_note: job_note %>
   <% end %>
 </div>
+
+<br><br>
+<%= render 'issues/history', failure: @issue.failure %>

@@ -10,33 +10,28 @@
         <%= f.check_box "pt_tool_" + tool.id.to_s, checked: false,
                         class: "regular-checkbox bha-show-fields", id: "primary_" + tool.id.to_s %>
         <label for="primary_<%= tool.id %>"></label>
-
         <p class="checkbox-label-large"><%= tool.tool.name %></p>
 
         <% if tool.part_memberships.any? %>
-            <div class="">
+            <div class="push-up">
               <% tool.part_memberships.where(:template => true).each_with_index do |part_membership, index| %>
                   <% real = part_membership.usage_part_membership(document.job.id) %>
                   <% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: document.job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
 
-                  <div class='inline-block push-right'>
+                  <div class='push-right'>
                     <% if part.present? %>
-                        <p class="inline"><b><%= part.name %></b> -</p>
-                        <%= link_to part_membership.material_number, part, class: "inline activity-user-link" %>
+                        <%= link_to part.name, part, class: "inline activity-user-link tooltip-info", "data-title" => part.name + ", Material # " + part.material_number %>
                     <% else %>
-                        <p><b><%= part_membership.material_number %></b></p>
+                        <p class="inline"><%= part_membership.material_number %></p>
                     <% end %>
 
                     <div class="inline">
                       <% if real.present? && real.part.present? %>
-                          <p class="inline">-</p>
-                          <% if !real.part.district_serial_number.blank? %>
-                              <%= link_to 'Serial #: ' + real.part.serial_number + '  |  District #: ' + real.part.district_serial_number, real.part, class: "activity-user-link" %>
-                          <% else %>
-                              <%= link_to 'Serial #: ' + real.part.serial_number, real.part, class: "activity-user-link" %>
-                          <% end %>
+                          <p class="inline help-text">- Serial #</p>
+                          <%= link_to real.part.serial_number, real.part, class: "inline activity-user-link" %>
                       <% end %>
                     </div>
+                    <br>
                   </div>
 
               <% end %>

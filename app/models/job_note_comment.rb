@@ -6,8 +6,8 @@ class JobNoteComment < ActiveRecord::Base
 
     validates_presence_of :company
     validates_presence_of :user
-    validates_presence_of :job
     validates_presence_of :job_note
+    validates :text, length: {minimum: 1, maximum: 1000}
 
     belongs_to :job_note
     belongs_to :job

@@ -25,3 +25,11 @@ $ ->
       data: {comments: $(this).val() },
       type: 'put', dataType: 'script'
     return false
+
+  $('.close-case-link').live "click", ->
+    $(this).addClass 'hidden'
+    $('.issue-closing-loading').removeClass 'hidden'
+    $.ajax '/issues/' + $(this).attr('data-id'),
+      data: {closed: true },
+      type: 'put', dataType: 'script'
+    return false

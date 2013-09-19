@@ -2,17 +2,19 @@
 
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Failed to create note", message: @job_note.errors.full_messages.join(', ').html_safe %>");
-$('#alert').modal({show:true});
+$('#alert').modal({show: true});
 
 <% else %>
 $("#job_notes").prepend("<%= j render 'job_notes/job_note', job_note: @job_note %>");
+<% if @job_note.job.present? %>
 $('.job-notes-count').text('<%= "(" + @job_note.job.job_notes.count.to_s + ")" %>');
+<% end %>
+
 $('#new_note_id').val('');
-$('#new_note_name').val('');
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
-$('.activity-user-link').tooltip();
-$('.tooltip-info').tooltip();
+    $('.activity-user-link').tooltip();
+    $('.tooltip-info').tooltip();
 }
 
 $('.form[data-form=new-note-form]').show();

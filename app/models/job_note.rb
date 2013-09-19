@@ -7,15 +7,15 @@ class JobNote < ActiveRecord::Base
 
     validates_presence_of :company
     validates_presence_of :user
-    validates_presence_of :job
     validates_presence_of :note_type
     validates_presence_of :text
-
+    validates :text, length: {minimum: 1, maximum: 2000}
 
     belongs_to :company
     belongs_to :user
     belongs_to :assign_to, class_name: "User"
     belongs_to :job
+    belongs_to :issue
 
 
     has_many :comments, dependent: :destroy, class_name: "JobNoteComment", order: "created_at asc"
@@ -40,6 +40,18 @@ class JobNote < ActiveRecord::Base
                 end
             end
         end
+    end
+
+    def parent_collection
+        if self.job.present?
+            self.job.job_notes
+        elsif self.issue.present?
+            self.issue.job_notes
+        end
+    end
+
+    def not_issue_blank
+       !self.issue.blank?
     end
 
 end

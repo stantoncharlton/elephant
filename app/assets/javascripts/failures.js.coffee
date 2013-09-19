@@ -23,8 +23,8 @@ $ ->
         $(this).removeClass 'star-button-filled'
     return false
 
-  $('.failure-checkbox').live "click", ->
-    if $(this).is(':checked')
-      $(this).closest('.field').find('.failure-reference').removeClass 'hidden'
-    else
-      $(this).closest('.field').find('.failure-reference').addClass 'hidden'
+  #$('.failure-checkbox').live "click", ->
+  #  if $(this).is(':checked')
+  #    $(this).closest('.field').find('.failure-reference').removeClass 'hidden'
+  #  else
+  #    $(this).closest('.field').find('.failure-reference').addClass 'hidden'

@@ -7,7 +7,7 @@ class JobNoteCommentsController < ApplicationController
         params[:job_note_comment].delete(:job_note_id)
 
         @job_note = JobNote.find_by_id(job_note_id)
-        not_found unless @job_note.job.company == current_user.company
+        not_found unless @job_note.company == current_user.company
 
         @comment = JobNoteComment.new(params[:job_note_comment])
         @comment.job_note = @job_note

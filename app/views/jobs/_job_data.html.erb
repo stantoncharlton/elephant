@@ -189,7 +189,7 @@
 
         <% if !in_form && job.job_template.primary_tools.any? %>
             <div class="inline pull-right">
-              <% job.job_template.primary_tools.each do |primary_tool| %>
+              <% job.job_template.primary_tools.where(:template => true).each do |primary_tool| %>
                   <span class="label"><%= primary_tool.tool.name %></span>
               <% end %>
             </div>

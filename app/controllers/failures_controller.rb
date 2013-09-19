@@ -34,8 +34,8 @@ class FailuresController < ApplicationController
                 @failure = Failure.find_by_id(params[:id])
                 not_found unless @failure.company == current_user.company
 
-                jobs_query = Failure.select("failures.job_id").where("failures.failure_master_template_id = ?", @failure.id).to_sql
-                @jobs = Job.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).where("jobs.id IN (#{jobs_query})").order("jobs.created_at ASC").paginate(page: params[:page], limit: 20)
+                #jobs_query = Failure.select("failures.job_id").where("failures.failure_master_template_id = ?", @failure.id).to_sql
+                #@jobs = Job.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).where("jobs.id IN (#{jobs_query})").order("jobs.created_at ASC").paginate(page: params[:page], limit: 20)
             }
             format.js {
                 render 'failures/show'
@@ -90,18 +90,18 @@ class FailuresController < ApplicationController
 
             Failure.transaction do
                 failures_array = @job.failures.to_a
-                failures_array.each do |failure|
+                @job.job_template.failures.each do |failure|
                     if params[:failures][failure.id.to_s] != "1"
-                        Failure.find_by_id(failure.id)
-                        if failure.company == current_user.company
-                            failure.destroy
-                            Issue.remove(failure)
+                        job_failure = failures_array.find { |f| f.failure_master_template_id == failure.failure_master_template_id }
+                        if !job_failure.nil? && job_failure.company == current_user.company
+                            job_failure.destroy
+                            Issue.remove(job_failure)
                         end
                     end
                 end
                 @job.job_template.failures.each do |failure|
                     if params[:failures][failure.id.to_s] == "1"
-                        if failures_array.find { |f| f.failure_master_template_id = failure.id } == nil
+                        if failures_array.find { |f| f.failure_master_template_id == failure.id } == nil
                             job_failure = Failure.new
                             job_failure.company = current_user.company
                             job_failure.failure_master_template = failure.failure_master_template
