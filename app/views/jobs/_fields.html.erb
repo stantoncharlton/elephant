@@ -91,7 +91,8 @@
                            "data-title" => "Customer Name, select from drop down based on search results" %>
 
         <% if current_user.role.district_edit? %>
-            <%= link_to "New", new_client_path, remote: true, class: "add-button add-button-left tooltip-info", id: "new_customer_link",
+            <%= link_to "New", new_client_path, remote: true,
+                        class: "add-button add-button-left tooltip-info show-modal-button", id: "new_customer_link",
                         "data-placement" => "bottom",
                         "data-title" => "Create new customer" %>
         <% end %>
@@ -109,7 +110,7 @@
                    class: "tooltip-info custom-select-long ",
                    "data-placement" => "bottom",
                    "data-title" => "Field Name" %>
-      <%= link_to "New", new_field_path, remote: true, class: "add-button add-button-left tooltip-info", id: "new_field_link",
+      <%= link_to "New", new_field_path, remote: true, class: "add-button add-button-left tooltip-info show-modal-button", id: "new_field_link",
                   "data-placement" => "bottom",
                   "data-title" => "Create new field" %>
 
@@ -120,7 +121,7 @@
                      class: "tooltip-info custom-select-long ",
                      "data-placement" => "bottom",
                      "data-title" => "Well Name" %>
-        <%= link_to "New", new_well_path, remote: true, class: "add-button add-button-left tooltip-info", id: "new_well_link",
+        <%= link_to "New", new_well_path, remote: true, class: "add-button add-button-left tooltip-info show-modal-button", id: "new_well_link",
                     "data-placement" => "bottom",
                     "data-title" => "Create new well" %>
       </div>
@@ -129,6 +130,7 @@
 
   </div>
 </div>
+
 
 
 <script type="text/javascript">

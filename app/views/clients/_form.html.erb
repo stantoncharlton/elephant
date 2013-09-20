@@ -1,4 +1,6 @@
-<%= render 'shared/error_messages', object: f.object %>
+<% if f.object.present? %>
+    <%= render 'shared/error_messages', object: f.object %>
+<% end %>
 
 <div class="well">
   <div class="">
@@ -11,8 +13,9 @@
   </div>
 
   <div class="alert alert-warning hidden">
-         <b>Warning!</b> Customers that already exist
+    <b>Warning!</b> Customers that already exist
     <br><br>
+
     <div id="similar_customer"></div>
   </div>
 

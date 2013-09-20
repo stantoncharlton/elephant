@@ -31,6 +31,13 @@ $ ->
         $('#client_name').removeClass 'ui-autocomplete-typing'
 
 
+  $('.close-modal').live "click", ->
+    popup = $(this).closest('.modal-popup-background')
+    popup.css "visibility", "hidden"
+    popup.find(".modal-content").children().remove()
+    popup.height(0)
+    return false
+
   $('#close_modal').live "click", ->
     $('#modal_popup').css "visibility", "hidden"
     $('#modal_popup').find(".modal-content").children().remove()
@@ -183,3 +190,9 @@ $ ->
   $('.ajax-form-loading-on-click').live "click", ->
     $('.ajax-loading').removeClass 'hidden'
     $('.ajax-form').hide()
+
+
+  $('#show_tool_filter').live "click", ->
+    $(this).addClass 'hidden'
+    $('.tool-filter').removeClass 'hidden'
+    return false

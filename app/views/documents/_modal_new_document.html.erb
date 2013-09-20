@@ -1,10 +1,9 @@
-<div id="alert" class="modal hide fade"
-     tabindex="-1" role="dialog" aria-labelledby="modal_label" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h2 id="modal_label" class="page-title">Add New Custom Document</h2>
+<div>
+  <div class="page_header">
+    <h1>Add New Document</h1>
   </div>
-  <div class="modal-body">
+
+  <div class="form" data-form="new_document">
     <%= form_for(document, remote: true) do |f| %>
 
         <%= f.hidden_field :document_type, value: "0" %>
@@ -53,8 +52,8 @@
 
 
         <div class="custom-document-footer">
-          <%= f.submit class: "bluebtn pull-right",
-                       "aria-hidden" => "true" %>
+          <%= f.submit class: "bluebtn pull-right form-loading-on-click",
+                       "data-form" => "new_document" %>
         </div>
 
 
@@ -62,4 +61,8 @@
 
   </div>
 
+
+  <div class="form-loading hidden" data-form="new_document">
+    <%= render 'layouts/inline_loading', title: "Creating..." %>
+  </div>
 </div>

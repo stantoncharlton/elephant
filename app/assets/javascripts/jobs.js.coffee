@@ -97,11 +97,11 @@ $ ->
   if document.location.hash != ''
     $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
 
-  $('#add_failure').click ->
-    $('#modal_popup').css('visibility', 'visible')
-    $('#modal_popup').find('.modal-popup').css('margin-top', $('body').scrollTop() + 100)
-    $('#modal_popup').height($(document).height() + 100)
-    $('#modal_popup').find('.loading').removeClass 'hidden'
+  #$('#add_failure').click ->
+  #  $('#modal_popup').css('visibility', 'visible')
+  #  $('#modal_popup').find('.modal-popup').css('margin-top', $('body').scrollTop() + 100)
+  #  $('#modal_popup').height($(document).height() + 100)
+  #  $('#modal_popup').find('.loading').removeClass 'hidden'
 
 
   $('.division-jobs-toggle').click ->

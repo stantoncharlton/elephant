@@ -69,7 +69,7 @@
       <div class="push-right-small">
         <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
                     remote: true,
-                    class: "add-custom-document tooltip-info",
+                    class: "add-custom-document tooltip-info show-modal-button",
                     "data-placement" => "left",
                     "data-title" => "Add new custom document not part of original job documents" %>
         <span class='help-text'>(client request, pricing, etc)</span>

@@ -27,7 +27,7 @@
   <div class="chart-block chart-block-extended">
     <div class="">
       <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id, :rate => "false"), remote: true,
-                  class: "add-job-member add-failure tooltip-info",
+                  class: "add-job-member add-failure tooltip-info show-modal-button",
                   id: "add_failure",
                   "data-placement" => "bottom",
                   "data-title" => "Add failure to job type" %>

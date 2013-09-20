@@ -233,7 +233,8 @@
         <br><br>
         <div>
           <% @part.jobs.each do |job| %>
-            <%= render 'parts/part_run', job: job %>
+              <%= render 'parts/part_run', job: job %>
+              <br>
           <% end %>
         </div>
     <% else %>
@@ -243,8 +244,18 @@
 
 
 <div id="modal_popup" class="modal-popup-background">
-  <div class="modal-popup">
+  <div class="modal-popup modal-popup-fixed">
     <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+    <div class="modal-content">
+    </div>
+    <%= render "layouts/inline_loading", title: "Loading..." %>
+  </div>
+</div>
+
+
+<div id="modal_popup2" class="modal-popup-background">
+  <div class="modal-popup">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close close-modal" %>
     <div class="modal-content">
       <%= image_tag "error_red.png" %> <h3 class="inline push-right-small">Can't Delete</h3>
       <hr>
@@ -252,4 +263,7 @@
     </div>
   </div>
 </div>
+
+
+
 

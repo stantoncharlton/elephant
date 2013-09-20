@@ -51,7 +51,7 @@
     <br>
   </div>
 
-  <div class="well well-large">
+  <div class="well well-large <%= @hide_info.present? && @hide_info ? "hidden" : "" %>">
     <div class="content">
       <div class="inline  tooltip-info"
       data-placement="bottom"

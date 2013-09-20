@@ -1,6 +1,12 @@
-$('#alert').remove();
-$('body').append("<%= j render 'documents/modal_new_document', document: @document, job_id: @job_id, part_redress_id: @part_redress %>");
-$('#alert').modal({show: true});
+<% if false %>
+//$('#alert').remove();
+//$('body').append("<%= j render 'documents/modal_new_document', document: @document, job_id: @job_id, part_redress_id: @part_redress %>");
+//$('#alert').modal({show: true});
+<% end %>
+
+$('#modal_popup').find('.modal-content').append('<%= j render 'documents/modal_new_document', document: @document, job_id: @job_id, part_redress_id: @part_redress %>');
+$('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').find('.loading').addClass('hidden');
 
 $('.custom-select').customSelect();
 

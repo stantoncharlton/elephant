@@ -23,12 +23,10 @@
 
 
 <div id="modal_popup" class="modal-popup-background">
-  <div class="modal-popup">
+  <div class="modal-popup modal-popup-fixed">
     <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
-
     <div class="modal-content">
-
     </div>
-
+    <%= render "layouts/inline_loading", title: "Loading..." %>
   </div>
 </div>

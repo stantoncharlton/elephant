@@ -1,14 +1,24 @@
-<% if job_templates.includes(:product_line).any? && job_templates.includes(:product_line).first.product_line.present? %>
-    <div class="content">
-      Filter by tools »
-      <% job_templates.first.product_line.primary_tools.each do |primary_tool| %>
-          <a class="tool-type-selection" data-primary-tool="<%= primary_tool.id %>"><%= primary_tool.name %></a>
-      <% end %>
-    </div>
-<% end %>
-
 <div class='alert'>
-  <b>Select the type of job to create</b>
+
+  <%= link_to "#", id: "show_tool_filter", class: "activity-user-link help-text pull-right push-down" do %>
+      Filter List &nbsp; <i class="icon-chevron-down"></i>
+  <% end %>
+
+  <b>Job Systems</b>
+  <p>Select from list below to continue</p>
+
+  <% if job_templates.includes(:product_line).any? && job_templates.includes(:product_line).first.product_line.present? %>
+      <div class="">
+        <div class="hidden tool-filter">
+          <br>
+          Tool Filter
+          <hr>
+          <% job_templates.first.product_line.primary_tools.each do |primary_tool| %>
+              <a class="tool-type-selection" data-primary-tool="<%= primary_tool.id %>"><%= primary_tool.name %></a>
+          <% end %>
+        </div>
+      </div>
+  <% end %>
 </div>
 
 <% job_templates.includes(primary_tools: :tool).each do |jt| %>
