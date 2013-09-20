@@ -187,7 +187,7 @@
             <h2 class="job-title3 inline"><%= job.job_template.name %></h2>
         <% end %>
 
-        <% if !in_form && job.job_template.primary_tools.any? %>
+        <% if !in_form && job.job_template.primary_tools.where(:template => true).any? %>
             <div class="inline pull-right">
               <% job.job_template.primary_tools.where(:template => true).each do |primary_tool| %>
                   <span class="label"><%= primary_tool.tool.name %></span>

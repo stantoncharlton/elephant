@@ -2,7 +2,8 @@ class PrimaryTool < ActiveRecord::Base
     attr_accessible :comments,
                     :serial_number,
                     :received,
-                    :simple_tracking
+                    :simple_tracking,
+                    :template
 
     before_destroy :destroy_part_memberships
 

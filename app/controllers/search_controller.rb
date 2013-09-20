@@ -52,7 +52,7 @@ class SearchController < ApplicationController
                     elsif @data_type == Query::JOB_TOOLS
                         @show_fields = true
                         @tools = []
-                        @product_line.primary_tools.each do |tool|
+                        @product_line.primary_tools.where(:template => true).each do |tool|
                             @tools << tool
                         end
                         @product_line.segment.division.secondary_tools.each do |tool|

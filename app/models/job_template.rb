@@ -22,7 +22,7 @@ class JobTemplate < ActiveRecord::Base
     has_many :documents, order: "ordering ASC", :conditions => ['documents.template = ?', true]
     accepts_nested_attributes_for :documents, :allow_destroy => true
 
-    has_many :primary_tools
+    has_many :primary_tools, :conditions => {:template => true }
     has_many :post_job_report_documents, order: "ordering ASC", :dependent => :destroy
     has_many :failures, dependent: :destroy, order: "text ASC"
 

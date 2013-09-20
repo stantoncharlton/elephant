@@ -195,7 +195,7 @@ class JobsController < ApplicationController
                 job_document.save
             end
 
-            @job.job_template.primary_tools.each do |primary_tool|
+            @job.job_template.primary_tools.where(:template => true).each do |primary_tool|
                 tool = PrimaryTool.new
                 tool.template = false
                 tool.tool = primary_tool.tool

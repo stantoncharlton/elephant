@@ -37,7 +37,7 @@
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="tools_assets"
            data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
-          <%= "(" + @job.job_template.primary_tools.where(:template => true).count.to_s + ")" %></a>
+          <%= "(" + @job.job_template.primary_tools.where(:template => false).where(:job_id => @job.id).count.to_s + ")" %></a>
       </li>
 
       <% if false %>

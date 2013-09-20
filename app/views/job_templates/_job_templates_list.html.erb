@@ -26,7 +26,7 @@
       <%= link_to "#",
                   id: "job_template_" + jt.id.to_s,
                   class: "clearfix job-type-selection " + (job_template.present? && jt.id == job_template.id ? "job-type-selected" : ""),
-                  "data-primary-tools" => jt.primary_tools.map { |pt| pt.tool.id }.join("_"),
+                  "data-primary-tools" => jt.primary_tools.where(:template => true).map { |pt| pt.tool.id }.join("_"),
                   "data-placement" => "left",
                   "data-title" => "Click to open/edit job type" do %>
           <p class="list-job-item-name">
