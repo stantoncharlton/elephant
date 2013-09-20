@@ -21,10 +21,12 @@ module JobsHelper
             options = {:grid_lines => true, :headings => true, :horizontal_centered => true}
 
             wb.add_worksheet(:name => "Job Data", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|
-                sheet.add_row ['', 'Job Data', '', ''], :style => title_cell
-                sheet.add_row ['', job.field.name + " | " + job.well.name, '', ''], :style => title_cell2
+                row = sheet.add_row ['Job Data', '', '', ''], :style => title_cell
+                row = sheet.add_row [job.field.name + " | " + job.well.name, '', '', ''], :style => title_cell2
                 sheet.add_row ['', '', '', ''], :style => title_cell
                 #sheet.add_row ['Date', 'Time', 'Comment/Description', 'User'], :style => column_name_cell
+
+
 
                 sheet.add_row ['Required Data', '', '', ''], :style => column_name_cell
                 job.dynamic_fields_required.each_with_index do |field, index|
@@ -59,6 +61,9 @@ module JobsHelper
                 #end
 
                 sheet.column_widths 30, 30, 20, 15
+
+                sheet.merge_cells("A1:D1")
+                sheet.merge_cells("A2:D2")
 
             end
         end
