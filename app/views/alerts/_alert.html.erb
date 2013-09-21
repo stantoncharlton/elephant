@@ -13,7 +13,8 @@
           <%= image_tag "add_arrow.png" %>
           <% job_membership = alert.job.get_membership_role(alert.user) %>
           <% if job_membership %>
-              <%= render 'jobs/user', job_membership: job_membership, include_icon: true %>&nbsp;<%= t ".added_to_job" %>:
+              <%= render 'jobs/user', job_membership: job_membership, include_icon: true %>&nbsp;<%= t ".added_to_job" %>
+              :
           <% else %>
               <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
               <%= render 'activities/user', user: alert.created_by %><%= t ".added_to_job" %>:
@@ -59,6 +60,30 @@
             <%= render 'jobs/job_data_small', job: alert.job %>
         <% end %>
         <br>
+    <% end %>
+    <% if alert.alert_type == Alert::FAILURE_ADDED %>
+        <div class="">
+          <%= image_tag "error_red.png", class: "job-status-avatar" %>
+          <p class=" inline warning-text"><b>New Failure</b></p>
+        </div>
+        <%= link_to alert.target.issue, class: "job-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Click to open issue" do %>
+            <div class="">
+              <% if alert.target.issue.present? %>
+                  <% if alert.target.issue.status == Issue::OPEN %>
+                      <span class="label label-success">OPEN</span>
+                  <% elsif alert.target.issue.status == Issue::CLOSED %>
+                      <span class="label label-important">CLOSED</span>
+                  <% end %>
+              <% end %>
+              <div class="">
+                <h3 class="warning-text"><%= alert.target.failure_master_template.text %></h3>
+              </div>
+              <%= render 'jobs/job_progress', job: alert.job, show_summary_data: true, job_name: false %>
+            </div>
+        <% end %>
+        <br><br>
     <% end %>
 
     <% if alert.alert_type == Alert::TASK_ASSIGNED %>

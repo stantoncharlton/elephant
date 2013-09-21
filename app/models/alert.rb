@@ -29,6 +29,7 @@ class Alert < ActiveRecord::Base
     JOB_SHIPPED = 6
     JOB_CLOSED = 7
     JOB_WARNING = 8
+    FAILURE_ADDED = 9
 
 
 

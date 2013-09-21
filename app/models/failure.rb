@@ -9,7 +9,7 @@ class Failure < ActiveRecord::Base
     validates_uniqueness_of :text, :case_sensitive => false, :scope => [:product_line_id], :if => :template?
     validates_uniqueness_of :failure_master_template_id, :scope => [:job_id, :job_template_id], :if => :not_template
     validates_presence_of :company
-    validates_presence_of :product_line_id, :if =>  :template?
+    validates_presence_of :product_line_id, :if => :template?
 
     belongs_to :failure_master_template, class_name: "Failure"
     belongs_to :company
@@ -24,7 +24,13 @@ class Failure < ActiveRecord::Base
     end
 
     def not_template
-       !self.template?
+        !self.template?
     end
 
+    def add_alert(user, job)
+        Activity.add(user, Activity::JOB_FAILURE, self, self.failure_master_template.text, job)
+        job.unique_participants.each do |participant|
+            Alert.add(participant, Alert::FAILURE_ADDED, self, user, job)
+        end
+    end
 end

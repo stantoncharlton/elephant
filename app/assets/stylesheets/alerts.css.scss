@@ -84,8 +84,9 @@
       .job {
         display: inline-block;
         border-radius: 3px;
-        background: #0058a8;
-        color: #FFFFFF;
+        background: #ddedfd;
+        color: #000000;
+        font-weight: bold;
         width: 107px;
         height: 15px;
         font-size: 10px;
@@ -104,4 +105,9 @@
       }
     }
   }
+}
+
+.calendar-day {
+  width: 100%;
+  height: 80px;
 }
