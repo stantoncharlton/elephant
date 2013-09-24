@@ -58,13 +58,20 @@
         <div class="pull-right primary-tool-expand-text">expand</div>
 
         <div class="secondary-tool-name push-right-small">
-          <h3 class='blue-text inline'><%= primary_tool.tool.name %></h3>
+          <h3 class='blue-text inline list-item-column'><%= primary_tool.tool.name %></h3>
 
-          <% if real_pm.present? && real_pm.part.present? %>
-              <span class='push-right blue-text'>Serial # <%= real_pm.part.serial_number %></span>
-          <% elsif primary_tool.simple_tracking && !primary_tool.serial_number.blank? %>
-              <span class='push-right blue-text'>Serial # <%= primary_tool.serial_number %></span>
+          <% if primary_tool.simple_tracking %>
+              <span class='label label-warning'>RENTAL</span>
+
+              <% if primary_tool.simple_tracking && !primary_tool.serial_number.blank? %>
+                  <span class='blue-text'>Serial # <%= primary_tool.serial_number %></span>
+              <% end %>
+          <% else %>
+              <% if real_pm.present? && real_pm.part.present? %>
+                  <span class='blue-text'>Serial # <%= real_pm.part.serial_number %></span>
+              <% end %>
           <% end %>
+
         </div>
     <% end %>
   </div>
