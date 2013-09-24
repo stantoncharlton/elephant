@@ -59,6 +59,10 @@
 
         <div class="secondary-tool-name push-right-small">
           <h3 class='blue-text inline'><%= primary_tool.tool.name %></h3>
+
+          <% if real_pm.present? && real_pm.part.present? %>
+              <span class='push-right blue-text'>Serial # <%= real_pm.part.serial_number %></span>
+          <% end %>
         </div>
     <% end %>
   </div>
