@@ -1,5 +1,5 @@
 <div class="root-primary-tool" id="primary_tool_<%= primary_tool.id %>">
-  <div class="pull-right">
+  <div class="pull-right push-down">
     <div class="btn-group inline duplicate-message">
       <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
         Tool Actions
@@ -43,81 +43,97 @@
   </div>
 
 
-  <div>
-    <%= image_tag "tool.png" %>
-    <div class="secondary-tool-name push-right-small">
-      <%= link_to primary_tool.tool.name, primary_tool, class: "primary-tool-link" %>
-      <p class="tool-long-description inline"><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
-    </div>
-  </div>
+  <div class="">
+    <%= link_to "#", class: "primary-tool-expand" do %>
+        <% if primary_tool.part_memberships.any? %>
+            <% real_pm = primary_tool.part_memberships.first.usage_part_membership(job.id) %>
+        <% end %>
+        <% if real_pm.present? && real_pm.part.present? %>
+            <%= image_tag "document_complete.png", class: "tooltip-info",
+                          "data-placement" => "bottom",
+                          "data-title" => "Complete" %>
+        <% else %>
+            <%= image_tag "tool.png" %>
+        <% end %>
+        <div class="pull-right primary-tool-expand-text">expand</div>
 
-  <div class="content">
-    <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
-        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+        <div class="secondary-tool-name push-right-small">
+          <h3 class='blue-text inline'><%= primary_tool.tool.name %></h3>
+        </div>
     <% end %>
   </div>
-  <% if primary_tool.simple_tracking %>
-      <div class="well content">
-        <div class="inline push-right">
-          <p class="inline">Serial Number</p>
 
-          <% if !primary_tool.received %>
-              <%= text_field_tag "", "", value: primary_tool.serial_number,
-                                 placeholder: "Serial Number...",
-                                 "data-tool-id" => primary_tool.id.to_s,
-                                 class: "inline txtfield small push-right-small primary-tool-serial",
-                                 "data-placement" => "bottom",
-                                 "data-title" => "Serial Number of Tool" %>
-          <% else %>
-              <b><%= primary_tool.serial_number %></b>
+  <div class="tool-details hidden">
+    <p class="tool-long-description inline"><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
+
+    <div class="content">
+      <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
+          <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+      <% end %>
+    </div>
+    <% if primary_tool.simple_tracking %>
+        <div class="well content">
+          <div class="inline push-right">
+            <p class="inline">Serial Number</p>
+
+            <% if !primary_tool.received %>
+                <%= text_field_tag "", "", value: primary_tool.serial_number,
+                                   placeholder: "Serial Number...",
+                                   "data-tool-id" => primary_tool.id.to_s,
+                                   class: "inline txtfield small push-right-small primary-tool-serial",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Serial Number of Tool" %>
+            <% else %>
+                <b><%= primary_tool.serial_number %></b>
+            <% end %>
+          </div>
+
+          <% if primary_tool.job.approved_to_ship %>
+              <div class="inline push-right-small">
+                <% if !primary_tool.received %>
+                    <div class="inline-block" id="inline_part_<%= primary_tool.id %>">
+                      <div class="form" data-form="receive-part-form-<%= primary_tool.id %>">
+                        <%= link_to "Receive Asset", primary_tool_path(primary_tool, received: true),
+                                    method: :put,
+                                    remote: true,
+                                    class: "bluebtn green tooltip-info form-loading-on-click",
+                                    "data-form" => "receive-part-form-" + primary_tool.id.to_s,
+                                    "data-placement" => "bottom",
+                                    "data-title" => "Receive asset" %>
+                      </div>
+
+                      <div class="form-loading hidden" data-form="receive-part-form-<%= primary_tool.id %>">
+                        <span class="ajax-loading search-loading"><p>Receiving...</p></span>
+                      </div>
+                    </div>
+                <% else %>
+                    <p class="inline"><b class='good-text'>Asset Received</b>
+                      - <%= primary_tool.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+                <% end %>
+                <br>
+              </div>
           <% end %>
         </div>
+    <% else %>
+        <% if primary_tool.part_memberships.any? %>
+            <div class="well content">
+              <% part_memberships = primary_tool.part_memberships.where(:template => true) %>
+              <% part_memberships.each_with_index do |p, index| %>
+                  <% real = p.usage_part_membership(job.id) %>
+                  <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
 
-        <% if primary_tool.job.approved_to_ship %>
-            <div class="inline push-right-small">
-              <% if !primary_tool.received %>
-                  <div class="inline-block" id="inline_part_<%= primary_tool.id %>">
-                    <div class="form" data-form="receive-part-form-<%= primary_tool.id %>">
-                      <%= link_to "Receive Asset", primary_tool_path(primary_tool, received: true),
-                                  method: :put,
-                                  remote: true,
-                                  class: "bluebtn green tooltip-info form-loading-on-click",
-                                  "data-form" => "receive-part-form-" + primary_tool.id.to_s,
-                                  "data-placement" => "bottom",
-                                  "data-title" => "Receive asset" %>
-                    </div>
-
-                    <div class="form-loading hidden" data-form="receive-part-form-<%= primary_tool.id %>">
-                      <span class="ajax-loading search-loading"><p>Receiving...</p></span>
-                    </div>
-                  </div>
-              <% else %>
-                  <p class="inline"><b class='good-text'>Asset Received</b>
-                    - <%= primary_tool.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+                  <% if index < part_memberships.count - 1 %>
+                      <hr>
+                  <% end %>
               <% end %>
-              <br>
+
+              <hr>
+              <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+
             </div>
         <% end %>
-      </div>
-  <% else %>
-      <% if primary_tool.part_memberships.any? %>
-          <div class="well content">
-            <% part_memberships = primary_tool.part_memberships.where(:template => true) %>
-            <% part_memberships.each_with_index do |p, index| %>
-                <% real = p.usage_part_membership(job.id) %>
-                <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
-
-                <% if index < part_memberships.count - 1 %>
-                    <hr>
-                <% end %>
-            <% end %>
-
-            <hr>
-            <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
-
-          </div>
-      <% end %>
-  <% end %>
+    <% end %>
+  </div>
 
   <hr class="search-constraint-line">
 </div>

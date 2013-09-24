@@ -1,6 +1,19 @@
 class PrimaryToolsController < ApplicationController
-    before_filter :signed_in_user, only: [:show, :create, :update, :destroy]
+    before_filter :signed_in_user, only: [:index, :show, :create, :update, :destroy]
 
+    include JobsHelper
+
+    def index
+        @job = Job.find_by_id(params[:job])
+        not_found unless @job.company == current_user.company
+
+        respond_to do |format|
+            format.xlsx {
+                excel = primary_tools_to_excel @job
+                send_data excel.to_stream.read, :filename => "#{@job.field.name} | #{@job.well.name} - Tools/Assets.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
+        end
+    end
 
     def show
         @primary_tool = PrimaryTool.find_by_id(params[:id])

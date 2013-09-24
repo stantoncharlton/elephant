@@ -37,11 +37,19 @@
     <% end %>
 <% end %>
 
+<% if current_user.role.no_assigned_jobs? || @is_paged || current_user.role_id == UserRole::ROLE_OPERATIONS_COORDINATOR %>
     <div id="jobs" class="list">
       <% @jobs.each do |job| %>
           <%= render 'jobs/job_progress_link', job: job %>
       <% end %>
     </div>
+<% else %>
+    <div id="jobs" class="list">
+      <% @jobs.each do |job| %>
+          <%= render 'jobs/job', job: job %>
+      <% end %>
+    </div>
+<% end %>
 
 <% if @is_paged %>
     <%= will_paginate %>

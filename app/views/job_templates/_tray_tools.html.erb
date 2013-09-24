@@ -18,7 +18,7 @@
     <div class="well">
       <%= form_for(PrimaryTool.new, :html => {:class => "inline"}, remote: true) do |f| %>
           <%= f.hidden_field :job_template_id, value: @job_template.id %>
-          <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.where(:template => true).collect { |p| [p.name, p.id] }),
+          <%= f.select :tool_id, options_for_select(@job_template.product_line.primary_tools.collect { |p| [p.name, p.id] }),
                        {prompt: "Select a Tool..."},
                        class: "tooltip-info custom-select custom-select-long",
                        "data-placement" => "bottom",

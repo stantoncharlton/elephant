@@ -39,3 +39,14 @@ $ ->
       data: {closed: true },
       type: 'put', dataType: 'script'
     return false
+
+
+  $('.primary-tool-expand ').live "click", ->
+    tool_details = $(this).closest('.root-primary-tool').find('.tool-details')
+    if tool_details.hasClass 'hidden'
+      tool_details.removeClass 'hidden'
+      $(this).find('.primary-tool-expand-text').text('collapse')
+    else
+      tool_details.addClass 'hidden'
+      $(this).find('.primary-tool-expand-text').text('expand')
+    return false
