@@ -66,8 +66,8 @@ class DistrictsController < ApplicationController
             @master_district = District.find_by_id(params[:master_district])
             not_found unless @master_district.company == current_user.company
             @country = @master_district.country.id
-            if !@country.nil?
-                @states = @country.states
+            if !@country.blank?
+                @states = @master_district.country.states
             end
             if @master_district.state.present?
                 @state = @master_district.state.id
