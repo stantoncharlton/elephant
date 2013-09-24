@@ -21,29 +21,34 @@
 
 <div class="well">
 
-  <div class="filter-search-box">
-    <% if @district.present? %>
-        <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @district.id)},
-                           placeholder: "Search for part...",
-                           class: "txtfield search-query tooltip-info part-search",
-                           id: "part_search",
-                           "data-placement" => "left",
-                           "data-title" => "Search in parts..." %>
-    <% else %>
-        <%= text_field_tag "", "", data: {autocomplete_source: parts_path},
-                           placeholder: "Search for part...",
-                           class: "txtfield search-query tooltip-info part-search",
-                           id: "part_search",
-                           "data-placement" => "left",
-                           "data-title" => "Search in parts..." %>
-    <% end %>
-  </div>
 
   <% if @district.present? %>
-      <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district.id), class: "bluebtn tooltip-info pull-right",
+      <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district.id),
+                  class: "bluebtn tooltip-info pull-right",
                   "data-placement" => "bottom",
                   "data-title" => "Create new asset" %>
   <% end %>
+
+  <div>
+    <b>Assets</b>
+    <div class="filter-search-box">
+      <% if @district.present? %>
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @district.id)},
+                             placeholder: "Search for asset...",
+                             class: "txtfield search-query tooltip-info part-search",
+                             id: "part_search",
+                             "data-placement" => "left",
+                             "data-title" => "Search in asset..." %>
+      <% else %>
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path},
+                             placeholder: "Search for asset...",
+                             class: "txtfield search-query tooltip-info part-search",
+                             id: "part_search",
+                             "data-placement" => "left",
+                             "data-title" => "Search in assets..." %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 
@@ -80,7 +85,8 @@
 
 <% if @district.present? %>
     <div class="content">
-      <%= link_to 'View Full Inventory List', 'inventory/' + @district.id.to_s, class: "activity-user-link" %>
+      <br>
+      <%= link_to 'View Full Inventory List (' + number_with_delimiter(parts.count, :delimiter => ",") + ')', 'inventory/' + @district.id.to_s, class: "activity-user-link orange-text job-title job-title4" %>
     </div>
 <% end %>
 
