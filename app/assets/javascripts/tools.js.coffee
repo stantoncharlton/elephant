@@ -50,3 +50,18 @@ $ ->
       tool_details.addClass 'hidden'
       $(this).find('.primary-tool-expand-text').text('expand')
     return false
+
+
+  $('.primary-tool-select').live "change", ->
+    tool_id = $(this).val()
+    count = 0
+    $('.root-primary-tool').each ->
+      id = $(this).attr("data-tool-id")
+      if tool_id == '0' || tool_id == id || tool_id == ''
+        $(this).show()
+        count = count + 1
+      else
+        $(this).hide()
+
+    #$('#jobs_count_container').removeClass 'hidden'
+    #$('#jobs_count').text(count)

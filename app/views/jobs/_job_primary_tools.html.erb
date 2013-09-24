@@ -1,25 +1,40 @@
 <div class="page_header">
   <h1>Tools/Assets</h1>
 
-  <div class="btn-group inline pull-right">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Export
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <%= link_to "Export as Excel", primary_tools_path(job: job.id, format: "xlsx"),
-                    target: "_blank",
-                    class: "dropdown-menu-link tooltip-info submit-form",
-                    "data-placement" => "left",
-                    "data-title" => "Export data as Microsoft Excel file." %>
-      </li>
-    </ul>
+  <div class="pull-right">
+
+    <% options = [] %>
+    <% options << ["All Tools", 0] %>
+    <% job.job_template.primary_tools.where(:template => true).each do |p| %>
+        <% options << [p.tool.name, p.tool.id] %>
+    <% end %>
+    <%= select_tag "Filter", options_for_select(options),
+                   class: "inline-block custom-select tooltip-info push-left-small primary-tool-select",
+                   "data-placement" => "bottom",
+                   "data-title" => "Filter list by tool",
+                   prompt: "Filter by tool..." %>
+
+
+    <div class="btn-group inline-block">
+      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+        Export
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to "Export as Excel", primary_tools_path(job: job.id, format: "xlsx"),
+                      target: "_blank",
+                      class: "dropdown-menu-link tooltip-info submit-form",
+                      "data-placement" => "left",
+                      "data-title" => "Export data as Microsoft Excel file." %>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <div>
   <% job.job_template.primary_tools.where(:template => false).where(:job_id => @job.id).includes(:tool).order("tools.name ASC, primary_tools.created_at ASC").each_with_index do |primary_tool, index| %>
-        <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: index, job: job %>
+      <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: index, job: job %>
   <% end %>
 </div>
 

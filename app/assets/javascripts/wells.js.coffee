@@ -23,7 +23,7 @@ $ ->
     $('.well-details').removeClass 'hidden'
     return false
 
-  $('.custom-select').change ->
+  $('.job-type-select').change ->
     division = $(this).val()
 
     count = 0
