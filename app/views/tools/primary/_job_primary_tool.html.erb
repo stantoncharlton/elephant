@@ -48,7 +48,7 @@
         <% if primary_tool.part_memberships.any? %>
             <% real_pm = primary_tool.part_memberships.first.usage_part_membership(job.id) %>
         <% end %>
-        <% if real_pm.present? && real_pm.part.present? %>
+        <% if (real_pm.present? && real_pm.part.present?) || (primary_tool.simple_tracking && !primary_tool.serial_number.blank?) %>
             <%= image_tag "document_complete.png", class: "tooltip-info",
                           "data-placement" => "bottom",
                           "data-title" => "Complete" %>
@@ -62,6 +62,8 @@
 
           <% if real_pm.present? && real_pm.part.present? %>
               <span class='push-right blue-text'>Serial # <%= real_pm.part.serial_number %></span>
+          <% elsif primary_tool.simple_tracking && !primary_tool.serial_number.blank? %>
+              <span class='push-right blue-text'>Serial # <%= primary_tool.serial_number %></span>
           <% end %>
         </div>
     <% end %>
