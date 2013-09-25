@@ -94,7 +94,7 @@ class District < ActiveRecord::Base
     end
 
     def map_search
-       name + " " + city + " " + (state.present? ? state.name : "") + " " + country.name
+       (name || '') + " " + (city || '') + " " + (state.present? ? state.name : "") + " " + (country.name || '')
     end
 
 end
