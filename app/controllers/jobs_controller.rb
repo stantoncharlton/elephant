@@ -8,7 +8,7 @@ class JobsController < ApplicationController
 
         respond_to do |format|
             format.html {
-                jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs : current_user.jobs
+                jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
                 @jobs = jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
                         order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
             }
