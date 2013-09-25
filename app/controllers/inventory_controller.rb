@@ -40,7 +40,11 @@ class InventoryController < ApplicationController
         @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
-        @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+        if @district.master?
+            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+        else
+            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:district_id => @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+        end
 
     end
 
