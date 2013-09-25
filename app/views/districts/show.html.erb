@@ -13,9 +13,35 @@
 
 <div class="alert alert-info">
 
+  <% if current_user.role.district_read? %>
+      <div>
+        <% if @district.master? %>
+            <span class='orange-text'>Sub Districts &nbsp;</span>
+            <% @district.districts.each_with_index do |d, i| %>
+                <%= link_to d, class: "activity-user-link" do %>
+                    <%= i < @district.districts.count - 1 ? d.name + "," : d.name %>
+                <% end %>
+            <% end %>
+        <% else %>
+            <span class='orange-text'>Master District &nbsp;</span>
+            <%= link_to @district.master_district.name, @district.master_district, class: "activity-user-link" %>
+
+            <span class="push-right orange-text">Related Districts &nbsp;</span>
+
+            <% @district.master_district.districts.each_with_index do |d, i| %>
+                <% if d != @district %>
+                    <%= link_to d, class: "activity-user-link" do %>
+                        <%= i < @district.master_district.districts.count - 1 ? d.name + "," : d.name %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+      </div>
+      <br>
+  <% end %>
   <% if @district.fields.any? %>
       <div class="">
-        <b class="push-left-small">Fields</b>
+        <b class="push-left-small orange-text">Fields</b>
         <% @district.fields.each_with_index do |field, i| %>
             <%= link_to field, class: "activity-user-link inline" do %>
                 <%= i < @district.fields.count - 1 ? field.name + "," : field.name %>

@@ -3,6 +3,7 @@
 <div class="">
   <div>
     <b>Assets</b>
+
     <div class="filter-search-box">
       <% if @district.present? %>
           <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @district.id)},
@@ -30,7 +31,7 @@
 
   <h2>
     <% page = params[:page].present? ? Integer(params[:page]) : 1 %>
-       <%= ((page - 1) * 30) + 1 %>
+    <%= ((page - 1) * 30) + 1 %>
     - <%= [((page - 1) * 30) + 30, @parts.count].min %> of <%= @parts.count.to_s %>
   </h2>
 
@@ -41,17 +42,23 @@
 </div>
 
 <div class="content">
-    <p class="list-item-column list-item-column-long help-text">
-      Name
-    </p>
+  <p class="list-item-column list-item-column-long help-text">
+    Name
+  </p>
 
-    <p class="list-item-column2 help-text">
-      Material Number
-    </p>
+  <p class="list-item-column2 help-text">
+    Material Number
+  </p>
 
-    <p class="list-item-column2 help-text">
-      Count
-    </p>
+  <p class="list-item-column list-item-column-short help-text">
+    Count
+  </p>
+
+  <% if current_user.role.district_read? %>
+      <p class="list-item-column list-item-column2 help-text">
+        District
+      </p>
+  <% end %>
 </div>
 
 
@@ -67,9 +74,15 @@
               <%= part.material_number %>
             </p>
 
-            <p class="list-item-text list-item-column2">
+            <p class="list-item-text list-item-column list-item-column-short ">
               <%= part.parts.count %>
             </p>
+
+            <% if current_user.role.district_read? %>
+                <p class=" list-item-column list-item-column2">
+                  <%= part.district.name %>
+                </p>
+            <% end %>
         <% end %>
       </div>
   <% end %>

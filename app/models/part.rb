@@ -58,6 +58,9 @@ class Part < ActiveRecord::Base
         text :district_serial_number
         string :material_number
         integer :district_id
+        integer :master_district_id do
+            district.present? && district.master_district.present? ? district.master_district_id : nil
+        end
         boolean :template
         integer :status
 
@@ -78,6 +81,16 @@ class Part < ActiveRecord::Base
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            order_by :name_sort, :desc
+            paginate :page => options[:page], :per_page => 20
+        end
+    end
+
+    def self.search_master_district(options, company, district_id)
+        Sunspot.search(Part) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            with(:master_district_id, district_id)
             order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
         end

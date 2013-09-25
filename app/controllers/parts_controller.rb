@@ -6,7 +6,7 @@ class PartsController < ApplicationController
     def index
 
         respond_to do |format|
-            format.html { not_found}
+            format.html { not_found }
             format.js {
                 @query = params[:search]
                 @parts = Part.search_no_district(params, current_user.company).results
@@ -21,6 +21,8 @@ class PartsController < ApplicationController
                 else
                     if current_user.role.global_read? && current_user.district.nil?
                         @parts = Part.search_no_district(params, current_user.company).results
+                    elsif current_user.role.district_read?
+                        @parts = Part.search_master_district(params, current_user.company, params[:district_id]).results
                     else
                         @parts = Part.search(params, current_user.company, params[:district_id]).results
                     end
