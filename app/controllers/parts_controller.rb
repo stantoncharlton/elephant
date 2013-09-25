@@ -165,7 +165,11 @@ class PartsController < ApplicationController
         not_found unless @part.company == current_user.company
 
         if @part.destroy
-            redirect_back_or @part.master_part
+            if @part.master_part.present?
+                redirect_back_or @part.master_part
+            else
+                redirect_to inventory_path
+            end
         end
     end
 
