@@ -14,7 +14,7 @@ class InventoryController < ApplicationController
             @district = nil
         end
 
-        if current_user.role.district_read? && !@district_present
+        if @district.present? && current_user.role.district_read? && !@district_present
             @district = @district.master_district
         end
 
