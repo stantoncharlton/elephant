@@ -310,12 +310,10 @@ class Job < ActiveRecord::Base
         end
 
         # Check assets all complete
-        total_parts = 0
-        self.job_template.primary_tools.where(:template => true).each do |tool|
-            total_parts += tool.part_memberships.where(:optional => false).count
-        end
-        if self.part_memberships.count < total_parts
-            return false
+        self.job_template.primary_tools.where(:template => false).each do |tool|
+            if tool.simple_tracking? && tool.serial_number.blank?
+                return false
+            end
         end
 
         true

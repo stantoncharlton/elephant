@@ -10,6 +10,7 @@ $('#alert').modal({show:true});
 <% else %>
 
 $tool.after("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
+$tool.next().find('.tool-details').removeClass('hidden');
 
 var focusevent, last_selected_item, part_focused, _this = this;
 

@@ -26,9 +26,11 @@
         </div>
         <br>
 
-        <div class="">
-          <%= render 'jobs/index_parts/divisions' %>
-        </div>
+        <% if false %>
+            <div class="">
+              <%= render 'jobs/index_parts/divisions' %>
+            </div>
+        <% end %>
     <% else %>
         <div class="well">
           <%= render 'jobs/index_parts/jobs_count', jobs: @jobs %>
@@ -36,6 +38,66 @@
         <br>
     <% end %>
 <% end %>
+
+<div id='map' class='dark'></div>
+<br><br>
+<style>
+    #map {
+        width: 100%;
+        height: 300px;
+    }
+</style>
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+
+    var geoJson = [];
+
+    <% coordinates_for_zoom = [] %>
+    <% @jobs.each do |job| %>
+        <% x = rand(-110.0..-95.0) %>
+        <% y = rand(28.0..35.0)  %>
+        <% coordinates_for_zoom << [y, x] %>
+        geoJson.push({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [<%= x %>, <%= y %>]
+            },
+            "properties": {
+                title: '<%= job.field.name + ' | ' + job.well.name %>',
+                'marker-size': 'medium',
+                'marker-color': '<%= job.approved_to_ship ? '428a1b' : '#0058a8' %>'
+                //'marker-symbol': '1'
+            }
+        });
+    <% end %>
+
+    //map.markerLayer.on('layeradd', function(e) {
+     //   var marker = e.layer,
+     //           feature = marker.feature;
+
+        //marker.setIcon(L.icon(feature.properties.icon));
+    //});
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function(e) {
+        map.panTo(e.layer.getLatLng());
+    });
+
+    var bounds = [];
+    <% coordinates_for_zoom.each do |c| %>
+        bounds.push([<%= c[0] %>, <%= c[1] %>]);
+    <% end %>
+    map.fitBounds(bounds);
+
+    map.markerLayer.on('mouseover', function(e) {
+        e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function(e) {
+        e.layer.closePopup();
+    });
+</script>
 
 <% if current_user.role.no_assigned_jobs? || @is_paged || current_user.role_id == UserRole::ROLE_OPERATIONS_COORDINATOR %>
     <div id="jobs" class="list">

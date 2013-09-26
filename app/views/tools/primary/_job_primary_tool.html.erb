@@ -43,11 +43,12 @@
   </div>
 
 
+  <% if primary_tool.part_memberships.any? %>
+      <% real_pm = primary_tool.part_memberships.first.usage_part_membership(job.id) %>
+  <% end %>
+
   <div class="">
     <%= link_to "#", class: "primary-tool-expand" do %>
-        <% if primary_tool.part_memberships.any? %>
-            <% real_pm = primary_tool.part_memberships.first.usage_part_membership(job.id) %>
-        <% end %>
         <% if (real_pm.present? && real_pm.part.present?) || (primary_tool.simple_tracking && !primary_tool.serial_number.blank?) %>
             <%= image_tag "document_complete.png", class: "tooltip-info",
                           "data-placement" => "bottom",
@@ -55,14 +56,28 @@
         <% else %>
             <%= image_tag "tool.png" %>
         <% end %>
-        <div class="pull-right primary-tool-expand-text">expand</div>
+
+        <div class="pull-right primary-tool-expand-text push-right">
+          expand
+        </div>
+        <div class="pull-right">
+          <% if primary_tool.simple_tracking %>
+              <span class='label label-warning'>RENTAL</span>
+              <% if primary_tool.received %>
+                  <br>
+                  <span class='label label-success'>RECEIVED</span>
+              <% end %>
+          <% else %>
+              <% if real_pm.present? && real_pm.part.present?  %>
+                  <!--<span class='label label-success'>RECEIVED</span>-->
+              <% end %>
+          <% end %>
+        </div>
 
         <div class="secondary-tool-name push-right-small">
           <h3 class='blue-text inline list-item-column'><%= primary_tool.tool.name %></h3>
 
           <% if primary_tool.simple_tracking %>
-              <span class='label label-warning'>RENTAL</span>
-
               <% if primary_tool.simple_tracking && !primary_tool.serial_number.blank? %>
                   <span class='blue-text'>Serial # <%= primary_tool.serial_number %></span>
               <% end %>

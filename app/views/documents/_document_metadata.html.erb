@@ -6,7 +6,7 @@
 
   <% if !document.template? && document.job_id.present? %>
       <div class="document-status">
-        <% if document.url.present? || last_entry.present? %>
+        <% if !document.blank? %>
             <%= image_tag "document_complete.png", class: "tooltip-info",
                           "data-placement" => "bottom",
                           "data-title" => "Complete" %>

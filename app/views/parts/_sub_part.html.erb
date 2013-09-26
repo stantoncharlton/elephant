@@ -19,15 +19,7 @@
               <span class="part-job-name tooltip-info"
                     data-placement="right"
                     data-html="true"
-                    data-title="<%= "<div class='well-tooltip'>" +
-                                            (part.current_job.close_date.present? ? "" : "<p class='alert alert-info'><b class='blue-text'>" + part.current_job.status_string + "</b></p><br>") +
-                                            "<img src='" + image_path('rig_extrasmall.png') + "' class='job-status-avatar'><span class='help-text'>Rig</span> <b>&nbsp;" + part.current_job.well.rig_name + "</b><br>" +
-                                            "<img src='" + image_path('district_extrasmall.png') + "' class='job-status-avatar'><b>" + (part.current_job.district.present? ? part.current_job.district.name : "") + "</b><br>" +
-                                            "<br><b class='blue-text'>" + part.current_job.client.name + "</b>" +
-                                            "<br><b>" + (part.current_job.start_date.present? ? part.current_job.start_date.strftime("%m/%d/%Y") : part.current_job.created_at.strftime("%m/%d/%Y")) + "</b><br><br>" +
-                                            "<h3>" + part.current_job.job_template.product_line.name + " / " + part.current_job.job_template.name + "</h3>" +
-                                            "<hr><h3>" + part.current_job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" +
-                                            "</div>" %>">
+                    data-title="<%= render 'jobs/well_tooltip', job: part.current_job, show_summary_data: true %>">
                              - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
               </span>
             <% end %>

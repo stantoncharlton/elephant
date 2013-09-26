@@ -21,7 +21,8 @@ $('#alert').modal({show: true});
 <% end %>
 
 <% if @update_tool.present? && @update_tool %>
-    $('#primary_tool_<%= @tool.id %>').replaceWith("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
+    $tool.replaceWith("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
+    $('#primary_tool_<%= @tool.id %>').find('.tool-details').removeClass('hidden');
 
 
     var focusevent, last_selected_item, part_focused, _this = this;
