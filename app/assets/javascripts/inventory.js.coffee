@@ -1,3 +1,9 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$ ->
+
+  $('#jump_to_district_select').change ->
+    selected = $(this).find('option:selected')
+    if selected.val() != ''
+      window.location = "/inventory?district=" + $(this).find('option:selected').val()
+
+  $('#district_id').change ->
+    window.location = "/inventory?district=" + $(this).val()

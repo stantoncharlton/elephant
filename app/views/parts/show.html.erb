@@ -254,118 +254,9 @@
 
 <% else %>
 
-    <div id='map' class='dark'></div>
+    <div id='map' class='dark' style='width:100%;height:300px;'></div>
     <br><br>
-    <style>
-        #map {
-            width: 100%;
-            height: 300px;
-        }
-    </style>
-    <script type='text/javascript'>
-        var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
 
-        var geoJson = [{
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-99, 28]
-            },
-            "properties": {
-                title: 'A Single Marker',
-                description: 'Just one of me',
-                'marker-size': 'medium',
-                'marker-color': '#0058a8',
-                'marker-symbol': '1',
-                "icon": {
-                    "iconUrl": "http://placekitten.com/50/50",
-                    "iconSize": [50, 50], // size of the icon
-                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-                    "popupAnchor": [0, -25]  // point from which the popup should open relative to the iconAnchor
-                }
-            }
-        }, {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-99.5, 28.5]
-            },
-            "properties": {
-                "title": "Big kitten",
-                'marker-symbol': '2',
-                'marker-color': '#0058a8',
-                "icon": {
-                    "iconUrl": "http://placekitten.com/100/100",
-                    "iconSize": [100, 100],
-                    "iconAnchor": [50, 50],
-                    "popupAnchor": [0, -55]
-                }
-            }
-        }, {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-99.2, 29]
-            },
-            "properties": {
-                "title": "Big kitten",
-                'marker-symbol': '3',
-                'marker-color': '#0058a8',
-                "icon": {
-                    "iconUrl": "http://placekitten.com/100/100",
-                    "iconSize": [100, 100],
-                    "iconAnchor": [50, 50],
-                    "popupAnchor": [0, -55]
-                }
-            }
-        }
-        ];
-
-        map.markerLayer.on('layeradd', function(e) {
-            var marker = e.layer,
-                    feature = marker.feature;
-
-            //marker.setIcon(L.icon(feature.properties.icon));
-        });
-
-        map.markerLayer.setGeoJSON(geoJson);
-
-        map.markerLayer.on('click', function(e) {
-            map.panTo(e.layer.getLatLng());
-        });
-
-        var bounds = [];
-        bounds.push([28, -99]);
-        bounds.push([28.5, -99.5]);
-        bounds.push([29, -99.2]);
-        map.fitBounds(bounds);
-        map.setZoom(Math.round(map.getZoom()) - 1);
-
-        lines = {
-            type: 'Feature',
-            geometry: {
-                type: 'LineString',
-                coordinates: [[-99, 28], [-99.5, 28.5],  [-99.2, 29]]
-            },
-            properties: { }
-        };
-
-        L.geoJson(lines, {
-            style: {
-                "color": "#FFFFFF"
-                //"weight": 5,
-                //"opacity": 0.65
-            }
-        }).addTo(map);
-
-
-        map.markerLayer.on('mouseover', function(e) {
-            e.layer.openPopup();
-        });
-        map.markerLayer.on('mouseout', function(e) {
-            e.layer.closePopup();
-        });
-    </script>
 
     <h3>Run History <span class="help-text">(<%= @part.jobs.count %>)</span></h3>
     <% if @part.jobs.any? %>
@@ -414,6 +305,111 @@
     }(jQuery));
 </script>
 
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+
+    var geoJson = [{
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-99, 28]
+        },
+        "properties": {
+            title: 'A Single Marker',
+            description: 'Just one of me',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8',
+            'marker-symbol': '1',
+            "icon": {
+                "iconUrl": "http://placekitten.com/50/50",
+                "iconSize": [50, 50], // size of the icon
+                "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                "popupAnchor": [0, -25]  // point from which the popup should open relative to the iconAnchor
+            }
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-99.5, 28.5]
+        },
+        "properties": {
+            "title": "Big kitten",
+            'marker-symbol': '2',
+            'marker-color': '#0058a8',
+            "icon": {
+                "iconUrl": "http://placekitten.com/100/100",
+                "iconSize": [100, 100],
+                "iconAnchor": [50, 50],
+                "popupAnchor": [0, -55]
+            }
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [-99.2, 29]
+        },
+        "properties": {
+            "title": "Big kitten",
+            'marker-symbol': '3',
+            'marker-color': '#0058a8',
+            "icon": {
+                "iconUrl": "http://placekitten.com/100/100",
+                "iconSize": [100, 100],
+                "iconAnchor": [50, 50],
+                "popupAnchor": [0, -55]
+            }
+        }
+    }
+    ];
+
+    map.markerLayer.on('layeradd', function(e) {
+        var marker = e.layer,
+                feature = marker.feature;
+
+        //marker.setIcon(L.icon(feature.properties.icon));
+    });
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function(e) {
+        map.panTo(e.layer.getLatLng());
+    });
+
+    var bounds = [];
+    bounds.push([28, -99]);
+    bounds.push([28.5, -99.5]);
+    bounds.push([29, -99.2]);
+    map.fitBounds(bounds);
+    map.setZoom(Math.round(map.getZoom()) - 1);
+
+    lines = {
+        type: 'Feature',
+        geometry: {
+            type: 'LineString',
+            coordinates: [[-99, 28], [-99.5, 28.5],  [-99.2, 29]]
+        },
+        properties: { }
+    };
+
+    L.geoJson(lines, {
+        style: {
+            "color": "#FFFFFF"
+            //"weight": 5,
+            //"opacity": 0.65
+        }
+    }).addTo(map);
+
+
+    map.markerLayer.on('mouseover', function(e) {
+        e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function(e) {
+        e.layer.closePopup();
+    });
+</script>
 
 
 
