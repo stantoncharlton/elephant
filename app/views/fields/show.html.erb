@@ -19,6 +19,8 @@
               <%= i < @field.wells.count - 1 ? well.name + "," : well.name %>
           <% end %>
       <% end %>
+      <br><br>
+      <b><%=  @field.state.present? ? @field.state.name : "" %>&nbsp;&nbsp;<%=  !@field.county.blank? ? @field.county + " County" : "" %></b>
     </div>
 <% end %>
 

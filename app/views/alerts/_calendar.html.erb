@@ -16,7 +16,7 @@
                         <div class="tooltip-info "
                              data-placement="right"
                              data-html="true"
-                             data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: show_summary_data %>">
+                             data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
                           <% if single %>
                               <div class="inline-block calendar-day">
                                 <p>
@@ -46,7 +46,7 @@
                                   <p class="tooltip-info"
                                      data-placement="right"
                                      data-html="true"
-                                     data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: show_summary_data %>">
+                                     data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
                                     <%= job.field.name + " | " + job.well.name %>
                                   </p>
                               <% end %>
