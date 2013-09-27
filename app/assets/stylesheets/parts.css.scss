@@ -11,3 +11,46 @@
 .asset-serials {
   width: 500px;
 }
+
+
+.part-number-container {
+  margin: 0px;
+  padding: 0px;
+  width: 23px;
+  height: 30px;
+  position: relative;
+
+  p {
+    top: 4px;
+    width: 23px;
+    height: 30px;
+    position: absolute;
+
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+    font-family: "Arial";
+    text-shadow: 1px 1px 1px #000000;
+  }
+}
+
+.part-run {
+  position: relative;
+}
+
+.part-number-connect {
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+  margin-left: 11px;
+  margin-top: 15px;
+
+  border-width: 0;
+  border-left-width: 1px;
+  border-color: #0057a6;
+  border-style: solid;
+}

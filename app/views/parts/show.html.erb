@@ -269,8 +269,8 @@
     <% if @part.jobs.any? %>
         <br><br>
         <div>
-          <% @part.jobs.each do |job| %>
-              <%= render 'parts/part_run', job: job %>
+          <% @part.jobs.each_with_index do |job, index| %>
+              <%= render 'parts/part_run', job: job, index: index %>
               <br>
           <% end %>
         </div>

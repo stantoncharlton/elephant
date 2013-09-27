@@ -1,8 +1,15 @@
-<div id="part_run_<%= job.id.to_s %>">
+<div id="part_run_<%= job.id.to_s %>" class='part-run'>
   <% redress = PartRedress.where(:job_id => job.id).where(:part_id => @part.id).first %>
 
   <% if job.job_template.present? %>
 
+      <% if index < 7 %>
+          <div class='part-number-container inline-block'>
+            <%= image_tag 'map_marker.png' %>
+            <p><%= index + 1 %></p>
+          </div>
+          &nbsp;
+      <% end %>
 
       <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y") %>
 
@@ -66,5 +73,9 @@
           </div>
 
       <% end %>
+  <% end %>
+
+  <% if false %>
+      <div class="part-number-connect"></div>
   <% end %>
 </div>
