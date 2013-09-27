@@ -5,8 +5,13 @@
 </div>
 
 <div>
-  <div><%= @failure.failure_master_template.product_line.name %> / <%= @failure.job.job_template.name %></div>
-  <div><h3 class="warning-text"><%= @failure.failure_master_template.text %></h3></div>
+  <% if @failure.failure_master_template.present? %>
+      <div><%= @failure.failure_master_template.product_line.name %> / <%= @failure.job.job_template.name %></div>
+      <div><h3 class="warning-text"><%= @failure.failure_master_template.text %></h3></div>
+  <% else %>
+      <div><%= @failure.product_line.name %></div>
+      <div><h3 class="warning-text"><%= @failure.text %></h3></div>
+  <% end %>
 </div>
 
 <br><br>
