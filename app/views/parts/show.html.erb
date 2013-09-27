@@ -360,7 +360,13 @@
     bounds.push([<%= c[0] %>, <%= c[1] %>]);
     <% end %>
     map.fitBounds(bounds);
-    map.setZoom(Math.round(map.getZoom()) - 1);
+    zoom = Math.round(map.getZoom());
+    if(zoom > 8) {
+        map.setZoom(8);
+    }
+    else {
+        map.setZoom(zoom - 1);
+    }
 
     lines = {
         type: 'Feature',

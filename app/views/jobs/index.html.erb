@@ -125,6 +125,10 @@
     bounds.push([<%= c[0] %>, <%= c[1] %>]);
     <% end %>
     map.fitBounds(bounds);
+    zoom = Math.round(map.getZoom());
+    if(zoom > 8) {
+        map.setZoom(8);
+    }
 
     map.markerLayer.on('mouseover', function (e) {
         e.layer.openPopup();

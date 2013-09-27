@@ -1,6 +1,10 @@
 <% if @district.present? %>
-    <% if current_user.role.district_read? && !@district_present %>
-        <% parts = Part.where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => false) %>
+    <% if current_user.role.district_read? %>
+        <% if @district.master_district.present? %>
+            <% parts = Part.where(:company_id => current_user.company_id).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false) %>
+        <% else %>
+            <% parts = Part.where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => false) %>
+        <% end %>
     <% else %>
         <% parts = @district.parts.where(:template => false) %>
     <% end %>
