@@ -91,7 +91,9 @@
     <div class="">
       Jump to Different Inventory:
       <br><br>
+      <div class="district-jump">
       <%= hidden_field_tag "district_id", id: "district_id" %>
+      </div>
       <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
       <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
                          placeholder: "Type a district name...",

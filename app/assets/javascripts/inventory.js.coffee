@@ -6,4 +6,5 @@ $ ->
       window.location = "/inventory?district=" + $(this).find('option:selected').val()
 
   $('#district_id').change ->
-    window.location = "/inventory?district=" + $(this).val()
+    if $(this).closest('.district-jump').length > 0
+      window.location = "/inventory?district=" + $(this).val()
