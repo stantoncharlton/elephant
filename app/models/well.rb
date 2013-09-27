@@ -129,6 +129,8 @@ private
                 number = first ? self.location.split(',')[0] : self.location.split(',')[1]
                 part = number.split(' ')
                 if part.length == 4
+                    number = first ? self.location.split(',')[1] : self.location.split(',')[0]
+                    part = number.split(' ')
                     decimal = part[0].to_f + (part[1].to_f / 60) + (part[2].to_f / 3600)
                     if part[3].downcase == 'w' || part[3].downcase == 's' || part[3].downcase == 'west' || part[3].downcase == 'south'
                         decimal *= -1
