@@ -761,3 +761,49 @@
   width: 500px;
   height: auto;
 }
+
+.map-container {
+  position: relative;
+
+  .corner {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-image: url('map_corner.png');
+  }
+
+  .tlcorner {
+    top: 0;
+    left: 0;
+  }
+
+  .trcorner {
+    transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    top: 0;
+    right: 0;
+  }
+
+  .brcorner {
+    transform:rotate(180deg);
+    -ms-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    bottom: 0;
+    right: 0;
+  }
+
+  .blcorner {
+    transform:rotate(270deg);
+    -ms-transform:rotate(270deg);
+    -webkit-transform:rotate(270deg);
+    bottom: 0;
+    left: 0;
+  }
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+

@@ -39,8 +39,15 @@
     <% end %>
 <% end %>
 
-<div id='map' class='dark' style='width:100%;height:300px;'></div>
+<div class="map-container">
+  <div id='map' class='dark' style='width:100%;height:300px;'></div>
+  <div class="corner tlcorner"></div>
+  <div class="corner trcorner"></div>
+  <div class="corner brcorner"></div>
+  <div class="corner blcorner"></div>
+</div>
 <br><br>
+
 
 <% if current_user.role.no_assigned_jobs? || @is_paged || current_user.role_id == UserRole::ROLE_OPERATIONS_COORDINATOR %>
     <div id="jobs" class="list">
@@ -81,8 +88,9 @@
 
     <% coordinates_for_zoom = [] %>
     <% @jobs.each do |job| %>
-    <% x = rand(-110.0..-95.0) %>
-    <% y = rand(28.0..35.0)  %>
+    <% if !job.well.location.blank? %>
+    <% x = job.well.x_location %>
+    <% y = job.well.y_location  %>
     <% coordinates_for_zoom << [y, x] %>
     geoJson.push({
         "type": "Feature",
@@ -93,23 +101,23 @@
         "properties": {
             title: '<%= job.field.name + ' | ' + job.well.name %>',
             'marker-size': 'medium',
-            'marker-color': '<%= job.approved_to_ship ? '428a1b' : '#0058a8' %>'
+            'marker-color': '<%= job.approved_to_ship ? '428a1b' : '#0058a8' %>',
+            url: '/jobs/' + <%= job.id %>
             //'marker-symbol': '1'
         }
     });
     <% end %>
+    <% end %>
 
-    //map.markerLayer.on('layeradd', function(e) {
-    //   var marker = e.layer,
-    //           feature = marker.feature;
-
-    //marker.setIcon(L.icon(feature.properties.icon));
-    //});
 
     map.markerLayer.setGeoJSON(geoJson);
 
-    map.markerLayer.on('click', function(e) {
+    map.markerLayer.on('click', function (e) {
         map.panTo(e.layer.getLatLng());
+    });
+    map.markerLayer.on('click', function (e) {
+        e.layer.unbindPopup();
+        window.location = e.layer.feature.properties.url;
     });
 
     var bounds = [];
@@ -118,10 +126,10 @@
     <% end %>
     map.fitBounds(bounds);
 
-    map.markerLayer.on('mouseover', function(e) {
+    map.markerLayer.on('mouseover', function (e) {
         e.layer.openPopup();
     });
-    map.markerLayer.on('mouseout', function(e) {
+    map.markerLayer.on('mouseout', function (e) {
         e.layer.closePopup();
     });
 </script>

@@ -254,11 +254,18 @@
 
 <% else %>
 
-    <div id='map' class='dark' style='width:100%;height:300px;'></div>
-    <br><br>
-
 
     <h3>Run History <span class="help-text">(<%= @part.jobs.count %>)</span></h3>
+    <br>
+
+    <div class="map-container">
+      <div id='map' class='dark' style='width:100%;height:300px;'></div>
+      <div class="corner tlcorner"></div>
+      <div class="corner trcorner"></div>
+      <div class="corner brcorner"></div>
+      <div class="corner blcorner"></div>
+    </div>
+
     <% if @part.jobs.any? %>
         <br><br>
         <div>
@@ -309,79 +316,49 @@
 <script type='text/javascript'>
     var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
 
-    var geoJson = [{
+
+    var geoJson = [];
+
+    <% coordinates_for_zoom = [] %>
+    <% coordinates_for_lines = [] %>
+    <% @part.jobs.each_with_index do |job, index| %>
+    <% if index < 7 && !job.well.location.blank? %>
+    <% x = job.well.x_location %>
+    <% y = job.well.y_location  %>
+    <% coordinates_for_lines << [x, y] %>
+    <% coordinates_for_zoom << [y, x] %>
+    geoJson.push({
         "type": "Feature",
         "geometry": {
             "type": "Point",
-            "coordinates": [-99, 28]
+            "coordinates": [<%= x %>, <%= y %>]
         },
         "properties": {
-            title: 'A Single Marker',
-            description: 'Just one of me',
+            title: '<%= job.field.name + ' | ' + job.well.name %>',
             'marker-size': 'medium',
             'marker-color': '#0058a8',
-            'marker-symbol': '1',
-            "icon": {
-                "iconUrl": "http://placekitten.com/50/50",
-                "iconSize": [50, 50], // size of the icon
-                "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
-                "popupAnchor": [0, -25]  // point from which the popup should open relative to the iconAnchor
-            }
+            'marker-symbol': '<%= (index + 1).to_s %>',
+            url: '/jobs/' + <%= job.id %>
+            //'marker-symbol': '1'
         }
-    }, {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-99.5, 28.5]
-        },
-        "properties": {
-            "title": "Big kitten",
-            'marker-symbol': '2',
-            'marker-color': '#0058a8',
-            "icon": {
-                "iconUrl": "http://placekitten.com/100/100",
-                "iconSize": [100, 100],
-                "iconAnchor": [50, 50],
-                "popupAnchor": [0, -55]
-            }
-        }
-    }, {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-99.2, 29]
-        },
-        "properties": {
-            "title": "Big kitten",
-            'marker-symbol': '3',
-            'marker-color': '#0058a8',
-            "icon": {
-                "iconUrl": "http://placekitten.com/100/100",
-                "iconSize": [100, 100],
-                "iconAnchor": [50, 50],
-                "popupAnchor": [0, -55]
-            }
-        }
-    }
-    ];
-
-    map.markerLayer.on('layeradd', function(e) {
-        var marker = e.layer,
-                feature = marker.feature;
-
-        //marker.setIcon(L.icon(feature.properties.icon));
     });
+    <% end %>
+    <% end %>
 
     map.markerLayer.setGeoJSON(geoJson);
 
-    map.markerLayer.on('click', function(e) {
+    map.markerLayer.on('click', function (e) {
         map.panTo(e.layer.getLatLng());
+    });
+    map.markerLayer.on('click', function(e) {
+        e.layer.unbindPopup();
+        window.location = e.layer.feature.properties.url;
     });
 
     var bounds = [];
-    bounds.push([28, -99]);
-    bounds.push([28.5, -99.5]);
-    bounds.push([29, -99.2]);
+    <% coordinates_for_zoom.each do |c| %>
+    bounds.push([<%= c[0] %>, <%= c[1] %>]);
+    <% end %>
     map.fitBounds(bounds);
     map.setZoom(Math.round(map.getZoom()) - 1);
 
@@ -389,7 +366,7 @@
         type: 'Feature',
         geometry: {
             type: 'LineString',
-            coordinates: [[-99, 28], [-99.5, 28.5],  [-99.2, 29]]
+            coordinates: <%= raw coordinates_for_lines.to_json %>
         },
         properties: { }
     };

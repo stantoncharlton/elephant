@@ -37,27 +37,27 @@ class Well < ActiveRecord::Base
     validates :bottom_deviation, numericality: true, allow_nil: true
 
     def measured_depth=(num)
-        num.gsub!(',','') if num.is_a?(String)
+        num.gsub!(',', '') if num.is_a?(String)
         self[:measured_depth] = num.to_f.round(3)
     end
 
     def true_vertical_depth=(num)
-        num.gsub!(',','') if num.is_a?(String)
+        num.gsub!(',', '') if num.is_a?(String)
         self[:true_vertical_depth] = num.to_f.round(3)
     end
 
     def water_depth=(num)
-        num.gsub!(',','') if num.is_a?(String)
+        num.gsub!(',', '') if num.is_a?(String)
         self[:water_depth] = num.to_f.round(3)
     end
 
     def frac_pressure=(num)
-        num.gsub!(',','') if num.is_a?(String)
+        num.gsub!(',', '') if num.is_a?(String)
         self[:frac_pressure] = num.to_f.round(3)
     end
 
     def bottom_hole_formation_pressure=(num)
-        num.gsub!(',','') if num.is_a?(String)
+        num.gsub!(',', '') if num.is_a?(String)
         self[:bottom_hole_formation_pressure] = num.to_f.round(3)
     end
 
@@ -113,4 +113,36 @@ class Well < ActiveRecord::Base
             paginate :page => options[:page], :per_page => 20
         end
     end
+
+    def x_location
+        location_decimal true
+    end
+
+    def y_location
+        location_decimal false
+    end
+
+private
+    def location_decimal(first)
+        if !self.location.blank?
+            begin
+                number = first ? self.location.split(',')[0] : self.location.split(',')[1]
+                part = number.split(' ')
+                if part.length == 4
+                    decimal = part[0].to_f + part[1].to_f/60 + part[3].to_f/3600
+                    if part[4].downcase == 'w' || part[4].downcase == 's' || part[4].downcase == 'west' || part[4].downcase == 'south'
+                        decimal *= -1
+                    end
+                    return decimal
+                elsif part.length == 1
+                    return number.to_f
+                    #part.include?("'")
+                end
+            rescue
+            end
+        end
+
+        0.0
+    end
+
 end
