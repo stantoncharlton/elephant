@@ -303,53 +303,6 @@
 
 
       <div class="">
-        <% job.dynamic_fields.select { |field| !field.dynamic_field_template.nil? and field.dynamic_field_template.priority? }.each do |dynamic_field| %>
-            <% if !dynamic_field.dynamic_field_template.nil? %>
-                <p class="job-field-title"><b class="blue-text"><%= dynamic_field.dynamic_field_template.name %></b></p>
-
-                <% if form_editable && !dynamic_field.predefined? %>
-                    <div class="job-field-div">
-                      <% if dynamic_field.value_type != 1 %>
-                          <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
-                                 class="job-field-value-editable custom-data-input tooltip-info"
-                                 data-placement="bottom" data-title="Field value, click to change"
-                                 value="<%= dynamic_field.value.present? ? dynamic_field.value.to_f.round(3) : "-" %>">
-                      <% else %>
-                          <input id="dynamic_field_<%= dynamic_field.id %>" type="text"
-                                 class="job-field-value-editable custom-data-input tooltip-info"
-                                 data-placement="bottom" data-title="Field value, click to change"
-                                 value="<%= dynamic_field.value.present? ? dynamic_field.value : "-" %>">
-                      <% end %>
-
-                      <% if dynamic_field.value_type != 1 %>
-                          <%= select_tag "Units",
-                                         options_for_select(dynamic_field.unit_options, dynamic_field.value_type),
-                                         id: "dynamic_field_unit_" + dynamic_field.id.to_s,
-                                         class: "unitsSelect unit-tooltip", "data-placement" => "bottom",
-                                         "data-html" => false, "data-title" => "Units, click to change" %>
-                      <% end %>
-
-                      <div class="job-field-conversion">
-                        <p class="inline warning-text"><%= dynamic_field.get_user_conversion(@current_user, true) %></p>
-                      </div>
-                    </div>
-                <% else %>
-                    <div class="job-field-div">
-                      <p class="job-field-value2 blue-text <%= in_form ? "unit-tooltip" : "" %>"
-                         data-placement="bottom"
-                         data-title="<%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true, true) : "No value set" %>">
-                        <%= dynamic_field.value.present? ? dynamic_field.get_user_conversion(@current_user, false, true) : "-" %>
-                      </p>
-                    </div>
-                <% end %>
-                <% if false && in_form %>
-                    <br>
-                <% end %>
-            <% end %>
-        <% end %>
-      </div>
-
-      <div class="">
         <p class="job-field-title"><%= t ".start_date" %></p>
 
         <% if form_editable %>

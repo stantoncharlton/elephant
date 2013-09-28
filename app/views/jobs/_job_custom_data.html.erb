@@ -42,7 +42,7 @@
   <hr>
 
   <div class="content">
-    <b>Required Data</b>
+    <b class='orange-text'>Required Data</b>
     <br><br>
     <% job.dynamic_fields_required.each do |df| %>
         <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
@@ -51,7 +51,7 @@
     <% if job.dynamic_fields_optional.count > 0 %>
         <br>
         <hr>
-        <b>Optional Data</b>
+        <b class='orange-text'>Optional Data</b>
         <br><br>
         <% job.dynamic_fields_optional.each do |df| %>
             <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>

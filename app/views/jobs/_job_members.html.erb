@@ -23,6 +23,13 @@
                         "data-title" => "Add new project member" %>
           </div>
       <% end %>
+
+      <div class='inline-block push-right'>
+        <%= link_to "#", class: "activity-user-link", id: "toggle_member_names" do %>
+            <span id="toggle_member_show"><i class="icon-chevron-down"></i> view names</span>
+            <span id="toggle_member_hide" class="hidden"><i class="icon-chevron-up"></i> hide names</span>
+        <% end %>
+      </div>
     </div>
 
     <br>
@@ -41,13 +48,6 @@
             <% end %>
         <% end %>
       </ul>
-    </div>
-
-    <div>
-      <%= link_to "#", class: "activity-user-link", id: "toggle_member_names" do %>
-          <span id="toggle_member_show"><i class="icon-chevron-down"></i> view names</span>
-          <span id="toggle_member_hide" class="hidden"><i class="icon-chevron-up"></i> hide names</span>
-      <% end %>
     </div>
 
 

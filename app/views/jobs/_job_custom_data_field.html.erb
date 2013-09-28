@@ -1,6 +1,6 @@
-<% if (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) %>
+<% if (!df.dynamic_field_template.nil?) || (df.dynamic_field_template.nil?) %>
     <p class="job-field-title tooltip-info" data-placement="bottom" data-title="<%= !df.dynamic_field_template.nil? ? df.dynamic_field_template.name : df.name %>">
-      <%= !df.dynamic_field_template.nil? ? df.dynamic_field_template.name : df.name %></p>
+      <b><%= !df.dynamic_field_template.nil? ? df.dynamic_field_template.name : df.name %></b></p>
     <% if job_editable && !df.predefined? %>
         <div class="job-field-div">
           <input id="dynamic_field_<%= df.id %>" type="text"
