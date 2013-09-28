@@ -11,7 +11,7 @@
 
   <div class="pull-right">
     <% if @issue.status == Issue::OPEN %>
-        <%= link_to "CLOSE CASE", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
+        <%= link_to "CLOSE CASE", "#", "data-id" => @issue.id, class: "bluebtn red close-case-link" %>
         <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
     <% end %>
   </div>

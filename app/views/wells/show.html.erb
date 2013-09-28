@@ -14,13 +14,6 @@
 <div class="well">
 
   <div class="pull-right">
-    <%= select_tag "Divisions", options_for_select(@divisions),
-                   class: "custom-select tooltip-info job-type-select",
-                   "data-placement" => "bottom",
-                   "data-title" => "Filter list by division",
-                   prompt: "Filter by division..." %>
-
-    <br><br>
 
     <%= link_to "More Well Details", "#",
                 id: "expand_well_details",
@@ -31,9 +24,14 @@
   <div>
     <div>
       <p class="inline"><b>Field:&nbsp;</b></p>
+
       <%= link_to @well.field.name, @well.field, class: "activity-user-link inline" %>
 
       <div class="inline-block">
+        <%= image_tag "rig_extrasmall.png", class: "job-status-avatar push-right-small" %>
+        <p class="inline help-text">Rig&nbsp;</p>
+        <p class="inline"><b><%= @well.rig_name %></b></p>
+
         <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
         <%= link_to @well.field.district.name, @well.field.district, class: "activity-user-link inline" %>
 
@@ -45,19 +43,6 @@
         <% end %>
       </div>
     </div>
-
-    <br>
-
-    <% if @well.location.blank? %>
-        <br><br>
-    <% else %>
-        <div class="">
-          <%= link_to "http://maps.google.com/maps?q=" + @well.location,
-                      class: "activity-user-link", target: "_blank" do %>
-              <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @well.location %>&zoom=9&size=600x200&maptype=roadmap&sensor=false&markers=color:blue%7C<%= @well.location %>&key=<%= Rails.env.production? ? 'AIzaSyC28fW0cLbMkTbKfyBgYKG4XbOCR3QBmT4' : 'AIzaSyAbuYOZMWlhjk2gKQaoqso7MoARROW9-fs' %>">
-          <% end %>
-        </div>
-    <% end %>
   </div>
 
   <div class="well-details hidden">
@@ -71,13 +56,6 @@
           <p class="job-field-value"><b>Offshore</b></p>
         </div>
     <% end %>
-    <div>
-      <p class="job-field-title tooltip-info"
-         data-placement="bottom"
-         data-title="Rig Name">Rig Name</p>
-
-      <p class="job-field-value"><%= @well.rig_name.present? ? @well.rig_name : "-" %></p>
-    </div>
 
     <% if @well.offshore? %>
         <div>
@@ -201,8 +179,39 @@
 
 </div>
 
+<% if !@well.location.blank? %>
+    <div class="map-container">
+      <div id='map' class='dark' style='width:100%;height:300px;'></div>
+      <div class="corner tlcorner"></div>
+      <div class="corner trcorner"></div>
+      <div class="corner brcorner"></div>
+      <div class="corner blcorner"></div>
+    </div>
+
+    <% if false %>
+        <div class="">
+          <%= link_to "http://maps.google.com/maps?q=" + @well.location,
+                      class: "activity-user-link", target: "_blank" do %>
+              <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @well.location %>&zoom=9&size=600x200&maptype=roadmap&sensor=false&markers=color:blue%7C<%= @well.location %>&key=<%= Rails.env.production? ? 'AIzaSyC28fW0cLbMkTbKfyBgYKG4XbOCR3QBmT4' : 'AIzaSyAbuYOZMWlhjk2gKQaoqso7MoARROW9-fs' %>">
+          <% end %>
+        </div>
+    <% end %>
+    <br><br>
+<% end %>
+
+<div class='pull-right'>
+  <%= select_tag "Divisions", options_for_select(@divisions),
+                 class: "custom-select tooltip-info job-type-select",
+                 "data-placement" => "bottom",
+                 "data-title" => "Filter list by division",
+                 prompt: "Filter by division..." %>
+</div>
+
+<br><br><br>
+
 <div id="jobs_count_container" class="content alert alert-info hidden">
   Jobs - <span id="jobs_count"></span>
+
 </div>
 
 <div id="jobs">
@@ -217,3 +226,43 @@
       <% end %>
   <% end %>
 </div>
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+
+    var geoJson = [];
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= @well.x_location %>, <%= @well.y_location %>]
+        },
+        "properties": {
+            title: '<%= @well.field.name + ' | ' + @well.name %>',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8'
+            //'marker-symbol': '1'
+        }
+    });
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function (e) {
+        map.panTo(e.layer.getLatLng());
+    });
+
+    var bounds = [];
+    bounds.push([<%= @well.y_location %>, <%= @well.x_location %>]);
+    map.fitBounds(bounds);
+    zoom = Math.round(map.getZoom());
+    if (zoom > 8) {
+        map.setZoom(8);
+    }
+
+    map.markerLayer.on('mouseover', function (e) {
+        e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function (e) {
+        e.layer.closePopup();
+    });
+</script>

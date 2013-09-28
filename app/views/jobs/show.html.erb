@@ -5,10 +5,10 @@
   <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 </div>
 
-
 <%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
 
 <hr>
+
 <%= render 'jobs/job_overview', job: @job %>
 
 <br>
@@ -170,6 +170,80 @@
             });
         });
     }(jQuery));
+</script>
+
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+
+    var geoJson = [];
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= @job.well.x_location %>, <%= @job.well.y_location %>]
+        },
+        "properties": {
+            title: '<%= @job.well.field.name + ' | ' + @job.well.name %>',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8'
+            //'marker-symbol': '1'
+        }
+    });
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function (e) {
+        ///map.panTo(e.layer.getLatLng());
+    });
+
+    var bounds = [];
+    bounds.push([<%= @job.well.y_location %>, <%= @job.well.x_location %>]);
+    map.fitBounds(bounds);
+    map.setZoom(6);
+    //zoom = Math.round(map.getZoom());
+    //if (zoom > 8) {
+    //    map.setZoom(8);
+    //}
+
+    map.markerLayer.on('mouseover', function (e) {
+        //e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function (e) {
+        //e.layer.closePopup();
+    });
+
+    $('.expand-map-box').live("click", function() {
+        if($('.expand-text').text() == 'expand') {
+            $('.expand-text').text('collapse');
+            $('.map-container').css('height', '500px');
+            $('.map-views').removeClass('hidden');
+        }
+        else {
+            $('.expand-text').text('expand');
+            $('.map-container').css('height', '80px');
+            $('.map-views').addClass('hidden');
+        }
+        map._onResize();
+        return false;
+    });
+
+    $('.map-area-view').live("click", function() {
+        layer =L.mapbox.tileLayer('elephant.map-vum3on5g');
+        layer.addTo(map);
+        map.setZoom(6);
+        map._onResize();
+        return false;
+    });
+
+    $('.map-site-view').live("click", function() {
+        layer =L.mapbox.tileLayer('elephant.map-6f5p6pfx');
+        layer.addTo(map);
+        map.setZoom(16);
+        map.fitBounds(bounds);
+        map._onResize();
+        return false;
+    });
 </script>
 
 

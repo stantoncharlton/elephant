@@ -42,7 +42,7 @@
 }
 
 .orange-text {
-   color: #db7a1b !important;
+  color: #db7a1b !important;
 }
 
 .white-text {
@@ -131,10 +131,12 @@
   border-bottom-color: #0058a8;
   border-radius: 4px;
 }
+
 .customSelect.customSelectFocus {
   border-color: #996633;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(82, 168, 236, .6);
 }
+
 .customSelect.customSelectOpen {
   border-color: #5d5074;
 }
@@ -375,7 +377,6 @@
   display: none;
 }
 
-
 .job-user {
   margin-left: 8px;
 }
@@ -384,8 +385,6 @@
   display: inline-block;
   width: 250px;
 }
-
-
 
 .job-user-district {
   display: inline-block;
@@ -432,7 +431,7 @@
   margin-left: 30px;
 }
 
-.job-member-edit-button{
+.job-member-edit-button {
   visibility: hidden;
   display: inline-block;
   margin-right: 0px;
@@ -510,7 +509,6 @@
   text-overflow: ellipsis;
 }
 
-
 .job-well-field-title {
   color: #aaaaaa;
   font-size: 11px;
@@ -542,7 +540,6 @@
   height: 50px !important;
   margin-bottom: 10px;
 }
-
 
 .job-status {
 
@@ -616,7 +613,6 @@
   margin-top: 5px;
   margin-right: 10px;
 }
-
 
 .list-job-item-name {
   font-size: 18px;
@@ -705,7 +701,6 @@
   width: 50px;
 }
 
-
 .job-bar-name {
   display: inline-block;
   font-size: 18px;
@@ -729,7 +724,6 @@
     height: 20px;
   }
 }
-
 
 .district-client-div {
   display: inline-block;
@@ -755,7 +749,6 @@
   max-height: 40px;
 }
 
-
 .job-members-box {
   float: right;
   width: 500px;
@@ -778,32 +771,53 @@
   }
 
   .trcorner {
-    transform:rotate(90deg);
-    -ms-transform:rotate(90deg);
-    -webkit-transform:rotate(90deg);
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
     top: 0;
     right: 0;
   }
 
   .brcorner {
-    transform:rotate(180deg);
-    -ms-transform:rotate(180deg);
-    -webkit-transform:rotate(180deg);
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
     bottom: 0;
     right: 0;
   }
 
   .blcorner {
-    transform:rotate(270deg);
-    -ms-transform:rotate(270deg);
-    -webkit-transform:rotate(270deg);
+    transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
     bottom: 0;
     left: 0;
   }
+
+  .expand-map-box {
+    right: 5px;
+    top: 20px;
+    position: absolute;
+
+    a {
+      text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+      padding: 8px;
+
+      &:link, &:visited, &:active {
+        color: #FFFFFF;
+      }
+      &:hover {
+        background: #60000000;
+        border-radius: 6px;
+        color: #FFFFFF;
+        text-decoration: none;
+      }
+    }
+  }
+
 }
 
 #map {
   width: 100%;
   height: 100%;
 }
-
