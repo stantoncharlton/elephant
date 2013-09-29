@@ -218,12 +218,26 @@
       <%= render 'parts/sub_part_fields', sub_part: @part %>
     </div>
 
+    <div class="map-container">
+      <div id='map' class='dark' style='width:100%;height:300px;'></div>
+      <div class="corner tlcorner"></div>
+      <div class="corner trcorner"></div>
+      <div class="corner brcorner"></div>
+      <div class="corner blcorner"></div>
+    </div>
+
+    <br><br>
+
     <div class="push-right-small">
+      <p class="help-text list-item-column list-item-column-count">
+
+      </p>
+
       <p class="help-text list-item-column">
         Serial Number
       </p>
 
-      <p class="help-text list-item-column2">
+      <p class="help-text list-item-column list-item-column3">
         District Number
       </p>
 
@@ -237,8 +251,8 @@
     </div>
 
     <div id="parts" class="list">
-      <% @parts.each do |part| %>
-          <%= render 'parts/sub_part', part: part %>
+      <% @parts.each_with_index do |part, index| %>
+          <%= render 'parts/sub_part', part: part, index: index %>
       <% end %>
     </div>
 
@@ -321,28 +335,55 @@
 
     <% coordinates_for_zoom = [] %>
     <% coordinates_for_lines = [] %>
-    <% @part.jobs.each_with_index do |job, index| %>
-    <% if index < 7 && !job.well.location.blank? %>
-    <% x = job.well.x_location %>
-    <% y = job.well.y_location  %>
-    <% coordinates_for_lines << [x, y] %>
-    <% coordinates_for_zoom << [y, x] %>
-    geoJson.push({
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [<%= x %>, <%= y %>]
-        },
-        "properties": {
-            title: '<%= job.field.name + ' | ' + job.well.name %>',
-            'marker-size': 'medium',
-            'marker-color': '#0058a8',
-            'marker-symbol': '<%= (index + 1).to_s %>',
-            url: '/jobs/' + <%= job.id %>
-            //'marker-symbol': '1'
-        }
-    });
-    <% end %>
+
+    <% if !@part.template? %>
+        <% @part.jobs.each_with_index do |job, index| %>
+            <% if index < 7 && !job.well.location.blank? %>
+            <% x = job.well.x_location %>
+            <% y = job.well.y_location  %>
+            <% coordinates_for_lines << [x, y] %>
+            <% coordinates_for_zoom << [y, x] %>
+            geoJson.push({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [<%= x %>, <%= y %>]
+                },
+                "properties": {
+                    title: '<%= job.field.name + ' | ' + job.well.name %>',
+                    'marker-size': 'medium',
+                    'marker-color': '#0058a8',
+                    'marker-symbol': '<%= (index + 1).to_s %>',
+                    url: '/jobs/' + <%= job.id %>
+                    //'marker-symbol': '1'
+                }
+            });
+            <% end %>
+        <% end %>
+    <% else %>
+        <% @parts.each_with_index do |part, index| %>
+            <% if part.current_job.present? && !part.current_job.well.location.blank? %>
+            <% x = part.current_job.well.x_location %>
+            <% y = part.current_job.well.y_location  %>
+            <% coordinates_for_lines << [x, y] %>
+            <% coordinates_for_zoom << [y, x] %>
+            geoJson.push({
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [<%= x %>, <%= y %>]
+                },
+                "properties": {
+                    title: '<%= part.serial_number %>',
+                    'marker-size': 'medium',
+                    'marker-color': '#0058a8',
+                    'marker-symbol': '<%= (index + 1).to_s %>',
+                    url: '/parts/' + <%= part.id %>
+                    //'marker-symbol': '1'
+                }
+            });
+            <% end %>
+        <% end %>
     <% end %>
 
     map.markerLayer.setGeoJSON(geoJson);
@@ -368,6 +409,7 @@
         map.setZoom(zoom - 1);
     }
 
+    <% if !@part.template? %>
     lines = {
         type: 'Feature',
         geometry: {
@@ -384,6 +426,7 @@
             //"opacity": 0.65
         }
     }).addTo(map);
+    <% end %>
 
 
     map.markerLayer.on('mouseover', function(e) {

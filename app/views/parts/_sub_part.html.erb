@@ -1,11 +1,25 @@
 <div class="field">
   <%= link_to part, class: "job-link" do %>
 
+      <% if part.current_job.present? %>
+          <div class='part-number-container inline-block'>
+            <%= image_tag 'map_marker.png' %>
+            <p><%= index + 1 %></p>
+          </div>
+      <% else %>
+          <div class='part-number-container inline-block'>
+            <%= image_tag 'map_marker2.png' %>
+            <p><%= index + 1 %></p>
+          </div>
+      <% end %>
+      &nbsp;
+      &nbsp;
+
       <h3 class="blue-text list-item-column">
         <%= part.serial_number %>
       </h3>
 
-      <p class="list-item-text list-item-column2">
+      <p class="list-item-text list-item-column list-item-column3">
         <%= part.district_serial_number.blank? ? '-' : part.district_serial_number %>
       </p>
 
