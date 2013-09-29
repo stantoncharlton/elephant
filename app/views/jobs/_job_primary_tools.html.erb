@@ -9,7 +9,7 @@
         <% options << [p.tool.name, p.tool.id] %>
     <% end %>
     <%= select_tag "Filter", options_for_select(options),
-                   class: "inline-block custom-select tooltip-info push-left-small primary-tool-select",
+                   class: "inline-block custom-select custom-select-ajax tooltip-info push-left-small primary-tool-select",
                    "data-placement" => "bottom",
                    "data-title" => "Filter list by tool",
                    prompt: "Filter by tool..." %>

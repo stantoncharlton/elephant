@@ -11,9 +11,8 @@
                                                    ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
                                                    ["Field", JobMembership::FIELD],
                                                    ["Shop", JobMembership::SHOP]]),
-                 {},
-                 prompt: I18n.t("jobs.show.new_member_role_prompt"),
-                 class: "custom-select" %>
+                 {}, class: "custom-select",
+                 prompt: I18n.t("jobs.show.new_member_role_prompt") %>
     <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-member-loading-button" %>
     <%= link_to "cancel", "#", class: "bluebtn btnsmall red", id: "cancel_add_member" %>
 <% end %>
