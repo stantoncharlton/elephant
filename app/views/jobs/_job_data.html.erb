@@ -91,30 +91,28 @@
 
 
     <% if in_form %>
-        <% if !@job.well.location.blank? %>
-            <div class="map-container" style='width:100%;height:80px;'>
-              <div id='map' class='dark'></div>
-              <div class="corner tlcorner"></div>
-              <div class="corner trcorner"></div>
-              <div class="corner brcorner"></div>
-              <div class="corner blcorner"></div>
+        <div class="map-container" style='width:100%;height:80px;'>
+          <div id='map' class='dark'></div>
+          <div class="corner tlcorner"></div>
+          <div class="corner trcorner"></div>
+          <div class="corner brcorner"></div>
+          <div class="corner blcorner"></div>
 
-              <div class='expand-map-box'>
-                <%= link_to "#" do %>
-                    <span class='expand-text'>expand</span> <i class="icon-resize-vertical icon-white"></i>&nbsp;
-                <% end %>
-              </div>
-            </div>
-            <div class='map-views hidden'>
-                <%= link_to "#", class: "activity-user-link map-area-view" do %>
-                    Area View
-                <% end %>
-              |
-              <%= link_to "#", class: "activity-user-link map-site-view" do %>
-                  Site View
-              <% end %>
-            </div>
-        <% end %>
+          <div class='expand-map-box'>
+            <%= link_to "#" do %>
+                <span class='expand-text'>expand</span> <i class="icon-resize-vertical icon-white"></i>&nbsp;
+            <% end %>
+          </div>
+        </div>
+        <div class='map-views hidden'>
+          <%= link_to "#", class: "activity-user-link map-area-view" do %>
+              Area View
+          <% end %>
+          |
+          <%= link_to "#", class: "activity-user-link map-site-view" do %>
+              Site View
+          <% end %>
+        </div>
         <br>
     <% end %>
 

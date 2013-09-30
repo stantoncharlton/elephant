@@ -1,4 +1,4 @@
-  <div class="page_header">
+  <div class="page-header-small">
     <h1>Accessories</h1>
   </div>
 
@@ -23,7 +23,7 @@
 
             <%= f.select :tool_id, options_for_select(job.job_template.product_line.segment.division.secondary_tools.collect { |p| [p.name, p.id] }),
                          {prompt: "Select a Tool..."},
-                         class: "tooltip-info custom-select custom-select-long",
+                         class: "tooltip-info custom-select custom-select-ajax custom-select-long",
                          "data-placement" => "bottom",
                          "data-title" => "Select from an existing secondary tool on this division" %>
 
