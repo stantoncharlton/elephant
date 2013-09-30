@@ -48,51 +48,46 @@
   <% end %>
 
   <div class="">
-    <%= link_to "#", class: "primary-tool-expand" do %>
-        <% if (real_pm.present? && real_pm.part.present?) || (primary_tool.simple_tracking && !primary_tool.serial_number.blank?) %>
-            <%= image_tag "document_complete.png", class: "tooltip-info",
-                          "data-placement" => "bottom",
-                          "data-title" => "Complete" %>
-        <% else %>
-            <%= image_tag "tool.png" %>
-        <% end %>
-
-        <div class="pull-right primary-tool-expand-text push-right">
-          expand
-        </div>
-        <div class="pull-right">
-          <% if primary_tool.simple_tracking %>
-              <span class='label label-warning'>RENTAL</span>
-              <% if primary_tool.received %>
-                  <br>
-                  <span class='label label-success'>RECEIVED</span>
-              <% end %>
-          <% else %>
-              <% if real_pm.present? && real_pm.part.present?  %>
-                  <!--<span class='label label-success'>RECEIVED</span>-->
-              <% end %>
-          <% end %>
-        </div>
-
-        <div class="secondary-tool-name push-right-small">
-          <h3 class='blue-text inline list-item-column'><%= primary_tool.tool.name %></h3>
-
-          <% if primary_tool.simple_tracking %>
-              <% if primary_tool.simple_tracking && !primary_tool.serial_number.blank? %>
-                  <span class='blue-text'>Serial # <%= primary_tool.serial_number %></span>
-              <% end %>
-          <% else %>
-              <% if real_pm.present? && real_pm.part.present? %>
-                  <span class='blue-text'>Serial # <%= real_pm.part.serial_number %></span>
-              <% end %>
-          <% end %>
-
-        </div>
+    <% if (real_pm.present? && real_pm.part.present?) || (primary_tool.simple_tracking && !primary_tool.serial_number.blank?) %>
+        <%= image_tag "document_complete.png", class: "tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Complete" %>
+    <% else %>
+        <!-- <%= image_tag "tool.png" %> -->
     <% end %>
+
+    <div class="secondary-tool-name push-right-small">
+      <h3 class='blue-text inline list-item-column push-right-small'><%= primary_tool.tool.name %></h3>
+
+      <% if primary_tool.simple_tracking %>
+          <% if primary_tool.simple_tracking && !primary_tool.serial_number.blank? %>
+              <span class='blue-text'>Serial # <%= primary_tool.serial_number %></span>
+          <% end %>
+      <% else %>
+          <% if real_pm.present? && real_pm.part.present? %>
+              <span class='blue-text'>Serial # <%= real_pm.part.serial_number %></span>
+          <% end %>
+      <% end %>
+
+    </div>
   </div>
 
-  <div class="tool-details hidden">
+  <div class="tool-details">
+    <div class="inline push-right">
+      <% if primary_tool.simple_tracking %>
+          <span class='label label-warning'>RENTAL</span>
+          <% if primary_tool.received %>
+              <br>
+              <span class='label label-success'>RECEIVED</span>
+          <% end %>
+      <% else %>
+          <% if real_pm.present? && real_pm.part.present? %>
+              <!--<span class='label label-success'>RECEIVED</span>-->
+          <% end %>
+      <% end %>
+    </div>
     <p class="tool-long-description inline"><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
+
 
     <div class="content">
       <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
@@ -163,5 +158,6 @@
     <% end %>
   </div>
 
-  <hr class="search-constraint-line">
+  <!-- <hr class="search-constraint-line"> -->
+  <br>
 </div>

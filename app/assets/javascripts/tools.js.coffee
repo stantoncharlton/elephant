@@ -65,3 +65,13 @@ $ ->
 
     #$('#jobs_count_container').removeClass 'hidden'
     #$('#jobs_count').text(count)
+
+  $('.primary-tools-expand ').live "click", ->
+    tool_details = $(this).closest('.tools-root').next('.all-tool-details')
+    if tool_details.hasClass 'hidden'
+      tool_details.removeClass 'hidden'
+      $(this).find('.primary-tool-expand-text').text('collapse')
+    else
+      tool_details.addClass 'hidden'
+      $(this).find('.primary-tool-expand-text').text('expand')
+    return false

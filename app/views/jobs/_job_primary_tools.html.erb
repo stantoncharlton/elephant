@@ -3,6 +3,7 @@
 
   <div class="pull-right">
 
+    <% if false %>
     <% options = [] %>
     <% options << ["All Tools", 0] %>
     <% job.job_template.primary_tools.where(:template => true).each do |p| %>
@@ -14,6 +15,7 @@
                    "data-title" => "Filter list by tool",
                    prompt: "Filter by tool..." %>
 
+        <% end %>
 
     <div class="btn-group inline-block">
       <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -33,9 +35,32 @@
 </div>
 
 <div>
+  <% last_tool = nil %>
   <% job.job_template.primary_tools.where(:template => false).where(:job_id => @job.id).includes(:tool).order("tools.name ASC, primary_tools.created_at ASC").each_with_index do |primary_tool, index| %>
+      <% if last_tool.nil? || last_tool.tool != primary_tool.tool %>
+          <% if last_tool != nil %>
+              </div>
+          <% end %>
+          <div class="tools-root field">
+            <%= link_to "#", class: "primary-tools-expand" do %>
+                <div>
+                  <p class="pull-right primary-tool-expand-text">
+                    expand &nbsp; <i class="icon-resize-vertical"></i>
+                  </p>
+
+                  <h3><span class='inline push-up blue-text'><b>3</b></span>&nbsp;&nbsp;<%= primary_tool.tool.name %></h3>
+
+                </div>
+            <% end %>
+          </div>
+          <div class="all-tool-details hidden">
+            <% last_tool = primary_tool %>
+      <% end %>
       <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: index, job: job %>
   <% end %>
-</div>
+  <% if last_tool != nil %>
+      </div>
+  <% end %>
+  </div>
 
-<%= render 'jobs/job_secondary_tools', job: job, job_editable: @job_editable %>
+  <%= render 'jobs/job_secondary_tools', job: job, job_editable: @job_editable %>

@@ -275,6 +275,26 @@
   }
 }
 
+.primary-tools-expand {
+  background: transparent;
+  width: 97%;
+  padding: 10px 15px 10px 15px;
+  display: block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+  &:active, &:link, &:visited {
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #000000;
+    background: #deebf7;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+}
+
 .job-email-link {
   background: transparent;
   width: 100%;
