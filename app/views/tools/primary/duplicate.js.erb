@@ -12,6 +12,9 @@ $('#alert').modal({show:true});
 $tool.after("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
 $tool.next().find('.tool-details').removeClass('hidden');
 
+$tool_count = $tool.closest('.all-tool-details').prev().find('.tool-count');
+$tool_count.text(parseInt($tool_count.text()) + 1);
+
 var focusevent, last_selected_item, part_focused, _this = this;
 
 last_selected_item = null;

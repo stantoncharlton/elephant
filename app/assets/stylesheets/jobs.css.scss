@@ -278,10 +278,14 @@
 .primary-tools-expand {
   background: transparent;
   width: 97%;
-  padding: 10px 15px 10px 15px;
+  padding: 20px 15px 20px 15px;
   display: block;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  h3 {
+    font-size: 20px;
+  }
 
   &:active, &:link, &:visited {
     background: transparent;
@@ -290,6 +294,19 @@
   &:hover {
     color: #000000;
     background: #deebf7;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+}
+
+.primary-tools-expanded {
+  &:active, &:link, &:visited {
+    background: #b5fef5;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  &:hover {
+    background: #dafaf6;
     border-radius: 5px;
     text-decoration: none;
   }

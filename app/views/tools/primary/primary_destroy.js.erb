@@ -1,1 +1,8 @@
-$('#primary_tool_<%= @tool.id %>').remove();
+$tool = $('#primary_tool_<%= @tool.id %>');
+
+if($tool.closest('.all-tool-details').length > 0) {
+    $tool_count = $tool.closest('.all-tool-details').prev().find('.tool-count');
+    $tool_count.text(parseInt($tool_count.text()) - 1);
+}
+
+$tool.remove();

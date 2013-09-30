@@ -69,9 +69,11 @@ $ ->
   $('.primary-tools-expand ').live "click", ->
     tool_details = $(this).closest('.tools-root').next('.all-tool-details')
     if tool_details.hasClass 'hidden'
+      $(this).addClass 'primary-tools-expanded'
       tool_details.removeClass 'hidden'
       $(this).find('.primary-tool-expand-text').text('collapse')
     else
+      $(this).removeClass 'primary-tools-expanded'
       tool_details.addClass 'hidden'
       $(this).find('.primary-tool-expand-text').text('expand')
     return false

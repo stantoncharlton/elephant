@@ -76,10 +76,6 @@
     <div class="inline push-right">
       <% if primary_tool.simple_tracking %>
           <span class='label label-warning'>RENTAL</span>
-          <% if primary_tool.received %>
-              <br>
-              <span class='label label-success'>RECEIVED</span>
-          <% end %>
       <% else %>
           <% if real_pm.present? && real_pm.part.present? %>
               <!--<span class='label label-success'>RECEIVED</span>-->
@@ -95,69 +91,74 @@
       <% end %>
     </div>
     <% if primary_tool.simple_tracking %>
-        <div class="well content">
-          <div class="inline push-right">
-            <p class="inline">Serial Number</p>
+        <div class="content">
+          <div class="well content">
+            <div class="inline push-right">
+              <p class="inline">Serial Number</p>
 
-            <% if !primary_tool.received %>
-                <%= text_field_tag "", "", value: primary_tool.serial_number,
-                                   placeholder: "Serial Number...",
-                                   "data-tool-id" => primary_tool.id.to_s,
-                                   class: "inline txtfield small push-right-small primary-tool-serial",
-                                   "data-placement" => "bottom",
-                                   "data-title" => "Serial Number of Tool" %>
-            <% else %>
-                <b><%= primary_tool.serial_number %></b>
+              <% if !primary_tool.received %>
+                  <%= text_field_tag "", "", value: primary_tool.serial_number,
+                                     placeholder: "Serial Number...",
+                                     "data-tool-id" => primary_tool.id.to_s,
+                                     class: "inline txtfield small push-right-small primary-tool-serial",
+                                     "data-placement" => "bottom",
+                                     "data-title" => "Serial Number of Tool" %>
+              <% else %>
+                  <b><%= primary_tool.serial_number %></b>
+              <% end %>
+            </div>
+
+            <% if primary_tool.job.approved_to_ship %>
+                <div class="inline push-right-small">
+                  <% if !primary_tool.received %>
+                      <div class="inline-block" id="inline_part_<%= primary_tool.id %>">
+                        <div class="form" data-form="receive-part-form-<%= primary_tool.id %>">
+                          <%= link_to "Receive Asset", primary_tool_path(primary_tool, received: true),
+                                      method: :put,
+                                      remote: true,
+                                      class: "bluebtn green tooltip-info form-loading-on-click",
+                                      "data-form" => "receive-part-form-" + primary_tool.id.to_s,
+                                      "data-placement" => "bottom",
+                                      "data-title" => "Receive asset" %>
+                        </div>
+
+                        <div class="form-loading hidden" data-form="receive-part-form-<%= primary_tool.id %>">
+                          <span class="ajax-loading search-loading"><p>Receiving...</p></span>
+                        </div>
+                      </div>
+                  <% else %>
+                      <p class="inline"><b class='good-text'>Asset Received</b>
+                        - <%= primary_tool.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
+                  <% end %>
+                  <br>
+                </div>
             <% end %>
           </div>
-
-          <% if primary_tool.job.approved_to_ship %>
-              <div class="inline push-right-small">
-                <% if !primary_tool.received %>
-                    <div class="inline-block" id="inline_part_<%= primary_tool.id %>">
-                      <div class="form" data-form="receive-part-form-<%= primary_tool.id %>">
-                        <%= link_to "Receive Asset", primary_tool_path(primary_tool, received: true),
-                                    method: :put,
-                                    remote: true,
-                                    class: "bluebtn green tooltip-info form-loading-on-click",
-                                    "data-form" => "receive-part-form-" + primary_tool.id.to_s,
-                                    "data-placement" => "bottom",
-                                    "data-title" => "Receive asset" %>
-                      </div>
-
-                      <div class="form-loading hidden" data-form="receive-part-form-<%= primary_tool.id %>">
-                        <span class="ajax-loading search-loading"><p>Receiving...</p></span>
-                      </div>
-                    </div>
-                <% else %>
-                    <p class="inline"><b class='good-text'>Asset Received</b>
-                      - <%= primary_tool.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
-                <% end %>
-                <br>
-              </div>
-          <% end %>
         </div>
     <% else %>
         <% if primary_tool.part_memberships.any? %>
-            <div class="well content">
-              <% part_memberships = primary_tool.part_memberships.where(:template => true) %>
-              <% part_memberships.each_with_index do |p, index| %>
-                  <% real = p.usage_part_membership(job.id) %>
-                  <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
+            <div class="content">
+              <div class="well content">
+                <% part_memberships = primary_tool.part_memberships.where(:template => true) %>
+                <% part_memberships.each_with_index do |p, index| %>
+                    <% real = p.usage_part_membership(job.id) %>
+                    <%= render 'part_memberships/job_part_membership', part_membership: real.present? ? real : p, job: job %>
 
-                  <% if index < part_memberships.count - 1 %>
-                      <hr>
-                  <% end %>
-              <% end %>
+                    <% if index < part_memberships.count - 1 %>
+                        <hr>
+                    <% end %>
+                <% end %>
 
-              <hr>
-              <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+                <hr>
+                <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
 
+              </div>
             </div>
         <% end %>
     <% end %>
-  </div>
 
+    <hr>
+  </div>
   <!-- <hr class="search-constraint-line"> -->
   <br>
 </div>
