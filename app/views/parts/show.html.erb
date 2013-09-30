@@ -329,7 +329,7 @@
 
 <script type='text/javascript'>
     var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
-
+    map.scrollWheelZoom.disable();
 
     var geoJson = [];
 
@@ -427,8 +427,6 @@
         }
     }).addTo(map);
     <% end %>
-
-    map.scrollWheelZoom.disable();
 
     map.markerLayer.on('mouseover', function(e) {
         e.layer.openPopup();

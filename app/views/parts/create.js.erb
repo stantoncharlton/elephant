@@ -11,7 +11,7 @@ $('#alert').modal({show:true});
 $('#new_part_fields').addClass('hidden');
 $('#new_part_link').removeClass('hidden');
 
-$('#parts').prepend($("<%= j render 'parts/sub_part', part: @part %>"));
+$('#parts').prepend($("<%= j render 'parts/sub_part', part: @part, index: @part.master_part.parts.count + 1 %>"));
 
 
 $('.part-count').text('<%= @part.master_part.parts.count %>');
