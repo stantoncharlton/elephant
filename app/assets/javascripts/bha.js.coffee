@@ -16,7 +16,6 @@ $ ->
     $('.bha-button').each (index, element) ->
       $(element).addClass 'gray'
     $(this).removeClass 'gray'
-    $('body').animate({scrollTop : $('#bha').position().top - 70 }, 'fast')
     return false
 
 
@@ -41,5 +40,15 @@ $ ->
       setTimeout (->
         tool.removeClass "document-reorder-background"
       ), 1000
+    return false
 
+  $('.bha-remove').live "click", ->
+    $(this).closest('.bha-tool').remove()
+    return false
+
+  $('#add_new_bha_item').live "click", ->
+    $('#add_tool').addClass 'hidden'
+    $('#add_tool_loader').removeClass 'hidden'
+    params = 'tool=' + $('#bha_tool_options').val() + '&document=' + $(this).attr("data-document")
+    $.ajax '/bhas/new?' + params, type: 'get', dataType: 'script'
     return false

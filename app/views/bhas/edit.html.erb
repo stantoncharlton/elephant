@@ -1,0 +1,98 @@
+<% provide(:title, "Edit BHA") %>
+
+<div class="page_header">
+  <h1 id="part_name">Edit Bottom Hole Assembly</h1>
+</div>
+
+
+<div class="form" data-form="new_bha">
+  <%= form_for @bha do |f| %>
+
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <div class="well">
+        <div class='pull-left'>
+          <b>BHA Number/Name</b>
+          <br><br>
+          <%= f.text_field :name, class: "txtfield",
+                           placeholder: "BHA Number or Name..." %>
+        </div>
+
+
+        <div>
+          <b class='push-right-small'>Description</b>
+          <br><br>
+          <%= f.text_field :description, class: "txtfield push-right-small",
+                           placeholder: "Description/Purpose..." %>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="" id="list">
+        <% @bha.bha_items.each do |bha_item| %>
+            <%= render 'bhas/bha_tool', bha_item: bha_item, tool: bha_item.tool, document: @document %>
+        <% end %>
+      </div>
+
+      <div class="form" id="add_tool" data-form="add_tool">
+        <% serial = '' %>
+        <% options = [] %>
+        <% @job.job_template.primary_tools.where(:template => false).includes(:tool).order("tools.name ASC").each do |p| %>
+            <% serial = '' %>
+            <% if p.part_memberships.any? %>
+                <% real = p.part_memberships.first.usage_part_membership(@job.id) %>
+                <% if real.present? && real.part.present? %>
+                    <% serial = real.part.serial_number %>
+                <% end %>
+            <% end %>
+
+            <% options << [p.tool.name + ' - Serial # ' + serial + (p.comments.blank? ? '' : ' - ' + p.comments), 'pt_' + p.id.to_s] %>
+        <% end %>
+        <% if @job.secondary_tools.any? %>
+            <% options << ["Accessories............", -1] %>
+            <% @document.job.secondary_tools.includes(:tool).order("tools.name ASC").each do |p| %>
+                <% options << [p.tool.name, 'st_' + p.id.to_s] %>
+            <% end %>
+        <% end %>
+        <%= select_tag "Add Tool", options_for_select(options),
+                       id: "bha_tool_options",
+                       class: "inline-block custom-select custom-select-long tooltip-info",
+                       "data-form" => "add_tool",
+                       "data-placement" => "bottom",
+                       "data-title" => "Add tool to BHA",
+                       prompt: "Add tool to BHA..." %>
+
+        <%= link_to "Add", "#", id: "add_new_bha_item",
+                    "data-document" => @document.id.to_s,
+                    class: "bluebtn btnsmall" %>
+      </div>
+      <div id="add_tool_loader" class="hidden" data-form="add_tool">
+        <span class="ajax-loading search-loading"><b>Adding Tool...</b></span>
+      </div>
+
+      <hr>
+
+      <%= f.submit "Save", class: "bluebtn pull-right push-right-small form-loading-on-click",
+                   "data-form" => "new_bha" %>
+
+      <%= link_to "Cancel", :back, class: "bluebtn red pull-right" %>
+
+
+      <br><br>
+  <% end %>
+</div>
+
+<div class="form-loading hidden" data-form="new_bha">
+  <%= render 'layouts/inline_loading', title: "Updating Bottom Hole Assembly..." %>
+</div>
+
+
+<script type="text/javascript">
+    $('.custom-select-ajax').each( function() {
+        if(!$(this).hasClass('custom-select-added')) {
+            $(this).addClass('custom-select-added');
+            $(this).customSelect();
+        }
+    });
+</script>

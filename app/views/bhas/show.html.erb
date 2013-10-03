@@ -29,13 +29,13 @@
 
 <br>
 
-<%= render "bha/bha_header", document: @document, bhas: @bhas %>
+<%= render "bhas/bha_header", document: @document, bhas: @bhas %>
 
 
 <div id="bha">
 
   <% if @bhas.any? %>
-    <%= render "bha/bha_tally", bha: @bhas.first %>
+    <%= render "bhas/bha_tally", bha: @bha %>
   <% end %>
 
   <div id="bha_loader" class="push-down center hidden inline">

@@ -2,23 +2,29 @@
   <div class="bha-content">
     <div class="page_header">
       <h1><%= bha.name %></h1>
+      <span class='push-right-small blue-text'><%= bha.description %></span>
 
       <div class="btn-group inline pull-right">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Advanced Actions
+          Assembly Actions
         </a>
         <ul class="dropdown-menu">
 
           <li>
+            <%= link_to "Edit", edit_bha_path(bha), class: "dropdown-menu-link" %>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Clone", new_bha_path(clone: true, bha: bha), class: "dropdown-menu-link" %>
+          </li>
+          <li class="divider"></li>
+          <li>
             <%= link_to "Delete Assembly", bha, method: :delete,
-                        remote: true,
                         data: {confirm: "Delete Assembly?"},
                         class: "dropdown-menu-link tooltip-info",
                         "data-placement" => "left",
                         "data-title" => "Delete assembly?" %>
           </li>
-
-
         </ul>
       </div>
     </div>
@@ -52,7 +58,7 @@
 
           <% depth = depth + item.length %>
 
-          <div class="field">
+          <div class="">
 
             <div class="push-right-small">
               <p class="list-item-column list-item-column-long orange-text">
@@ -60,19 +66,19 @@
               </p>
 
               <p class="list-item-column2 list-item-column-short">
-                <%= item.inner_diameter.to_s %>
+                <b><%= item.inner_diameter.to_s %></b>
               </p>
 
               <p class="list-item-column2 list-item-column-short ">
-                <%= item.outer_diameter.to_s %>
+                <b><%= item.outer_diameter.to_s %></b>
               </p>
 
               <p class="list-item-column2 list-item-column-short">
-                <%= item.length.to_s %>
+                <b><%= item.length.to_s %></b>
               </p>
 
               <p class="list-item-column2 list-item-column-short ">
-                <%= depth %>
+                <b class='blue-text'><%= depth %></b>
               </p>
             </div>
 
@@ -103,10 +109,10 @@
                     </div>
                 <% end %>
             <% end %>
+            <hr>
           </div>
       <% end %>
     </div>
-
   </div>
 
   <div id="bha_loader" class="push-down center hidden inline">

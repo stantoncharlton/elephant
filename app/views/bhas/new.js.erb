@@ -1,0 +1,21 @@
+$('#add_tool').removeClass('hidden');
+$('#add_tool_loader').addClass('hidden');
+
+<% if @primary_tool.present? %>
+    $tool = $('#list').append('<%= j render 'bhas/bha_tool', bha_item: BhaItem.new, tool: @primary_tool, document: @document %>');
+<% elsif @secondary_tool.present? %>
+    $tool = $('#list').append('<%= j render 'bhas/bha_tool', bha_item: BhaItem.new, tool: @secondary_tool, document: @document %>');
+<% else %>
+
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Tool", message: "There was a problem adding that tool to the BHA." %>");
+$('#alert').modal({show:true});
+
+<% end %>
+
+$('.custom-select-ajax').each( function() {
+    if(!$(this).hasClass('custom-select-added')) {
+        $(this).addClass('custom-select-added');
+        $(this).customSelect();
+    }
+});

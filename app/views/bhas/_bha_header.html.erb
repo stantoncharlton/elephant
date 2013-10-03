@@ -1,0 +1,22 @@
+<div id="bha_header" class="alert alert-info bha-column">
+  <%= link_to "New", new_bha_path(document: document.id),
+              class: "bluebtn btnsmall pull-right push-down-small" %>
+
+  <div class="">
+    <% if bhas.empty? %>
+        <div class=" push-down">
+          <span>No Configured BHAs...</span>
+          <br><br>
+        </div>
+    <% end %>
+    <% bhas.each do |bh| %>
+        <div class="inline-block">
+          <%= link_to bha_path(bh, bhas: true),
+                      class: "bluebtn btnsmall new-bha bha-button " + (bh == @bha ? "" : "gray"), remote: true do %>
+              <%= bh.name %>
+          <% end %>
+        </div>
+        &nbsp;
+    <% end %>
+  </div>
+</div>

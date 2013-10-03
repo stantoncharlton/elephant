@@ -1,6 +1,6 @@
 $('#bha_header').replaceWith('<%= j render "bha/bha_header", document: @document, bhas: @bhas %>');
 <% if @bha.present? %>
-$('#bha').replaceWith('<%= j render 'bha/bha_tally', bha: @bha %>');
+$('#bha').replaceWith('<%= j render 'bha/bha_tally', bhas: @bha %>');
 <% else %>
 $('#bha').replaceWith('');
 <% end %>
