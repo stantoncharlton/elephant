@@ -29,6 +29,7 @@ class District < ActiveRecord::Base
     has_many :jobs, order: "jobs.close_date DESC, jobs.created_at DESC"
 
     has_many :parts, :conditions => { :template => false }
+    has_many :warehouses
 
 
     searchable do

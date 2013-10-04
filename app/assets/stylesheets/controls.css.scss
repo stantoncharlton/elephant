@@ -121,6 +121,27 @@
   }
 }
 
+.teal {
+
+  color: #FFF;
+  background: #b5fef5;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #259316;
+
+  &:link, &:visited, &:active {
+    color: #FFF;
+    background: #33afa0;
+    text-decoration: none;
+
+  }
+  &:hover {
+    background: #03c9b1;
+    border-color: #7fe1d5;
+    text-decoration: none;
+  }
+}
+
 .light-blue {
 
   color: #03203d;

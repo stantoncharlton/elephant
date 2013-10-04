@@ -115,13 +115,23 @@
               <br>
 
               <% if part_membership.part.present? %>
-                  <%= link_to "Receive Asset", part_path(part_membership.part, receive: true),
+                  <%= link_to "Begin Redress", part_path(part_membership.part, receive: true),
                               method: :put,
                               remote: true,
                               class: "bluebtn green tooltip-info form-loading-on-click",
                               "data-form" => "receive-part-form-" + part_membership.part.id.to_s,
                               "data-placement" => "bottom",
                               "data-title" => "Receive asset" %>
+
+                  <span class="push-right-small">
+                  <%= link_to "Well Transfer", part_path(part_membership.part, transfer: true),
+                              method: :put,
+                              remote: true,
+                              class: "bluebtn teal tooltip-info form-loading-on-click",
+                              "data-form" => "receive-part-form-" + part_membership.part.id.to_s,
+                              "data-placement" => "bottom",
+                              "data-title" => "Free asset for use on another job" %>
+                    </span>
               <% end %>
             </div>
 
@@ -131,7 +141,13 @@
           </div>
       <% else %>
           <br><br>
-          <b class='good-text'>Asset Received</b>
+
+          <p class="inline"><b class='good-text'>Asset Received</b>
+            <% redress = PartRedress.where(:job_id => job.id).where(:part_id => part_membership.part.id).limit(1).first %>
+            <% if !redress.nil? %>
+                - <%= redress.received_at.strftime("%m/%d/%Y %l:%M %p") %>
+            <% end %>
+          </p>
       <% end %>
   <% end %>
 

@@ -1,0 +1,36 @@
+<div class="page_header">
+  <h1>Update Warehouse</h1>
+
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+
+      <li>
+        <%= link_to "Delete Warehouse", @warehouse, method: :delete,
+                    data: {confirm: "Delete warehouse?"},
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Permanently delete warehouse. Warning, the can't be undone. This will cause any parts associated with this district to may not work properly." %>
+      </li>
+
+
+    </ul>
+  </div>
+</div>
+
+
+<div class="form">
+<%= form_for @district do |f| %>
+
+    <%= render "fields", f: f %>
+
+    <div class="actions">
+      <%= f.submit "Save warehouse", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                   "data-title" => "Save warehouse"%>
+    </div>
+<% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Saving warehouse, please wait..." %>

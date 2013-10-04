@@ -1,0 +1,20 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<div class="well">
+  <div class="content">
+    <div class="">
+      <%= f.text_field :name, placeholder: "Warehouse Name",
+                       class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Warehouse Name" %>
+    </div>
+
+    <div class="">
+      <%= f.text_field :location, placeholder: "Warehouse Location Lat, Long",
+                       class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Warehouse location in lat, long format" %>
+    </div>
+  </div>
+</div>
+

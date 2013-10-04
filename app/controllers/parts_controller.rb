@@ -120,10 +120,19 @@ class PartsController < ApplicationController
         @part = Part.find(params[:id])
         not_found unless @part.company == current_user.company
 
+        @part_update = false
+
         if params[:receive] == "true"
             @part.status = Part::IN_REDRESS
 
             PartRedress.receive(@part.company, @part.current_job, @part, current_user)
+
+            @part.save
+        elsif params[:transfer] == "true"
+            @part.status = Part::AVAILABLE
+            @part.current_job = nil
+
+            PartRedress.transfer(@part.company, @part.current_job, @part, current_user)
 
             @part.save
         elsif params[:cleaned] == "true"

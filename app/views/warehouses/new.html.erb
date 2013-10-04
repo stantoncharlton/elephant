@@ -1,0 +1,20 @@
+<div class="page_header">
+  <h1>New Warehouse</h1>
+</div>
+
+<div class="form">
+  <%= form_for @warehouse do |f| %>
+
+      <%= f.hidden_field :district_id, value: @district.id %>
+      <%= render "fields", f: f %>
+
+      <div class=" actions">
+        <%= f.submit "Create warehouse", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                     "data-title" => "Create new warehouse" %>
+      </div>
+
+  <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Creating warehouse, please wait..." %>
+

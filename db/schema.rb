@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131002160639) do
+ActiveRecord::Schema.define(:version => 20131004152049) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -502,14 +502,15 @@ ActiveRecord::Schema.define(:version => 20131002160639) do
     t.integer  "part_id"
     t.integer  "job_id"
     t.string   "notes"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
     t.datetime "received_at"
     t.datetime "finished_redress_at"
     t.integer  "received_by_id"
     t.integer  "finished_redress_by_id"
     t.string   "received_by_name"
     t.string   "finished_redress_by_name"
+    t.boolean  "no_redress",               :default => false
   end
 
   create_table "parts", :force => true do |t|
@@ -699,6 +700,18 @@ ActiveRecord::Schema.define(:version => 20131002160639) do
   add_index "users", ["company_id"], :name => "index_users_on_company_id"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "warehouses", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "district_id"
+    t.string   "name"
+    t.string   "location"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "warehouses", ["company_id"], :name => "index_warehouses_on_company_id"
+  add_index "warehouses", ["district_id"], :name => "index_warehouses_on_district_id"
 
   create_table "wells", :force => true do |t|
     t.string   "name"

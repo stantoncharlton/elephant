@@ -7,26 +7,26 @@ $('#alert').modal({show:true});
 
 <% if @part_update.present? && @part_update %>
     <% if @material_number_update.present? && @material_number_update %>
-    $('#material_number').text('<%= @part.material_number %>');
-    $('#material_number_loader').addClass('hidden');
-    $('#material_number_part_fields').addClass('hidden');
-    $('#material_number_form').show();
+        $('#material_number').text('<%= @part.material_number %>');
+        $('#material_number_loader').addClass('hidden');
+        $('#material_number_part_fields').addClass('hidden');
+        $('#material_number_form').show();
     <% else %>
-    $('#part_name').text('<%= @part.name %>');
-    $('#rename_loader').addClass('hidden');
-    $('#rename_part_fields').addClass('hidden');
-    $('#rename_form').show();
+        $('#part_name').text('<%= @part.name %>');
+        $('#rename_loader').addClass('hidden');
+        $('#rename_part_fields').addClass('hidden');
+        $('#rename_form').show();
     <% end %>
 <% else %>
-if($('.part-status').length > 0) {
-    $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
-    <% if @part_redress.present? && @part_redress %>
-        $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job %>');
-    <% end %>
-}
-else {
-    $('#inline_part_<%= @part.id %>').replaceWith("<br><br><b class='good-text'>Asset Received</b>");
-}
+    if($('.part-status').length > 0) {
+        $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
+        <% if @part_redress.present? && @part_redress %>
+            $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job %>');
+        <% end %>
+    }
+    else {
+        $('#inline_part_<%= @part.id %>').replaceWith("<br><br><p class='inline'><b class='good-text'>Asset Received</b> - <%= Time.now.strftime("%m/%d/%Y %l:%M %p") %></p>");
+    }
 <% end %>
 
 <% end %>

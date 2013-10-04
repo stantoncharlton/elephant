@@ -3,7 +3,8 @@ class PartRedress < ActiveRecord::Base
                     :received_at,
                     :finished_redress_at,
                     :received_by_name,
-                    :finished_redress_by_name
+                    :finished_redress_by_name,
+                    :no_redress
 
     acts_as_tenant(:company)
 
@@ -61,6 +62,25 @@ class PartRedress < ActiveRecord::Base
         part_redress
     end
 
+
+    def self.transfer(company, job, part, user)
+        return false if company.nil? or job.nil? or part.nil?
+
+        part_redress = PartRedress.new
+        part_redress.job = job
+        part_redress.part = part
+        part_redress.no_redress = true
+        part_redress.company = company
+        part_redress.received_at = Time.now
+        part_redress.received_by = user
+        part_redress.received_by_name = user.present? ? user.name : ''
+        part_redress.finished_redress_at = Time.now
+        part_redress.finished_redress_by = user
+        part_redress.finished_redress_by_name = user.present? ? user.name : ''
+
+        part_redress.save!
+        part_redress
+    end
 
 
 end
