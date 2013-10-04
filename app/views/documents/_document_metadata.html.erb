@@ -1,4 +1,4 @@
-<div class="upload-metadata inline">
+<div class="upload-metadata inline-block">
 
   <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
   <% bha = document.document_type == Document::BOTTOM_HOLE_ASSEMBLY ? Bha.where(:company_id => current_user.company_id).where(:document_id => document.id).order("bhas.updated_at DESC").limit(1).first : nil %>

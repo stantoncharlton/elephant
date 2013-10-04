@@ -95,7 +95,8 @@
             <% if primary_tool.job.approved_to_ship %>
                 <div class="inline push-right-small">
                   <% if !primary_tool.received %>
-                      <div class="inline-block" id="inline_part_<%= primary_tool.id %>">
+                      <div class="" id="inline_part_<%= primary_tool.id %>">
+                        <br>
                         <div class="form" data-form="receive-part-form-<%= primary_tool.id %>">
                           <%= link_to "Receive Asset", primary_tool_path(primary_tool, received: true),
                                       method: :put,

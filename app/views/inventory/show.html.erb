@@ -35,55 +35,75 @@
     - <%= [((page - 1) * 30) + 30, @parts.count].min %> of <%= @parts.count.to_s %>
   </h2>
 
-  <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district.id), class: "bluebtn tooltip-info pull-right",
-              "data-placement" => "bottom",
-              "data-title" => "Create new master asset" %>
+
+  <div class="btn-group inline pull-right push-right-small">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Export
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to "Export as Excel", inventory_path(district: @district, format: "xlsx"),
+                    target: "_blank",
+                    class: "dropdown-menu-link tooltip-info submit-form",
+                    "data-placement" => "left",
+                    "data-title" => "Export data as Microsoft Excel file." %>
+      </li>
+    </ul>
+  </div>
 
 </div>
 
-<div class="content">
-  <p class="list-item-column list-item-column-long help-text">
-    Name
-  </p>
-
-  <p class="list-item-column2 help-text">
-    Material Number
-  </p>
-
-  <p class="list-item-column list-item-column-short help-text">
-    Count
-  </p>
-
-  <% if current_user.role.district_read? %>
-      <p class="list-item-column list-item-column2 help-text">
-        District
+<% if false %>
+    <div class="content">
+      <p class="list-item-column list-item-column-long help-text">
+        Name
       </p>
-  <% end %>
-</div>
+
+      <p class="list-item-column2 help-text">
+        Material Number
+      </p>
+
+      <% if current_user.role.district_read? %>
+          <p class="list-item-column list-item-column2 help-text">
+            District
+          </p>
+      <% end %>
+    </div>
+
+<% end %>
+
+<br>
 
 
 <div id="parts" class="list">
   <% @parts.each do |part| %>
-      <div class="field">
+      <div class="">
         <%= link_to part, class: "job-link" do %>
-            <p class="list-item-header-text list-item-column list-item-column-long">
-              <%= part.name %>
+            <div class="member-icon ">
+              <p>
+                <%= part.parts.count %>
+              </p>
+            </div>
+            &nbsp;
+
+            <p class="list-item-header-text inline">
+            <b><%= part.name %></b>
             </p>
 
-            <p class="list-item-text list-item-column2">
+            <p class="help-text inline">
               <%= part.material_number %>
             </p>
 
-            <p class="list-item-text list-item-column list-item-column-short ">
-              <%= part.parts.count %>
-            </p>
 
-            <% if current_user.role.district_read? %>
-                <p class=" list-item-column list-item-column2">
-                  <%= part.district.name %>
-                </p>
-            <% end %>
         <% end %>
+
+        <div class="content">
+          <% part.parts.each_with_index do |p, i| %>
+              <%= render 'parts/sub_part2', part: p, index: i %>
+          <% end %>
+        </div>
+
+        <hr>
       </div>
   <% end %>
 </div>

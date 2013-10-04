@@ -25,7 +25,8 @@
   font-size: 18px !important;
   display: inline-block;
   width: 220px;
-  height: 35px;
+  line-height: 40px;
+  height: 40px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -50,7 +51,8 @@
   display: inline-block;
   text-indent: 0px;
   width: 220px;
-  height: 35px;
+  line-height: 40px;
+  min-height: 40px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -72,6 +74,11 @@
   display: inline-block;
   text-indent: 0px;
   min-width: 250px;
+  line-height: 40px;
+  min-height: 40px !important;
+
+  p {
+  }
 }
 
 .document-user {
@@ -134,6 +141,7 @@
   display: inline-block;
   cursor: pointer;
   cursor: hand;
+  background: transparent;
 }
 
 .order-button {

@@ -2,6 +2,9 @@ class InventoryController < ApplicationController
     before_filter :signed_in_user_inventory, only: [:index, :show]
     set_tab :inventory
 
+    include InventoryHelper
+
+
     def index
 
         if params[:district].present?
@@ -44,6 +47,16 @@ class InventoryController < ApplicationController
             @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         else
             @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:district_id => @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+        end
+
+        respond_to do |format|
+            format.html {
+
+            }
+            format.xlsx {
+                excel = parts_to_excel @parts
+                send_data excel.to_stream.read, :filename => "Inventory List.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
         end
 
     end

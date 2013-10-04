@@ -1,0 +1,41 @@
+<div class="">
+  <%= link_to part, class: "job-link push-right" do %>
+
+      <h3 class="blue-text list-item-column">
+        <%= part.serial_number %>
+      </h3>
+
+      <% if false %>
+          <p class="list-item-text list-item-column list-item-column3">
+            <%= part.district_serial_number.blank? ? '-' : part.district_serial_number %>
+          </p>
+      <% end %>
+
+      <p class="list-item-text list-item-column list-item-column-long">
+
+        <% if part.status == Part::AVAILABLE %>
+            <span class="help-text status-good"><%= part.status_string %></span>
+        <% elsif part.status == Part::ON_JOB %>
+            <span class=""><%= part.status_string %></span>
+            <% if part.current_job.present? %>
+              <span class="part-job-name tooltip-info"
+                    data-placement="right"
+                    data-html="true"
+                    data-title="<%= render 'jobs/well_tooltip', job: part.current_job, show_summary_data: true %>">
+                             - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
+              </span>
+            <% end %>
+        <% else %>
+            <span class="warning-text"><%= part.status_string %></span>
+        <% end %>
+
+      </p>
+
+      <% if false %>
+          <p class="list-item-text list-item-column list-item-column-count">
+            <span class="help-text"><%= part.jobs.count %></span>
+          </p>
+      <% end %>
+
+  <% end %>
+</div>
