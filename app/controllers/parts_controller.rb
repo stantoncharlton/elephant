@@ -72,14 +72,14 @@ class PartsController < ApplicationController
             not_found unless @part.master_part.company == current_user.company
             @part.district = @part.master_part.district
         else
-            @district = District.find_by_id(params[:district])
-            not_found unless @district.company == current_user.company
+            @warehouse = Warehouse.find_by_id(params[:warehouse])
+            not_found unless @warehouse.company == current_user.company
         end
     end
 
     def create
-        district_id = params[:part][:district_id]
-        params[:part].delete(:district_id)
+        warehouse_id = params[:part][:warehouse_id]
+        params[:part].delete(:warehouse_id)
 
         master_part_id = params[:part][:master_part_id]
         params[:part].delete(:master_part_id)
@@ -92,10 +92,12 @@ class PartsController < ApplicationController
             not_found unless @part.master_part.company == current_user.company
             @part.material_number = @part.master_part.material_number
             @part.district = @part.master_part.district
+            @part.warehouse = @part.master_part.warehouse
             @part.template = false
             @part.status = Part::AVAILABLE
         else
-            @part.district = District.find_by_id(district_id)
+            @part.warehouse = Warehouse.find_by_id(warehouse_id)
+            not_found unless @part.warehouse.company == current_user.company
             @part.template = true
         end
 

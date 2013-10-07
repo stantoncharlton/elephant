@@ -16,48 +16,50 @@
       </div>
   <% end %>
 
-  <% if !document.template? %>
-      <% if document.document_type == Document::DOCUMENT %>
-          <% if document.url.present? %>
-              <%= link_to document.name, document.full_url, class: "document-name tooltip-info download-link",
-                          "data-placement" => "bottom",
-                          "data-title" => "Click to download document" %>
+  <div class='document-name-container'>
+    <% if !document.template? %>
+        <% if document.document_type == Document::DOCUMENT %>
+            <% if document.url.present? %>
+                <%= link_to document.name, document.full_url, class: "document-name tooltip-info download-link",
+                            "data-placement" => "bottom",
+                            "data-title" => "Click to download document" %>
 
-          <% elsif !document.document_template.nil? && document.document_template.url.present? %>
-              <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
-                          "data-placement" => "bottom",
-                          "data-title" => "Click to download document" %>
-          <% else %>
-              <p class="document-name document-name-container"><%= document.name %></p>
-          <% end %>
-      <% elsif document.document_type == Document::JOB_LOG %>
-          <%= link_to document.name, job_logs_path(document: document.id),
-                      target: "_blank",
-                      class: "document-name tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Open " + document.document_type_string %>
-      <% elsif document.document_type == Document::DRILLING_LOG %>
-          <%= link_to document.name, drilling_logs_path(document: document.id),
-                      target: "_blank",
-                      class: "document-name tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Open " + document.document_type_string %>
-      <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
-          <%= link_to document.name, bha_path(document),
-                      target: "_blank",
-                      class: "document-name tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Open " + document.document_type_string %>
-      <% end %>
-  <% else %>
-      <% if document.url.present? %>
-          <%= link_to document.name, document.full_url, class: "document-name tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Download document" %>
-      <% else %>
-          <p class="document-name document-name-container"><%= document.name %></p>
-      <% end %>
-  <% end %>
+            <% elsif !document.document_template.nil? && document.document_template.url.present? %>
+                <%= link_to document.name, document.document_template.full_url, class: "document-name tooltip-info download-link " + (!document.template? && document.category == Document::NOTICES ? "long-column-text" : ""),
+                            "data-placement" => "bottom",
+                            "data-title" => "Click to download document" %>
+            <% else %>
+                <p class="document-name document-name-container push-down"><%= document.name %></p>
+            <% end %>
+        <% elsif document.document_type == Document::JOB_LOG %>
+            <%= link_to document.name, job_logs_path(document: document.id),
+                        target: "_blank",
+                        class: "document-name tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Open " + document.document_type_string %>
+        <% elsif document.document_type == Document::DRILLING_LOG %>
+            <%= link_to document.name, drilling_logs_path(document: document.id),
+                        target: "_blank",
+                        class: "document-name tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Open " + document.document_type_string %>
+        <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
+            <%= link_to document.name, bha_path(document),
+                        target: "_blank",
+                        class: "document-name tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Open " + document.document_type_string %>
+        <% end %>
+    <% else %>
+        <% if document.url.present? %>
+            <%= link_to document.name, document.full_url, class: "document-name tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Download document" %>
+        <% else %>
+            <p class="document-name"><%= document.name %></p>
+        <% end %>
+    <% end %>
+  </div>
 
   <div class="document-info <%= (!document.template? && document.category == Document::NOTICES ? "hidden" : "") %>">
     <% if !document.template? and !document.read_only? %>
@@ -145,8 +147,8 @@
                   <% else %>
                       <p class="warning-text tooltip-info"
                          data-placement="bottom"
-                         data-title="No document uploaded, please upload a template">No
-                        Document Uploaded</p>
+                         data-title="No document uploaded, please upload a template">
+                        No Document Uploaded</p>
                   <% end %>
               <% end %>
           <% else %>

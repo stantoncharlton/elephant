@@ -4,8 +4,8 @@
   <div>
     <b>Assets</b>
     <div class="filter-search-box">
-      <% if @part.district.present? %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @part.district_id)},
+      <% if @part.warehouse.district.present? %>
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @part.warehouse.district_id)},
                              placeholder: "Search for asset...",
                              class: "txtfield search-query tooltip-info part-search",
                              id: "part_search",
@@ -48,6 +48,7 @@
                         "data-placement" => "left",
                         "data-title" => "Rename asset." %>
           </li>
+          <li class="divider"></li>
           <li>
             <%= link_to "Change Material Number", "#",
                         id: "change_material_number_part_link",
@@ -55,6 +56,7 @@
                         "data-placement" => "left",
                         "data-title" => "Change material number of asset and all sub assets." %>
           </li>
+          <li class="divider"></li>
           <li>
             <% if @part.parts.count == 0 %>
                 <%= link_to "Delete Asset", @part, method: :delete,
@@ -161,7 +163,7 @@
       <div class="chart-block">
         <div class="chart-title">Avg Redress</div>
         <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.material_number = ?", @part.material_number).where("jobs.district_id = ?", @part.district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
+          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.material_number = ?", @part.material_number).where("jobs.district_id = ?", @part.warehouse.district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
           <div class="percentage ">days</div>
         </div>
       </div>

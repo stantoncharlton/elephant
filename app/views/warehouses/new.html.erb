@@ -5,7 +5,7 @@
 <div class="form">
   <%= form_for @warehouse do |f| %>
 
-      <%= f.hidden_field :district_id, value: @district.id %>
+      <%= f.hidden_field :district, value: @district.id %>
       <%= render "fields", f: f %>
 
       <div class=" actions">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131004152049) do
+ActiveRecord::Schema.define(:version => 20131004164204) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -533,6 +533,7 @@ ActiveRecord::Schema.define(:version => 20131004152049) do
     t.string   "location"
     t.integer  "total_uses",                           :default => 0
     t.integer  "company_id"
+    t.integer  "warehouse_id"
   end
 
   add_index "parts", ["company_id"], :name => "index_parts_on_company_id"

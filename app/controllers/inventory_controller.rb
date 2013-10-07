@@ -36,6 +36,16 @@ class InventoryController < ApplicationController
             job_process_sql = JobProcess.select("job_processes.job_id").where("job_processes.event_type = ?", JobProcess::APPROVED_TO_SHIP).where("job_processes.company_id = ?", current_user.company_id).order("job_processes.created_at DESC").limit(5).to_sql
             @jobs = Job.where("jobs.id IN (#{job_process_sql})")
         end
+
+        if !@district.nil?
+            if current_user.role.district_read?
+                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).order("parts.name ASC")
+            else
+                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).order("parts.name ASC")
+            end
+        else
+            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:template => false).order("parts.name ASC")
+        end
     end
 
 
@@ -43,10 +53,10 @@ class InventoryController < ApplicationController
         @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
-        if @district.master?
-            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+        if current_user.role.district_read?
+            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         else
-            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:district_id => @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         end
 
         respond_to do |format|

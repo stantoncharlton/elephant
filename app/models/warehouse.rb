@@ -12,6 +12,6 @@ class Warehouse < ActiveRecord::Base
     belongs_to :company
     belongs_to :district
 
-    #has_many :parts, :conditions => { :template => false }
+    has_many :parts, :conditions => { :template => false }
 
 end

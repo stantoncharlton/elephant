@@ -1,17 +1,5 @@
-<% if @district.present? %>
-    <% if current_user.role.district_read? %>
-        <% if @district.master_district.present? %>
-            <% parts = Part.where(:company_id => current_user.company_id).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false) %>
-        <% else %>
-            <% parts = Part.where(:company_id => current_user.company_id).where("parts.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where(:template => false) %>
-        <% end %>
-    <% else %>
-        <% parts = @district.parts.where(:template => false) %>
-    <% end %>
-<% else %>
-    <% parts = current_user.company.parts %>
-<% end %>
-<% on_hand = parts.where(:status => Part::AVAILABLE).count %>
+
+<% on_hand = @parts.where(:status => Part::AVAILABLE).count %>
 
 <% provide(:title, 'Inventory') %>
 
@@ -67,6 +55,45 @@
   <% end %>
 </div>
 
+<% if current_user.role.global_read? %>
+    <div class="pull-right">
+      <span class='help-text pull-right'>Jump to Different Inventory</span>
+      <br>
+
+      <div class='push-down-small'>
+        <div class="district-jump">
+          <%= hidden_field_tag "district_id", id: "district_id" %>
+        </div>
+
+        <div class=' pull-right'>
+
+          <%= select_tag "District",
+                         options_for_select(current_user.company.districts.where(:master => true).collect { |d| [d.name, d.id] }),
+                         class: "custom-select tooltip-info",
+                         id: "jump_to_district_select",
+                         "data-placement" => "bottom",
+                         "data-title" => "Select a District",
+                         prompt: "Select district..." %>
+        </div>
+
+        <div class='pull-right'>
+          <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+          <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                             placeholder: "Type a district name...",
+                             id: "district_name",
+                             class: "txtfield small tooltip-info district-jump-to",
+                             "data-placement" => "top",
+                             "data-title" => "District Name, select from drop down based on search results" %>
+
+          <div class='inline-block help-text push-up'>or&nbsp;&nbsp;&nbsp;</div>
+
+        </div>
+
+      </div>
+    </div>
+<% end %>
+
+
 <% if @district.present? %>
     <div class="">
       <b class="inline">District</b>
@@ -75,10 +102,10 @@
       <% if current_user.role.district_read? %>
           <% if @district.master? %>
               <br>
-              <b class=''>Warehouses</b>
+              <b class=''>Warehouses</b><br>
               <% @district.warehouses.each_with_index do |warehouse, i| %>
                   <%= link_to warehouse, class: "activity-user-link" do %>
-                      <%= i < @district.warehouses.count - 1 ? warehouse.name + "," : warehouse.name %>
+                      <%= warehouse.name %>
                   <% end %>
               <% end %>
           <% end %>
@@ -86,42 +113,24 @@
     </div>
 <% end %>
 
-<% if current_user.role.global_read? %>
-    <div class="">
-      Jump to Different Inventory:
-      <br><br>
+<br>
+<br>
+<br>
 
-      <div class="district-jump">
-        <%= hidden_field_tag "district_id", id: "district_id" %>
-      </div>
-      <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
-      <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
-                         placeholder: "Type a district name...",
-                         id: "district_name",
-                         class: "txtfield small tooltip-info district-jump-to",
-                         "data-placement" => "top",
-                         "data-title" => "District Name, select from drop down based on search results" %>
-
-      or &nbsp;
-
-      <%= select_tag "District",
-                     options_for_select(current_user.company.districts.where(:master => true).collect { |d| [d.name, d.id] }),
-                     class: "tooltip-info custom-select",
-                     id: "jump_to_district_select",
-                     "data-placement" => "bottom",
-                     "data-title" => "Select a District",
-                     prompt: "Select district..." %>
+<% if @district.present? %>
+    <div class="content">
+      <%= link_to 'View Full Inventory List (' + number_with_delimiter(@parts.count, :delimiter => ",") + ')', 'inventory/' + @district.id.to_s, class: "activity-user-link orange-text job-title job-title4" %>
+      <i class="icon-chevron-right"></i>
+      <br>
     </div>
 <% end %>
-
-<br>
 
 <div class="well">
   <div class="chart-block tooltip-info"
        data-title="Total assets in district inventory">
     <div class="chart-title">Assets</div>
     <div class="donut-chart-div">
-      <div class="donut-text "><%= number_with_delimiter(parts.count, :delimiter => ",") %></div>
+      <div class="donut-text "><%= number_with_delimiter(@parts.count, :delimiter => ",") %></div>
       <div class="percentage ">assets</div>
     </div>
   </div>
@@ -132,7 +141,7 @@
     <div class="donut-chart-div">
       <div id="personnel_utilization" class="donut-chart "></div>
       <div class="donut-inner-circle"></div>
-      <div class="donut-text"><%= parts.any? ? ((on_hand.to_f / parts.count.to_f) * 100).round(0) : "0" %></div>
+      <div class="donut-text"><%= @parts.any? ? ((on_hand.to_f / @parts.count.to_f) * 100).round(0) : "0" %></div>
       <div class="percentage-circle">%</div>
     </div>
   </div>
@@ -147,13 +156,8 @@
   </div>
 </div>
 
-<% if @district.present? %>
-    <div class="content">
-      <br>
-      <%= link_to 'View Full Inventory List (' + number_with_delimiter(parts.count, :delimiter => ",") + ')', 'inventory/' + @district.id.to_s, class: "activity-user-link orange-text job-title job-title4" %>
-    </div>
-<% end %>
 
+<br>
 
 <div class="content">
   <h3>Recently Shipped</h3>
@@ -178,8 +182,8 @@
     $(document).ready(function () {
         var plot3 = $.jqplot('personnel_utilization', [
             [
-                ['a', <%= parts.count %>],
-                ['b', <%= parts.count - on_hand %>]
+                ['a', <%= @parts.count %>],
+                ['b', <%= @parts.count - on_hand %>]
             ]
         ], {
             animate: true,

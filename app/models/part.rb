@@ -28,6 +28,7 @@ class Part < ActiveRecord::Base
     belongs_to :current_job, class_name: "Job"
     belongs_to :master_part, class_name: "Part"
     belongs_to :primary_tool
+    belongs_to :warehouse
 
     has_many :parts, foreign_key: "master_part_id", order: "serial_number ASC"
 
