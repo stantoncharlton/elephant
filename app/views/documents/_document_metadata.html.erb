@@ -68,7 +68,7 @@
               <% if document.updated_at != document.created_at %>
                   <p class="inline tooltip-info" data-placement="bottom" data-title="Last updated"><%= document.updated_at.strftime("%m/%d/%Y %l:%M %p") %></p>
               <% else %>
-                  <p class="warning-text tooltip-info"
+                  <p class="warning-text tooltip-info push-down"
                      data-placement="bottom"
                      data-title="No document uploaded, please download the document by clicking the document name and upload the completed one">No
                     Document Uploaded</p>
@@ -79,7 +79,7 @@
                     <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>
                   </p>
               <% else %>
-                  <p class="warning-text tooltip-info"
+                  <p class="warning-text tooltip-info push-down"
                      data-placement="bottom"
                      data-title="No entries have been added to <%= document.document_type_string %>">
                     No Entries Added</p>
@@ -90,18 +90,18 @@
                     <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>
                   </p>
               <% else %>
-                  <p class="warning-text tooltip-info"
+                  <p class="warning-text tooltip-info push-down"
                      data-placement="bottom"
                      data-title="No entries have been added to <%= document.document_type_string %>">
                     No Entries Added</p>
               <% end %>
           <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
               <% if bha.present? %>
-                  <p>
+                  <p class="push-down">
                     <%= bha.updated_at.strftime("%m/%d/%Y %l:%M %p") %>
                   </p>
               <% else %>
-                  <p class="warning-text tooltip-info"
+                  <p class="warning-text tooltip-info push-down"
                      data-placement="bottom"
                      data-title="No assemblies have been added to <%= document.document_type_string %>">
                     No Assemblies Added</p>

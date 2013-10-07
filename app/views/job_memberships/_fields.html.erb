@@ -1,10 +1,10 @@
 <%= form_for(JobMembership.new, :html => {:class => "inline hidden new-job-member ", id: "new_member_form"}, remote: true) do |f| %>
     <%= f.hidden_field :job_id, id: "new_member_job_id", value: job.id %>
     <%= f.hidden_field :user_id, id: "new_member_id" %>
-    <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
+    <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar align-top push-down-small inline-block" %>
     <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                        placeholder: I18n.t("jobs.show.new_member_prompt"),
-                       id: "new_member_name", class: "txtfield small" %>
+                       id: "new_member_name", class: "txtfield small align-top" %>
     <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
                                                    ["Manager", JobMembership::MANAGER],
                                                    ["Coordinator", JobMembership::COORDINATOR],

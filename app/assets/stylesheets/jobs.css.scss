@@ -78,6 +78,8 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  vertical-align: top;
+  margin-top: 5px;
 }
 
 .job-field-div {
@@ -637,6 +639,10 @@
 
 .job-status-avatar {
   margin-bottom: -10px;
+}
+
+.align-top {
+  vertical-align: top;
 }
 
 .job-status-warning {

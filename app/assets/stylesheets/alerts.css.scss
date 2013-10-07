@@ -42,16 +42,16 @@
   .date {
     display: inline-block;
     padding: 0px;
-    margin: 0px;
     width: 124.4px;
     height: 105px;
     background: transparent;
     position: relative;
 
     .number {
-      position: inherit;
+      position: absolute;
       display: inline-block;
       float: right;
+      right: 0;
       padding-left: 7px;
       padding-right: 7px;
       text-align: right;
@@ -60,9 +60,10 @@
     }
 
     .number2 {
-      position: inherit;
+      position: absolute;
       display: inline-block;
       float: right;
+      right: 0;
       padding-left: 7px;
       padding-right: 7px;
       text-align: right;
@@ -80,6 +81,8 @@
       width: 124.4px;
       height: 85px;
       display: inline-block;
+      position: absolute;
+      top: 25px;
 
       .job {
         display: inline-block;
