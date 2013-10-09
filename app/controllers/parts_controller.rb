@@ -22,8 +22,6 @@ class PartsController < ApplicationController
                 else
                     if current_user.role.global_read? && current_user.district.nil?
                         @parts = Part.search_no_district(params, current_user.company).results
-                    elsif current_user.role.district_read?
-                        @parts = Part.search_master_district(params, current_user.company, params[:district_id]).results
                     else
                         district = District.find_by_id(params[:district_id])
                         @parts = Part.search(params, current_user.company, district, current_user).results
