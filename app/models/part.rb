@@ -16,10 +16,10 @@ class Part < ActiveRecord::Base
 
     validates_presence_of :company
     validates_presence_of :material_number
-    validates_uniqueness_of :material_number, :case_sensitive => false, scope: [:company_id, :warehouse_id], :if => :template?
+    validates_uniqueness_of :material_number, :case_sensitive => false, scope: [:company_id, :warehouse_id], :if => :template
     validates_uniqueness_of :serial_number, :case_sensitive => false, scope: :company_id, :if => :not_template
     validates_presence_of :serial_number, :if => :not_template
-    validates_presence_of :name, :if => :template?
+    validates_presence_of :name, :if => :template
     validates_presence_of :master_part, :if => :not_template
 
 

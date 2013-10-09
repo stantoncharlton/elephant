@@ -142,6 +142,19 @@ class PartsController < ApplicationController
         elsif params[:transfer_warehouse] == "true"
             @warehouse = Warehouse.find_by_id(params[:warehouse])
             @part.warehouse = @warehouse
+
+            @master_part = @warehouse.parts.where(:template => true).where("parts.material_number = ?", @part.material_number).limit(1).first
+            if @master_part.nil?
+                @master_part = Part.new(template: true)
+                @master_part.warehouse = @warehouse
+                @master_part.material_number = @part.master_part.material_number
+                @master_part.name = @part.master_part.name
+                @master_part.company == current_user.company
+                @master_part.save
+            end
+
+            @part.master_part = @master_part
+
             @part.save
 
             redirect_to @part
