@@ -139,6 +139,12 @@ class PartsController < ApplicationController
             PartRedress.transfer(@part.company, @part.current_job, @part, current_user)
 
             @part.save
+        elsif params[:transfer_warehouse] == "true"
+            @warehouse = Warehouse.find_by_id(params[:warehouse])
+            @part.warehouse = @warehouse
+            @part.save
+
+            redirect_to @part
         elsif params[:cleaned] == "true"
             @part.status = Part::AVAILABLE
 

@@ -7,6 +7,7 @@
     </div>
 
     <b>Assets</b>
+
     <div class="filter-search-box">
       <% if @part.warehouse.district.present? %>
           <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @part.warehouse.district_id)},
@@ -115,6 +116,7 @@
                             "data-title" => "Decommission asset from use for reason of broken, old, etc" %>
             <% end %>
           </li>
+          <li class="divider"></li>
           <li>
             <%= link_to "Delete Asset", @part, method: :delete,
                         data: {confirm: "Delete Asset"},
@@ -122,6 +124,26 @@
                         "data-placement" => "left",
                         "data-title" => "Permanently delete asset." %>
           </li>
+
+          <% if @part.warehouse.district.warehouses.count > 1 %>
+              <li class="divider"></li>
+              <li>
+                <div>
+                  <b class='blue-text push-right-small'>Transfer To</b>
+                </div>
+              </li>
+              <% @part.warehouse.district.warehouses.each do |warehouse| %>
+                  <% if warehouse != @part.warehouse %>
+                      <li>
+                        <%= link_to warehouse.name, part_path(@part, transfer_warehouse: true, warehouse: warehouse),
+                                    method: :put,
+                                    class: "dropdown-menu-link tooltip-info",
+                                    "data-placement" => "left",
+                                    "data-title" => "Transfer to warehouse." %>
+                      </li>
+                  <% end %>
+              <% end %>
+          <% end %>
 
 
         </ul>
@@ -343,53 +365,53 @@
     <% coordinates_for_lines = [] %>
 
     <% if !@part.template? %>
-        <% @part.jobs.each_with_index do |job, index| %>
-            <% if index < 7 && !job.well.location.blank? %>
-            <% x = job.well.x_location %>
-            <% y = job.well.y_location  %>
-            <% coordinates_for_lines << [x, y] %>
-            <% coordinates_for_zoom << [y, x] %>
-            geoJson.push({
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [<%= x %>, <%= y %>]
-                },
-                "properties": {
-                    title: '<%= job.field.name + ' | ' + job.well.name %>',
-                    'marker-size': 'medium',
-                    'marker-color': '#0058a8',
-                    'marker-symbol': '<%= (index + 1).to_s %>',
-                    url: '/jobs/' + <%= job.id %>
-                    //'marker-symbol': '1'
-                }
-            });
-            <% end %>
-        <% end %>
+    <% @part.jobs.each_with_index do |job, index| %>
+    <% if index < 7 && !job.well.location.blank? %>
+    <% x = job.well.x_location %>
+    <% y = job.well.y_location  %>
+    <% coordinates_for_lines << [x, y] %>
+    <% coordinates_for_zoom << [y, x] %>
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= x %>, <%= y %>]
+        },
+        "properties": {
+            title: '<%= job.field.name + ' | ' + job.well.name %>',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8',
+            'marker-symbol': '<%= (index + 1).to_s %>',
+            url: '/jobs/' + <%= job.id %>
+            //'marker-symbol': '1'
+        }
+    });
+    <% end %>
+    <% end %>
     <% else %>
-        <% @parts.each_with_index do |part, index| %>
-            <% if part.current_job.present? && !part.current_job.well.location.blank? %>
-            <% x = part.current_job.well.x_location %>
-            <% y = part.current_job.well.y_location  %>
-            <% coordinates_for_lines << [x, y] %>
-            <% coordinates_for_zoom << [y, x] %>
-            geoJson.push({
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [<%= x %>, <%= y %>]
-                },
-                "properties": {
-                    title: '<%= part.serial_number %>',
-                    'marker-size': 'medium',
-                    'marker-color': '#0058a8',
-                    'marker-symbol': '<%= (index + 1).to_s %>',
-                    url: '/parts/' + <%= part.id %>
-                    //'marker-symbol': '1'
-                }
-            });
-            <% end %>
-        <% end %>
+    <% @parts.each_with_index do |part, index| %>
+    <% if part.current_job.present? && !part.current_job.well.location.blank? %>
+    <% x = part.current_job.well.x_location %>
+    <% y = part.current_job.well.y_location  %>
+    <% coordinates_for_lines << [x, y] %>
+    <% coordinates_for_zoom << [y, x] %>
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= x %>, <%= y %>]
+        },
+        "properties": {
+            title: '<%= part.serial_number %>',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8',
+            'marker-symbol': '<%= (index + 1).to_s %>',
+            url: '/parts/' + <%= part.id %>
+            //'marker-symbol': '1'
+        }
+    });
+    <% end %>
+    <% end %>
     <% end %>
 
     map.markerLayer.setGeoJSON(geoJson);
@@ -397,7 +419,7 @@
     map.markerLayer.on('click', function (e) {
         map.panTo(e.layer.getLatLng());
     });
-    map.markerLayer.on('click', function(e) {
+    map.markerLayer.on('click', function (e) {
         e.layer.unbindPopup();
         window.location = e.layer.feature.properties.url;
     });
@@ -408,7 +430,7 @@
     <% end %>
     map.fitBounds(bounds);
     zoom = Math.round(map.getZoom());
-    if(zoom > 8) {
+    if (zoom > 8) {
         map.setZoom(8);
     }
     else {
@@ -434,10 +456,10 @@
     }).addTo(map);
     <% end %>
 
-    map.markerLayer.on('mouseover', function(e) {
+    map.markerLayer.on('mouseover', function (e) {
         e.layer.openPopup();
     });
-    map.markerLayer.on('mouseout', function(e) {
+    map.markerLayer.on('mouseout', function (e) {
         e.layer.closePopup();
     });
 </script>

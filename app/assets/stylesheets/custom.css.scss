@@ -142,7 +142,7 @@ header {
   height: 58px;
   line-height: 58px;
 
-  @media screen and (max-width: 1050px) {
+  @media screen and (max-width: 1110px) {
     margin-left: 10px;
   }
 }
@@ -283,7 +283,7 @@ p {
 
 .admin_tab a {
 
-  padding: 20px 20px 20px 20px;
+  padding: 20px 18px 20px 18px;
   height: 58px;
   line-height: 58px;
   text-transform: none;
@@ -408,8 +408,10 @@ p {
 
   margin-left: 6px;
   display: inline-block;
-  width: 70px;
+  width: 60px;
   height: 50px;
+  vertical-align: top;
+  padding-top: 15px;
 
 
   &:link, &:visited, &:active {
@@ -496,7 +498,7 @@ p {
 .global-search {
   width: 200px !important;
 
-  @media screen and (max-width: 1250px) {
+  @media screen and (max-width: 1310px) {
     width: 100px !important;
   }
 }
