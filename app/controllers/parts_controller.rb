@@ -17,14 +17,16 @@ class PartsController < ApplicationController
                 end
 
                 if params[:material_number].present?
-                    @parts = Part.search_parts(params, current_user.company, params[:material_number], params[:district_id]).results
+                    district = District.find_by_id(params[:district_id])
+                    @parts = Part.search_parts(params, current_user.company, params[:material_number], district, current_user).results
                 else
                     if current_user.role.global_read? && current_user.district.nil?
                         @parts = Part.search_no_district(params, current_user.company).results
                     elsif current_user.role.district_read?
                         @parts = Part.search_master_district(params, current_user.company, params[:district_id]).results
                     else
-                        @parts = Part.search(params, current_user.company, params[:district_id]).results
+                        district = District.find_by_id(params[:district_id])
+                        @parts = Part.search(params, current_user.company, district, current_user).results
                     end
                 end
 
@@ -107,8 +109,8 @@ class PartsController < ApplicationController
                     flash[:success] = "Asset created - #{@part.name}"
                     redirect_to @part
                 else
-                    @district = District.find_by_id(district_id)
-                    not_found unless @district.company == current_user.company
+                    @warehouse = Warehouse.find_by_id(warehouse_id)
+                    not_found unless @warehouse.company == current_user.company
                     render 'new'
                 end
             }

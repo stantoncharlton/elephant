@@ -1,4 +1,3 @@
-
 <% on_hand = @parts.where(:status => Part::AVAILABLE).count %>
 
 <% provide(:title, 'Inventory') %>
@@ -65,16 +64,18 @@
           <%= hidden_field_tag "district_id", id: "district_id" %>
         </div>
 
-        <div class=' pull-right'>
+        <% if false %>
+            <div class=' pull-right'>
 
-          <%= select_tag "District",
-                         options_for_select(current_user.company.districts.where(:master => true).collect { |d| [d.name, d.id] }),
-                         class: "custom-select tooltip-info",
-                         id: "jump_to_district_select",
-                         "data-placement" => "bottom",
-                         "data-title" => "Select a District",
-                         prompt: "Select district..." %>
-        </div>
+              <%= select_tag "District",
+                             options_for_select(current_user.company.districts.where(:master => true).collect { |d| [d.name, d.id] }),
+                             class: "custom-select tooltip-info",
+                             id: "jump_to_district_select",
+                             "data-placement" => "bottom",
+                             "data-title" => "Select a District",
+                             prompt: "Select district..." %>
+            </div>
+        <% end %>
 
         <div class='pull-right'>
           <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
@@ -84,8 +85,6 @@
                              class: "txtfield small tooltip-info district-jump-to",
                              "data-placement" => "top",
                              "data-title" => "District Name, select from drop down based on search results" %>
-
-          <div class='inline-block help-text push-up'>or&nbsp;&nbsp;&nbsp;</div>
 
         </div>
 
@@ -99,23 +98,36 @@
       <b class="inline">District</b>
       <%= link_to @district.name, @district, class: "activity-user-link" %>
 
-      <% if current_user.role.district_read? %>
-          <% if @district.master? %>
-              <br>
-              <b class=''>Warehouses</b><br>
-              <% @district.warehouses.each_with_index do |warehouse, i| %>
+      <br>
+      <b class=''>Warehouses</b><br>
+
+      <div class='push-down-small'>
+        <% if current_user.role.limit_to_assigned_jobs? %>
+            <% current_user.warehouses.each_with_index do |warehouse, i| %>
+                <div>
                   <%= link_to warehouse, class: "activity-user-link" do %>
                       <%= warehouse.name %>
                   <% end %>
-              <% end %>
-          <% end %>
-      <% end %>
+                </div>
+            <% end %>
+        <% else %>
+            <% @district.warehouses.each_with_index do |warehouse, i| %>
+                <div>
+                  <%= link_to warehouse, class: "activity-user-link" do %>
+                      <%= warehouse.name %>
+                  <% end %>
+                </div>
+            <% end %>
+        <% end %>
+      </div>
     </div>
-<% end %>
+<% else %>
 
-<br>
-<br>
-<br>
+    <br><br>
+    <br>
+    <br><br>
+    <br>
+<% end %>
 
 <% if @district.present? %>
     <div class="content">

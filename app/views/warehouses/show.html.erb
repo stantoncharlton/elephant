@@ -51,7 +51,20 @@
                     "data-placement" => "bottom",
                     "data-title" => "Create new master asset" %>
       </li>
+      <li class="divider"></li>
+      <li>
+        <%= link_to "Show Warehouse Members", "#",
+                    id: "show_warehouse_members",
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Show members who can access this warehouse" %>
+      </li>
     </ul>
+  </div>
+
+
+  <div id="warehouse_members" class='hidden'>
+    <%= render 'warehouses/warehouse_members', warehouse: @warehouse %>
   </div>
 
 </div>
@@ -125,6 +138,19 @@
     }(jQuery));
 </script>
 
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            if($('#new_member_name').length > 0) {
+                $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
+                    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                            "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
+                }
+            }
+        });
+    }(jQuery));
+</script>
 
 
 

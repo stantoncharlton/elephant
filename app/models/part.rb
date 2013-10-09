@@ -16,7 +16,7 @@ class Part < ActiveRecord::Base
 
     validates_presence_of :company
     validates_presence_of :material_number
-    validates_uniqueness_of :material_number, :case_sensitive => false, scope: [:company_id, :district_id], :if => :template?
+    validates_uniqueness_of :material_number, :case_sensitive => false, scope: [:company_id, :warehouse_id], :if => :template?
     validates_uniqueness_of :serial_number, :case_sensitive => false, scope: :company_id, :if => :not_template
     validates_presence_of :serial_number, :if => :not_template
     validates_presence_of :name, :if => :template?
@@ -58,6 +58,7 @@ class Part < ActiveRecord::Base
         text :serial_number
         text :district_serial_number
         string :material_number
+        integer :warehouse_id
         integer :district_id
         integer :master_district_id do
             district.present? && district.master_district.present? ? district.master_district_id : nil
@@ -97,21 +98,46 @@ class Part < ActiveRecord::Base
         end
     end
 
-    def self.search(options, company, district_id)
+    def self.search(options, company, district, current_user)
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
-            with(:district_id, district_id)
+            if current_user.role.limit_to_assigned_jobs?
+                any_of do
+                    current_user.warehouses.each do |warehouse|
+                        with(:warehouse_id, warehouse.id)
+                    end
+                end
+            else
+                any_of do
+                    district.warehouses.each do |warehouse|
+                        with(:warehouse_id, warehouse.id)
+                    end
+                end
+            end
             order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
         end
     end
 
-    def self.search_parts(options, company, material_number, district_id)
+    def self.search_parts(options, company, material_number, district, current_user)
+
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
-            with(:district_id, district_id)
+            if current_user.role.limit_to_assigned_jobs?
+                any_of do
+                    current_user.warehouses.each do |warehouse|
+                        with(:warehouse_id, warehouse.id)
+                    end
+                end
+            else
+                any_of do
+                    district.warehouses.each do |warehouse|
+                        with(:warehouse_id, warehouse.id)
+                    end
+                end
+            end
             with(:material_number, material_number)
             with(:template, false)
             with(:status, Part::AVAILABLE)

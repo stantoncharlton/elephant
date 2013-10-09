@@ -43,6 +43,10 @@
             super(column_name || 'jobs.id', opts.reverse_merge(distinct: true))
         end
     end
+
+    has_many :warehouse_memberships, foreign_key: "user_id"
+    has_many :warehouses, through: :warehouse_memberships, source: :warehouse, order: "warehouses.name ASC"
+
     has_many :reverse_relationships, foreign_key: "followed_id",
              class_name: "Relationship"
     has_many :followers, through: :reverse_relationships, source: :follower

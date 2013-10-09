@@ -1,0 +1,10 @@
+<%= form_for(WarehouseMembership.new, :html => {:class => "inline hidden new-job-member ", id: "new_member_form"}, remote: true) do |f| %>
+    <%= f.hidden_field :warehouse_id, id: "new_member_job_id", value: warehouse.id %>
+    <%= f.hidden_field :user_id, id: "new_member_id" %>
+    <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar align-top push-down-small inline-block" %>
+    <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                       placeholder: I18n.t("jobs.show.new_member_prompt"),
+                       id: "new_member_name", class: "txtfield small align-top" %>
+    <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-member-loading-button" %>
+    <%= link_to "cancel", "#", class: "bluebtn btnsmall red", id: "cancel_add_member" %>
+<% end %>

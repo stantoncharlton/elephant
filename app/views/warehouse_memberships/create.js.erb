@@ -1,0 +1,28 @@
+$('.member-loading').addClass('hidden');
+
+
+<% if @warehouse_membership.new_record? %>
+
+$('#new_member_form').show();
+
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Adding Member", message: @warehouse_membership.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+
+
+<% else %>
+
+$("#warehouse_members_list").append("<%= j render 'warehouse_memberships/warehouse_membership', warehouse_membership: @warehouse_membership %>");
+
+$('#new_member_name').val('');
+$('#new_member_id').val('');
+
+$('#add_job_member').show();
+$('#new_member_form').hide();
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+$('.activity-user-link').tooltip();
+}
+
+<% end %>
+

@@ -14,4 +14,7 @@ class Warehouse < ActiveRecord::Base
 
     has_many :parts, :conditions => { :template => false }
 
+    has_many :warehouse_memberships, dependent: :destroy, foreign_key: "warehouse_id", order: "created_at ASC"
+    has_many :participants, through: :warehouse_memberships, source: :user
+
 end

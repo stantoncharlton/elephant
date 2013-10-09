@@ -1,0 +1,18 @@
+<li class="job-member-list-item" id="warehouse_membership_<%= warehouse_membership.id %>">
+
+  <div class="activity-user-link-div-short">
+    <div class="inline  push-right-small">
+      <% if warehouse_membership.user.present? %>
+          <%= render 'activities/user', user: warehouse_membership.user %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if current_user.role.district_edit? %>
+      <div class="push-right">
+        <%= link_to "remove", warehouse_membership, method: :delete, remote: true,
+                    data: {confirm: "Remove User from warehouse?"},
+                    class: "delete-button-small job-member-button" %>
+      </div>
+  <% end %>
+</li>

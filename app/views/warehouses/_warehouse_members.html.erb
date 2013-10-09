@@ -1,0 +1,33 @@
+<div class="content">
+  <p class="job-field-title job-members-title">
+    <b>Members</b>
+  </p>
+
+  <div class="job-members-div">
+
+    <div class="member-full-list push-down-small">
+      <ul class="job-members-list" id="warehouse_members_list">
+        <% warehouse.warehouse_memberships.each do |wm| %>
+            <%= render 'warehouse_memberships/warehouse_membership', warehouse_membership: wm %>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="inline-block push-right-small">
+      <%= link_to "Add Member", "#",
+                  class: "inline-block add-job-member tooltip-info",
+                  id: "add_job_member",
+                  "data-placement" => "bottom",
+                  "data-title" => "Add new project member" %>
+    </div>
+
+    <div class="member-loading hidden">
+      <span class="ajax-loading search-loading"><b>Adding project member</b></span>
+      <br><br>
+    </div>
+
+    <%= render 'warehouse_memberships/fields', warehouse: warehouse %>
+
+
+  </div>
+</div>

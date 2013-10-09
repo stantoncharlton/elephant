@@ -6,6 +6,12 @@ class WarehousesController < ApplicationController
         @warehouse = Warehouse.find_by_id(params[:id])
         not_found unless @warehouse.company == current_user.company
 
+        if current_user.role.limit_to_assigned_jobs?
+            if current_user.warehouses.find { |w| w.id == @warehouse.id} == nil
+                not_found
+            end
+        end
+
         @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:warehouse_id => @warehouse.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
     end
 
