@@ -22,6 +22,8 @@ class Well < ActiveRecord::Base
 
     acts_as_tenant(:company)
 
+    before_save { |well| well.location = well.location.gsub('°', '').gsub("'", '') }
+
     validates :name, presence: true, length: {maximum: 50}
     validates_uniqueness_of :name, :case_sensitive => false, scope: :field_id
     validates :company, presence: true
