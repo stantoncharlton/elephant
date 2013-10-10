@@ -17,6 +17,11 @@ class StaticPagesController < ApplicationController
                     else
                         redirect_to jobs_path
                     end
+                else
+                    @news = []
+                    5.times do |i|
+                        @news << [$redis.get('news_title_' + i.to_s), $redis.get('news_summary_' + i.to_s), $redis.get('news_link_' + i.to_s)]
+                    end
                 end
             }
             format.xml {

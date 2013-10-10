@@ -5,8 +5,11 @@
   <meta name="description=" content="Elephant is a solutions package created for the energy industry to achieve high quality processes.">
   <%= stylesheet_link_tag "application", media: "all" %>
   <%= javascript_include_tag "application" %>
-  <script src='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
-  <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet'/>
+
+  <% if signed_in? %>
+      <script src='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
+      <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet'/>
+  <% end %>
 
   <%= csrf_meta_tags %>
   <!--[if lt IE 9]>

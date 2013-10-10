@@ -63,6 +63,42 @@
     }
   }
 
+  .news {
+    position: absolute;
+    bottom: 100px;
+    left: 50px;
+    width: 400px;
+    color: #FFFFFF;
+    font-family: "gothamlightregular" !important;
+    text-shadow: 1px 1px 1px #000000;
+
+    margin-top: 80px;
+
+    .news-header {
+      margin-bottom: 15px;
+    }
+
+    .news-title {
+      font-family: "gothamboldregular" !important;
+    }
+
+    .news-summary {
+      font-family: "gothamlightregular" !important;
+    }
+
+    a {
+      &:link, &:visited {
+        color: #2b83de;
+        background: transparent;
+      }
+      &:hover {
+        color: #2b83de;
+        background: transparent;
+        text-decoration: none;
+      }
+    }
+  }
+
   .footer {
     position: absolute;
     bottom: 10px;

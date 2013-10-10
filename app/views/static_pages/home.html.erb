@@ -22,7 +22,7 @@
     <div class='links'>
 
       <div class='link'>
-        <a href="/features">Features</a>
+        <a href="/features">What We Offer</a>
       </div>
       <div class='link'>
         <a href="/sales">Sales &amp; Contact</a>
@@ -32,7 +32,19 @@
       </div>
 
     </div>
+
   </div>
+
+  <% if !@news.nil? && @news.any? %>
+      <div class='news' data-index='0'>
+        <div class='news-header'>News</div>
+        <div class='news-title'><%= @news.first[0] %></div>
+        <p class='news-summary'><%= @news.first[1] %></p>
+        <a class='news-link' href="<%= @news.first[2] %>" target="_blank">Read More</a>
+        <a id='back_news' class='push-right tooltip-info' data-title="Previous News Item" href='#'><i class="icon-arrow-left icon-white"></i></a>
+        <a id='forward_news' class='push-right-small tooltip-info' data-title="Next News Item" href='#'><i class="icon-arrow-right icon-white"></i></a>
+      </div>
+  <% end %>
 
   <div class="sign-box-background"></div>
   <div class="signin-box">
@@ -51,3 +63,54 @@
   -->
 
 </div>
+
+<script type="text/javascript">
+
+    var news_index = 0;
+    var news_running = true;
+
+    var news = [];
+    <% @news.each do |item| %>
+    news.push(['<%= item[0] %>', '<%= item[1] %>', '<%= item[2] %>']);
+    <% end %>
+
+    (function ($) {
+        load_news = function (index) {
+            var item = news[index];
+            $('.news-title').text(item[0]);
+            $('.news-summary').text(item[1]);
+            $('.news-link').attr('href', item[2]);
+        }
+
+        rotate_news = function () {
+            if (news_running) {
+                news_index++;
+                if (news_index > 4) {
+                    news_index = 0;
+                }
+                load_news(news_index);
+                setTimeout(rotate_news, 5000);
+            }
+        }
+        setTimeout(rotate_news, 5000);
+
+        $('#back_news').click(function () {
+            news_running = false;
+            news_index--;
+            if (news_index < 0) {
+                news_index = 4;
+            }
+            load_news(news_index);
+            return false;
+        });
+        $('#forward_news').click(function () {
+            news_running = false;
+            news_index++;
+            if (news_index > 4) {
+                news_index = 0;
+            }
+            load_news(news_index);
+            return false;
+        });
+    }(jQuery));
+</script>
