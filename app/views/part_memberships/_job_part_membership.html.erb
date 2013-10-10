@@ -41,7 +41,7 @@
   <div class="inline part-match-link part-field pull-right <%= part_membership.part.present? ? '' : 'hidden' %>">
     <% if part_membership.part.present? %>
         <% if !part_membership.part.district_serial_number.blank? %>
-            <%= link_to part_membership.part, target: "_blank", class: "activity-user-link" do %>
+            <%= link_to part_membership.part, target: "_blank", class: "activity-user-link align-top push-down-small" do %>
                 <span class="help-text">Serial #</span>
                 <%= part_membership.part.serial_number %>
 
@@ -49,9 +49,8 @@
                 <%= part_membership.part.district_serial_number %>
             <% end %>
         <% else %>
-            <%= link_to part_membership.part, target: "_blank", class: "activity-user-link" do %>
+            <%= link_to part_membership.part, target: "_blank", class: "activity-user-link align-top push-down-small" do %>
                 <span class="help-text">Serial #</span>
-
                 <h3 class="blue-text inline"><%= part_membership.part.serial_number %></h3>
             <% end %>
         <% end %>
