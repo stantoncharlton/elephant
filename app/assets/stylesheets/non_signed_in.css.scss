@@ -72,6 +72,10 @@
     font-family: "gothamlightregular" !important;
     text-shadow: 1px 1px 1px #000000;
 
+    @media screen and (max-height: 750px) {
+      display: none;
+    }
+
     margin-top: 80px;
 
     .news-header {
