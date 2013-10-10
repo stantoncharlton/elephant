@@ -7,6 +7,75 @@
     margin: 0px;
     padding: 0px;
   }
+
+  .home-shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 500px;
+
+    background:  url(image_path('home_shadow.png'));
+
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('home_shadow.png')}, sizingMethod='scale');
+  }
+
+  .home-box {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    width: 400px;
+
+    .description {
+      font-size: 28px;
+      color: #c7c7c7;
+      text-shadow: 1px 1px 1px #000000;
+      line-height: 35px;
+      margin-top: 20px;
+      font-family: "gothamlightregular" !important;
+    }
+
+    .links {
+      margin-top: 50px;
+      .link {
+        margin-bottom: 30px;
+        a {
+          padding: 8px;
+          font-size: 24px;
+          color: #FFFFFF;
+          text-shadow: 1px 1px 1px #000000;
+          font-family: "gothamlightregular" !important;
+
+          &:link, &:visited {
+            background: #2b83de;
+          }
+          &:hover {
+            background: #6fb5fd;
+            text-decoration: none;
+          }
+        }
+        p {
+          font-size: 16px;
+          color: #FFFFFF;
+          text-shadow: 1px 1px 1px #000000;
+        }
+      }
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50px;
+    height: 30;
+
+    a {
+      color: #FFFFFF;
+      text-shadow: 1px 1px 1px #000000;
+      font-family: "gothamlightregular" !important;
+      margin-right: 20px;
+    }
+  }
 }
 
 .body-background {
@@ -101,11 +170,31 @@
 }
 
 .login {
-  background: url(image_path('login_box.png')) no-repeat;
+  //background: url(image_path('login_box.png')) no-repeat;
   padding: 40px;
   width: 513px;
   height: 514px;
   margin-top: 0px;
+
+  .help {
+    float: right;
+    margin-right: 80px;
+    text-align: right;
+    font-family: "gothamlightregular" !important;
+    color: #FFFFFF;
+
+    a {
+
+      &:link, &:visited {
+        background: transparent;
+        color: #FFFFFF;
+      }
+      &:hover {
+        background: transparent;
+        color: #FFFFFF;
+      }
+    }
+  }
 }
 
 .login h1 {
@@ -126,7 +215,7 @@
   margin-bottom: 56px;
 }
 
-.login a {
+.forgot-password {
   display: inline;
   color: #b9b9b9;
   float: right;
@@ -212,10 +301,25 @@
   margin-right: 86px;
 }
 
+.sign-box-background {
+  position: absolute;
+  //float: right;
+  top: 0;
+  right: 0;
+  width: 513px;
+  height: 100%;
+  background: #000000;
+  opacity: .5;
+  //margin-left: 50%;
+}
+
 .signin-box {
   position: absolute;
-  float: right;
-  margin-left: 50%;
+  //float: right;
+  top: 0;
+  right: 0;
+  margin-right: -85px;
+  //margin-left: 50%;
 }
 
 .quote {
@@ -515,7 +619,7 @@
 }
 
 .features-gray-background {
-   background: #eafdfb !important;
+  background: #eafdfb !important;
 }
 
 .sales-part-1 {
@@ -643,7 +747,6 @@ a[href^=tel] {
     margin-top: 20px;
   }
 }
-
 
 .empty-checkbox {
   margin-top: -5px !important;

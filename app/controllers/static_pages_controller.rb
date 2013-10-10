@@ -63,4 +63,18 @@ class StaticPagesController < ApplicationController
     def tutorial
 
     end
+
+    def terms
+
+    end
+
+    def privacy
+
+    end
+
+    def copyright
+
+    end
+
+
 end
