@@ -12,7 +12,7 @@
 
         <br><br>
 
-        <%= link_to "Begin Redress", part_path(part, receive: true), method: :put,
+        <%= link_to "Begin Redress", part_path(part, receive: true, part_page: true), method: :put,
                     remote: true,
                     class: "bluebtn green tooltip-info form-loading-on-click",
                     "data-form" => "update-part-status",
@@ -20,9 +20,9 @@
                     "data-title" => "Receive asset" %>
 
         <span class="push-right-small">
-        <%= link_to "Well Transfer", part_path(part, transfer: true), method: :put,
+        <%= link_to "Well Transfer", part_path(part, transfer: true, part_page: true), method: :put,
                     remote: true,
-                    class: "bluebtn teal tooltip-info form-loading-on-click",
+                    class: "bluebtn gray tooltip-info form-loading-on-click",
                     "data-form" => "update-part-status",
                     "data-placement" => "bottom",
                     "data-title" => "Complete Asset usage to use on another job" %>

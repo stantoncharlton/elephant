@@ -11,6 +11,14 @@ $('#alert').modal({show:true});
         $('#material_number_loader').addClass('hidden');
         $('#material_number_part_fields').addClass('hidden');
         $('#material_number_form').show();
+    <% elsif @inline_part_update %>
+        if($('#inline_part_<%= @part.id %>').find('.part-received').length > 0) {
+            $('#inline_part_<%= @part.id %>').find('.part-received').replaceWith("<%= j render 'parts/received', part_redress: @part_redress %>");
+        }
+        else {
+            $('#inline_part_<%= @part.id %>').empty();
+            $('#inline_part_<%= @part.id %>').append("<%= j render 'parts/received', part_redress: @part_redress %>");
+        }
     <% else %>
         $('#part_name').text('<%= @part.name %>');
         $('#rename_loader').addClass('hidden');
@@ -20,12 +28,9 @@ $('#alert').modal({show:true});
 <% else %>
     if($('.part-status').length > 0) {
         $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
-        <% if @part_redress.present? && @part_redress %>
-            $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job %>');
+        <% if @part_redressed.present? && @part_redressed %>
+            $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job, index: 0 %>');
         <% end %>
-    }
-    else {
-        $('#inline_part_<%= @part.id %>').replaceWith("<br><br><p class='inline'><b class='good-text'>Asset Received</b> - <%= Time.now.strftime("%m/%d/%Y %l:%M %p") %></p>");
     }
 <% end %>
 

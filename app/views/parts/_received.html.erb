@@ -1,0 +1,49 @@
+<div class="inline part-received">
+  <div class='inline form' data-form='change_warehouse_<%= part_redress.id.to_s %>'>
+    <br><br>
+
+    <p class="inline">
+      <% if !part_redress.nil? %>
+          <% if part_redress.no_redress %>
+              <b class='good-text'>Asset Transferred</b>
+          <% else %>
+              <b class='good-text'>Asset Received</b>
+          <% end %>
+          - <%= part_redress.received_at.strftime("%m/%d/%Y %l:%M %p") %>
+
+          <% if !part_redress.no_redress %>
+              <div class='inline push-right'>
+                Received at <%= part_redress.part.warehouse.name %>
+
+                <% if part_redress.part.warehouse.district.warehouses.count > 1 %>
+                    <div class="btn-group inline-block push-right-small">
+                      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+                        Change Warehouse
+                      </a>
+                      <ul class="dropdown-menu">
+                        <% part_redress.part.warehouse.district.warehouses.each do |warehouse| %>
+                            <% if warehouse != part_redress.part.warehouse %>
+                                <li>
+                                  <%= link_to warehouse.name, part_path(part_redress.part, transfer_warehouse: true, warehouse: warehouse),
+                                              method: :put, remote: true,
+                                              class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                                              "data-form" => "change_warehouse_" + part_redress.id.to_s,
+                                              "data-placement" => "left",
+                                              "data-title" => "Transfer to warehouse." %>
+                                </li>
+                            <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                <% end %>
+              </div>
+          <% end %>
+      <% end %>
+      </p>
+      </div>
+
+  <div class="form-loading hidden" data-form="change_warehouse_<%= part_redress.id.to_s %>">
+    <%= render 'layouts/inline_loading', title: "Updating..." %>
+    <br><br>
+  </div>
+</div>

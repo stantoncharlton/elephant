@@ -48,10 +48,6 @@
   </div>
 
 
-  <% if primary_tool.part_memberships.any? %>
-      <% real_pm = primary_tool.part_memberships.first.usage_part_membership(job.id) %>
-  <% end %>
-
   <div class="">
 
     <div class="secondary-tool-name push-right-small">
@@ -138,13 +134,10 @@
                     <% end %>
                 <% end %>
 
-                <% if !job.approved_to_ship %>
-                    <div class='tool-notes hidden'>
-                      <br>
-
-                      <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
-                    </div>
-                <% end %>
+                <div class='tool-notes <%= primary_tool.comments.blank? ? "hidden" : "" %>'>
+                  <br>
+                  <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+                </div>
 
               </div>
             </div>

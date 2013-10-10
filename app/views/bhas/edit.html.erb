@@ -38,7 +38,7 @@
       <div class="form" id="add_tool" data-form="add_tool">
         <% serial = '' %>
         <% options = [] %>
-        <% @job.job_template.primary_tools.where(:template => false).includes(:tool).order("tools.name ASC").each do |p| %>
+        <% @job.job_template.primary_tools.where(:job_id => @job.id).where(:template => false).includes(:tool).order("tools.name ASC").each do |p| %>
             <% serial = '' %>
             <% if p.part_memberships.any? %>
                 <% real = p.part_memberships.first.usage_part_membership(@job.id) %>

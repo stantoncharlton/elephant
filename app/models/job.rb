@@ -295,12 +295,14 @@ class Job < ActiveRecord::Base
 
         self.pre_job_documents.each do |document|
             if document.empty?
+                puts "documents.................."
                 return false
             end
         end
 
         self.dynamic_fields.each do |df|
             if !df.optional? && !df.predefined? && df.value.blank?
+                puts "fields.................."
                 return false
             end
         end
@@ -310,8 +312,11 @@ class Job < ActiveRecord::Base
         end
 
         # Check assets all complete
-        self.job_template.primary_tools.where(:template => false).each do |tool|
+        self.job_template.primary_tools.where(:job_id => self).where(:template => false).each do |tool|
             if tool.simple_tracking? && tool.serial_number.blank?
+                puts "number.................."
+                puts tool.id.to_s
+                puts tool.tool.name
                 return false
             end
         end

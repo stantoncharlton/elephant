@@ -1,4 +1,5 @@
 <% part = Part.where("parts.warehouse_id IN (select id from warehouses where district_id = :district_id) AND parts.material_number = :material_number AND parts.template is TRUE", district_id: job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
+
 <div id="part_membership_<%= part_membership.id %>" class="parent-part-membership">
 
   <% if part_membership.part.present? %>
@@ -51,6 +52,7 @@
         <% else %>
             <%= link_to part_membership.part, target: "_blank", class: "activity-user-link align-top push-down-small" do %>
                 <span class="help-text">Serial #</span>
+
                 <h3 class="blue-text inline"><%= part_membership.part.serial_number %></h3>
             <% end %>
         <% end %>
@@ -108,8 +110,8 @@
   <% end %>
 
   <% if part_membership.part.present? && job.approved_to_ship %>
-      <% if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job.present? && part_membership.part.current_job.id == job.id %>
-          <div class="inline-part-receive" id="inline_part_<%= part_membership.part.id %>">
+      <div class="inline-part-receive" id="inline_part_<%= part_membership.part.id %>">
+        <% if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job.present? && part_membership.part.current_job.id == job.id %>
             <div class="form" data-form="receive-part-form-<%= part_membership.part.id %>">
               <br>
 
@@ -126,7 +128,7 @@
                   <%= link_to "Well Transfer", part_path(part_membership.part, transfer: true),
                               method: :put,
                               remote: true,
-                              class: "bluebtn teal tooltip-info form-loading-on-click",
+                              class: "bluebtn gray tooltip-info form-loading-on-click",
                               "data-form" => "receive-part-form-" + part_membership.part.id.to_s,
                               "data-placement" => "bottom",
                               "data-title" => "Free asset for use on another job" %>
@@ -137,17 +139,10 @@
             <div class="form-loading hidden" data-form="receive-part-form-<%= part_membership.part.id %>">
               <%= render 'layouts/inline_loading', title: "Receiving..." %>
             </div>
-          </div>
-      <% else %>
-          <br><br>
-
-          <p class="inline"><b class='good-text'>Asset Received</b>
-            <% redress = PartRedress.where(:job_id => job.id).where(:part_id => part_membership.part.id).limit(1).first %>
-            <% if !redress.nil? %>
-                - <%= redress.received_at.strftime("%m/%d/%Y %l:%M %p") %>
-            <% end %>
-          </p>
-      <% end %>
+        <% else %>
+            <%= render 'parts/received', part_redress: PartRedress.where(:job_id => job.id).where(:part_id => part_membership.part.id).limit(1).first %>
+        <% end %>
+      </div>
   <% end %>
 
 

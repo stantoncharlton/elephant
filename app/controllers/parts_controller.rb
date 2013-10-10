@@ -30,7 +30,7 @@ class PartsController < ApplicationController
 
                 if @parts.empty?
                     @parts << Part.new
-                    render json: @parts.map { |part| {:value => "No asset found or available...", :name => "", :id => -1, :district_serial_number => -1, :warehouseL => ""} }
+                    render json: @parts.map { |part| {:value => "No asset found or available...", :name => "", :id => -1, :district_serial_number => -1, :warehouse => ""} }
                     return
                 end
 
@@ -123,20 +123,25 @@ class PartsController < ApplicationController
         not_found unless @part.company == current_user.company
 
         @part_update = false
+        @inline_part_update = false
 
         if params[:receive] == "true"
             @part.status = Part::IN_REDRESS
-
-            PartRedress.receive(@part.company, @part.current_job, @part, current_user)
-
+            @part_redress = PartRedress.receive(@part.company, @part.current_job, @part, current_user)
             @part.save
+            if !params[:part_page].present?
+                @part_update = true
+                @inline_part_update = true
+            end
         elsif params[:transfer] == "true"
             @part.status = Part::AVAILABLE
+            @part_redress = PartRedress.transfer(@part.company, @part.current_job, @part, current_user)
             @part.current_job = nil
-
-            PartRedress.transfer(@part.company, @part.current_job, @part, current_user)
-
             @part.save
+            if !params[:part_page].present?
+                @part_update = true
+                @inline_part_update = true
+            end
         elsif params[:transfer_warehouse] == "true"
             @warehouse = Warehouse.find_by_id(params[:warehouse])
             @part.warehouse = @warehouse
@@ -155,7 +160,14 @@ class PartsController < ApplicationController
 
             @part.save
 
-            redirect_to @part
+            @part_update = true
+
+            if request.format == "html"
+                redirect_to @part
+            else
+                @part_redress = PartRedress.where(:job_id => @part.current_job.id).where(:part_id => @part.id).limit(1).first
+                @inline_part_update = true
+            end
         elsif params[:cleaned] == "true"
             @part.status = Part::AVAILABLE
 
@@ -163,6 +175,7 @@ class PartsController < ApplicationController
 
             @part.current_job = nil
             @part.save
+            @part_redressed = true
         elsif params[:decommission] == "true"
             @part.status = Part::DECOMMISSIONED
             @part.save
