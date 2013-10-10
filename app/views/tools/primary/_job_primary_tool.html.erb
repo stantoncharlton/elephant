@@ -36,6 +36,11 @@
                           "data-title" => "Change tool to inventory asset" %>
           <% end %>
         </li>
+        <li class="divider"></li>
+        <%= link_to "Show Tool Notes", "#",
+                    class: "dropdown-menu-link tooltip-info show-tool-notes",
+                    "data-placement" => "left",
+                    "data-title" => "Show the notes/comments associated with this tool" %>
       </ul>
     </div>
     <div class="duplicate-loading hidden"><span class="ajax-loading search-loading">Duplicating tool...</span></div>
@@ -52,28 +57,26 @@
     <div class="secondary-tool-name push-right-small">
       <h3 class='blue-text inline list-item-column push-right-small'><%= primary_tool.tool.name %></h3>
 
+      <div class='inline-block push-down-small'>
+        <% if primary_tool.simple_tracking %>
+            <span class='label label-warning align-top'>RENTAL</span>
+        <% end %>
 
+        <p class="tool-long-description inline"><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
+      </div>
     </div>
   </div>
 
-  <div class="tool-details">
-    <div class="inline push-right">
-      <% if primary_tool.simple_tracking %>
-          <span class='label label-warning'>RENTAL</span>
-      <% else %>
-          <% if real_pm.present? && real_pm.part.present? %>
-              <!--<span class='label label-success'>RECEIVED</span>-->
+  <div class="tool-details push-up">
+
+    <% documents = primary_tool.documents.where(:job_id => job.id) %>
+    <% if documents.any? %>
+        <div class="content">
+          <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
+              <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
           <% end %>
-      <% end %>
-    </div>
-    <p class="tool-long-description inline"><%= primary_tool.tool.description.blank? ? "-" : primary_tool.tool.description %></p>
-
-
-    <div class="content">
-      <% primary_tool.documents.where(:job_id => job.id).each do |d| %>
-          <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-      <% end %>
-    </div>
+        </div>
+    <% end %>
     <% if primary_tool.simple_tracking %>
         <div class="content">
           <div class="content">
@@ -97,6 +100,7 @@
                   <% if !primary_tool.received %>
                       <div class="" id="inline_part_<%= primary_tool.id %>">
                         <br>
+
                         <div class="form" data-form="receive-part-form-<%= primary_tool.id %>">
                           <%= link_to "Begin Redress", primary_tool_path(primary_tool, received: true),
                                       method: :put,
@@ -135,8 +139,11 @@
                 <% end %>
 
                 <% if !job.approved_to_ship %>
-                    <br>
-                    <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+                    <div class='tool-notes hidden'>
+                      <br>
+
+                      <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+                    </div>
                 <% end %>
 
               </div>

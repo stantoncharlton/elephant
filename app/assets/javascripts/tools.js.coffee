@@ -77,3 +77,8 @@ $ ->
       tool_details.addClass 'hidden'
       $(this).find('.primary-tool-expand-text').text('expand')
     return false
+
+  $('.show-tool-notes').live "click", ->
+    $(this).closest('.root-primary-tool').find('.tool-notes').removeClass 'hidden'
+    $(this).addClass 'hidden'
+    return false
