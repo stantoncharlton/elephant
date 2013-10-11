@@ -47,6 +47,7 @@ class InventoryController < ApplicationController
         elsif !current_user.role.limit_to_assigned_jobs?
             @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:template => false).order("parts.name ASC")
         end
+
     end
 
 

@@ -102,7 +102,7 @@
           <div class="push-right-small">
             <%= image_tag "tool.png" %>
             <%= link_to inventory_index_path(district: @district.id), class: "push-right-small activity-user-link" do %>
-                Warehouse Inventory <span class="help-text">(<%= @district.parts.count %>)</span>
+                Warehouse Inventory <span class="help-text">(<%= Part.includes(:parts).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).count()%>)</span>
             <% end %>
           </div>
       <% end %>
