@@ -19,7 +19,7 @@
 
     <div class="btn-group inline-block">
       <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-        Export
+        Advanced Actions
       </a>
       <ul class="dropdown-menu">
         <li>
@@ -29,9 +29,35 @@
                       "data-placement" => "left",
                       "data-title" => "Export data as Microsoft Excel file." %>
         </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to "Add New Tool", "#",
+                      id: "add_new_tool",
+                      class: "dropdown-menu-link tooltip-info",
+                      "data-placement" => "left",
+                      "data-title" => "Add New Tool to List" %>
+        </li>
       </ul>
     </div>
+
   </div>
+</div>
+
+<div class='well content hidden' id="add_new_tool_form">
+  <div class='form'>
+    <% options = [] %>
+    <% job.job_template.primary_tools.where(:template => true).each do |p| %>
+        <% options << [p.tool.name, p.tool.id] %>
+    <% end %>
+    <%= select_tag "Tools", options_for_select(options),
+                   class: "inline-block custom-select custom-select-long custom-select-ajax tooltip-info push-left-small ",
+                   "data-placement" => "bottom",
+                   "data-title" => "Add new tool",
+                   prompt: "Add new tool" %>
+
+    <%= link_to "Add", "#", class: "bluebtn btnsmall" %>
+  </div>
+
 </div>
 
 <div>

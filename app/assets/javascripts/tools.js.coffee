@@ -82,3 +82,8 @@ $ ->
     $(this).closest('.root-primary-tool').find('.tool-notes').removeClass 'hidden'
     $(this).addClass 'hidden'
     return false
+
+  $('#add_new_tool').live "click", ->
+    $('#add_new_tool_form').removeClass 'hidden'
+    $(this).addClass 'hidden'
+    return false
