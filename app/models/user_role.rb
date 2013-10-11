@@ -291,7 +291,7 @@ class UserRole < ActiveRecord::Base
     end
 
     def show_inventory?
-        self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_WAREHOUSE_SPECIALIST || self.role_id == ROLE_OPERATIONS_COORDINATOR
+        self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_WAREHOUSE_SPECIALIST || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.district_read?
     end
 
     def self.limit_jobs_scope(user, jobs)
