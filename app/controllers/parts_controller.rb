@@ -142,6 +142,30 @@ class PartsController < ApplicationController
                 @part_update = true
                 @inline_part_update = true
             end
+
+            if params[:job].present? && params[:part_membership].present?
+                part_membership = PartMembership.find_by_id(params[:part_membership])
+                primary_tool = part_membership.primary_tool
+                job = Job.find_by_id(params[:job])
+
+                new_primary_tool = primary_tool.duplicate job, current_user
+
+                new_part_membership = PartMembership.new(template: false)
+                new_part_membership.material_number = part_membership.material_number
+                new_part_membership.optional = true
+                new_part_membership.job = job
+                new_part_membership.primary_tool = new_primary_tool
+                new_part_membership.part = @part
+                new_part_membership.company = current_user.company
+                new_part_membership.track_usage = part_membership.template_part_membership.track_usage
+                new_part_membership.save
+                new_part_membership.part.status = Part::ON_JOB
+                new_part_membership.part.current_job = job
+                new_part_membership.part.save
+
+                Activity.delay.add(current_user, Activity::ASSET_ADDED, new_part_membership.part, new_part_membership.part.serial_number, new_part_membership.job)
+            end
+
         elsif params[:transfer_warehouse] == "true"
             @warehouse = Warehouse.find_by_id(params[:warehouse])
             @part.warehouse = @warehouse

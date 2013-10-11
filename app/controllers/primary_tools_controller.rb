@@ -26,36 +26,8 @@ class PrimaryToolsController < ApplicationController
     def create
         if params[:duplicate].present? && params[:duplicate] == "true"
             @existing_tool = PrimaryTool.find_by_id(params[:id])
-
-            PrimaryTool.transaction do
-                @tool = PrimaryTool.new
-                @tool.template = false
-                @tool.tool = @existing_tool.tool
-                @tool.job = Job.find_by_id(params[:job_id])
-                not_found unless @tool.job.company == current_user.company
-                @tool.job_template = @existing_tool.job_template
-                @tool.company = current_user.company
-
-                if @tool.save
-                    @existing_tool.documents.order("created_at ASC").each do |document|
-                        new_document = document.duplicate
-                        new_document.url = nil
-                        new_document.primary_tool_id = @tool.id
-                        new_document.save
-                    end
-                    @existing_tool.part_memberships.where(:template => true).order("created_at ASC").each do |part_membership|
-                        new_part_membership = part_membership.duplicate
-                        new_part_membership.part = nil
-                        new_part_membership.template = true
-                        new_part_membership.primary_tool = @tool
-                        new_part_membership.optional = true
-                        new_part_membership.save
-                    end
-                end
-            end
-
+            @tool = @existing_tool.duplicate Job.find_by_id(params[:job_id]), current_user
             @job_editable = @tool.job.is_job_editable?(current_user)
-
             render 'tools/primary/duplicate'
         elsif signed_in_admin?
             tool_id = params[:primary_tool][:tool_id]

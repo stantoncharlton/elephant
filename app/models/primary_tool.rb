@@ -36,4 +36,34 @@ class PrimaryTool < ActiveRecord::Base
             end
         end
     end
+
+    def duplicate job, user
+        existing_tool = self
+        tool = PrimaryTool.new
+        tool.template = false
+        tool.tool = existing_tool.tool
+        tool.job = job
+        not_found unless tool.job.company == user.company
+        tool.job_template = existing_tool.job_template
+        tool.company = user.company
+
+        if tool.save
+            existing_tool.documents.order("created_at ASC").each do |document|
+                new_document = document.duplicate
+                new_document.url = nil
+                new_document.primary_tool_id = tool.id
+                new_document.save
+            end
+            existing_tool.part_memberships.where(:template => true).order("created_at ASC").each do |part_membership|
+                new_part_membership = part_membership.duplicate
+                new_part_membership.part = nil
+                new_part_membership.template = true
+                new_part_membership.primary_tool = tool
+                new_part_membership.optional = true
+                new_part_membership.save
+            end
+        end
+
+        tool
+    end
 end
