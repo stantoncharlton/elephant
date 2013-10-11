@@ -122,6 +122,9 @@
     if (zoom > 8) {
         map.setZoom(8);
     }
+    else {
+        map.setZoom(zoom - 1)
+    }
 
 
     map.markerLayer.on('mouseover', function (e) {

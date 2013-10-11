@@ -1,0 +1,34 @@
+<div class="well">
+
+  <div class="chart-block tooltip-info"
+       data-title="Total assets in district inventory">
+    <div class="chart-title">Failure Rate <p class='inline help-text'>(MTBF)</p></div>
+    <div class="donut-chart-div">
+      <div class="donut-text "><%= (((Failure.where(:template => false).order('failures.created_at DESC').limit(1).first.created_at - Failure.where(:template => false).order('failures.created_at ASC').limit(1).first.created_at).to_i  / (24 * 60 * 60)) / Failure.where(:template => false).count().to_f).round(1) %></div>
+      <div class="percentage ">per day</div>
+    </div>
+  </div>
+
+  <div class="pull-right">
+    <canvas id="canvas" height="230" width="660"></canvas>
+  </div>
+
+</div>
+
+
+
+<script>
+    var lineChartData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                data: <%= raw (1..12).map { |month| (@failures_current_year && @failures_current_year[month]) || 0 }.to_json.html_safe %>
+            }
+        ]
+    }
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+</script>
