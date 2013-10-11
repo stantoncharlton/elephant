@@ -55,6 +55,28 @@
 
 <%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
 
+<% if @district.present? %>
+    <div class="">
+      <b>Warehouses</b>
+
+      <div class='inline'>
+        <% if current_user.role.limit_to_assigned_jobs? %>
+            <% current_user.warehouses.each_with_index do |warehouse, i| %>
+                <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
+                    <%= warehouse.name %>
+                <% end %>
+            <% end %>
+        <% else %>
+            <% @district.warehouses.each_with_index do |warehouse, i| %>
+                <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
+                    <%= warehouse.name %>
+                <% end %>
+            <% end %>
+        <% end %>
+        </div>
+    </div>
+<% end %>
+
 <% if false %>
     <div class="content">
       <p class="list-item-column list-item-column-long help-text">
@@ -89,7 +111,7 @@
             &nbsp;
 
             <p class="list-item-header-text inline">
-            <b><%= part.name %></b>
+              <b><%= part.name %></b>
             </p>
 
             <p class="help-text inline">

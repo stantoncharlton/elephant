@@ -58,6 +58,19 @@
           <div class="percentage ">assets</div>
         </div>
       </div>
+
+      <div class="chart-block tooltip-info"
+           data-title="Number of rentals not returned after 5 days after job completes">
+        <div class="chart-title">Overdue Rentals</div>
+        <div class="donut-chart-div">
+          <% if district.present? %>
+              <div class="donut-text chart-text-red"><%= PrimaryTool.includes(:job).where("jobs.status = ?", Job::CLOSED).where("jobs.close_date > ?", 5.days.ago).where(:template => false).where(:simple_tracking => true).where(:received => false).where("primary_tools.job_id IN (select id from jobs where jobs.district_id = #{district.id})").count() %></div>
+          <% else %>
+              <div class="donut-text chart-text-red"><%= PrimaryTool.includes(:job).where("jobs.status = ?", Job::CLOSED).where("jobs.close_date > ?", 5.days.ago).where(:template => false).where(:simple_tracking => true).where(:received => false).count() %></div>
+          <% end %>
+          <div class="percentage chart-text-red">assets</div>
+        </div>
+      </div>
   <% end %>
 </div>
 
