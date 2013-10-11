@@ -20,22 +20,18 @@ class InventoryController < ApplicationController
 
         if @district.present?
             if current_user.role.district_read? && !@district_present
-                @average_redress = PartRedress.includes(:job).where("part_redresses.company_id = ?", current_user.company_id).where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1)
                 job_process_sql = JobProcess.select("job_processes.job_id").where("job_processes.event_type = ?", JobProcess::APPROVED_TO_SHIP).where("job_processes.company_id = ?", current_user.company_id).where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).order("job_processes.created_at DESC").limit(5).to_sql
                 @jobs = Job.where("jobs.id IN (#{job_process_sql})")
             else
                 if current_user.role.limit_to_assigned_jobs?
-                    @average_redress = PartRedress.includes(:job).where("part_redresses.company_id = ?", current_user.company_id).where("jobs.id in (select job_id from job_memberships where user_id = :user_id)", user_id: current_user.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1)
                     job_process_sql = JobProcess.select("job_processes.job_id").where("job_processes.event_type = ?", JobProcess::APPROVED_TO_SHIP).where("job_processes.company_id = ?", current_user.company_id).where("jobs.id in (select job_id from job_memberships where user_id = :user_id)", user_id: current_user.id).order("job_processes.created_at DESC").limit(5).to_sql
                     @jobs = Job.where("jobs.id IN (#{job_process_sql})")
                 else
-                    @average_redress = PartRedress.includes(:job).where("part_redresses.company_id = ?", current_user.company_id).where("jobs.district_id = ?", @district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1)
                     job_process_sql = JobProcess.select("job_processes.job_id").where("job_processes.event_type = ?", JobProcess::APPROVED_TO_SHIP).where("job_processes.company_id = ?", current_user.company_id).where("jobs.district_id = ?", @district.id).order("job_processes.created_at DESC").limit(5).to_sql
                     @jobs = Job.where("jobs.id IN (#{job_process_sql})")
                 end
             end
         elsif !current_user.role.limit_to_assigned_jobs?
-            @average_redress = PartRedress.includes(:job).where("part_redresses.company_id = ?", current_user.company_id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1)
             job_process_sql = JobProcess.select("job_processes.job_id").where("job_processes.event_type = ?", JobProcess::APPROVED_TO_SHIP).where("job_processes.company_id = ?", current_user.company_id).order("job_processes.created_at DESC").limit(5).to_sql
             @jobs = Job.where("jobs.id IN (#{job_process_sql})")
         end

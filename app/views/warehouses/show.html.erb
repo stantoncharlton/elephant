@@ -69,6 +69,8 @@
 
 </div>
 
+<%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
+
 <% if false %>
     <div class="content">
       <p class="list-item-column list-item-column-long help-text">
