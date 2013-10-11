@@ -47,20 +47,24 @@
   <div class='form'>
     <% options = [] %>
     <% job.job_template.primary_tools.where(:template => true).each do |p| %>
-        <% options << [p.tool.name, p.tool.id] %>
+        <% options << [p.tool.name, p.id] %>
     <% end %>
     <%= select_tag "Tools", options_for_select(options),
+                   id: "add_new_tool_select",
                    class: "inline-block custom-select custom-select-long custom-select-ajax tooltip-info push-left-small ",
                    "data-placement" => "bottom",
                    "data-title" => "Add new tool",
                    prompt: "Add new tool" %>
 
-    <%= link_to "Add", "#", class: "bluebtn btnsmall" %>
+    <%= link_to "Add", "#",
+                id: "add_new_tool_submit",
+                "data-job-id" => @job.id.to_s,
+                class: "bluebtn btnsmall" %>
   </div>
 
 </div>
 
-<div>
+<div id="all_tools">
   <% last_tool = nil %>
   <% tools = job.job_template.primary_tools.where(:template => false).where(:job_id => @job.id).includes(:tool).order("tools.name ASC, primary_tools.created_at ASC") %>
   <% tools_array = tools.to_a %>
@@ -87,7 +91,7 @@
                 </div>
             <% end %>
           </div>
-          <div class="all-tool-details hidden">
+          <div class="all-tool-details hidden" id="tools_list_<%= primary_tool.tool.id %>">
             <% last_tool = primary_tool %>
       <% end %>
       <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: index, job: job %>

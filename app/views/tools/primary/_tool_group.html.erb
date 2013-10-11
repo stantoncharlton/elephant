@@ -1,0 +1,21 @@
+<div class="tools-root">
+  <%= link_to "#", class: "primary-tools-expand" do %>
+      <div>
+        <p class="pull-right">
+                  <span class="primary-tool-expand-text">
+                    expand &nbsp;
+                  </span>
+          <i class="icon-resize-vertical"></i>
+        </p>
+
+        <h3>
+          <span class='inline push-up blue-text member-icon'><p class='tool-count'><%= 0 %></p></span>
+          &nbsp;&nbsp;<%= primary_tool.tool.name %>
+        </h3>
+
+      </div>
+  <% end %>
+</div>
+<div class="all-tool-details hidden" id="tools_list_<%= primary_tool.tool.id %>">
+  <%= render 'tools/primary/job_primary_tool', primary_tool: primary_tool, index: 0, job: primary_tool.job %>
+</div>

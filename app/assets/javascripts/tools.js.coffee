@@ -87,3 +87,7 @@ $ ->
     $('#add_new_tool_form').removeClass 'hidden'
     $(this).addClass 'hidden'
     return false
+
+  $('#add_new_tool_submit').live "click", ->
+    $.ajax '/primary_tools?id=' + $("#add_new_tool_select option:selected").val() + '&duplicate=true&from_master=true&job_id=' + $(this).attr("data-job-id"), type: 'post', dataType: 'script'
+    return false

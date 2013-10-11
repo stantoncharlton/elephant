@@ -1,6 +1,8 @@
 $tool = $('#primary_tool_<%= @existing_tool.id %>');
-$tool.find('.duplicate-message').removeClass('hidden');
-$tool.find('.duplicate-loading').addClass('hidden');
+if($tool.length > 0) {
+    $tool.find('.duplicate-message').removeClass('hidden');
+    $tool.find('.duplicate-loading').addClass('hidden');
+}
 
 <% if @tool.new_record? %>
 $('#alert').remove();
@@ -9,8 +11,23 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-$tool.after("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
-$tool.next().find('.tool-details').removeClass('hidden');
+if($tool.length > 0) {
+    $tool.after("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
+    $tool.next().find('.tool-details').removeClass('hidden');
+}
+else {
+    $tool_list = $('#tools_list_<%= @existing_tool.tool.id %>');
+   if($tool_list.length > 0) {
+       $tool_list.removeClass('hidden');
+       $tool = $tool_list.append("<%= j render 'tools/primary/job_primary_tool', primary_tool: @tool, index: 0, job: @tool.job %>");
+       $tool.find('.tool-details').removeClass('hidden');
+   }
+    else {
+       $tool_group = $('#all_tools').prepend("<%= j render 'tools/primary/tool_group', primary_tool: @tool %>");
+       $tool = $('#primary_tool_<%= @tool.id %>');
+       $tool.find('.tool-details').removeClass('hidden');
+   }
+}
 
 $tool_count = $tool.closest('.all-tool-details').prev().find('.tool-count');
 $tool_count.text(parseInt($tool_count.text()) + 1);
