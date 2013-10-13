@@ -1,0 +1,118 @@
+<div id="chartdiv" style="width: 300px; height: 500px;"></div>
+
+<div>
+  <div class="list-item-column list-item-column-short">Measured Depth</div>
+  <div class="list-item-column list-item-column-short">Inclination</div>
+  <div class="list-item-column list-item-column-short">Azimuth</div>
+  <div class="list-item-column list-item-column-short">TVD</div>
+  <div class="list-item-column list-item-column-short">Vertical Section</div>
+  <div class="list-item-column list-item-column-short">NS</div>
+  <div class="list-item-column list-item-column-short">EW</div>
+</div>
+<hr>
+
+<% calculated_points = @survey.calculated_points %>
+
+<% last_point = nil %>
+<% index = 0 %>
+<% changing = false %>
+<% calculated_points.each do |point| %>
+
+    <% if !point.comment.blank? %>
+        <br>
+        <div class='alert alert-info'>
+          <p><%= point.comment %></p>
+        </div>
+    <% end %>
+    <div>
+      <% if !point.tie_on && (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
+          <% changing = true %>
+      <% else %>
+          <% changing = false %>
+      <% end %>
+      <div class="list-item-column list-item-column-short"><%= point.measured_depth %></div>
+      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
+      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
+      <div class="list-item-column list-item-column-short"><%= point.true_vertical_depth.round(2) %></div>
+      <div class="list-item-column list-item-column-short blue-text"><%= point.vertical_section.round(2) %></div>
+      <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
+      <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
+
+      <% last_point = point %>
+    </div>
+    <% index += 1 %>
+    <% if index % 5 == 0 %>
+        <br>
+    <% end %>
+<% end %>
+
+<script type="text/javascript">
+
+    var chart;
+    var chartData = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+
+
+    AmCharts.ready(function () {
+
+        // SERIAL CHART
+        chart = new AmCharts.AmSerialChart();
+        chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+        chart.dataProvider = chartData;
+        chart.categoryField = "vs";
+        //hart.dataDateFormat = "YYYY-MM-DD";
+
+        // AXES
+        // category
+        var categoryAxis = chart.categoryAxis;
+        //categoryAxis.parseDates = false; // as our data is date-based, we set parseDates to true
+        //categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
+        categoryAxis.dashLength = 1;
+        categoryAxis.gridAlpha = 0.15;
+        categoryAxis.axisColor = "#DADADA";
+
+
+        var valueAxis = new AmCharts.ValueAxis();
+        valueAxis.title = "True Vertical Depth";
+        valueAxis.dashLength = 5;
+        valueAxis.axisAlpha = 0;
+        valueAxis.integersOnly = false;
+        valueAxis.gridCount = 10;
+        valueAxis.reversed = true; // this line makes the value axis reversed
+        chart.addValueAxis(valueAxis);
+
+
+        // GRAPH
+        var graph = new AmCharts.AmGraph();
+        graph.type = "line";
+        graph.bullet = "round";
+        graph.balloonText = "<b>[[comment]]</b> [[tvd]] ft";
+        graph.bulletColor = "#FFFFFF";
+        graph.bulletBorderColor = "#00BBCC";
+        graph.bulletBorderAlpha = 1;
+        graph.bulletBorderThickness = 2;
+        graph.bulletSize = 7;
+        graph.title = "tvd";
+        graph.valueField = "tvd";
+        graph.lineThickness = 2;
+        graph.lineColor = "#00BBCC";
+        chart.addGraph(graph);
+
+        // CURSOR
+        var chartCursor = new AmCharts.ChartCursor();
+        chartCursor.cursorPosition = "mouse";
+        chart.addChartCursor(chartCursor);
+
+
+        // WRITE
+        chart.write("chartdiv");
+
+        var label = $("g[cursor=pointer]");
+        if (label.length > 0) {
+            var tspan = label.find('tspan');
+            if (tspan.length > 0) {
+                label.remove();
+            }
+        }
+    });
+
+</script>

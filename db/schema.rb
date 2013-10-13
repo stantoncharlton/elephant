@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131008220407) do
+ActiveRecord::Schema.define(:version => 20131012221340) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -615,6 +615,38 @@ ActiveRecord::Schema.define(:version => 20131008220407) do
   end
 
   add_index "states", ["country_id"], :name => "index_states_on_country_id"
+
+  create_table "survey_points", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "survey_id"
+    t.decimal  "measured_depth"
+    t.decimal  "inclination"
+    t.decimal  "azimuth"
+    t.boolean  "tie_on"
+    t.decimal  "true_vertical_depth"
+    t.decimal  "north_south"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.decimal  "east_west"
+    t.string   "comment"
+    t.decimal  "vertical_section"
+  end
+
+  add_index "survey_points", ["survey_id"], :name => "index_survey_points_on_survey_id"
+
+  create_table "surveys", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "document_id"
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.boolean  "plan"
+    t.string   "name"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "surveys", ["document_id"], :name => "index_surveys_on_document_id"
+  add_index "surveys", ["job_id"], :name => "index_surveys_on_job_id"
 
   create_table "tools", :force => true do |t|
     t.string   "name"

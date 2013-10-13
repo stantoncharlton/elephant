@@ -1,0 +1,21 @@
+<div class="page_header">
+  <h1>Create New Well Plan</h1>
+</div>
+
+<div class="form" data-form="new_well_plan">
+  <%= form_for @survey, remote: true do |f| %>
+
+      <%= render "fields", f: f %>
+
+      <div class="content actions">
+        <%= f.submit "Create Well Plan",
+                     class: "bluebtn pull-right form-loading-on-click",
+                     "data-form" => "new_well_plan" %>
+      </div>
+
+  <% end %>
+</div>
+
+<div class="form-loading hidden" data-form="new_well_plan">
+  <%= render 'layouts/inline_loading', title: "Creating well plan..." %>
+</div>
