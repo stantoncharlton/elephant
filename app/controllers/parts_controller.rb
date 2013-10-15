@@ -54,10 +54,10 @@ class PartsController < ApplicationController
 
             if params[:show_decommissioned] == "true"
                 @showing_decommissioned = true
-                @parts = @part.parts.paginate(page: params[:page], limit: 20)
+                @parts = @part.parts.paginate(page: params[:page], limit: 100)
             else
                 @showing_decommissioned = false
-                @parts = @part.parts.where("parts.status != ?", Part::DECOMMISSIONED).paginate(page: params[:page], limit: 20)
+                @parts = @part.parts.where("parts.status != ?", Part::DECOMMISSIONED).paginate(page: params[:page], limit: 100)
             end
         end
     end

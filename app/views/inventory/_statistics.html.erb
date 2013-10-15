@@ -3,7 +3,7 @@
 <% parts_count = parts.count %>
 <% average_redress = PartRedress.includes(:job).where("part_redresses.part_id IN (#{parts.select(:id).to_sql})").average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %>
 
-<% part_memberships = PartMembership.where(:template => false).where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map {|k,v| {Date.strptime(k).month => v}  }.reduce(:merge) %>
+<% part_memberships = PartMembership.where(:template => false).where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 
 
@@ -76,7 +76,7 @@
         </div>
       </div>
 
-        <canvas id="usage_graph" height="200" width="400" class="tooltip-info" data-title="Asset Usage By Month"></canvas>
+      <canvas id="usage_graph" height="200" width="400" class="tooltip-info" data-title="Asset Usage By Month"></canvas>
   <% end %>
 </div>
 
@@ -140,6 +140,7 @@
             }
         });
 
+        <% if show_rentals  %>
         var lineChartData = {
             labels: <%= raw (1..12).map { |i| Date::ABBR_MONTHNAMES[i] }.to_json.html_safe %>,
             datasets: [
@@ -153,6 +154,6 @@
             ]
         }
         var myLine = new Chart(document.getElementById("usage_graph").getContext("2d")).Line(lineChartData);
-
+        <% end %>
     });
 </script>
