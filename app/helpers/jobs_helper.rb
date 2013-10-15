@@ -102,7 +102,7 @@ module JobsHelper
                     sheet.add_row [primary_tool.tool.name, primary_tool.tool.description, '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
 
                     if primary_tool.simple_tracking
-                        sheet.add_row ['', 'Serial # ' + primary_tool.serial_number, '', primary_tool.received? ? "Received" : ""], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1_serial, cell1] : [cell2_bold, cell2, cell2_serial, cell2]
+                        sheet.add_row ['', 'RENTAL', 'Serial # ' + (primary_tool.serial_number.present? ? primary_tool.serial_number : ''), '', primary_tool.received? ? "Received" : ""], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1_serial, cell1] : [cell2_bold, cell2, cell2_serial, cell2]
                     else
                         primary_tool.part_memberships.where(:template => true).each_with_index do |p, index2|
                             part_membership = p.usage_part_membership(job.id)
