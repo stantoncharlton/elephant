@@ -1,11 +1,17 @@
-<div id="chartdiv" style="width: 300px; height: 500px;"></div>
+<div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
+
+<div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
+
+<% if false %>
+<div id="container" class='inline-block' style="width: 300px; height: 500px; margin: 0 auto"></div>
+    <% end %>
 
 <div>
-  <div class="list-item-column list-item-column-short">Measured Depth</div>
+  <div class="list-item-column list-item-column-short">M. Depth</div>
   <div class="list-item-column list-item-column-short">Inclination</div>
   <div class="list-item-column list-item-column-short">Azimuth</div>
   <div class="list-item-column list-item-column-short">TVD</div>
-  <div class="list-item-column list-item-column-short">Vertical Section</div>
+  <div class="list-item-column list-item-column-short">V Sect</div>
   <div class="list-item-column list-item-column-short">NS</div>
   <div class="list-item-column list-item-column-short">EW</div>
 </div>
@@ -20,9 +26,7 @@
 
     <% if !point.comment.blank? %>
         <br>
-        <div class='alert alert-info'>
-          <p><%= point.comment %></p>
-        </div>
+        <b class='blue-text'><%= point.comment %></b>
     <% end %>
     <div>
       <% if !point.tie_on && (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
@@ -46,10 +50,17 @@
     <% end %>
 <% end %>
 
+<% if false %>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <% end %>
+
 <script type="text/javascript">
 
     var chart;
     var chartData = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    var chart2;
+    var chartData2 = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
 
 
     AmCharts.ready(function () {
@@ -64,11 +75,13 @@
         // AXES
         // category
         var categoryAxis = chart.categoryAxis;
+        categoryAxis.title = "Vertical Section";
         //categoryAxis.parseDates = false; // as our data is date-based, we set parseDates to true
         //categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
         categoryAxis.dashLength = 1;
         categoryAxis.gridAlpha = 0.15;
         categoryAxis.axisColor = "#DADADA";
+        categoryAxis.equalSpacing = false;
 
 
         var valueAxis = new AmCharts.ValueAxis();
@@ -95,6 +108,7 @@
         graph.valueField = "tvd";
         graph.lineThickness = 2;
         graph.lineColor = "#00BBCC";
+        graph.clustered = true;
         chart.addGraph(graph);
 
         // CURSOR
@@ -113,6 +127,114 @@
                 label.remove();
             }
         }
+
+
+        // SERIAL CHART
+        chart2 = new AmCharts.AmSerialChart();
+        chart2.pathToImages = "http://www.amcharts.com/lib/3/images/";
+        chart2.dataProvider = chartData2;
+        chart2.categoryField = "ew";
+
+        // AXES
+        // category
+        var categoryAxis = chart2.categoryAxis;
+        categoryAxis.title = "East/West";
+        categoryAxis.dashLength = 1;
+        categoryAxis.gridAlpha = 0.15;
+        categoryAxis.axisColor = "#DADADA";
+
+
+        var valueAxis = new AmCharts.ValueAxis();
+        valueAxis.title = "North/South";
+        valueAxis.dashLength = 5;
+        valueAxis.axisAlpha = 0;
+        valueAxis.integersOnly = false;
+        valueAxis.gridCount = 10;
+        valueAxis.reversed = true; // this line makes the value axis reversed
+        chart2.addValueAxis(valueAxis);
+
+
+        // GRAPH
+        var graph = new AmCharts.AmGraph();
+        graph.type = "line";
+        graph.bullet = "round";
+        graph.balloonText = "<b>[[comment]]</b> [[ns]], [[ew]]";
+        graph.bulletColor = "#FFFFFF";
+        graph.bulletBorderColor = "#00BBCC";
+        graph.bulletBorderAlpha = 1;
+        graph.bulletBorderThickness = 2;
+        graph.bulletSize = 7;
+        graph.title = "ns";
+        graph.valueField = "ns";
+        graph.lineThickness = 2;
+        graph.lineColor = "#00BBCC";
+        graph.clustered = true;
+        chart2.addGraph(graph);
+
+        // CURSOR
+        var chartCursor = new AmCharts.ChartCursor();
+        chartCursor.cursorPosition = "mouse";
+        chart2.addChartCursor(chartCursor);
+
+
+        // WRITE
+        chart2.write("chartdiv2");
+
+        var label = $("g[cursor=pointer]");
+        if (label.length > 0) {
+            var tspan = label.find('tspan');
+            if (tspan.length > 0) {
+                label.remove();
+            }
+        }
     });
+
+    <% if false %>
+    $('#container').highcharts({
+        chart: {
+            type: 'spline',
+            title: ''
+        },
+        xAxis: {
+            reversed: false,
+            title: {
+                enabled: true,
+                text: 'Vertical Section'
+            },
+            maxPadding: 0.05,
+            showLastLabel: true
+        },
+        yAxis: {
+            reversed: true,
+            title: {
+                text: 'True Vertical Depth'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value +' ft';
+                }
+            },
+            lineWidth: 2
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            headerFormat: '<b>Point</b><br/>',
+            pointFormat: '{point.x} ft: {point.y}'
+        },
+        plotOptions: {
+            spline: {
+                marker: {
+                    enable: false
+                }
+            }
+        },
+        series: [{
+            name: 'Surveys',
+            data: [[0, 0, 'hello'], [2, 500, 'hello'], [15, 1200, 'hello'], [350, 2000, 'hello'], [3000, 6000, 'hello']]
+        }]
+    });
+  <% end %>
 
 </script>

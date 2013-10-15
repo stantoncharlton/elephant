@@ -49,6 +49,14 @@
       <p class="list-item-column2 list-item-column-short  help-text">
         Depth <span class='help-text'>(in)</span>
       </p>
+
+      <p class="list-item-column2 list-item-column-count  help-text">
+        <i class="icon-arrow-up"></i>
+        &nbsp;/&nbsp;
+        <i class="icon-arrow-down"></i>
+      </p>
+
+
     </div>
 
 
@@ -80,6 +88,14 @@
               <p class="list-item-column2 list-item-column-short ">
                 <b class='blue-text'><%= depth %></b>
               </p>
+
+              <% if item.up >= 0 || item.down >= 0 %>
+                  <p class="list-item-column2 list-item-column-short  help-text">
+                    <%= item.up >= 0 ? BhaItem.connection_string(item.up) : "-" %>
+                    &nbsp;/&nbsp;
+                    <%= item.down >= 0 ? BhaItem.connection_string(item.down) : "-" %>
+                  </p>
+              <% end %>
             </div>
 
             <% if item.tool.is_a?(PrimaryTool) %>
@@ -92,15 +108,15 @@
 
                             <div class='inline-block push-right'>
                               <% if part.present? %>
-                                  <%= link_to part.name, part, class: "inline activity-user-link" %>
+                                  <%= link_to part.name, part, target: "_blank", class: "inline activity-user-link" %>
                               <% else %>
-                                  <p><b><%= part_membership.material_number %></b></p>
+                                  <p  class="inline-block"><b><%= part_membership.material_number %></b></p>
                               <% end %>
 
-                              <div class="inline">
+                              <div class="inline-block">
                                 <% if real.present? && real.part.present? %>
-                                    <p class="inline help-text">- Serial #</p>
-                                    <%= link_to real.part.serial_number, real.part, class: "inline activity-user-link" %>
+                                    <p class="inline-block help-text">- Serial #</p>
+                                    <%= link_to real.part.serial_number, real.part, target: "_blank", class: "inline activity-user-link" %>
                                 <% end %>
                               </div>
                             </div>

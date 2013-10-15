@@ -6,15 +6,35 @@
 
 .bha-value {
   min-width: 0px !important;
-  width: 150px !important;
+  width: 60px !important;
+  height: 30px;
+  font-weight: bold;
+  text-wrap: none;
+  overflow-x: hidden;
+
+  -webkit-box-shadow: 0;
+  box-shadow: 0;
+
+  border-width: 0;
+  font-size: 18px;
+  color: #db7a1b;
+}
+
+.bha-value2 {
+  min-width: 0px !important;
+  width: 80px !important;
   height: 20px;
+  font-weight: bold;
+  text-wrap: none;
+  overflow-x: hidden;
+
+  border-width: 0 !important;
 }
 
 .bha-units {
-    width: 30px !important;
-    font-size: 13px;
-  }
-
+  width: 30px !important;
+  font-size: 13px;
+}
 
 .bha-button {
   margin-left: 5px !important;

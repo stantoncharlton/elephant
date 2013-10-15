@@ -8,13 +8,33 @@ class SurveysController < ApplicationController
         @survey = Survey.new
         @survey_points = ''
         @import_tie_on = true
+
+        if params["modal"].present? && params["modal"] == "true"
+            @document = Document.find_by_id(params[:document_id])
+            not_found unless @document.company == current_user.company
+
+            render 'surveys/new_modal'
+        else
+            render 'surveys/new'
+        end
     end
 
     def create
 
+        if params[:document_id].present?
+            @document = Document.find_by_id(params[:document_id])
+            not_found unless @document.company == current_user.company
+        end
+
         Survey.transaction do
             @survey = Survey.new(params[:survey])
             @survey.company = current_user.company
+            @survey.document = @document
+
+            if params[:active_well].present? && params[:active_well] == "true"
+                @survey.name = "Active Well Plan"
+            end
+
             @survey.save
 
             @import_tie_on = params[:import_tie_on] == "true"
@@ -45,7 +65,11 @@ class SurveysController < ApplicationController
             if @survey.errors.any?
                 render 'new'
             else
-                redirect_to @survey
+                if params[:active_well].present? && params[:active_well] == "true"
+                    render 'surveys/create_modal'
+                else
+                    redirect_to @survey
+                end
             end
         end
     end

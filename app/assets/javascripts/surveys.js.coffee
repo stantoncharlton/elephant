@@ -1,3 +1,7 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$ ->
+
+  $('#import_tie_on').live "click", ->
+    if $(this).is(':checked')
+      $('#tie_on_fields').addClass "hidden"
+    else
+      $('#tie_on_fields').removeClass "hidden"

@@ -4,24 +4,28 @@
 
   <div>
 
-    <div class="">
-      <b>Well Plan Name</b><br><br>
-      <%= f.text_field :name, placeholder: "Well Plan Name", class: "txtfield tooltip-info",
-                       "data-placement" => "bottom",
-                       "data-title" => "Well name" %>
-    </div>
+    <% if show_name %>
+        <div class="">
+          <b>Well Plan Name</b><br><br>
+          <%= f.text_field :name, placeholder: "Well Plan Name", class: "txtfield tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Well name" %>
+        </div>
+    <% end %>
 
     <br>
 
     <div class="">
-      <b>Tie On Point</b><br><br>
+      <div>
+        <b>Tie On Point</b>
 
-      <div class="">
-        <%= check_box_tag "import_tie_on", @import_tie_on,
-                          class: "regular-checkbox", id: "import_tie_on" %>
-        <label for="import_tie_on"></label>
+        <div class="inline-block align-top push-right">
+          <%= check_box_tag "import_tie_on", @import_tie_on, {},
+                            class: "regular-checkbox", id: "import_tie_on" %>
+          <label for="import_tie_on"></label>
 
-        <p class="checkbox-label">Import Tie On from Well Points</p>
+          <p class="checkbox-label">Import Tie On from Well Points</p>
+        </div>
       </div>
 
       <div class="hidden well" id="tie_on_fields">

@@ -22,29 +22,68 @@ class DrillingLog < ActiveRecord::Base
     belongs_to :bha
 
 
-    START = 1
-    CIRCULATING = 2
-    DRILLING = 3
-    CONNECTION = 4
-    SURVEY = 5
-    SLIDING = 6
+    SLIDE = 1
+    CONNECTION_SURVEY = 2
+    ROTATE = 3
+    CIRCULATE = 4
+    OTHER = 5
+    RIG_SERVICE = 6
+    STANDBY = 7
+    TRIP_IN_HOLE = 8
+    TRIP_OUT_HOLE = 9
+    PICK_UP_BHA = 10
+    LAY_DOWN_BHA = 11
+    CHANGE_BHA = 12
+    DRILL_CEMENT = 13
+    REAMING = 14
 
-
-    def activity_code_string
-        case self.activity_code
-            when START
+    def self.activity_code_string code
+        case code
+            when SLIDE
                 "Start"
-            when CIRCULATING
-                "Circulating"
-            when DRILLING
-                "Drilling"
-            when CONNECTION
-                "Connection"
-            when SURVEY
-                "Survey"
-            when SLIDING
-                "Sliding"
+            when CONNECTION_SURVEY
+                "Connection & Survey"
+            when ROTATE
+                "Rotate"
+            when CIRCULATE
+                "Circulate"
+            when OTHER
+                "Other"
+            when STANDBY
+                "Stand-by"
+            when TRIP_IN_HOLE
+                "Trip in Hole"
+            when TRIP_OUT_HOLE
+                "Trip Out of Hole"
+            when PICK_UP_BHA
+                "Pick Up BHA"
+            when LAY_DOWN_BHA
+                "Lay Down BHA"
+            when CHANGE_BHA
+                "Change BHA"
+            when DRILL_CEMENT
+                "Drill Cement"
+            when REAMING
+                "Reaming"
         end
+    end
+
+    def self.options
+        options = []
+        options << [DrillingLog.activity_code_string(SLIDE), SLIDE]
+        options << [DrillingLog.activity_code_string(CONNECTION_SURVEY), CONNECTION_SURVEY]
+        options << [DrillingLog.activity_code_string(ROTATE), ROTATE]
+        options << [DrillingLog.activity_code_string(CIRCULATE), CIRCULATE]
+        options << [DrillingLog.activity_code_string(OTHER), OTHER]
+        options << [DrillingLog.activity_code_string(STANDBY), STANDBY]
+        options << [DrillingLog.activity_code_string(TRIP_IN_HOLE), TRIP_IN_HOLE]
+        options << [DrillingLog.activity_code_string(TRIP_OUT_HOLE), TRIP_OUT_HOLE]
+        options << [DrillingLog.activity_code_string(PICK_UP_BHA), PICK_UP_BHA]
+        options << [DrillingLog.activity_code_string(LAY_DOWN_BHA), LAY_DOWN_BHA]
+        options << [DrillingLog.activity_code_string(CHANGE_BHA), CHANGE_BHA]
+        options << [DrillingLog.activity_code_string(DRILL_CEMENT), DRILL_CEMENT]
+        options << [DrillingLog.activity_code_string(REAMING), REAMING]
+        options
     end
 
 end

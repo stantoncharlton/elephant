@@ -35,6 +35,33 @@ class BhasController < ApplicationController
                     not_found unless @secondary_tool.company == current_user.company
                 end
             end
+        elsif params[:clone].present? && params[:clone] == "true"
+            old_bha = Bha.find_by_id(params[:bha])
+            not_found unless old_bha.company == current_user.company
+            Bha.transaction do
+                @bha = Bha.new
+                @bha.name = old_bha.name + " Clone " + SecureRandom.urlsafe_base64[1..7].to_s
+                @bha.company = current_user.company
+                @bha.document = old_bha.document
+                @bha.job = old_bha.job
+                @bha.save
+
+                old_bha.bha_items.each do |item|
+                    new_item = BhaItem.new
+                    new_item.bha = @bha
+                    new_item.company = current_user.company
+                    new_item.tool = item.tool
+                    new_item.inner_diameter = item.inner_diameter
+                    new_item.outer_diameter = item.outer_diameter
+                    new_item.length = item.length
+                    new_item.ordering = item.ordering
+                    new_item.up = item.up
+                    new_item.down = item.down
+                    new_item.save
+                end
+
+                redirect_to edit_bha_path(@bha)
+            end
         else
             @bha = Bha.new
 
@@ -78,8 +105,10 @@ class BhasController < ApplicationController
                             id = BigDecimal.new(params[k + '_id'])
                             od = BigDecimal.new(params[k + '_od'])
                             length = BigDecimal.new(params[k + '_length'])
+                            up = params[k + '_up']
+                            down = params[k + '_down']
 
-                            BhaItem.add(@bha, tool, id, od, length, index)
+                            BhaItem.add(@bha, tool, id, od, length, up, down, index)
                             index = index + 1
                         end
                     end
@@ -134,8 +163,10 @@ class BhasController < ApplicationController
                         id = BigDecimal.new(params[k + '_id'])
                         od = BigDecimal.new(params[k + '_od'])
                         length = BigDecimal.new(params[k + '_length'])
+                        up = params[k + '_up']
+                        down = params[k + '_down']
 
-                        BhaItem.add(@bha, tool, id, od, length, index)
+                        BhaItem.add(@bha, tool, id, od, length, up, down, index)
                         index = index + 1
                     end
                 end

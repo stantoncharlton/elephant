@@ -54,38 +54,45 @@
 
   <% df = DynamicField.new %>
   <% df.value_type = DynamicField::LENGTH_IN %>
-  <div class="bha-other-items push-right">
-    <div class="inline-block job-field-div">
+  <div class="bha-other-items push-right-small">
+    <div class="inline-block">
+      <b>ID</b>
       <%= text_field_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_id", "",
-                         class: " job-field-value-editable bha-value",
+                         class: "bha-value",
                          value: bha_item.inner_diameter,
-                         placeholder: "Inner diameter" %>
-      <%= select_tag "Units",
-                     options_for_select(df.unit_options, df.value_type),
-                     class: " bha-units unit-tooltip custom-select-ajax", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
+                         placeholder: "ID" %>
     </div>
 
-    <div class="inline-block job-field-div">
+    <div class="inline-block push-right-small">
+      <b>OD</b>
       <%= text_field_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_od", "",
-                         class: " job-field-value-editable bha-value",
+                         class: "bha-value",
                          value: bha_item.outer_diameter,
-                         placeholder: "Outer diameter" %>
-      <%= select_tag "Units",
-                     options_for_select(df.unit_options, df.value_type),
-                     class: " bha-units unit-tooltip custom-select-ajax", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
+                         placeholder: "OD" %>
     </div>
 
-    <div class="inline-block job-field-div">
+    <div class="inline-block push-right-small">
+      <b>Length</b>
       <%= text_field_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_length", "",
-                         class: " job-field-value-editable bha-value",
+                         class: "bha-value",
                          value: bha_item.length,
                          placeholder: "Length" %>
-      <%= select_tag "Units",
-                     options_for_select(df.unit_options, df.value_type),
-                     class: " bha-units unit-tooltip custom-select-ajax", "data-placement" => "bottom",
-                     "data-html" => false, "data-title" => "Units, click to change" %>
+    </div>
+
+    <div class="inline-block push-right tooltip-info" data-title="Upward connection">
+      <b><i class="icon-arrow-up"></i></b>
+      <%= select_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_up",
+                     options_for_select(BhaItem.options),
+                         class: "custom-select-ajax bha-value2 align-top push-up",
+                         placeholder: "Up" %>
+    </div>
+
+    <div class="inline-block push-right-small tooltip-info" data-title="Downward connection">
+      <b><i class="icon-arrow-down"></i></b>
+      <%= select_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_down",
+                     options_for_select(BhaItem.options),
+                     class: "custom-select-ajax bha-value2 align-top push-up",
+                     placeholder: "Down" %>
     </div>
   </div>
 
