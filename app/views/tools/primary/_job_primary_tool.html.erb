@@ -118,6 +118,11 @@
                   <br>
                 </div>
             <% end %>
+
+            <div class='tool-notes <%= primary_tool.comments.blank? ? "hidden" : "" %>'>
+              <br>
+              <p class="inline help-text">Notes</p><%= text_field_tag :comments, primary_tool.comments, class: "inline txtfield full-width-well2 push-right-small primary-tool-comments", placeholder: "Comment/Description/Size for shop..." %>
+            </div>
           </div>
         </div>
     <% else %>
