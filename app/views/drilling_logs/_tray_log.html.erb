@@ -15,7 +15,7 @@
 
   <% active_well_plan = Survey.where(:document_id => @document.id).last %>
   <% if !active_well_plan.nil? %>
-    <%= render 'surveys/survey_charts', survey: active_well_plan %>
+      <%= render 'surveys/survey_charts', survey: active_well_plan %>
   <% else %>
       <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
   <% end %>
@@ -23,8 +23,9 @@
 </div>
 
 <div class="well content">
-  <%= form_for DrillingLog.new, remote: true do |f| %>
-      <div class="form" data-form="new-job-log">
+  <div class="form" data-form="new-job-log">
+
+    <%= form_for DrillingLog.new, remote: true do |f| %>
 
 
         <div class="pull-right">
@@ -50,6 +51,7 @@
 
           <%= f.select :activity_code, options_for_select(DrillingLog.options, nil),
                        {prompt: "Select Activity..."},
+                       id: "activity_code_select",
                        class: "inline custom-select  tooltip-info align-top",
                        "data-placement" => "right",
                        "data-title" => "Type of log entry" %>
@@ -74,7 +76,7 @@
             <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
                    name="date"
                    id="entry_date"
-                   class="job-field-value-editable job-start-date">
+                   class="job-field-value-editable input-small job-start-date">
 
 
             <div class="inline bootstrap-timepicker">
@@ -85,36 +87,49 @@
 
         </div>
 
+
         <div class="pull-right">
 
-          <%= f.submit "+ Add Entry",
+          <div class='inline-block survey-entry hidden'>
+            <%= f.submit "Add Survey",
+                         class: "bluebtn btnsmall light-blue inline-block tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Add new survey point" %>
+            <br>
+          </div>
+
+          <%= f.submit "Add Entry",
                        class: "bluebtn btnsmall inline tooltip-info form-loading-on-click",
                        "data-form" => "new-job-log",
                        "data-placement" => "bottom",
-                       "data-title" => "Add new note/action" %>
+                       "data-title" => "Add new log entry" %>
         </div>
 
-        <br><br>
+    <% end %>
 
-        <hr>
+  </div>
 
-        <%= link_to "#",
-                    class: "activity-user-link tooltip-info",
-                    "data-form" => "new-job-log",
-                    "data-placement" => "bottom",
-                    "data-title" => "Update Drilling Parameters/Mud/Bit Records" do %>
-            <i class="icon-chevron-down"></i> Update Drilling Parameters/Mud/Bit Records
-        <% end %>
+  <div class="form-loading hidden" data-form="new-job-log">
+    <%= render 'layouts/inline_loading', title: "Creating entry..." %>
+    <br><br>
+  </div>
 
+  <br><br>
 
-      </div>
+  <hr>
 
-      <div class="form-loading hidden" data-form="new-job-log">
-        <%= render 'layouts/inline_loading', title: "Creating entry..." %>
-        <br><br>
-      </div>
-
+  <%= link_to "#",
+              class: "activity-user-link tooltip-info",
+              "data-form" => "new-job-log",
+              "data-placement" => "bottom",
+              "data-title" => "Update Drilling Parameters/Mud/Bit Records" do %>
+      <i class="icon-chevron-down"></i> Update Drilling Parameters/Mud/Bit Records
   <% end %>
+
+  <div>
+    <b>Mechanical</b><br><br>
+  </div>
+
 </div>
 
 
@@ -132,7 +147,7 @@
       Depth
     </p>
 
-    <p class="help-text list-item-column list-item-column-short">
+    <p class="help-text list-item-column list-item-column3">
       Activity
     </p>
 

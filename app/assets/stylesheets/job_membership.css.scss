@@ -20,6 +20,15 @@
   }
 }
 
+.member-icon-link {
+  &:link, &:visited, &:active {
+    background: transparent;
+  }
+  &:hover {
+    background: transparent;
+  }
+}
+
 .member-icon-large {
   display: inline-block;
   width: 70px;

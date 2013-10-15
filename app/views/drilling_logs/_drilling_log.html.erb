@@ -11,23 +11,19 @@
 
     <p class="list-item-column2">
       <b><%= entry.depth %></b>
-      <span class="help-text push-right-small <%= entry.depth - last_entry.depth < 0  ? "warning-text" : "" %>"><%= entry.depth - last_entry.depth %></span>
+      <span class="help-text push-right-small <%= entry.depth - last_entry.depth < 0 ? "warning-text" : "" %>"><%= entry.depth - last_entry.depth %></span>
     </p>
 
-    <p class="list-item-column list-item-column-short">
-      <% if entry.activity_code == DrillingLog::DRILLING %>
-          <span class="good-text"><b><%= entry.activity_code_string %></b></span>
-      <% else %>
-          <%= entry.activity_code_string %>
-      <% end %>
+    <p class="list-item-column list-item-column3">
+      <span class=""><b><%= DrillingLog.activity_code_string(entry.activity_code) %></b></span>
     </p>
 
     <p class="list-item-column">
       <%= entry.comment %>
     </p>
 
-    <p class="help-text pull-right push-down-small">
-      <%= render "activities/user", user: entry.user %>
-    </p>
+    <div class="inline-block pull-right align-top push-up">
+      <%= render "users/icon", user: entry.user %>
+    </div>
   </div>
 </div>

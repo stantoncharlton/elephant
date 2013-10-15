@@ -66,46 +66,43 @@
     AmCharts.ready(function () {
 
         // SERIAL CHART
-        chart = new AmCharts.AmSerialChart();
+        chart = new AmCharts.AmXYChart();
         chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
         chart.dataProvider = chartData;
-        chart.categoryField = "vs";
-        //hart.dataDateFormat = "YYYY-MM-DD";
-
-        // AXES
-        // category
-        var categoryAxis = chart.categoryAxis;
-        categoryAxis.title = "Vertical Section";
-        //categoryAxis.parseDates = false; // as our data is date-based, we set parseDates to true
-        //categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
-        categoryAxis.dashLength = 1;
-        categoryAxis.gridAlpha = 0.15;
-        categoryAxis.axisColor = "#DADADA";
-        categoryAxis.equalSpacing = false;
 
 
         var valueAxis = new AmCharts.ValueAxis();
-        valueAxis.title = "True Vertical Depth";
+        valueAxis.title = "Vertical Section";
+        valueAxis.position = "bottom";
         valueAxis.dashLength = 5;
         valueAxis.axisAlpha = 0;
-        valueAxis.integersOnly = false;
-        valueAxis.gridCount = 10;
-        valueAxis.reversed = true; // this line makes the value axis reversed
+        valueAxis.autoGridCount = true;
+        valueAxis.minimum = -200;
+        chart.addValueAxis(valueAxis);
+
+        var valueAxis = new AmCharts.ValueAxis();
+        valueAxis.title = "True Vertical Depth";
+        valueAxis.position = "left";
+        valueAxis.dashLength = 5;
+        valueAxis.axisAlpha = 0;
+        valueAxis.autoGridCount = true;
+        valueAxis.reversed = true;
         chart.addValueAxis(valueAxis);
 
 
         // GRAPH
         var graph = new AmCharts.AmGraph();
-        graph.type = "line";
+        graph.xField = "vs";
+        graph.yField = "tvd";
+        graph.type = "smoothedLine";
         graph.bullet = "round";
-        graph.balloonText = "<b>[[comment]]</b> [[tvd]] ft";
+        graph.balloonText = "<b>[[comment]]</b><br> TVD [[tvd]] ft, VS [[vs]] ft";
         graph.bulletColor = "#FFFFFF";
         graph.bulletBorderColor = "#00BBCC";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
         graph.bulletSize = 7;
         graph.title = "tvd";
-        graph.valueField = "tvd";
         graph.lineThickness = 2;
         graph.lineColor = "#00BBCC";
         graph.clustered = true;
@@ -130,33 +127,37 @@
 
 
         // SERIAL CHART
-        chart2 = new AmCharts.AmSerialChart();
+        chart2 = new AmCharts.AmXYChart();
         chart2.pathToImages = "http://www.amcharts.com/lib/3/images/";
         chart2.dataProvider = chartData2;
-        chart2.categoryField = "ew";
-
-        // AXES
-        // category
-        var categoryAxis = chart2.categoryAxis;
-        categoryAxis.title = "East/West";
-        categoryAxis.dashLength = 1;
-        categoryAxis.gridAlpha = 0.15;
-        categoryAxis.axisColor = "#DADADA";
 
 
         var valueAxis = new AmCharts.ValueAxis();
-        valueAxis.title = "North/South";
+        valueAxis.title = "East/West";
+        valueAxis.position = "bottom";
         valueAxis.dashLength = 5;
         valueAxis.axisAlpha = 0;
         valueAxis.integersOnly = false;
         valueAxis.gridCount = 10;
-        valueAxis.reversed = true; // this line makes the value axis reversed
+        chart2.addValueAxis(valueAxis);
+
+
+        var valueAxis = new AmCharts.ValueAxis();
+        valueAxis.title = "North/South";
+        valueAxis.position = "left";
+        valueAxis.dashLength = 5;
+        valueAxis.axisAlpha = 0;
+        valueAxis.integersOnly = false;
+        valueAxis.gridCount = 10;
+        valueAxis.reversed = true;
         chart2.addValueAxis(valueAxis);
 
 
         // GRAPH
         var graph = new AmCharts.AmGraph();
-        graph.type = "line";
+        graph.xField = "ew";
+        graph.yField = "ns";
+        graph.type = "smoothedLine";
         graph.bullet = "round";
         graph.balloonText = "<b>[[comment]]</b> [[ns]], [[ew]]";
         graph.bulletColor = "#FFFFFF";
@@ -165,7 +166,6 @@
         graph.bulletBorderThickness = 2;
         graph.bulletSize = 7;
         graph.title = "ns";
-        graph.valueField = "ns";
         graph.lineThickness = 2;
         graph.lineColor = "#00BBCC";
         graph.clustered = true;
@@ -189,52 +189,5 @@
         }
     });
 
-    <% if false %>
-    $('#container').highcharts({
-        chart: {
-            type: 'spline',
-            title: ''
-        },
-        xAxis: {
-            reversed: false,
-            title: {
-                enabled: true,
-                text: 'Vertical Section'
-            },
-            maxPadding: 0.05,
-            showLastLabel: true
-        },
-        yAxis: {
-            reversed: true,
-            title: {
-                text: 'True Vertical Depth'
-            },
-            labels: {
-                formatter: function() {
-                    return this.value +' ft';
-                }
-            },
-            lineWidth: 2
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            headerFormat: '<b>Point</b><br/>',
-            pointFormat: '{point.x} ft: {point.y}'
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enable: false
-                }
-            }
-        },
-        series: [{
-            name: 'Surveys',
-            data: [[0, 0, 'hello'], [2, 500, 'hello'], [15, 1200, 'hello'], [350, 2000, 'hello'], [3000, 6000, 'hello']]
-        }]
-    });
-  <% end %>
 
 </script>

@@ -40,7 +40,7 @@ class DrillingLog < ActiveRecord::Base
     def self.activity_code_string code
         case code
             when SLIDE
-                "Start"
+                "Slide"
             when CONNECTION_SURVEY
                 "Connection & Survey"
             when ROTATE
