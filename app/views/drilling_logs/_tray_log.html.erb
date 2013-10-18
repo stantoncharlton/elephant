@@ -29,7 +29,7 @@
 
 
         <div class="pull-right">
-          <%= f.select :bha_id, options_for_select(@bhas.collect { |bha| [bha.name, bha.id] }, nil),
+          <%= f.select :bha_id, options_for_select(@bhas.collect { |bha| [bha.name + (!bha.description.blank? ? "  (" + bha.description + ")" : ""), bha.id] }, nil),
                        {prompt: "Select BHA..."},
                        class: "inline  custom-select tooltip-info",
                        "data-placement" => "right",

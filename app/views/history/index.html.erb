@@ -2,16 +2,17 @@
 
 <div class="page_header">
   <h1><%= t ".title" %></h1>
-
-  <h2>
-
-  </h2>
 </div>
 
 
+<% current_job = nil %>
 <div id="activities" class="list">
   <% @activities.each do |activity| %>
-      <%= render 'history/history', activity: activity, inside_job: false %>
+      <% if current_job.nil? || current_job != activity.job %>
+          <% current_job = activity.job %>
+          <%= render 'jobs/job_progress_link', job: current_job %>
+      <% end %>
+      <%= render 'activities/job_activity', activity: activity, inside_job: true %>
   <% end %>
 </div>
 
