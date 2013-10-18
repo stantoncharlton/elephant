@@ -126,7 +126,7 @@
           </li>
 
           <% warehouses = current_user.role.limit_to_assigned_jobs? ? current_user.warehouses : @part.warehouse.district.warehouses %>
-          <% if warehouses.any? %>
+          <% if warehouses.count > 1 %>
               <li class="divider"></li>
               <li>
                 <div>
