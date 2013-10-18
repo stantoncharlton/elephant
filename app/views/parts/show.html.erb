@@ -125,14 +125,15 @@
                         "data-title" => "Permanently delete asset." %>
           </li>
 
-          <% if @part.warehouse.district.warehouses.count > 1 %>
+          <% warehouses = current_user.role.limit_to_assigned_jobs? ? current_user.warehouses : @part.warehouse.district.warehouses %>
+          <% if warehouses.any? %>
               <li class="divider"></li>
               <li>
                 <div>
                   <b class='blue-text push-right-small'>Transfer To</b>
                 </div>
               </li>
-              <% @part.warehouse.district.warehouses.each do |warehouse| %>
+              <% warehouses.each do |warehouse| %>
                   <% if warehouse != @part.warehouse %>
                       <li>
                         <%= link_to warehouse.name, part_path(@part, transfer_warehouse: true, warehouse: warehouse),
