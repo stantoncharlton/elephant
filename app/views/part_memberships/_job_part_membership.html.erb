@@ -156,16 +156,6 @@
                             <% end %>
                           </ul>
                         </div>
-
-                    <% if false %>
-                    <%= link_to "Well Transfer", part_path(part_membership.part, transfer: true),
-                                method: :put,
-                                remote: true,
-                                class: "bluebtn gray tooltip-info form-loading-on-click",
-                                "data-form" => "receive-part-form-" + part_membership.part.id.to_s,
-                                "data-placement" => "bottom",
-                                "data-title" => "Free asset for use on another job" %>
-                        <% end %>
                     </span>
               <% end %>
             </div>

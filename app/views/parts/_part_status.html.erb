@@ -20,6 +20,41 @@
                     "data-title" => "Receive asset" %>
 
         <span class="push-right-small">
+                        <div class="btn-group inline-block">
+                          <a class="bluebtn gray" data-toggle="dropdown" href="#">
+                            Well Transfer
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <%= link_to "Well Not Known", part_path(@part, transfer: true, part_page: true),
+                                          method: :put,
+                                          remote: true,
+                                          class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                                          "data-form" => "update-part-status",
+                                          "data-placement" => "left",
+                                          "data-title" => "The well to transfer to is not known." %>
+                            </li>
+                            <% jobs = current_user.jobs.where(:status => Job::ACTIVE) %>
+                            <% if jobs.any? %>
+                                <li class="divider"></li>
+                                <% jobs.each do |j| %>
+                                    <li>
+                                      <% part_membership = PartMembership.where(:job_id => j.id).where(:part_id => @part.id).first %>
+                                      <%= link_to j.field.name + " | " + j.well.name, part_path(@part, transfer: true, part_membership: part_membership, job: j, part_page: true),
+                                                  method: :put,
+                                                  remote: true,
+                                                  class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                                                  "data-form" => "update-part-status",
+                                                  "data-placement" => "left",
+                                                  "data-title" => "Transfer to this well." %>
+                                    </li>
+                                <% end %>
+                            <% end %>
+                          </ul>
+                        </div>
+                    </span>
+        <% if false %>
+        <span class="push-right-small">
         <%= link_to "Well Transfer", part_path(part, transfer: true, part_page: true), method: :put,
                     remote: true,
                     class: "bluebtn gray tooltip-info form-loading-on-click",
@@ -27,6 +62,7 @@
                     "data-placement" => "bottom",
                     "data-title" => "Complete Asset usage to use on another job" %>
           </span>
+        <% end %>
 
         <% if !part.current_job.approved_to_ship %>
             <span class='warning-text push-right-small push-down'><%= image_tag "error_red.png" %> Asset has not shipped to job, yet</span>

@@ -8,13 +8,13 @@
 
   <b>Change serial number</b>
 
-  <%= form_for @part, html: {  class: "" }, remote: true do |f| %>
+  <%= form_for @part, html: {class: ""}, remote: true do |f| %>
 
       <div class="new-product-line">
         <%= f.text_field :serial_number,
                          placeholder: "Serial Number",
-            class: "txtfield small",
-                    autofocus: true %>
+                         class: "txtfield small",
+                         autofocus: true %>
 
         <%= f.submit "Save", class: "bluebtn btnsmall form-loading-on-click",
                      "data-form" => "new_part" %>
