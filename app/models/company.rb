@@ -41,8 +41,11 @@ class Company < ActiveRecord::Base
     has_many :activities, dependent: :destroy
     has_many :warehouses, dependent: :destroy
     has_many :parts, dependent: :destroy
+    has_many :part_redresses, dependent: :destroy
     has_many :drilling_logs, dependent: :destroy
     has_many :surveys, dependent: :destroy
+    has_many :bhas, dependent: :destroy
+    has_many :issues, dependent: :destroy
 
     belongs_to :admin
 

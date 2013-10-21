@@ -100,7 +100,14 @@
           Advanced Actions
         </a>
         <ul class="dropdown-menu">
-
+          <li>
+            <%= link_to "Change Serial Number", "#",
+                        id: "change_serial_number_part_link",
+                class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Change serial number of asset." %>
+                </li>
+                <li class="divider"></li>
           <li>
             <% if @part.status == Part::DECOMMISSIONED %>
                 <%= link_to "Recommission Asset", part_path(@part, recommission: true),
@@ -153,6 +160,11 @@
       <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")", @part.master_part, class: "activity-user-link pull-right" %>
 
 
+                        <div id="serial_number_part_fields" class="hidden push-down">
+                          <hr>
+                          <%= render 'parts/serial_number_fields', sub_part: @part %>
+                        </div>
+
   <% end %>
 
 </div>
@@ -199,7 +211,7 @@
 
       <div class="inline"><span class="help-text">Serial Number: </span>
 
-        <h3 class="blue-text inline"><%= @part.serial_number %></h3>
+        <h3 class="blue-text inline" id="serial_number"><%= @part.serial_number %></h3>
       </div>
 
       <div class="inline push-right"><span class="help-text">District Serial Number: </span>

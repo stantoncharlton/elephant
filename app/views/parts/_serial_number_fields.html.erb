@@ -1,0 +1,27 @@
+<div id="serial_number_loader" class="form-loading hidden" data-form="new_part">
+  <%= render 'layouts/inline_loading', title: "Changing serial number..." %>
+  <br>
+  <br>
+</div>
+
+<div id="serial_number_form" class="form" data-form="new_part">
+
+  <b>Change serial number</b>
+
+  <%= form_for @part, html: {  class: "" }, remote: true do |f| %>
+
+      <div class="new-product-line">
+        <%= f.text_field :serial_number,
+                         placeholder: "Serial Number",
+            class: "txtfield small",
+                    autofocus: true %>
+
+        <%= f.submit "Save", class: "bluebtn btnsmall form-loading-on-click",
+                     "data-form" => "new_part" %>
+        <%= link_to "Cancel", "#", id: "cancel_serial_number_part", class: "bluebtn btnsmall red" %>
+
+      </div>
+
+  <% end %>
+</div>
+

@@ -6,14 +6,8 @@ module FakeDataHelper
         company.save
         puts company.name
 
-        role = UserRole.new(
-                :title => "User",
-                :global_modify => true
-        )
-        role.company = company
-        role.save
 
-        300.times do |i|
+        20.times do |i|
             begin
                 district = District.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..3).to_i).join(" ").to_s.capitalize,
@@ -29,7 +23,7 @@ module FakeDataHelper
                 district.save
                 puts "District: " + district.name
 
-                30.times do |i|
+                10.times do |i|
                     begin
                         field = Field.new(
                                 :name => Faker::Lorem.words(1).first.to_s.capitalize,
@@ -58,7 +52,7 @@ module FakeDataHelper
             end
         end
 
-        10.times do |i|
+        5.times do |i|
             begin
                 division = Division.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
@@ -69,7 +63,7 @@ module FakeDataHelper
 
 
                 # Secondary Tools
-                10.times do |st|
+                5.times do |st|
                     tool = Tool.new(
                             :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
@@ -79,7 +73,7 @@ module FakeDataHelper
                     puts "Secondary Tool: " + tool.name
                 end
 
-                8.times do |s|
+                5.times do |s|
                     segment = Segment.new(
                             :name => Faker::Lorem.words(Random.new.rand(1..4)).join(" ").to_s.capitalize,
                     )
@@ -99,7 +93,7 @@ module FakeDataHelper
 
                         tools = []
                         # Primary Tools
-                        10.times do |pt|
+                        5.times do |pt|
                             tool = Tool.new(
                                     :name => Faker::Lorem.words(1).first.to_s.capitalize,
                             )
@@ -128,7 +122,7 @@ module FakeDataHelper
                             end
                         end
 
-                        7.times do |j|
+                        5.times do |j|
                             job_template = JobTemplate.new(
                                     :name => Faker::Lorem.words(Random.new.rand(1..6)).join(" ").to_s.capitalize,
                                     :description => Faker::Lorem.words(30).join(" ").to_s
@@ -225,7 +219,7 @@ module FakeDataHelper
             end
         end
 
-        10000.times do |i|
+        1000.times do |i|
             begin
                 user = User.new(
                         :name => Faker::Name.first_name + " " + Faker::Name.last_name,
@@ -238,6 +232,9 @@ module FakeDataHelper
                 )
                 user.company = company
                 user.role_id = UserRole.all_roles(company).sample.role_id
+                if user.role_id == UserRole::ROLE_ELEPHANT_ADMIN
+                    user.role_id = UserRole.all_roles(company).sample.role_id
+                end
                 user.district = District.where("company_id = ?", company.id).order('RANDOM()').limit(1).first
                 user.save
                 puts "User:  " + user.name
@@ -247,7 +244,7 @@ module FakeDataHelper
             end
         end
 
-        2000.times do |i|
+        50.times do |i|
             begin
                 client = Client.new(
                         :name => Faker::Lorem.words(Random.new.rand(1..3)).join(" ").to_s.capitalize,
@@ -262,7 +259,7 @@ module FakeDataHelper
         end
 
 
-        500000.times do |i|
+        100.times do |i|
             begin
                 job = Job.new
                 job.company = company
@@ -326,7 +323,7 @@ module FakeDataHelper
                     end
                 end
 
-                Random.new.rand(0..3).times do |fi|
+                Random.new.rand(0..2).times do |fi|
                     begin
                         failure = Failure.new(
                                 :template => false

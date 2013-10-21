@@ -112,7 +112,17 @@ $ ->
     return false
 
   $('#cancel_material_number_part').live "click", ->
-    $('material_number_part_fields').addClass 'hidden'
+    $('#material_number_part_fields').addClass 'hidden'
+    return false
+
+  $('#change_serial_number_part_link').live "click", ->
+    $('#part_serial_number').val('')
+    $('#serial_number_part_fields').removeClass 'hidden'
+    $('#part_serial_number').focus()
+    return false
+
+  $('#cancel_serial_number_part').live "click", ->
+    $('#serial_number_part_fields').addClass 'hidden'
     return false
 
 
