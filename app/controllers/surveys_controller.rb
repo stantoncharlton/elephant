@@ -5,7 +5,15 @@ class SurveysController < ApplicationController
             @document = Document.find_by_id(params[:document])
             @survey = Survey.find_by_document_id(@document.id)
             if @survey.nil?
-                redirect_to new_survey_path(document_id: @document)
+                if @document.document_type == Document::SURVEY
+                    @survey = Survey.new(name: @document.name, plan: false)
+                    @survey.company = current_user.company
+                    @survey.document = @document
+                    @survey.save
+                    redirect_to @survey
+                else
+                    redirect_to new_survey_path(document_id: @document)
+                end
             else
                 redirect_to @survey
             end
@@ -14,6 +22,13 @@ class SurveysController < ApplicationController
 
     def show
         @survey = Survey.find(params[:id])
+
+        if !@survey.plan? && !@survey.document.nil?
+            @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @survey.document.job_id).first
+            render 'surveys/show_entry'
+        else
+            render 'surveys/show'
+        end
     end
 
     def new
@@ -34,7 +49,6 @@ class SurveysController < ApplicationController
     end
 
     def create
-
         if params[:document_id].present?
             @document = Document.find_by_id(params[:document_id])
             not_found unless @document.company == current_user.company

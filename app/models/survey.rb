@@ -21,11 +21,18 @@ class Survey < ActiveRecord::Base
         beta = 0.0
         rf = 1.0
 
-        survey_points.each do |point|
+        survey_points.each_with_index do |point, index|
             if point.tie_on
                 tvd = point.true_vertical_depth
                 ns = point.north_south
                 ew = point.east_west
+            elsif index == 0
+                tvd = 0.0
+                ns = 0.0
+                ew = 0.0
+                point.true_vertical_depth = tvd
+                point.north_south = ns
+                point.east_west = ew
             else
                 if point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0
                     beta = Math::cos((point.inclination - last_point.inclination)*(Math::PI/180))-(Math::sin(last_point.inclination*(Math::PI/180))*Math::sin(point.inclination*(Math::PI/180))*(1-Math::cos((point.azimuth - last_point.azimuth)*(Math::PI/180))))

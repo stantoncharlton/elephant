@@ -2,6 +2,59 @@
   <h1><%= @survey.name %></h1>
 </div>
 
+
+<div class="well">
+  <div>
+    <b>Add New Survey Point</b>
+    <br>
+    <br>
+  </div>
+  <div class="form" data-form="new_survey_point">
+    <%= form_for SurveyPoint.new, remote: true do |f| %>
+
+        <%= f.hidden_field :survey_id, value: @survey.id %>
+
+        <i class="icon-arrow-down"></i>
+        <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield extra-small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Measured Depth" %>
+
+        <i class="icon-resize-full"></i>
+        <%= f.text_field :inclination, placeholder: "Inclination", class: "txtfield extra-small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Inclination" %>
+
+        <i class="icon-screenshot"></i>
+        <%= f.text_field :azimuth, placeholder: "Azimuth", class: "txtfield extra-small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Azimuth" %>
+
+        <%= f.submit "Add Survey Point",
+                     class: "bluebtn pull-right form-loading-on-click",
+                     "data-form" => "new_survey_point" %>
+
+
+        <% if false %>
+            <br>
+            <i class="icon-comment"></i>
+            <%= f.text_field :comment, placeholder: "Comment", class: "txtfield txtfield-long tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Point Comment" %>
+        <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-loading hidden" data-form="new_survey_point">
+    <%= render 'layouts/inline_loading', title: "Adding survey point..." %>
+    <br><br>
+  </div>
+</div>
+
+<div>
+  <span><div class='well-plan'></div> Well Plan</span>
+  <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
+</div>
+
 <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
 
 <div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
@@ -20,55 +73,33 @@
 </div>
 <hr>
 
-<% calculated_points = @survey.calculated_points %>
+<% calculated_points_survey = @survey.calculated_points %>
+<% calculated_points = @active_well_plan.calculated_points %>
 
 <% last_point = nil %>
 <% index = 0 %>
-<% changing = false %>
-<% calculated_points.each do |point| %>
-
-    <% if !point.comment.blank? %>
-        <br>
-        <i class="icon-comment"></i><b class='survey-comment'><%= point.comment %></b>
-        <hr>
-    <% end %>
-    <div>
-      <% if !point.tie_on && (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
-          <% changing = true %>
-      <% else %>
-          <% changing = false %>
-      <% end %>
-      <div class="list-item-column list-item-column-short"><%= point.measured_depth %></div>
-      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
-      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
-      <div class="list-item-column list-item-column-short"><%= point.true_vertical_depth.round(2) %></div>
-      <div class="list-item-column list-item-column-short blue-text"><%= point.vertical_section.round(2) %></div>
-      <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
-      <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
-
-      <div class="list-item-column list-item-column-count">0</div>
-      <div class="list-item-column list-item-column-count">0</div>
-      <div class="list-item-column list-item-column-count">0</div>
-
+<div id="list">
+  <% calculated_points_survey.each do |point| %>
+      <%= render 'survey_points/survey_point', point: point, last_point: last_point %>
       <% last_point = point %>
-    </div>
-    <% index += 1 %>
-    <% if index % 5 == 0 %>
-        <br>
-    <% end %>
-<% end %>
-
-<% if false %>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <% end %>
+      <% index += 1 %>
+      <% if index % 5 == 0 %>
+          <br>
+      <% end %>
+  <% end %>
+</div>
 
 <script type="text/javascript">
 
     var chart;
+    var chart_active;
     var chartData = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    var chartData_active = <%= raw calculated_points_survey.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+
     var chart2;
+    var chart2_active;
     var chartData2 = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    var chartData2_active = <%= raw calculated_points_survey.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
 
 
     AmCharts.ready(function () {

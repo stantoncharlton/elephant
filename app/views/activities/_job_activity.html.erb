@@ -115,13 +115,13 @@
           <% if activity.activity_type == Activity::ASSET_ADDED %>
               <% if activity.target.present? %>
                   <p class="activity-message"><b>Asset</b></p>
-                  <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link" %>
+                  <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link", target: "_blank" %>
                   <p class="activity-message">added to job</p>
                   <br>
 
                   <p class="activity-message">
-                    <b>Material #</b> <%= activity.target.material_number %><br>
-                    <b>Serial #</b> <%= activity.target.serial_number %><br>
+                    <b>Material #</b> <%= link_to activity.target.material_number, activity.target.master_part, class: "activty-user-link", target: "_blank" %><br>
+                    <b>Serial #</b> <%= link_to activity.target.serial_number, activity.target, class: "activity-user-link", target: "_blank" %><br>
                     <% if !activity.target.district_serial_number.blank? %>
                         <b>District #</b> <%= activity.target.district_serial_number %>
                     <% end %>

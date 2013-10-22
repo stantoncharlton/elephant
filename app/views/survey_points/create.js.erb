@@ -1,0 +1,21 @@
+<% if @survey_point.new_record? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Failed to add survey point", message: @survey_point.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+<% else %>
+
+$("#list").append("<%= j render 'survey_points/survey_point', point: @survey_point, last_point: @last_point %>");
+
+$('#survey_point_measured_depth').val('');
+$('#survey_point_inclination').val('');
+$('#survey_point_azimuth').val('');
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.activity-user-link').tooltip();
+    $('.tooltip-info').tooltip();
+}
+
+$('.form[data-form=new_survey_point]').show();
+$('.form-loading[data-form=new_survey_point]').addClass('hidden');
+
+<% end %>

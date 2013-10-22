@@ -115,5 +115,6 @@ ElephantWebApp::Application.routes.draw do
     resources :issues, only: [:index, :show, :update]
 
     resources :surveys, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+    resources :survey_points, only: [:new, :create, :destroy]
 end
 
