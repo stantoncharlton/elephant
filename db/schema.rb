@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131014184709) do
+ActiveRecord::Schema.define(:version => 20131021231255) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -632,6 +632,8 @@ ActiveRecord::Schema.define(:version => 20131014184709) do
     t.decimal  "east_west"
     t.string   "comment"
     t.decimal  "vertical_section"
+    t.integer  "user_id"
+    t.string   "user_name"
   end
 
   add_index "survey_points", ["survey_id"], :name => "index_survey_points_on_survey_id"

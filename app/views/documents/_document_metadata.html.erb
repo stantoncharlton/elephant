@@ -2,7 +2,7 @@
 
   <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
   <% bha = document.document_type == Document::BOTTOM_HOLE_ASSEMBLY ? Bha.where(:company_id => current_user.company_id).where(:document_id => document.id).order("bhas.updated_at DESC").limit(1).first : nil %>
-
+  <% survey = document.document_type == Document::SURVEY || document.document_type == Document::WELL_PLAN ? Survey.where(:company_id => current_user.company_id).where(:document_id => document.id).limit(1).first : nil %>
 
   <% if !document.template? && document.job_id.present? %>
       <div class="document-status">
@@ -48,6 +48,18 @@
                       class: "document-name tooltip-info",
                       "data-placement" => "bottom",
                       "data-title" => "Open " + document.document_type_string %>
+      <% elsif document.document_type == Document::WELL_PLAN %>
+          <%= link_to document.name, surveys_path(document: document),
+                      target: "_blank",
+                      class: "document-name tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Open " + document.document_type_string %>
+      <% elsif document.document_type == Document::SURVEY %>
+          <%= link_to document.name, surveys_path(document: document),
+                      target: "_blank",
+                      class: "document-name tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Open " + document.document_type_string %>
       <% end %>
   <% else %>
       <% if document.url.present? %>
@@ -55,7 +67,7 @@
                       "data-placement" => "bottom",
                       "data-title" => "Download document" %>
       <% else %>
-          <p class="document-name"><%= document.name %></p>
+          <p class="document-name align-top push-down"><%= document.name %></p>
       <% end %>
   <% end %>
 
@@ -104,24 +116,33 @@
                      data-title="No assemblies have been added to <%= document.document_type_string %>">
                     No Assemblies Added</p>
               <% end %>
+          <% elsif document.document_type == Document::SURVEY %>
+              <% if survey.present? && survey.survey_points.any? %>
+                  <p class="push-down">
+                    <%= survey.survey_points.order("created_at DESC").first.updated_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  </p>
+              <% else %>
+                  <p class="warning-text tooltip-info push-down"
+                     data-placement="bottom"
+                     data-title="No survey points have been added to <%= document.document_type_string %>">
+                    No Survey Points</p>
+              <% end %>
+          <% elsif document.document_type == Document::WELL_PLAN %>
+              <% if survey.present? && survey.survey_points.any? %>
+                  <p class="push-down">
+                    <%= survey.survey_points.order("created_at DESC").first.updated_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  </p>
+              <% else %>
+                  <p class="warning-text tooltip-info push-down"
+                     data-placement="bottom"
+                     data-title="No plan imported for <%= document.document_type_string %>">
+                    No Plan Added</p>
+              <% end %>
           <% end %>
         </div>
 
         <div class="document-file-name-box">
-          <% if document.document_type == Document::DOCUMENT %>
-              <% if document.url.present? %>
-                  <% if document.user.present? %>
-                      <%= render 'activities/user', user: document.user %>
-                  <% else %>
-                      <p><b><%= document.user_name %></b></p>
-                  <% end %>
-              <% end %>
-          <% else %>
-              <% if last_entry.present? %>
-                  <%= render 'activities/user', user: last_entry.user %>
-              <% elsif bha.present? %>
-              <% end %>
-          <% end %>
+            <%= render 'documents/user', document: document, last_entry: last_entry, bha: bha, survey: survey %>
 
           <% if document.access_level > 1 %>
               <%= image_tag "lock_icon.png", class: "document-restricted tooltip-info",

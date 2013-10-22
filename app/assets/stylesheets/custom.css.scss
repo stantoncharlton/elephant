@@ -287,7 +287,8 @@ p {
   padding: 20px 18px 20px 18px;
   height: 58px;
   line-height: 58px;
-  text-transform: none;
+
+  font-family: "gothamlightregular";
 
   &:link, &:visited, &:active {
     color: #FFFFFF;
@@ -406,6 +407,7 @@ p {
   padding: 0px 0px 0px 0px;
   margin: 0px;
   text-transform: none;
+  font-family: "gothambookregular";
 
   margin-left: 6px;
   display: inline-block;

@@ -1,10 +1,10 @@
+<div class="page_header">
+  <h1><%= @survey.name %></h1>
+</div>
+
 <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
 
 <div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
-
-<% if false %>
-<div id="container" class='inline-block' style="width: 300px; height: 500px; margin: 0 auto"></div>
-    <% end %>
 
 <div>
   <div class="list-item-column list-item-column-short">M. Depth</div>
@@ -14,6 +14,9 @@
   <div class="list-item-column list-item-column-short">V Sect</div>
   <div class="list-item-column list-item-column-short">NS</div>
   <div class="list-item-column list-item-column-short">EW</div>
+  <div class="list-item-column list-item-column-count">BR</div>
+  <div class="list-item-column list-item-column-count">TR</div>
+  <div class="list-item-column list-item-column-count">DLS</div>
 </div>
 <hr>
 
@@ -26,7 +29,8 @@
 
     <% if !point.comment.blank? %>
         <br>
-        <b class='blue-text'><%= point.comment %></b>
+        <i class="icon-comment"></i><b class='survey-comment'><%= point.comment %></b>
+        <hr>
     <% end %>
     <div>
       <% if !point.tie_on && (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
@@ -41,6 +45,10 @@
       <div class="list-item-column list-item-column-short blue-text"><%= point.vertical_section.round(2) %></div>
       <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
       <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
+
+      <div class="list-item-column list-item-column-count">0</div>
+      <div class="list-item-column list-item-column-count">0</div>
+      <div class="list-item-column list-item-column-count">0</div>
 
       <% last_point = point %>
     </div>

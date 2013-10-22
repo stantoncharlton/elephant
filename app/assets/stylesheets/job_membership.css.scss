@@ -21,6 +21,11 @@
 }
 
 .member-icon-link {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+
   &:link, &:visited, &:active {
     background: transparent;
   }

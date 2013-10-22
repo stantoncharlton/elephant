@@ -114,6 +114,6 @@ ElephantWebApp::Application.routes.draw do
 
     resources :issues, only: [:index, :show, :update]
 
-    resources :surveys, only: [:new, :create, :show, :edit, :update, :destroy]
+    resources :surveys, only: [:index, :new, :create, :show, :edit, :update, :destroy]
 end
 

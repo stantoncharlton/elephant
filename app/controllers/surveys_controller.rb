@@ -1,5 +1,17 @@
 class SurveysController < ApplicationController
 
+    def index
+        if params[:document].present?
+            @document = Document.find_by_id(params[:document])
+            @survey = Survey.find_by_document_id(@document.id)
+            if @survey.nil?
+                redirect_to new_survey_path(document_id: @document)
+            else
+                redirect_to @survey
+            end
+        end
+    end
+
     def show
         @survey = Survey.find(params[:id])
     end
@@ -8,11 +20,13 @@ class SurveysController < ApplicationController
         @survey = Survey.new
         @survey_points = ''
         @import_tie_on = true
+        @plan = true
+
+        if params[:document_id].present?
+            @document = Document.find_by_id(params[:document_id])
+        end
 
         if params["modal"].present? && params["modal"] == "true"
-            @document = Document.find_by_id(params[:document_id])
-            not_found unless @document.company == current_user.company
-
             render 'surveys/new_modal'
         else
             render 'surveys/new'
@@ -30,10 +44,15 @@ class SurveysController < ApplicationController
             @survey = Survey.new(params[:survey])
             @survey.company = current_user.company
             @survey.document = @document
+            @survey.plan = true
 
-            if params[:active_well].present? && params[:active_well] == "true"
-                @survey.name = "Active Well Plan"
+            if @survey.name.blank?
+                @survey.name = @document.name
             end
+
+            #if params[:active_well].present? && params[:active_well] == "true"
+            #    @survey.name = "Active Well Plan"
+            #end
 
             @survey.save
 
@@ -45,9 +64,9 @@ class SurveysController < ApplicationController
                     parts = line.split("\t")
                     survey_point = nil
                     if parts.count >= 4
-                        survey_point = SurveyPoint.create @survey, parts[0], parts[1], parts[2], parts[3]
+                        survey_point = SurveyPoint.create @survey, current_user, parts[0], parts[1], parts[2], parts[3]
                     elsif parts.count == 3
-                        survey_point = SurveyPoint.create @survey, nil, parts[0], parts[1], parts[2]
+                        survey_point = SurveyPoint.create @survey, current_user, nil, parts[0], parts[1], parts[2]
                     end
 
                     if @import_tie_on && index ==0
@@ -74,5 +93,9 @@ class SurveysController < ApplicationController
         end
     end
 
+
+    def edit
+        @import_tie_on = true
+    end
 
 end

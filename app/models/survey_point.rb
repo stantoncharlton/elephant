@@ -7,15 +7,19 @@ class SurveyPoint < ActiveRecord::Base
                     :east_west,
                     :north_south,
                     :vertical_section,
-                    :comment
+                    :comment,
+                    :user_name
 
     belongs_to :company
     belongs_to :survey
+    belongs_to :user
 
 
-    def self.create survey, comment, measured_depth, inclination, azimuth
+    def self.create survey, user, comment, measured_depth, inclination, azimuth
         survey_point = SurveyPoint.new
         survey_point.company = survey.company
+        survey_point.user = user
+        survey_point.user_name = user.name
         survey_point.survey = survey
         survey_point.comment = comment
         survey_point.tie_on = false

@@ -37,6 +37,8 @@ class Document < ActiveRecord::Base
     DRILLING_LOG = 3
     CUSTOM_DATA = 4
     BOTTOM_HOLE_ASSEMBLY = 5
+    SURVEY = 6
+    WELL_PLAN = 7
 
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
@@ -68,6 +70,10 @@ class Document < ActiveRecord::Base
                 "Drilling Log"
             when Document::BOTTOM_HOLE_ASSEMBLY
                 "Bottom Hole Assembly"
+            when Document::WELL_PLAN
+                "Well Plan"
+            when Document::SURVEY
+                "Survey"
         end
     end
 
@@ -194,6 +200,9 @@ class Document < ActiveRecord::Base
             return JobLog.where(:document_id => self.id).count == 0
         elsif self.document_type == BOTTOM_HOLE_ASSEMBLY
             return Bha.where(:document_id => self.id).count == 0
+        elsif self.document_type == WELL_PLAN || self.document_type == SURVEY
+            survey = Survey.where(:document_id => self.id).first
+            return survey.nil? || survey.survey_points.count == 0
         end
 
         return true
