@@ -1,92 +1,18 @@
-<div class="page_header">
-  <h1><%= @survey.name %></h1>
-
-  <div class="btn-group inline pull-right">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Advanced Actions
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <%= link_to "Edit", edit_survey_path(@survey), class: "dropdown-menu-link" %>
-      </li>
-      <li class="divider"></li>
-      <li>
-        <%= link_to "Export to Excel", @survey,
-                    class: "dropdown-menu-link tooltip-info",
-                    "data-placement" => "left",
-                    "data-title" => "Export to Microsoft Excel" %>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
-
-<div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
-
-<div class='push-down'>
-  <div class="list-item-column list-item-column-short">M. Depth</div>
-  <div class="list-item-column list-item-column-short">Inclination</div>
-  <div class="list-item-column list-item-column-short">Azimuth</div>
-  <div class="list-item-column list-item-column-short">TVD</div>
-  <div class="list-item-column list-item-column-short">V Sect</div>
-  <div class="list-item-column list-item-column-short">NS</div>
-  <div class="list-item-column list-item-column-short">EW</div>
-  <div class="list-item-column list-item-column-count">BR</div>
-  <div class="list-item-column list-item-column-count">TR</div>
-  <div class="list-item-column list-item-column-count">DLS</div>
-</div>
-<hr>
-
-<% calculated_points = @survey.calculated_points %>
-
-<% last_point = nil %>
-<% index = 0 %>
-<% changing = false %>
-<% calculated_points.each do |point| %>
-
-    <% if !point.comment.blank? %>
-        <br>
-        <i class="icon-comment"></i><b class='survey-comment'><%= point.comment %></b>
-        <hr>
-    <% end %>
-    <div>
-      <% if !point.tie_on && (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
-          <% changing = true %>
-      <% else %>
-          <% changing = false %>
-      <% end %>
-      <div class="list-item-column list-item-column-short"><%= point.measured_depth %></div>
-      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
-      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
-      <div class="list-item-column list-item-column-short"><%= point.true_vertical_depth.round(2) %></div>
-      <div class="list-item-column list-item-column-short blue-text"><%= point.vertical_section.round(2) %></div>
-      <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
-      <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
-
-      <div class="list-item-column list-item-column-count">0</div>
-      <div class="list-item-column list-item-column-count">0</div>
-      <div class="list-item-column list-item-column-count">0</div>
-
-      <% last_point = point %>
-    </div>
-    <% index += 1 %>
-    <% if index % 5 == 0 %>
-        <br>
-    <% end %>
-<% end %>
-
-<% if false %>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <% end %>
-
 <script type="text/javascript">
 
     var chart;
-    var chartData = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    <% combined_tvd_vs = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} } %>
+    <% calculated_points_survey.each do |p| %>
+    <% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
+    <% end %>
+    var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
+
     var chart2;
-    var chartData2 = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    <% combined_ns_ew = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} } %>
+    <% calculated_points_survey.each do |p| %>
+    <% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
+    <% end %>
+    var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
 
 
     AmCharts.ready(function () {
@@ -134,6 +60,24 @@
         graph.clustered = true;
         chart.addGraph(graph);
 
+        // GRAPH
+        var graph = new AmCharts.AmGraph();
+        graph.xField = "vs2";
+        graph.yField = "tvd2";
+        graph.type = "smoothedLine";
+        graph.bullet = "round";
+        graph.balloonText = "<b>Survey</b><br> TVD [[tvd2]] ft, VS [[vs2]] ft";
+        graph.bulletColor = "#FFFFFF";
+        graph.bulletBorderColor = "#cc4800";
+        graph.bulletBorderAlpha = 1;
+        graph.bulletBorderThickness = 2;
+        graph.bulletSize = 0;
+        graph.title = "tvd";
+        graph.lineThickness = 2;
+        graph.lineColor = "#cc4800";
+        graph.clustered = true;
+        chart.addGraph(graph);
+
         // CURSOR
         var chartCursor = new AmCharts.ChartCursor();
         chartCursor.cursorPosition = "mouse";
@@ -150,6 +94,28 @@
                 label.remove();
             }
         }
+
+        var circle = $('#chartdiv').find('circle[stroke=#cc4800]:last');
+        var increasing = true;
+        var pulse = function () {
+            var radius = parseFloat(circle.attr('r'));
+            if(increasing) {
+                radius += 0.5;
+            }
+            else {
+                radius -= 0.5;
+            }
+            if(radius > 5) {
+                increasing = false;
+            }
+            if(radius < 3.5) {
+                increasing = true;
+            }
+            circle.attr('r', radius);
+            setTimeout(pulse, 120);
+        };
+
+        setTimeout(pulse, 120);
 
 
         // SERIAL CHART
@@ -197,6 +163,23 @@
         graph.clustered = true;
         chart2.addGraph(graph);
 
+        var graph = new AmCharts.AmGraph();
+        graph.xField = "ew2";
+        graph.yField = "ns2";
+        graph.type = "smoothedLine";
+        graph.bullet = "round";
+        graph.balloonText = "<b>Survey</b> [[ns2]], [[ew2]]";
+        graph.bulletColor = "#FFFFFF";
+        graph.bulletBorderColor = "#cc4800";
+        graph.bulletBorderAlpha = 1;
+        graph.bulletBorderThickness = 2;
+        graph.bulletSize = 0;
+        graph.title = "ns";
+        graph.lineThickness = 2;
+        graph.lineColor = "#cc4800";
+        graph.clustered = true;
+        chart2.addGraph(graph);
+
         // CURSOR
         var chartCursor = new AmCharts.ChartCursor();
         chartCursor.cursorPosition = "mouse";
@@ -213,6 +196,28 @@
                 label.remove();
             }
         }
+
+        var circle2 = $('#chartdiv2').find('circle[stroke=#cc4800]:last');
+        var increasing2 = true;
+        var pulse2 = function () {
+            var radius = parseFloat(circle2.attr('r'));
+            if(increasing2) {
+                radius += 0.5;
+            }
+            else {
+                radius -= 0.5;
+            }
+            if(radius > 5) {
+                increasing2 = false;
+            }
+            if(radius < 3.5) {
+                increasing2 = true;
+            }
+            circle2.attr('r', radius);
+            setTimeout(pulse2, 120);
+        };
+
+        setTimeout(pulse2, 120);
     });
 
 

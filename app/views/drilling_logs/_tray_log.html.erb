@@ -3,6 +3,11 @@
   <div class='content'>
     <b>Active Well</b>
 
+    <div class='inline-block push-right'>
+      <span><div class='well-plan'></div> Well Plan</span>
+      <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
+    </div>
+
     <%= link_to new_survey_path(modal: true, document_id: @document.id),
                 remote: true,
                 class: "activity-user-link pull-right tooltip-info show-modal-button",
@@ -13,9 +18,10 @@
   </div>
 
 
-  <% active_well_plan = Survey.where(:document_id => @document.id).last %>
-  <% if !active_well_plan.nil? %>
-      <%= render 'surveys/survey_charts', survey: active_well_plan %>
+  <% @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @document.job_id).first %>
+  <% @survey = Survey.includes(:document => :job).where(:plan => false).where("jobs.id = ?", @document.job_id).first %>
+  <% if !@active_well_plan.nil? %>
+      <%= render 'surveys/survey_charts', well_plan: @active_well_plan, survey: @survey %>
   <% else %>
       <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
   <% end %>
