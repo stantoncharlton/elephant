@@ -7,7 +7,7 @@ class Survey < ActiveRecord::Base
     belongs_to :job
     belongs_to :user
 
-    has_many :survey_points, :dependent => :destroy, :order => "created_at ASC"
+    has_many :survey_points, :dependent => :destroy, :order => "survey_points.measured_depth ASC"
 
 
     def calculated_points

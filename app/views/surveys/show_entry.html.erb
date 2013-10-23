@@ -92,7 +92,6 @@
 <script type="text/javascript">
 
     var chart;
-    var chart_active;
     <% combined_tvd_vs = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} } %>
     <% calculated_points_survey.each do |p| %>
     <% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
@@ -100,7 +99,6 @@
     var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
 
     var chart2;
-    var chart2_active;
     <% combined_ns_ew = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} } %>
     <% calculated_points_survey.each do |p| %>
     <% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
@@ -164,7 +162,7 @@
         graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
-        graph.bulletSize = 7;
+        graph.bulletSize = 0;
         graph.title = "tvd";
         graph.lineThickness = 2;
         graph.lineColor = "#cc4800";
@@ -266,7 +264,7 @@
         graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
-        graph.bulletSize = 7;
+        graph.bulletSize = 0;
         graph.title = "ns";
         graph.lineThickness = 2;
         graph.lineColor = "#cc4800";

@@ -18,4 +18,225 @@ if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").match
 $('.form[data-form=new_survey_point]').show();
 $('.form-loading[data-form=new_survey_point]').addClass('hidden');
 
+
+<% calculated_points_survey = @survey_points %>
+<% calculated_points = @well_plan.calculated_points %>
+
+
+var chart;
+<% combined_tvd_vs = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} } %>
+<% calculated_points_survey.each do |p| %>
+<% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
+<% end %>
+var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
+
+var chart2;
+<% combined_ns_ew = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} } %>
+<% calculated_points_survey.each do |p| %>
+<% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
+<% end %>
+var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
+
+
+// SERIAL CHART
+chart = new AmCharts.AmXYChart();
+chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+chart.dataProvider = chartData;
+
+var valueAxis = new AmCharts.ValueAxis();
+valueAxis.title = "Vertical Section";
+valueAxis.position = "bottom";
+valueAxis.dashLength = 5;
+valueAxis.axisAlpha = 0;
+valueAxis.autoGridCount = true;
+valueAxis.minimum = -200;
+chart.addValueAxis(valueAxis);
+
+var valueAxis = new AmCharts.ValueAxis();
+valueAxis.title = "True Vertical Depth";
+valueAxis.position = "left";
+valueAxis.dashLength = 5;
+valueAxis.axisAlpha = 0;
+valueAxis.autoGridCount = true;
+valueAxis.reversed = true;
+chart.addValueAxis(valueAxis);
+
+
+// GRAPH
+var graph = new AmCharts.AmGraph();
+graph.xField = "vs";
+graph.yField = "tvd";
+graph.type = "smoothedLine";
+graph.bullet = "round";
+graph.balloonText = "<b>[[comment]]</b><br> TVD [[tvd]] ft, VS [[vs]] ft";
+graph.bulletColor = "#FFFFFF";
+graph.bulletBorderColor = "#00BBCC";
+graph.bulletBorderAlpha = 1;
+graph.bulletBorderThickness = 2;
+graph.bulletSize = 7;
+graph.title = "tvd";
+graph.lineThickness = 2;
+graph.lineColor = "#00BBCC";
+graph.clustered = true;
+chart.addGraph(graph);
+
+// GRAPH
+var graph = new AmCharts.AmGraph();
+graph.xField = "vs2";
+graph.yField = "tvd2";
+graph.type = "smoothedLine";
+graph.bullet = "round";
+graph.balloonText = "<b>Survey</b><br> TVD [[tvd2]] ft, VS [[vs2]] ft";
+graph.bulletColor = "#FFFFFF";
+graph.bulletBorderColor = "#cc4800";
+graph.bulletBorderAlpha = 1;
+graph.bulletBorderThickness = 2;
+graph.bulletSize = 0;
+graph.title = "tvd";
+graph.lineThickness = 2;
+graph.lineColor = "#cc4800";
+graph.clustered = true;
+chart.addGraph(graph);
+
+// CURSOR
+var chartCursor = new AmCharts.ChartCursor();
+chartCursor.cursorPosition = "mouse";
+chart.addChartCursor(chartCursor);
+
+// WRITE
+chart.write("chartdiv");
+
+var label = $("g[cursor=pointer]");
+if (label.length > 0) {
+    var tspan = label.find('tspan');
+    if (tspan.length > 0) {
+        label.remove();
+    }
+}
+
+var circle = $('#chartdiv').find('circle[stroke=#cc4800]:last');
+var increasing = true;
+var pulse = function () {
+    var radius = parseFloat(circle.attr('r'));
+    if (increasing) {
+        radius += 0.5;
+    }
+    else {
+        radius -= 0.5;
+    }
+    if (radius > 5) {
+        increasing = false;
+    }
+    if (radius < 3.5) {
+        increasing = true;
+    }
+    circle.attr('r', radius);
+    setTimeout(pulse, 120);
+};
+
+setTimeout(pulse, 120);
+
+
+// SERIAL CHART
+chart2 = new AmCharts.AmXYChart();
+chart2.pathToImages = "http://www.amcharts.com/lib/3/images/";
+chart2.dataProvider = chartData2;
+
+
+var valueAxis = new AmCharts.ValueAxis();
+valueAxis.title = "East/West";
+valueAxis.position = "bottom";
+valueAxis.dashLength = 5;
+valueAxis.axisAlpha = 0;
+valueAxis.integersOnly = false;
+valueAxis.gridCount = 10;
+chart2.addValueAxis(valueAxis);
+
+
+var valueAxis = new AmCharts.ValueAxis();
+valueAxis.title = "North/South";
+valueAxis.position = "left";
+valueAxis.dashLength = 5;
+valueAxis.axisAlpha = 0;
+valueAxis.integersOnly = false;
+valueAxis.gridCount = 10;
+valueAxis.reversed = true;
+chart2.addValueAxis(valueAxis);
+
+
+// GRAPH
+var graph = new AmCharts.AmGraph();
+graph.xField = "ew";
+graph.yField = "ns";
+graph.type = "smoothedLine";
+graph.bullet = "round";
+graph.balloonText = "<b>[[comment]]</b> [[ns]], [[ew]]";
+graph.bulletColor = "#FFFFFF";
+graph.bulletBorderColor = "#00BBCC";
+graph.bulletBorderAlpha = 1;
+graph.bulletBorderThickness = 2;
+graph.bulletSize = 7;
+graph.title = "ns";
+graph.lineThickness = 2;
+graph.lineColor = "#00BBCC";
+graph.clustered = true;
+chart2.addGraph(graph);
+
+var graph = new AmCharts.AmGraph();
+graph.xField = "ew2";
+graph.yField = "ns2";
+graph.type = "smoothedLine";
+graph.bullet = "round";
+graph.balloonText = "<b>Survey</b> [[ns2]], [[ew2]]";
+graph.bulletColor = "#FFFFFF";
+graph.bulletBorderColor = "#cc4800";
+graph.bulletBorderAlpha = 1;
+graph.bulletBorderThickness = 2;
+graph.bulletSize = 0;
+graph.title = "ns";
+graph.lineThickness = 2;
+graph.lineColor = "#cc4800";
+graph.clustered = true;
+chart2.addGraph(graph);
+
+// CURSOR
+var chartCursor = new AmCharts.ChartCursor();
+chartCursor.cursorPosition = "mouse";
+chart2.addChartCursor(chartCursor);
+
+
+// WRITE
+chart2.write("chartdiv2");
+
+var label = $("g[cursor=pointer]");
+if (label.length > 0) {
+    var tspan = label.find('tspan');
+    if (tspan.length > 0) {
+        label.remove();
+    }
+}
+
+var circle2 = $('#chartdiv2').find('circle[stroke=#cc4800]:last');
+var increasing2 = true;
+var pulse2 = function () {
+    var radius = parseFloat(circle2.attr('r'));
+    if (increasing2) {
+        radius += 0.5;
+    }
+    else {
+        radius -= 0.5;
+    }
+    if (radius > 5) {
+        increasing2 = false;
+    }
+    if (radius < 3.5) {
+        increasing2 = true;
+    }
+    circle2.attr('r', radius);
+    setTimeout(pulse2, 120);
+};
+
+setTimeout(pulse2, 120);
+
+
 <% end %>
