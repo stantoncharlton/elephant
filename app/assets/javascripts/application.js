@@ -19,7 +19,6 @@
 //= require customSelect.jquery
 //= require Chart.min
 //= require jquery.jqplot.min
-//= require jquery.pulse.min
 //= require plugins/jqplot.donutRenderer.min
 //= require plugins/jqplot.pieRenderer.min
 //= require_tree .
