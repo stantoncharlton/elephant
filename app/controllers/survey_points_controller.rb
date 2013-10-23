@@ -10,7 +10,8 @@ class SurveyPointsController < ApplicationController
         params[:survey_point].delete(:survey_id)
 
         @survey = Survey.find_by_id(survey_id)
-        @last_point = @survey.survey_points.last
+        points = @survey.calculated_points
+        @last_point = points.last
 
         @survey_point = SurveyPoint.new(params[:survey_point])
         @survey_point.survey = @survey
@@ -21,6 +22,8 @@ class SurveyPointsController < ApplicationController
         @survey_point.tie_on = false
 
         @survey_point.save
+
+        @survey_point = Survey.calculate_point @survey_point, @last_point
     end
 
     def destroy

@@ -93,13 +93,19 @@
 
     var chart;
     var chart_active;
-    var chartData = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
-    var chartData_active = <%= raw calculated_points_survey.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    <% combined_tvd_vs = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} } %>
+    <% calculated_points_survey.each do |p| %>
+    <% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
+    <% end %>
+    var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
 
     var chart2;
     var chart2_active;
-    var chartData2 = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
-    var chartData2_active = <%= raw calculated_points_survey.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    <% combined_ns_ew = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} } %>
+    <% calculated_points_survey.each do |p| %>
+    <% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
+    <% end %>
+    var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
 
 
     AmCharts.ready(function () {
@@ -147,6 +153,24 @@
         graph.clustered = true;
         chart.addGraph(graph);
 
+        // GRAPH
+        var graph = new AmCharts.AmGraph();
+        graph.xField = "vs2";
+        graph.yField = "tvd2";
+        graph.type = "smoothedLine";
+        graph.bullet = "round";
+        graph.balloonText = "<b>Survey</b><br> TVD [[tvd2]] ft, VS [[vs2]] ft";
+        graph.bulletColor = "#FFFFFF";
+        graph.bulletBorderColor = "#cc4800";
+        graph.bulletBorderAlpha = 1;
+        graph.bulletBorderThickness = 2;
+        graph.bulletSize = 7;
+        graph.title = "tvd";
+        graph.lineThickness = 2;
+        graph.lineColor = "#cc4800";
+        graph.clustered = true;
+        chart.addGraph(graph);
+
         // CURSOR
         var chartCursor = new AmCharts.ChartCursor();
         chartCursor.cursorPosition = "mouse";
@@ -163,6 +187,28 @@
                 label.remove();
             }
         }
+
+        var circle = $('#chartdiv').find('circle[stroke=#cc4800]:last');
+        var increasing = true;
+        var pulse = function () {
+            var radius = parseFloat(circle.attr('r'));
+            if(increasing) {
+                radius += 0.5;
+            }
+            else {
+                radius -= 0.5;
+            }
+            if(radius > 5) {
+                increasing = false;
+            }
+            if(radius < 3.5) {
+                increasing = true;
+            }
+            circle.attr('r', radius);
+            setTimeout(pulse, 120);
+        };
+
+        setTimeout(pulse, 120);
 
 
         // SERIAL CHART
@@ -210,6 +256,23 @@
         graph.clustered = true;
         chart2.addGraph(graph);
 
+        var graph = new AmCharts.AmGraph();
+        graph.xField = "ew2";
+        graph.yField = "ns2";
+        graph.type = "smoothedLine";
+        graph.bullet = "round";
+        graph.balloonText = "<b>Survey</b> [[ns2]], [[ew2]]";
+        graph.bulletColor = "#FFFFFF";
+        graph.bulletBorderColor = "#cc4800";
+        graph.bulletBorderAlpha = 1;
+        graph.bulletBorderThickness = 2;
+        graph.bulletSize = 7;
+        graph.title = "ns";
+        graph.lineThickness = 2;
+        graph.lineColor = "#cc4800";
+        graph.clustered = true;
+        chart2.addGraph(graph);
+
         // CURSOR
         var chartCursor = new AmCharts.ChartCursor();
         chartCursor.cursorPosition = "mouse";
@@ -226,6 +289,28 @@
                 label.remove();
             }
         }
+
+        var circle2 = $('#chartdiv2').find('circle[stroke=#cc4800]:last');
+        var increasing2 = true;
+        var pulse2 = function () {
+            var radius = parseFloat(circle2.attr('r'));
+            if(increasing2) {
+                radius += 0.5;
+            }
+            else {
+                radius -= 0.5;
+            }
+            if(radius > 5) {
+                increasing2 = false;
+            }
+            if(radius < 3.5) {
+                increasing2 = true;
+            }
+            circle2.attr('r', radius);
+            setTimeout(pulse2, 120);
+        };
+
+        setTimeout(pulse2, 120);
     });
 
 
