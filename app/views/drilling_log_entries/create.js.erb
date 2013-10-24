@@ -1,17 +1,17 @@
 $('.form[data-form=new-job-log]').show();
 $('.form-loading[data-form=new-job-log]').addClass('hidden');
 
-<% if @drilling_log.new_record? %>
+<% if @drilling_log_entry.new_record? %>
 
 $('#alert').remove();
-$('body').append("<%= j render 'layouts/modal_error', title: "Failed to add entry", message: @drilling_log.errors.full_messages.join(', ').html_safe %>");
+$('body').append("<%= j render 'layouts/modal_error', title: "Failed to add entry", message: @drilling_log_entry.errors.full_messages.join(', ').html_safe %>");
 $('#alert').modal({show:true});
 
 <% else %>
 
 $('.no-job-log-entries').remove();
 
-$("#list").append("<%= j render 'drilling_logs/drilling_log', entry: @drilling_log, last_entry: @last_entry %>");
+$("#list").append("<%= j render 'drilling_log_entries/drilling_log_entry', entry: @drilling_log_entry, last_entry: @last_entry %>");
 $('#new_job_log_id').val('');
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

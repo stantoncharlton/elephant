@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131021231255) do
+ActiveRecord::Schema.define(:version => 20131023215439) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -250,7 +250,7 @@ ActiveRecord::Schema.define(:version => 20131021231255) do
   add_index "documents", ["owner_id", "owner_type"], :name => "index_documents_on_owner_id_and_owner_type"
   add_index "documents", ["primary_tool_id"], :name => "index_documents_on_primary_tool_id"
 
-  create_table "drilling_logs", :force => true do |t|
+  create_table "drilling_log_entries", :force => true do |t|
     t.integer  "company_id"
     t.integer  "document_id"
     t.integer  "job_id"
@@ -266,11 +266,61 @@ ActiveRecord::Schema.define(:version => 20131021231255) do
     t.datetime "updated_at",    :null => false
   end
 
-  add_index "drilling_logs", ["bha_id"], :name => "index_drilling_logs_on_bha_id"
+  add_index "drilling_log_entries", ["bha_id"], :name => "index_drilling_log_entries_on_bha_id"
+  add_index "drilling_log_entries", ["company_id"], :name => "index_drilling_log_entries_on_company_id"
+  add_index "drilling_log_entries", ["document_id"], :name => "index_drilling_log_entries_on_document_id"
+  add_index "drilling_log_entries", ["job_id"], :name => "index_drilling_log_entries_on_job_id"
+  add_index "drilling_log_entries", ["user_id"], :name => "index_drilling_log_entries_on_user_id"
+
+  create_table "drilling_logs", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "document_id"
+    t.integer  "job_id"
+    t.decimal  "rop"
+    t.decimal  "total_drilled"
+    t.decimal  "below_rotary"
+    t.decimal  "slide_rop"
+    t.decimal  "slide_footgae"
+    t.decimal  "slide_hours"
+    t.decimal  "rotate_rop"
+    t.decimal  "rotate_footage"
+    t.decimal  "rotate_hours"
+    t.decimal  "circulation_hours"
+    t.decimal  "ream_hours"
+    t.decimal  "rotary_hours_pct"
+    t.decimal  "slide_hours_pct"
+    t.decimal  "rotary_footage_pct"
+    t.decimal  "slide_footage_pct"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   add_index "drilling_logs", ["company_id"], :name => "index_drilling_logs_on_company_id"
   add_index "drilling_logs", ["document_id"], :name => "index_drilling_logs_on_document_id"
   add_index "drilling_logs", ["job_id"], :name => "index_drilling_logs_on_job_id"
-  add_index "drilling_logs", ["user_id"], :name => "index_drilling_logs_on_user_id"
+
+  create_table "drilling_properties", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.integer  "document_id"
+    t.decimal  "wob"
+    t.decimal  "rot_wt"
+    t.decimal  "pu_wt"
+    t.decimal  "so_wt"
+    t.decimal  "spp"
+    t.decimal  "flow"
+    t.decimal  "spm"
+    t.decimal  "rot_rpm"
+    t.decimal  "mot_rpm"
+    t.decimal  "incl_in"
+    t.decimal  "azm_in"
+    t.decimal  "incl_out"
+    t.decimal  "azm_out"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "drilling_properties", ["document_id"], :name => "index_drilling_properties_on_document_id"
 
   create_table "dynamic_fields", :force => true do |t|
     t.integer  "job_template_id"
@@ -480,6 +530,30 @@ ActiveRecord::Schema.define(:version => 20131021231255) do
 
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
+
+  create_table "mud_records", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.integer  "document_id"
+    t.string   "type"
+    t.decimal  "weight"
+    t.decimal  "visc"
+    t.decimal  "chlorides"
+    t.decimal  "yp"
+    t.decimal  "pv"
+    t.decimal  "ph"
+    t.decimal  "gas"
+    t.decimal  "sand"
+    t.decimal  "wl"
+    t.decimal  "solid"
+    t.decimal  "bht"
+    t.decimal  "flow_t"
+    t.decimal  "oil"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "mud_records", ["document_id"], :name => "index_mud_records_on_document_id"
 
   create_table "part_memberships", :force => true do |t|
     t.integer  "primary_tool_id"

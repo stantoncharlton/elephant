@@ -31,7 +31,7 @@
 <div class="well content">
   <div class="form" data-form="new-job-log">
 
-    <%= form_for DrillingLog.new, remote: true do |f| %>
+    <%= form_for DrillingLogEntry.new, remote: true do |f| %>
 
 
         <div class="pull-right">
@@ -55,7 +55,7 @@
                            "data-placement" => "bottom",
                            "data-title" => "Depth of log entry" %>
 
-          <%= f.select :activity_code, options_for_select(DrillingLog.options, nil),
+          <%= f.select :activity_code, options_for_select(DrillingLogEntry.options, nil),
                        {prompt: "Select Activity..."},
                        id: "activity_code_select",
                        class: "inline custom-select  tooltip-info align-top",
@@ -168,24 +168,24 @@
   </div>
 
   <div class="" id="list">
-    <% if @drilling_logs.any? %>
-        <% last_time = @drilling_logs.first.entry_at %>
-        <% last_entry = @drilling_logs.first %>
+    <% if @drilling_log_entries.any? %>
+        <% last_time = @drilling_log_entries.first.entry_at %>
+        <% last_entry = @drilling_log_entries.first %>
         <h3 class='orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
-        <% @drilling_logs.each do |entry| %>
+        <% @drilling_log_entries.each do |entry| %>
             <% if entry.entry_at.day != last_time.day || entry.entry_at.month != last_time.month %>
                 <% last_time = entry.entry_at %>
                 <br><br>
 
                 <h3 class='push-right-small orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
             <% end %>
-            <%= render 'drilling_logs/drilling_log', entry: entry, last_entry: last_entry %>
+            <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, last_entry: last_entry %>
             <% last_entry = entry %>
         <% end %>
     <% end %>
   </div>
 
-  <% if @drilling_logs.empty? %>
+  <% if @drilling_log_entries.empty? %>
       <p class="center help-text no-job-log-entries"><br>No log entries...</p>
   <% end %>
 
