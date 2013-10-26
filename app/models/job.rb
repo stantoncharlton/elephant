@@ -146,8 +146,8 @@ class Job < ActiveRecord::Base
         where("jobs.client_id = :client_id", client_id: client.id).order("jobs.created_at DESC")
     end
 
-    def self.search(user, options, company)
-
+    def self.search(user, options, company, pagination = true)
+        paginate_count = pagination ? 10 : 100000000
         Sunspot.search(Job) do
             fulltext options[:search]
             any_of do
@@ -161,7 +161,7 @@ class Job < ActiveRecord::Base
             end
             with(:company_id, company.id)
             order_by :created_at, :desc
-            paginate :page => options[:page]
+            paginate :page => options[:page], :per_page => paginate_count
         end
     end
 

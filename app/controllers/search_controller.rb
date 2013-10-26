@@ -21,7 +21,8 @@ class SearchController < ApplicationController
                 end
             end
             format.xlsx do
-                @jobs = Job.search(current_user, params, current_user.company).results
+                params[:page] =
+                @jobs = Job.search(current_user, params, current_user.company, false).results
                 excel = to_excel @jobs
                 send_data excel.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             end
