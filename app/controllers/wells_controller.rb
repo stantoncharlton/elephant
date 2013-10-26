@@ -37,9 +37,13 @@ class WellsController < ApplicationController
         field_id = params[:well][:field_id]
         params[:well].delete(:field_id)
 
+        rig_id = params[:well][:rig_id]
+        params[:well].delete(:rig_id)
+
         @well = Well.new(params[:well])
         @well.company = current_user.company
         @well.field = Field.find_by_id(field_id)
+        @well.rig = Rig.find_by_id(rig_id)
         @well.save
     end
 
@@ -62,8 +66,13 @@ class WellsController < ApplicationController
         field_id = params[:well][:field_id]
         params[:well].delete(:field_id)
 
+        rig_id = params[:well][:rig_id]
+        params[:well].delete(:rig_id)
+
         Well.transaction do
             if @well.update_attributes(params[:well])
+                @well.rig = Rig.find_by_id(rig_id)
+                @well.save
                 flash[:success] = "Well updated"
                 redirect_back_or root_path
             else

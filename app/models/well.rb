@@ -66,7 +66,7 @@ class Well < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :field
-
+    belongs_to :rig
 
     has_many :jobs, order: "close_date DESC, created_at DESC"
 

@@ -64,6 +64,7 @@ ElephantWebApp::Application.routes.draw do
     resources :fields, only: [:index, :show, :new, :create]
 
     resources :wells, only: [:index, :show, :new, :create, :edit, :update]
+    resources :rigs, only: [:index, :new, :create, :show]
 
 
 
@@ -110,6 +111,7 @@ ElephantWebApp::Application.routes.draw do
     resources :drilling_log_entries, only: [:new, :create, :show]
 
     resources :job_times, only: [:index, :update]
+
 
     resources :bhas, only: [:show, :new, :create, :edit, :update, :destroy]
 

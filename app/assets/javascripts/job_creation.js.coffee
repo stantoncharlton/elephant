@@ -30,6 +30,28 @@ $ ->
       if $('#client_name').val() == ''
         $('#client_name').removeClass 'ui-autocomplete-typing'
 
+  $('#rig_name').autocomplete
+    source: $('#rig_name').data('autocomplete-source')
+    focus: focusevent
+    select: (event, ui) ->
+      if ui.item.id > 0
+        $("#rig_name").val(ui.item.label)
+        $("#rig_id").val(ui.item.id)
+
+  rig_focused = false
+  $('#rig_name').focusin ->
+    rig_focused = true
+    $('#rig_name').removeClass 'ui-autocomplete-bad'
+    $('#rig_name').addClass 'ui-autocomplete-typing'
+    $('#rig_name').val('')
+    $('#rig_id').val('')
+
+  $('#rig_name').focusout ->
+    if rig_focused && $('#rig_id').val() == ''
+      $('#rig_name').addClass 'ui-autocomplete-bad'
+      if $('#rig_name').val() == ''
+        $('#rig_name').removeClass 'ui-autocomplete-typing'
+
 
   $('.close-modal').live "click", ->
     popup = $(this).closest('.modal-popup-background')

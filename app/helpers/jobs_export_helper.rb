@@ -13,11 +13,13 @@ module JobsExportHelper
 
             # exclude rating, failure count, people count - include summary data
             columns = Job.new.attributes.select { |j| include_column(j)  }.map { |j| Job.human_attribute_name(j[0]) }
+            columns << "Rig"
             columns << "Data"
             sheet.add_row columns
 
             jobs.each do |job|
                 data = job.attributes.select { |j| include_column(j)  }.map { |j| get_expanded_name job, j }
+                data << job.well.rig_name
                 data << job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join(", ")
                 sheet.add_row data
             end

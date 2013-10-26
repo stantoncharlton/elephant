@@ -1,12 +1,23 @@
-<%= form_for @well do |f| %>
+<div>
+  <%= form_for @well do |f| %>
 
-    <%= render "fields", f: f %>
+      <%= render "fields", f: f %>
 
-    <div class="content actions">
-      <%= f.submit "Save Well", class: "bluebtn pull-right" %>
+      <div class="content actions">
+        <%= f.submit "Save Well", class: "bluebtn pull-right" %>
 
-      <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
-                  "data-title" => "Cancel well changes and go back"%>
+        <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+                    "data-title" => "Cancel well changes and go back" %>
+      </div>
+
+  <% end %>
+</div>
+
+<div id="modal_popup" class="modal-popup-background">
+  <div class="modal-popup modal-popup-fixed">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal" %>
+    <div class="modal-content">
     </div>
-
-<% end %>
+    <%= render "layouts/inline_loading", title: "Loading..." %>
+  </div>
+</div>
