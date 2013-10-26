@@ -8,7 +8,9 @@
   <%= link_to "Show live drilling dashboard", "#", class: "pull-right activity-user-link push-left" %>
   <br><br>
 </div>
-<%= render 'surveys/survey_charts', well_plan: Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => true).first, survey: Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => false).first, height: 350 %>
+<% well_plan = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => true).first %>
+<% survey = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => false).first %>
+<%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
 
 
 <hr>

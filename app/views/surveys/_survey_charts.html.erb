@@ -1,12 +1,12 @@
 <div id="survey_charts">
 
-  <div id="chartdiv" class='inline-block' style="width: 500px; height: <%= height %>px;"></div>
-  <div id="chartdiv2" class='inline-block' style="width: 400px; height: <%= height %>px;"></div>
+  <% if survey.present? && well_plan.present? %>
+      <div id="chartdiv" class='inline-block' style="width: 500px; height: <%= height %>px;"></div>
+      <div id="chartdiv2" class='inline-block' style="width: 400px; height: <%= height %>px;"></div>
 
-  <% calculated_points_survey = survey.calculated_points %>
-  <% calculated_points = well_plan.calculated_points %>
+      <% calculated_points_survey = survey.calculated_points %>
+      <% calculated_points = well_plan.calculated_points %>
 
-
-  <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
-
+      <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+  <% end %>
 </div>
