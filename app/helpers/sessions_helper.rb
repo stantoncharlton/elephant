@@ -8,6 +8,7 @@ module SessionsHelper
         end
 
         UserLogin.add(user, request.remote_ip.to_ip)
+        user.delay.update_attribute(:invalid_login_attempts, 0)
         update_session_expiration
         self.current_user = user
     end

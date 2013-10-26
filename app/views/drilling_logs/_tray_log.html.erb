@@ -8,7 +8,7 @@
       <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
     </div>
 
-    <%= link_to new_survey_path(modal: true, document_id: @document.id),
+    <%= link_to new_survey_path(modal: true, document_id: @drilling_log.document.id),
                 remote: true,
                 class: "activity-user-link pull-right tooltip-info show-modal-button",
                 "data-placement" => "bottom",
@@ -18,10 +18,10 @@
   </div>
 
 
-  <% @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @document.job_id).first %>
-  <% @survey = Survey.includes(:document => :job).where(:plan => false).where("jobs.id = ?", @document.job_id).first %>
+  <% @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @drilling_log.job_id).first %>
+  <% @survey = Survey.includes(:document => :job).where(:plan => false).where("jobs.id = ?", @drilling_log.job_id).first %>
   <% if !@active_well_plan.nil? %>
-      <%= render 'surveys/survey_charts', well_plan: @active_well_plan, survey: @survey %>
+      <%= render 'surveys/survey_charts', well_plan: @active_well_plan, survey: @survey, height: 350 %>
   <% else %>
       <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
   <% end %>
@@ -46,7 +46,7 @@
           <b>Add New Entry</b>
         </div>
         <br><br>
-        <%= f.hidden_field :document_id, value: @document.id %>
+        <%= f.hidden_field :drilling_log_id, value: @drilling_log.id %>
 
         <div>
           <%= f.text_field :depth, placeholder: "Depth",
@@ -124,16 +124,22 @@
 
   <hr>
 
+  <div>
   <%= link_to "#",
               class: "activity-user-link tooltip-info",
               "data-form" => "new-job-log",
               "data-placement" => "bottom",
               "data-title" => "Update Drilling Parameters/Mud/Bit Records" do %>
-      <i class="icon-chevron-down"></i> Update Drilling Parameters/Mud/Bit Records
+        Update Drilling Parameters
   <% end %>
-
-  <div>
-    <b>Mechanical</b><br><br>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <%= link_to "#",
+              class: "activity-user-link tooltip-info",
+              "data-form" => "new-job-log",
+              "data-placement" => "bottom",
+              "data-title" => "Update Drilling Parameters/Mud/Bit Records" do %>
+      Update Mud Record
+  <% end %>
   </div>
 
 </div>
@@ -168,11 +174,11 @@
   </div>
 
   <div class="" id="list">
-    <% if @drilling_log_entries.any? %>
-        <% last_time = @drilling_log_entries.first.entry_at %>
-        <% last_entry = @drilling_log_entries.first %>
+    <% if @drilling_log.drilling_log_entries.any? %>
+        <% last_time = @drilling_log.drilling_log_entries.first.entry_at %>
+        <% last_entry = @drilling_log.drilling_log_entries.first %>
         <h3 class='orange-text'><%= last_time.strftime("%A %m/%d/%Y") %></h3><br><br>
-        <% @drilling_log_entries.each do |entry| %>
+        <% @drilling_log.drilling_log_entries.each do |entry| %>
             <% if entry.entry_at.day != last_time.day || entry.entry_at.month != last_time.month %>
                 <% last_time = entry.entry_at %>
                 <br><br>
@@ -185,7 +191,7 @@
     <% end %>
   </div>
 
-  <% if @drilling_log_entries.empty? %>
+  <% if @drilling_log.drilling_log_entries.empty? %>
       <p class="center help-text no-job-log-entries"><br>No log entries...</p>
   <% end %>
 

@@ -334,6 +334,8 @@ class DynamicField < ActiveRecord::Base
 
     def get_value_type_unit(value_type)
 
+        return '' if value_type.nil?
+
         case value_type.to_i
             when STRING
                 ""

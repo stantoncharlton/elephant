@@ -12,7 +12,8 @@
                     :send_daily_activity,
                     :unverified_network,
                     :network_access_code,
-                    :verified_networks
+                    :verified_networks,
+                    :invalid_login_attempts
 
     has_secure_password
 

@@ -14,6 +14,12 @@ class SessionsController < ApplicationController
     def create
         @email = params[:session][:email].strip.downcase
         user = User.find_by_email(@email)
+
+        if user.invalid_login_attempts >= 10
+            redirect_to root_path(email: @email), :flash => {:error => "Your account is locked. Please contact support."}
+            return
+        end
+
         if user && user.authenticate(params[:session][:password].strip)
             response.headers['X-CSRF-Token'] = form_authenticity_token
             respond_to do |format|
@@ -33,6 +39,8 @@ class SessionsController < ApplicationController
                 }
             end
         else
+            user.update_attribute(:invalid_login_attempts, user.invalid_login_attempts + 1)
+
             respond_to do |format|
                 format.html {
                     redirect_to root_path(email: @email), :flash => {:error => "Invalid email/password combination"}

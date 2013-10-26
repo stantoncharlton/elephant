@@ -1,3 +1,5 @@
+<% provide(:title, "Job | " + @job.field.name + " | " + @job.well.name) %>
+
 <%= render 'jobs/duplicate_warning', job: @job %>
 <%= render 'jobs/job_process', job: @job %>
 

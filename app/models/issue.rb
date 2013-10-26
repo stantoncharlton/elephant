@@ -1,6 +1,8 @@
 class Issue < ActiveRecord::Base
     attr_accessible :status
 
+    acts_as_tenant(:company)
+
     belongs_to :company
     belongs_to :failure
     belongs_to :job

@@ -1,7 +1,7 @@
-<% provide(:title, @document.name) %>
+<% provide(:title, @drilling_log.document.name) %>
 
 <div class="page_header page-header-no-line">
-  <h1 id="part_name"><%= @document.name %></h1>
+  <h1 id="part_name"><%= @drilling_log.document.name %></h1>
 
   <h3 class="inline">&nbsp;Drilling Log</h3>
 
@@ -11,7 +11,7 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-        <%= link_to "Export as Excel", document_path(@document, format: "xlsx"),
+        <%= link_to "Export as Excel", drilling_logs_path(@drilling_log, format: "xlsx"),
                     target: "_blank",
                     class: "dropdown-menu-link tooltip-info submit-form",
                     "data-placement" => "left",
@@ -21,7 +21,7 @@
   </div>
 
   <div>
-    <%= render 'jobs/job_progress_link', job: @document.job, show_summary_data: false, job_name: false %>
+    <%= render 'jobs/job_progress_link', job: @drilling_log.job, show_summary_data: false, job_name: false %>
   </div>
 </div>
 
@@ -37,7 +37,7 @@
        data-title="Total days scheduled for month">
     <div class="chart-title">Avg Total ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= "36" %></div>
+      <div class="donut-text "><%= @drilling_log.rop.nil? ? "-" : @drilling_log.rop.round(1) %></div>
       <div class="percentage ">ft/min</div>
     </div>
   </div>
@@ -46,7 +46,7 @@
        data-title="Total days actually worked for month">
     <div class="chart-title">Total Drilled</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= "5,678" %></div>
+      <div class="donut-text "><%= @drilling_log.total_drilled.nil? ? "-" : @drilling_log.total_drilled.to_i %></div>
       <div class="percentage "><span class="push-right-small">ft</span></div>
     </div>
   </div>
@@ -55,7 +55,7 @@
        data-title="Total days actually worked for month">
     <div class="chart-title">Below Rotary</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= "4.98" %></div>
+      <div class="donut-text "><%= @drilling_log.below_rotary.nil? ? "-" : @drilling_log.below_rotary.round(1) %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>
@@ -87,7 +87,7 @@
 </ul>
 
 
-<%= render 'drilling_log_entries/tray_log' %>
+<%= render 'drilling_logs/tray_log' %>
 
 <div class="job-tray custom-data-closed" data-tray="overview">
 </div>

@@ -1,12 +1,11 @@
 <div id="survey_charts">
 
-  <div id="chartdiv" class='inline-block' style="width: 500px; height: 350px;"></div>
-  <div id="chartdiv2" class='inline-block' style="width: 400px; height: 350px;"></div>
+  <div id="chartdiv" class='inline-block' style="width: 500px; height: <%= height %>px;"></div>
+  <div id="chartdiv2" class='inline-block' style="width: 400px; height: <%= height %>px;"></div>
 
   <% calculated_points_survey = survey.calculated_points %>
   <% calculated_points = well_plan.calculated_points %>
 
-  <%= link_to "Show Detail View and Points", survey, class: "pull-right activity-user-link push-left" %>
 
   <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
 

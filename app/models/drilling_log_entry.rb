@@ -11,32 +11,36 @@ class DrillingLogEntry < ActiveRecord::Base
     validates :entry_at, presence: true
     validates_presence_of :company_id
     validates_presence_of :job_id
-    validates_presence_of :document_id
+    validates_presence_of :drilling_log_id
     validates_presence_of :bha_id
     validates_presence_of :user_id
 
     belongs_to :company
     belongs_to :user
-    belongs_to :document
+    belongs_to :drilling_log
     belongs_to :job
     belongs_to :bha
 
+
+    STANDBY = 0
 
     SLIDE = 1
     CONNECTION_SURVEY = 2
     ROTATE = 3
     CIRCULATE = 4
-    OTHER = 5
-    RIG_SERVICE = 6
-    STANDBY = 7
-    TRIP_IN_HOLE = 8
-    TRIP_OUT_HOLE = 9
-    PICK_UP_BHA = 10
-    LAY_DOWN_BHA = 11
-    CHANGE_BHA = 12
-    DRILL_CEMENT = 13
-    REAMING = 14
-    WASH = 15
+    DRILL_CEMENT = 5
+    REAMING = 6
+    TRIP_IN_HOLE = 7
+    TRIP_OUT_HOLE = 8
+
+    RIG_SERVICE = 50
+    PICK_UP_BHA = 51
+    LAY_DOWN_BHA = 52
+    CHANGE_BHA = 53
+
+    WASH = 70
+    OTHER = 80
+
 
     def self.activity_code_string code
         case code
@@ -77,7 +81,6 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(CONNECTION_SURVEY), CONNECTION_SURVEY]
         options << [DrillingLogEntry.activity_code_string(ROTATE), ROTATE]
         options << [DrillingLogEntry.activity_code_string(CIRCULATE), CIRCULATE]
-        options << [DrillingLogEntry.activity_code_string(OTHER), OTHER]
         options << [DrillingLogEntry.activity_code_string(STANDBY), STANDBY]
         options << [DrillingLogEntry.activity_code_string(TRIP_IN_HOLE), TRIP_IN_HOLE]
         options << [DrillingLogEntry.activity_code_string(TRIP_OUT_HOLE), TRIP_OUT_HOLE]
@@ -87,6 +90,7 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(DRILL_CEMENT), DRILL_CEMENT]
         options << [DrillingLogEntry.activity_code_string(REAMING), REAMING]
         options << [DrillingLogEntry.activity_code_string(WASH), WASH]
+        options << [DrillingLogEntry.activity_code_string(OTHER), OTHER]
         options
     end
 

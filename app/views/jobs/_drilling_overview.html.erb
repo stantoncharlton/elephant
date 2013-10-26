@@ -1,0 +1,51 @@
+<div>
+  <div class="pull-right tooltip-info" data-title="ROP">
+    <canvas id="canvas" height="110" width="270"></canvas>
+  </div>
+
+
+  <div class="chart-block tooltip-info"
+       data-title="Total days scheduled for month">
+    <div class="chart-title">Avg Total ROP</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= "36" %></div>
+      <div class="percentage ">ft/min</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Total days actually worked for month">
+    <div class="chart-title">Total Drilled</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= "5,678" %></div>
+      <div class="percentage "><span class="push-right-small">ft</span></div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Total days actually worked for month">
+    <div class="chart-title">Below Rotary</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= "4.98" %></div>
+      <div class="percentage ">hours</div>
+    </div>
+  </div>
+</div>
+
+<script>
+    var lineChartData = {
+        labels: ["", "", "", "", "", "", ""],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: [0, 2, 30, 40, 30, 36, 30]
+            }
+        ]
+    }
+
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+
+</script>

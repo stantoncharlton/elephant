@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131023215439) do
+ActiveRecord::Schema.define(:version => 20131026150403) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -262,13 +262,15 @@ ActiveRecord::Schema.define(:version => 20131023215439) do
     t.string   "comment"
     t.integer  "bha_id"
     t.decimal  "usage_hours"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "drilling_log_id"
   end
 
   add_index "drilling_log_entries", ["bha_id"], :name => "index_drilling_log_entries_on_bha_id"
   add_index "drilling_log_entries", ["company_id"], :name => "index_drilling_log_entries_on_company_id"
   add_index "drilling_log_entries", ["document_id"], :name => "index_drilling_log_entries_on_document_id"
+  add_index "drilling_log_entries", ["drilling_log_id"], :name => "index_drilling_log_entries_on_drilling_log_id"
   add_index "drilling_log_entries", ["job_id"], :name => "index_drilling_log_entries_on_job_id"
   add_index "drilling_log_entries", ["user_id"], :name => "index_drilling_log_entries_on_user_id"
 
@@ -658,6 +660,13 @@ ActiveRecord::Schema.define(:version => 20131023215439) do
 
   add_index "product_lines", ["company_id"], :name => "index_product_lines_on_company_id"
 
+  create_table "rigs", :force => true do |t|
+    t.integer  "company_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "secondary_tools", :force => true do |t|
     t.integer  "tool_id"
     t.integer  "job_id"
@@ -784,28 +793,29 @@ ActiveRecord::Schema.define(:version => 20131023215439) do
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.boolean  "admin",                               :default => false
+    t.boolean  "admin",                                  :default => false
     t.integer  "company_id"
     t.integer  "district_id"
     t.string   "location"
     t.string   "phone_number"
-    t.datetime "created_at",                                             :null => false
-    t.datetime "updated_at",                                             :null => false
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
     t.string   "password_digest"
-    t.boolean  "elephant_admin",                      :default => false
+    t.boolean  "elephant_admin",                         :default => false
     t.string   "remember_token"
-    t.boolean  "create_password",                     :default => false
+    t.boolean  "create_password",                        :default => false
     t.integer  "role_id"
     t.integer  "product_line_id"
     t.string   "time_zone"
     t.string   "language"
-    t.boolean  "send_daily_activity",                 :default => true
-    t.boolean  "accepted_tou",                        :default => false
+    t.boolean  "send_daily_activity",                    :default => true
+    t.boolean  "accepted_tou",                           :default => false
     t.string   "unverified_network"
     t.string   "network_access_code"
-    t.string   "verified_networks",   :limit => 2000
+    t.string   "verified_networks",      :limit => 2000
     t.integer  "division_id"
     t.integer  "segment_id"
+    t.integer  "invalid_login_attempts",                 :default => 0
   end
 
   add_index "users", ["company_id"], :name => "index_users_on_company_id"
