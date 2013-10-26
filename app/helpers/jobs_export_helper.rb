@@ -19,7 +19,7 @@ module JobsExportHelper
 
             jobs.each do |job|
                 data = job.attributes.select { |j| include_column(j)  }.map { |j| get_expanded_name job, j }
-                data << job.well.rig_name
+                data << job.well.rig.present? ? job.well.rig.name : ""
                 data << job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join(", ")
                 sheet.add_row data
             end

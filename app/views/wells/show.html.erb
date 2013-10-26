@@ -30,7 +30,7 @@
       <div class="inline-block">
         <%= image_tag "rig_extrasmall.png", class: "job-status-avatar push-right-small" %>
         <p class="inline help-text">Rig&nbsp;</p>
-        <p class="inline"><b><%= @well.rig_name %></b></p>
+        <p class="inline"><b><%= @well.rig.present? ? @well.rig.name : "" %></b></p>
 
         <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
         <%= link_to @well.field.district.name, @well.field.district, class: "activity-user-link inline" %>

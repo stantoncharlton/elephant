@@ -242,7 +242,7 @@
           <p class="job-field-title">Rig</p>
 
           <div class="job-field-value">
-            <p class="inline">&nbsp;<b><%= job.well.rig_name %></b></p>
+            <p class="inline">&nbsp;<b><%= job.well.rig.present? ? job.well.rig.name : "" %></b></p>
           </div>
         </div>
       </div>
