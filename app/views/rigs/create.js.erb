@@ -16,6 +16,6 @@ $('#modal_popup').find(".modal-content").children().remove();
 $('#modal_popup').height(0);
 
     $('#rig_id').val("<%= @rig.id %>");
-    $('#rig_name').val("<%= @rig.name %>");
+    $('#rig_name').val("<%= sanitize(@rig.name) %>");
 
 <% end %>

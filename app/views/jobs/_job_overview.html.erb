@@ -1,3 +1,5 @@
+
+<% if false %>
 <%= render 'jobs/drilling_overview' %>
 
 <hr>
@@ -12,8 +14,9 @@
 <% survey = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => false).first %>
 <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
 
-
 <hr>
+<% end %>
+
 
 <div class="">
 
