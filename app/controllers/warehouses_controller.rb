@@ -2,6 +2,9 @@ class WarehousesController < ApplicationController
     before_filter :signed_in_user_inventory, only: [:show, :new, :create, :destroy]
     set_tab :inventory
 
+    include InventoryHelper
+
+
     def show
         @warehouse = Warehouse.find_by_id(params[:id])
         not_found unless @warehouse.company == current_user.company
@@ -12,7 +15,16 @@ class WarehousesController < ApplicationController
             end
         end
 
-        @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:warehouse_id => @warehouse.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+        respond_to do |format|
+            format.html {
+                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:warehouse_id => @warehouse.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            }
+            format.xlsx {
+                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:warehouse_id => @warehouse.id).where(:template => true).order("parts.name ASC")
+                excel = parts_to_excel @parts
+                send_data excel.to_stream.read, :filename => "Inventory List.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
+        end
     end
 
     def new

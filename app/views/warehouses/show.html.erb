@@ -38,7 +38,7 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-        <%= link_to "Export as Excel", inventory_path(warehouse: @warehouse, format: "xlsx"),
+        <%= link_to "Export as Excel", warehouse_path(@warehouse, format: "xlsx"),
                     target: "_blank",
                     class: "dropdown-menu-link tooltip-info submit-form",
                     "data-placement" => "left",
