@@ -33,8 +33,10 @@ $('#alert').modal({show:true});
 <% else %>
     if($('.part-status').length > 0) {
         $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
-        <% if @part_redressed.present? && @part_redressed %>
-            $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job, index: 0 %>');
+        <% if @part_redressed.present? && @part_redressed && @part_redress.job.present? %>
+            if($('#part_run_<%= @part_redress.job.id %>').length > 0) {
+                $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job, index: 0 %>');
+            }
         <% end %>
     }
 <% end %>

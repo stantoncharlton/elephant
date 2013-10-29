@@ -71,7 +71,7 @@
         <span class="warning-text"><%= part.status_string %></span>
         <span>for <%= time_ago_in_words(part.updated_at) %></span>
 
-        <% redress = PartRedress.where(:job_id => part.current_job.id).where(:part_id => part.id).first %>
+        <% redress = PartRedress.where(:part_id => part.id).order("created_at ASC").last %>
 
         <br><br>
 
@@ -113,8 +113,9 @@
 
         <% end %>
 
-        <% if part.current_job.present? %>
+        <% if part.status == Part::IN_REDRESS %>
             <div class="">
+              <br>
               <div class="content" id="documents_part_redress">
                 <% redress.documents.each do |d| %>
                     <%= render 'documents/document', document: d, editable: false, can_upload: true %>

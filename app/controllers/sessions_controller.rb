@@ -15,12 +15,17 @@ class SessionsController < ApplicationController
         @email = params[:session][:email].strip.downcase
         user = User.find_by_email(@email)
 
+        if user.nil?
+            redirect_to root_path, :flash => {:error => "Invalid email/password combination"}
+            return
+        end
+
         if user.invalid_login_attempts >= 10
             redirect_to root_path(email: @email), :flash => {:error => "Your account is locked. Please contact support."}
             return
         end
 
-        if user && user.authenticate(params[:session][:password].strip)
+        if user.authenticate(params[:session][:password].strip)
             response.headers['X-CSRF-Token'] = form_authenticity_token
             respond_to do |format|
                 format.html {

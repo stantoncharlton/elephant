@@ -15,7 +15,9 @@
 <% end %>
 
 <% if user.present? %>
-    <% job_membership = document.job.job_memberships.where(:user_id => user.id).first %>
+    <% if document.job.present? %>
+        <% job_membership = document.job.job_memberships.where(:user_id => user.id).first %>
+    <% end %>
     <% if job_membership.present? %>
         <%= render 'job_memberships/icon', job_membership: job_membership %>
     <% else %>

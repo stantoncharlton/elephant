@@ -9,7 +9,6 @@ class PartRedress < ActiveRecord::Base
     acts_as_tenant(:company)
 
     validates_presence_of :company
-    validates_presence_of :job
     validates_presence_of :part
 
     validates :notes, length: {minimum: 0, maximum: 500}
@@ -43,11 +42,10 @@ class PartRedress < ActiveRecord::Base
     end
 
 
-    def self.finish_redress(company, job, part, user, notes)
-        return false if company.nil? or job.nil? or part.nil?
+    def self.finish_redress(company, part, user)
+        return false if company.nil? or part.nil?
 
-        part_redress = PartRedress.where(:job_id => job.id).where(:part_id => part.id).limit(1).first
-        part_redress.notes = notes
+        part_redress = PartRedress.where(:part_id => part.id).order("created_at ASC").last
         part_redress.finished_redress_at = Time.now
         part_redress.finished_redress_by = user
         part_redress.finished_redress_by_name = user.present? ? user.name : ''
@@ -83,5 +81,19 @@ class PartRedress < ActiveRecord::Base
         part_redress
     end
 
+
+    def self.start_redress_no_job(company, part, user)
+        return false if company.nil? or part.nil?
+
+        part_redress = PartRedress.new
+        part_redress.part = part
+        part_redress.company = company
+        part_redress.received_at = Time.now
+        part_redress.received_by = user
+        part_redress.received_by_name = user.present? ? user.name : ''
+
+        part_redress.save!
+        part_redress
+    end
 
 end

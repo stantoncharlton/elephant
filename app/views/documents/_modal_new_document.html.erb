@@ -4,14 +4,14 @@
   </div>
 
   <div class="form" data-form="new_document">
-    <%= form_for(document, remote: true) do |f| %>
+    <%= form_for document, remote: true do |f| %>
 
         <%= f.hidden_field :document_type, value: "0" %>
         <%= f.hidden_field :template, value: "false" %>
         <% if job_id.present? %>
             <%= f.hidden_field :job_id, value: job_id %>
         <% end %>
-        <% if @part_redress.present? %>
+        <% if part_redress_id.present? %>
             <%= f.hidden_field :owner_id, value: part_redress_id %>
             <%= f.hidden_field :owner_type, value: "PartRedress" %>
             <%= f.hidden_field :category, value: Document::PART_REDRESS %>
@@ -23,7 +23,7 @@
                            placeholder: "Document Name..." %>
         </div>
 
-        <% if @job_id.present? %>
+        <% if job_id.present? %>
             <div class="content">
               <div class="">
                 <div class="list-item-column2">Category</div>

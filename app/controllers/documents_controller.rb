@@ -67,7 +67,7 @@ class DocumentsController < ApplicationController
 
         if params["modal"].present? && params["modal"] == "true"
             @job_id = params[:job_id]
-            @part_redress = params[:part_redress]
+            @part_redress_id = params[:part_redress]
             @document = Document.new
             render 'documents/new_modal'
         else

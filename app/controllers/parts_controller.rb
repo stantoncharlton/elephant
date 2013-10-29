@@ -189,19 +189,19 @@ class PartsController < ApplicationController
             if request.format == "html"
                 redirect_to @part
             else
-                @part_redress = PartRedress.where(:job_id => @part.current_job.id).where(:part_id => @part.id).limit(1).first
+                @part_redress = PartRedress.where(:part_id => @part.id).order("created_at ASC").last
                 @inline_part_update = true
             end
         elsif params[:cleaned] == "true"
             @part.status = Part::AVAILABLE
 
-            @part_redress = PartRedress.finish_redress(@part.company, @part.current_job, @part, current_user, params[:notes])
+            @part_redress = PartRedress.finish_redress(@part.company, @part, current_user)
 
             @part.current_job = nil
             @part.save
             @part_redressed = true
         elsif params[:add_notes] == "true"
-            @part_redress = PartRedress.where(:job_id => @part.current_job_id).where(:part_id => @part.id).limit(1).first
+            @part_redress = PartRedress.where(:part_id => @part.id).order("created_at ASC").last
             if !params[:notes].blank?
                 note = JobNote.new(text: params[:notes], note_type: JobNote::NOTE)
                 note.company = current_user.company
