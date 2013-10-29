@@ -324,7 +324,7 @@
     <% if @part.jobs.any? %>
         <br><br>
         <div>
-          <% @part.jobs.each_with_index do |job, index| %>
+          <% @part.jobs.order("created_at DESC").each_with_index do |job, index| %>
               <%= render 'parts/part_run', job: job, index: index %>
               <br>
           <% end %>
@@ -378,7 +378,7 @@
     <% coordinates_for_lines = [] %>
 
     <% if !@part.template? %>
-    <% @part.jobs.each_with_index do |job, index| %>
+    <% @part.jobs.order("created_at DESC").each_with_index do |job, index| %>
     <% if index < 7 && !job.well.location.blank? %>
     <% x = job.well.x_location %>
     <% y = job.well.y_location  %>
@@ -443,12 +443,8 @@
     <% end %>
     map.fitBounds(bounds);
     zoom = Math.round(map.getZoom());
-    if (zoom > 8) {
-        map.setZoom(8);
-    }
-    else {
+
         map.setZoom(zoom - 1);
-    }
 
     <% if !@part.template? %>
     lines = {
