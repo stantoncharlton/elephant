@@ -40,46 +40,51 @@
 
             <hr>
 
-            <span class='help-text'>Maintenance Finished - </span><%= redress.finished_redress_at.present? ? redress.finished_redress_at.strftime("%m/%d/%Y %l:%M %p") : '' %>
-            <span class='pull-right'>
+            <% if redress.no_redress? %>
+                <span class='help-text'>No Maintenance Performed</span>
+                <br><br>
+            <% else %>
+                <span class='help-text'>Maintenance Finished - </span><%= redress.finished_redress_at.present? ? redress.finished_redress_at.strftime("%m/%d/%Y %l:%M %p") : '' %>
+                <span class='pull-right'>
                               <% if redress.finished_redress_by.present? %>
                                 <%= render 'activities/user', user: redress.finished_redress_by %>
                               <% else %>
                                 <b><%= redress.finished_redress_by_name %></b>
                               <% end %>
                         </span>
-            <br>
-            <span class='help-text'>Duration - </span> <%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) + "" : '' %>
-            <% if redress.notes.any? %>
-                <br><br>
-                <span class='help-text'>Notes</span>
-                <br><br>
-                <% redress.notes.each do |note| %>
-                    <div>
-                      <div>
-                        <span class='pull-right help-text'><%= note.created_at.strftime("%m/%d/%Y %l:%M %p")  %></span>
-                        <%= render 'users/icon', user: note.user %>
-                        <div class='push-right-small'>
-                          <%= note.text %>
+                <br>
+                <span class='help-text'>Duration - </span> <%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) + "" : '' %>
+                <% if redress.notes.any? %>
+                    <br><br>
+                    <span class='help-text'>Notes</span>
+                    <br><br>
+                    <% redress.notes.each do |note| %>
+                        <div>
+                          <div>
+                            <span class='pull-right help-text'><%= note.created_at.strftime("%m/%d/%Y %l:%M %p") %></span>
+                            <%= render 'users/icon', user: note.user %>
+                          </div>
+                          <div class='push-right'>
+                            <%= note.text %>
+                          </div>
+                          <br><br>
                         </div>
-                      </div>
-                      <br>
+                    <% end %>
+                <% end %>
+
+                <% documents = redress.documents %>
+                <% if documents.any? %>
+                    <hr>
+                    <div class="content">
+                      <% documents.each do |d| %>
+                          <% if !d.blank? %>
+                              <div>
+                                <%= render 'documents/document_metadata', document: d %>
+                              </div>
+                          <% end %>
+                      <% end %>
                     </div>
                 <% end %>
-            <% end %>
-
-            <% documents = redress.documents %>
-            <% if documents.any? %>
-                <hr>
-                <div class="content">
-                  <% documents.each do |d| %>
-                      <% if !d.blank? %>
-                          <div>
-                            <%= render 'documents/document_metadata', document: d %>
-                          </div>
-                      <% end %>
-                  <% end %>
-                </div>
             <% end %>
 
           </div>

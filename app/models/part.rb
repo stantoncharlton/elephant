@@ -33,6 +33,7 @@ class Part < ActiveRecord::Base
     has_many :parts, foreign_key: "master_part_id", order: "serial_number ASC"
 
     has_many :part_memberships, foreign_key: "part_id"
+    has_many :part_redresses, order: "created_at DESC"
     has_many :jobs, through: :part_memberships, source: :job
 
 

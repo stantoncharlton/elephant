@@ -20,8 +20,17 @@
                     "data-title" => "Start asset maintenance" %>
 
         <span class="push-right-small">
+        <%= link_to "No Maintenance", part_path(@part, transfer: true, part_page: true), method: :put,
+                    remote: true,
+                    class: "bluebtn gray tooltip-info form-loading-on-click",
+                    "data-form" => "update-part-status",
+                    "data-placement" => "bottom",
+                    "data-title" => "Asset will have no maintenance and await next job" %>
+          </span>
+
+        <span class="push-right-small">
                         <div class="btn-group inline-block">
-                          <a class="bluebtn gray" data-toggle="dropdown" href="#">
+                          <a class="bluebtn gray tooltip-info" data-toggle="dropdown" href="#" data-placement="top" data-title="Transfer asset to another well with no maintenance.">
                             Well Transfer
                           </a>
                           <ul class="dropdown-menu">
@@ -116,6 +125,7 @@
         <% if part.status == Part::IN_REDRESS %>
             <div class="">
               <br>
+
               <div class="content" id="documents_part_redress">
                 <% redress.documents.each do |d| %>
                     <%= render 'documents/document', document: d, editable: false, can_upload: true %>
@@ -148,5 +158,6 @@
 
   <div class="form-loading hidden" data-form="update-part-status">
     <%= render 'layouts/inline_loading', title: "Updating..." %>
+    <br><br>
   </div>
 </div>
