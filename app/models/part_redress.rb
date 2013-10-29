@@ -21,6 +21,7 @@ class PartRedress < ActiveRecord::Base
     belongs_to :received_by, class_name: "User"
     belongs_to :finished_redress_by, class_name: "User"
 
+    has_many :notes, :dependent => :destroy, as: :owner, :class_name => "JobNote"
 
     def documents
        Document.where(:company_id => company_id).where("documents.owner_id = ?", self.id).where("documents.owner_type = 'PartRedress'").order("created_at ASC")

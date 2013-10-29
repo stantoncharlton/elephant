@@ -24,13 +24,15 @@
                                "data-title" => "Type of note" %>
 
 
-                  <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right" %>
+                  <div class='inline-block align-top'>
+                  <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right push-down align-top" %>
                   <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                                      placeholder: "Optionally assign to person",
                                      id: "new_note_name",
-                                     class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
+                                     class: "inline-block txtfield small job-note-assign custom-data-input tooltip-info align-top",
                                      "data-placement" => "bottom",
                                      "data-title" => "Optionally assign this note to a person" %>
+                  </div>
                   <br>
 
 

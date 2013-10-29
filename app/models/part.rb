@@ -153,9 +153,9 @@ class Part < ActiveRecord::Base
             when ON_JOB
                 return "On Job"
             when USED
-                return "Waiting for Redress"
+                return "Awaiting Maintenance"
             when IN_REDRESS
-                return "In Redress"
+                return "In Maintenance"
             when DECOMMISSIONED
                 return "Decommissioned"
         end

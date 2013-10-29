@@ -116,13 +116,13 @@
               <br>
 
               <% if part_membership.part.present? %>
-                  <%= link_to "Begin Redress", part_path(part_membership.part, receive: true),
+                  <%= link_to "Start Asset Maintenance", part_path(part_membership.part, receive: true),
                               method: :put,
                               remote: true,
                               class: "bluebtn green tooltip-info form-loading-on-click",
                               "data-form" => "receive-part-form-" + part_membership.part.id.to_s,
                               "data-placement" => "bottom",
-                              "data-title" => "Receive asset" %>
+                              "data-title" => "Start asset maintenance" %>
 
                   <span class="push-right-small">
                         <div class="btn-group inline-block">

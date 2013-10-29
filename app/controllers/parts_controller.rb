@@ -200,6 +200,18 @@ class PartsController < ApplicationController
             @part.current_job = nil
             @part.save
             @part_redressed = true
+        elsif params[:add_notes] == "true"
+            @part_redress = PartRedress.where(:job_id => @part.current_job_id).where(:part_id => @part.id).limit(1).first
+            if !params[:notes].blank?
+                note = JobNote.new(text: params[:notes], note_type: JobNote::NOTE)
+                note.company = current_user.company
+                note.user = current_user
+                note.user_name = current_user.name
+                note.owner = @part_redress
+                note.save
+
+                @part_redressed = true
+            end
         elsif params[:decommission] == "true"
             @part.status = Part::DECOMMISSIONED
             @part.save

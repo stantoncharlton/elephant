@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131026154254) do
+ActiveRecord::Schema.define(:version => 20131028223042) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -452,7 +452,11 @@ ActiveRecord::Schema.define(:version => 20131026154254) do
     t.integer  "assign_to_id"
     t.string   "user_name"
     t.integer  "issue_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
+
+  add_index "job_notes", ["owner_id", "owner_type"], :name => "index_job_notes_on_owner_id_and_owner_type"
 
   create_table "job_processes", :force => true do |t|
     t.integer  "job_id"

@@ -16,7 +16,7 @@ class JobNote < ActiveRecord::Base
     belongs_to :assign_to, class_name: "User"
     belongs_to :job
     belongs_to :issue
-
+    belongs_to :owner, :polymorphic => true
 
     has_many :comments, dependent: :destroy, class_name: "JobNoteComment", order: "created_at asc"
 
