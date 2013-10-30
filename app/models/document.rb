@@ -198,6 +198,9 @@ class Document < ActiveRecord::Base
             return self.url.blank?
         elsif self.document_type == JOB_LOG
             return JobLog.where(:document_id => self.id).count == 0
+        elsif self.document_type == DRILLING_LOG
+            drilling_log_sql = DrillingLog.where(:document_id => self.id).select(:id).to_sql
+            return DrillingLogEntry.where("drilling_log_entries.drilling_log_id IN (#{drilling_log_sql})").count == 0
         elsif self.document_type == BOTTOM_HOLE_ASSEMBLY
             return Bha.where(:document_id => self.id).count == 0
         elsif self.document_type == WELL_PLAN || self.document_type == SURVEY

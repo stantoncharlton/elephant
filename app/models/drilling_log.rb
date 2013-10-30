@@ -39,7 +39,8 @@ class DrillingLog < ActiveRecord::Base
 
             entries.each do |entry|
                 if entry.activity_code >= 1 && entry.activity_code < 50
-                    below += ((entry.created_at - last_time) / 24 / 60).to_f
+                    time = ((entry.created_at - last_time) / 60 / 60).to_f
+                    below += time
                 end
 
                 last_time = entry.created_at

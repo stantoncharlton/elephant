@@ -1,6 +1,8 @@
 <div class="upload-metadata inline-block">
 
   <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
+  <% drilling_log_sql = DrillingLog.where(:company_id => current_user.company_id).where(:document_id => document.id).select(:id).to_sql %>
+  <% last_drilling_entry = document.document_type == Document::DRILLING_LOG ? DrillingLogEntry.where("drilling_log_entries.drilling_log_id IN (#{drilling_log_sql})").last : nil %>
   <% bha = document.document_type == Document::BOTTOM_HOLE_ASSEMBLY ? Bha.where(:company_id => current_user.company_id).where(:document_id => document.id).order("bhas.updated_at DESC").limit(1).first : nil %>
   <% survey = document.document_type == Document::SURVEY || document.document_type == Document::WELL_PLAN ? Survey.where(:company_id => current_user.company_id).where(:document_id => document.id).limit(1).first : nil %>
 
@@ -95,9 +97,9 @@
                     No Entries Added</p>
               <% end %>
           <% elsif document.document_type == Document::DRILLING_LOG %>
-              <% if last_entry.present? %>
-                  <p class="">
-                    <%= last_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>
+              <% if last_drilling_entry.present?  %>
+                  <p class="inline">
+                    <%= last_drilling_entry.entry_at.strftime("%m/%d/%Y %l:%M %p") %>
                   </p>
               <% else %>
                   <p class="warning-text tooltip-info push-down"
@@ -142,7 +144,7 @@
         </div>
 
         <div class="document-file-name-box">
-            <%= render 'documents/user', document: document, last_entry: last_entry, bha: bha, survey: survey %>
+            <%= render 'documents/user', document: document, last_entry: last_entry, bha: bha, survey: survey, last_drilling_entry: last_drilling_entry %>
 
           <% if document.access_level > 1 %>
               <%= image_tag "lock_icon.png", class: "document-restricted tooltip-info",

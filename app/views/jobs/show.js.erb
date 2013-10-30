@@ -75,6 +75,9 @@
     });
 
 
+<% elsif params[:section] == "documents" %>
+    $('#documents_loading').after('<%= j render 'jobs/job_documents', job: @job %>');
+    $('#documents_loading').remove();
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

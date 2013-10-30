@@ -28,39 +28,7 @@
 
 
 <div>
-  <div class="pull-right tooltip-info" data-title="ROP">
-    <canvas id="canvas" height="120" width="270"></canvas>
-  </div>
-
-
-  <div class="chart-block tooltip-info"
-       data-title="Total days scheduled for month">
-    <div class="chart-title">Avg Total ROP</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= @drilling_log.rop.nil? ? "-" : @drilling_log.rop.round(1) %></div>
-      <div class="percentage ">ft/min</div>
-    </div>
-  </div>
-
-  <div class="chart-block tooltip-info"
-       data-title="Total days actually worked for month">
-    <div class="chart-title">Total Drilled</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= @drilling_log.total_drilled.nil? ? "-" : @drilling_log.total_drilled.to_i %></div>
-      <div class="percentage "><span class="push-right-small">ft</span></div>
-    </div>
-  </div>
-
-  <div class="chart-block tooltip-info"
-       data-title="Total days actually worked for month">
-    <div class="chart-title">Below Rotary</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= @drilling_log.below_rotary.nil? ? "-" : @drilling_log.below_rotary.round(1) %></div>
-      <div class="percentage ">hours</div>
-    </div>
-  </div>
-
-
+    <%= render 'drilling_logs/overview', drilling_log: @drilling_log %>
 </div>
 
 <br><br>

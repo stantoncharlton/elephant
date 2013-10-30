@@ -1,20 +1,20 @@
+<% if Document.where(:job_id => @job.id).where(:document_type => Document::DRILLING_LOG).count() > 0 %>
+    <%= render 'drilling_logs/overview', drilling_log: DrillingLog.where(:job_id => @job.id).first %>
+    <hr>
+<% end %>
 
-<% if false %>
-<%= render 'jobs/drilling_overview' %>
+<% if Document.where(:job_id => @job.id).where(:document_type => Document::SURVEY).count() > 0 %>
+    <div>
+      <span class="label label-warning">LIVE RIG</span>
 
-<hr>
+      <%= link_to "Show live drilling dashboard", "#", class: "pull-right activity-user-link push-left" %>
+      <br><br>
+    </div>
+    <% well_plan = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => true).first %>
+    <% survey = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => false).first %>
+    <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
 
-<div>
-  <span class="label label-warning">LIVE RIG</span>
-
-  <%= link_to "Show live drilling dashboard", "#", class: "pull-right activity-user-link push-left" %>
-  <br><br>
-</div>
-<% well_plan = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => true).first %>
-<% survey = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => false).first %>
-<%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
-
-<hr>
+    <hr>
 <% end %>
 
 

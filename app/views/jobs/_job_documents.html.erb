@@ -1,87 +1,89 @@
-<div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "custom-data-closed" : "" %>" data-tray="documents_data">
-  <div class="page_header">
-    <h1>Documents/Logs</h1>
+<div class="page_header">
+  <h1>Documents/Logs</h1>
 
-    <% if !job.post_job_report_document.nil? && !job.post_job_report_document.url.nil? %>
-        <div class="pull-right">
-          <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn", target: "_blank" %>
-        </div>
-    <% end %>
-  </div>
-
-  <% if @field_bulletin_documents.any? %>
-      <h3 class="document-section-header"><%= t ".notices" %></h3>
-
-      <div class="content" id="documents3">
-        <% @field_bulletin_documents.each do |d| %>
-            <%= render 'documents/document', document: d, editable: false, can_upload: false %>
-        <% end %>
-      </div>
-  <% end %>
-
-  <% if @pre_job_documents.all? { |d| d.url.present? } %>
-      <h3 class="document-section-header status-good"><%= t ".pre_job" %></h3>
-  <% else %>
-      <h3 class="document-section-header"><%= t ".pre_job" %></h3>
-  <% end %>
-  <div class="content" id="documents">
-    <% @pre_job_documents.each do |d| %>
-        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-    <% end %>
-  </div>
-
-  <% if @on_job_documents.all? { |d| d.url.present? } %>
-      <h3 class="document-section-header status-good">On Job</h3>
-  <% else %>
-      <h3 class="document-section-header">On Job</h3>
-  <% end %>
-  <div class="content" id="documents_on_job">
-    <% @on_job_documents.each do |d| %>
-        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-    <% end %>
-  </div>
-
-
-  <% if @post_job_documents.all? { |d| d.url.present? } %>
-      <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>
-  <% else %>
-      <h3 class="document-section-header"><%= t ".post_job" %></h3>
-  <% end %>
-  <div class="content" id="documents2">
-    <% @post_job_documents.each do |d| %>
-        <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-    <% end %>
-  </div>
-
-  <% if job.document_shares.any? %>
-      <h3 class="document-section-header">Shared Documents</h3>
-
-      <div class="content" id="documents_shared">
-        <% job.document_shares.each do |document_share| %>
-            <%= render 'document_shares/document', document_share: document_share %>
-        <% end %>
-      </div>
-  <% end %>
-
-  <br>
-
-  <% if @job_editable %>
-      <div class="push-right-small">
-        <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
-                    remote: true,
-                    class: "add-custom-document tooltip-info show-modal-button",
-                    "data-placement" => "left",
-                    "data-title" => "Add new custom document not part of original job documents" %>
-        <span class='help-text'>(client request, pricing, etc)</span>
-      </div>
-  <% end %>
-
-  <br><br>
-
-  <% if false %>
-      <div class="content alert">
-        <%= image_tag "windows_logo.png", class: "job-status-avatar" %>
-        <%= link_to "Download offline desktop app (Windows only)", "https://elephant-apps.s3.amazonaws.com/desktop/Elephant.application", class: "activity-user-link" %>
+  <% if !job.post_job_report_document.nil? && !job.post_job_report_document.url.nil? %>
+      <div class="pull-right">
+        <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn", target: "_blank" %>
       </div>
   <% end %>
 </div>
+
+<% notices_documents = job.notices_documents.to_a %>
+<% if notices_documents.any? %>
+    <h3 class="document-section-header"><%= t ".notices" %></h3>
+
+    <div class="content" id="documents3">
+      <% notices_documents.each do |d| %>
+          <%= render 'documents/document', document: d, editable: false, can_upload: false %>
+      <% end %>
+    </div>
+<% end %>
+
+<% pre_job_documents = job.pre_job_documents.to_a %>
+<% if pre_job_documents.all? { |d| d.url.present? } %>
+    <h3 class="document-section-header status-good"><%= t ".pre_job" %></h3>
+<% else %>
+    <h3 class="document-section-header"><%= t ".pre_job" %></h3>
+<% end %>
+<div class="content" id="documents">
+  <% pre_job_documents.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+  <% end %>
+</div>
+
+<% on_job_documents = job.on_job_documents.to_a %>
+<% if on_job_documents.all? { |d| d.url.present? } %>
+    <h3 class="document-section-header status-good">On Job</h3>
+<% else %>
+    <h3 class="document-section-header">On Job</h3>
+<% end %>
+<div class="content" id="documents_on_job">
+  <% on_job_documents.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+  <% end %>
+</div>
+
+<% post_job_documents = job.post_job_documents.to_a %>
+<% if post_job_documents.all? { |d| d.url.present? } %>
+    <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>
+<% else %>
+    <h3 class="document-section-header"><%= t ".post_job" %></h3>
+<% end %>
+<div class="content" id="documents2">
+  <% post_job_documents.each do |d| %>
+      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
+  <% end %>
+</div>
+
+<% document_shares = job.document_shares.to_a %>
+<% if document_shares.any? %>
+    <h3 class="document-section-header">Shared Documents</h3>
+
+    <div class="content" id="documents_shared">
+      <% document_shares.each do |document_share| %>
+          <%= render 'document_shares/document', document_share: document_share %>
+      <% end %>
+    </div>
+<% end %>
+
+<br>
+
+<% if @job_editable %>
+    <div class="push-right-small">
+      <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
+                  remote: true,
+                  class: "add-custom-document tooltip-info show-modal-button",
+                  "data-placement" => "left",
+                  "data-title" => "Add new custom document not part of original job documents" %>
+      <span class='help-text'>(client request, pricing, etc)</span>
+    </div>
+<% end %>
+
+<br><br>
+
+<% if false %>
+    <div class="content alert">
+      <%= image_tag "windows_logo.png", class: "job-status-avatar" %>
+      <%= link_to "Download offline desktop app (Windows only)", "https://elephant-apps.s3.amazonaws.com/desktop/Elephant.application", class: "activity-user-link" %>
+    </div>
+<% end %>

@@ -89,7 +89,23 @@
         </div>
       </div>
     </div>
-    <%= render 'jobs/job_documents', job: @job %>
+
+    <div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "custom-data-closed" : "" %>" data-tray="documents_data">
+      <div id="documents_loading">
+        <div class="remote-loading">
+          <br>
+          <br>
+
+          <div class="loading center">
+            <br>
+            <br>
+            <span class="ajax-loading search-loading"><b>Loading Documents/Logs...</b></span>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
     <div class="job-tray custom-data-closed" data-tray="activity">
       <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
@@ -129,6 +145,11 @@
             }
             }
 
+            $.ajax({
+                url: "/jobs/" + <%= @job.id.to_s %> +"?section=documents",
+                type: "GET",
+                dataType: "script"
+            });
 
             $.ajax({
                 url: "/job_process/" + <%= @job.id.to_s %>,

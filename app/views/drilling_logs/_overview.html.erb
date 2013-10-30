@@ -3,30 +3,29 @@
     <canvas id="canvas" height="110" width="270"></canvas>
   </div>
 
-
   <div class="chart-block tooltip-info"
-       data-title="Total days scheduled for month">
+       data-title="Average Total Rate of Penetration.">
     <div class="chart-title">Avg Total ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= "36" %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1) %></div>
       <div class="percentage ">ft/min</div>
     </div>
   </div>
 
   <div class="chart-block tooltip-info"
-       data-title="Total days actually worked for month">
+       data-title="Total feet drilled.">
     <div class="chart-title">Total Drilled</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= "5,678" %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : drilling_log.total_drilled.to_i %></div>
       <div class="percentage "><span class="push-right-small">ft</span></div>
     </div>
   </div>
 
   <div class="chart-block tooltip-info"
-       data-title="Total days actually worked for month">
+       data-title="Time in hours spent below the rotary table.">
     <div class="chart-title">Below Rotary</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= "4.98" %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>

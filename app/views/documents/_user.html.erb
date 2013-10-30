@@ -8,6 +8,8 @@
 <% else %>
     <% if last_entry.present? %>
         <% user = last_entry.user %>
+    <% elsif last_drilling_entry.present? %>
+        <% user = last_drilling_entry.user %>
     <% elsif survey.present? %>
         <% user = survey.survey_points.last.user %>
     <% elsif bha.present? %>
