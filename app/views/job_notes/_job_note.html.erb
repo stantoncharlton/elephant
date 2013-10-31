@@ -27,7 +27,7 @@
             </p>
 
             <div class="member-icon-image member-icon-image-user"></div>
-            <div class="member-icon-image-function <%= @job_membership.present? ?  @job_membership.icon_image_css_style : "" %>"></div>
+            <div class="member-icon-image-function <%= @job_membership.present? ? @job_membership.icon_image_css_style : "" %>"></div>
 
           </div>
         </div>
@@ -42,6 +42,7 @@
                   -
               <% end %>
             </p>
+
             <div class="member-icon-image member-icon-image-user"></div>
           </div>
         </div>
@@ -53,7 +54,7 @@
       <% if job_note.user.present? %>
           <%= render 'activities/user', user: job_note.user %>
       <% else %>
-        <%= job_note.user_name %>
+          <%= job_note.user_name %>
       <% end %>
 
       <% if job_note.assign_to.present? %>
@@ -75,6 +76,14 @@
             <%= image_tag "error_red.png" %>
             <%= job_note.text %>
           </h3>
+      <% elsif job_note.note_type == JobNote::ACTIVITY_REPORT %>
+          <% note_activity_report = NoteActivityReport.where(:job_note_id => job_note.id).first %>
+          <b class='orange-text'>Daily Activity Report</b><br><br>
+            <div>
+              <div><p class="inline-block list-item-column-short"><b>Past day</b></p><%= note_activity_report.past %></div>
+              <div><p class="inline-block list-item-column-short"><b>Present</b></p><%= note_activity_report.present %></div>
+              <div><p class="inline-block list-item-column-short"><b>Next day</b></p><%= note_activity_report.future %></div>
+            </div>
       <% else %>
           <%= job_note.text %>
       <% end %>

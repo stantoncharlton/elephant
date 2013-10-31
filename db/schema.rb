@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131031143549) do
+ActiveRecord::Schema.define(:version => 20131031204137) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -574,6 +574,20 @@ ActiveRecord::Schema.define(:version => 20131031143549) do
   end
 
   add_index "mud_records", ["document_id"], :name => "index_mud_records_on_document_id"
+
+  create_table "note_activity_reports", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "job_id"
+    t.string   "past"
+    t.string   "present"
+    t.string   "future"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "job_note_id"
+  end
+
+  add_index "note_activity_reports", ["job_id"], :name => "index_note_activity_reports_on_job_id"
+  add_index "note_activity_reports", ["job_note_id"], :name => "index_note_activity_reports_on_job_note_id"
 
   create_table "part_memberships", :force => true do |t|
     t.integer  "primary_tool_id"

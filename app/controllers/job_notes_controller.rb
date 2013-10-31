@@ -29,9 +29,23 @@ class JobNotesController < ApplicationController
         end
         @job_note.assign_to = User.find_by_id(assign_to_id)
 
-        if @job_note.save
-            if @job_note.issue.nil?
-                @job_note.delay.create_job_note self.current_user
+        JobNote.transaction do
+
+            if @job_note.note_type == JobNote::ACTIVITY_REPORT
+                note_activity_report = NoteActivityReport.new
+                note_activity_report.job_note = @job_note
+                note_activity_report.company = current_user.company
+                note_activity_report.job = @job_note.job
+                note_activity_report.past = params[:past]
+                note_activity_report.present = params[:present]
+                note_activity_report.future = params[:future]
+                note_activity_report.save
+            end
+
+            if @job_note.save
+                if @job_note.issue.nil?
+                    @job_note.delay.create_job_note self.current_user
+                end
             end
         end
     end

@@ -2,7 +2,6 @@
 
 
 .job-notes-text {
-  margin-top: 10px;
   width: 830px;
   height: 50px;
   font-size: 14px;
@@ -50,12 +49,29 @@
   margin-left: -25px;
 }
 
+.job-note-task-box {
+  display: inline-block;
+  background: #a0cef9;
+  width: 10px;
+  height: 10px;
+  corner-radius: 250px;
+}
+
+
 .job-note-warning {
   float: left;
   height: 100px;
   width: 10px;
   background: #eace35;
   margin-left: -25px;
+}
+
+.job-note-warning-box {
+  display: inline-block;
+  background: #eace35;
+  width: 10px;
+  height: 10px;
+  corner-radius: 250px;
 }
 
 .job-note-error {

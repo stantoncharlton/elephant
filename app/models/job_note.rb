@@ -8,8 +8,8 @@ class JobNote < ActiveRecord::Base
     validates_presence_of :company
     validates_presence_of :user
     validates_presence_of :note_type
-    validates_presence_of :text
-    validates :text, length: {minimum: 1, maximum: 2000}
+    validates_presence_of :text, :if => :not_activity_report
+    validates :text, length: {maximum: 2000}
 
     belongs_to :company
     belongs_to :user
@@ -23,6 +23,11 @@ class JobNote < ActiveRecord::Base
     NOTE = 1
     WARNING = 2
     TASK = 4
+    ACTIVITY_REPORT = 5
+
+    def not_activity_report
+        self.note_type != ACTIVITY_REPORT
+    end
 
 
     def create_job_note user

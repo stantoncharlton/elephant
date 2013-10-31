@@ -1,3 +1,6 @@
+$('.form[data-form=new-note-form]').show();
+$('.form-loading[data-form=new-note-form]').addClass('hidden');
+
 <% if @job_note.new_record? %>
 
 $('#alert').remove();
@@ -11,13 +14,13 @@ $('.job-notes-count').text('<%= "(" + @job_note.job.job_notes.count.to_s + ")" %
 <% end %>
 
 $('#new_note_id').val('');
+$('#past').val('');
+$('#present').val('');
+$('#future').val('');
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.activity-user-link').tooltip();
     $('.tooltip-info').tooltip();
 }
-
-$('.form[data-form=new-note-form]').show();
-$('.form-loading[data-form=new-note-form]').addClass('hidden');
 
 <% end %>
