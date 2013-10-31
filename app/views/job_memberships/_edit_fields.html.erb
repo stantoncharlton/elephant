@@ -3,14 +3,48 @@
     <div class="well">
 
       <div class="activity-user-link-div-short">
-        <%= render 'activities/user', user: job_membership.user %>
+        <% if job_membership.user.present? %>
+            <%= render 'activities/user', user: job_membership.user %>
+        <% else %>
+            <div>
+              <b class="blue-text"><%= job_membership.user_name %></b><br><br>
+            </div>
+        <% end %>
       </div>
 
-      <br>
+      <% if !job_membership.external_user? %>
+          <div>
+            <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+                                                           ["Manager", JobMembership::MANAGER],
+                                                           ["Coordinator", JobMembership::COORDINATOR],
+                                                           ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
+                                                           ["Field", JobMembership::FIELD],
+                                                           ["Shop", JobMembership::SHOP]], job_membership.job_role_id),
+                         prompt: I18n.t("jobs.show.new_member_role_prompt"),
+                         class: "job-note-type" %>
+          </div>
+      <% else %>
+          <div>
+            <%= text_field_tag "user_name", job_membership.user_name,
+                               placeholder: "Enter Name of Person",
+                               class: "txtfield small align-top" %>
+            <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+                                                           ["Company Man", JobMembership::COMPANY_MAN],
+                                                           ["Geologist", JobMembership::GEOLOGIST]], job_membership.job_role_id),
+                         {}, class: "",
+                         prompt: I18n.t("jobs.show.new_member_role_prompt") %>
 
-      <%= f.select :job_role_id, options_for_select([[I18n.t("job_roles.observer"), 1], ["Manager", 2], [I18n.t("job_roles.coordinator"), 3], [I18n.t("job_roles.field"), 4], [I18n.t("job_roles.shop"), 5]], job_membership.job_role_id),
-                   prompt: I18n.t("jobs.show.new_member_role_prompt"),
-                   class: "job-note-type" %>
+            <div>
+              <%= text_field_tag "phone_number", job_membership.phone_number,
+                                 placeholder: "Phone Number",
+                                 class: "txtfield small align-top" %>
+
+              <%= text_field_tag "email", job_membership.email,
+                                 placeholder: "Email",
+                                 class: "txtfield small align-top" %>
+            </div>
+          </div>
+      <% end %>
 
       <%= f.submit "Save", class: "bluebtn btnsmall push-right-small" %>
       <%= link_to "Cancel", "#", class: "bluebtn btnsmall red", id: "cancel_role_" + job_membership.id.to_s %>

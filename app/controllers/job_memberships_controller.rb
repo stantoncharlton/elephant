@@ -55,6 +55,15 @@ class JobMembershipsController < ApplicationController
         @job_membership = JobMembership.find_by_id(params[:id])
         not_found unless @job_membership.job.company == current_user.company
 
+        if @job_membership.external_user?
+            if params[:user_name].present?
+                @job_membership.user_name = params[:user_name]
+                @job_membership.phone_number = params[:phone_number]
+                @job_membership.email = params[:email]
+                @job_membership.save
+            end
+        end
+
         if @job_membership.update_attributes(params[:job_membership])
             #Activity.add(self.current_user, Activity::PRODUCT_LINE_UPDATED, @product_line, @product_line.name)
         else

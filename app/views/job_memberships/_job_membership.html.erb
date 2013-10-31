@@ -8,14 +8,21 @@
           <% if false %>
               <span class="help-text">- <%= pluralize(job_membership.user.jobs.where(:status => Job::ACTIVE).count, "job") %></span>
           <% end %>
+      <% elsif job_membership.external_user? %>
+          <%= link_to "mailto:" + job_membership.email, class: "activity-user-link tooltip-info", "data-title" => "External User, click to email", "data-placement" => "bottom" do %>
+              &nbsp;<%= job_membership.user_name %>
+          <% end %>
       <% else %>
           <%= job_membership.user_name %>
       <% end %>
     </div>
   </div>
-  <p class="inline-block label <%= job_membership.icon_css_style %>"><%= job_membership.role_title %></p>
+  <div class='inline-block job-members-position-title'>
+    <p class="inline-block label <%= job_membership.icon_css_style %>"><%= job_membership.role_title %></p>
+  </div>
 
-  <p class="job-members-position-title push-right orange-text"><b><%= job_membership.user.present? ? job_membership.user.phone_number : job_membership.phone_number   %></b></p>
+  <p class="job-members-position-title push-right orange-text">
+    <b><%= job_membership.user.present? ? job_membership.user.phone_number : job_membership.phone_number %></b></p>
 
 
   <% if !job_membership.job.approved_to_close %>
