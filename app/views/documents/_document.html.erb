@@ -68,6 +68,22 @@
                                       "data-title" => "Download document to computer." %>
                         </li>
                     <% end %>
+                    <% if document.document_revisions.any? %>
+                        <li class="divider"></li>
+                        <li>
+                          <div>
+                            <b class='blue-text push-right-small'>Past Revisions</b>
+                          </div>
+                        </li>
+                        <% document.document_revisions.order("upload_date DESC").each do |document_revision| %>
+                            <li>
+                              <%= link_to document_revision.upload_date.strftime("%m/%d/%Y %l:%M %p"), document_revision.full_url,
+                                          class: "dropdown-menu-link tooltip-info download-link",
+                                          "data-placement" => "left",
+                                          "data-title" => "Download document to computer." %>
+                            </li>
+                        <% end %>
+                    <% end %>
                     <% if !document.document_template.nil? && document.document_template.url.present? %>
                         <li class="divider"></li>
                         <li>

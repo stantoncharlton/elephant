@@ -15,24 +15,32 @@ class JobMembershipsController < ApplicationController
         @job = Job.find_by_id(job_id)
         not_found unless @job.company == current_user.company
 
-        @user = User.find_by_id(user_id)
-
         @job_membership = JobMembership.new(params[:job_membership])
-        @job_membership.user = @user
-        if @user.present?
-            @job_membership.user_name = @user.name
+        if !user_id.blank?
+            @user = User.find_by_id(user_id)
+            @job_membership.user = @user
+            if @user.present?
+                @job_membership.user_name = @user.name
+            end
+        elsif params[:user_name].present?
+            @job_membership.external_user = true
+            @job_membership.user_name = params[:user_name]
+            @job_membership.phone_number = params[:phone_number]
+            @job_membership.email = params[:email]
         end
         @job_membership.job = @job
         @job_membership.company = @job.company
         if @job_membership.save
 
-            if current_user.id != @user.id
+            if @user.present? && current_user.id != @user.id
                 @user.delay.send_added_to_job_email(@job)
             end
 
-            Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, @user.name, @job)
+            Activity.add(self.current_user, Activity::JOB_MEMBER_ADDED, @job_membership, @job_membership.user_name, @job)
 
-            Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
+            if @user.present?
+                Alert.add(@user, Alert::ADDED_TO_JOB, @job, current_user, @job)
+            end
         else
             #render template: 'layouts/error', locals: {title: "Problem Adding Member", object: @job_membership}
         end

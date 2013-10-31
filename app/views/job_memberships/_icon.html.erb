@@ -19,7 +19,7 @@
 <% else %>
     <div id="job_membership_icon_<%= job_membership.id %>" class="member-icon <%= job_membership.icon_css_style %> tooltip-info"
          data-placement="bottom" data-html="true"
-         data-title="<div class='activity-tooltip'><h2 class='white-text'><%= job_membership.user_name %></h2></div>">
+         data-title="<div class='activity-tooltip'><h2 class='white-text'><%= job_membership.user_name %></h2><span class='member-tooltip <%= job_membership.icon_css_style %>'><%= job_membership.role_title %></span></div>">
       <p>
         <% if names.any? %>
             <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

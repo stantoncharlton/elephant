@@ -30,3 +30,21 @@ $ ->
       $('#toggle_member_show').addClass 'hidden'
       $('#toggle_member_hide').removeClass 'hidden'
     return false
+
+
+  $('.job-membership-type').live "click", ->
+    $('.job-membership-type').each ->
+      $(this).removeClass 'activity-user-link'
+      $(this).addClass 'activity-link'
+
+    $(this).removeClass 'activity-link'
+    $(this).addClass 'activity-user-link'
+
+    if $(this).attr('data-type') == "elephant"
+      $('#elephant_user').removeClass 'hidden'
+      $('#external_user').addClass 'hidden'
+    else
+      $('#elephant_user').addClass 'hidden'
+      $('#external_user').removeClass 'hidden'
+
+    return false

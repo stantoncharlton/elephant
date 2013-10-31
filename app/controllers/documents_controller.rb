@@ -143,17 +143,25 @@ class DocumentsController < ApplicationController
 
     def update
         @document = Document.find(params[:id])
-        not_found unless @document.company == current_user.company
 
         if @document.template?
             not_found unless signed_in_admin?
         end
 
+        if !@document.template? && !@document.url.blank?
+            document_revision = DocumentRevision.new
+            document_revision.document = @document
+            document_revision.company = @document.company
+            document_revision.user = @document.user
+            document_revision.user_name = @document.user_name
+            document_revision.upload_date = @document.updated_at
+            document_revision.url = @document.url
+            document_revision.save
+        end
+
         @document.user = current_user
         @document.user_name = current_user.name
-        @document.delete_document
         @document.url = params[:document][:url]
-
 
         @document.save
 

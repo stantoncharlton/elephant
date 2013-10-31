@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131028223042) do
+ActiveRecord::Schema.define(:version => 20131031143549) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -199,6 +199,17 @@ ActiveRecord::Schema.define(:version => 20131028223042) do
   end
 
   add_index "divisions", ["company_id"], :name => "index_divisions_on_company_id"
+
+  create_table "document_revisions", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "document_id"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.string   "url"
+    t.datetime "upload_date"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "document_shares", :force => true do |t|
     t.integer  "document_id"
@@ -415,11 +426,14 @@ ActiveRecord::Schema.define(:version => 20131028223042) do
   create_table "job_memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "job_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "job_role_id"
     t.string   "user_name"
     t.integer  "company_id"
+    t.string   "phone_number"
+    t.string   "email"
+    t.boolean  "external_user", :default => false
   end
 
   add_index "job_memberships", ["job_id"], :name => "index_job_memberships_on_job_id"

@@ -1,6 +1,9 @@
 class JobMembership < ActiveRecord::Base
     attr_accessible :job_role_id,
-                    :user_name
+                    :user_name,
+                    :phone_number,
+                    :email,
+                    :external_user
 
     acts_as_tenant(:company)
 
@@ -11,7 +14,7 @@ class JobMembership < ActiveRecord::Base
     belongs_to :job
     belongs_to :company
 
-    validates :user, presence: true
+    validates :user, presence: true, :if => :not_external_user
     validates :job, presence: true
 
     #validates_uniqueness_of :user_id, scope: :job_id
@@ -26,6 +29,13 @@ class JobMembership < ActiveRecord::Base
     SHOP = 5
     CREATOR = 6
     TOOL_COORDINATOR = 7
+
+    COMPANY_MAN = 20
+    GEOLOGIST = 21
+
+    def not_external_user
+        !self.external_user
+    end
 
 
     def role_title
@@ -44,6 +54,10 @@ class JobMembership < ActiveRecord::Base
                "Creator"
            when TOOL_COORDINATOR
                "Tool Coordinator"
+           when COMPANY_MAN
+               "Company Man"
+           when GEOLOGIST
+               "Geologist"
            else
                "-"
        end
@@ -65,6 +79,10 @@ class JobMembership < ActiveRecord::Base
                 "member-icon-tool-coordinator"
             when CREATOR
                 ""
+            when COMPANY_MAN
+                "member-icon-tool-coordinator"
+            when GEOLOGIST
+                "member-icon-shop"
             else
                 ""
         end

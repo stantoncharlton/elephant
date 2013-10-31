@@ -1,18 +1,49 @@
 <%= form_for(JobMembership.new, :html => {:class => "inline hidden new-job-member ", id: "new_member_form"}, remote: true) do |f| %>
+
+
+    <div>
+      <%= link_to current_user.company.name + "", "#", class: "activity-user-link job-membership-type", "data-type" => "elephant" %>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <%= link_to @job.client.name + "", "#", class: "activity-link job-membership-type", "data-type" => "external" %>
+    </div>
+
     <%= f.hidden_field :job_id, id: "new_member_job_id", value: job.id %>
-    <%= f.hidden_field :user_id, id: "new_member_id" %>
-    <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar align-top push-down-small inline-block" %>
-    <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                       placeholder: I18n.t("jobs.show.new_member_prompt"),
-                       id: "new_member_name", class: "txtfield small align-top" %>
-    <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
-                                                   ["Manager", JobMembership::MANAGER],
-                                                   ["Coordinator", JobMembership::COORDINATOR],
-                                                   ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
-                                                   ["Field", JobMembership::FIELD],
-                                                   ["Shop", JobMembership::SHOP]]),
-                 {}, class: "custom-select",
-                 prompt: I18n.t("jobs.show.new_member_role_prompt") %>
+
+    <div id='elephant_user' class='inline-block'>
+      <%= f.hidden_field :user_id, id: "new_member_id" %>
+      <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar align-top push-down-small inline-block" %>
+      <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                         placeholder: I18n.t("jobs.show.new_member_prompt"),
+                         id: "new_member_name", class: "txtfield small align-top" %>
+      <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+                                                     ["Manager", JobMembership::MANAGER],
+                                                     ["Coordinator", JobMembership::COORDINATOR],
+                                                     ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
+                                                     ["Field", JobMembership::FIELD],
+                                                     ["Shop", JobMembership::SHOP]]),
+                   {}, class: "custom-select",
+                   prompt: I18n.t("jobs.show.new_member_role_prompt") %>
+    </div>
+    <div id='external_user' class='inline-block hidden'>
+      <%= text_field_tag "user_name", "",
+                         placeholder: "Enter Name of Person",
+                         class: "txtfield small align-top" %>
+      <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+                                                     ["Company Man", JobMembership::COMPANY_MAN],
+                                                     ["Geologist", JobMembership::GEOLOGIST]]),
+                   {}, class: "custom-select",
+                   prompt: I18n.t("jobs.show.new_member_role_prompt") %>
+
+      <div>
+        <%= text_field_tag "phone_number", "",
+                           placeholder: "Phone Number",
+                           class: "txtfield small align-top" %>
+
+        <%= text_field_tag "email", "",
+                           placeholder: "Email",
+                           class: "txtfield small align-top" %>
+      </div>
+    </div>
     <%= f.submit I18n.t("global.add"), class: "bluebtn btnsmall add-member-loading-button" %>
     <%= link_to "cancel", "#", class: "bluebtn btnsmall red", id: "cancel_add_member" %>
 <% end %>

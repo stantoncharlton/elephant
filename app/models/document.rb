@@ -30,6 +30,7 @@ class Document < ActiveRecord::Base
 
     has_one :post_job_report_document, :dependent => :destroy
     has_many :document_shares, dependent: :destroy
+    has_many :document_revisions, dependent: :destroy
 
     DOCUMENT = 0
     CHECKLIST = 1

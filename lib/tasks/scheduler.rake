@@ -1,10 +1,12 @@
 task :daily_activity_email => :environment do
     User.all.each do |user|
-        if !user.admin? && user.send_daily_activity
+        if false
+            if !user.admin? && user.send_daily_activity
 
-            activities = Activity.activities_for_user_today(user)
-            if !activities.nil? and activities.any?
-                UserMailer.daily_activity(user, activities).deliver
+                activities = Activity.activities_for_user_today(user)
+                if !activities.nil? and activities.any?
+                    UserMailer.daily_activity(user, activities).deliver
+                end
             end
         end
     end

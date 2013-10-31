@@ -64,6 +64,25 @@
   }
 }
 
+.activity-link {
+  display: inline-block;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+
+  &:active, &:link, &:visited {
+    color: #a3a3a3;
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #454545;
+    background: transparent;
+    text-decoration: underline;
+  }
+}
+
 .no-bottom-margin {
   margin-bottom: 0px;
 }
