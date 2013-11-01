@@ -52,7 +52,7 @@ module JobsExportHelper
     def include_column property
         puts property + " ................."
         case property.to_s
-            when "client_contact_name", "end_date", "updated_at", "company_id", "rating", "failures_count", "job_memberships_count"
+            when "end_date", "updated_at", "company_id", "rating", "failures_count", "job_memberships_count"
                 return false
         end
 

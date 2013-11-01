@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131031204137) do
+ActiveRecord::Schema.define(:version => 20131101175527) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -519,7 +519,6 @@ ActiveRecord::Schema.define(:version => 20131031204137) do
     t.integer  "well_id"
     t.integer  "district_id"
     t.integer  "client_id"
-    t.string   "client_contact_name"
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "created_at",                           :null => false
@@ -530,6 +529,7 @@ ActiveRecord::Schema.define(:version => 20131031204137) do
     t.integer  "rating"
     t.integer  "failures_count",        :default => 0
     t.integer  "job_memberships_count", :default => 0
+    t.string   "job_number"
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"

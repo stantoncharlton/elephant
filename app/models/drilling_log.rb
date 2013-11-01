@@ -34,21 +34,21 @@ class DrillingLog < ActiveRecord::Base
 
         if entries.any?
 
-            last_time = entries.first.created_at
+            last_time = entries.first.entry_at
             below = 0.0
 
             entries.each do |entry|
                 if entry.activity_code >= 1 && entry.activity_code < 50
-                    time = ((entry.created_at - last_time) / 60 / 60).to_f
+                    time = ((entry.entry_at - last_time) / 60 / 60).to_f
                     below += time
                 end
 
-                last_time = entry.created_at
+                last_time = entry.entry_at
             end
 
             self.below_rotary = below
             self.total_drilled = entries.last.depth
-            self.rop = self.total_drilled.to_f / ((entries.last.created_at - entries.first.created_at)  / 24).to_f
+            self.rop = self.total_drilled.to_f / ((entries.last.entry_at - entries.first.entry_at)  / 24).to_f
 
             self.save
         end

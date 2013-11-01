@@ -1,10 +1,10 @@
 class Job < ActiveRecord::Base
-    attr_accessible :client_contact_name,
-                    :start_date,
+    attr_accessible :start_date,
                     :end_date,
                     :close_date,
                     :status,
-                    :rating
+                    :rating,
+                    :job_number
 
     include PostJobReportHelper
     acts_as_xlsx
