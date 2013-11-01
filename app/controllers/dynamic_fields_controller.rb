@@ -92,8 +92,17 @@ class DynamicFieldsController < ApplicationController
     end
 
     def update
+
+        if params[:id] == "0"
+            if params[:job].present?
+                job = Job.find_by_id(params[:job])
+                job.update_attribute(:job_number, params[:value])
+                render :nothing => true, :status => 200
+                return
+            end
+        end
+
         @dynamic_field = DynamicField.find(params[:id])
-        not_found unless @dynamic_field.company == current_user.company
 
         @is_valid = true
 

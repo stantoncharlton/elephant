@@ -67,7 +67,7 @@ $ ->
     conversion = $(this).closest('.job-field-div').find('.job-field-conversion')
     if conversion
       conversion.remove()
-    $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_", "") + '?value=' + $(this).val(), type: 'put', dataType: 'script'
+    $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_", "") + '?value=' + $(this).val() + "&job=" + $(this).attr('data-job'), type: 'put', dataType: 'script'
 
   $('.unitsSelect').change ->
     conversion = $(this).closest('.job-field-div').find('.job-field-conversion')

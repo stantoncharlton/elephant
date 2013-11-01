@@ -3,7 +3,8 @@
       <b><%= !df.dynamic_field_template.nil? ? df.dynamic_field_template.name : df.name %></b></p>
     <% if job_editable && !df.predefined? %>
         <div class="job-field-div">
-          <input id="dynamic_field_<%= df.id %>" type="text"
+          <input id="dynamic_field_<%= df.id.present? ? df.id : "0" %>" type="text"
+                 data-job="<%= df.job.id %>"
                  placeholder="-"
                  class="job-field-value-editable custom-data-input tooltip-info"
                  data-placement="bottom" data-title="Field value, click to change"

@@ -293,6 +293,10 @@ class Job < ActiveRecord::Base
 
     def pre_job_data_good
 
+        if self.job_number.blank?
+            return false
+        end
+
         self.pre_job_documents.each do |document|
             if document.empty?
                 puts "documents.................."

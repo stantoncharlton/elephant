@@ -44,6 +44,11 @@
   <div class="content">
     <b class='orange-text'>Required Data</b>
     <br><br>
+    <% job_number = DynamicField.new(name: "Job Number", value_type: DynamicField::STRING) %>
+    <% job_number.value = job.job_number %>
+    <% job_number.job = job %>
+    <%= render 'jobs/job_custom_data_field', df: job_number, job_editable: job_editable %>
+    <br><br>
     <% job.dynamic_fields_required.each do |df| %>
         <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
     <% end %>
