@@ -4,7 +4,8 @@
            "<img src='" + image_path('district_extrasmall.png') + "' class='job-status-avatar'><b>" + (job.district.present? ? job.district.name : "") + "</b><br><br>" +
            (job.close_date.present? ? "" : "<p class='alert alert-info'><b class='blue-text'>" + job.status_string + "</b></p>") +
            "<br><b class='blue-text'>" + job.client.name + "</b>" +
-           "<br><b>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</b><br><br>" +
+           "<br><b>" + (job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y")) + "</b>" +
+           "<br><b>Job #</b> <span>" + (job.job_number.nil? ? "-" : job.job_number) + "</span><br><br>" +
            (show_summary_data ? "<hr><div>" + job.job_template.primary_tools.where(:template => true).map { |pt| "<span class='label'>" + pt.tool.name + "</span>" }.join(" ") + "</div>" : "") +
            (show_summary_data ? "<hr><h3>" + job.dynamic_fields.select { |df| !df.template? && df.priority? }.map { |df| df.name + ": " + (df.value.present? ? df.value : "-") }.join("<br>") + "</h3>" : "") +
            "</div>" %>

@@ -55,6 +55,8 @@ class InventoryController < ApplicationController
         @district = District.find_by_id(params[:id])
         not_found unless @district.company == current_user.company
 
+        @condensed = true
+
         if current_user.role.district_read?
             @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         elsif current_user.role.limit_to_assigned_jobs?

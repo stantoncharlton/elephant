@@ -123,7 +123,7 @@
 
         <div class="content">
           <% part.parts.each_with_index do |p, i| %>
-              <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true %>
+              <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed %>
           <% end %>
         </div>
 

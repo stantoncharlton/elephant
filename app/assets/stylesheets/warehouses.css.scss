@@ -1,3 +1,58 @@
-// Place all the styles related to the warehouses controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.part-box {
+  display: inline-block;
+  margin: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  padding-top: 15px;
+  color: #000000;
+  font-size: 18px;
+  width: 150px;
+  height: 30px;
+  border-style: solid;
+  border-color: #dadada;
+  border-width: 2px;
+  font-family: "gothamlightregular";
+  text-transform: uppercase;
+  text-align: center;
+  background: #FFFFFF;
+}
+
+.part-box-available {
+  &:active, &:link, &:visited {
+    color: #FFFFFF;
+    background: #28af35;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #FFFFFF;
+    background: #1edf30;
+    text-decoration: none;
+  }
+}
+
+.part-box-job {
+  &:active, &:link, &:visited {
+    color: #FFFFFF;
+    background: #4db0e3;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #FFFFFF;
+    background: #01a6fb;
+    text-decoration: none;
+  }
+}
+
+.part-box-maintenance {
+  &:active, &:link, &:visited {
+    color: #FFFFFF;
+    background: #f25241;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #FFFFFF;
+    background: #f9210a;
+    text-decoration: none;
+  }
+}

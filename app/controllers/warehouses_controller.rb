@@ -15,6 +15,8 @@ class WarehousesController < ApplicationController
             end
         end
 
+        @condensed = true
+
         respond_to do |format|
             format.html {
                 @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:warehouse_id => @warehouse.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)

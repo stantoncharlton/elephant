@@ -3,7 +3,26 @@
 <div class="page_header">
   <h1>Search for '<%= @term %>'</h1>
 
-  <div class="inline push-right-small">
+  <% if !@jobs.nil? && @jobs.count > 0 %>
+      <div class="btn-group inline pull-right">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Export Jobs
+        </a>
+        <ul class="dropdown-menu">
+
+          <li>
+            <%= link_to "Export as Excel", request.url + "&format=xlsx",
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Export results as Microsoft Excel file." %>
+          </li>
+
+
+        </ul>
+      </div>
+  <% end %>
+
+  <div class="">
     <% if !@jobs.nil? && @jobs.any? %>
         <span class="label label-info search-count"><%= pluralize(@jobs.count, "Job") %></span>
     <% end %>
@@ -20,26 +39,6 @@
         <span class="label label-info search-count"><%= pluralize(@wells.count, "Well") %></span>
     <% end %>
   </div>
-
-
-  <% if !@jobs.nil? && @jobs.any? %>
-      <div class="btn-group inline pull-right">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Export Results
-        </a>
-        <ul class="dropdown-menu">
-
-          <li>
-            <%= link_to "Export as Excel", request.url + "&format=xlsx",
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Export results as Microsoft Excel file." %>
-          </li>
-
-
-        </ul>
-      </div>
-  <% end %>
 
 </div>
 

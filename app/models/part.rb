@@ -161,4 +161,19 @@ class Part < ActiveRecord::Base
                 return "Decommissioned"
         end
     end
+
+    def status_css
+        case self.status
+            when AVAILABLE
+                return "part-box-available"
+            when ON_JOB
+                return "part-box-job"
+            when USED
+                return "part-box-maintenance"
+            when IN_REDRESS
+                return "part-box-maintenance"
+            when DECOMMISSIONED
+                return ""
+        end
+    end
 end
