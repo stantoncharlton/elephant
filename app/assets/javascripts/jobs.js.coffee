@@ -83,7 +83,8 @@ $ ->
     tray = $(this).attr('data-tray')
     $(".job-tray[data-tray=" + tray + "]").removeClass 'custom-data-closed'
     document.location.hash = tray;
-    $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
+    if $('.job-main-div').length > 0
+      $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
     return false
 
   $('.job-tray-toggle').click ->
@@ -91,7 +92,8 @@ $ ->
       $('#activity_list').hide()
       $('.activity-loading').removeClass 'hidden'
       $('.activity-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/activities?job_id=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
+      if $('.job-main-div').length > 0
+        $.ajax '/activities?job_id=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
     return false
 
   if document.location.hash != ''
