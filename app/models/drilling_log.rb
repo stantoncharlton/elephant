@@ -9,7 +9,7 @@ class DrillingLog < ActiveRecord::Base
                     :rotate_hours,
                     :rotate_rop,
                     :slide_footage_pct,
-                    :slide_footgae,
+                    :slide_footage,
                     :slide_hours,
                     :slide_hours_pct,
                     :slide_rop,
@@ -34,21 +34,60 @@ class DrillingLog < ActiveRecord::Base
 
         if entries.any?
 
+            last_entry = entries.first
             last_time = entries.first.entry_at
             below = 0.0
+            time = 0.0
+            length_change = 0.0
+            total_drill_time = 0.0
+            total_drill_length = 0.0
+
+            self.slide_footage = 0.0
+            self.slide_hours = 0.0
+            self.rotate_footage = 0.0
+            self.rotate_hours = 0.0
+
+            self.ream_hours = 0.0
+            self.circulation_hours = 0.0
 
             entries.each do |entry|
+
+                length_change = entry.depth - last_entry.depth
+                total_drill_length += length_change
+
                 if entry.activity_code >= 1 && entry.activity_code < 50
                     time = ((entry.entry_at - last_time) / 60 / 60).to_f
                     below += time
                 end
 
+                if entry.activity_code == DrillingLogEntry::SLIDE
+                    total_drill_time += time
+                    self.slide_footage += length_change
+                    self.slide_hours += time
+                elsif entry.activity_code == DrillingLogEntry::ROTATE
+                    total_drill_time += time
+                    self.rotate_footage += length_change
+                    self.rotate_hours += time
+                elsif entry.activity_code == DrillingLogEntry::REAMING
+                    self.ream_hours += time
+                elsif entry.activity_code == DrillingLogEntry::CIRCULATE
+                    self.circulation_hours += time
+                end
+
                 last_time = entry.entry_at
+                last_entry = entry
             end
 
+            self.rotary_hours_pct = self.rotate_hours / total_drill_time
+            self.rotary_footage_pct = self.rotate_footage / total_drill_length
+            self.rotate_rop = self.rotate_footage / self.rotate_hours
+            self.slide_hours_pct = self.slide_hours / total_drill_time
+            self.slide_footage_pct = self.slide_footage / total_drill_length
+            self.slide_rop = self.slide_footage / self.slide_hours
+
             self.below_rotary = below
-            self.total_drilled = entries.last.depth
-            self.rop = self.total_drilled.to_f / ((entries.last.entry_at - entries.first.entry_at)  / 24).to_f
+            self.total_drilled = total_drill_length
+            self.rop = total_drill_length / ((entries.last.entry_at - entries.first.entry_at)  / 24).to_f
 
             self.save
         end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131101175527) do
+ActiveRecord::Schema.define(:version => 20131102153152) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -293,7 +293,7 @@ ActiveRecord::Schema.define(:version => 20131101175527) do
     t.decimal  "total_drilled"
     t.decimal  "below_rotary"
     t.decimal  "slide_rop"
-    t.decimal  "slide_footgae"
+    t.decimal  "slide_footage"
     t.decimal  "slide_hours"
     t.decimal  "rotate_rop"
     t.decimal  "rotate_footage"

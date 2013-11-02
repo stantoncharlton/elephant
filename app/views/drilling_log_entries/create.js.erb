@@ -14,6 +14,8 @@ $('.no-job-log-entries').remove();
 $("#list").append("<%= j render 'drilling_log_entries/drilling_log_entry', entry: @drilling_log_entry, last_entry: @last_entry %>");
 $('#new_job_log_id').val('');
 
+$('#drilling_overview').replaceWith('<%= j render 'drilling_logs/overview', drilling_log: @drilling_log_entry.drilling_log %>');
+
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
