@@ -1,31 +1,4 @@
-<div id="log" class="job-tray" data-tray="log">
-
-  <div class='content'>
-    <b>Active Well</b>
-
-    <div class='inline-block push-right'>
-      <span><div class='well-plan'></div> Well Plan</span>
-      <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
-    </div>
-
-    <%= link_to new_survey_path(modal: true, document_id: @drilling_log.document.id),
-                remote: true,
-                class: "activity-user-link pull-right tooltip-info show-modal-button",
-                "data-placement" => "bottom",
-                "data-title" => "Update active well plan." do %>
-        <i class="icon-signal"></i> Update Active Well Plan
-    <% end %>
-  </div>
-
-
-  <% @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @drilling_log.job_id).first %>
-  <% @survey = Survey.includes(:document => :job).where(:plan => false).where("jobs.id = ?", @drilling_log.job_id).first %>
-  <% if !@active_well_plan.nil? %>
-      <%= render 'surveys/survey_charts', well_plan: @active_well_plan, survey: @survey, height: 350 %>
-  <% else %>
-      <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
-  <% end %>
-  <br><br>
+<div class="job-tray" data-tray="log">
 
   <div class="well content">
     <div class="form" data-form="new-job-log">

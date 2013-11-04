@@ -26,11 +26,6 @@
 </div>
 
 
-
-<%= render 'drilling_logs/overview', drilling_log: @drilling_log %>
-
-<br><br>
-
 <ul class="nav nav-pills alert alert-info">
   <li class="active">
     <a href="#" class="job-tray-toggle custom-data-toggle"
@@ -71,24 +66,6 @@
     <%= render "layouts/inline_loading", title: "Loading..." %>
   </div>
 </div>
-
-<script>
-    var lineChartData = {
-        labels: ["", "", "", "", "", "", ""],
-        datasets: [
-            {
-                fillColor: "rgba(220,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                data: [0, 2, 30, 40, 30, 36, 30]
-            }
-        ]
-    }
-
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
-
-</script>
 
 
 

@@ -80,14 +80,14 @@ class DrillingLog < ActiveRecord::Base
 
             self.rotary_hours_pct = self.rotate_hours / total_drill_time
             self.rotary_footage_pct = self.rotate_footage / total_drill_length
-            self.rotate_rop = self.rotate_footage / self.rotate_hours
+            self.rotate_rop = self.rotate_footage / self.rotate_hours / 60
             self.slide_hours_pct = self.slide_hours / total_drill_time
             self.slide_footage_pct = self.slide_footage / total_drill_length
-            self.slide_rop = self.slide_footage / self.slide_hours
+            self.slide_rop = self.slide_footage / self.slide_hours / 60
 
             self.below_rotary = below
             self.total_drilled = total_drill_length
-            self.rop = total_drill_length / ((entries.last.entry_at - entries.first.entry_at)  / 24).to_f
+            self.rop = total_drill_length / ((entries.last.entry_at - entries.first.entry_at)  / 60).to_f
 
             self.save
         end
