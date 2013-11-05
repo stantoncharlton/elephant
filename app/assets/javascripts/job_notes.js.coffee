@@ -38,6 +38,10 @@ $ ->
         $('#assign_note_user').addClass 'hidden'
         $('#note_report').removeClass 'hidden'
         $('#note_type_id').val('5')
+      when 'asset'
+        $('#new_note_id').removeClass 'hidden'
+        $('#assign_note_user').addClass 'hidden'
+        $('#note_type_id').val('6')
 
     return false
 

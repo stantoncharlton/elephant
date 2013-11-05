@@ -24,6 +24,7 @@ class JobNote < ActiveRecord::Base
     WARNING = 2
     TASK = 4
     ACTIVITY_REPORT = 5
+    ASSET_REQUEST = 6
 
     def not_activity_report
         self.note_type != ACTIVITY_REPORT
