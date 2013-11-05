@@ -15,7 +15,6 @@
     var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
 
 
-    AmCharts.ready(function () {
 
         // SERIAL CHART
         chart = new AmCharts.AmXYChart();
@@ -218,7 +217,6 @@
         };
 
         setTimeout(pulse2, 120);
-    });
 
 
 </script>

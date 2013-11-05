@@ -32,8 +32,8 @@
        data-tray="log">Drilling Log<%= " (" + @drilling_log.drilling_log_entries.count.to_s + ")" %></a>
   </li>
   <li class="push-right-small">
-    <a href="#" class="job-tray-toggle custom-data-toggle"
-       data-tray="overview">Overview</a>
+    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+       data-tray="drilling-overview">Overview</a>
   </li>
 
   <li class="push-right-small">
@@ -49,7 +49,12 @@
 
 
 <%= render 'drilling_logs/tray_log' %>
-<%= render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>
+
+<div id="drilling_overview" class="job-tray custom-data-closed" data-tray="drilling-overview">
+  <div class="drilling-overview-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
+  </div>
+</div>
 
 <div class="job-tray custom-data-closed" data-tray="daily">
 </div>

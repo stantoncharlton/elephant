@@ -1,0 +1,10 @@
+$('#drilling_overview').replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
+
+<% if params[:section] == "drilling_overview" %>
+<% end %>
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+}
+
+$('.custom-select-ajax').customSelect();

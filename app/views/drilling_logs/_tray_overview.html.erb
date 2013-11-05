@@ -1,5 +1,11 @@
-<div class="job-tray custom-data-closed content" data-tray="overview">
+<div id="drilling_overview" class="job-tray" data-tray="drilling-overview">
 
+<div class="drilling-overview-loading hidden">
+  <br><br>
+  <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
+</div>
+
+<div class="content">
 <br>
 
 <div>
@@ -215,6 +221,7 @@
   </div>
 </div>
 
+</div>
 </div>
 
 
