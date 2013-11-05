@@ -74,7 +74,11 @@
         <% end %>
 
         <% if !part.current_job.approved_to_ship %>
-            <span class='warning-text push-right-small push-down'><%= image_tag "error_red.png" %> Asset has not shipped to job, yet</span>
+            <br><br>
+
+            <div class='alert alert-error'>
+              <span class='warning-text push-right-small push-down'><%= image_tag "error_red.png" %> <div class='inline-block align-top'>Asset has not shipped to job, yet</div></span>
+            </div>
         <% end %>
     <% elsif part.status == Part::IN_REDRESS %>
         <span class="warning-text"><%= part.status_string %></span>

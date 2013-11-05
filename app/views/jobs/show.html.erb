@@ -25,21 +25,21 @@
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="documents_data"
            data-placement="bottom" data-title="Custom job data and values">Documents/Logs
-          <%= "(" + @job.documents.select { |d| d.category != Document::POST_JOB_REPORT && d.category != Document::POST_JOB_REPORT_PART }.count.to_s + ")" %></a>
+          </a>
       </li>
 
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
         <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="custom_data"
            data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
-          <%= "(" + @job.dynamic_fields.select { |df| (!df.dynamic_field_template.nil? and !df.dynamic_field_template.priority?) or (df.dynamic_field_template.nil? and !df.priority?) }.count.to_s + ")" %></a>
+          </a>
       </li>
 
       <li class="push-right-small">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="tools_assets"
            data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
-          <%= "(" + @job.job_template.primary_tools.where(:template => false).where(:job_id => @job.id).count.to_s + ")" %></a>
+          </a>
       </li>
 
       <% if false %>
@@ -47,7 +47,7 @@
         <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="secondary_tools"
            data-placement="bottom" data-title="List of secondary tools used on this job">Secondary Tools
-          <span class="secondary-tool-count"><%= "(" + @job.secondary_tools.count.to_s + ")" %></span></a>
+          </a>
       </li>
       <% end %>
 
@@ -55,7 +55,7 @@
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="notes"
            data-placement="bottom" data-title="Notes and Tasks for this job">Reports/Notes
-          <span class="job-notes-count"><%= "(" + @job.job_notes.count.to_s + ")" %></span></a>
+          </a>
       </li>
 
       <li class="push-right-small">

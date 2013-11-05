@@ -17,12 +17,14 @@ class JobMembershipsController < ApplicationController
 
         @job_membership = JobMembership.new(params[:job_membership])
         if !user_id.blank?
+            @job_membership.job_role_id = params[:job_role_id]
             @user = User.find_by_id(user_id)
             @job_membership.user = @user
             if @user.present?
                 @job_membership.user_name = @user.name
             end
         elsif params[:user_name].present?
+            @job_membership.job_role_id = params[:job_role_id2]
             @job_membership.external_user = true
             @job_membership.user_name = params[:user_name]
             @job_membership.phone_number = params[:phone_number]

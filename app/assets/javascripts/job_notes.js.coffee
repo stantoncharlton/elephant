@@ -18,6 +18,8 @@ $ ->
 
     $(this).closest('li').addClass 'active'
     $(this).removeClass 'blue-text'
+    $('#new_note_id').val('')
+    $('#new_note_name').val('')
 
     $('#note_report').addClass 'hidden'
     switch $(this).attr('data-note')

@@ -15,23 +15,23 @@
       <%= text_field_tag "", "", data: {autocomplete_source: users_path},
                          placeholder: I18n.t("jobs.show.new_member_prompt"),
                          id: "new_member_name", class: "txtfield small align-top" %>
-      <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+      <%= select_tag "job_role_id", options_for_select([["Observer", JobMembership::OBSERVER],
                                                      ["Manager", JobMembership::MANAGER],
                                                      ["Coordinator", JobMembership::COORDINATOR],
                                                      ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
                                                      ["Field", JobMembership::FIELD],
                                                      ["Shop", JobMembership::SHOP]]),
-                   {}, class: "custom-select",
+                   class: "custom-select",
                    prompt: I18n.t("jobs.show.new_member_role_prompt") %>
     </div>
     <div id='external_user' class='inline-block hidden'>
       <%= text_field_tag "user_name", "",
                          placeholder: "Enter Name of Person",
                          class: "txtfield small align-top" %>
-      <%= f.select :job_role_id, options_for_select([["Observer", JobMembership::OBSERVER],
+      <%= select_tag "job_role_id2", options_for_select([["Observer", JobMembership::OBSERVER],
                                                      ["Company Man", JobMembership::COMPANY_MAN],
                                                      ["Geologist", JobMembership::GEOLOGIST]]),
-                   {}, class: "custom-select",
+                   class: "custom-select",
                    prompt: I18n.t("jobs.show.new_member_role_prompt") %>
 
       <div>
