@@ -46,3 +46,11 @@ $ ->
     return false
 
 
+  $('.activity-report-show-all').live "click", ->
+    root = $(this).closest('.activity-report-root')
+    $(this).addClass 'hidden'
+    root.find('.past-day').removeClass 'hidden'
+    root.find('.present-day').removeClass 'hidden'
+    root.find('.next-day').removeClass 'hidden'
+    return false
+

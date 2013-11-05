@@ -79,10 +79,11 @@
       <% elsif job_note.note_type == JobNote::ACTIVITY_REPORT %>
           <% note_activity_report = NoteActivityReport.where(:job_note_id => job_note.id).first %>
           <b class='label label-info'>Daily Activity Report</b><br>
-            <div>
-              <div><p class="inline-block list-item-column-short"><b>Past day</b></p><%= note_activity_report.past %></div>
-              <div><p class="inline-block list-item-column-short"><b>Present</b></p><%= note_activity_report.present %></div>
-              <div><p class="inline-block list-item-column-short"><b>Next day</b></p><%= note_activity_report.future %></div>
+            <div class='activity-report-root'>
+              <div><p><a href='#' class='user-link pull-right activity-report-show-all'>Show Full Report</a></p></div>
+              <div class='past-day hidden'><p class="inline-block list-item-column-short"><b>Past day</b></p><%= note_activity_report.past %></div>
+              <div><p class="inline-block list-item-column-short present-day hidden"><b class=''>Present</b></p><%= note_activity_report.present %></div>
+              <div class='next-day hidden'><p class="inline-block list-item-column-short"><b>Next day</b></p><%= note_activity_report.future %></div>
             </div>
       <% elsif job_note.note_type == JobNote::ASSET_REQUEST %>
           <b class='label'>
