@@ -141,6 +141,8 @@
 
     $('.expand-map-box').live("click", function () {
         if ($('.expand-text').text() == 'expand') {
+            $('body').animate({scrollTop : 0 }, 'fast')
+            $('html, body').css("overflow", "hidden");
             $('.expand-text').text('collapse');
             $('.map-container').css('position', 'absolute');
             $('.map-container').css('left', '0');
@@ -153,6 +155,7 @@
             $('.map-container').find('.corners').hide();
         }
         else {
+            $('html, body').css("overflow", "auto");
             $('.expand-text').text('expand');
             $('.map-container').css('position', 'relative');
             $('.map-container').css('left', '0');
