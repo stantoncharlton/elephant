@@ -61,6 +61,8 @@ $ ->
     return false
 
   $('#close_modal').live "click", ->
+    if $('#map').length > 0
+      $('#map').show()
     $('#modal_popup').css "visibility", "hidden"
     $('#modal_popup').find(".modal-content").children().remove()
     $('#modal_popup').height(0)

@@ -56,6 +56,8 @@ $ ->
     $(".job-type-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
 
   $('.show-modal-button').live "click", ->
+    if $('#map').length > 0
+      $('#map').hide()
     $('#modal_popup').css('visibility', 'visible')
     inner = $('#modal_popup').find('.modal-popup')
     inner.css('margin-top', 100)
