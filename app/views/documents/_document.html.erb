@@ -49,7 +49,8 @@
 
             <% if !document.template? && document.job_id.present? %>
                 <div class="btn-group inline pull-right">
-                  <a class="document-actions-button" data-toggle="dropdown" href="#">
+                  <a class="document-actions-button tooltip-info" data-toggle="dropdown" href="#"
+                    data-placement="bottom" data-title="Share or Download original, template, and past revisions">
                     <div class="document-shares-count"><%= document.document_shares.any? ? document.document_shares.count : "" %></div>
                   </a>
                   <ul class="dropdown-menu">
