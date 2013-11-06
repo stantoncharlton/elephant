@@ -12,14 +12,12 @@
 <div id="jobs" class="list">
   <% @jobs.each do |job| %>
       <% if job.job_template.present? %>
-          <div>
+          <div class='push-down'>
             <%= link_to "https://www.go-elephant.com/jobs/" + job.id.to_s, class: "job-status job-link" do %>
                 <div class='inline-block list-item-column-long'>
-                  <h2 class="job-title job-title4 inline"><%= job.field.name %></h2>
-
+                  <h2 class="job-title4 inline"><%= job.field.name %></h2>
                   <p class="job-title-divider2">|</p>
-
-                  <h2 class="job-title job-title4 inline"><%= job.well.name %></h2>
+                  <h2 class="job-title4 inline"><%= job.well.name %></h2>
                 </div>
                 <div class='inline-block list-item-column3'>
                   <span>Job #</span>
