@@ -1,6 +1,6 @@
 task :daily_activity_email => :environment do
-    #User.all.each do |user|
-    user = User.find(85)
+    User.all.each do |user|
+    #user = User.find(85)
         if false
             if !user.admin? && user.send_daily_activity
 
@@ -20,7 +20,7 @@ task :daily_activity_email => :environment do
                 UserMailer.daily_activity_report(user, jobs).deliver
             end
         end
-    #end
+    end
 end
 
 task :inactive_job_email => :environment do
