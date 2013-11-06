@@ -1,5 +1,6 @@
 task :daily_activity_email => :environment do
     User.all.each do |user|
+    #user = User.find(85)
         if false
             if !user.admin? && user.send_daily_activity
 
@@ -7,6 +8,16 @@ task :daily_activity_email => :environment do
                 if !activities.nil? and activities.any?
                     UserMailer.daily_activity(user, activities).deliver
                 end
+            end
+        end
+
+        if !user.admin? && user.send_daily_activity
+
+            jobs = user.role.no_assigned_jobs? ? user.company.jobs.reorder('') : user.jobs
+            jobs = jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+                    order("jobs.created_at DESC")
+            if jobs.any?
+                UserMailer.daily_activity_report(user, jobs).deliver
             end
         end
     end
