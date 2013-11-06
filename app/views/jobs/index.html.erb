@@ -154,14 +154,12 @@
         }
         else {
             $('.expand-text').text('expand');
-            $('.map-container').css('position', 'static');
+            $('.map-container').css('position', 'relative');
             $('.map-container').css('left', '0');
             $('.map-container').css('top', '0');
             $('.map-container').css('width', '100%');
-            $('.map-container').css('z-index', '20');
-            $('.map-container').find('.corners').css('z-index', '25');
-            $('#map').css('height', '300px');
             $('.map-container').css('height', '300px');
+            $('.map-container').css('z-index', '20');
             $('.map-views').addClass('hidden');
             $('.map-container').find('.corners').show();
         }
