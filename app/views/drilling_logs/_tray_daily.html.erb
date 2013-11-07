@@ -1,0 +1,58 @@
+<div id="drilling_daily" class="job-tray" data-tray="drilling-daily">
+
+  <div class="drilling-daily-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading daily totals..." %>
+  </div>
+
+  <div class="content">
+    <br>
+
+    <% if drilling_log.drilling_log_entries.any? %>
+        <% drilling_entry = nil %>
+        <% drilling_log.drilling_log_entries.each do |entry| %>
+            <% if drilling_entry == nil ||
+                    drilling_entry.entry_at.day != entry.entry_at.day ||
+                    drilling_entry.entry_at.month != entry.entry_at.month ||
+                    drilling_entry.entry_at.year != entry.entry_at.year %>
+                <% drilling_entry = entry %>
+                <div class="page_header">
+                  <h1><%= drilling_entry.entry_at.strftime("%A") %></h1><p class='inline-block'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
+                </div>
+
+                <div>
+                  <div class="chart-block tooltip-info"
+                       data-title="Average Total Rate of Penetration.">
+                    <div class="chart-title">Avg Total ROP</div>
+                    <div class="donut-chart-div job-donut-chart-div">
+                      <div class="donut-text "><%= drilling_log.nil? || drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1) %></div>
+                      <div class="percentage ">ft/min</div>
+                    </div>
+                  </div>
+
+                  <div class="chart-block tooltip-info"
+                       data-title="Total feet drilled.">
+                    <div class="chart-title">Total Drilled</div>
+                    <div class="donut-chart-div job-donut-chart-div">
+                      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : drilling_log.total_drilled.to_i %></div>
+                      <div class="percentage "><span class="push-right-small">ft</span></div>
+                    </div>
+                  </div>
+
+                  <div class="chart-block tooltip-info"
+                       data-title="Time in hours spent below the rotary table.">
+                    <div class="chart-title">Below Rotary</div>
+                    <div class="donut-chart-div job-donut-chart-div">
+                      <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
+                      <div class="percentage ">hours</div>
+                    </div>
+                  </div>
+                </div>
+                <br><br>
+            <% end %>
+        <% end %>
+    <% else %>
+        <p class='help-text'>No drilling log entries...</p>
+    <% end %>
+  </div>
+</div>

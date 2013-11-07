@@ -15,7 +15,6 @@
     var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
 
 
-
         // SERIAL CHART
         chart = new AmCharts.AmXYChart();
         chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
@@ -49,13 +48,13 @@
         graph.bullet = "round";
         graph.balloonText = "<b>[[comment]]</b><br> TVD [[tvd]] ft, VS [[vs]] ft";
         graph.bulletColor = "#FFFFFF";
-        graph.bulletBorderColor = "#00BBCC";
+        graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
         graph.bulletSize = 7;
         graph.title = "tvd";
         graph.lineThickness = 2;
-        graph.lineColor = "#00BBCC";
+        graph.lineColor = "#cc4800";
         graph.clustered = true;
         chart.addGraph(graph);
 
@@ -67,13 +66,13 @@
         graph.bullet = "round";
         graph.balloonText = "<b>Survey</b><br> TVD [[tvd2]] ft, VS [[vs2]] ft";
         graph.bulletColor = "#FFFFFF";
-        graph.bulletBorderColor = "#cc4800";
+        graph.bulletBorderColor = "#00BBCC";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
         graph.bulletSize = 0;
         graph.title = "tvd";
         graph.lineThickness = 2;
-        graph.lineColor = "#cc4800";
+        graph.lineColor = "#00BBCC";
         graph.clustered = true;
         chart.addGraph(graph);
 
@@ -94,7 +93,7 @@
             }
         }
 
-        var circle = $('#chartdiv').find('circle[stroke=#cc4800]:last');
+        var circle = $('#chartdiv').find('circle[stroke=#00BBCC]:last');
         var increasing = true;
         var pulse = function () {
             var radius = parseFloat(circle.attr('r'));
@@ -152,13 +151,13 @@
         graph.bullet = "round";
         graph.balloonText = "<b>[[comment]]</b> [[ns]], [[ew]]";
         graph.bulletColor = "#FFFFFF";
-        graph.bulletBorderColor = "#00BBCC";
+        graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
         graph.bulletSize = 7;
         graph.title = "ns";
         graph.lineThickness = 2;
-        graph.lineColor = "#00BBCC";
+        graph.lineColor = "#cc4800";
         graph.clustered = true;
         chart2.addGraph(graph);
 
@@ -169,13 +168,13 @@
         graph.bullet = "round";
         graph.balloonText = "<b>Survey</b> [[ns2]], [[ew2]]";
         graph.bulletColor = "#FFFFFF";
-        graph.bulletBorderColor = "#cc4800";
+        graph.bulletBorderColor = "#00BBCC";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
         graph.bulletSize = 0;
         graph.title = "ns";
         graph.lineThickness = 2;
-        graph.lineColor = "#cc4800";
+        graph.lineColor = "#00BBCC";
         graph.clustered = true;
         chart2.addGraph(graph);
 
@@ -196,7 +195,7 @@
             }
         }
 
-        var circle2 = $('#chartdiv2').find('circle[stroke=#cc4800]:last');
+        var circle2 = $('#chartdiv2').find('circle[stroke=#00BBCC]:last');
         var increasing2 = true;
         var pulse2 = function () {
             var radius = parseFloat(circle2.attr('r'));

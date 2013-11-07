@@ -44,9 +44,9 @@ $ ->
         $('#new_note_id').removeClass 'hidden'
         $('#assign_note_user').addClass 'hidden'
         $('#note_type_id').val('6')
-
     return false
 
+  $('.change-note-type[data-note=report]').trigger('click')
 
   $('.activity-report-show-all').live "click", ->
     root = $(this).closest('.activity-report-root')

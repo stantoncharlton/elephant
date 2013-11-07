@@ -37,12 +37,12 @@
   </li>
 
   <li class="push-right-small">
-    <a href="#" class="job-tray-toggle custom-data-toggle"
-       data-tray="daily">Daily Totals</a>
+    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+       data-tray="drilling-daily">Daily Totals</a>
   </li>
 
   <li class="push-right-small">
-    <a href="#" class="job-tray-toggle custom-data-toggle"
+    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
        data-tray="rop">ROP Analysis</a>
   </li>
 </ul>
@@ -56,7 +56,10 @@
   </div>
 </div>
 
-<div class="job-tray custom-data-closed" data-tray="daily">
+<div id="drilling_daily" class="job-tray custom-data-closed" data-tray="drilling-daily">
+  <div class="drilling-daily-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading daily totals..." %>
+  </div>
 </div>
 
 <div class="job-tray custom-data-closed" data-tray="rop">

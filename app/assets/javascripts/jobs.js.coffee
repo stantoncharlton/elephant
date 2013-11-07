@@ -98,7 +98,12 @@ $ ->
       $('#drilling_overview').find('.content').hide()
       $('.drilling-overview-loading').removeClass 'hidden'
       $('.drilling-overview-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "&section=drilling_overview", type: 'get', dataType: 'script'
+      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_overview", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "drilling-daily"
+      $('#drilling_daily').find('.content').hide()
+      $('.drilling-daily-loading').removeClass 'hidden'
+      $('.drilling-daily-loading').find('.loading').removeClass 'hidden'
+      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_daily", type: 'get', dataType: 'script'
     return false
 
   if document.location.hash != ''
