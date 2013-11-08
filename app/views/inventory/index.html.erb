@@ -137,7 +137,15 @@
     </div>
 <% end %>
 
-<%= render 'inventory/statistics', parts: @parts, show_rentals: current_user.role.district_read?, district: @district %>
+<hr>
+
+<div id="inventory_overview" class="center">
+  <br>
+  <span class="ajax-loading search-loading  center"><b>Loading Inventory Overview...</b></span>
+  <br><br>
+</div>
+
+<hr>
 
 <br>
 
@@ -160,6 +168,20 @@
 
 
 
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            setTimeout(function () {
+                $.ajax({
+                    url: "/inventory" + "?section=overview",
+                    type: "GET",
+                    dataType: "script"
+                });
+
+            }, 1);
+        });
+    }(jQuery));
+</script>
 
 
 

@@ -1,0 +1,3 @@
+<% if params[:section] == "overview" %>
+    $('#inventory_overview').replaceWith('<%= j render 'inventory/statistics', parts: @parts, show_rentals: current_user.role.district_read?, district: @district %>');
+<% end %>
