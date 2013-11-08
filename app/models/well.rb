@@ -137,6 +137,8 @@ private
                     if part[3].downcase == 'w' || part[3].downcase == 's' || part[3].downcase == 'west' || part[3].downcase == 'south'
                         decimal *= -1
                     end
+                    puts "............"
+                    puts decimal
                     return decimal
                 elsif part.length == 1
                     return number.to_f

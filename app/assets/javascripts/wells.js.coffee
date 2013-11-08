@@ -1,6 +1,32 @@
 $ ->
 
+  bad_well = (box) ->
+    box.addClass 'ui-autocomplete-bad'
+    alert("Invalid Well Location. Please format like:\n'28 25 43.426 N, 99 30 53.148 W'\nor '28.42, -99.51'")
+
+  $('.map-latlong-text-entry').live "change", ->
+    latlong = $(this).val().trim()
+    if latlong.length > 0
+      parts = latlong.split(',')
+      if parts.length != 2
+        return bad_well $(this)
+      else
+        for i in [0...2]
+          sub_parts = parts[i].trim().split(' ')
+          if sub_parts == 0
+            return bad_well $(this)
+          else if sub_parts.length == 1
+            if parseFloat(sub_parts[0]) > 360 || parseFloat(sub_parts[0]) < -360
+              return bad_well $(this)
+          else if sub_parts.length == 4
+            x = 2
+          else
+            return bad_well $(this)
+
+
   $('.map-latlong-text-entry').live "keyup", ->
+    if $(this).hasClass 'ui-autocomplete-bad'
+      $(this).removeClass 'ui-autocomplete-bad'
     if $(this).val().length > 0
       $('.map-latlong-link').removeClass 'hidden'
     else

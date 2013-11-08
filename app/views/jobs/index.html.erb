@@ -142,7 +142,7 @@
     $('.expand-map-box').live("click", function () {
         if ($('.expand-text').text() == 'expand') {
             map.scrollWheelZoom.enable();
-            $('body').animate({scrollTop : 0 }, 'fast')
+            $('body').animate({scrollTop: 0 }, 'fast')
             $('html, body').css("overflow", "hidden");
             $('.expand-text').text('collapse');
             $('.map-container').css('position', 'absolute');

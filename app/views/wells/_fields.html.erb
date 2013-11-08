@@ -33,11 +33,13 @@
                      "data-placement" => "bottom",
                      "data-title" => "Well location in 'latitude, longitude' format separated by comma" %>
 
-    <%= link_to "#",
-                class: "activity-user-link map-latlong-link " + (@well.location.blank? ? "hidden" : ""),
-                target: "_blank" do %>
-        <%= image_tag "map_icon.png", class: "job-status-avatar" %>
-        map
+    <% if false %>
+        <%= link_to "#",
+                    class: "activity-user-link map-latlong-link " + (@well.location.blank? ? "hidden" : ""),
+                    target: "_blank" do %>
+            <%= image_tag "map_icon.png", class: "job-status-avatar" %>
+            map
+        <% end %>
     <% end %>
   </div>
 
