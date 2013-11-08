@@ -95,6 +95,44 @@ body {
 
 }
 
+.alert-nav {
+  background: #0088cc;
+  color: #ffffff;
+  border-radius: 8px;
+
+  .custom-data-toggle {
+    color: #0058a8;
+    font-weight: bold;
+    background: transparent;
+    padding: 10px 20px 10px 20px;
+    margin-bottom: 0px;
+    margin-right: 2px;
+    display: inline-block;
+    font-family: "gothambookregular";
+    text-shadow: 0px 0px 0px rgba(1, 1, 1, .6);
+
+    &:active, &:link, &:visited {
+      color: #FFFFFF;
+      background: transparent;
+      text-decoration: none;
+    }
+    &:hover {
+      color: #000000;
+      background: #92d5f7;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  }
+
+  .active {
+    a {
+      background: #FFFFFF !important;
+      color: #1d1d1d !important;
+      font-family: "gothammediumregular" !important;
+    }
+  }
+}
+
 .email-body {
   padding-top: 15px !important;
   margin-left: 15px !important;

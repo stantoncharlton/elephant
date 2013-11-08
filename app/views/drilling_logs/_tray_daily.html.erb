@@ -16,6 +16,7 @@
                     drilling_entry.entry_at.month != entry.entry_at.month ||
                     drilling_entry.entry_at.year != entry.entry_at.year %>
                 <% drilling_entry = entry %>
+                <% log = DrillingLog.calculate(drilling_log.drilling_log_entries.where("drilling_log_entries.entry_at = '#{entry.entry_at.strftime("%Y-%m-%d")}'")) %>
                 <div class="page_header">
                   <h1><%= drilling_entry.entry_at.strftime("%A") %></h1><p class='inline-block'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
                 </div>
@@ -25,7 +26,7 @@
                        data-title="Average Total Rate of Penetration.">
                     <div class="chart-title">Avg Total ROP</div>
                     <div class="donut-chart-div job-donut-chart-div">
-                      <div class="donut-text "><%= drilling_log.nil? || drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1) %></div>
+                      <div class="donut-text "><%= log.nil? || log.rop.nil? ? "-" : log.rop.round(1) %></div>
                       <div class="percentage ">ft/min</div>
                     </div>
                   </div>
@@ -34,7 +35,7 @@
                        data-title="Total feet drilled.">
                     <div class="chart-title">Total Drilled</div>
                     <div class="donut-chart-div job-donut-chart-div">
-                      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : drilling_log.total_drilled.to_i %></div>
+                      <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" : log.total_drilled.to_i %></div>
                       <div class="percentage "><span class="push-right-small">ft</span></div>
                     </div>
                   </div>
@@ -43,7 +44,7 @@
                        data-title="Time in hours spent below the rotary table.">
                     <div class="chart-title">Below Rotary</div>
                     <div class="donut-chart-div job-donut-chart-div">
-                      <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
+                      <div class="donut-text "><%= log.nil? || log.below_rotary.nil? ? "-" : log.below_rotary.round(1) %></div>
                       <div class="percentage ">hours</div>
                     </div>
                   </div>
