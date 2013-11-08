@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
             return
         end
 
-        if user.invalid_login_attempts >= 10
+        if user.invalid_login_attempts >= 20
             redirect_to root_path(email: @email), :flash => {:error => "Your account is locked. Please contact support."}
             return
         end
