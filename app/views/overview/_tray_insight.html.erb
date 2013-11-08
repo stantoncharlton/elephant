@@ -1,0 +1,69 @@
+<% @failures = Failure.where("company_id = ?", current_user.company_id).where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= ?", 4.weeks.ago).order("failures.created_at DESC").paginate(page: params[:page], limit: 30) %>
+
+<% @failures_current_year = Failure.where(:company_id => current_user.company_id).where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', failures.created_at) as DATE").group("date_trunc('month', failures.created_at)").count("failures.created_at").map {|k,v| {Date.strptime(k).month => v}  }.reduce(:merge) %>
+<% @failures_last_year = Failure.where(:company_id => current_user.company_id).where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= '1/1/#{ Time.now.year - 1 }' AND failures.created_at <= '12/31/#{ Time.now.year - 1 }'").select("date_trunc('month', failures.created_at) as DATE").group("date_trunc('month', failures.created_at)").count("failures.created_at").map {|k,v| {Date.strptime(k).month => v}  }.reduce(:merge) %>
+
+
+<div id="overview_insight" data-loaded='true'>
+
+  <div class='center'>
+    <b class='blue-text'>Failures per year</b>
+    <br><br>
+  </div>
+  <div class="">
+    <canvas id="canvas_insight" height="200" width="960"></canvas>
+  </div>
+
+  <span class="help-text pull-right blue-text2">This year in blue verse last year</span>
+
+  <script>
+      var lineChartData = {
+          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [
+              {
+                  fillColor: "rgba(220,220,220,0.5)",
+                  strokeColor: "rgba(220,220,220,1)",
+                  pointColor: "rgba(220,220,220,1)",
+                  pointStrokeColor: "#fff",
+                  data: <%= raw (1..12).map { |month| (@failures_last_year && @failures_last_year[month]) || 0 }.to_json.html_safe %>
+              },
+              {
+                  fillColor: "rgba(151,187,205,0.5)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  pointStrokeColor: "#fff",
+                  data: <%= raw (1..12).map { |month| (@failures_current_year && @failures_current_year[month]) || 0 }.to_json.html_safe %>
+              }
+          ]
+      }
+
+      var myLine = new Chart(document.getElementById("canvas_insight").getContext("2d")).Line(lineChartData);
+
+  </script>
+  <br>
+  <br><br><br><br><br><br><br><br>
+  <br><br><br><br><br>
+  <h3>New Failures (<%= @failures.count %>)</h3>
+  <br>
+
+  <div id="failures" class="list">
+    <% @failures.each do |failure| %>
+        <% if failure.job.present? %>
+            <% job = failure.job %>
+            <%= link_to failure.job, class: "job-link tooltip-info",
+                        "data-html" => true,
+                        "data-placement" => "right",
+                        "data-title" => render('jobs/well_tooltip', job: job, show_summary_data: true) do %>
+                <div class="">
+                  <span><b><%= failure.job.job_template.name %></b></span>
+
+                  <div class="job-failure-item">- <%= failure.failure_master_template.text %></div>
+                  <div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
+                </div>
+                <p><%= time_ago_in_words(failure.created_at) %> ago</p>
+
+            <% end %>
+        <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,5 +1,20 @@
 $ ->
 
+  update_filter = () ->
+    $('#overview_loading').removeClass 'hidden'
+    $('#overview_trays').hide()
+    section = "company"
+    if document.location.hash != ''
+      section = document.location.hash.replace('#', '')
+    $.ajax '/overview/' + "?section=" + section +
+      "&division_id=" + $("#division_filter_id").val() +
+      "&user_id=" + $("#person_filter_id").val() +
+      "&district_id=" + $("#district_filter_id").val() +
+      "&time=" + $("#time_filter_id").val() +
+      "&rating=" + $("#rating_filter_id").val() +
+      "&failure_level=" + $("#failure_filter_id").val(),
+      type: 'get', dataType: 'script'
+
   last_selected_item = null
   focusevent = (event, ui) ->
     if last_selected_item != null
@@ -14,9 +29,7 @@ $ ->
     select: (event, ui) ->
       $("#person_filter").val(ui.item.label)
       $("#person_filter_id").val(ui.item.id)
-      $('.loading').removeClass 'hidden'
-      $('#results').hide()
-      $(this).closest("form").submit()
+      update_filter()
 
   $('#person_filter').change ->
     $("#person_filter_id").val('')
@@ -27,9 +40,7 @@ $ ->
     select: (event, ui) ->
       $("#division_filter").val(ui.item.division_type + " " + ui.item.name)
       $("#division_filter_id").val(ui.item.division_type + "/////" + ui.item.id)
-      $('.loading').removeClass 'hidden'
-      $('#results').hide()
-      $(this).closest("form").submit()
+      update_filter()
 
   $('#district_filter').autocomplete
     source: $('#district_filter').data('autocomplete-source')
@@ -37,9 +48,7 @@ $ ->
     select: (event, ui) ->
       $("#district_filter").val(ui.item.name)
       $("#district_filter_id").val(ui.item.id)
-      $('.loading').removeClass 'hidden'
-      $('#results').hide()
-      $(this).closest("form").submit()
+      update_filter()
 
   $('.clear-filter-link').click ->
     $('#overview_filters').addClass 'hidden'
@@ -47,14 +56,14 @@ $ ->
     $('#results').hide()
 
   $('#show_hide_overview_filters').click ->
-    if $.trim($(this).text()) == "Show Detailed Filters"
-      $(this).text("Hide Detailed Filters")
+    if $(this).attr('data-showing') == "basic"
+      $(this).attr('data-showing', 'advanced')
+      $(this).text("Show Less")
       $('#overview_filters').removeClass 'hidden'
-      $('#all_filters_id').val('open')
     else
-      $(this).text("Show Detailed Filters")
+      $(this).attr('data-showing', 'basic')
+      $(this).text("Show More")
       $('#overview_filters').addClass 'hidden'
-      $('#all_filters_id').val('')
     return false
 
 
@@ -63,24 +72,18 @@ $ ->
       $(this).closest('li').removeClass 'active'
     $(this).closest('li').addClass 'active'
     $("#time_filter_id").val($(this).data('time'))
-    $('.loading').removeClass 'hidden'
-    $('#results').hide()
-    $(this).closest("form").submit()
+    update_filter()
 
   $('.overview-rating-filter').click ->
     $('.overview-rating-filter').each ->
       $(this).closest('li').removeClass 'active'
     $(this).closest('li').addClass 'active'
     $("#rating_filter_id").val($(this).data('rating'))
-    $('.loading').removeClass 'hidden'
-    $('#results').hide()
-    $(this).closest("form").submit()
+    update_filter()
 
   $('.overview-failure-filter').click ->
     $('.overview-failure-filter').each ->
       $(this).closest('li').removeClass 'active'
     $(this).closest('li').addClass 'active'
     $("#failure_filter_id").val($(this).data('failure'))
-    $('.loading').removeClass 'hidden'
-    $('#results').hide()
-    $(this).closest("form").submit()
+    update_filter()

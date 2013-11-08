@@ -1,0 +1,69 @@
+<div id="company_failures">
+  <div class="chart-block tooltip-info"
+       data-title="'Job Success Rate' shows the percentage of jobs that are successful.">
+    <div class="chart-title">Job Success Rate</div>
+    <div class="donut-chart-div">
+      <div id="failure_rate" class="donut-chart "></div>
+      <div class="donut-inner-circle <%= @job_success_rate > 70 ? "" : "inner-circle-red" %>"></div>
+      <div class="donut-text <%= @job_success_rate > 70 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
+      <div class="percentage-circle <%= @job_success_rate > 70 ? "" : "chart-text-red" %>">%</div>
+    </div>
+  </div>
+
+  <div class="chart-problem">
+    <% if @failures_count > 0 %>
+        <div class="chart-title">Top Failures</div>
+        <% if false %>
+            <a href="#" class="activity-user-link pull-right">View all failures (<%= @failures_count %>)</a>
+        <% else %>
+            <p class="help-text inline">(<%= @failures_count %> total failures)</p>
+        <% end %>
+        <br>
+
+        <% @failures_list.each do |failure_group| %>
+            <% failure = Failure.find_by_id(failure_group[0]) %>
+            <%= link_to failure, class: " failure-link tooltip-info",
+                        "data-placement" => "right",
+                        "data-title" => "Click to view failures" do %>
+                <div class="chart-problem">
+                  <div class="chart-problem-name">
+                    <%= failure.text %>
+                    <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
+                  </div>
+                  <div class="chart-problem-bar">
+                    <div style="width: <%= (failure_group[1].to_f / [@failures_list.first[1].to_f, 50].max) * 100 %>%"></div>
+                  </div>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+
+  </div>
+</div>
+
+<script>
+    $.jqplot('failure_rate', [
+        [
+            ['a', <%= @job_success_rate %>],
+            ['b', 100 - <%= @job_success_rate %>]
+        ]
+    ], {
+        animate: true,
+        background: "#FFFFFF",
+        seriesColors: [ "<%= @job_success_rate > 70 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
+        seriesDefaults: {
+            textColor: " #00ff0000",
+            shadow: false,
+            renderer: $.jqplot.DonutRenderer,
+            rendererOptions: {
+                padding: 0,
+                innerDiameter: 95,
+                sliceMargin: 0,
+                startAngle: -90,
+                showDataLabels: true,
+                dataLabels: 'value'
+            }
+        }
+    });
+
+</script>

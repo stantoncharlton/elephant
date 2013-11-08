@@ -1,0 +1,20 @@
+$('#overview_loading').addClass('hidden');
+$('#overview_trays').show();
+
+<% if params[:section] == "company" %>
+    $('#overview_company').replaceWith('<%= j render 'overview/tray_company' %>');
+<% elsif params[:section] == "company_failures" %>
+    $('#company_failures').replaceWith('<%= j render 'overview/company_failures' %>');
+<% elsif params[:section] == "drilling" %>
+    $('#overview_drilling').replaceWith('<%= j render 'overview/tray_drilling' %>');
+<% elsif params[:section] == "failures" %>
+    $('#overview_failures').replaceWith('<%= j render 'overview/tray_failures' %>');
+<% elsif params[:section] == "insight" %>
+    $('#overview_insight').replaceWith('<%= j render 'overview/tray_insight' %>');
+<% end %>
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+}
+
+$('.custom-select-ajax').customSelect();

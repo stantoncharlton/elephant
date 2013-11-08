@@ -1,482 +1,115 @@
 <% provide(:title, "Overview") %>
 
-
-<% capture do %>
-    <script type="text/javascript" src="../jquery.min.js"></script>
-    <script type="text/javascript" src="../jquery.jqplot.min.js"></script>
-    <script type="text/javascript" src="../plugins/jqplot.pieRenderer.min.js"></script>
-    <script type="text/javascript" src="../plugins/jqplot.donutRenderer.min.js"></script>
-    <link rel="stylesheet" type="text/css" hrf="../jquery.jqplot.min.css"/>
-<% end %>
-
 <div class="page_header">
   <h1>Overview</h1>
+</div>
 
-  <div class="pull-right overview-options">
-    <%= link_to "Clear filters", overview_path, class: "inline activity-user-link clear-filter-link" %>
-    <br>
-    <a id="show_hide_overview_filters" class="activity-user-link" href="#">
-      <%= @filters_open == "open" ? "Hide Detailed Filters" : "Show Detailed Filters" %>
+<ul class="nav nav-pills alert alert-nav">
+
+  <li class="active">
+    <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="company"
+       data-placement="bottom" data-title="Company general overview">Company
     </a>
-  </div>
-</div>
+  </li>
+
+  <li class="">
+    <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="drilling"
+       data-placement="bottom" data-title="Drilling Overview">Drilling</a>
+  </li>
+
+  <li class="push-right-small">
+    <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="failures"
+       data-placement="bottom" data-title="Failures overview">Failures</a>
+  </li>
+
+  <li class="push-right-small">
+    <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="insight"
+       data-placement="bottom" data-title="Insight overview">Insight
+    </a>
+  </li>
+</ul>
 
 
-<div class="well">
-<%= form_tag overview_path, :method => :post do |f| %>
-
-    <%= hidden_field_tag "", "", name: "division_id", id: "division_filter_id", value: @division_id %>
-    <%= image_tag "division_extrasmall.png", class: "job-status-avatar" %>
-    <%= text_field_tag "", "", data: {autocomplete_source: divisions_path},
-                       placeholder: "Filter by Division, Segment, etc..",
-                       id: "division_filter",
-                       value: @division_name,
-                       class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
-                       "data-placement" => "top",
-                       "data-title" => "Filter by Division, Segment, Product Line, Job Type" %>
-
-
-    <%= hidden_field_tag "", "", name: "district_id", id: "district_filter_id", value: @district_id %>
-    <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
-    <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
-                       placeholder: "Filter by District name",
-                       id: "district_filter",
-                       value: @district_name,
-                       class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
-                       "data-placement" => "top",
-                       "data-title" => "Filter by District Name" %>
-
-
-    <%= hidden_field_tag "", "", name: "user_id", id: "person_filter_id", value: @user_id %>
-    <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-right-small" %>
-    <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                       placeholder: "Filter by Person",
-                       id: "person_filter",
-                       value: @user_name,
-                       class: "inline txtfield small job-note-assign custom-data-input tooltip-info",
-                       "data-placement" => "top",
-                       "data-title" => "Filter by Person" %>
-
-    <div class="push-right-small inline">
-      <!-- <%= submit_tag "Update", class: "bluebtn gray" %> -->
-    </div>
-
-    <%= hidden_field_tag "", "", name: "filters_open", id: "all_filters_id", value: @filters_open %>
-    <div id="overview_filters" class="<%= @filters_open == "open" ? "" : "hidden" %>">
-      <hr>
-
-      <div>
-        <%= hidden_field_tag "", "", name: "time", id: "time_filter_id", value: @time %>
-        <ul class="nav nav-pills">
-
-          <li>
-            <a class="filter-label disabled">
-              <h3 class="inline">Time</h3>
-            </a>
-          </li>
-
-
-          <li class=" <%= @time == "all" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-time-filter custom-data-toggle tooltip-info"
-               data-time="all"
-               data-placement="bottom"
-               data-title="Jobs performed at any time in the past">All time</a>
-          </li>
-          <li class=" <%= @time == "30" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-time-filter custom-data-toggle tooltip-info"
-               data-time="30"
-               data-placement="bottom"
-               data-title="Jobs performed in the last 0-30 days">0-30 days</a>
-          </li>
-          <li class=" <%= @time == "previous 30" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-time-filter custom-data-toggle tooltip-info"
-               data-time="previous 30"
-               data-placement="bottom"
-               data-title="Jobs performed in the last 30-60 days">30-60 days</a>
-          </li>
-          <li class=" <%= @time == "60" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-time-filter custom-data-toggle tooltip-info"
-               data-time="60"
-               data-placement="bottom"
-               data-title="Jobs performed in the last 0-60 days">0-60 days</a>
-          </li>
-          <li class=" <%= @time == "year" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-time-filter custom-data-toggle tooltip-info"
-               data-time="year"
-               data-placement="bottom"
-               data-title="Jobs performed in the last 12 months">Last 12 months</a>
-          </li>
-        </ul>
-
-      </div>
-
-      <hr>
-
-      <div>
-        <%= hidden_field_tag "", "", name: "rating", id: "rating_filter_id", value: @rating %>
-        <ul class="nav nav-pills">
-          <li>
-            <a class="filter-label disabled">
-              <h3 class="inline">Rating</h3>
-            </a>
-          </li>
-
-          <li class=" <%= @rating == "all" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-rating-filter custom-data-toggle tooltip-info"
-               data-rating="all"
-               data-placement="bottom"
-               data-title="Jobs with any star rating level">All rating levels</a>
-          </li>
-          <li class=" <%= @rating == "1" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-rating-filter custom-data-toggle tooltip-info"
-               data-rating="1"
-               data-placement="bottom"
-               data-title="Jobs with 1 star rating level">1 star</a>
-          </li>
-          <li class=" <%= @rating == "2" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-rating-filter custom-data-toggle tooltip-info"
-               data-rating="2"
-               data-placement="bottom"
-               data-title="Jobs with 2 star rating level">2 star</a>
-          </li>
-          <li class=" <%= @rating == "3" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-rating-filter custom-data-toggle tooltip-info"
-               data-rating="3"
-               data-placement="bottom"
-               data-title="Jobs with 3 star rating level">3 star</a>
-          </li>
-          <li class=" <%= @rating == "4" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-rating-filter custom-data-toggle tooltip-info"
-               data-rating="4"
-               data-placement="bottom"
-               data-title="Jobs with 4 star rating level">4 star</a>
-          </li>
-          <li class=" <%= @rating == "5" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-rating-filter custom-data-toggle tooltip-info"
-               data-rating="5"
-               data-placement="bottom"
-               data-title="Jobs with 5 star rating level">5 star</a>
-          </li>
-        </ul>
-      </div>
-
-      <hr>
-
-      <div>
-        <%= hidden_field_tag "", "", name: "failure_level", id: "failure_filter_id", value: @failure_level %>
-        <ul class="nav nav-pills">
-          <li>
-            <a class="filter-label disabled">
-              <h3 class="inline">Failures/job</h3>
-            </a>
-          </li>
-
-          <li class=" <%= @failure_level == "all" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-failure-filter custom-data-toggle tooltip-info"
-               data-failure="all"
-               data-placement="bottom"
-               data-title="Jobs with any number of failures or without failures">All failure levels</a>
-          </li>
-          <li class=" <%= @failure_level == "0" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-failure-filter custom-data-toggle tooltip-info"
-               data-failure="0"
-               data-placement="bottom"
-               data-title="Jobs with 0 failures">0 failures</a>
-          </li>
-          <li class=" <%= @failure_level == "1" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-failure-filter custom-data-toggle tooltip-info"
-               data-failure="1"
-               data-placement="bottom"
-               data-title="Jobs with 1 failure">1 failure</a>
-          </li>
-          <li class=" <%= @failure_level == "2" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-failure-filter custom-data-toggle tooltip-info"
-               data-failure="2"
-               data-placement="bottom"
-               data-title="Jobs with 2 failures">2 failures</a>
-          </li>
-          <li class=" <%= @failure_level == "3" ? "active" : "" %> push-right-small">
-            <a href="#"
-               class="overview-failure-filter custom-data-toggle tooltip-info"
-               data-failure="3"
-               data-placement="bottom"
-               data-title="Jobs with 3 or more failures">3+ failures</a>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
-
-<% end %>
-</div>
-
+<%= render 'overview/filter' %>
+<hr>
 
 <br>
 
-<div class="loading center hidden">
+<div id="overview_loading" class="loading center hidden">
   <br>
   <br>
-  <span class="ajax-loading search-loading push-right"><b>Loading, please wait</b></span>
+  <span class="ajax-loading search-loading  center"><b>Loading...</b></span>
   <br>
 </div>
 
-<div id="results">
+<div id="overview_trays">
 
-<div class="chart-block tooltip-info"
-     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
-  <div class="chart-title">Jobs</div>
-  <div class="donut-chart-div">
-    <div class="donut-text "><%= number_with_delimiter(@jobs.count, :delimiter => ",") %></div>
-    <div class="percentage ">jobs</div>
+  <div class="job-tray" data-tray="company">
+    <div id="overview_company">
+      <br><br>
+
+      <div class="center">
+        <br><br>
+        <span class="ajax-loading search-loading"><b>Loading Company Overview...</b></span>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-tray custom-data-closed" data-tray="drilling">
+    <div id="overview_drilling">
+      <br><br>
+
+      <div class="center">
+        <br><br>
+        <span class="ajax-loading search-loading"><b>Loading Drilling Overview...</b></span>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-tray custom-data-closed" data-tray="failures">
+    <div id="overview_failures">
+      <br><br>
+
+      <div class="center">
+        <br><br>
+        <span class="ajax-loading search-loading"><b>Loading Failures Overview...</b></span>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <div class="job-tray custom-data-closed" data-tray="insight">
+    <div id="overview_insight">
+      <br><br>
+
+      <div class="center">
+        <br><br>
+        <span class="ajax-loading search-loading"><b>Loading Insight Overview...</b></span>
+        <br>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="chart-block tooltip-info"
-     data-title="'Personnel Utilization' refers to the ratio of active users on jobs compared by district and product line to all users on Elephant.">
-  <div class="chart-title">Personnel Utilization</div>
-  <div class="donut-chart-div">
-    <div id="personnel_utilization" class="donut-chart "></div>
-    <div class="donut-inner-circle"></div>
-    <div class="donut-text"><%= @personnel_utilization %></div>
-    <div class="percentage-circle">%</div>
-  </div>
-</div>
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            setTimeout(function () {
 
-<div class="chart-block tooltip-info"
-     data-title="'Performance Rating' is the average job rating.">
-  <div class="chart-title">Performance Rating</div>
-  <div class="donut-chart-div">
-    <div id="performance_rating" class="donut-chart "></div>
-    <div class="donut-inner-circle <%= @average_job_performance >= 3 ? "" : "inner-circle-red" %>"></div>
-    <div class="donut-text <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>"><%= @average_job_performance %></div>
-    <div class="percentage-circle <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>">of 5</div>
-  </div>
-</div>
+                $.ajax({
+                    url: "/overview" + "?section=company",
+                    type: "GET",
+                    dataType: "script"
+                });
 
-<div class="chart-block tooltip-info"
-     data-title="'Average Job Duration' is the average duration of all jobs, represented in days.">
-  <div class="chart-title">Average Job Duration</div>
-  <div class="donut-chart-div">
-    <div class="donut-text "><%= @average_job_time.nil? ? "0" : @average_job_time %></div>
-    <div class="percentage ">days</div>
-  </div>
-</div>
+            }, 1);
 
-
-<hr>
-
-
-<div class="chart-block tooltip-info"
-     data-title="'Job Success Rate' shows the percentage of jobs that are successful.">
-  <div class="chart-title">Job Success Rate</div>
-  <div class="donut-chart-div">
-    <div id="failure_rate" class="donut-chart "></div>
-    <div class="donut-inner-circle <%= @job_success_rate > 70 ? "" : "inner-circle-red" %>"></div>
-    <div class="donut-text <%= @job_success_rate > 70 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
-    <div class="percentage-circle <%= @job_success_rate > 70 ? "" : "chart-text-red" %>">%</div>
-  </div>
-</div>
-
-<div class="chart-problem">
-  <% if @failures_count > 0 %>
-      <div class="chart-title">Top Failures</div>
-      <% if false %>
-          <a href="#" class="activity-user-link pull-right">View all failures (<%= @failures_count %>)</a>
-      <% else %>
-          <p class="help-text inline">(<%= @failures_count %> total failures)</p>
-      <% end %>
-      <br>
-
-      <% @failures_list.each do |failure_group| %>
-          <% failure = Failure.find_by_id(failure_group[0]) %>
-          <%= link_to failure, class: " failure-link tooltip-info",
-                      "data-placement" => "right",
-                      "data-title" => "Click to view failures" do %>
-              <div class="chart-problem">
-                <div class="chart-problem-name">
-                  <%= failure.text %>
-                  <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
-                </div>
-                <div class="chart-problem-bar">
-                  <div style="width: <%= (failure_group[1].to_f / [@failures_list.first[1].to_f, 50].max) * 100 %>%"></div>
-                </div>
-              </div>
-          <% end %>
-      <% end %>
-  <% end %>
-
-</div>
-
-<hr>
-
-<div class="chart-block tooltip-info"
-     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
-  <div class="chart-title">Personnel</div>
-  <div class="donut-chart-div">
-    <div class="donut-text "><%= number_with_delimiter(@total_personnel, :delimiter => ",") %></div>
-    <div class="percentage ">people</div>
-  </div>
-</div>
-
-<div class="chart-block tooltip-info"
-     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
-  <div class="chart-title">Districts</div>
-  <div class="donut-chart-div">
-    <div class="donut-text "><%= @total_districts %></div>
-    <div class="percentage ">districts</div>
-  </div>
-</div>
-
-<div class="chart-block tooltip-info"
-     data-title="'Total Jobs' is the number of jobs being analyzed based on the set of filters.">
-  <div class="chart-title">Job Types</div>
-  <div class="donut-chart-div">
-    <div class="donut-text "><%= number_with_delimiter(@total_job_types, :delimiter => ",") %></div>
-    <div class="percentage ">types</div>
-  </div>
-</div>
-
-
-<script>
-    $(document).ready(function () {
-        var plot3 = $.jqplot('personnel_utilization', [
-            [
-                ['a', <%= @personnel_utilization %>],
-                ['b', 100 - <%= @personnel_utilization %>]
-            ]
-        ], {
-            animate: true,
-            animateReplot: true,
-            background: "#FFFFFF",
-            seriesColors: [ "#458fd2", "#FFFFFF"],
-            seriesDefaults: {
-                textColor: " #00ff0000",
-                shadow: false,
-                renderer: $.jqplot.DonutRenderer,
-                rendererOptions: {
-                    animation: {
-                        show: true,
-                        speed: 2500
-                    },
-                    padding: 0,
-                    innerDiameter: 95,
-                    sliceMargin: 0,
-                    startAngle: -90,
-                    showDataLabels: true,
-                    dataLabels: 'value'
-                }
-            }
         });
-
-
-        plot3 = $.jqplot('failure_rate', [
-            [
-                ['a', <%= @job_success_rate %>],
-                ['b', 100 - <%= @job_success_rate %>]
-            ]
-        ], {
-            animate: true,
-            background: "#FFFFFF",
-            seriesColors: [ "<%= @job_success_rate > 70 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
-            seriesDefaults: {
-                textColor: " #00ff0000",
-                shadow: false,
-                renderer: $.jqplot.DonutRenderer,
-                rendererOptions: {
-                    padding: 0,
-                    innerDiameter: 95,
-                    sliceMargin: 0,
-                    startAngle: -90,
-                    showDataLabels: true,
-                    dataLabels: 'value'
-                }
-            }
-        });
-
-        plot3 = $.jqplot('performance_rating', [
-            [
-                ['a', <%= @average_job_performance %>],
-                ['b', 5 - <%= @average_job_performance %>]
-            ]
-        ], {
-            animate: true,
-            background: "#FFFFFF",
-            seriesColors: [ "<%= @average_job_performance >= 3 ? "#458fd2" : "#e4472e" %>", "#FFFFFF"],
-            seriesDefaults: {
-                textColor: " #00ff0000",
-                shadow: false,
-                renderer: $.jqplot.DonutRenderer,
-                rendererOptions: {
-                    padding: 0,
-                    innerDiameter: 95,
-                    sliceMargin: 0,
-                    startAngle: -90,
-                    showDataLabels: true,
-                    dataLabels: 'value'
-                }
-            }
-        });
-
-        $('#person_filter').data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a>" + (item.id > 0 ? "<div><img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
-        }
-        $('#division_filter').data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a>" + (item.id > 0 ? "<div><img src='/assets/division_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.name + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.division_type + "</p><p class='job-user-district'>" + "" + "</p></div>" : "") + "</div></a>").appendTo(ul)
-        }
-        $('#district_filter').data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a>" + (item.id > 0 ? "<div><img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
-        }
-    });
+    }(jQuery));
 </script>
-
-<div class="content">
-  <h3>Jobs</h3>
-
-  <div class="job-status-guide pull-right">
-    <p class="inline">0%</p>
-
-    <p class="inline pull-right">100%</p>
-  </div>
-</div>
-
-<hr>
-
-<div class="content" id="jobs">
-  <% @jobs.each do |job| %>
-      <%= render 'jobs/job_progress_link', job: job %>
-  <% end %>
-</div>
-
-<%= will_paginate @jobs, :params => {:district_id => @district_id, :division_id => @division_id, :user_id => @user_id} %>
-
-
-<script>
-    $(document).ready(function () {
-        if (location.search.indexOf("page") >= 0) {
-            var new_position = $('#jobs').offset();
-            window.scrollTo(0, new_position.top - 150);
-        }
-    });
-</script>
-
-
-</div>

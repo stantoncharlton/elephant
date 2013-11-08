@@ -1,29 +1,30 @@
 class OverviewController < ApplicationController
     include JobAnalysisHelper
-    before_filter :signed_in_user, only: [:overview, :filter_overview]
+    before_filter :signed_in_user, only: [:overview]
+
+    set_tab :overview
 
     def overview
-        set_tab :overview
 
-        @jobs = Job.from_company(current_user.company).includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: { product_line: { segment: :division } })
+        if params[:section] == "company"
+            @jobs = Job.from_company(current_user.company).includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
+            filter
 
-        filter
-        analyze
-
-        @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
-
-        render 'overview'
-    end
-
-    def filter_overview
-        set_tab :overview
-
-        @jobs = Job.from_company(current_user.company).includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: { product_line: { segment: :division } })
-
-        filter
-        analyze
-
-        @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
+            @personnel_utilization = personnel_utilization(@jobs)
+            @total_personnel = total_personnel(@jobs)
+            @total_districts = total_districts(@jobs)
+            @total_job_types = total_job_types(@jobs)
+            @average_job_time = average_job_duration(@jobs)
+            @average_job_performance = average_job_performance(@jobs)
+            @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
+        elsif  params[:section] == "company_failures"
+            @jobs = Job.from_company(current_user.company).includes(:job_processes, :district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
+            filter
+            @job_success_rate = job_success_rate(@jobs)
+            @failures = failures(@jobs)
+            @failures_list = @failures.take(4).to_a
+            @failures_count = @failures.count()
+        end
 
         render 'overview'
     end
@@ -112,20 +113,6 @@ class OverviewController < ApplicationController
                 @jobs = @jobs.where("failures_count >= 3")
         end
 
-    end
-
-    def analyze
-        @personnel_utilization = personnel_utilization(@jobs)
-        @total_personnel = total_personnel(@jobs)
-        @total_districts = total_districts(@jobs)
-        @total_job_types = total_job_types(@jobs)
-        @average_job_time = average_job_duration(@jobs)
-        @average_job_performance = average_job_performance(@jobs)
-        @job_success_rate = job_success_rate(@jobs)
-
-        @failures = failures(@jobs)
-        @failures_list = @failures.take(4).to_a
-        @failures_count = @failures.count()
     end
 
 end

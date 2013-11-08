@@ -1,4 +1,4 @@
-<div class="well">
+<div class="content">
 
   <div class="chart-block tooltip-info"
        data-title="Total assets in district inventory">
@@ -10,7 +10,7 @@
   </div>
 
   <div class="pull-right">
-    <canvas id="canvas" height="230" width="660"></canvas>
+    <canvas id="canvas_issues" height="230" width="660"></canvas>
   </div>
 
 </div>
@@ -30,5 +30,5 @@
             }
         ]
     }
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+    var myLine = new Chart(document.getElementById("canvas_issues").getContext("2d")).Line(lineChartData);
 </script>

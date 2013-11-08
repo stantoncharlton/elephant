@@ -107,6 +107,15 @@ $ ->
       $('.drilling-daily-loading').removeClass 'hidden'
       $('.drilling-daily-loading').find('.loading').removeClass 'hidden'
       $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_daily", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "failures"
+      if $('#overview_failures').attr('data-loaded') != "true"
+        $.ajax '/overview/' + "?section=failures", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "insight"
+      if $('#overview_insight').attr('data-loaded') != "true"
+        $.ajax '/overview/' + "?section=insight", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "drilling"
+      if $('#overview_drilling').attr('data-loaded') != "true"
+        $.ajax '/overview/' + "?section=drilling", type: 'get', dataType: 'script'
     return false
 
   if document.location.hash != ''

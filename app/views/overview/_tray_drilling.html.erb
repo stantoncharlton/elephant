@@ -1,0 +1,30 @@
+<% @rops_current_year = DrillingLog.where(:company_id => current_user.company_id).where("drilling_logs.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+
+<div id="overview_drilling" data-loaded='true'>
+
+  <div class='center'>
+    <b class='blue-text'>Drilling ROP per year</b>
+    <br><br>
+  </div>
+  <div class="">
+    <canvas id="canvas_drilling" height="200" width="960"></canvas>
+  </div>
+
+  <script>
+      var lineChartData = {
+          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [
+              {
+                  fillColor: "rgba(151,187,205,0.5)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  pointStrokeColor: "#fff",
+                  data: <%= raw (1..12).map { |month| (@rops_current_year && @rops_current_year[month]) || 0 }.to_json.html_safe %>
+              }
+          ]
+      }
+
+      var myLine = new Chart(document.getElementById("canvas_drilling").getContext("2d")).Line(lineChartData);
+
+  </script>
+</div>
