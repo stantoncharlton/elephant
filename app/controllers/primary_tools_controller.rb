@@ -26,8 +26,10 @@ class PrimaryToolsController < ApplicationController
     def create
         if params[:duplicate].present? && params[:duplicate] == "true"
             @existing_tool = PrimaryTool.find_by_id(params[:id])
-            @tool = @existing_tool.duplicate Job.find_by_id(params[:job_id]), current_user
-            @job_editable = @tool.job.is_job_editable?(current_user)
+            if @existing_tool.present?
+                @tool = @existing_tool.duplicate Job.find_by_id(params[:job_id]), current_user
+                @job_editable = @tool.job.is_job_editable?(current_user)
+            end
             render 'tools/primary/duplicate'
         elsif signed_in_admin?
             tool_id = params[:primary_tool][:tool_id]

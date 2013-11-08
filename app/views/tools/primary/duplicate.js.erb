@@ -31,6 +31,9 @@ else {
 
 $tool_count = $tool.closest('.all-tool-details').prev().find('.tool-count');
 $tool_count.text(parseInt($tool_count.text()) + 1);
+if(!$tool.closest('.all-tool-details').prev().find('a').hasClass('primary-tools-expanded')) {
+    $tool.closest('.all-tool-details').prev().find('a').addClass('primary-tools-expanded');
+}
 
 var focusevent, last_selected_item, part_focused, _this = this;
 

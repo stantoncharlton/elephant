@@ -16,9 +16,12 @@
                     drilling_entry.entry_at.month != entry.entry_at.month ||
                     drilling_entry.entry_at.year != entry.entry_at.year %>
                 <% drilling_entry = entry %>
-                <% log = DrillingLog.calculate(drilling_log.drilling_log_entries.where("drilling_log_entries.entry_at = '#{entry.entry_at.strftime("%Y-%m-%d")}'")) %>
+                <% entries = drilling_log.drilling_log_entries.where("drilling_log_entries.entry_at > '#{entry.entry_at.beginning_of_day}' AND drilling_log_entries.entry_at <= '#{entry.entry_at.end_of_day}' ").to_a %>
+                <% log = DrillingLog.calculate(entries) %>
                 <div class="page_header">
-                  <h1><%= drilling_entry.entry_at.strftime("%A") %></h1><p class='inline-block'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
+                  <h1><%= drilling_entry.entry_at.strftime("%A") %></h1>
+
+                  <p class='inline-block'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
                 </div>
 
                 <div>
@@ -48,6 +51,35 @@
                       <div class="percentage ">hours</div>
                     </div>
                   </div>
+
+                  <div class="chart-daily tooltip-info" data-title="ROP">
+                    <canvas id="canvas_<%= drilling_entry.id %>" height="110" width="220"></canvas>
+                  </div>
+
+                  <script>
+                      <% rops = [] %>
+                      <% last_entry = entries.first %>
+                      <% entries.each do |dl| %>
+                      <% rops << [dl.entry_at, ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
+                      <% last_entry = dl %>
+                      <% end %>
+
+                      var lineChartData = {
+                          labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
+                          datasets: [
+                              {
+                                  fillColor: "rgba(220,220,220,0.5)",
+                                  strokeColor: "rgba(220,220,220,1)",
+                                  pointColor: "rgba(220,220,220,1)",
+                                  pointStrokeColor: "#fff",
+                                  data: <%= raw rops.map { |dl| dl[1] }.to_json.html_safe %>
+                              }
+                          ]
+                      }
+
+                      var myLine = new Chart(document.getElementById("canvas_<%= drilling_entry.id %>").getContext("2d")).Line(lineChartData, { scaleShowLabels: false });
+                  </script>
+
                 </div>
                 <br><br>
             <% end %>
