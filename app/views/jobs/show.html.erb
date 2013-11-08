@@ -11,7 +11,11 @@
 
 <hr>
 
-<%= render 'jobs/job_overview', job: @job %>
+<div id="job_overview">
+  <div class='center'>
+    <span class="ajax-loading search-loading"><b>Loading overview...</b></span>
+  </div>
+</div>
 
 <br>
 <br>
@@ -25,37 +29,37 @@
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="documents_data"
            data-placement="bottom" data-title="Custom job data and values">Documents/Logs
-          </a>
+        </a>
       </li>
 
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
         <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="custom_data"
            data-placement="bottom" data-title="Custom job data and values"><%= "Job Data" %>
-          </a>
+        </a>
       </li>
 
       <li class="push-right-small">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="tools_assets"
            data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
-          </a>
+        </a>
       </li>
 
       <% if false %>
-      <li class="push-right-small">
-        <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="secondary_tools"
-           data-placement="bottom" data-title="List of secondary tools used on this job">Secondary Tools
-          </a>
-      </li>
+          <li class="push-right-small">
+            <a href="#" id="job_secondary_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+               data-tray="secondary_tools"
+               data-placement="bottom" data-title="List of secondary tools used on this job">Secondary Tools
+            </a>
+          </li>
       <% end %>
 
       <li class="push-right-small">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="notes"
            data-placement="bottom" data-title="Notes and Tasks for this job">Reports/Notes
-          </a>
+        </a>
       </li>
 
       <li class="push-right-small">
@@ -74,15 +78,14 @@
     </ul>
 
     <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
+
     <div class="job-tray custom-data-closed" data-tray="tools_assets">
       <div id="primary_tools_loading">
         <div class="remote-loading">
-          <br>
-          <br>
+          <br><br>
 
           <div class="loading center">
-            <br>
-            <br>
+            <br><br>
             <span class="ajax-loading search-loading"><b>Loading Tools/Assets...</b></span>
             <br>
           </div>
@@ -93,12 +96,10 @@
     <div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "custom-data-closed" : "" %>" data-tray="documents_data">
       <div id="documents_loading">
         <div class="remote-loading">
-          <br>
-          <br>
+          <br><br>
 
           <div class="loading center">
-            <br>
-            <br>
+            <br><br>
             <span class="ajax-loading search-loading"><b>Loading Documents/Logs...</b></span>
             <br>
           </div>
@@ -106,10 +107,24 @@
       </div>
     </div>
 
-    <%= render 'jobs/job_notes', job: @job, job_editable: @job_editable %>
+    <div class="job-tray custom-data-closed" data-tray="notes">
+      <div id="notes_loading">
+        <div class="remote-loading">
+          <br><br>
+
+          <div class="loading center">
+            <br><br>
+            <span class="ajax-loading search-loading"><b>Loading Reports/Notes...</b></span>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="job-tray custom-data-closed" data-tray="activity">
       <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
     </div>
+
     <%= render 'jobs/job_time', job: @job %>
   </div>
 </div>
@@ -132,51 +147,68 @@
         $(document).ready(function () {
 
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
-            if($('#new_member_name').length > 0) {
-            $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
+            if ($('#new_member_name').length > 0) {
+                $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
+                    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                            "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
+                }
             }
+            if ($('#new_note_name').length > 0) {
+                $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
+                    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                            "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
+                }
             }
-            if($('#new_note_name').length > 0) {
-            $('#new_note_name').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a>" + (item.id > 0 ? "<img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
-            }
-            }
 
-            $.ajax({
-                url: "/jobs/" + <%= @job.id.to_s %> +"?section=documents",
-                type: "GET",
-                dataType: "script"
-            });
+            setTimeout(function(){
 
-            $.ajax({
-                url: "/job_process/" + <%= @job.id.to_s %>,
-                type: "GET",
-                dataType: "script"
-            });
+                $.ajax({
+                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=overview",
+                    type: "GET",
+                    dataType: "script"
+                });
+
+                $.ajax({
+                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=documents",
+                    type: "GET",
+                    dataType: "script"
+                });
+
+                $.ajax({
+                    url: "/job_process/" + <%= @job.id.to_s %>,
+                    type: "GET",
+                    dataType: "script"
+                });
 
 
-            <% if @job.status == Job::ACTIVE %>
-            $.ajax({
-                url: "/failures/" + <%= @job.id.to_s %>,
-                type: "GET",
-                dataType: "script"
-            });
-            <% end %>
+                <% if @job.status == Job::ACTIVE %>
+                $.ajax({
+                    url: "/failures/" + <%= @job.id.to_s %>,
+                    type: "GET",
+                    dataType: "script"
+                });
+                <% end %>
 
-            $.ajax({
-                url: "/jobs/" + <%= @job.id.to_s %> +"?section=primary_tools",
-                type: "GET",
-                dataType: "script"
-            });
+                $.ajax({
+                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=primary_tools",
+                    type: "GET",
+                    dataType: "script"
+                });
 
-            $.ajax({
-                url: "/job_times?job=" + <%= @job.id.to_s %>,
-                type: "GET",
-                dataType: "script"
-            });
+                $.ajax({
+                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=notes",
+                    type: "GET",
+                    dataType: "script"
+                });
+
+                $.ajax({
+                    url: "/job_times?job=" + <%= @job.id.to_s %>,
+                    type: "GET",
+                    dataType: "script"
+                });
+
+            }, 1);
+
         });
     }(jQuery));
 </script>
@@ -238,8 +270,8 @@
         //e.layer.closePopup();
     });
 
-    $('.expand-map-box').live("click", function() {
-        if($('.expand-text').text() == 'expand') {
+    $('.expand-map-box').live("click", function () {
+        if ($('.expand-text').text() == 'expand') {
             $('.expand-text').text('collapse');
             $('.map-container').css('height', '500px');
             $('.map-views').removeClass('hidden');
@@ -253,16 +285,16 @@
         return false;
     });
 
-    $('.map-area-view').live("click", function() {
-        layer =L.mapbox.tileLayer('elephant.map-vum3on5g');
+    $('.map-area-view').live("click", function () {
+        layer = L.mapbox.tileLayer('elephant.map-vum3on5g');
         layer.addTo(map);
         map.setZoom(6);
         map._onResize();
         return false;
     });
 
-    $('.map-site-view').live("click", function() {
-        layer =L.mapbox.tileLayer('elephant.map-6f5p6pfx');
+    $('.map-site-view').live("click", function () {
+        layer = L.mapbox.tileLayer('elephant.map-6f5p6pfx');
         layer.addTo(map);
         map.setZoom(13);
         map.fitBounds(bounds);

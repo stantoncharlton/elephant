@@ -94,6 +94,9 @@ $ ->
       $('.activity-loading').find('.loading').removeClass 'hidden'
       if $('.job-main-div').length > 0
         $.ajax '/activities?job_id=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "notes"
+      $('.notes-loading').removeClass 'hidden'
+      $('.notes-loading').find('.loading').removeClass 'hidden'
     if $(this).attr('data-tray') == "drilling-overview"
       $('#drilling_overview').find('.content').hide()
       $('.drilling-overview-loading').removeClass 'hidden'

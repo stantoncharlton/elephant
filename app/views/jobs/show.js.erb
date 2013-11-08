@@ -78,6 +78,12 @@
 <% elsif params[:section] == "documents" %>
     $('#documents_loading').after('<%= j render 'jobs/job_documents', job: @job %>');
     $('#documents_loading').remove();
+
+<% elsif params[:section] == "notes" %>
+    $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
+    $('#notes_loading').remove();
+<% elsif params[:section] == "overview" %>
+    $('#job_overview').replaceWith('<%= j render 'jobs/job_overview', job: @job %>');
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
