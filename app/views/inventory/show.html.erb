@@ -73,7 +73,7 @@
                 <% end %>
             <% end %>
         <% end %>
-        </div>
+      </div>
     </div>
 <% end %>
 
@@ -100,35 +100,43 @@
 
 
 <div id="parts" class="list">
+  <% last_part = nil %>
+  <% remove_lines = [] %>
   <% @parts.each do |part| %>
       <div class="">
-        <%= link_to part, class: "job-link" do %>
-            <div class="member-icon ">
-              <p>
-                <%= part.parts.count %>
-              </p>
-            </div>
-            &nbsp;
+        <% if last_part.nil? || part.material_number != last_part.material_number %>
+            <%= link_to part, class: "job-link" do %>
+                <div class="member-icon ">
+                  <p>
+                    <%= part.parts.count %>
+                  </p>
+                </div>
+                &nbsp;
 
-            <p class="list-item-header-text inline">
-              <b><%= part.name %></b>
-            </p>
+                <p class="list-item-header-text inline">
+                  <b><%= part.name %></b>
+                </p>
 
-            <p class="help-text inline">
-              <%= part.material_number %>
-            </p>
+                <p class="help-text inline">
+                  <%= part.material_number %>
+                </p>
 
-
+            <% end %>
+        <% else %>
+            <% remove_lines << last_part %>
         <% end %>
 
-        <div class="content">
-          <% part.parts.each_with_index do |p, i| %>
-              <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed %>
-          <% end %>
-        </div>
+        <% if part.parts.any? %>
+            <div class="content">
+              <% part.parts.each_with_index do |p, i| %>
+                  <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed %>
+              <% end %>
+            </div>
 
-        <hr>
+            <hr id="divider_part_<%= part.id %>">
+        <% end %>
       </div>
+      <% last_part = part %>
   <% end %>
 </div>
 
@@ -136,6 +144,11 @@
 
 
 <script type="text/javascript">
+
+  <% remove_lines.each do |l| %>
+    $('#divider_part_<%= l.id %>').remove();
+  <% end %>
+
     (function ($) {
         $(document).ready(function () {
             $('.part-search').data("autocomplete")._renderItem = function (ul, item) {
