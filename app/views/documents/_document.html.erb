@@ -23,10 +23,10 @@
                   <% if document.document_type == Document::DOCUMENT %>
                       <% if can_upload and (document.template? or !document.read_only?) %>
                           <% if !@job || (@job and !@job.approved_to_close) %>
-                              <div class="inline-block tooltip-info upload-button-div"
+                              <div class="tooltip-info upload-button-div inline-block"
                                    data-placement="bottom" data-title="Upload new document">
-                                <%= file_field_tag :file, multiple: true, class: "file-input", id: "upload_document_browse" %>
-                                <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button" %>
+                                <%= file_field_tag :file, multiple: false, class: "file-input inline-block", id: "upload_document_browse" %>
+                                <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button inline-block align-top" %>
                               </div>
                           <% end %>
                       <% end %>

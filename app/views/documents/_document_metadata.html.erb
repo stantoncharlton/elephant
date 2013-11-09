@@ -1,4 +1,4 @@
-<div class="upload-metadata inline-block">
+<div class="upload-metadata inline-block align-top">
 
   <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
   <% drilling_log_sql = DrillingLog.where(:company_id => current_user.company_id).where(:document_id => document.id).select(:id).to_sql %>
