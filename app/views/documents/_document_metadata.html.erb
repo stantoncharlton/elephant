@@ -166,14 +166,14 @@
                   <% if !document.url.nil? %>
                       <p class="document-file-name"><%= '"' + document.file_name + '"' %></p>
                   <% else %>
-                      <p class="warning-text tooltip-info"
+                      <p class="warning-text tooltip-info align-top push-down"
                          data-placement="bottom"
                          data-title="No document uploaded, please upload a template">
                         No Document Uploaded</p>
                   <% end %>
               <% end %>
           <% else %>
-              <p class="tooltip-info"
+              <p class="tooltip-info align-top push-down"
                  data-placement="bottom"
                  data-title="Job Log document type"><b><%= document.document_type_string %></b></p>
           <% end %>
