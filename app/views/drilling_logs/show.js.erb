@@ -3,6 +3,8 @@
 $('#drilling_overview').replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling_daily" %>
 $('#drilling_daily').replaceWith("<%= j render 'drilling_logs/tray_daily', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling_bha" %>
+$('#drilling_bha').replaceWith("<%= j render 'drilling_logs/tray_bha', drilling_log: @drilling_log %>");
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

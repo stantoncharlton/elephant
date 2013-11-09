@@ -1,6 +1,7 @@
 <div id="job_overview">
   <% if Document.where(:job_id => @job.id).where(:document_type => Document::DRILLING_LOG).count() > 0 %>
-      <%= render 'drilling_logs/overview', drilling_log: DrillingLog.where(:job_id => @job.id).first %>
+      <% @drilling_log = DrillingLog.where(:job_id => @job.id).first %>
+      <%= render 'drilling_logs/overview', drilling_log: @drilling_log %>
       <hr>
   <% end %>
 
@@ -8,7 +9,9 @@
       <div>
         <span class="label label-warning">LIVE RIG</span>
 
-        <%= link_to "Show live drilling dashboard", "#", class: "pull-right activity-user-link push-left" %>
+        <% if @drilling_log.present? %>
+            <%= link_to "Show live drilling dashboard", "/drilling_logs/#{@drilling_log.id}#drilling-overview", target: "_blank", class: "pull-right activity-user-link push-left" %>
+        <% end %>
         <br><br>
       </div>
       <% well_plan = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => true).first %>
