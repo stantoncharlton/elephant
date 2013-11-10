@@ -2,6 +2,19 @@
 
 <div id="overview_drilling" data-loaded='true'>
 
+  <div>
+    <div class="chart-block tooltip-info"
+         data-title="Total number of active rigs">
+      <div class="chart-title">Active Rigs</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text "><%= Job.includes(well: :rig).where(status: Job::ACTIVE).select("DISTINCT rigs.id").count() %></div>
+        <div class="percentage ">rigs</div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
   <div class='center'>
     <b class='blue-text'>Drilling ROP per year</b>
     <br><br>

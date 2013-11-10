@@ -11,6 +11,8 @@ $('#overview_trays').show();
     $('#overview_failures').replaceWith('<%= j render 'overview/tray_failures' %>');
 <% elsif params[:section] == "insight" %>
     $('#overview_insight').replaceWith('<%= j render 'overview/tray_insight' %>');
+<% elsif params[:section] == "jobs" %>
+    $('#overview_jobs').replaceWith('<%= j render 'overview/tray_jobs' %>');
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

@@ -75,6 +75,13 @@
                       <% end %>
                     </li>
                     <li class="divider"></li>
+                    <li>
+                      <%= link_to rigs_path, class: "menu-avatar" do %>
+                          <%= image_tag "rig_extrasmall.png", class: "job-status-avatar" %>
+                          <span class="push-right-small">Rigs</span>
+                      <% end %>
+                    </li>
+                    <li class="divider"></li>
                 <% end %>
                 <% if signed_in_admin? %>
                     <li><%= link_to "Company Info", edit_company_path(current_user.company) %></li>

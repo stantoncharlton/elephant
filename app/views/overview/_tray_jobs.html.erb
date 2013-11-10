@@ -1,0 +1,41 @@
+<div id="overview_jobs" data-loaded='true' class=''>
+  <div class=''>
+    <% jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
+    <% jobs.each do |job| %>
+        <% drilling_log = DrillingLog.where(:job_id => job.id).first %>
+        <div class='overview-job'>
+          <div class='name blue-text'><%= job.field.name %> | <%= job.well.name %></div>
+          <div class='rig'>
+            <%= image_tag "rig_extrasmall.png", class: "" %>
+            <div class='inline-block align-top push-down-small'><%= job.well.rig_name.blank? ? "-" : job.well.rig_name %></div>
+          </div>
+
+          <div class='push-down-small'>
+            <% if job.approved_to_ship %>
+                <div class="progress progress-success job-progress-bar-full">
+                  <div class="bar" style="width: <%= job.status_percentage %>%">
+                    <% if job.approved_to_close %>
+                        <span class="pull-left push-right-small">Complete</span>
+                    <% end %></div>
+                </div>
+            <% else %>
+                <div class="progress progress-info job-progress-bar-full">
+                  <div class="bar" style="width: <%= job.status_percentage %>%"></div>
+                </div>
+            <% end %>
+          </div>
+
+          <% if drilling_log.present? %>
+            <div class='stat'>
+              <p>ft/min</p>
+              <h1><%= drilling_log.rop.round(1) %></h1>
+            </div>
+
+          <% end %>
+
+        </div>
+    <% end %>
+  </div>
+
+
+</div>

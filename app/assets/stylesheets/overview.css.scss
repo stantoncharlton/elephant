@@ -119,10 +119,21 @@
   }
 }
 
-.job-days { width: 100px; }
-.job-hours { width: 100px; }
-.job-minutes { width: 100px; }
-.job-seconds { width: 100px; }
+.job-days {
+  width: 100px;
+}
+
+.job-hours {
+  width: 100px;
+}
+
+.job-minutes {
+  width: 100px;
+}
+
+.job-seconds {
+  width: 100px;
+}
 
 .jqplot-grid-canvas {
   display: none;
@@ -174,4 +185,57 @@
 
 .overview-options {
   text-align: right;
+}
+
+.overview-job {
+  display: inline-block;
+  width: 250px;
+  height: 250px;
+  background: transparent;
+  margin: 0px;
+  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  vertical-align: top;
+
+  font-family: "gothambookregular";
+
+  .name {
+    display: inline-block;
+    font-size: 13px;
+    font-family: "gothammediumregular";
+    height: 45px;
+    width: 100%;
+    vertical-align: top;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 10px;
+  }
+
+  .rig {
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+
+  .stat {
+    display: inline-block;
+    width: 100px;
+    font-family: "gothamboldregular";
+    color: #0058a8;
+
+    h1 {
+      font-size: 35px;
+      text-transform: uppercase;
+      color: #0058a8;
+      text-align: center;
+    }
+
+    p {
+      width: 100%;
+      text-transform: none;
+      font-size: 12px;
+      text-align: right;
+    }
+  }
 }

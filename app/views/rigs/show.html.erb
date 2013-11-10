@@ -1,0 +1,136 @@
+<% provide(:title, 'Rig | ' + @rig.name) %>
+
+<div class="page_header">
+  <h1><%= @rig.name %></h1>
+
+  <h3 class="inline">&nbsp;Rig</h3>
+</div>
+
+
+<div>
+  <h3>Rig History <span class="help-text">(<%= @rig.wells.count %>)</span></h3>
+  <br>
+
+  <div class="map-container">
+    <div id='map' class='dark' style='width:100%;height:300px;'></div>
+    <div class="corner tlcorner"></div>
+    <div class="corner trcorner"></div>
+    <div class="corner brcorner"></div>
+    <div class="corner blcorner"></div>
+  </div>
+
+  <% if @rig.wells.any? %>
+      <br><br>
+
+      <div>
+        <% @rig.wells.order("created_at DESC").each_with_index do |well, index| %>
+            <% if index < 7 %>
+                <div class='part-number-container inline-block'>
+                  <%= image_tag 'map_marker.png' %>
+                  <p><%= index + 1 %></p>
+                </div>
+                &nbsp;
+            <% end %>
+
+
+            <% if well.jobs.any? %>
+                <% jobs = well.jobs.to_a %>
+                <%= jobs.first.start_date.present? ? jobs.first.start_date.strftime("%m/%d/%Y") : jobs.first.created_at.strftime("%m/%d/%Y") %>
+
+                <% jobs.each do |job| %>
+                    <%= link_to job, class: "job-status job-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Click to open job" do %>
+                        <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <br>
+        <% end %>
+      </div>
+  <% else %>
+      <p class="center help-text"><br>This rig has not had any jobs...</p>
+  <% end %>
+</div>
+
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+    map.scrollWheelZoom.disable();
+
+    var geoJson = [];
+
+    <% coordinates_for_zoom = [] %>
+    <% coordinates_for_lines = [] %>
+
+    <% @rig.wells.order("created_at DESC").each_with_index do |well, index| %>
+    <% if index < 7 && !well.location.blank? %>
+    <% x = well.x_location %>
+    <% y = well.y_location  %>
+    <% coordinates_for_lines << [x, y] %>
+    <% coordinates_for_zoom << [y, x] %>
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= x %>, <%= y %>]
+        },
+        "properties": {
+            title: '<%= well.field.name + ' | ' + well.name %>',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8',
+            'marker-symbol': '<%= (index + 1).to_s %>',
+            url: '/wells/' + <%= well.id %>
+            //'marker-symbol': '1'
+        }
+    });
+    <% end %>
+    <% end %>
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function (e) {
+        map.panTo(e.layer.getLatLng());
+    });
+    map.markerLayer.on('click', function (e) {
+        e.layer.unbindPopup();
+        window.location = e.layer.feature.properties.url;
+    });
+
+    var bounds = [];
+    <% coordinates_for_zoom.each do |c| %>
+    bounds.push([<%= c[0] %>, <%= c[1] %>]);
+    <% end %>
+    map.fitBounds(bounds);
+    zoom = Math.round(map.getZoom());
+    map.setZoom(zoom - 1);
+    <% if coordinates_for_zoom.count == 1 %>
+    if (zoom > 8) {
+        map.setZoom(8);
+    }
+    <% end %>
+
+    lines = {
+        type: 'Feature',
+        geometry: {
+            type: 'LineString',
+            coordinates: <%= raw coordinates_for_lines.to_json %>
+        },
+        properties: { }
+    };
+
+    L.geoJson(lines, {
+        style: {
+            "color": "#FFFFFF"
+            //"weight": 5,
+            //"opacity": 0.65
+        }
+    }).addTo(map);
+
+    map.markerLayer.on('mouseover', function (e) {
+        e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function (e) {
+        e.layer.closePopup();
+    });
+</script>

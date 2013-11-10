@@ -28,5 +28,6 @@
 //= require bootstrap-timepicker
 //= require amcharts
 //= require xy
+//= require pie
 
 

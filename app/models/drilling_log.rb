@@ -103,10 +103,32 @@ class DrillingLog < ActiveRecord::Base
 
             drilling_log.below_rotary = below
             drilling_log.total_drilled = total_drill_length
-            drilling_log.rop = total_drill_length / ((entries.last.entry_at - entries.first.entry_at)  / 60).to_f
+            drilling_log.rop = total_drill_length / ((entries.last.entry_at - entries.first.entry_at) / 60).to_f
         end
 
         drilling_log
+    end
+
+    def get_times
+        hash = {}
+
+        entries = self.drilling_log_entries.to_a
+        if entries.any?
+            last_entry = entries.first
+            entries.each do |entry|
+                time = ((entry.entry_at - last_entry.entry_at) / 60 / 60).to_f
+                if hash.has_key?(entry.activity_code)
+                    sub_hash = hash[entry.activity_code]
+                    sub_hash[:time] += time
+                else
+                    hash.merge!(entry.activity_code => {time: time, activity_code: entry.activity_code, activity_code_string: DrillingLogEntry.activity_code_string(entry.activity_code) })
+                end
+
+                last_entry = entry
+            end
+        end
+
+        hash
     end
 
 end

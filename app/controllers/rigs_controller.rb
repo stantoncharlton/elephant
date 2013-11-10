@@ -3,7 +3,7 @@ class RigsController < ApplicationController
 
     def index
         respond_to do |format|
-            format.html { @clients = Rig.from_company(current_user.company).paginate(page: params[:page], limit: 20) }
+            format.html { @rigs = Rig.paginate(page: params[:page], limit: 20) }
             format.js {
                 @query = params[:search]
                 @rigs = Rig.search(params, current_user.company).results

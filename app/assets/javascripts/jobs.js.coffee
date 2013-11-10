@@ -121,6 +121,9 @@ $ ->
     if $(this).attr('data-tray') == "drilling"
       if $('#overview_drilling').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=drilling", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "jobs"
+      if $('#overview_jobs').attr('data-loaded') != "true"
+        $.ajax '/overview/' + "?section=jobs", type: 'get', dataType: 'script'
     return false
 
   if document.location.hash != ''

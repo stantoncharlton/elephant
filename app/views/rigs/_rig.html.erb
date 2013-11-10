@@ -1,0 +1,8 @@
+<div class="inline-block">
+  <% job = Job.includes(:well).where(status: Job::ACTIVE).where("wells.rig_id = ?", rig.id).first %>
+  <%= link_to rig, class: "part-box tooltip-info " + (job.present? ? "part-box-job" : ""),
+                  "data-placement" => "right", "data-html" => "true",
+                  "data-title" => job.present? ? render('jobs/well_tooltip', job: job, show_summary_data: true) : "Not Active" do %>
+          <%= rig.name %>
+      <% end %>
+</div>
