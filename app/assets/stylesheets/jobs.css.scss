@@ -83,6 +83,19 @@
   margin-top: 5px;
 }
 
+.job-field-title-div {
+  display: inline-block;
+  width: 140px;
+  margin-right: 0px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  margin-top: 5px;
+}
+
+
+
 .job-field-div {
   display: inline-block;
   width: 250px;

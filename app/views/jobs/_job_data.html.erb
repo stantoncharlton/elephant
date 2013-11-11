@@ -117,11 +117,13 @@
     <% end %>
 
 
-    <div class="well">
+    <div class="">
 
-      <div id="job-progress-status">
-        <%= render 'jobs/job_progress_status', job: job %>
-      </div>
+      <% if false %>
+          <div id="job-progress-status">
+            <%= render 'jobs/job_progress_status', job: job %>
+          </div>
+      <% end %>
 
       <div class="district-client-div">
 
@@ -213,12 +215,14 @@
             <h2 class="job-title3 inline"><%= job.job_template.name %></h2>
         <% end %>
 
-        <% if !in_form && job.job_template.primary_tools.where(:template => true).any? %>
-            <div class="inline pull-right">
-              <% job.job_template.primary_tools.where(:template => true).each do |primary_tool| %>
-                  <span class="label"><%= primary_tool.tool.name %></span>
-              <% end %>
-            </div>
+        <% if false %>
+            <% if !in_form && job.job_template.primary_tools.where(:template => true).any? %>
+                <div class="inline pull-right">
+                  <% job.job_template.primary_tools.where(:template => true).each do |primary_tool| %>
+                      <span class="label"><%= primary_tool.tool.name %></span>
+                  <% end %>
+                </div>
+            <% end %>
         <% end %>
         <br>
         <br>
@@ -227,7 +231,7 @@
 
 
       <div>
-        <p class="job-field-title"><%= t ".status" %></p>
+        <p class="job-field-title-div help-text"><%= t ".status" %></p>
 
         <div class="job-field-value">
           <% if job.status == Job::CLOSED %>
@@ -239,7 +243,7 @@
 
 
         <div class='inline'>
-          <p class="job-field-title">Rig</p>
+          <p class="job-field-title-div help-text">Rig</p>
 
           <div class="job-field-value">
             <p class="inline">&nbsp;<b><%= job.well.rig.present? ? job.well.rig.name : "" %></b></p>
@@ -247,61 +251,8 @@
         </div>
       </div>
 
-      <% if false && in_form %>
-
-          <div class="pull-right">
-            <canvas id="canvas" height="200" width="500"></canvas>
-          </div>
-
-          <script>
-              var lineChartData = {
-                  labels: ["January", "February", "March", "April", "May", "June", "July"],
-                  datasets: [
-                      {
-                          fillColor: "rgba(220,220,220,0.5)",
-                          strokeColor: "rgba(220,220,220,1)",
-                          pointColor: "rgba(220,220,220,1)",
-                          pointStrokeColor: "#fff",
-                          data: [65, 59, 90, 81, 56, 55, 40]
-                      },
-                      {
-                          fillColor: "rgba(151,187,205,0.5)",
-                          strokeColor: "rgba(151,187,205,1)",
-                          pointColor: "rgba(151,187,205,1)",
-                          pointStrokeColor: "#fff",
-                          data: [28, 48, 40, 19, 96, 27, 100]
-                      }
-                  ]
-              }
-
-              <% if false %>
-              <% activities = Activity.activities_for_job(job).select("DISTINCT created_at") %>
-
-              alert('<%= activities.count %>');
-              var lineChartData = {
-                  labels: <%= raw activities.map { |a| a.created_at.day }.to_json %>,
-                  datasets: [
-
-                      {
-                          fillColor: "rgba(151,187,205,0.5)",
-                          strokeColor: "rgba(151,187,205,1)",
-                          pointColor: "rgba(151,187,205,1)",
-                          pointStrokeColor: "#fff",
-                          data: <%= raw activities.map { rand(5..30) }.to_json %>
-                      }
-                  ]
-
-              }
-              <% end %>
-
-              var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
-
-          </script>
-      <% end %>
-
-
       <div class="">
-        <p class="job-field-title"><%= t ".start_date" %></p>
+        <p class="job-field-title-div help-text"><%= t ".start_date" %></p>
 
         <% if form_editable %>
             <div class="job-field-div">
@@ -316,11 +267,11 @@
 
         <div class="inline">
           <% if job.status == Job::CLOSED && !job.close_date.nil? %>
-              <p class="job-field-title">Close Date</p>
+              <p class="job-field-title-div help-text">Close Date</p>
 
               <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
           <% else %>
-              <p class="job-field-title"><%= t ".created_date" %></p>
+              <p class="job-field-title-div help-text"><%= t ".created_date" %></p>
 
               <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
           <% end %>

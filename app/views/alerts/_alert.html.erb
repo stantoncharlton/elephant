@@ -20,11 +20,7 @@
               <%= render 'activities/user', user: alert.created_by %><%= t ".added_to_job" %>:
           <% end %>
         </div>
-        <% if new %>
-            <%= render 'jobs/job', job: alert.job %>
-        <% else %>
-            <%= render 'jobs/job_data_small', job: alert.job %>
-        <% end %>
+        <%= render 'jobs/job_data_small', job: alert.job %>
     <% end %>
 
     <% if alert.alert_type == Alert::PRE_JOB_DATA_READY %>
@@ -37,12 +33,7 @@
             <%= link_to "Review Now", alert.job, class: "bluebtn btnsmall green" %>
           </p>
         </div>
-        <% if new %>
-            <%= render 'jobs/job', job: alert.job %>
-        <% else %>
-            <%= render 'jobs/job_data_small', job: alert.job %>
-        <% end %>
-        <br><br>
+        <%= render 'jobs/job_data_small', job: alert.job %>
     <% end %>
     <% if alert.alert_type == Alert::POST_JOB_DATA_READY %>
         <div class="alert alert-title">
@@ -54,12 +45,7 @@
             <%= link_to "Review Now", alert.job, class: "bluebtn btnsmall green" %>
           </p>
         </div>
-        <% if new %>
-            <%= render 'jobs/job', job: alert.job %>
-        <% else %>
-            <%= render 'jobs/job_data_small', job: alert.job %>
-        <% end %>
-        <br>
+        <%= render 'jobs/job_data_small', job: alert.job %>
     <% end %>
     <% if alert.alert_type == Alert::FAILURE_ADDED %>
         <div class="">
