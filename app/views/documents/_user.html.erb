@@ -10,7 +10,7 @@
         <% user = last_entry.user %>
     <% elsif last_drilling_entry.present? %>
         <% user = last_drilling_entry.user %>
-    <% elsif survey.present? %>
+    <% elsif survey.present? && survey.survey_points.any? %>
         <% user = survey.survey_points.last.user %>
     <% elsif bha.present? %>
     <% end %>

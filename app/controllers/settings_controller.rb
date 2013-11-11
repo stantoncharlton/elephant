@@ -19,7 +19,8 @@ class SettingsController < ApplicationController
 
             if !@user.user_unit
                 @user.user_unit = UserUnit.new
-                @user.user_unit.update_attribute(:company_id, current_user.company_id)
+                @user.user_unit.company = current_user.company
+                @user.user_unit.save
             end
 
             @user.user_unit.update_attributes(params[:user_unit])
