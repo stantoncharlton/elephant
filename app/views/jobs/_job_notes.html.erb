@@ -11,7 +11,7 @@
                 <div class="form" data-form="new-note-form">
                   <%= f.hidden_field :job_id, value: job.id %>
                   <%= f.hidden_field :assign_to_id, id: "new_note_name_id" %>
-                  <%= f.hidden_field :note_type, id: "note_type_id", value: JobNote::NOTE %>
+                  <%= f.hidden_field :note_type, id: "note_type_id", value: JobNote::ACTIVITY_REPORT %>
 
                   <div>
                     <ul class="nav nav-pills">
