@@ -38,12 +38,12 @@
                   </div>
 
                   <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
-                                  class: "txtfield job-notes-text tooltip-info", autofocus: false,
+                                  class: "txtfield job-notes-text tooltip-info hidden", autofocus: false,
                                   id: "new_note_id",
                                   "data-placement" => "bottom",
                                   "data-title" => "Note/Action text" %>
 
-                  <div id="note_report" class='hidden'>
+                  <div id="note_report" class=''>
                     <p class="inline-block list-item-column-short2"><b>Past day</b></p>
                     <%= text_field_tag "past", "",
                                        placeholder: "Previous 24 hours activity description",
