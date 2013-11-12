@@ -1,13 +1,14 @@
 <div id="overview_jobs" data-loaded='true' class=''>
   <div class=''>
     <% jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
+    <% jobs = jobs.where(status: Job::ACTIVE) %>
     <% jobs.each do |job| %>
         <% drilling_log = DrillingLog.where(:job_id => job.id).first %>
         <div class='overview-job'>
           <div class='name blue-text'><%= job.field.name %> | <%= job.well.name %></div>
           <div class='rig'>
             <%= image_tag "rig_extrasmall.png", class: "" %>
-            <div class='inline-block align-top push-down-small'><%= job.well.rig_name.blank? ? "-" : job.well.rig_name %></div>
+            <div class='inline-block align-top push-down-small'><%= job.well.rig.present? ? job.well.rig.name : "-"  %></div>
           </div>
 
           <div class='push-down-small'>
