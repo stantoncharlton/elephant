@@ -259,6 +259,12 @@
   margin-top: 10px;
   margin-bottom: 10px;
 
+  .job-title {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   &:active, &:link, &:visited {
     background: transparent;
     text-decoration: none;
