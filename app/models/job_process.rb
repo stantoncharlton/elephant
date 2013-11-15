@@ -17,6 +17,8 @@ class JobProcess < ActiveRecord::Base
     POST_JOB_DATA_READY = 3
     APPROVED_TO_CLOSE = 4
 
+    BEGIN_POST_JOB = 6
+
     LOW_ACTIVITY = 20
 
     def self.record(user, job, company, event_type)

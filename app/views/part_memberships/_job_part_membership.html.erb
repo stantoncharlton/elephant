@@ -10,7 +10,7 @@
       </div>
   <% end %>
 
-  <% if job.status == Job::ACTIVE %>
+  <% if job.active %>
       <div class="form inline add-part-match <%= part_membership.part.present? ? 'hidden' : '' %>" data-form="part_membership">
         <%= form_for(PartMembership.new, :html => {class: "inline"}, remote: true) do |f| %>
             <%= f.hidden_field :template, value: false %>
@@ -57,14 +57,14 @@
             <% end %>
         <% end %>
     <% end %>
-    <% if job.status == Job::ACTIVE %>
+    <% if job.active %>
         <%= link_to "remove", part_membership, method: :delete, remote: true,
                     data: {confirm: "Remove Asset from job?"}, class: "delete-button tooltip-info",
                     "data-placement" => "bottom",
                     "data-title" => "Remove asset from job" %>
     <% end %>
   </div>
-  <% if job.status != Job::ACTIVE && !part_membership.part.present? %>
+  <% if job.status >= 50 && !part_membership.part.present? %>
       <span class='help-text pull-right warning-text'>No Asset configured...</span>
   <% end %>
 
@@ -148,7 +148,7 @@
                                           "data-placement" => "left",
                                           "data-title" => "The well to transfer to is not known." %>
                             </li>
-                            <% jobs = current_user.jobs.where(:status => Job::ACTIVE).where(:job_template_id => job.job_template_id) %>
+                            <% jobs = current_user.jobs.where("jobs.status >= 1 AND jobs.status < 50").where(:job_template_id => job.job_template_id) %>
                             <% if jobs.any? %>
                                 <li class="divider"></li>
                                 <% jobs.each do |j| %>

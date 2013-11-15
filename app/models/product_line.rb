@@ -30,7 +30,7 @@ class ProductLine < ActiveRecord::Base
     end
 
     def active_jobs
-        Job.where("jobs.company_id = ?", self.company_id).where(:status => Job::ACTIVE).joins(job_template: :product_line).where("product_lines.id = ?", self.id)
+        Job.where("jobs.company_id = ?", self.company_id).where("jobs.status >= 1 AND jobs.status < 50").joins(job_template: :product_line).where("product_lines.id = ?", self.id)
     end
 
     def self.from_company_for_user(product_line, options, user, company)

@@ -6,7 +6,7 @@
           <%= render 'jobs/user', job_membership: job_membership, include_icon: false %>
 
           <% if false %>
-              <span class="help-text">- <%= pluralize(job_membership.user.jobs.where(:status => Job::ACTIVE).count, "job") %></span>
+              <span class="help-text">- <%= pluralize(job_membership.user.jobs.where("jobs.status >= 1 AND jobs.status < 50").count, "job") %></span>
           <% end %>
       <% elsif job_membership.external_user? %>
           <%= link_to "mailto:" + job_membership.email, class: "activity-user-link tooltip-info", "data-title" => "External User, click to email", "data-placement" => "bottom" do %>

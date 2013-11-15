@@ -87,7 +87,7 @@
       <p class="job-field-title inline"><%= t "jobs.job_data.status" %></p>
 
       <span class="job-field-value push-right">
-        <% if job.status == Job::CLOSED %>
+        <% if job.status == Job::COMPLETE %>
             <p class="good-text"><%= job.status_string %></p>
         <% else %>
             <p class=""><%= job.status_string %></p>

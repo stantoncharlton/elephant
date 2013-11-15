@@ -89,15 +89,15 @@
     end
 
     def active_jobs
-        jobs.where(:status => Job::ACTIVE)
+        jobs.where("jobs.status >= 1 AND jobs.status < 50")
     end
 
     def inactive_jobs
-        jobs.where("jobs.status != :active", active: Job::ACTIVE)
+        jobs.where("jobs.status >= 50")
     end
 
     def active_or_recently_closed_jobs
-        jobs.where("jobs.status = :active OR jobs.close_date > :close_date", active: Job::ACTIVE, close_date: 5.days.ago)
+        jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR jobs.close_date > :close_date", close_date: 5.days.ago)
     end
 
     def new_alerts

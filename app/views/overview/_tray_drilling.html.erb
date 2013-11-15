@@ -7,7 +7,7 @@
          data-title="Total number of active rigs">
       <div class="chart-title">Active Rigs</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= Job.includes(well: :rig).where(status: Job::ACTIVE).select("DISTINCT rigs.id").count() %></div>
+        <div class="donut-text "><%= Job.includes(well: :rig).where("jobs.status >= 1 AND jobs.status < 50").select("DISTINCT rigs.id").count() %></div>
         <div class="percentage ">rigs</div>
       </div>
     </div>

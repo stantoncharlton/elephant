@@ -79,9 +79,9 @@
 <% end %>
 
 <% if false %>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <% end %>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<% end %>
 
 <script type="text/javascript">
 
@@ -218,4 +218,11 @@
     });
 
 
+    <% if !signed_in_admin? && @survey.document.present? && @survey.document.job_id.present? %>
+    $.ajax({
+        url: "/job_process/" + <%= @survey.document.job_id.to_s %>,
+        type: "GET",
+        dataType: "script"
+    });
+    <% end %>
 </script>

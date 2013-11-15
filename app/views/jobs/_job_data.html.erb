@@ -9,7 +9,7 @@
                 </a>
                 <ul class="dropdown-menu">
 
-                  <% if job.status == Job::CLOSED %>
+                  <% if job.status == Job::COMPLETE %>
                       <li>
                         <%= link_to "Reopen Job", job,
                                     class: "dropdown-menu-link tooltip-info",
@@ -233,19 +233,21 @@
       <div>
         <p class="job-field-title-div help-text"><%= t ".status" %></p>
 
-        <div class="job-field-value">
-          <% if job.status == Job::CLOSED %>
-              <span class="label label-success"><%= job.status_string %></span>
+        <div class="inline-block job-field-value push-down-small">
+          <% if job.status == Job::COMPLETE %>
+              <span class="label label-success current-job-status"><%= job.status_string %></span>
           <% else %>
-              <p class=""><%= job.status_string %></p>
+              <p class="current-job-status"><%= job.status_string %></p>
           <% end %>
+
+
         </div>
 
 
-        <div class='inline'>
+        <div class='inline-block align-top'>
           <p class="job-field-title-div help-text">Rig</p>
 
-          <div class="job-field-value">
+          <div class="job-field-value push-down-small">
             <p class="inline">&nbsp;<b><%= job.well.rig.present? ? job.well.rig.name : "" %></b></p>
           </div>
         </div>
@@ -266,7 +268,7 @@
 
 
         <div class="inline">
-          <% if job.status == Job::CLOSED && !job.close_date.nil? %>
+          <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
               <p class="job-field-title-div help-text">Close Date</p>
 
               <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>

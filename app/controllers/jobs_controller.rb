@@ -8,8 +8,14 @@ class JobsController < ApplicationController
 
         respond_to do |format|
             format.html {
-                jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
-                @jobs = jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).where("jobs.status = :status_active OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_active: Job::ACTIVE, status_closed: Job::CLOSED, close_date: (Time.now - 5.days)).
+                @all_jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
+                @jobs = @all_jobs
+
+                if !@is_paged
+                    @jobs = @all_jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
+                end
+
+                @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).
                         order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
             }
             format.xml {
@@ -144,7 +150,7 @@ class JobsController < ApplicationController
         @job.district = District.find_by_id(district_id)
         @job.field = Field.find_by_id(field_id)
         @job.well = Well.find_by_id(well_id)
-        @job.status = Job::ACTIVE
+        @job.status = Job::PRE_JOB
 
         if @job.well.present? && (@job.well.field != @job.field)
             @job.errors.add(:well, "Well does not belong to field")
@@ -299,6 +305,10 @@ class JobsController < ApplicationController
                 @update_calendar = true
             end
 
+        elsif params["begin_post_job"] == "true"
+            @job.update_attribute(:status, Job::POST_JOB)
+            JobProcess.record(current_user, @job, current_user.company, JobProcess::BEGIN_POST_JOB)
+            Activity.add(current_user, Activity::ON_JOB_COMPLETE, @job, nil, @job)
         end
 
     end

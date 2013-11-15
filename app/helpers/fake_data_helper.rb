@@ -273,10 +273,10 @@ module FakeDataHelper
                 job.start_date = Random.new.rand(5.years.ago..(Time.now + 50.days)).to_date
 
                 if job.start_date > Time.now
-                    job.status = Job::ACTIVE
+                    job.status = Job::PRE_JOB
                 else
                     job.close_date = job.start_date + Random.new.rand(3..15).days
-                    job.status = Job::CLOSED
+                    job.status = Job::COMPLETE
                     job.rating = Random.new.rand(1..5)
                 end
 
@@ -299,7 +299,7 @@ module FakeDataHelper
                     end
                 end
 
-                if job.status == Job::CLOSED
+                if job.status == Job::COMPLETE
                     JobProcess.record(last_user, job, company, JobProcess::PRE_JOB_DATA_READY)
                     JobProcess.record(last_user, job, company, JobProcess::APPROVED_TO_SHIP)
                     JobProcess.record(last_user, job, company, JobProcess::POST_JOB_DATA_READY)

@@ -22,7 +22,7 @@
       <p class="job-field-title"><%= t ".status" %></p>
 
       <div class="job-field-value">
-        <% if job.status == Job::CLOSED %>
+        <% if job.status == Job::COMPLETE %>
             <p class="good-text"><%= job.status_string %></p>
         <% else %>
             <p class=""><%= job.status_string %></p>

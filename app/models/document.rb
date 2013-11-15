@@ -12,6 +12,7 @@ class Document < ActiveRecord::Base
 
     acts_as_tenant(:company)
 
+    after_commit :flush_cache
 
     validates :name, presence: true, length: {maximum: 50}
     validates :category, presence: true, length: {maximum: 50}
@@ -166,7 +167,7 @@ class Document < ActiveRecord::Base
 
 
     def add_notices_on_active_jobs
-        self.company.jobs.where("jobs.job_template_id = ?", self.job_template_id).where("jobs.status = ?", Job::ACTIVE).each do |job|
+        self.company.jobs.where("jobs.job_template_id = ?", self.job_template_id).where("jobs.status >= 1 AND jobs.status < 50").each do |job|
             job_document = Document.new
             job_document.category = self.category
             job_document.name = self.name
@@ -229,6 +230,12 @@ class Document < ActiveRecord::Base
         document.primary_tool_id = self.primary_tool_id
         document.company = document.company
         document
+    end
+
+    def flush_cache
+        if self.job.present?
+            self.job.flush_cache_status_percentage
+        end
     end
 
 end

@@ -51,6 +51,7 @@ class Activity < ActiveRecord::Base
     JOB_APPROVED_TO_SHIP = 141
     POST_JOB_DATA_COMPLETE = 142
     JOB_APPROVED_TO_CLOSE = 143
+    ON_JOB_COMPLETE = 144
 
     JOB_RATING = 160
     JOB_FAILURE = 170
@@ -117,11 +118,13 @@ class Activity < ActiveRecord::Base
             when PRE_JOB_DATA_COMPLETE
                 "Pre-Job documents and info have been completed"
             when JOB_APPROVED_TO_SHIP
-                "Job was approved to ship to field"
+                "Job was approved to ship to location"
             when POST_JOB_DATA_COMPLETE
                 "Post-Job documents and info have been completed"
             when JOB_APPROVED_TO_CLOSE
                 "Job was completed"
+            when ON_JOB_COMPLETE
+                "Started Post Job"
 
         end
     end

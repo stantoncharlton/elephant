@@ -43,7 +43,7 @@
                                           "data-placement" => "left",
                                           "data-title" => "The well to transfer to is not known." %>
                             </li>
-                            <% jobs = current_user.jobs.where(:status => Job::ACTIVE) %>
+                            <% jobs = current_user.jobs.where("jobs.status >= 1 AND jobs.status < 50") %>
                             <% if jobs.any? %>
                                 <li class="divider"></li>
                                 <% jobs.each do |j| %>

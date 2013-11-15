@@ -2,7 +2,7 @@
   <%= form_for :failures, url: failures_path, remote: true do |f| %>
 
       <% if !current_user.role.limit_to_assigned_jobs? || current_user == @job.get_role(JobMembership::CREATOR) || current_user == @job.get_role(JobMembership::MANAGER) || current_user == @job.get_role(JobMembership::COORDINATOR) %>
-          <% if @rate || @job.status == Job::CLOSED %>
+          <% if @rate || @job.status == Job::COMPLETE %>
               <div class="page_header failure-page-header ">
                 <h1>Performance</h1>
 

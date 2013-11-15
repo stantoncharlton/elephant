@@ -1,7 +1,7 @@
 <div id="overview_jobs" data-loaded='true' class=''>
   <div class=''>
     <% jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
-    <% jobs = jobs.where(status: Job::ACTIVE) %>
+    <% jobs = jobs.where("jobs.status >= 1 AND jobs.status < 50") %>
     <% jobs.each do |job| %>
         <% drilling_log = DrillingLog.where(:job_id => job.id).first %>
         <div class='overview-job'>

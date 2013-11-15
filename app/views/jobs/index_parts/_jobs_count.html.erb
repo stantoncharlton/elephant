@@ -1,5 +1,5 @@
-<% active_jobs_count = jobs.reorder('').where(:status => Job::ACTIVE).count() %>
-<% jobs_sql = jobs.reorder('').where(:status => Job::ACTIVE).select("jobs.id").to_sql %>
+<% active_jobs_count = jobs.reorder('').where("jobs.status >= 1 AND jobs.status < 50").count() %>
+<% jobs_sql = jobs.reorder('').where("jobs.status >= 1 AND jobs.status < 50").select("jobs.id").to_sql %>
 <% active_failures_count = Failure.where("failures.job_id IN (#{jobs_sql})").count() %>
 
 <div class="chart-block">
@@ -13,7 +13,7 @@
 <div class="chart-block">
   <div class="chart-title">Closed in Last 5 Days</div>
   <div class="donut-chart-div job-donut-chart-div">
-    <div class="donut-text"><%= jobs.reorder('').where(:status => Job::CLOSED).where("jobs.close_date > ?", 5.days.ago).count() %></div>
+    <div class="donut-text"><%= jobs.reorder('').where(:status => Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).count() %></div>
     <div class="percentage "></div>
   </div>
 </div>

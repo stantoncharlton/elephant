@@ -46,8 +46,16 @@ class Job < ActiveRecord::Base
     has_many :part_memberships, dependent: :destroy, foreign_key: "job_id"
 
     ACTIVE = 1
-    CLOSED = 2
-    ABANDONED = 3
+
+    PRE_JOB = 5
+    ON_JOB = 6
+    POST_JOB = 7
+
+
+
+    COMPLETE = 50
+
+    ABANDONED = 100
 
 
     searchable do
@@ -111,6 +119,9 @@ class Job < ActiveRecord::Base
         "https://www.go-elephant.com/jobs/" + self.id.to_s
     end
 
+    def active
+        self.status >= 1 && self.status < 50
+    end
 
     def add_user!(user, role)
 
@@ -371,19 +382,22 @@ class Job < ActiveRecord::Base
     end
 
     def status_string
-        if self.approved_to_close
-            I18n.t("jobs.job_data.status_complete")
-        elsif self.approved_to_ship and self.sent_post_job_ready_email
-            I18n.t("jobs.job_data.status_post_job")
-        elsif self.approved_to_ship
-            I18n.t("jobs.job_data.status_in_field")
-        else
-            I18n.t("jobs.job_data.status_pre_job")
+        case self.status
+            when PRE_JOB
+                "Pre Job"
+            when ON_JOB
+                "On Job"
+            when POST_JOB
+                "Post Job"
+            when COMPLETE
+                "Complete"
+            when ABANDONED
+                "Abandoned"
         end
     end
 
     def status_percentage
-        Rails.cache.fetch([self.class.name, id.to_s + '-sp'], expires_in: 30.days) do
+        Rails.cache.fetch([self.class.name, self.id.to_s + '-sp'], expires_in: 30.days) do
             percentage = 100
             current = 0
 
@@ -416,7 +430,7 @@ class Job < ActiveRecord::Base
 
 
     def flush_cache_status_percentage
-        Rails.cache.delete([self.class.name, id.to_s + '-sp'])
+        Rails.cache.delete([self.class.name, self.id.to_s + '-sp'])
     end
 
     def user_is_member?(user)
@@ -440,7 +454,7 @@ class Job < ActiveRecord::Base
     end
 
     def is_job_editable?(user)
-        return false if self.status == Job::CLOSED
+        return false if self.status == Job::COMPLETE
         return true if self.user_is_member?(user)
         return true if user.role.global_edit?
         return true if user.role.district_edit? && self.district.master_district_id == user.district.master_district_id
@@ -466,14 +480,14 @@ class Job < ActiveRecord::Base
             Alert.add(participant, Alert::JOB_SHIPPED, self, user, self)
         end
 
-        user.alerts.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
+        Alert.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
                           alert_type: Alert::PRE_JOB_DATA_READY,
                           job_id: self.id).each { |a| a.destroy }
     end
 
     def close_job(user)
 
-        self.status = Job::CLOSED
+        self.status = Job::COMPLETE
         self.close_date = DateTime.now
         self.save
 

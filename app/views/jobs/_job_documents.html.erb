@@ -45,9 +45,22 @@
 
 <% post_job_documents = job.post_job_documents.to_a %>
 <% if post_job_documents.all? { |d| d.url.present? } %>
-    <h3 class="document-section-header status-good"><%= t ".post_job" %></h3>
+    <h3 class="document-section-header status-good"><%= t ".post_job" %>
+    </h3>
 <% else %>
-    <h3 class="document-section-header"><%= t ".post_job" %></h3>
+    <h3 class="document-section-header"><%= t ".post_job" %>
+    </h3>
+<% end %>
+<% if job.status == Job::ON_JOB %>
+    <div id="begin_post_job">
+      <br>
+      <div class='inline-block push-right'>
+        <%= link_to "Begin Post Job", job_path(job, begin_post_job: true), remote: true, :method => :put, class: "bluebtn btnsmall gray push-down" %>
+        <div class='inline-block push-down'>
+          <p class='inline-block help-text push-down'>Move state from 'On job' to 'Post Job'</p>
+        </div>
+      </div>
+    </div>
 <% end %>
 <div class="content" id="documents2">
   <% post_job_documents.each do |d| %>

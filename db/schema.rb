@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131110153314) do
+ActiveRecord::Schema.define(:version => 20131114042428) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -171,9 +171,12 @@ ActiveRecord::Schema.define(:version => 20131110153314) do
     t.string   "name"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
+    t.integer  "rig_id"
+    t.integer  "shift_type"
   end
 
   add_index "crews", ["district_id"], :name => "index_crews_on_district_id"
+  add_index "crews", ["rig_id"], :name => "index_crews_on_rig_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0

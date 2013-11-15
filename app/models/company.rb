@@ -54,7 +54,7 @@ class Company < ActiveRecord::Base
     DAILY_WORK_DAY = 2
 
     def active_jobs
-        self.jobs.where(:status => Job::ACTIVE)
+        self.jobs.where("jobs.status >= 1 AND jobs.status < 50")
     end
 
     def self.cached_find(id)

@@ -18,6 +18,11 @@ $ ->
       $('#job_time_content').addClass 'hidden'
       $('#job_time_loader').removeClass 'hidden'
 
+  $('#begin_post_job a').live "click", ->
+    $('#begin_post_job').addClass 'hidden'
+    if $('.current-job-status').length > 0
+      $('.current-job-status').text('Post Job')
+    return false
 
   last_selected_item = null
   focusevent = (event, ui) ->

@@ -100,7 +100,7 @@
         <% end %>
         <% if activity.activity_type == Activity::JOB_APPROVED_TO_SHIP %>
             <b>
-              <p class="activity-message status-good">Job approved to ship to field</p></b>
+              <p class="activity-message status-good">Job approved to ship to location</p></b>
         <% end %>
         <% if activity.activity_type == Activity::POST_JOB_DATA_COMPLETE %>
 
@@ -109,6 +109,10 @@
         <% if activity.activity_type == Activity::JOB_APPROVED_TO_CLOSE %>
             <b>
               <p class="activity-message status-good">Job completed and approved to close</p></b>
+        <% end %>
+        <% if activity.activity_type == Activity::ON_JOB_COMPLETE %>
+            <b>
+              <p class="activity-message status-good">Started Post Job</p></b>
         <% end %>
         <% if activity.activity_type == Activity::DATA_EDITED %>
             <p class="activity-message"><b>Job Data changed</b>: <%= activity.metadata %></p>

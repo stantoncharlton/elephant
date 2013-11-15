@@ -172,7 +172,7 @@
                 });
 
 
-                <% if @job.status == Job::ACTIVE %>
+                <% if @job.active %>
                 $.ajax({
                     url: "/failures/" + <%= @job.id.to_s %>,
                     type: "GET",

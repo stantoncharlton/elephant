@@ -26,7 +26,7 @@ class Division < ActiveRecord::Base
     end
 
     def active_jobs
-        Job.where("jobs.company_id = ?", self.company_id).where(:status => Job::ACTIVE).where("divisions.id = ?", self.id).includes(job_template: {product_line: {segment: :division}})
+        Job.where("jobs.company_id = ?", self.company_id).where("jobs.status >= 1 AND jobs.status < 50").where("divisions.id = ?", self.id).includes(job_template: {product_line: {segment: :division}})
     end
 
     def self.from_company_for_user(division, options, user, company)
