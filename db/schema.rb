@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131114042428) do
+ActiveRecord::Schema.define(:version => 20131116182206) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -149,34 +149,6 @@ ActiveRecord::Schema.define(:version => 20131114042428) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  create_table "crew_memberships", :force => true do |t|
-    t.integer  "company_id"
-    t.integer  "crew_id"
-    t.integer  "user_id"
-    t.string   "user_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "crew_memberships", ["crew_id"], :name => "index_crew_memberships_on_crew_id"
-  add_index "crew_memberships", ["user_id", "crew_id"], :name => "index_crew_memberships_on_user_id_and_crew_id", :unique => true
-  add_index "crew_memberships", ["user_id"], :name => "index_crew_memberships_on_user_id"
-
-  create_table "crews", :force => true do |t|
-    t.integer  "company_id"
-    t.integer  "district_id"
-    t.integer  "current_job"
-    t.integer  "crew_memberships_count", :default => 0
-    t.string   "name"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.integer  "rig_id"
-    t.integer  "shift_type"
-  end
-
-  add_index "crews", ["district_id"], :name => "index_crews_on_district_id"
-  add_index "crews", ["rig_id"], :name => "index_crews_on_rig_id"
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -720,11 +692,26 @@ ActiveRecord::Schema.define(:version => 20131114042428) do
 
   add_index "product_lines", ["company_id"], :name => "index_product_lines_on_company_id"
 
+  create_table "rig_memberships", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "crew_id"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "rig_id"
+  end
+
+  add_index "rig_memberships", ["rig_id"], :name => "index_rig_memberships_on_rig_id"
+  add_index "rig_memberships", ["user_id", "rig_id"], :name => "index_rig_memberships_on_user_id_and_rig_id", :unique => true
+  add_index "rig_memberships", ["user_id"], :name => "index_crew_memberships_on_user_id"
+
   create_table "rigs", :force => true do |t|
     t.integer  "company_id"
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "rig_memberships_count", :default => 0
   end
 
   create_table "secondary_tools", :force => true do |t|

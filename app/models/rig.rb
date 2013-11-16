@@ -1,5 +1,6 @@
 class Rig < ActiveRecord::Base
-    attr_accessible :name
+    attr_accessible :name,
+                    :rig_memberships_count
 
     acts_as_tenant(:company)
 
@@ -10,6 +11,8 @@ class Rig < ActiveRecord::Base
     belongs_to :company
 
     has_many :wells
+    has_many :rig_memberships, dependent: :destroy, foreign_key: "rig_id", order: "created_at ASC"
+    has_many :members, through: :rig_memberships, source: :user
 
     searchable do
         text :name, :as => :code_textp

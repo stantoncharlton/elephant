@@ -1,6 +1,6 @@
 <div id="drilling_overview">
   <div class="pull-right tooltip-info" data-title="ROP">
-    <canvas id="canvas" height="110" width="270"></canvas>
+    <canvas id="overview_rop_canvas" height="110" width="270"></canvas>
   </div>
 
   <div class="chart-block tooltip-info"
@@ -32,19 +32,27 @@
 </div>
 
 <script>
+    <% if drilling_log.present? && drilling_log.drilling_log_entries.any? %>
+    <% rops = [] %>
+    <% last_entry = drilling_log.drilling_log_entries.first %>
+    <% drilling_log.drilling_log_entries.each do |dl| %>
+    <% rops << [dl.entry_at, ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
+    <% last_entry = dl %>
+    <% end %>
+
     var lineChartData = {
-        labels: ["", "", "", "", "", "", ""],
+        labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
         datasets: [
             {
                 fillColor: "rgba(220,220,220,0.5)",
                 strokeColor: "rgba(220,220,220,1)",
                 pointColor: "rgba(220,220,220,1)",
                 pointStrokeColor: "#fff",
-                data: [0, 2, 30, 40, 30, 36, 30]
+                data: <%= raw rops.map { |dl| dl[1] }.to_json.html_safe %>
             }
         ]
     }
 
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
-
+    var myLine = new Chart(document.getElementById("overview_rop_canvas").getContext("2d")).Line(lineChartData, { scaleShowLabels: false });
+    <% end %>
 </script>

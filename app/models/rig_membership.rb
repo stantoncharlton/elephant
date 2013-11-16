@@ -1,4 +1,4 @@
-class CrewMembership < ActiveRecord::Base
+class RigMembership < ActiveRecord::Base
   attr_accessible :user_name
 
 
@@ -8,11 +8,11 @@ class CrewMembership < ActiveRecord::Base
   after_destroy :after_destroy
 
   belongs_to :user
-  belongs_to :crew
+  belongs_to :rig
   belongs_to :company
 
   validates :user, presence: true
-  validates :job, presence: true
+  validates :rig, presence: true
 
 
 private
@@ -25,7 +25,7 @@ private
   end
 
   def update_counter_cache
-      self.crew.crew_memberships_count = self.crew.crew_memberships_count.count()
-      self.crew.save
+      self.rig.rig_memberships_count = self.rig.rig_memberships.count()
+      self.rig.save
   end
 end
