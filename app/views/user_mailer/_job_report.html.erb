@@ -1,0 +1,77 @@
+<% if job.job_template.present? %>
+    <div class='push-down'>
+      <%= link_to "https://www.go-elephant.com/jobs/" + job.id.to_s, class: "job-status job-link" do %>
+          <div class='inline-block list-item-column-long'>
+            <h2 class="job-title4 inline"><%= job.field.name %></h2>
+            <p class="job-title-divider2">|</p>
+            <h2 class="job-title4 inline"><%= job.well.name %></h2>
+          </div>
+          <div class='inline-block list-item-column3'>
+            <span>Job #</span>
+            <b><%= job.job_number %></b>
+          </div>
+          <div class='inline-block list-item-column3'>
+            <span>Rig</span>
+            <b><%= job.well.rig.present? ? job.well.rig.name : "-" %></b>
+          </div>
+          <div class='inline-block list-item-column3'>
+            <b class='orange-text'><%= job.client.present? ? job.client.name : "" %></b>
+          </div>
+      <% end %>
+    </div>
+    <div class='push-right-small'>
+      <% note_activity_report = NoteActivityReport.where(:job_id => job.id).order("created_at DESC").first %>
+      <% notes = JobNote.where(:job_id => job.id).where("created_at > ?", 1.day.ago).where("job_notes.note_type != ?", JobNote::ASSET_REQUEST).order("created_at ASC") %>
+      <% notes_string = notes.collect(&:text).join(', ') %>
+      <% assets = JobNote.where(:job_id => job.id).where("created_at > ?", 1.day.ago).where("job_notes.note_type = ?", JobNote::ASSET_REQUEST).order("created_at ASC") %>
+      <% assets_string = assets.collect(&:text).join(', ') %>
+      <div class='inline-block list-item-column3 align-top'>
+        <span class='help-text'>Past Day</span>
+
+        <p><%= note_activity_report.present? ? note_activity_report.past : "-" %></p>
+      </div>
+      <div class='inline-block list-item-column3 align-top'>
+        <span class='help-text'>Today</span>
+
+        <p><%= note_activity_report.present? ? note_activity_report.present : "-" %></p>
+      </div>
+      <div class='inline-block list-item-column3 align-top'>
+        <span class='help-text'>Next Day</span>
+
+        <p><%= note_activity_report.present? ? note_activity_report.future : "-" %></p>
+      </div>
+      <div class='inline-block list-item-column3 align-top'>
+        <span class='help-text'>Notes</span>
+
+        <p><%= notes_string.present? ? notes_string : "-" %></p>
+      </div>
+      <div class='inline-block list-item-column3 align-top'>
+        <span class='help-text'>Asset Requests</span>
+
+        <p><%= assets_string.present? ? assets_string : "-" %></p>
+      </div>
+    </div>
+    <% job_memberships = job.job_memberships.includes(user: :district).order("job_role_id ASC").to_a %>
+    <% if job_memberships.any? %>
+        <br>
+
+        <div class='inline-block push-right-small'>
+          <% job_memberships.each do |job_membership| %>
+              <% if job_membership.job_role_id != JobMembership::CREATOR &&
+                      (job_membership.job_role_id == JobMembership::COMPANY_MAN ||
+                              job_membership.job_role_id == JobMembership::GEOLOGIST ||
+                              job_membership.job_role_id == JobMembership::FIELD) %>
+                  <div class='inline-block'>
+                    <div class='align-top inline-block'>
+                      <%= render 'job_memberships/icon', job_membership: job_membership %>
+                    </div>
+                    <div class='inline-block list-item-column3'>
+                      <b><%= job_membership.user.present? ? job_membership.user.name : job_membership.user_name %></b><br>
+                      <span><%= job_membership.user.present? ? job_membership.user.phone_number : job_membership.phone_number %></span>
+                    </div>
+                  </div>
+              <% end %>
+          <% end %>
+        </div>
+    <% end %>
+<% end %>
