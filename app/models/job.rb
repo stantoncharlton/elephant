@@ -393,6 +393,8 @@ class Job < ActiveRecord::Base
                 "Complete"
             when ABANDONED
                 "Abandoned"
+            else
+                ""
         end
     end
 
