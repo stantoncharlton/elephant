@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131116182206) do
+ActiveRecord::Schema.define(:version => 20131117003505) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -764,6 +764,10 @@ ActiveRecord::Schema.define(:version => 20131116182206) do
     t.decimal  "vertical_section"
     t.integer  "user_id"
     t.string   "user_name"
+    t.decimal  "course_length"
+    t.decimal  "dog_leg_severity"
+    t.decimal  "closure_distance"
+    t.decimal  "closure_angle"
   end
 
   add_index "survey_points", ["survey_id"], :name => "index_survey_points_on_survey_id"

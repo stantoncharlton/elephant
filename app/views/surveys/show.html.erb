@@ -78,18 +78,11 @@
     <% end %>
 <% end %>
 
-<% if false %>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-<% end %>
-
 <script type="text/javascript">
-
     var chart;
-    var chartData = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    var chartData = <%= raw calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
     var chart2;
-    var chartData2 = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
-
+    var chartData2 = <%= raw calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
 
     AmCharts.ready(function () {
 
@@ -105,7 +98,6 @@
         valueAxis.dashLength = 5;
         valueAxis.axisAlpha = 0;
         valueAxis.autoGridCount = true;
-        valueAxis.minimum = -200;
         chart.addValueAxis(valueAxis);
 
         var valueAxis = new AmCharts.ValueAxis();
@@ -153,6 +145,12 @@
             }
         }
 
+        var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
+        circles.each(function(index) {
+            if(chartData[index].comment == null) {
+                $(this).attr('r', 0);
+            }
+        });
 
         // SERIAL CHART
         chart2 = new AmCharts.AmXYChart();

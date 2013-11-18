@@ -2,11 +2,15 @@ class SurveyPoint < ActiveRecord::Base
     attr_accessible :measured_depth,
                     :inclination,
                     :azimuth,
+                    :course_length,
                     :tie_on,
                     :true_vertical_depth,
                     :east_west,
                     :north_south,
                     :vertical_section,
+                    :dog_leg_severity,
+                    :closure_distance,
+                    :closure_angle,
                     :comment,
                     :user_name
 

@@ -70,10 +70,20 @@ class SurveysController < ApplicationController
 
             @survey.save
 
-            @import_tie_on = params[:import_tie_on] == "true"
+            @import_tie_on = params[:import_tie_on].present? && params[:import_tie_on] == "true"
             @survey_points = params[:points]
             lines = @survey_points.split("\r\n")
             SurveyPoint.transaction do
+
+                if !@import_tie_on
+                    survey_point = SurveyPoint.create @survey, current_user, "Tie On", params[:tie_on_md], params[:tie_on_i], params[:tie_on_a]
+                    survey_point.tie_on = true
+                    survey_point.true_vertical_depth = params[:tie_on_tvd]
+                    survey_point.north_south = params[:tie_on_ns]
+                    survey_point.east_west = params[:tie_on_ew]
+                    survey_point.save
+                end
+
                 lines.each_with_index do |line, index|
                     parts = line.split("\t")
                     survey_point = nil
@@ -122,12 +132,21 @@ class SurveysController < ApplicationController
         @import_tie_on = true
         @plan = true
 
-        @import_tie_on = params[:import_tie_on] == "true"
+        @import_tie_on = params[:import_tie_on].present? && params[:import_tie_on] == "true"
         @survey_points = params[:points]
         lines = @survey_points.split("\r\n")
         SurveyPoint.transaction do
             @survey.survey_points.each do |sp|
                 sp.destroy
+            end
+
+            if !@import_tie_on
+                survey_point = SurveyPoint.create @survey, current_user, "Tie On", params[:tie_on_md], params[:tie_on_i], params[:tie_on_a]
+                survey_point.tie_on = true
+                survey_point.true_vertical_depth = params[:tie_on_tvd]
+                survey_point.north_south = params[:tie_on_ns]
+                survey_point.east_west = params[:tie_on_ew]
+                survey_point.save
             end
 
             lines.each_with_index do |line, index|
