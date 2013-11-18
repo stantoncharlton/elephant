@@ -15,15 +15,17 @@ class Survey < ActiveRecord::Base
 
         last_point = nil
 
+        target_vs = survey_points.last.azimuth
+
         survey_points.each do |point|
-            point = Survey.calculate_point point, last_point
+            point = Survey.calculate_point point, last_point, target_vs
             last_point = point
         end
 
         survey_points
     end
 
-    def self.calculate_point point, last_point
+    def self.calculate_point point, last_point, target_vs
         rc = 1.0
         rf = 1.0
 

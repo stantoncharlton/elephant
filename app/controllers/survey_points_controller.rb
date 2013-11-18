@@ -26,7 +26,7 @@ class SurveyPointsController < ApplicationController
 
         @survey_points << @survey_point
 
-        @survey_point = Survey.calculate_point @survey_point, @last_point
+        @survey_point = Survey.calculate_point @survey_point, @last_point, calculate_point
     end
 
     def destroy
