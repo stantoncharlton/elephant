@@ -80,9 +80,9 @@
 
 <script type="text/javascript">
     var chart;
-    var chartData = <%= raw calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    var chartData = <%= raw calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} }.to_json.html_safe %>;
     var chart2;
-    var chartData2 = <%= raw calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} }.to_json.html_safe %>;
+    var chartData2 = <%= raw calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} }.to_json.html_safe %>;
 
     AmCharts.ready(function () {
 
@@ -116,15 +116,16 @@
         graph.yField = "tvd";
         graph.type = "smoothedLine";
         graph.bullet = "round";
-        graph.balloonText = "<b>[[comment]]</b><br> TVD [[tvd]] ft, VS [[vs]] ft";
+        graph.balloonText = "<b>[[comment]]</b> TVD [[tvd]] ft, VS [[vs]] ft";
         graph.bulletColor = "#FFFFFF";
         graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
-        graph.bulletSize = 7;
+        graph.bulletSize = 1.2;
         graph.title = "tvd";
-        graph.lineThickness = 2;
+        graph.lineThickness = 0;
         graph.lineColor = "#cc4800";
+        graph.lineAlpha = 0.3;
         graph.clustered = true;
         chart.addGraph(graph);
 
@@ -147,8 +148,8 @@
 
         var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
         circles.each(function(index) {
-            if(chartData[index].comment == null) {
-                $(this).attr('r', 0);
+            if(chartData[index].comment != '') {
+                $(this).attr('r', 4);
             }
         });
 
@@ -190,10 +191,11 @@
         graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
-        graph.bulletSize = 7;
-        graph.title = "ns";
-        graph.lineThickness = 2;
+        graph.bulletSize = 1.2;
+        graph.title = "tvd";
+        graph.lineThickness = 0;
         graph.lineColor = "#cc4800";
+        graph.lineAlpha = 0.3;
         graph.clustered = true;
         chart2.addGraph(graph);
 
@@ -213,6 +215,13 @@
                 label.remove();
             }
         }
+
+        var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
+        circles.each(function(index) {
+            if(chartData[index].comment != '') {
+                $(this).attr('r', 4);
+            }
+        });
     });
 
 

@@ -1,14 +1,14 @@
 <script type="text/javascript">
 
     var chart;
-    <% combined_tvd_vs = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} } %>
+    <% combined_tvd_vs = calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} } %>
     <% calculated_points_survey.each do |p| %>
     <% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
     <% end %>
     var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
 
     var chart2;
-    <% combined_ns_ew = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} } %>
+    <% combined_ns_ew = calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} } %>
     <% calculated_points_survey.each do |p| %>
     <% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
     <% end %>
@@ -46,14 +46,15 @@
         graph.yField = "tvd";
         graph.type = "smoothedLine";
         graph.bullet = "round";
-        graph.balloonText = "<b>[[comment]]</b><br> TVD [[tvd]] ft, VS [[vs]] ft";
+        graph.balloonText = "<b>[[comment]]</b> TVD [[tvd]] ft, VS [[vs]] ft";
         graph.bulletColor = "#FFFFFF";
         graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
-        graph.bulletSize = 7;
+        graph.bulletSize = 1.2;
         graph.title = "tvd";
-        graph.lineThickness = 2;
+        graph.lineThickness = 0;
+        graph.lineApha = 0.3;
         graph.lineColor = "#cc4800";
         graph.clustered = true;
         chart.addGraph(graph);
@@ -64,7 +65,7 @@
         graph.yField = "tvd2";
         graph.type = "smoothedLine";
         graph.bullet = "round";
-        graph.balloonText = "<b>Survey</b><br> TVD [[tvd2]] ft, VS [[vs2]] ft";
+        graph.balloonText = "<b>Survey</b> TVD [[tvd2]] ft, VS [[vs2]] ft";
         graph.bulletColor = "#FFFFFF";
         graph.bulletBorderColor = "#00BBCC";
         graph.bulletBorderAlpha = 1;
@@ -92,6 +93,13 @@
                 label.remove();
             }
         }
+
+        var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
+        circles.each(function(index) {
+            if(chartData[index].comment != '') {
+                $(this).attr('r', 4);
+            }
+        });
 
         var circle = $('#chartdiv').find('circle[stroke=#00BBCC]:last');
         var increasing = true;
@@ -154,9 +162,10 @@
         graph.bulletBorderColor = "#cc4800";
         graph.bulletBorderAlpha = 1;
         graph.bulletBorderThickness = 2;
-        graph.bulletSize = 7;
-        graph.title = "ns";
-        graph.lineThickness = 2;
+        graph.bulletSize = 1.2;
+        graph.title = "tvd";
+        graph.lineThickness = 0;
+        graph.lineApha = 0.3;
         graph.lineColor = "#cc4800";
         graph.clustered = true;
         chart2.addGraph(graph);
@@ -195,7 +204,15 @@
             }
         }
 
-        var circle2 = $('#chartdiv2').find('circle[stroke=#00BBCC]:last');
+    var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
+    circles.each(function (index) {
+        if (chartData[index].comment != '') {
+            $(this).attr('r', 4);
+        }
+    });
+
+
+    var circle2 = $('#chartdiv2').find('circle[stroke=#00BBCC]:last');
         var increasing2 = true;
         var pulse2 = function () {
             var radius = parseFloat(circle2.attr('r'));
