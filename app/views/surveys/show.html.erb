@@ -66,9 +66,9 @@
       <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
       <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
 
-      <div class="list-item-column list-item-column-count">0</div>
-      <div class="list-item-column list-item-column-count">0</div>
-      <div class="list-item-column list-item-column-count">0</div>
+      <div class="list-item-column list-item-column-count"><%= 0.round(2) %></div>
+      <div class="list-item-column list-item-column-count"><%= 0.round(2) %></div>
+      <div class="list-item-column list-item-column-count"><%= point.dog_leg_severity.round(2) %></div>
 
       <% last_point = point %>
     </div>
@@ -148,7 +148,7 @@
 
         var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
         circles.each(function(index) {
-            if(chartData[index].comment != '') {
+            if(chartData[index].comment != '' || index == chartData.length - 1) {
                 $(this).attr('r', 4);
             }
         });
@@ -218,7 +218,7 @@
 
         var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
         circles.each(function(index) {
-            if(chartData[index].comment != '') {
+            if(chartData2[index].comment != '' || index == chartData2.length - 1) {
                 $(this).attr('r', 4);
             }
         });

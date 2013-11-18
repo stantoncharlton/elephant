@@ -31,6 +31,9 @@ class Survey < ActiveRecord::Base
 
         if point.tie_on
             point.vertical_section = 0.0
+            point.dog_leg_severity = 0.0
+            point.closure_distance = 0.0
+            point.closure_angle = 0.0
         elsif last_point.nil?
             point.true_vertical_depth = 0.0
             point.north_south = 0.0

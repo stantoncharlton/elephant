@@ -3,9 +3,10 @@
     var chart;
     <% combined_tvd_vs = calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} } %>
     <% calculated_points_survey.each do |p| %>
-    <% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
+    <% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1)} %>
     <% end %>
     var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
+    var chartDataAdded = <%= calculated_points_survey.count %>;
 
     var chart2;
     <% combined_ns_ew = calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} } %>
@@ -13,7 +14,7 @@
     <% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
     <% end %>
     var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
-
+    var chartData2Added = <%= calculated_points_survey.count %>;
 
         // SERIAL CHART
         chart = new AmCharts.AmXYChart();
@@ -96,7 +97,7 @@
 
         var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
         circles.each(function(index) {
-            if(chartData[index].comment != '') {
+            if(chartData[index].comment != '' || index == chartData.length - chartDataAdded - 1) {
                 $(this).attr('r', 4);
             }
         });
@@ -206,7 +207,7 @@
 
     var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
     circles.each(function (index) {
-        if (chartData[index].comment != '') {
+        if (chartData2[index].comment != '' || index == chartData2.length - chartData2Added - 1) {
             $(this).attr('r', 4);
         }
     });
