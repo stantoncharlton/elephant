@@ -6,7 +6,7 @@
   <% end %>
 
   <% if Document.where(:job_id => @job.id).where(:document_type => Document::SURVEY).count() > 0 %>
-      <% if @drilling_log.present? %>
+      <% if @job.status == Job::ON_JOB && @drilling_log.present? %>
           <div>
             <span class="label label-warning">LIVE RIG</span>
 

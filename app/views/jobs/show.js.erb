@@ -84,6 +84,15 @@
     $('#notes_loading').remove();
 <% elsif params[:section] == "overview" %>
     $('#job_overview').replaceWith('<%= j render 'jobs/job_overview', job: @job %>');
+
+    <% if @job.status == Job::ON_JOB %>
+    setTimeout(function() {
+        $.ajax('/jobs/' + <%= @job.id %> + "?section=overview", {
+            type: 'get',
+            dataType: 'script'
+        });
+    }, 60000);
+    <% end %>
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
