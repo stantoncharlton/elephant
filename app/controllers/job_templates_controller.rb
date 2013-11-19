@@ -118,7 +118,6 @@ class JobTemplatesController < ApplicationController
             @fields = params[:job_template][:dynamic_fields]
             @documents = params[:job_template][:document_fields]
 
-            @job_template.company = current_user.company
             if product_line_id.present?
                 @job_template.product_line = ProductLine.find(product_line_id)
             end
