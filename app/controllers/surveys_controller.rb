@@ -24,7 +24,7 @@ class SurveysController < ApplicationController
         @survey = Survey.find(params[:id])
 
         if !@survey.plan? && !@survey.document.nil?
-            @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @survey.document.job_id).first
+            @active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", @survey.document.job_id).where(:plan => true).first
             render 'surveys/show_entry'
         else
             render 'surveys/show'

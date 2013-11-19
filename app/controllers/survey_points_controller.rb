@@ -10,7 +10,7 @@ class SurveyPointsController < ApplicationController
         params[:survey_point].delete(:survey_id)
 
         @survey = Survey.find_by_id(survey_id)
-        @well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @survey.document.job_id).first
+        @well_plan = Survey.where(:plan => true).where("jobs.id = ?", @survey.document.job_id).first
         @survey_points = @survey.calculated_points
         @last_point = @survey_points.last
 

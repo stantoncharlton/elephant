@@ -83,8 +83,8 @@
   </div>
 
 
-  <% active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", drilling_log.job_id).first %>
-  <% survey = Survey.includes(:document => :job).where(:plan => false).where("jobs.id = ?", drilling_log.job_id).first %>
+  <% active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
+  <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).order("surveys.updated_at ASC").first %>
   <% if !active_well_plan.nil? %>
       <%= render 'surveys/survey_charts', well_plan: active_well_plan, survey: survey, height: 350 %>
   <% else %>

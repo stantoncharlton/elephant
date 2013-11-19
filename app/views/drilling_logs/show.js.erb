@@ -1,6 +1,13 @@
 
 <% if params[:section] == "drilling_overview" %>
 $('#drilling_overview').replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
+
+setTimeout(function() {
+    $.ajax('/drilling_logs/' + <%= @drilling_log.id %> + "?section=drilling_overview", {
+        type: 'get',
+        dataType: 'script'
+    });
+}, 30000);
 <% elsif params[:section] == "drilling_daily" %>
 $('#drilling_daily').replaceWith("<%= j render 'drilling_logs/tray_daily', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling_bha" %>

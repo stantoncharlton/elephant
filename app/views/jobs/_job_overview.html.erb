@@ -6,16 +6,27 @@
   <% end %>
 
   <% if Document.where(:job_id => @job.id).where(:document_type => Document::SURVEY).count() > 0 %>
-      <div>
-        <span class="label label-warning">LIVE RIG</span>
+      <% if @drilling_log.present? %>
+          <div>
+            <span class="label label-warning">LIVE RIG</span>
 
-        <% if @drilling_log.present? %>
+            <% last_entry = @drilling_log.drilling_log_entries.last %>
+            <% if last_entry.present? %>
+                <div class='inline-block push-right-small'>
+                  <b class='blue-text'><%= last_entry.entry_at.strftime("%l:%M %p") %></b>
+                  <b class='push-right-small'><%= DrillingLogEntry.activity_code_string(last_entry.activity_code) %></b>
+                  <span><%= last_entry.comment %></span>
+                </div>
+            <% end %>
+
             <%= link_to "Show live drilling dashboard", "/drilling_logs/#{@drilling_log.id}#drilling-overview", target: "_blank", class: "pull-right activity-user-link push-left" %>
-        <% end %>
-        <br><br>
-      </div>
-      <% well_plan = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => true).first %>
-      <% survey = Survey.includes(:document => :job).where("jobs.id = ?", @job.id).where(:plan => false).first %>
+            <br><br>
+          </div>
+      <% end %>
+
+
+      <% well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => true).order("surveys.updated_at ASC").first %>
+      <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => false).order("surveys.updated_at ASC").first %>
       <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
 
       <hr>
