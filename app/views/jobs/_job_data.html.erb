@@ -248,7 +248,7 @@
           <p class="job-field-title-div help-text">Rig</p>
 
           <div class="job-field-value push-down-small">
-            <% if job.well.rig.present? %>
+            <% if in_form && job.well.rig.present? %>
                 <%= link_to job.well.rig.name, job.well.rig, class: "activity-user-link inline-block" %>
             <% else %>
                 <p class="inline-block">-</p>
