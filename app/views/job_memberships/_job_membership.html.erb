@@ -19,6 +19,9 @@
   </div>
   <div class='inline-block job-members-position-title'>
     <p class="inline-block label <%= job_membership.icon_css_style %>"><%= job_membership.role_title %></p>
+    <% if job_membership.shift_type.present? && job_membership.shift_type == JobMembership::SHIFT_NIGHT %>
+        <%= image_tag "night_shift.png", class: "inline-block align-top" %>
+    <% end %>
   </div>
 
   <p class="job-members-position-title push-right orange-text">

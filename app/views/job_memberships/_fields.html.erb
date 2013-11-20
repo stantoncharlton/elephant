@@ -19,8 +19,10 @@
                                                      ["Manager", JobMembership::MANAGER],
                                                      ["Coordinator", JobMembership::COORDINATOR],
                                                      ["Tool Coordinator", JobMembership::TOOL_COORDINATOR],
-                                                     ["Field", JobMembership::FIELD],
-                                                     ["Shop", JobMembership::SHOP]]),
+                                                     ["Field  -  Day", 1000],
+                                                     ["Field  -  Night", 1001],
+                                                     ["Shop", JobMembership::SHOP]
+                                                     ]),
                    class: "custom-select",
                    prompt: I18n.t("jobs.show.new_member_role_prompt") %>
     </div>
@@ -29,7 +31,8 @@
                          placeholder: "Enter Name of Person",
                          class: "txtfield small align-top" %>
       <%= select_tag "job_role_id2", options_for_select([["Observer", JobMembership::OBSERVER],
-                                                     ["Company Man", JobMembership::COMPANY_MAN],
+                                                     ["Company Man  -  Day", 1005],
+                                                     ["Company Man  -  Night", 1006],
                                                      ["Geologist", JobMembership::GEOLOGIST]]),
                    class: "custom-select",
                    prompt: I18n.t("jobs.show.new_member_role_prompt") %>

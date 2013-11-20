@@ -2,8 +2,8 @@
 
 
   <div id="job_time_content">
-    <% users = job.job_memberships.where("job_role_id != ?", JobMembership::CREATOR) %>
-    <% if job.start_date.present? && users.any? %>
+    <% job_memberships = job.job_memberships.where("job_role_id != :creator AND job_role_id = :field", creator: JobMembership::CREATOR, field: JobMembership::FIELD) %>
+    <% if job.start_date.present? && job_memberships.any? %>
         <div class="timesheet">
           <div class="name">
             <div id="job_time_loader" class="pull-left push-down hidden inline">
@@ -33,9 +33,20 @@
           <% end %>
         </div>
 
+        <hr>
+
         <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:job_id => job.id).to_a %>
-        <% users.each do |job_membership| %>
-            <% if job_membership.job_role_id == JobMembership::FIELD %>
+        <b>Day</b>
+        <% job_memberships.each do |job_membership| %>
+            <% if job_membership.shift_type == JobMembership::SHIFT_DAY %>
+                <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership %>
+            <% end %>
+        <% end %>
+
+        <br><br>
+        <b>Night</b>
+        <% job_memberships.each do |job_membership| %>
+            <% if job_membership.shift_type == JobMembership::SHIFT_NIGHT %>
                 <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership %>
             <% end %>
         <% end %>
@@ -68,10 +79,10 @@
         <p class="center">
           <b class="blue-text help-text">Set job start date to show scheduling</b>
         </p>
-    <% elsif users.empty? %>
+    <% elsif job_memberships.empty? %>
         <br><br>
 
-        <p class="center"><b>No Job Members. Add users to job...</b></p>
+        <p class="center"><b>No field personnel assigned to job...</b></p>
     <% end %>
   </div>
 

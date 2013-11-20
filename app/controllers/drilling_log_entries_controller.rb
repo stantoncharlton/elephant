@@ -50,7 +50,8 @@ class DrillingLogEntriesController < ApplicationController
     end
 
     def destroy
-
+        @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
+        @drilling_log_entry.destroy
     end
 
 end

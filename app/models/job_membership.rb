@@ -3,7 +3,8 @@ class JobMembership < ActiveRecord::Base
                     :user_name,
                     :phone_number,
                     :email,
-                    :external_user
+                    :external_user,
+                    :shift_type
 
     acts_as_tenant(:company)
 
@@ -21,6 +22,11 @@ class JobMembership < ActiveRecord::Base
 
     validates :job_role_id, presence: true
 
+    before_save :default_values
+    def default_values
+        self.shift_type ||= SHIFT_NONE
+    end
+
 
     OBSERVER = 1
     MANAGER = 2
@@ -33,37 +39,50 @@ class JobMembership < ActiveRecord::Base
     COMPANY_MAN = 20
     GEOLOGIST = 21
 
+
+    SHIFT_NONE = 0
+    SHIFT_DAY = 1
+    SHIFT_NIGHT = 2
+
     def not_external_user
         !self.external_user
     end
 
 
     def role_title
-       case self.job_role_id
-           when OBSERVER
-               "Observer"
-           when MANAGER
-               "Manager"
-           when COORDINATOR
-               "Coordinator"
-           when FIELD
-               "Field"
-           when SHOP
-               "Shop"
-           when CREATOR
-               "Creator"
-           when TOOL_COORDINATOR
-               "Tool Coordinator"
-           when COMPANY_MAN
-               "Company Man"
-           when GEOLOGIST
-               "Geologist"
-           else
-               "-"
-       end
+        case self.job_role_id
+            when OBSERVER
+                "Observer"
+            when MANAGER
+                "Manager"
+            when COORDINATOR
+                "Coordinator"
+            when FIELD
+                "Field"
+            when SHOP
+                "Shop"
+            when CREATOR
+                "Creator"
+            when TOOL_COORDINATOR
+                "Tool Coordinator"
+            when COMPANY_MAN
+                "Company Man"
+            when GEOLOGIST
+                "Geologist"
+            else
+                "-"
+        end
     end
 
     def icon_css_style
+        if self.shift_type > 0
+            if self.shift_type == SHIFT_NIGHT
+                return "member-icon-night"
+            else
+                return "member-icon-day"
+            end
+        end
+
         case self.job_role_id
             when OBSERVER
                 ""
@@ -82,13 +101,21 @@ class JobMembership < ActiveRecord::Base
             when COMPANY_MAN
                 "member-icon-tool-coordinator"
             when GEOLOGIST
-                "member-icon-shop"
+                "member-icon-geologist"
             else
                 ""
         end
     end
 
     def icon_image_css_style
+        if self.shift_type > 0
+            if self.shift_type == SHIFT_NIGHT
+                return "member-icon-night"
+            else
+                return "member-icon-day"
+            end
+        end
+
         case self.job_role_id
             when OBSERVER
                 ""
@@ -104,12 +131,37 @@ class JobMembership < ActiveRecord::Base
                 "member-icon-image-coordinator"
             when CREATOR
                 "member-icon-image-manager"
+            when COMPANY_MAN
+                "member-icon-tool-coordinator"
+            when GEOLOGIST
+                "member-icon-geologist"
             else
                 ""
         end
     end
 
-private
+    def job_role_id_with_shift
+        if self.shift_type > 0
+            case self.job_role_id
+                when JobMembership::FIELD
+                    if self.shift_type == JobMembership::SHIFT_DAY
+                        return 1000
+                    else
+                        return 1001
+                    end
+                when JobMembership::COMPANY_MAN
+                    if self.shift_type == JobMembership::SHIFT_DAY
+                        return 1005
+                    else
+                        return 1006
+                    end
+            end
+        else
+            self.job_role_id
+        end
+    end
+
+    private
     def after_save
         update_counter_cache
     end

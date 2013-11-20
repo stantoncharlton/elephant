@@ -1,5 +1,12 @@
-<div class='field'>
+<div id="drilling_log_entry_<%= entry.id %>" class='field'>
   <div class="">
+    <div class="pull-right align-top">
+      <%= link_to "remove", entry, method: :delete, remote: true,
+                  data: {confirm: "Remove Entry?"}, class: "delete-button-small tooltip-info",
+                  "data-placement" => "bottom",
+                  "data-title" => "Remove Entry" %>
+    </div>
+
     <p class="list-item-column list-item-column-short">
       <b class='blue-text'><%= entry.entry_at.strftime("%l:%M %p") %></b>
     </p>
@@ -22,7 +29,7 @@
       <%= entry.comment %>
     </p>
 
-    <div class="inline-block pull-right align-top push-up">
+    <div class="inline-block align-top push-up">
       <%= render "users/icon", user: entry.user %>
     </div>
   </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131117003505) do
+ActiveRecord::Schema.define(:version => 20131120141458) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -434,6 +434,7 @@ ActiveRecord::Schema.define(:version => 20131117003505) do
     t.string   "phone_number"
     t.string   "email"
     t.boolean  "external_user", :default => false
+    t.integer  "shift_type"
   end
 
   add_index "job_memberships", ["job_id"], :name => "index_job_memberships_on_job_id"

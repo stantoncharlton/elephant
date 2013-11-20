@@ -8,7 +8,12 @@
 
       <div class="inline-block" id="job_members_list_short">
         <% job.job_memberships.includes(user: :district).each do |jm| %>
-            <% if jm.job_role_id != 6 %>
+            <% if jm.shift_type == 0 && jm.job_role_id != 6 %>
+                <%= render 'job_memberships/icon', job_membership: jm %>
+            <% end %>
+        <% end %>
+        <% job.job_memberships.reorder('').includes(user: :district).order("shift_type ASC").each do |jm| %>
+            <% if jm.shift_type > 0 && jm.job_role_id != 6 %>
                 <%= render 'job_memberships/icon', job_membership: jm %>
             <% end %>
         <% end %>
@@ -43,7 +48,16 @@
     <div class="member-full-list hidden">
       <ul class="job-members-list" id="job_members_list">
         <% job.job_memberships.includes(user: :district).each do |jm| %>
-            <% if jm.job_role_id != 6 %>
+            <% if jm.shift_type == 0 && jm.job_role_id != 6 %>
+                <%= render 'job_memberships/job_membership', job_membership: jm %>
+            <% end %>
+        <% end %>
+        <div>
+          <br>
+          <p class='help-text'><i class="icon-map-marker"></i> On Location</p>
+        </div>
+        <% job.job_memberships.reorder('').includes(user: :district).order("shift_type ASC").each do |jm| %>
+            <% if jm.shift_type > 0 && jm.job_role_id != 6 %>
                 <%= render 'job_memberships/job_membership', job_membership: jm %>
             <% end %>
         <% end %>

@@ -32,8 +32,25 @@ class JobMembershipsController < ApplicationController
         end
         @job_membership.job = @job
         @job_membership.company = @job.company
-        if @job_membership.save
 
+        if @job_membership.job_role_id >= 1000
+            case @job_membership.job_role_id
+                when 1000
+                    @job_membership.job_role_id = JobMembership::FIELD
+                    @job_membership.shift_type = JobMembership::SHIFT_DAY
+                when 1001
+                    @job_membership.job_role_id = JobMembership::FIELD
+                    @job_membership.shift_type = JobMembership::SHIFT_NIGHT
+                when 1005
+                    @job_membership.job_role_id = JobMembership::COMPANY_MAN
+                    @job_membership.shift_type = JobMembership::SHIFT_DAY
+                when 1006
+                    @job_membership.job_role_id = JobMembership::COMPANY_MAN
+                    @job_membership.shift_type = JobMembership::SHIFT_NIGHT
+            end
+        end
+
+        if @job_membership.save
             if @user.present? && current_user.id != @user.id
                 @user.delay.send_added_to_job_email(@job)
             end
@@ -59,17 +76,33 @@ class JobMembershipsController < ApplicationController
 
         if @job_membership.external_user?
             if params[:user_name].present?
+                @job_membership.job_role_id = params[:job_role_id2]
                 @job_membership.user_name = params[:user_name]
                 @job_membership.phone_number = params[:phone_number]
                 @job_membership.email = params[:email]
                 @job_membership.save
             end
+        else
+            @job_membership.update_attribute(:job_role_id, params[:job_role_id])
         end
 
-        if @job_membership.update_attributes(params[:job_membership])
-            #Activity.add(self.current_user, Activity::PRODUCT_LINE_UPDATED, @product_line, @product_line.name)
+        if @job_membership.job_role_id >= 1000
+            case @job_membership.job_role_id
+                when 1000
+                    @job_membership.update_attribute(:job_role_id, JobMembership::FIELD)
+                    @job_membership.update_attribute(:shift_type, JobMembership::SHIFT_DAY)
+                when 1001
+                    @job_membership.update_attribute(:job_role_id, JobMembership::FIELD)
+                    @job_membership.update_attribute(:shift_type, JobMembership::SHIFT_NIGHT)
+                when 1005
+                    @job_membership.update_attribute(:job_role_id, JobMembership::COMPANY_MAN)
+                    @job_membership.update_attribute(:shift_type, JobMembership::SHIFT_DAY)
+                when 1006
+                    @job_membership.update_attribute(:job_role_id, JobMembership::COMPANY_MAN)
+                    @job_membership.update_attribute(:shift_type, JobMembership::SHIFT_NIGHT)
+            end
         else
-            render 'edit'
+            @job_membership.update_attribute(:shift_type, SHIFT_NONE)
         end
     end
 
