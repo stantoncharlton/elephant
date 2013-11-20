@@ -23,6 +23,7 @@ class JobMembership < ActiveRecord::Base
     validates :job_role_id, presence: true
 
     before_save :default_values
+
     def default_values
         self.shift_type ||= SHIFT_NONE
     end
@@ -171,8 +172,10 @@ class JobMembership < ActiveRecord::Base
     end
 
     def update_counter_cache
-        self.job.job_memberships_count = self.job.job_memberships.where("job_memberships.job_role_id != 6").count()
-        self.job.save
+        if self.job.present?
+            self.job.job_memberships_count = self.job.job_memberships.where("job_memberships.job_role_id != 6").count()
+            self.job.save
+        end
     end
 
 end
