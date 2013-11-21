@@ -22,7 +22,7 @@ class DynamicFieldsController < ApplicationController
 
     def show
         @dynamic_field = DynamicField.find(params[:id])
-        not_found unless @dynamic_field.company == current_user.company
+        not_found unless @dynamic_field.present? && @dynamic_field.company == current_user.company
 
         respond_to do |format|
             format.js {

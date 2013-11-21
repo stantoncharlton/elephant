@@ -13,7 +13,7 @@ class IssuesController < ApplicationController
 
     def show
         @issue = Issue.find_by_id(params[:id])
-        not_found unless @issue.company == current_user.company
+        not_found unless @issue.present? && @issue.company == current_user.company
     end
 
     def update

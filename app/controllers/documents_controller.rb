@@ -8,7 +8,7 @@ class DocumentsController < ApplicationController
     def show
 
         @document = Document.find(params[:id])
-        not_found unless @document.company == current_user.company
+        not_found unless @document.present? && @document.company == current_user.company
 
         respond_to do |format|
             format.html {

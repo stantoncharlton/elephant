@@ -22,6 +22,7 @@ class DrillingLogsController < ApplicationController
 
     def show
         @drilling_log = DrillingLog.find(params[:id])
+        not_found unless @drilling_log.present?
         @bhas = Bha.where(:company_id => current_user.company_id).where(:job_id => @drilling_log.job_id)
     end
 

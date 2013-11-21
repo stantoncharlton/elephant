@@ -4,12 +4,12 @@ class BhasController < ApplicationController
     def show
         if params[:bhas].present? && params[:bhas] == "true"
             @bha = Bha.find_by_id(params[:id])
-            not_found unless @bha.company == current_user.company
+            not_found unless @bha.present? && @bha.company == current_user.company
 
             @bhas = Bha.where(:document_id => @bha.document.id).order("bhas.created_at ASC")
         else
             @document = Document.find_by_id(params[:id])
-            not_found unless @document.company == current_user.company
+            not_found unless @document.present? && @document.company == current_user.company
 
             @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
 

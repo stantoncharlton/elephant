@@ -37,7 +37,7 @@ class ClientsController < ApplicationController
 
     def show
         @client = Client.find(params[:id])
-        not_found unless @client.company == current_user.company
+        not_found unless @client.present? && @client.company == current_user.company
 
         if params[:search] && !params[:search].blank?
             @jobs = Client.from_company_for_user(@client, params, current_user, current_user.company).results

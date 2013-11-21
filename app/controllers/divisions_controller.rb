@@ -32,7 +32,7 @@ class DivisionsController < ApplicationController
 
     def show
         @division = Division.find_by_id(params[:id])
-        not_found unless @division.company == current_user.company
+        not_found unless @division.present? && @division.company == current_user.company
 
         @is_paged = params[:page].present?
         if @is_paged

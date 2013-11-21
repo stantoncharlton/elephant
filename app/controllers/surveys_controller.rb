@@ -22,6 +22,7 @@ class SurveysController < ApplicationController
 
     def show
         @survey = Survey.find(params[:id])
+        not_found unless @survey.present?
 
         if !@survey.plan? && !@survey.document.nil?
             @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @survey.document.job_id).first

@@ -1,10 +1,10 @@
 <div id="survey_charts">
 
-  <% if survey.present? && well_plan.present? %>
+  <% if well_plan.present? %>
       <div id="chartdiv" class='inline-block' style="width: 490px; height: <%= height %>px;"></div>
       <div id="chartdiv2" class='inline-block' style="width: 400px; height: <%= height %>px;"></div>
 
-      <% calculated_points_survey = survey.calculated_points %>
+      <% calculated_points_survey = survey.present? ? survey.calculated_points : [] %>
       <% calculated_points = well_plan.calculated_points %>
 
       <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>

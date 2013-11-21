@@ -7,7 +7,7 @@ class WarehousesController < ApplicationController
 
     def show
         @warehouse = Warehouse.find_by_id(params[:id])
-        not_found unless @warehouse.company == current_user.company
+        not_found unless @warehouse.present? && @warehouse.company == current_user.company
 
         if current_user.role.limit_to_assigned_jobs?
             if current_user.warehouses.find { |w| w.id == @warehouse.id} == nil

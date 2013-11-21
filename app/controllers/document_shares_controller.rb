@@ -31,7 +31,7 @@ class DocumentSharesController < ApplicationController
     def show
         @document_share = DocumentShare.find_by_id(params[:id])
         @access_code = params[:access_code]
-        not_found unless @document_share.access_code == @access_code
+        not_found unless @document_share.present? && @document_share.access_code == @access_code
 
         if params[:download].present? && params[:download] == "true"
             redirect_to @document_share.document.full_url

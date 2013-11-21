@@ -18,7 +18,7 @@ class ProductLinesController < ApplicationController
     def show
 
         @product_line = ProductLine.find_by_id(params[:id])
-        not_found unless @product_line.company == current_user.company
+        not_found unless @product_line.present? && @product_line.company == current_user.company
 
         @is_paged = params[:page].present?
         if @is_paged

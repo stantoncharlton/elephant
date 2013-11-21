@@ -17,7 +17,7 @@ class SegmentsController < ApplicationController
     def show
 
         @segment = Segment.find_by_id(params[:id])
-        not_found unless @segment.company == current_user.company
+        not_found unless @segment.present? && @segment.company == current_user.company
 
         @is_paged = params[:page].present?
         if @is_paged

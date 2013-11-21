@@ -34,6 +34,7 @@ class RigsController < ApplicationController
 
     def show
         @rig = Rig.find(params[:id])
+        not_found unless @rig.present?
     end
 
     def new

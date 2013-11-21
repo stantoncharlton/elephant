@@ -50,7 +50,7 @@ class PartsController < ApplicationController
             @part = Part.where("parts.company_id = :company_id AND parts.template IS TRUE AND parts.material_number = :material_number", company_id: current_user.company_id, material_number: params[:material_number]).limit(1).first
         else
             @part = Part.find(params[:id])
-            not_found unless @part.company == current_user.company
+            not_found unless @part.present? && @part.company == current_user.company
 
             if params[:show_decommissioned] == "true"
                 @showing_decommissioned = true

@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find_by_id(params[:id])
-        not_found unless @user.company == current_user.company
+        not_found unless @user.present? && @user.company == current_user.company
 
         @activities = Activity.activities_for_user(@user).paginate(page: params[:page], limit: 20)
 

@@ -16,7 +16,7 @@ class ConversationsController < ApplicationController
 
     def show
         @conversation = Conversation.find_by_id(params[:id])
-        not_found unless @conversation.company == current_user.company
+        not_found unless @conversation.present? && @conversation.company == current_user.company
     end
 
     def new

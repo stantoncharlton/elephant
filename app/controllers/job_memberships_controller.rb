@@ -33,7 +33,7 @@ class JobMembershipsController < ApplicationController
         @job_membership.job = @job
         @job_membership.company = @job.company
 
-        if @job_membership.job_role_id >= 1000
+        if @job_membership.job_role_id.present? && @job_membership.job_role_id >= 1000
             case @job_membership.job_role_id
                 when 1000
                     @job_membership.job_role_id = JobMembership::FIELD
@@ -86,7 +86,7 @@ class JobMembershipsController < ApplicationController
             @job_membership.update_attribute(:job_role_id, params[:job_role_id])
         end
 
-        if @job_membership.job_role_id >= 1000
+        if @job_membership.job_role_id && @job_membership.job_role_id >= 1000
             case @job_membership.job_role_id
                 when 1000
                     @job_membership.update_attribute(:job_role_id, JobMembership::FIELD)

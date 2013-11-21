@@ -12,7 +12,7 @@ class FailuresController < ApplicationController
     def show
         if request.format != "html"
             @job = Job.find_by_id(params[:id])
-            not_found unless @job.company == current_user.company
+            not_found unless @job.present? && @job.company == current_user.company
 
             #jobs_query = Job.where("jobs.job_template_id = :job_template_id AND jobs.failures_count > 1", job_template_id: @job.job_template_id).select("jobs.id").to_sql
             #failure_groups = Failure.includes(:failure_master_template).where("failures.job_id IN (#{jobs_query})").order("COUNT(failures.failure_master_template_id) DESC").select("failures.*, DISTINCT failures.failure_master_template_id").group("failures.failure_master_template_id").count()
@@ -32,7 +32,7 @@ class FailuresController < ApplicationController
         respond_to do |format|
             format.html {
                 @failure = Failure.find_by_id(params[:id])
-                not_found unless @failure.company == current_user.company
+                not_found unless @failure.present? && @failure.company == current_user.company
 
                 #jobs_query = Failure.select("failures.job_id").where("failures.failure_master_template_id = ?", @failure.id).to_sql
                 #@jobs = Job.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).where("jobs.id IN (#{jobs_query})").order("jobs.created_at ASC").paginate(page: params[:page], limit: 20)

@@ -53,7 +53,7 @@ class InventoryController < ApplicationController
 
     def show
         @district = District.find_by_id(params[:id])
-        not_found unless @district.company == current_user.company
+        not_found unless @district.present? && @district.company == current_user.company
 
         @condensed = true
 
