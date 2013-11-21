@@ -25,7 +25,7 @@ if($('#rig_id').length > 0) {
     $('#modal_popup').find('.loading').removeClass('hidden');
 
     $.ajax({
-        url: "<%= params[:reference].gsub("%2F","/").gsub("%3F", "?").gsub("%3D", "=") %>" + "&rig_id=<%= @rig.id %>&rig_name=<%= sanitize(@rig.name) %>",
+        url: "<%= params[:reference].gsub("%2F","/").gsub("%3F", "?").gsub("%3D", "=") %>" + "&rig_id=<%= @rig.id %>&rig_name=<%= u(@rig.name) %>",
         type: "GET",
         dataType: "script"
     });

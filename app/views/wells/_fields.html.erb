@@ -41,7 +41,7 @@
     <%= f.hidden_field :rig_id, id: "rig_id", value: !params[:rig_id].blank? ? params[:rig_id] : nil %>
     <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
                        placeholder: "Type rig name...",
-                       value: !params[:rig_name].blank? ? params[:rig_name] : (!@well.rig.nil? ? @well.rig.name : nil),
+                       value: !params[:rig_name].blank? ? sanitize(params[:rig_name]) : (!@well.rig.nil? ? @well.rig.name : nil),
                        :autocomplete => 'off',
                        id: "rig_name", class: "txtfield small tooltip-info",
                        "data-placement" => "top",
