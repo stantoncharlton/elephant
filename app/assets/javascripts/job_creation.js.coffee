@@ -80,7 +80,7 @@ $ ->
       $(this).find('#close_modal').trigger "click"
 
   $('#new_well_link').click ->
-    $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val()
+    $(this).attr 'href', "/wells/new" + '?field_id=' + $('#job_field_id').val() + "&modal=true"
 
   if $('#job_district_id').val() == ''
     $('#job_field_id').attr "disabled", "disabled"

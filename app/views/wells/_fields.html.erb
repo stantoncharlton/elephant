@@ -1,13 +1,5 @@
 <%= render 'shared/error_messages', object: f.object %>
 
-<% if !@well.new_record? %>
-    <div class="page_header">
-      <h1><%= @well.name %></h1>
-
-      <h3 class="inline">&nbsp;Well</h3>
-    </div>
-<% end %>
-
 <div class="content">
 
 <div>
@@ -55,7 +47,7 @@
                        "data-placement" => "top",
                        "data-title" => "Rig Name, select from drop down based on search results" %>
 
-    <%= link_to "New", new_rig_path(reference: u("/wells/new?field_id=" + @field.id.to_s)), remote: true,
+    <%= link_to "New", params[:modal].present? && params[:modal] == "true" ? new_rig_path(reference: u("/wells/new?field_id=" + @field.id.to_s)) : new_rig_path, remote: true,
                 class: "add-button add-button-left tooltip-info show-modal-button", id: "new_rig_link",
                 "data-placement" => "bottom",
                 "data-title" => "Create new rig" %>
