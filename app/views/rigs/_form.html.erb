@@ -4,6 +4,8 @@
 
 <div class="well">
   <div class="">
+    <%= hidden_field_tag "", "", name: "reference", value: params[:reference] %>
+
     <%= f.text_field :name, placeholder: "Rig Name",
                      class: "txtfield tooltip-info",
                      id: "rig_name_id",

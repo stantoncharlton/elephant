@@ -46,16 +46,16 @@
   <div class="">
     <%= f.label :rig_name, class: "field-title" %>
 
-    <%= f.hidden_field :rig_id, id: "rig_id" %>
+    <%= f.hidden_field :rig_id, id: "rig_id", value: !params[:rig_id].blank? ? params[:rig_id] : nil %>
     <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
                        placeholder: "Type rig name...",
-                       value: !@well.rig.nil? ? @well.rig.name : nil,
+                       value: !params[:rig_name].blank? ? params[:rig_name] : (!@well.rig.nil? ? @well.rig.name : nil),
                        :autocomplete => 'off',
                        id: "rig_name", class: "txtfield small tooltip-info",
                        "data-placement" => "top",
                        "data-title" => "Rig Name, select from drop down based on search results" %>
 
-    <%= link_to "New", new_rig_path, remote: true,
+    <%= link_to "New", new_rig_path(reference: u("/wells/new?field_id=" + @field.id.to_s)), remote: true,
                 class: "add-button add-button-left tooltip-info show-modal-button", id: "new_rig_link",
                 "data-placement" => "bottom",
                 "data-title" => "Create new rig" %>

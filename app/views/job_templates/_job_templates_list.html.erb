@@ -5,6 +5,7 @@
   <% end %>
 
   <b>Job Systems</b>
+
   <p>Select from list below to continue</p>
 
   <% if job_templates.includes(:product_line).any? && job_templates.includes(:product_line).first.product_line.present? %>
@@ -21,7 +22,7 @@
   <% end %>
 </div>
 
-<% job_templates.includes(primary_tools: :tool).each do |jt| %>
+<% job_templates.includes(primary_tools: :tool).each_with_index do |jt, index| %>
     <div class="field">
       <%= link_to "#",
                   id: "job_template_" + jt.id.to_s,
@@ -29,20 +30,34 @@
                   "data-primary-tools" => jt.primary_tools.where(:template => true).map { |pt| pt.tool.id }.join("_"),
                   "data-placement" => "left",
                   "data-title" => "Click to open/edit job type" do %>
-          <p class="list-job-item-name">
-            <strong><%= jt.name %></strong>
-          </p>
-          <% if jt.primary_tools.any? %>
-              <p class="list-job-item-tools-divider">
-                <% jt.primary_tools.each do |primary_tool| %>
-                    <span class="label"><%= primary_tool.tool.name %></span>
-                <% end %>
-              </p>
-          <% end %>
-          <p class="list-job-item-description">
-            <%= jt.description %>
-          </p>
+
+          <div class='inline-block pull-left'>
+            <div class='member-icon'>
+              <p><%= (index + 1) %></p>
+            </div>
+          </div>
+          <div class='inline-block push-right-small'>
+            <p class="list-job-item-name">
+              <strong><%= jt.name %></strong>
+            </p>
+            <% if jt.primary_tools.any? %>
+                <p class="list-job-item-tools-divider">
+                  <% jt.primary_tools.each do |primary_tool| %>
+                      <span class="label"><%= primary_tool.tool.name %></span>
+                  <% end %>
+                </p>
+            <% end %>
+            <p class="list-job-item-description">
+              <%= jt.description %>
+            </p>
+          </div>
 
       <% end %>
     </div>
 <% end %>
+
+<script type='text/javascript'>
+    <% if job_templates.count == 1 %>
+         $(".job-type-selection:first").trigger("click");
+    <% end %>
+</script>

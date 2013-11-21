@@ -109,8 +109,8 @@
                 if (isMobile.any()) {
                     // Mobile - take any browser
                 } else {
-                    var isWebkit = $.browser.webkit;
-                    if (!isWebkit) {
+                    var ie = $.browser.ielt9;
+                    if (ie) {
                         $('#wrong_browser_alert').removeClass('hidden');
                     }
                 }
