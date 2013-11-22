@@ -9,7 +9,7 @@ class ProductLinesController < ApplicationController
 
         if params[:product_line_id].present?
             product_line = ProductLine.find_by_id(params[:product_line_id])
-            if product_line.company == current_user.company
+            if product_line.present? && product_line.company == current_user.company
                 @job_templates = product_line.job_templates
             end
         end

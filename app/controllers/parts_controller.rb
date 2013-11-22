@@ -254,7 +254,7 @@ class PartsController < ApplicationController
 
         if @part.destroy
             if @part.master_part.present?
-                redirect_back_or @part.master_part
+                redirect_to @part.master_part
             else
                 redirect_to inventory_path
             end

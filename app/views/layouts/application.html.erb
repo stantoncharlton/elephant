@@ -44,6 +44,9 @@
 
       <%= render 'layouts/footer' %>
 
+      <div id="logged_out" class="hidden">
+      </div>
+
       <%= debug(params) if Rails.env.development? %>
     </div>
     </body>
@@ -85,6 +88,15 @@
     <script type="text/javascript">
         (function ($) {
             $(document).ready(function () {
+
+                setTimeout(function() {
+                    $.ajax({
+                        url: "/signin",
+                        type: "GET",
+                        dataType: "script"
+                    });
+                }, 1000 * 60 * 120);
+
                 var isMobile = {
                     Android: function () {
                         return navigator.userAgent.match(/Android/i);

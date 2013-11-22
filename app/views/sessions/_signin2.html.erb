@@ -1,0 +1,41 @@
+<div class="login center">
+
+  <% flash.each do |key, value| %>
+      <br>
+
+      <div class="alert alert-<%= key %> loginrightmargin"><b><%= value %></b>
+        <%= image_tag "error_red.png", class: "login-error" %>
+      </div>
+
+  <% end %>
+
+  <div class="form">
+    <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
+
+        <%= f.text_field :email, placeholder: "Type Email",
+                         value: params[:email],
+                         class: "input-controls tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Email address" %>
+
+        <%= f.password_field :password, placeholder: "Type Password",
+                             class: "input-controls tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Password" %>
+
+        <div class="lastrow">
+
+
+          <%= f.submit "LOGIN", class: "bluebtn loginright tooltip-info form-loading-on-click",
+                       "data-placement" => "bottom",
+                       "data-title" => "Log into your elephant account" %>
+        </div>
+
+
+    <% end %>
+  </div>
+
+  <div class="white-text">
+    <%= render 'layouts/inline_loading', title: "Logging in..." %>
+  </div>
+</div>

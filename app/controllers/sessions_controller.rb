@@ -7,8 +7,15 @@ class SessionsController < ApplicationController
     skip_before_filter :verify_traffic
 
     def new
-        flash[:error] = "Please login"
-        redirect_to root_path
+        respond_to do |format|
+            format.html {
+                flash[:error] = "Please login"
+                redirect_to root_path
+            }
+            format.js {
+
+            }
+        end
     end
 
     def create
