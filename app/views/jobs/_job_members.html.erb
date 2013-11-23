@@ -52,13 +52,16 @@
                 <%= render 'job_memberships/job_membership', job_membership: jm %>
             <% end %>
         <% end %>
-        <div>
-          <br>
-          <p class='help-text'><i class="icon-map-marker"></i> On Location</p>
-        </div>
-        <% job.job_memberships.reorder('').includes(user: :district).order("shift_type ASC").each do |jm| %>
-            <% if jm.shift_type > 0 && jm.job_role_id != 6 %>
-                <%= render 'job_memberships/job_membership', job_membership: jm %>
+        <% on_location = job.job_memberships.reorder('').includes(user: :district).where("job_memberships.shift_type > 0 AND job_memberships.shift_type != 6").order("job_memberships.shift_type ASC") %>
+        <% if on_location.any? %>
+            <div>
+              <br>
+              <p class='help-text'><i class="icon-map-marker"></i> On Location</p>
+            </div>
+            <% on_location.each do |jm| %>
+                <% if jm.shift_type > 0 && jm.job_role_id != 6 %>
+                    <%= render 'job_memberships/job_membership', job_membership: jm %>
+                <% end %>
             <% end %>
         <% end %>
       </ul>
