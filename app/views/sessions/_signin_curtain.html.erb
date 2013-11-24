@@ -1,7 +1,10 @@
 <div id="logged_out" class="curtain">
-  <%= link_to "Elephant", root_path, id: "logo", class: "push-down-small" %>
+  <div class='inline-block push-right-small'>
+    <%= link_to "Elephant", root_path, id: "logo", class: "inline-block push-down-small push-right-small" %>
+  </div>
   <div class='curtain-content'>
     <h1>Please Log In</h1>
+
     <p>For company security, you have been logged out.</p>
     <%= image_tag "blue_logo_small.png" %>
     <%= render 'sessions/signin2' %>

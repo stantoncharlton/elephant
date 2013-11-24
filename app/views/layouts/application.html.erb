@@ -89,14 +89,16 @@
         (function ($) {
             $(document).ready(function () {
 
-                var expire = new Date(new Date().getTime() +  (1000 * 60 * 120));
-                setInterval(function() {
+                var expire = new Date(new Date().getTime() + (1000 * 60 * 120));
+                setInterval(function () {
                     if (new Date().getTime() >= expire.getTime()) {
-                        $.ajax({
-                            url: "/signin",
-                            type: "GET",
-                            dataType: "script"
-                        });
+                        if ($('#logged_out').hasClass('hidden')) {
+                            $.ajax({
+                                url: "/signin",
+                                type: "GET",
+                                dataType: "script"
+                            });
+                        }
                     }
                 }, 1000 * 60); // 1000 * 60 * 120
 
