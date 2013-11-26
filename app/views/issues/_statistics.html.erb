@@ -4,7 +4,12 @@
        data-title="Total assets in district inventory">
     <div class="chart-title">Failure Rate <p class='inline help-text'>(MTBF)</p></div>
     <div class="donut-chart-div">
-      <div class="donut-text "><%= (((Failure.where(:template => false).order('failures.created_at DESC').limit(1).first.created_at - Failure.where(:template => false).order('failures.created_at ASC').limit(1).first.created_at).to_i  / (24 * 60 * 60)) / Failure.where(:template => false).count().to_f).round(1) %></div>
+      <% failure_count = Failure.where(:template => false).count() %>
+      <% if failure_count > 0 %>
+          <div class="donut-text "><%= (((Failure.where(:template => false).order('failures.created_at DESC').limit(1).first.created_at - Failure.where(:template => false).order('failures.created_at ASC').limit(1).first.created_at).to_i / (24 * 60 * 60)) / failure_count.to_f).round(1) %></div>
+      <% else %>
+          <div class="donut-text ">-</div>
+      <% end %>
       <div class="percentage ">per day</div>
     </div>
   </div>

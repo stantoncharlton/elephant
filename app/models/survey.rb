@@ -90,7 +90,7 @@ class Survey < ActiveRecord::Base
                 cl_dir2 = 0
             end
 
-            target_vs = 0
+            target_vs = 324.60
             direction_difference = 0.0
             closure_direction = 0.0
 

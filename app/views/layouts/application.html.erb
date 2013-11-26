@@ -99,6 +99,13 @@
                                 dataType: "script"
                             });
                         }
+                        else {
+                            $.ajax({
+                                url: "/is_signed_in",
+                                type: "GET",
+                                dataType: "script"
+                            });
+                        }
                     }
                 }, 1000 * 60); // 1000 * 60 * 120
 

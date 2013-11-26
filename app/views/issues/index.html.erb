@@ -6,9 +6,16 @@
 
 <%= render 'issues/statistics' %>
 
-<div>
+<div class='content'>
+  <div class='page-header-small'>
+    <h1>Issues</h1>
+  </div>
+  <% if !@issues.any? %>
+    <p class='center help-text'>
+      No Issues...
+    </p>
+  <% end %>
   <% @issues.each do |issue| %>
-
       <%= link_to issue, class: "job-status job-link tooltip-info",
                   "data-placement" => "left",
                   "data-title" => "Click to open job" do %>

@@ -28,6 +28,7 @@ ElephantWebApp::Application.routes.draw do
     match '/update_security', to: 'settings#update_security'
 
     match '/signin', to: 'sessions#new'
+    match '/is_signed_in', to: 'sessions#show'
     get '/update_password', to: 'sessions#edit'
     match '/create_password', to: 'sessions#update', via: :post
     match '/signout', to: 'sessions#destroy', via: :delete

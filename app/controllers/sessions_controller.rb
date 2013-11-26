@@ -6,6 +6,10 @@ class SessionsController < ApplicationController
     skip_before_filter :update_activity_time
     skip_before_filter :verify_traffic
 
+    def show
+        @is_signed_in = signed_in?
+    end
+
     def new
         respond_to do |format|
             format.html {
@@ -13,7 +17,7 @@ class SessionsController < ApplicationController
                 redirect_to root_path
             }
             format.js {
-
+                store_location
             }
         end
     end
