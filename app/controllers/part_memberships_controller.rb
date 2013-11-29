@@ -12,35 +12,39 @@ class PartMembershipsController < ApplicationController
         part_id = params[:part_membership][:part_id]
         params[:part_membership].delete(:part_id)
 
-        primary_tool_id = params[:part_membership][:primary_tool_id]
-        params[:part_membership].delete(:primary_tool_id)
+        part_type = params[:part_membership][:part_type]
+        params[:part_membership].delete(:part_type)
 
         @part_membership = PartMembership.new(params[:part_membership])
+        @part_membership.company = current_user.company
 
-        if @part_membership.template?
-            @part_membership.primary_tool = PrimaryTool.find_by_id(primary_tool_id)
-            not_found unless @part_membership.primary_tool.job_template.company == current_user.company
-            @part_membership.company = current_user.company
-        else
-            @part_membership.job = Job.find_by_id(job_id)
-            not_found unless @part_membership.job.company == current_user.company
-            @part_membership.primary_tool = PrimaryTool.find_by_id(primary_tool_id)
-            not_found unless @part_membership.primary_tool.job_template.company == current_user.company
+        case part_type
+            when 'inventory'
+                @part_membership.part_type = PartMembership::INVENTORY
+            when 'rental'
+                @part_membership.part_type = PartMembership::RENTAL
+            when 'accessory'
+                @part_membership.part_type = PartMembership::ACCESSORY
+        end
 
+        @part_membership.job = Job.find_by_id(job_id)
+        not_found unless @part_membership.job.present? && @part_membership.job.company == current_user.company
+
+        if !part_id.blank?
             @part_membership.part = Part.find_by_id(part_id)
             not_found unless @part_membership.part.present?
             not_found unless @part_membership.part.company == current_user.company
-            @part_membership.company = current_user.company
-            @part_membership.track_usage = @part_membership.template_part_membership.track_usage
+            @part_membership.name = @part_membership.part.master_part.name
+            @part_membership.material_number = @part_membership.part.material_number
+            @part_membership.serial_number = @part_membership.part.serial_number
         end
 
-
-        if @part_membership.save && !@part_membership.template?
-            @part_membership.part.status = Part::ON_JOB
-            @part_membership.part.current_job = @part_membership.job
-            @part_membership.part.save
-
-            Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
+        if @part_membership.save
+            if @part_membership.part.present?
+                Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
+            else
+                Activity.delay.add(current_user, Activity::ASSET_ADDED, nil, @part_membership.serial_number, @part_membership.job)
+            end
         end
     end
 
@@ -57,21 +61,13 @@ class PartMembershipsController < ApplicationController
 
     def destroy
         @part_membership = PartMembership.find_by_id(params[:id])
-        if @part_membership.present?
-            if @part_membership.template?
-                not_found unless @part_membership.primary_tool.job_template.company == current_user.company
+        not_found unless @part_membership.present? && @part_membership.company == current_user.company
+
+        if @part_membership.destroy
+            if @part_membership.part.present?
+                Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
             else
-                not_found unless @part_membership.part.company == current_user.company
-            end
-
-            if @part_membership.destroy
-                if !@part_membership.template?
-                    @part_membership.part.status = Part::AVAILABLE
-                    @part_membership.part.current_job = nil
-                    @part_membership.part.save
-
-                    Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
-                end
+                Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
             end
         end
     end

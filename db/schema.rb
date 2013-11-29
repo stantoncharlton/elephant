@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131120141458) do
+ActiveRecord::Schema.define(:version => 20131129143221) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -602,6 +602,12 @@ ActiveRecord::Schema.define(:version => 20131120141458) do
     t.boolean  "track_usage"
     t.float    "usage"
     t.boolean  "optional",                      :default => false
+    t.string   "name"
+    t.string   "serial_number"
+    t.boolean  "received",                      :default => false
+    t.datetime "received_at"
+    t.integer  "received_by"
+    t.integer  "part_type"
   end
 
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"

@@ -1,9 +1,9 @@
 <% if params[:section] == "primary_tools" %>
-    $('#primary_tools_loading').after('<%= j render 'jobs/job_primary_tools', job: @job %>');
+    $('#primary_tools_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
     $('#primary_tools_loading').remove();
 
-
-    var focusevent, last_selected_item, part_focused, _this = this;
+    var focusevent, last_selected_item, part_focused,
+            _this = this;
 
     last_selected_item = null;
 
@@ -17,33 +17,31 @@
         return last_selected_item = ui.item;
     };
 
-    part_focused = false;
-
-    $('.part-match').each(function(index, element) {
+    $('.part-search').each(function(index, element) {
         return $(element).autocomplete({
             source: $(element).data('autocomplete-source'),
             focus: focusevent,
             select: function(event, ui) {
-                if(ui.item.id > 0) {
-                $(this).closest('form').find('.part-id').val(ui.item.id);
-                $(this).closest('form').hide();
-                loading = $(this).closest('.form').parent().find(".form-loading[data-form='part_membership']");
-                loading.removeClass('hidden');
-                loading.find('.loading').removeClass('hidden');
-                return $(this).closest('form').submit();
+                if (ui.item.id > 0) {
+                    $('#part_membership_part_id').val(ui.item.id);
+                    setTimeout(function() {
+                        $('#part_search').val(ui.item.label + ' (Serial #' + ui.item.serial_number + ')');
+                    }, 1);
                 }
             }
         });
     });
 
-    $('.part-match').live("focusin", function() {
+    part_focused = false;
+
+    $('.part-search').focusin(function() {
         part_focused = true;
         $(this).removeClass('ui-autocomplete-bad');
         $(this).addClass('ui-autocomplete-typing');
         return $(this).val('');
     });
 
-    $('.part-match').live("focusout", function() {
+    $('.part-search').focusout(function() {
         if (part_focused) {
             $(this).addClass('ui-autocomplete-bad');
             if ($(this).val() === '') {
@@ -53,26 +51,28 @@
     });
 
 
-    $('.show-all-parts-material-number').live("click", function() {
-        var box;
-        box = $(this).closest('.filter-search-box').find('.part-match');
-        if ($(box.autocomplete('widget')).is(':visible')) {
-            box.autocomplete('close');
-        } else {
-            box.autocomplete('search', $(this).attr('data-part-fill'));
+    $('.part-search').data("autocomplete")._renderItem = function (ul, item) {
+        return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='pull-right help-text list-item-column-short'>" + item.warehouse + "</div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<p class='job-user-district pull-right'><span class='help-text'>Material # </span>" + item.material_number + "</p>" : "") + (item.id > 0 ? "<div>" + (item.serial_number != null ? ("<p class='job-user-title'><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b>" + (item.district_serial_number != '' ? " / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b>" : "") + "</p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "</div>" : "") + "</div></div></a>").appendTo(ul)
+    }
 
-            box.trigger('focus');
+    $('.popover').popover({  delay: { show: 100, hide: 100 } });
+
+
+    var oldHide = $.fn.popover.Constructor.prototype.hide;
+
+    $.fn.popover.Constructor.prototype.hide = function() {
+        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
+            var that = this;
+            // try again after what would have been the delay
+            setTimeout(function() {
+                return that.hide.call(that, arguments);
+            }, that.options.delay.hide);
+            return;
         }
-        return false;
-    });
+        oldHide.call(this, arguments);
+    };
 
-
-    $('.part-match').each(function (index, element) {
-        $(element).data("autocomplete")._renderItem = function (ul, item) {
-            return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                    "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='pull-right help-text'>" + item.warehouse + "</div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div class='asset-serials'>" + (item.serial_number != null ? ("<p class=''><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b>" + (item.district_serial_number > 0 ? "/ <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b>" : "") + "</p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "</div>" : "") + "</div></div></a>").appendTo(ul)
-        }
-    });
 
 
 <% elsif params[:section] == "documents" %>

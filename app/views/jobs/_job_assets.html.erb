@@ -1,0 +1,126 @@
+<div class="page_header">
+  <h1>Tools/Assets</h1>
+
+  <div class="pull-right">
+    <div class="btn-group inline-block">
+      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+        Advanced Actions
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to "Export as Excel", primary_tools_path(job: job.id, format: "xlsx"),
+                      target: "_blank",
+                      class: "dropdown-menu-link tooltip-info submit-form",
+                      "data-placement" => "left",
+                      "data-title" => "Export data as Microsoft Excel file." %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to "Add New Tool", "#",
+                      id: "add_new_tool",
+                      class: "dropdown-menu-link tooltip-info",
+                      "data-placement" => "left",
+                      "data-title" => "Add New Tool to List" %>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<div class='add-new-asset content'>
+  <h3>Add New Asset</h3>
+
+  <div class='form' data-form="new-asset-form">
+    <%= form_for PartMembership.new, remote: true do |f| %>
+
+        <%= f.hidden_field :job_id, value: @job.id %>
+        <%= f.hidden_field :part_type, id: "part_type" %>
+
+        <div class='push-down'>
+          <ul class="nav nav-pills selection-nav">
+            <li class='active'>
+              <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
+            </li>
+            <li class="push-right-small">
+              <a href="#" class='change-asset-type blue-text' data-type="rental">Rental</a>
+            </li>
+            <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
+              Dumb Iron</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class='asset-type-form' data-type="inventory">
+          <div class="push-up">
+            <%= f.hidden_field :part_id %>
+            <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id)},
+                               placeholder: "Asset Serial #, Material #, or Name",
+                               class: "txtfield search-query tooltip-info part-search",
+                               id: "part_search",
+                               "data-placement" => "bottom",
+                               "data-title" => "Asset Serial #, Material #, or Name" %>
+
+            <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                         "data-form" => "new-asset-form",
+                         "data-placement" => "bottom",
+                         "data-title" => "Add new asset" %>
+          </div>
+        </div>
+
+        <div class='asset-type-form push-up hidden' data-type="rental">
+          <%= f.text_field :name,
+                             placeholder: "Asset Name",
+                             class: "txtfield asset-input  tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Asset Name" %>
+
+          <%= f.text_field :serial_number,
+                             placeholder: "Serial Number",
+                             class: "txtfield asset-input  tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Serial Number" %>
+
+          <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                       "data-form" => "new-asset-form",
+                       "data-placement" => "bottom",
+                       "data-title" => "Add new asset" %>
+        </div>
+
+        <div class='asset-type-form push-up hidden' data-type="accessory">
+          <%= f.text_field :name,
+                           placeholder: "Asset Name",
+                           class: "txtfield asset-input  tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Asset Name" %>
+
+          <span class='help-text'>Optional</span>
+          <%= f.text_field :serial_number,
+                           placeholder: "Serial Number",
+                           class: "txtfield asset-input2 push-right-small  tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Serial Number" %>
+
+          <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                       "data-form" => "new-asset-form",
+                       "data-placement" => "bottom",
+                       "data-title" => "Add new asset" %>
+        </div>
+
+
+  <% end %>
+  </div>
+
+  <div class="form-loading hidden" data-form="new-asset-form">
+    <%= render 'layouts/inline_loading', title: "Adding asset..." %>
+    <br><br>
+  </div>
+  <hr>
+</div>
+
+<div id="asset_list" class='content'>
+  <% @job.part_memberships.order('name ASC').each do |pm| %>
+    <%= render 'part_memberships/part_membership', part_membership: pm %>
+  <% end %>
+</div>

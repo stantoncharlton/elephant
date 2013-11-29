@@ -1,22 +1,45 @@
-<div id="part_membership_<%= part_membership.id %>" class="field">
-  <div>
-    <b class='blue-text'>    <%= part_membership.material_number %>
-    </b>
+<% if false %>
+    <div id="part_membership_<%= part_membership.id %>" class="field">
+      <div>
+        <b class='blue-text'>    <%= part_membership.material_number %>
+        </b>
 
-    <p class="help-text inline"> - Asset Material #</p>
+        <p class="help-text inline"> - Asset Material #</p>
 
-    <% if part_membership.track_usage %>
-        <p class="inline push-right-small orange-text">Tracking Usage Hours</p>
-    <% end %>
-    <% if part_membership.optional %>
-        <p class="inline push-right-small orange-text">Optional</p>
-    <% end %>
+        <% if part_membership.track_usage %>
+            <p class="inline push-right-small orange-text">Tracking Usage Hours</p>
+        <% end %>
+        <% if part_membership.optional %>
+            <p class="inline push-right-small orange-text">Optional</p>
+        <% end %>
 
-    <%= link_to "remove", part_membership, method: :delete, remote: true, data: {confirm: "Remove Asset?"},
-                class: "pull-right delete-button tooltip-info",
-                "data-placement" => "bottom",
-                "data-title" => "Delete asset" %>
+        <%= link_to "remove", part_membership, method: :delete, remote: true, data: {confirm: "Remove Asset?"},
+                    class: "pull-right delete-button tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Delete asset" %>
 
-  </div>
+      </div>
+    </div>
+<% end %>
+
+<div id="part_membership_<%= part_membership.id %>" class="inline-block align-top">
+  <%= link_to part_membership.part,
+              class: "part-box2 popover " + (part_membership.part_type == PartMembership::ACCESSORY ? "part-box-accessory" : ""),
+              "data-html" => "true",
+              "data-title" => (part_membership.part.present? ? part_membership.part.master_part.name : part_membership.name),
+              "data-content" => render('part_memberships/part_hover', part_membership: part_membership),
+              "data-toggle" => "popover",
+              "data-placement" => "bottom",
+              "data-trigger" => "hover" do %>
+      <div class='bar' style="background: <%= '#' + part_membership.color %>;"></div>
+      <% if part_membership.part_type == PartMembership::RENTAL %>
+          <div class='rental'>R</div>
+      <% end %>
+      <% if part_membership.part_type == PartMembership::ACCESSORY %>
+          <div class='accessory'>DI</div>
+      <% end %>
+      <div class='center name'><%= part_membership.part.present? ? part_membership.part.master_part.name : part_membership.name %></div>
+      <div class='center'><%= part_membership.serial_number %></div>
+  <% end %>
 </div>
 

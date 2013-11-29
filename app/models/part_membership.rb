@@ -1,24 +1,42 @@
 class PartMembership < ActiveRecord::Base
     attr_accessible :material_number,
+                    :name,
+                    :serial_number,
+                    :part_type,
                     :template,
                     :track_usage,
                     :usage,
                     :optional
 
+
+    require 'digest/md5'
     acts_as_tenant(:company)
 
-    validates_presence_of :material_number
-    validates_presence_of :primary_tool, :if => :template?
-    validates_presence_of :job, :if => :not_template
-    validates_presence_of :part, :if => :not_template
+    validates_presence_of :job
+    validates_presence_of :part, :if => :part_inventory
+    validates_presence_of :name, :if => :part_rental
+    validates_presence_of :serial_number, :if => :part_rental
 
     belongs_to :job
     belongs_to :part
     belongs_to :primary_tool
     belongs_to :company
 
-    def not_template
-        !self.template?
+
+    INVENTORY = 1
+    RENTAL = 2
+    ACCESSORY = 3
+
+    def part_inventory
+        self.part_type == INVENTORY
+    end
+
+    def part_rental
+        self.part_type == RENTAL
+    end
+
+    def part_accessory
+        self.part_type == ACCESSORY
     end
 
     def template_part_membership
@@ -50,4 +68,7 @@ class PartMembership < ActiveRecord::Base
         part_membership
     end
 
+    def color
+        Digest::MD5.hexdigest(self.name)[0..5]
+    end
 end

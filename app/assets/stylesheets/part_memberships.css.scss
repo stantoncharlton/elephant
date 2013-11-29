@@ -9,3 +9,77 @@
   margin: 0px;
   padding: 0px;
 }
+
+.asset-input {
+  display: inline-block;
+  max-width: 200px;
+  min-width: 0px;
+  margin-bottom: 0px;
+}
+
+.asset-input2 {
+  display: inline-block;
+  max-width: 100px;
+  min-width: 0px;
+  margin-bottom: 0px;
+}
+
+.part-box2 {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  color: #000000;
+  font-size: 13px;
+  line-height: 15px;
+  width: 150px;
+  height: 30px;
+  border-style: solid;
+  border-color: #dadada;
+  border-width: 2px;
+  font-family: "gothamlightregular";
+  text-align: center;
+  background: #efefef;
+
+  z-index: 1;
+
+  .name {
+    font-family: "gothambookregular";
+  }
+
+  .bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0px;
+    width: 5px;
+    height: 100%;
+    background: #61c2f3;
+  }
+
+  .rental {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    margin: 0px;
+    color: #eb4f25;
+    font-size: 13px;
+    font-family: "gothamboldregular";
+  }
+
+  .accessory {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    margin: 0px;
+    color: #666666;
+    font-size: 13px;
+    font-family: "gothamboldregular";
+  }
+}
+
+.part-box-accessory {
+  background: #FFFFFF;
+}

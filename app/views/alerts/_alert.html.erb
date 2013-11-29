@@ -65,7 +65,9 @@
               <div class="">
                 <h3 class="warning-text"><%= alert.target.failure_master_template.text %></h3>
               </div>
-              <%= render 'jobs/job_progress', job: alert.job, show_summary_data: true, job_name: false %>
+              <div class='job-status'>
+                <%= render 'jobs/job_progress', job: alert.job, show_summary_data: true, job_name: false %>
+              </div>
             </div>
         <% end %>
         <br><br>

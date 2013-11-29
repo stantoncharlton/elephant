@@ -159,5 +159,23 @@ $ ->
 
 
 
+  $('.change-asset-type').live "click", ->
+    $('.change-asset-type').each ->
+      li = $(this).closest('li')
+      if li.hasClass 'active'
+        li.removeClass 'active'
+        $(this).addClass 'blue-text'
+
+    $(this).closest('li').addClass 'active'
+    $(this).removeClass 'blue-text'
+
+    $('.asset-type-form').each ->
+      $(this).addClass 'hidden'
+
+    $('.asset-type-form[data-type=' + $(this).attr('data-type') + ']').removeClass 'hidden'
+    $('#part_type').val($(this).attr('data-type'))
+
+    return false
+
 
 

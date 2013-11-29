@@ -3,7 +3,6 @@
   font-weight: bold;
   font-size: 30px;
 
-
   &:active, &:link, &:visited {
     color: #0058a8;
     background: transparent;
@@ -93,8 +92,6 @@
   vertical-align: top;
   margin-top: 5px;
 }
-
-
 
 .job-field-div {
   display: inline-block;
@@ -891,4 +888,13 @@
 #map {
   width: 100%;
   height: 100%;
+}
+
+.add-new-asset {
+  h3 {
+    font-family: "gothamboldregular";
+    font-size: 21px;
+    color: #2e2e2e;
+    text-transform: uppercase;
+  }
 }

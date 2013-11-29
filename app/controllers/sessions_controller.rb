@@ -7,19 +7,15 @@ class SessionsController < ApplicationController
     skip_before_filter :verify_traffic
 
     def show
+        store_location
         @is_signed_in = signed_in?
+        puts "....................................."
+        puts @is_signed_in
     end
 
     def new
-        respond_to do |format|
-            format.html {
-                flash[:error] = "Please login"
-                redirect_to root_path
-            }
-            format.js {
-                store_location
-            }
-        end
+        flash[:error] = "Please login"
+        redirect_to root_path
     end
 
     def create

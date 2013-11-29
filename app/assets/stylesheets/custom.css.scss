@@ -133,6 +133,17 @@ body {
   }
 }
 
+
+.selection-nav {
+  .active {
+    a {
+      background: #5a5a5a !important;
+      color: #FFFFFF !important;
+      font-family: "gothammediumregular" !important;
+    }
+  }
+}
+
 .email-body {
   padding-top: 15px !important;
   margin-left: 15px !important;

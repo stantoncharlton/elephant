@@ -5,18 +5,18 @@ $('#alert').modal({show: true});
 <% else %>
 
 
-<% if @part_membership.template? %>
-$('#parts_primary_tool_<%= @part_membership.primary_tool_id %>').append("<%= j render 'part_memberships/part_membership', part_membership: @part_membership %>");
-$('[id=new_part_material_number]').val('').trigger('focusout');
-<% else %>
+$('#asset_list').append('<%= j render 'part_memberships/part_membership', part_membership: @part_membership %>');
 
-<% template = @part_membership.template_part_membership  %>
-$('#part_membership_<%= template.id %>').replaceWith('<%= j render 'part_memberships/job_part_membership', part_membership: @part_membership, job: @part_membership.job %>');
+$('.form[data-form=new-asset-form]').show();
+$('.form-loading[data-form=new-asset-form]').addClass('hidden');
 
-<% end %>
+$('#part_search').val('').removeClass('ui-autocomplete-bad').focus();
+$('#part_membership_part_id').val('');
+$('#part_membership_name').val('');
+$('#part_membership_serial_number').val('');
 
 
-
+$('#part_membership_<%= @part_membership.id %>').find('.popover').popover({  delay: { show: 100, hide: 100 } });
 
 
 <% end %>

@@ -10,76 +10,6 @@
               </span>
         <% end %>
 
-        <br><br>
-
-        <%= link_to "Start Asset Maintenance", part_path(part, receive: true, part_page: true), method: :put,
-                    remote: true,
-                    class: "bluebtn green tooltip-info form-loading-on-click",
-                    "data-form" => "update-part-status",
-                    "data-placement" => "bottom",
-                    "data-title" => "Start asset maintenance" %>
-
-        <span class="push-right-small">
-        <%= link_to "No Maintenance", part_path(@part, transfer: true, part_page: true), method: :put,
-                    remote: true,
-                    class: "bluebtn gray tooltip-info form-loading-on-click",
-                    "data-form" => "update-part-status",
-                    "data-placement" => "bottom",
-                    "data-title" => "Asset will have no maintenance and await next job" %>
-          </span>
-
-        <span class="push-right-small">
-                        <div class="btn-group inline-block">
-                          <a class="bluebtn gray tooltip-info" data-toggle="dropdown" href="#" data-placement="top" data-title="Transfer asset to another well with no maintenance.">
-                            Well Transfer
-                          </a>
-                          <ul class="dropdown-menu">
-                            <li>
-                              <%= link_to "Well Not Known", part_path(@part, transfer: true, part_page: true),
-                                          method: :put,
-                                          remote: true,
-                                          class: "dropdown-menu-link tooltip-info form-loading-on-click",
-                                          "data-form" => "update-part-status",
-                                          "data-placement" => "left",
-                                          "data-title" => "The well to transfer to is not known." %>
-                            </li>
-                            <% jobs = current_user.jobs.where("jobs.status >= 1 AND jobs.status < 50") %>
-                            <% if jobs.any? %>
-                                <li class="divider"></li>
-                                <% jobs.each do |j| %>
-                                    <li>
-                                      <% part_membership = PartMembership.where(:job_id => j.id).where(:part_id => @part.id).first %>
-                                      <%= link_to j.field.name + " | " + j.well.name, part_path(@part, transfer: true, part_membership: part_membership, job: j, part_page: true),
-                                                  method: :put,
-                                                  remote: true,
-                                                  class: "dropdown-menu-link tooltip-info form-loading-on-click",
-                                                  "data-form" => "update-part-status",
-                                                  "data-placement" => "left",
-                                                  "data-title" => "Transfer to this well." %>
-                                    </li>
-                                <% end %>
-                            <% end %>
-                          </ul>
-                        </div>
-                    </span>
-        <% if false %>
-        <span class="push-right-small">
-        <%= link_to "Well Transfer", part_path(part, transfer: true, part_page: true), method: :put,
-                    remote: true,
-                    class: "bluebtn gray tooltip-info form-loading-on-click",
-                    "data-form" => "update-part-status",
-                    "data-placement" => "bottom",
-                    "data-title" => "Complete Asset usage to use on another job" %>
-          </span>
-        <% end %>
-
-        <% if !part.current_job.approved_to_ship %>
-            <br><br>
-
-            <div class='alert alert-error'>
-              <span class='warning-text push-right-small push-down'><%= image_tag "error_red.png" %> <div class='inline-block align-top'>Asset has not shipped to job, yet</div></span>
-            </div>
-        <% end %>
     <% elsif part.status == Part::IN_REDRESS %>
         <span class="warning-text"><%= part.status_string %></span>
         <span>for <%= time_ago_in_words(part.updated_at) %></span>
@@ -157,6 +87,19 @@
         <% end %>
     <% else %>
         <span class="warning-text"><%= part.status_string %></span>
+    <% end %>
+
+    <% if part.status != Part::IN_REDRESS %>
+        <div>
+          <br><br>
+
+          <%= link_to "Start Asset Maintenance", part_path(part, receive: true, part_page: true), method: :put,
+                      remote: true,
+                      class: "bluebtn green tooltip-info form-loading-on-click",
+                      "data-form" => "update-part-status",
+                      "data-placement" => "bottom",
+                      "data-title" => "Start asset maintenance" %>
+        </div>
     <% end %>
   </div>
 

@@ -92,20 +92,11 @@
                 var expire = new Date(new Date().getTime() + (1000 * 60 * 120));
                 setInterval(function () {
                     if (new Date().getTime() >= expire.getTime()) {
-                        if ($('#logged_out').hasClass('hidden')) {
-                            $.ajax({
-                                url: "/signin",
-                                type: "GET",
-                                dataType: "script"
-                            });
-                        }
-                        else {
-                            $.ajax({
-                                url: "/is_signed_in",
-                                type: "GET",
-                                dataType: "script"
-                            });
-                        }
+                        $.ajax({
+                            url: "/is_signed_in",
+                            type: "GET",
+                            dataType: "script"
+                        });
                     }
                 }, 1000 * 60); // 1000 * 60 * 120
 
