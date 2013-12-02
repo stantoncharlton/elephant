@@ -70,13 +70,13 @@
         </div>
 
         <div class='asset-type-form push-up hidden' data-type="rental">
-          <%= f.text_field :name,
+          <%= text_field_tag "rental_name", "",
                              placeholder: "Asset Name",
                              class: "txtfield asset-input  tooltip-info",
                              "data-placement" => "bottom",
                              "data-title" => "Asset Name" %>
 
-          <%= f.text_field :serial_number,
+          <%= text_field_tag "rental_serial_number", "",
                              placeholder: "Serial Number",
                              class: "txtfield asset-input  tooltip-info",
                              "data-placement" => "bottom",
@@ -89,14 +89,14 @@
         </div>
 
         <div class='asset-type-form push-up hidden' data-type="accessory">
-          <%= f.text_field :name,
+          <%= text_field_tag "accessory_name", "",
                            placeholder: "Asset Name",
                            class: "txtfield asset-input  tooltip-info",
                            "data-placement" => "bottom",
                            "data-title" => "Asset Name" %>
 
           <span class='help-text'>Optional</span>
-          <%= f.text_field :serial_number,
+          <%= text_field_tag "accessory_serial_number", "",
                            placeholder: "Serial Number",
                            class: "txtfield asset-input2 push-right-small  tooltip-info",
                            "data-placement" => "bottom",
@@ -123,4 +123,9 @@
   <% @job.part_memberships.order('name ASC').each do |pm| %>
     <%= render 'part_memberships/part_membership', part_membership: pm %>
   <% end %>
+</div>
+
+
+<div class='push-down'>
+  <br><br>
 </div>

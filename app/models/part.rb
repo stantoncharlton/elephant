@@ -49,6 +49,10 @@ class Part < ActiveRecord::Base
             master_part.present? ? master_part.name : name
         end
 
+        text :serial_number, :as => :code_textp do
+            serial_number
+        end
+
         time :created_at
         time :updated_at
         integer :company_id
@@ -56,7 +60,6 @@ class Part < ActiveRecord::Base
         text :material_number_text do
             material_number
         end
-        text :serial_number
         text :district_serial_number
         string :material_number
         integer :warehouse_id

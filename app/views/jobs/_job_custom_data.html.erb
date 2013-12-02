@@ -1,7 +1,7 @@
 <div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "" : "custom-data-closed" %>" data-tray="custom_data">
 
   <div class="page_header">
-    <h1>Job Data</h1>
+    <h1>Job Information</h1>
 
     <div class="btn-group inline pull-right">
       <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -25,25 +25,22 @@
     <br>
 
     <% if !job.job_template.description.empty? %>
+        <a href="#" class="expand-job-description pull-right">expand</a>
         <p class="job-description-custom-data-div">
           <%= job.job_template.description %>
         </p>
-        <a href="#" class="expand-job-description">expand</a>
     <% end %>
     <hr>
   </div>
 
-  <div class="content">
-    <%= link_to "View/Edit Well Data - " + job.well.name, edit_well_path(job.well),
-                class: "activity-user-link" %>
-    <p class="inline help-text"> (Depth, Frac, Bottom Hole, etc.)</p>
-  </div>
+  <%= render 'wells/inline_well_fields', well: job.well %>
+
 
   <hr>
 
   <div class="content">
-    <b class='orange-text'>Required Data</b>
-    <br><br>
+    <h3 class='orange-text'>Required Info</h3>
+    <br>
     <% job_number = DynamicField.new(name: "Job Number", value_type: DynamicField::STRING) %>
     <% job_number.value = job.job_number %>
     <% job_number.job = job %>
@@ -56,8 +53,8 @@
     <% if job.dynamic_fields_optional.count > 0 %>
         <br>
         <hr>
-        <b class='orange-text'>Optional Data</b>
-        <br><br>
+        <h3 class='orange-text'>Optional Info</h3>
+        <br>
         <% job.dynamic_fields_optional.each do |df| %>
             <%= render 'jobs/job_custom_data_field', df: df, job_editable: job_editable %>
         <% end %>

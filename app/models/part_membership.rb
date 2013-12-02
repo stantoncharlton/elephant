@@ -69,6 +69,10 @@ class PartMembership < ActiveRecord::Base
     end
 
     def color
-        Digest::MD5.hexdigest(self.name)[0..5]
+        if !self.name.blank?
+            Digest::MD5.hexdigest(self.name)[0..5]
+        else
+            '666666'
+        end
     end
 end

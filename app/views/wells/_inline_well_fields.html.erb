@@ -1,0 +1,40 @@
+<div class="content">
+  <%= link_to "Advanced Edit: " + well.name, edit_well_path(well),
+              target: "_blank",
+              class: "activity-user-link pull-right" %>
+  <h3 class='orange-text'>Well Info</h3>
+  <br>
+
+  <div class="">
+    <%= image_tag "district_extrasmall.png", class: "align-top" %>
+    <div class='inline-block list-item-column2'><b class='inline-block align-top'>Surface Location</b></div>
+    <%= text_field_tag "", "", value: well.location,
+                       placeholder: "Surface Latitude, Longitude of well",
+                       class: "well-update-field txtfield tooltip-info map-latlong-text-entry align-top push-right-small",
+                       "data-id" => well.id,
+                       "data-field" => "location",
+                       "data-placement" => "bottom",
+                       "data-title" => "Well surface location in 'latitude, longitude' format separated by comma" %>
+
+
+    <div class='inline-block push-down pull-right'>
+      <%= select_tag "datum",
+                     options_for_select([["Datum NAD83", Well::DATUM_NAD83], ["Datum NAD27", Well::DATUM_NAD27]], well.datum),
+                     class: "well-update-field custom-select align-top push-down",
+                     "data-id" => well.id,
+                     "data-field" => "datum",
+                     placeholder: "Datum" %>
+    </div>
+  </div>
+  <div>
+    <%= image_tag "district_extrasmall.png", class: "align-top" %>
+    <div class='inline-block list-item-column2'><b class='inline-block align-top'>Bottom Hole Location</b></div>
+    <%= text_field_tag "", "", value: well.bottom_hole_location,
+                       placeholder: "Bottom Hole Latitude, Longitude of well",
+                       class: "well-update-field txtfield tooltip-info map-latlong-text-entry align-top push-right-small",
+                       "data-id" => well.id,
+                       "data-field" => "bottom_hole_location",
+                       "data-placement" => "bottom",
+                       "data-title" => "Well bottom hole location in 'latitude, longitude' format separated by comma" %>
+  </div>
+</div>

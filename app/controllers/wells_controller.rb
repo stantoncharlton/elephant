@@ -61,22 +61,34 @@ class WellsController < ApplicationController
     def update
 
         @well = Well.find_by_id(params[:id])
-        not_found unless @well.company == current_user.company
+        not_found unless @well.present? && @well.company == current_user.company
 
-        field_id = params[:well][:field_id]
-        params[:well].delete(:field_id)
+        if params[:update_field].present? && params[:update_field] == "true" &&
+                params[:field].present? && params[:value].present?
+            case params[:field]
+                when "location"
+                    @well.update_attribute(:location, params[:value])
+                when "bottom_hole_location"
+                    @well.update_attribute(:bottom_hole_location, params[:value])
+                when "datum"
+                    @well.update_attribute(:datum, params[:value])
+            end
+        else
+            field_id = params[:well][:field_id]
+            params[:well].delete(:field_id)
 
-        rig_id = params[:well][:rig_id]
-        params[:well].delete(:rig_id)
+            rig_id = params[:well][:rig_id]
+            params[:well].delete(:rig_id)
 
-        Well.transaction do
-            if @well.update_attributes(params[:well])
-                @well.rig = Rig.find_by_id(rig_id)
-                @well.save
-                flash[:success] = "Well updated"
-                redirect_back_or root_path
-            else
-                render 'edit'
+            Well.transaction do
+                if @well.update_attributes(params[:well])
+                    @well.rig = Rig.find_by_id(rig_id)
+                    @well.save
+                    flash[:success] = "Well updated"
+                    redirect_back_or root_path
+                else
+                    render 'edit'
+                end
             end
         end
 

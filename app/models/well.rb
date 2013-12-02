@@ -2,6 +2,7 @@ class Well < ActiveRecord::Base
     attr_accessible :name,
                     :rig_name,
                     :location,
+                    :datum,
                     :measured_depth,
                     :measured_depth_value_type,
                     :true_vertical_depth,
@@ -69,6 +70,10 @@ class Well < ActiveRecord::Base
     belongs_to :rig
 
     has_many :jobs, order: "close_date DESC, created_at DESC"
+
+
+    DATUM_NAD83 = 1
+    DATUM_NAD27 = 2
 
     searchable do
         text :name, :as => :code_textp

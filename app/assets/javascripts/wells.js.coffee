@@ -65,5 +65,7 @@ $ ->
     $('#jobs_count').text(count)
 
 
+  $('.well-update-field').change ->
+    $.ajax '/wells/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
 
 

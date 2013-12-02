@@ -116,7 +116,7 @@ class Job < ActiveRecord::Base
     end
 
     def absolute_url
-        "https://www.go-elephant.com/jobs/" + self.id.to_s
+        "https://www.elephant-cloud.com/jobs/" + self.id.to_s
     end
 
     def active

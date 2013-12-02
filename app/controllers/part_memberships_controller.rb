@@ -23,8 +23,12 @@ class PartMembershipsController < ApplicationController
                 @part_membership.part_type = PartMembership::INVENTORY
             when 'rental'
                 @part_membership.part_type = PartMembership::RENTAL
+                @part_membership.name = params["rental_name"]
+                @part_membership.serial_number = params["rental_serial_number"]
             when 'accessory'
                 @part_membership.part_type = PartMembership::ACCESSORY
+                @part_membership.name = params["accessory_name"]
+                @part_membership.serial_number = params["accessory_serial_number"]
         end
 
         @part_membership.job = Job.find_by_id(job_id)

@@ -38,7 +38,7 @@
         part_focused = true;
         $(this).removeClass('ui-autocomplete-bad');
         $(this).addClass('ui-autocomplete-typing');
-        return $(this).val('');
+        return $(this).val('').trigger('keydown');
     });
 
     $('.part-search').focusout(function() {

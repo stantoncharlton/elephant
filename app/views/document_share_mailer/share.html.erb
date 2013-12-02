@@ -14,7 +14,7 @@
       <% if Rails.env.production? %>
           <%= image_tag "added.png" %>
       <% end %>
-      <%= link_to "Add Document to Job", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
+      <%= link_to "Add Document to Job", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
     <p>Or</p>
 <% end %>
 
@@ -22,14 +22,14 @@
   <% if Rails.env.production? %>
     <%= image_tag "document_download.png" %>
   <% end %>
-  <%= link_to "Download Document Now", "https://www.go-elephant.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
+  <%= link_to "Download Document Now", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
 
 <br>
 
 <hr>
 
 <p>
-  Shared from <b><%= link_to "Elephant", "www.go-elephant.com", class: "activity-user-link" %></b>
+  Shared from <b><%= link_to "Elephant", "www.elephant-cloud.com", class: "activity-user-link" %></b>
 </p>
 <br><br>
 <% if Rails.env.production? %>

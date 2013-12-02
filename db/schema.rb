@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131129143221) do
+ActiveRecord::Schema.define(:version => 20131202174052) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -930,6 +930,7 @@ ActiveRecord::Schema.define(:version => 20131129143221) do
     t.string   "formation"
     t.string   "bottom_hole_location",                      :limit => 50
     t.integer  "rig_id"
+    t.integer  "datum",                                                   :default => 1
   end
 
   add_index "wells", ["company_id"], :name => "index_wells_on_company_id"
