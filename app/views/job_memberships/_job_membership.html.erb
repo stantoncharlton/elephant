@@ -28,7 +28,7 @@
     <b><%= job_membership.user.present? ? job_membership.user.phone_number : job_membership.phone_number %></b></p>
 
 
-  <% if !job_membership.job.approved_to_close %>
+  <% if !job_membership.job.closed %>
 
       <div class="push-right">
         <%= link_to edit_job_membership_path(job_membership), remote: true,

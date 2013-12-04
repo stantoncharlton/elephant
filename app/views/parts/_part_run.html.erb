@@ -20,12 +20,7 @@
         <% end %>
       </div>
 
-      <%= link_to job, class: "job-status job-link tooltip-info",
-                  "data-placement" => "left",
-                  "data-title" => "Click to open job" do %>
-          <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
-      <% end %>
-
+      <%= render 'jobs/job_progress_link', job: job %>
 
       <% if redress.present? %>
           <div class="content alert">

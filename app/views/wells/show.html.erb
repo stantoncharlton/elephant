@@ -215,7 +215,7 @@
 </div>
 
 <div id="jobs">
-  <% @well.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).each do |job| %>
+  <% @well.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).each do |job| %>
       <% if job.job_template.present? %>
           <%= link_to job, class: "job-status job-link tooltip-info",
                       id: "division_" + job.job_template.product_line.segment.division_id.to_s,

@@ -42,11 +42,7 @@
                 <%= jobs.first.start_date.present? ? jobs.first.start_date.strftime("%m/%d/%Y") : jobs.first.created_at.strftime("%m/%d/%Y") %>
 
                 <% jobs.each do |job| %>
-                    <%= link_to job, class: "job-status job-link tooltip-info",
-                                "data-placement" => "left",
-                                "data-title" => "Click to open job" do %>
-                        <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
-                    <% end %>
+                    <%= render 'jobs/job_progress_link', job: job %>
                 <% end %>
             <% end %>
             <br>

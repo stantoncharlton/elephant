@@ -5,8 +5,6 @@ $('#alert').modal({show: true});
 
 <% end %>
 
-
-
 <% if @update_calendar %>
 
 $.ajax({
@@ -16,3 +14,17 @@ $.ajax({
 });
 
 <% end %>
+
+<% if @rating_updated %>
+    $('#modal_popup').css('visibility', 'hidden');
+    $('#modal_popup').find(".modal-content").children().remove();
+    $('#modal_popup').height(0);
+
+    <% if !@job.rating.nil? %>
+    $('.rating-count-div').html('<%= j render 'failures/rating', rating: @job.rating %>');
+    <% end %>
+<% end %>
+
+if($('#map').length > 0) {
+    $('#map').show();
+}

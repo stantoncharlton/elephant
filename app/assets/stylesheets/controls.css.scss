@@ -577,3 +577,12 @@ select {
   opacity: 1;
   filter: alpha(opacity=100);
 }
+
+
+.empty-link {
+  &:link, &:visited, &:active {
+  }
+  &:hover {
+    background: transparent;
+  }
+}

@@ -15,17 +15,19 @@
 
   <div class='push-down-small'>
     <% if part_membership.part.present? %>
-        <a href='/parts/<%= part_membership.part_id %>' class='inline-block activity-user-link align-top'>View Asset Details</a>
-        |
+        <a href='/parts/<%= part_membership.part_id %>' class='inline-block activity-user-link align-top'>View Asset
+          Details</a>
+        <% if part_membership.job.present? && !part_membership.job.closed %>|<% end %>
     <% end %>
-    <a href='/part_memberships/<%= part_membership.id %>'
-       data-method='delete'
-       data-remote='true'
-       data-confirm='Remove <%= part_membership.name %> from Job?'
-       rel='nofollow'
-       class='activity-user-link tooltip-info align-top'
-       data-placement='bottom'
-       data-title='Remove from Job'>Remove</a>
-
+    <% if part_membership.job.present? && !part_membership.job.closed %>
+        <a href='/part_memberships/<%= part_membership.id %>'
+           data-method='delete'
+           data-remote='true'
+           data-confirm='Remove <%= part_membership.name %> from Job?'
+           rel='nofollow'
+           class='activity-user-link tooltip-info align-top'
+           data-placement='bottom'
+           data-title='Remove from Job'>Remove</a>
+    <% end %>
   </div>
 </div>

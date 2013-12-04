@@ -17,6 +17,8 @@ class PartMembership < ActiveRecord::Base
     validates_presence_of :name, :if => :part_rental
     validates_presence_of :serial_number, :if => :part_rental
 
+    validates_uniqueness_of :part_id, :scope => :job_id, :if => :part_inventory
+
     belongs_to :job
     belongs_to :part
     belongs_to :primary_tool

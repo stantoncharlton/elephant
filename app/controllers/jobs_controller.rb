@@ -15,7 +15,7 @@ class JobsController < ApplicationController
                     @jobs = @all_jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
                 end
 
-                @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :job_processes, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).
+                @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).
                         order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
             }
             format.xml {
@@ -285,32 +285,47 @@ class JobsController < ApplicationController
         not_found unless !@job.nil?
         not_found unless @job.company == current_user.company
 
-        if params["start_date"].present?
-            start = @job.start_date
-            @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y').to_time_in_current_zone)
-            Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
+        if params[:update_field].present? && params[:update_field] == "true" &&
+                params[:field].present? && params[:value].present?
+            case params[:field]
+                when "inventory_notes"
+                    @job.update_attribute(:inventory_notes, params[:value])
+                when "begin_job"
+                    @job.update_attribute(:status, Job::ON_JOB)
+                    Activity.add(current_user, Activity::BEGIN_ON_JOB, @job, nil, @job)
+                when "begin_post_job"
+                    @job.update_attribute(:status, Job::POST_JOB)
+                    Activity.add(current_user, Activity::BEGIN_POST_JOB, @job, nil, @job)
+                when "close_job"
+                    @job.update_attribute(:status, Job::COMPLETE)
+                    Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
+                when "rating"
+                    @job.update_attribute(:rating, params[:value])
+                    Activity.add(self.current_user, Activity::JOB_RATING, @job, @job.rating.to_i, @job)
+                    @rating_updated = true
+            end
+        else
+            if params["start_date"].present?
+                start = @job.start_date
+                @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y').to_time_in_current_zone)
+                Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
 
-            if start.present? && start != @job.start_date
-                change = @job.start_date - start
-                job_times = JobTime.where(:company_id => @job.company_id).where(:job_id => @job.id)
-                if job_times.any?
-                    @job_times_changed = true
+                if start.present? && start != @job.start_date
+                    change = @job.start_date - start
+                    job_times = JobTime.where(:company_id => @job.company_id).where(:job_id => @job.id)
+                    if job_times.any?
+                        @job_times_changed = true
+                        @update_calendar = true
+                    end
+                    job_times.each do |jt|
+                        jt.time_for = jt.time_for + change
+                        jt.save
+                    end
+                else
                     @update_calendar = true
                 end
-                job_times.each do |jt|
-                    jt.time_for = jt.time_for + change
-                    jt.save
-                end
-            else
-                @update_calendar = true
             end
-
-        elsif params["begin_post_job"] == "true"
-            @job.update_attribute(:status, Job::POST_JOB)
-            JobProcess.record(current_user, @job, current_user.company, JobProcess::BEGIN_POST_JOB)
-            Activity.add(current_user, Activity::ON_JOB_COMPLETE, @job, nil, @job)
         end
-
     end
 
     def destroy

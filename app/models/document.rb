@@ -213,6 +213,14 @@ class Document < ActiveRecord::Base
         return true
     end
 
+    def shareable?
+        if self.document_type == DOCUMENT
+            return true
+        else
+            return false
+        end
+    end
+
 
     def duplicate
         document = Document.new

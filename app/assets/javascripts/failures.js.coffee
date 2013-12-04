@@ -15,7 +15,7 @@ $ ->
   $('.star-button').live "click", ->
     level = $(this).attr('level')
     #$('.star-button-level').text(level)
-    $('#performance_rating').val(level)
+    $('#value').val(level)
     $('.star-button').each ->
       if $(this).attr('level') <= level
         $(this).addClass 'star-button-filled'

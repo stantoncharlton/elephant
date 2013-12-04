@@ -35,12 +35,12 @@
 
   <div class="pull-right">
 
-    <% if job.approved_to_close && !show_summary_data %>
+    <% if job.closed && !show_summary_data %>
         <span class="label label-success">Complete</span>
-    <% elsif job.approved_to_ship %>
+    <% elsif job.status >= Job::ON_JOB %>
         <div class="progress progress-success job-progress-bar">
-          <div class="bar" style="width: <%= job.status_percentage %>%">
-            <% if job.approved_to_close %>
+          <div class="bar" style="width:100%">
+            <% if job.closed %>
                 <span class="pull-left push-right-small push-down-small">Complete</span>
             <% end %></div>
         </div>

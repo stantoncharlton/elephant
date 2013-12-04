@@ -85,8 +85,6 @@ ElephantWebApp::Application.routes.draw do
 
     resources :conversations, only: [:index, :show, :new, :create, :destroy, :update]
 
-    resources :job_process, only: [:show, :update]
-
     resources :tools, only: [:new, :create, :edit, :update, :destroy]
     resources :primary_tools, only: [:index, :create, :destroy, :show, :update]
     resources :secondary_tools, only: [:index, :new, :create, :update, :destroy]

@@ -1,6 +1,24 @@
 <% if params[:section] == "primary_tools" %>
-    $('#primary_tools_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
-    $('#primary_tools_loading').remove();
+    $('#assets_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
+    $('#assets_loading').remove();
+
+
+    $('.popover').popover({  delay: { show: 100, hide: 100 } });
+
+
+    var oldHide = $.fn.popover.Constructor.prototype.hide;
+
+    $.fn.popover.Constructor.prototype.hide = function() {
+        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
+            var that = this;
+            // try again after what would have been the delay
+            setTimeout(function() {
+                return that.hide.call(that, arguments);
+            }, that.options.delay.hide);
+            return;
+        }
+        oldHide.call(this, arguments);
+    };
 
     var focusevent, last_selected_item, part_focused,
             _this = this;
@@ -56,22 +74,6 @@
                 "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='pull-right help-text list-item-column-short'>" + item.warehouse + "</div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<p class='job-user-district pull-right'><span class='help-text'>Material # </span>" + item.material_number + "</p>" : "") + (item.id > 0 ? "<div>" + (item.serial_number != null ? ("<p class='job-user-title'><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b>" + (item.district_serial_number != '' ? " / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b>" : "") + "</p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "</div>" : "") + "</div></div></a>").appendTo(ul)
     }
 
-    $('.popover').popover({  delay: { show: 100, hide: 100 } });
-
-
-    var oldHide = $.fn.popover.Constructor.prototype.hide;
-
-    $.fn.popover.Constructor.prototype.hide = function() {
-        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
-            var that = this;
-            // try again after what would have been the delay
-            setTimeout(function() {
-                return that.hide.call(that, arguments);
-            }, that.options.delay.hide);
-            return;
-        }
-        oldHide.call(this, arguments);
-    };
 
 
 
@@ -82,6 +84,15 @@
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();
+<% elsif params[:section] == "rating" %>
+    if($('#map').length > 0) {
+        $('#map').hide();
+    }
+    $('#modal_popup').css('visibility', 'visible');
+    $('#modal_popup').height($(document).height() + 100);
+    $('#modal_popup').find('.modal-popup').css('margin-top', 100);
+    $('#modal_popup').find('.modal-content').append('<%= j render 'jobs/rating', job: @job %>');
+
 <% elsif params[:section] == "overview" %>
     $('#job_overview').replaceWith('<%= j render 'jobs/job_overview', job: @job %>');
 

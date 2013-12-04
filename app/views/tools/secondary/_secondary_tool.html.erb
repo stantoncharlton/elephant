@@ -39,7 +39,7 @@
             <% end %>
           </div>
 
-          <% if tool.job.approved_to_ship %>
+          <% if tool.job.status >= Job::ON_JOB %>
               <div class="inline push-right-small">
                 <% if !tool.received %>
                     <div class="inline-block" id="inline_part_<%= tool.id %>">

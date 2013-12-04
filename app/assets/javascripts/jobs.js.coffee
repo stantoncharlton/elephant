@@ -18,6 +18,18 @@ $ ->
       $('#job_time_content').addClass 'hidden'
       $('#job_time_loader').removeClass 'hidden'
 
+  $('#close_job a').live "click", ->
+    $('#close_job').addClass 'hidden'
+    if $('.current-job-status').length > 0
+      $('.current-job-status').text('Complete')
+    return false
+
+  $('#begin_on_job a').live "click", ->
+    $('#begin_on_job').addClass 'hidden'
+    if $('.current-job-status').length > 0
+      $('.current-job-status').text('On Job')
+    return false
+
   $('#begin_post_job a').live "click", ->
     $('#begin_post_job').addClass 'hidden'
     if $('.current-job-status').length > 0
@@ -178,4 +190,11 @@ $ ->
     return false
 
 
+  $('#complete_job').live "click", ->
+    $.ajax '/jobs/' + $(this).attr('data-id') + "?section=rating", type: 'get', dataType: 'script'
+    return true
+
+
+  $('.job-update-field').live "change", ->
+    $.ajax '/jobs/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
 

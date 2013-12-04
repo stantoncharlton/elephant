@@ -103,7 +103,7 @@
         "properties": {
             title: '<%= job.field.name + ' | ' + job.well.name %>',
             'marker-size': 'medium',
-            'marker-color': '<%= job.approved_to_ship ? '428a1b' : '#0058a8' %>',
+            'marker-color': '<%= job.status >= Job::ON_JOB ? '428a1b' : '#0058a8' %>',
             url: '/jobs/' + <%= job.id %>
             //'marker-symbol': '1'
         }

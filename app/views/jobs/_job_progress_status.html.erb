@@ -1,5 +1,5 @@
-<% if job.approved_to_close %>
-<% elsif job.approved_to_ship %>
+<% if job.closed %>
+<% elsif job.status >= Job::ON_JOB %>
     <div class="progress progress-success progress-striped job-progress">
       <div class="bar" style="width: <%= job.status_percentage %>%"></div>
     </div>

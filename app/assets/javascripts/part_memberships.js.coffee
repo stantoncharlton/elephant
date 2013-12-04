@@ -21,3 +21,9 @@ $ ->
 
   PartMemberships.init_show_all_part()
 
+  $('#show_shop_notes').live "click", ->
+    $(this).addClass 'hidden'
+    $('#shop_notes').removeClass 'hidden'
+    $('#shop_notes').find('input').focus()
+    return false
+

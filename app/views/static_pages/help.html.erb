@@ -8,7 +8,7 @@
 
 
   <div class="well">
-    <%= form_tag "http://support.go-elephant.com/customer/portal/articles/search", :method => 'get', :id => "global_search_id", class: "inline" do %>
+    <%= form_tag "http://support.elephant-cloud.com/customer/portal/articles/search", :method => 'get', :id => "global_search_id", class: "inline" do %>
         <%= text_field_tag :q, params[:q], placeholder: "Search support topics...", class: "txtfield tooltip-info",
                            "data-placement" => "bottom",
                            "data-title" => "Search support site topics" %>
@@ -16,7 +16,7 @@
         <%= submit_tag "Search", class: "bluebtn btnsmall" %>
     <% end %>
 
-    <a href="http://support.go-elephant.com/" class="bluebtn btnsmall gray">Browse Support Topics</a>
+    <a href="http://support.elephant-cloud.com/" class="bluebtn btnsmall gray">Browse Support Topics</a>
 
   </div>
 
@@ -28,8 +28,8 @@
     <h3>Elephant Support</h3>
     <hr>
     <div class="pull-left">
-      <a href="mailto:support@go-elephant.com" class="activity-user-link"><%= image_tag "email_icon.png" %>
-        <p class="inline push-right-small">Support@go-elephant.com</p></a>
+      <a href="mailto:support@elephant-cloud.com" class="activity-user-link"><%= image_tag "email_icon.png" %>
+        <p class="inline push-right-small">Support@elephant-cloud.com</p></a>
       <br>
 
       <p href="tel:1-817-500-0360" class="phone-link">1-817-500-0360</p>

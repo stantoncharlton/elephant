@@ -71,13 +71,13 @@
     <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
 
     <div class="job-tray custom-data-closed" data-tray="tools_assets">
-      <div id="primary_tools_loading">
+      <div id="assets_loading">
         <div class="remote-loading">
           <br><br>
 
           <div class="loading center">
             <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Tools/Assets...</b></span>
+            <span class="ajax-loading search-loading"><b>Loading Assets...</b></span>
             <br>
           </div>
         </div>
@@ -164,13 +164,6 @@
                     type: "GET",
                     dataType: "script"
                 });
-
-                $.ajax({
-                    url: "/job_process/" + <%= @job.id.to_s %>,
-                    type: "GET",
-                    dataType: "script"
-                });
-
 
                 <% if @job.active %>
                 $.ajax({

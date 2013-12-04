@@ -110,9 +110,13 @@
             <b>
               <p class="activity-message status-good">Job completed and approved to close</p></b>
         <% end %>
-        <% if activity.activity_type == Activity::ON_JOB_COMPLETE %>
+        <% if activity.activity_type == Activity::BEGIN_ON_JOB %>
             <b>
-              <p class="activity-message status-good">Started Post Job</p></b>
+              <p class="activity-message status-good">Started Job Phase</p></b>
+        <% end %>
+        <% if activity.activity_type == Activity::BEGIN_POST_JOB %>
+            <b>
+              <p class="activity-message status-good">Started Post Job Phase</p></b>
         <% end %>
         <% if activity.activity_type == Activity::DATA_EDITED %>
             <p class="activity-message"><b>Job Data changed</b>: <%= activity.metadata %></p>

@@ -1,6 +1,7 @@
 class Survey < ActiveRecord::Base
     attr_accessible :name,
-                    :plan
+                    :plan,
+                    :north_type
 
     belongs_to :company
     belongs_to :document
@@ -9,6 +10,9 @@ class Survey < ActiveRecord::Base
 
     has_many :survey_points, :dependent => :destroy, :order => "survey_points.measured_depth ASC"
 
+    TRUE = 1
+    MAGNETIC = 2
+    GRID = 3
 
     def calculated_points
         survey_points = self.survey_points.order("measured_depth ASC").to_a

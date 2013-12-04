@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131202174052) do
+ActiveRecord::Schema.define(:version => 20131204194141) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -473,19 +473,6 @@ ActiveRecord::Schema.define(:version => 20131202174052) do
 
   add_index "job_notes", ["owner_id", "owner_type"], :name => "index_job_notes_on_owner_id_and_owner_type"
 
-  create_table "job_processes", :force => true do |t|
-    t.integer  "job_id"
-    t.integer  "company_id"
-    t.integer  "event_type"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "job_processes", ["company_id"], :name => "index_job_processes_on_company_id"
-  add_index "job_processes", ["job_id"], :name => "index_job_processes_on_job_id"
-  add_index "job_processes", ["user_id"], :name => "index_job_processes_on_user_id"
-
   create_table "job_templates", :force => true do |t|
     t.string   "name"
     t.integer  "product_line_id"
@@ -522,15 +509,16 @@ ActiveRecord::Schema.define(:version => 20131202174052) do
     t.integer  "client_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.integer  "company_id"
     t.integer  "status"
     t.datetime "close_date"
     t.integer  "rating"
-    t.integer  "failures_count",        :default => 0
-    t.integer  "job_memberships_count", :default => 0
+    t.integer  "failures_count",                       :default => 0
+    t.integer  "job_memberships_count",                :default => 0
     t.string   "job_number"
+    t.string   "inventory_notes",       :limit => 500
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"
@@ -786,8 +774,9 @@ ActiveRecord::Schema.define(:version => 20131202174052) do
     t.integer  "user_id"
     t.boolean  "plan"
     t.string   "name"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "north_type",  :default => 1
   end
 
   add_index "surveys", ["document_id"], :name => "index_surveys_on_document_id"

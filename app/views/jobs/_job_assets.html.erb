@@ -14,118 +14,131 @@
                       "data-placement" => "left",
                       "data-title" => "Export data as Microsoft Excel file." %>
         </li>
-        <li class="divider"></li>
-        <li>
-          <%= link_to "Add New Tool", "#",
-                      id: "add_new_tool",
-                      class: "dropdown-menu-link tooltip-info",
-                      "data-placement" => "left",
-                      "data-title" => "Add New Tool to List" %>
-        </li>
       </ul>
     </div>
 
   </div>
 </div>
 
+<% if !job.closed %>
+    <div class='add-new-asset content'>
+      <h3>Add New Asset</h3>
 
-<div class='add-new-asset content'>
-  <h3>Add New Asset</h3>
+      <div class='form' data-form="new-asset-form">
+        <%= form_for PartMembership.new, remote: true do |f| %>
 
-  <div class='form' data-form="new-asset-form">
-    <%= form_for PartMembership.new, remote: true do |f| %>
+            <%= f.hidden_field :job_id, value: @job.id %>
+            <%= f.hidden_field :part_type, id: "part_type" %>
 
-        <%= f.hidden_field :job_id, value: @job.id %>
-        <%= f.hidden_field :part_type, id: "part_type" %>
+            <div class='push-down'>
+              <ul class="nav nav-pills selection-nav">
+                <li class='active'>
+                  <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
+                </li>
+                <li class="push-right-small">
+                  <a href="#" class='change-asset-type blue-text' data-type="rental">Rental</a>
+                </li>
+                <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
+                  Dumb Iron</a>
+                </li>
+              </ul>
+            </div>
 
-        <div class='push-down'>
-          <ul class="nav nav-pills selection-nav">
-            <li class='active'>
-              <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
-            </li>
-            <li class="push-right-small">
-              <a href="#" class='change-asset-type blue-text' data-type="rental">Rental</a>
-            </li>
-            <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
-              Dumb Iron</a>
-            </li>
-          </ul>
-        </div>
+            <div class='asset-type-form' data-type="inventory">
+              <div class="push-up">
+                <%= f.hidden_field :part_id %>
+                <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id)},
+                                   placeholder: "Asset Serial #, Material #, or Name",
+                                   class: "txtfield search-query tooltip-info part-search",
+                                   id: "part_search",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Asset Serial #, Material #, or Name" %>
 
-        <div class='asset-type-form' data-type="inventory">
-          <div class="push-up">
-            <%= f.hidden_field :part_id %>
-            <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id)},
-                               placeholder: "Asset Serial #, Material #, or Name",
-                               class: "txtfield search-query tooltip-info part-search",
-                               id: "part_search",
-                               "data-placement" => "bottom",
-                               "data-title" => "Asset Serial #, Material #, or Name" %>
-
-            <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
-                         "data-form" => "new-asset-form",
-                         "data-placement" => "bottom",
-                         "data-title" => "Add new asset" %>
-          </div>
-        </div>
-
-        <div class='asset-type-form push-up hidden' data-type="rental">
-          <%= text_field_tag "rental_name", "",
-                             placeholder: "Asset Name",
-                             class: "txtfield asset-input  tooltip-info",
+                <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                             "data-form" => "new-asset-form",
                              "data-placement" => "bottom",
-                             "data-title" => "Asset Name" %>
+                             "data-title" => "Add new asset" %>
+              </div>
+            </div>
 
-          <%= text_field_tag "rental_serial_number", "",
-                             placeholder: "Serial Number",
-                             class: "txtfield asset-input  tooltip-info",
-                             "data-placement" => "bottom",
-                             "data-title" => "Serial Number" %>
+            <div class='asset-type-form push-up hidden' data-type="rental">
+              <%= text_field_tag "rental_name", "",
+                                 placeholder: "Asset Name",
+                                 class: "txtfield asset-input  tooltip-info",
+                                 "data-placement" => "bottom",
+                                 "data-title" => "Asset Name" %>
 
-          <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
-                       "data-form" => "new-asset-form",
-                       "data-placement" => "bottom",
-                       "data-title" => "Add new asset" %>
-        </div>
+              <%= text_field_tag "rental_serial_number", "",
+                                 placeholder: "Serial Number",
+                                 class: "txtfield asset-input  tooltip-info",
+                                 "data-placement" => "bottom",
+                                 "data-title" => "Serial Number" %>
 
-        <div class='asset-type-form push-up hidden' data-type="accessory">
-          <%= text_field_tag "accessory_name", "",
-                           placeholder: "Asset Name",
-                           class: "txtfield asset-input  tooltip-info",
+              <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                           "data-form" => "new-asset-form",
                            "data-placement" => "bottom",
-                           "data-title" => "Asset Name" %>
+                           "data-title" => "Add new asset" %>
+            </div>
 
-          <span class='help-text'>Optional</span>
-          <%= text_field_tag "accessory_serial_number", "",
-                           placeholder: "Serial Number",
-                           class: "txtfield asset-input2 push-right-small  tooltip-info",
+            <div class='asset-type-form push-up hidden' data-type="accessory">
+              <%= text_field_tag "accessory_name", "",
+                                 placeholder: "Asset Name",
+                                 class: "txtfield asset-input  tooltip-info",
+                                 "data-placement" => "bottom",
+                                 "data-title" => "Asset Name" %>
+
+              <span class='help-text'>Optional</span>
+              <%= text_field_tag "accessory_serial_number", "",
+                                 placeholder: "Serial Number",
+                                 class: "txtfield asset-input2 push-right-small  tooltip-info",
+                                 "data-placement" => "bottom",
+                                 "data-title" => "Serial Number" %>
+
+              <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                           "data-form" => "new-asset-form",
                            "data-placement" => "bottom",
-                           "data-title" => "Serial Number" %>
-
-          <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
-                       "data-form" => "new-asset-form",
-                       "data-placement" => "bottom",
-                       "data-title" => "Add new asset" %>
-        </div>
+                           "data-title" => "Add new asset" %>
+            </div>
 
 
-  <% end %>
-  </div>
+        <% end %>
+      </div>
 
-  <div class="form-loading hidden" data-form="new-asset-form">
-    <%= render 'layouts/inline_loading', title: "Adding asset..." %>
-    <br><br>
-  </div>
-  <hr>
-</div>
+      <div class="form-loading hidden" data-form="new-asset-form">
+        <%= render 'layouts/inline_loading', title: "Adding asset..." %>
+        <br><br>
+      </div>
+      <hr>
+    </div>
+<% end %>
 
 <div id="asset_list" class='content'>
   <% @job.part_memberships.order('name ASC').each do |pm| %>
-    <%= render 'part_memberships/part_membership', part_membership: pm %>
+      <%= render 'part_memberships/part_membership', part_membership: pm %>
   <% end %>
 </div>
 
+<% if !@job.part_memberships.any? %>
+    <div id="no_assets" class='push-down center'>
+      <br><br>
+      <span class='help-text'>No assets added...</span>
+    </div>
+<% end %>
 
-<div class='push-down'>
+
+<div class='push-down content'>
   <br><br>
+  <% if !job.closed %>
+      <a id="show_shop_notes" href='#' class='activity-user-link <%= job.inventory_notes.blank? ? '' : 'hidden' %>'>Add
+        Inventory/Shop Notes</a>
+  <% end %>
+  <div id="shop_notes" class='<%= job.inventory_notes.blank? ? 'hidden' : '' %>'>
+    <p class="inline help-text">Notes</p>
+    <%= text_field_tag "", "", value: job.inventory_notes,
+                       placeholder: "Inventory/Shop Notes...",
+                       disabled: job.closed ? true : false,
+                       class: "job-update-field txtfield full-width-well2 push-right-small primary-tool-comments",
+                       "data-id" => job.id,
+                       "data-field" => "inventory_notes" %>
+  </div>
 </div>

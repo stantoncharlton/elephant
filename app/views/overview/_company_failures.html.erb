@@ -13,11 +13,7 @@
   <div class="chart-problem">
     <% if @failures_count > 0 %>
         <div class="chart-title">Top Failures</div>
-        <% if false %>
-            <a href="#" class="activity-user-link pull-right">View all failures (<%= @failures_count %>)</a>
-        <% else %>
-            <p class="help-text inline">(<%= @failures_count %> total failures)</p>
-        <% end %>
+        <p class="help-text inline-block align-top">(<%= @failures_count %> total failures)</p>
         <br>
 
         <% @failures_list.each do |failure_group| %>

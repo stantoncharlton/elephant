@@ -4,7 +4,8 @@ class Job < ActiveRecord::Base
                     :close_date,
                     :status,
                     :rating,
-                    :job_number
+                    :job_number,
+                    :inventory_notes
 
     include PostJobReportHelper
     acts_as_xlsx
@@ -19,6 +20,8 @@ class Job < ActiveRecord::Base
     validates_presence_of :field
     validates_presence_of :well
     validates_presence_of :job_template
+
+    validates :inventory_notes, length: {maximum: 500}
 
     belongs_to :company
     belongs_to :client
@@ -35,7 +38,6 @@ class Job < ActiveRecord::Base
     has_many :participants, through: :job_memberships, source: :user
     has_many :unique_participants, through: :job_memberships, source: :user, uniq: true
 
-    has_many :job_processes, dependent: :destroy, order: "created_at DESC"
     has_many :secondary_tools, dependent: :destroy
 
     has_many :failures, dependent: :destroy, order: "text ASC"
@@ -271,7 +273,7 @@ class Job < ActiveRecord::Base
     end
 
     def other_jobs
-        self.well.jobs.includes(:job_template, :client, :district, :job_processes, :dynamic_fields).select { |j| j != self }
+        self.well.jobs.includes(:job_template, :client, :district, :dynamic_fields).select { |j| j != self }
     end
 
     def notices_documents
@@ -300,59 +302,6 @@ class Job < ActiveRecord::Base
 
     def dynamic_fields_optional
         self.dynamic_fields.includes(:dynamic_field_template).where(:optional => true)
-    end
-
-    def pre_job_data_good
-
-        if self.job_number.blank?
-            return false
-        end
-
-        self.pre_job_documents.each do |document|
-            if document.empty?
-                puts "documents.................."
-                return false
-            end
-        end
-
-        self.dynamic_fields.each do |df|
-            if !df.optional? && !df.predefined? && df.value.blank?
-                puts "fields.................."
-                return false
-            end
-        end
-
-        if self.start_date.nil?
-            return false
-        end
-
-        # Check assets all complete
-        self.job_template.primary_tools.where(:job_id => self).where(:template => false).each do |tool|
-            if tool.simple_tracking? && tool.serial_number.blank?
-                puts "number.................."
-                puts tool.id.to_s
-                puts tool.tool.name
-                return false
-            end
-        end
-
-        true
-    end
-
-    def post_job_data_good
-        self.on_job_documents.each do |document|
-            if document.empty?
-                return false
-            end
-        end
-
-        self.post_job_documents.each do |document|
-            if document.empty?
-                return false
-            end
-        end
-
-        true
     end
 
     def get_role(role)
@@ -417,7 +366,7 @@ class Job < ActiveRecord::Base
             current += (self.dynamic_fields.select { |df| !df.predefined? && !df.optional? && !df.value.blank? }.count || 0) * fields_value.to_f
 
 
-            if self.approved_to_ship
+            if self.status >= Job::ON_JOB
                 if self.post_job_documents.count > 0
                     post_doc_value = 50 / self.post_job_documents.count.to_f
                     current += (self.post_job_documents.select { |document| !document.url.blank? }.count || 0) * post_doc_value.to_f
@@ -439,20 +388,8 @@ class Job < ActiveRecord::Base
         !self.job_memberships.includes(:user, :job).find { |jm| jm.user == user }.nil?
     end
 
-    def sent_pre_job_ready_email
-        !self.job_processes.find { |jp| jp.event_type == JobProcess::PRE_JOB_DATA_READY }.nil?
-    end
-
-    def sent_post_job_ready_email
-        !self.job_processes.find { |jp| jp.event_type == JobProcess::POST_JOB_DATA_READY }.nil?
-    end
-
-    def approved_to_ship
-        !self.job_processes.find { |jp| jp.event_type == JobProcess::APPROVED_TO_SHIP }.nil?
-    end
-
-    def approved_to_close
-        !self.job_processes.find { |jp| jp.event_type == JobProcess::APPROVED_TO_CLOSE }.nil?
+    def closed
+        return self.status == Job::COMPLETE || self.status == Job::ABANDONED
     end
 
     def is_job_editable?(user)
@@ -499,14 +436,14 @@ class Job < ActiveRecord::Base
 
         Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)
 
-        self.unique_participants.each do |participant|
-            participant.send_job_completed_email(self)
-            Alert.add(participant, Alert::JOB_CLOSED, self, user, self)
-        end
+        #self.unique_participants.each do |participant|
+        #    participant.send_job_completed_email(self)
+        #    Alert.add(participant, Alert::JOB_CLOSED, self, user, self)
+        #end
 
-        if self.documents.any?
-            self.generate_post_job_report
-        end
+        #if self.documents.any?
+        #    self.generate_post_job_report
+        #end
 
     end
 

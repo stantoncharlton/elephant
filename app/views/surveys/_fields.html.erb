@@ -55,6 +55,14 @@
 
     </div>
 
+    <div>
+      <%= f.select :north_type,
+                     options_for_select([["True North", Survey::TRUE], ["Magnetic North", Survey::MAGNETIC], ["Grid North", Survey::GRID]], @survey.north_type),
+                     {},
+                     class: "custom-select align-top push-down",
+                     placeholder: "North Type" %>
+    </div>
+
     <br>
 
     <div class="">

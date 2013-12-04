@@ -22,7 +22,7 @@
                 <div class="document-upload-button-container">
                   <% if document.document_type == Document::DOCUMENT %>
                       <% if can_upload and (document.template? or !document.read_only?) %>
-                          <% if !@job || (@job and !@job.approved_to_close) %>
+                          <% if !@job || (@job and !@job.closed) %>
                               <div class="tooltip-info upload-button-div inline-block"
                                    data-placement="bottom" data-title="Upload new document">
                                 <%= file_field_tag :file, multiple: false, class: "file-input inline-block", id: "upload_document_browse" %>
@@ -50,15 +50,19 @@
             <% if !document.template? && document.job_id.present? %>
                 <div class="btn-group inline pull-right">
                   <a class="document-actions-button tooltip-info" data-toggle="dropdown" href="#"
-                    data-placement="bottom" data-title="Share or Download original, template, and past revisions">
+                     data-placement="left" data-title="Share or Download original, template, and past revisions">
                     <div class="document-shares-count"><%= document.document_shares.any? ? document.document_shares.count : "" %></div>
                   </a>
                   <ul class="dropdown-menu">
                     <li>
-                      <%= link_to "Share", document_shares_path(document: document), remote: true,
-                                  class: "dropdown-menu-link tooltip-info share-document-button",
-                                  "data-placement" => "left",
-                                  "data-title" => "Share document to person or another company." %>
+                      <% if document.shareable? %>
+                          <%= link_to "Share", document_shares_path(document: document), remote: true,
+                                      class: "dropdown-menu-link tooltip-info share-document-button",
+                                      "data-placement" => "left",
+                                      "data-title" => "Share document to person or another company." %>
+                      <% else %>
+                        <span class='help-text push-right-small'>Not shareable..</span>
+                      <% end %>
                     </li>
                     <% if document.url.present? %>
                         <li class="divider"></li>
