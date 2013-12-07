@@ -25,8 +25,8 @@
       <% end %>
 
 
-      <% well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => true).order("surveys.updated_at ASC").first %>
-      <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => false).order("surveys.updated_at ASC").first %>
+      <% well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => true).first %>
+      <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => false).first %>
       <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
 
       <hr>

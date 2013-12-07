@@ -1,8 +1,8 @@
 <div id="bha" class="">
   <div class="bha-content">
+
     <div class="page_header">
-      <h1><%= bha.name %></h1>
-      <span class='push-right-small blue-text'><%= bha.description %></span>
+      <h1><%= bha.name %> - <%= bha.description %></h1>
 
       <div class="btn-group inline pull-right">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -28,6 +28,7 @@
         </ul>
       </div>
     </div>
+
 
     <div class="content">
       <p class="list-item-column list-item-column-long help-text">
@@ -101,6 +102,11 @@
           </div>
       <% end %>
     </div>
+
+    <div class='push-down'>
+      <br><br><br>
+      <%= render 'drilling_logs/bha', bha: bha, drilling_log: DrillingLog.includes(document: {job: :well}).where("wells.id = ?", bha.job.well.id).first %>
+    </div>
   </div>
 
   <div id="bha_loader" class="push-down center hidden inline">
@@ -113,4 +119,6 @@
     <br>
     <br>
   </div>
+
+
 </div>

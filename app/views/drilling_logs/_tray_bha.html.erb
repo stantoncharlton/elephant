@@ -11,70 +11,13 @@
     <% bhas = Bha.where(:job_id => drilling_log.job_id).order("name ASC") %>
     <% if bhas.any? %>
         <% bhas.each do |bha| %>
-            <% entries = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", bha.id).to_a %>
-            <% log = DrillingLog.calculate(entries) %>
-            <div class="page_header">
-              <h1><%= bha.name %> - <%= bha.description %></h1>
-            </div>
-
             <div>
-              <div class="chart-block tooltip-info"
-                   data-title="Average Total Rate of Penetration.">
-                <div class="chart-title">Avg Total ROP</div>
-                <div class="donut-chart-div job-donut-chart-div">
-                  <div class="donut-text "><%= log.nil? || log.rop.nil? ? "-" : log.rop.round(1) %></div>
-                  <div class="percentage ">ft/min</div>
-                </div>
+              <div class="page_header">
+                <h1><%= bha.name %> - <%= bha.description %></h1>
               </div>
-
-              <div class="chart-block tooltip-info"
-                   data-title="Total feet drilled.">
-                <div class="chart-title">Total Drilled</div>
-                <div class="donut-chart-div job-donut-chart-div">
-                  <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" : log.total_drilled.to_i %></div>
-                  <div class="percentage "><span class="push-right-small">ft</span></div>
-                </div>
-              </div>
-
-              <div class="chart-block tooltip-info"
-                   data-title="Time in hours spent below the rotary table.">
-                <div class="chart-title">Below Rotary</div>
-                <div class="donut-chart-div job-donut-chart-div">
-                  <div class="donut-text "><%= log.nil? || log.below_rotary.nil? ? "-" : log.below_rotary.round(1) %></div>
-                  <div class="percentage ">hours</div>
-                </div>
-              </div>
-
-              <div class="chart-daily tooltip-info" data-title="ROP">
-                <canvas id="canvas_<%= bha.id %>" height="110" width="220"></canvas>
-              </div>
-
-              <script>
-                  <% rops = [] %>
-                  <% last_entry = entries.first %>
-                  <% entries.each do |dl| %>
-                  <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
-                  <% last_entry = dl %>
-                  <% end %>
-
-                  var lineChartData = {
-                      labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
-                      datasets: [
-                          {
-                              fillColor: "rgba(220,220,220,0.5)",
-                              strokeColor: "rgba(220,220,220,1)",
-                              pointColor: "rgba(220,220,220,1)",
-                              pointStrokeColor: "#fff",
-                              data: <%= raw rops.map { |dl| dl[1] }.to_json.html_safe %>
-                          }
-                      ]
-                  }
-
-                  var myLine = new Chart(document.getElementById("canvas_<%= bha.id %>").getContext("2d")).Line(lineChartData, { scaleShowLabels: false });
-              </script>
-
+              <%= render 'drilling_logs/bha', bha: bha, drilling_log: drilling_log %>
+              <br><br>
             </div>
-            <br><br>
         <% end %>
     <% else %>
         <p class='help-text'>No BHAs configured...</p>

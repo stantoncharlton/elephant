@@ -59,10 +59,29 @@
         <p class="job-well-field-title">Well</p>
 
         <% if in_form %>
-            <% if job.well.jobs.count > 1 %>
-                <p class="inline">
-                  (<b><%= job.well.jobs.count.to_s %></b>)
-                </p>
+            <% jobs_count = job.well.jobs.count %>
+            <% if jobs_count > 1 %>
+
+                <div class="btn-group inline-block push-right-small">
+                  <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+                    <%= jobs_count %>&nbsp;
+                  </a>
+                  <ul class="dropdown-menu">
+
+                    <% job.well.jobs.each_with_index do |j, index| %>
+                        <li>
+                          <%= link_to j.job_template.name, j,
+                                      class: "dropdown-menu-link tooltip-info",
+                                      "data-placement" => "right",
+                                      "data-html" => "true",
+                                      "data-title" => render('jobs/well_tooltip', job: j, show_summary_data: false) %>
+                        </li>
+                        <% if index < jobs_count - 1 %>
+                            <li class="divider"></li>
+                        <% end %>
+                    <% end %>
+                  </ul>
+                </div>
             <% end %>
         <% end %>
       </div>
