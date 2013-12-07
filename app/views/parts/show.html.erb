@@ -239,6 +239,14 @@
       </div>
 
       <div class="chart-block">
+        <div class="chart-title">Maximum Usage</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text part-on-hand"><%= 109.0 %></div>
+          <div class="percentage ">hours</div>
+        </div>
+      </div>
+
+      <div class="chart-block">
         <div class="chart-title">Avg Redress</div>
         <div class="donut-chart-div job-donut-chart-div">
           <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.serial_number = ?", @part.serial_number).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
@@ -309,29 +317,57 @@
 
 <% else %>
 
+    <ul class="nav nav-pills alert alert-nav">
 
-    <h3>Run History <span class="help-text">(<%= @part.jobs.count %>)</span></h3>
-    <br>
+      <li class="active">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="full_history"
+           data-placement="bottom" data-title="Full Run and Maintenance History">Full History
+        </a>
+      </li>
 
-    <div class="map-container">
-      <div id='map' class='dark' style='width:100%;height:300px;'></div>
-      <div class="corner tlcorner"></div>
-      <div class="corner trcorner"></div>
-      <div class="corner brcorner"></div>
-      <div class="corner blcorner"></div>
+      <li class="">
+        <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="maintenance"
+           data-placement="bottom" data-title="Maintenance Records">Maintenance Records</a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="failures"
+           data-placement="bottom" data-title="Failures overview">Failures</a>
+      </li>
+
+    </ul>
+
+    <div class='content'>
+      <div class="page_header">
+        <h1>Full History</h1>
+        <b>Run &amp; Maintenance</b> <span class="help-text">(<%= @part.jobs.count %>)</span>
+      </div>
+
+
+      <div class="map-container">
+        <div id='map' class='dark' style='width:100%;height:300px;'></div>
+        <div class="corner tlcorner"></div>
+        <div class="corner trcorner"></div>
+        <div class="corner brcorner"></div>
+        <div class="corner blcorner"></div>
+      </div>
+
+      <% if @part.jobs.any? %>
+          <br><br>
+
+          <div>
+            <% @part.jobs.order("created_at DESC").each_with_index do |job, index| %>
+                <%= render 'parts/part_run', job: job, index: index %>
+                <br>
+            <% end %>
+          </div>
+      <% else %>
+          <p class="center help-text"><br>This tool has not been run on any jobs...</p>
+      <% end %>
     </div>
-
-    <% if @part.jobs.any? %>
-        <br><br>
-        <div>
-          <% @part.jobs.order("created_at DESC").each_with_index do |job, index| %>
-              <%= render 'parts/part_run', job: job, index: index %>
-              <br>
-          <% end %>
-        </div>
-    <% else %>
-        <p class="center help-text"><br>This tool has not been run on any jobs...</p>
-    <% end %>
 <% end %>
 
 

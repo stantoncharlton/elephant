@@ -1,6 +1,6 @@
 class FailuresController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :create, :show]
-    before_filter :signed_in_admin, only: [:new, :update, :edit, :destroy]
+    before_filter :signed_in_user, only: [:index, :show]
+    before_filter :signed_in_admin, only: [:new, :create, :update, :edit, :destroy]
 
     def index
         @job = Job.find_by_id(params[:job_id])
@@ -54,79 +54,31 @@ class FailuresController < ApplicationController
     end
 
     def create
-        if signed_in_admin?
-            failure_master_template_id = params[:failure][:failure_master_template_id]
-            params[:failure].delete(:failure_master_template_id)
+        failure_master_template_id = params[:failure][:failure_master_template_id]
+        params[:failure].delete(:failure_master_template_id)
 
-            product_line_id = params[:failure][:product_line_id]
-            params[:failure].delete(:product_line_id)
+        product_line_id = params[:failure][:product_line_id]
+        params[:failure].delete(:product_line_id)
 
-            job_template_id = params[:failure][:job_template_id]
-            params[:failure].delete(:job_template_id)
+        job_template_id = params[:failure][:job_template_id]
+        params[:failure].delete(:job_template_id)
 
-            @failure = Failure.new(params[:failure])
-            @failure.company = current_user.company
+        @failure = Failure.new(params[:failure])
+        @failure.company = current_user.company
 
-            if !product_line_id.blank?
-                @failure.product_line = ProductLine.find_by_id(product_line_id)
-                not_found unless @failure.product_line.company == current_user.company
-                @failure.template = true
-            elsif !failure_master_template_id.blank?
-                @failure.failure_master_template = Failure.find_by_id(failure_master_template_id)
-                not_found unless @failure.failure_master_template.company == current_user.company
+        if !product_line_id.blank?
+            @failure.product_line = ProductLine.find_by_id(product_line_id)
+            not_found unless @failure.product_line.company == current_user.company
+            @failure.template = true
+        elsif !failure_master_template_id.blank?
+            @failure.failure_master_template = Failure.find_by_id(failure_master_template_id)
+            not_found unless @failure.failure_master_template.company == current_user.company
 
-                @failure.job_template = JobTemplate.find_by_id(job_template_id)
-                not_found unless @failure.job_template.company == current_user.company
-            end
-
-            @failure.save
-        elsif params[:failures][:job_id]
-
-            @rating = params[:performance_rating]
-
-            @job = Job.find_by_id(params[:failures][:job_id])
-            not_found unless @job.present?
-            not_found unless @job.company == current_user.company
-
-            Failure.transaction do
-                failures_array = @job.failures.to_a
-                @job.job_template.failures.each do |failure|
-                    if params[:failures][failure.id.to_s] != "1"
-                        job_failure = failures_array.find { |f| f.failure_master_template_id == failure.failure_master_template_id }
-                        if !job_failure.nil? && job_failure.company == current_user.company
-                            job_failure.destroy
-                            Issue.remove(job_failure)
-                        end
-                    end
-                end
-                @job.job_template.failures.each do |failure|
-                    if params[:failures][failure.id.to_s] == "1"
-                        if failures_array.find { |f| f.failure_master_template_id == failure.id } == nil
-                            job_failure = Failure.new
-                            job_failure.company = current_user.company
-                            job_failure.failure_master_template = failure.failure_master_template
-                            job_failure.reference = params[failure.id.to_s + "_reference"]
-                            job_failure.job = @job
-                            job_failure.save
-
-                            Issue.add(job_failure, current_user.company, @job)
-
-                            job_failure.delay.add_alert(current_user, @job)
-                        end
-                    end
-                end
-            end
-
-            if !@rating.blank?
-                @job.update_attribute(:rating, @rating.to_i)
-                Activity.add(self.current_user, Activity::JOB_RATING, @job, @rating.to_i, @job)
-            end
-
-            @job = Job.find_by_id(@job.id)
-
-            render 'failures/update_list'
-            return
+            @failure.job_template = JobTemplate.find_by_id(job_template_id)
+            not_found unless @failure.job_template.company == current_user.company
         end
+
+        @failure.save
     end
 
     def edit

@@ -1,94 +1,166 @@
 <% provide(:title, @survey.name) %>
 
 
+<% calculated_points = @active_well_plan.survey_points %>
+<% calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth) %>
+
 <div class="page_header">
   <h1><%= @survey.name %></h1>
-</div>
 
-
-<div class="well">
-  <div>
-    <b>Add New Survey Point</b>
-    <br>
-    <br>
-  </div>
-  <div class="form" data-form="new_survey_point">
-    <%= form_for SurveyPoint.new, remote: true do |f| %>
-
-        <%= f.hidden_field :survey_id, value: @survey.id %>
-
-        <i class="icon-arrow-down"></i>
-        <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield extra-small tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Measured Depth" %>
-
-        <i class="icon-resize-full"></i>
-        <%= f.text_field :inclination, placeholder: "Inclination", class: "txtfield extra-small tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Inclination" %>
-
-        <i class="icon-screenshot"></i>
-        <%= f.text_field :azimuth, placeholder: "Azimuth", class: "txtfield extra-small tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Azimuth" %>
-
-        <%= f.submit "Add Survey Point",
-                     class: "bluebtn pull-right form-loading-on-click",
-                     "data-form" => "new_survey_point" %>
-
-
-        <% if false %>
-            <br>
-            <i class="icon-comment"></i>
-            <%= f.text_field :comment, placeholder: "Comment", class: "txtfield txtfield-long tooltip-info",
-                             "data-placement" => "bottom",
-                             "data-title" => "Point Comment" %>
-        <% end %>
-    <% end %>
-  </div>
-
-  <div class="form-loading hidden" data-form="new_survey_point">
-    <%= render 'layouts/inline_loading', title: "Adding survey point..." %>
-    <br><br>
+  <div class="btn-group inline pull-right">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to "Export to Excel", @survey,
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Export to Microsoft Excel" %>
+      </li>
+    </ul>
   </div>
 </div>
 
 <div>
-  <span><div class='well-plan'></div> Well Plan</span>
-  <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
+  <%= render 'jobs/job_progress_link', job: @survey.document.job, show_summary_data: false, job_name: false %>
+  <br>
 </div>
 
-<div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
-<div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
+<% if @active_well_plan.nil? || @active_well_plan.survey_points.empty? %>
+    <br>
+    <h3>No Well Plan</h3>
+    <p>Please add a well plan before continuing with survey.</p>
 
-<div class='push-down'>
-  <div class="list-item-column list-item-column-short">M. Depth</div>
-  <div class="list-item-column list-item-column-short">Inclination</div>
-  <div class="list-item-column list-item-column-short">Azimuth</div>
-  <div class="list-item-column list-item-column-short">TVD</div>
-  <div class="list-item-column list-item-column-short">V Sect</div>
-  <div class="list-item-column list-item-column-short">NS</div>
-  <div class="list-item-column list-item-column-short">EW</div>
-  <div class="list-item-column list-item-column-count">BR</div>
-  <div class="list-item-column list-item-column-count">TR</div>
-  <div class="list-item-column list-item-column-count">DLS</div>
-</div>
-<hr>
+    <% document = Document.where("documents.job_id = ?", @survey.document.job.id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
+    <% if !document.nil? %>
+        <br>
+        <%= link_to "Update " + document.name, "/surveys?document=" + document.id.to_s, class: "bluebtn" %>
+    <% end %>
+<% else %>
 
-<% calculated_points_survey = @survey.calculated_points %>
-<% calculated_points = @active_well_plan.calculated_points %>
+    <% if @survey.survey_points.empty? %>
+        <%= render 'surveys/tie_in' %>
+    <% end %>
 
-<% last_point = nil %>
-<% index = 0 %>
-<div id="list">
-  <% calculated_points_survey.each do |point| %>
-      <%= render 'survey_points/survey_point', point: point, last_point: last_point %>
-      <% last_point = point %>
-      <% index += 1 %>
-      <% if index % 5 == 0 %>
-          <br>
+    <div>
+      <span><div class='well-plan'></div> Well Plan</span>
+      <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
+    </div>
+
+    <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
+    <div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
+
+    <div class='push-down'>
+      <div class="list-item-column list-item-column-short">M. Depth</div>
+      <div class="list-item-column list-item-column-short">Inclination</div>
+      <div class="list-item-column list-item-column-short">Azimuth</div>
+      <div class="list-item-column list-item-column-short">Course</div>
+      <div class="list-item-column list-item-column-short">TVD</div>
+      <div class="list-item-column list-item-column-short">V Sect</div>
+      <div class="list-item-column list-item-column-short">+N/S-</div>
+      <div class="list-item-column list-item-column-short">+E/W-</div>
+      <div class="list-item-column list-item-column-count">DLS</div>
+    </div>
+    <hr>
+
+
+    <% last_point = nil %>
+    <% index = 0 %>
+    <div id="list">
+      <% calculated_points_survey.each do |point| %>
+          <%= render 'survey_points/survey_point', point: point, last_point: last_point %>
+          <% last_point = point %>
+          <% index += 1 %>
+          <% if index % 5 == 0 %>
+              <br>
+          <% end %>
       <% end %>
-  <% end %>
-</div>
+    </div>
 
-<%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+    <br><br>
+
+    <div id="survey_entry" class="well <%= @survey.survey_points.empty? ? "hidden" : "" %>">
+      <div>
+        <b>Add New Survey Point</b>
+        <br>
+        <br>
+      </div>
+      <div class="form" data-form="new_survey_point">
+        <%= form_for SurveyPoint.new, remote: true do |f| %>
+
+            <%= f.hidden_field :survey_id, value: @survey.id %>
+
+            <div>
+              <i class="icon-arrow-down"></i>
+              <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield extra-small tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "Measured Depth" %>
+
+              <i class="icon-resize-full"></i>
+              <%= f.text_field :inclination, placeholder: "Inclination", class: "txtfield extra-small tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "Inclination" %>
+
+              <i class="icon-screenshot"></i>
+              <%= f.text_field :azimuth, placeholder: "Azimuth", class: "txtfield extra-small tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "Azimuth" %>
+            </div>
+
+            <%= f.submit "Add Survey Point",
+                         class: "bluebtn pull-right push-up form-loading-on-click",
+                         "data-form" => "new_survey_point" %>
+            <div>
+              <div class='survey-tie-in-label'>MFS</div>
+              <%= f.text_field :magnetic_field_strength,
+                               placeholder: "Magnetic Field Strength",
+                               class: "txtfield extra-small tooltip-info range-validator",
+                               "data-minimum" => @survey.magnetic_field_strength - 0.005,
+                               "data-maximum" => @survey.magnetic_field_strength + 0.005,
+                               "data-placement" => "bottom",
+                               "data-title" => "Magnetic Field Strength" %>
+
+              <div class='survey-tie-in-label'>MDA</div>
+              <%= f.text_field :magnetic_dip_angle,
+                               placeholder: "Magnetic Dip Angle",
+                               class: "txtfield extra-small tooltip-info range-validator",
+                               "data-minimum" => @survey.magnetic_dip_angle - 2,
+                               "data-maximum" => @survey.magnetic_dip_angle + 2,
+                               "data-placement" => "bottom",
+                               "data-title" => "Magnetic Dip Angle" %>
+
+              <div class='inline-block'><b>G</b></div>
+              <%= f.text_field :gravity_total,
+                               placeholder: "Gravity Total",
+                               class: "txtfield extra-small tooltip-info range-validator",
+                               "data-minimum" => @survey.gravity_total - 0.003,
+                               "data-maximum" => @survey.gravity_total + 0.003,
+                               "data-placement" => "bottom",
+                               "data-title" => "Gravity Total" %>
+            </div>
+
+            <div id='survey_out_of_range' class='hidden'>
+              <div class='warning-text'>Value is out of the range of valid values which could indicate a bad survey.</div>
+            </div>
+
+
+
+            <% if false %>
+                <br>
+                <i class="icon-comment"></i>
+                <%= f.text_field :comment, placeholder: "Comment", class: "txtfield txtfield-long tooltip-info",
+                                 "data-placement" => "bottom",
+                                 "data-title" => "Point Comment" %>
+            <% end %>
+        <% end %>
+      </div>
+
+      <div class="form-loading hidden" data-form="new_survey_point">
+        <%= render 'layouts/inline_loading', title: "Adding survey point..." %>
+        <br><br>
+      </div>
+    </div>
+
+    <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+<% end %>

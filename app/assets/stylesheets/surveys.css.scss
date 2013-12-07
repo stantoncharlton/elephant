@@ -22,3 +22,50 @@
   height: 10px;
   corner-radius: 250px;
 }
+
+
+.survey-point {
+
+
+  &:active, &:link, &:visited {
+    background: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    background: transparent;
+    border-width: 0px 0px 1px 0px;
+    border-style: dashed;
+    border-bottom-color: #63cbed;
+  }
+}
+
+.survey-hover {
+  width: 170px;
+}
+
+.survey-point-hover-label {
+  float: left;
+  display: inline-block;
+  text-align: left;
+  width: 110px;
+  margin: 0px;
+  padding: 0px;
+  text-wrap: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.survey-point-hover-value {
+  display: inline-block;
+  text-align: left;
+  width: 60px;
+  text-wrap: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.survey-tie-in-label {
+  display: inline-block;
+  width: 35px;
+  font-family: "gothamboldregular";
+}

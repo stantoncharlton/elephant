@@ -1,11 +1,14 @@
 class Issue < ActiveRecord::Base
-    attr_accessible :status
+    attr_accessible :status,
+                    :failure_at,
+                    :part_serial_number
 
     acts_as_tenant(:company)
 
     belongs_to :company
     belongs_to :failure
     belongs_to :job
+    belongs_to :part
 
     has_many :job_notes
     has_many :documents, :dependent => :destroy, as: :owner, :class_name => "Document"

@@ -84,6 +84,9 @@
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();
+<% elsif params[:section] == "failures" %>
+    $('#failures_loading').after('<%= j render 'jobs/job_failures', job: @job %>');
+    $('#failures_loading').remove();
 <% elsif params[:section] == "rating" %>
     if($('#map').length > 0) {
         $('#map').hide();

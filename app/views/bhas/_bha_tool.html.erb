@@ -1,63 +1,28 @@
 <div class="bha-tool">
-  <div>
 
-    <div class="pull-right">
-      <%= link_to "order", "#",
-                  class: "push-up order-button bha-order-up tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Move tool up by 1 row" %>
-      <%= link_to "order", "#",
-                  class: "push-up delete-button bha-remove tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Remove tool from BHA" %>
-    </div>
+  <%= hidden_field_tag "[bha_items][" + tool.id.to_s + "]", tool.id.to_s, value: "1" %>
 
-    <% if tool.is_a?(PrimaryTool) %>
-        <div>
-          <%= hidden_field_tag "[bha_items][pt_tool_" + tool.id.to_s + "]", "1" %>
-          <p class="checkbox-label-large"><%= tool.tool.name %></p>
-          <span class='help-text push-right-small'><%= tool.comments %></span>
+  <div class="pull-right">
+    <%= link_to "order", "#",
+                class: "push-up order-button bha-order-up tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Move tool up by 1 row" %>
+    <%= link_to "order", "#",
+                class: "push-up delete-button bha-remove tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Remove tool from BHA" %>
+  </div>
 
-          <% if tool.part_memberships.any? %>
-              <div class="push-right-small inline">
-                <% tool.part_memberships.where(:template => true).each_with_index do |part_membership, index| %>
-                    <% real = part_membership.usage_part_membership(document.job.id) %>
-                    <% part = Part.where("parts.district_id = :district_id AND parts.material_number = :material_number AND parts.template is TRUE", district_id: document.job.district_id, material_number: part_membership.material_number.to_s).limit(1).first %>
-
-                    <div class='inline'>
-                      <% if part.present? %>
-                          <%= link_to part.name, part, target: "_blank", class: "inline activity-user-link tooltip-info", "data-title" => part.name + ", Material # " + part.material_number %>
-                      <% else %>
-                          <p class="inline"><%= part_membership.material_number %></p>
-                      <% end %>
-
-                      <div class="inline">
-                        <% if real.present? && real.part.present? %>
-                            <p class="inline help-text">- Serial #</p>
-                            <%= link_to real.part.serial_number, real.part, target: "_blank", class: "inline activity-user-link" %>
-                        <% end %>
-                      </div>
-                    </div>
-                <% end %>
-              </div>
-          <% end %>
-          <br><br>
-        </div>
-
-    <% else %>
-        <div>
-          <%= hidden_field_tag "[bha_items][st_tool_" + tool.id.to_s + "]", "1"  %>
-          <p class="checkbox-label-large"><%= tool.tool.name %></p>
-        </div>
-    <% end %>
+  <div class='inline-block align-top'>
+    <%= render 'part_memberships/part_membership', part_membership: tool %>
   </div>
 
   <% df = DynamicField.new %>
   <% df.value_type = DynamicField::LENGTH_IN %>
-  <div class="bha-other-items push-right-small">
-    <div class="inline-block">
+  <div class="inline-block bha-other-items">
+    <div class="inline-block push-right-small">
       <b>ID</b>
-      <%= text_field_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_id", "",
+      <%= text_field_tag tool.id.to_s + "_id", "",
                          class: "bha-value",
                          value: bha_item.inner_diameter,
                          placeholder: "ID" %>
@@ -65,7 +30,7 @@
 
     <div class="inline-block push-right-small">
       <b>OD</b>
-      <%= text_field_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_od", "",
+      <%= text_field_tag tool.id.to_s + "_od", "",
                          class: "bha-value",
                          value: bha_item.outer_diameter,
                          placeholder: "OD" %>
@@ -73,7 +38,7 @@
 
     <div class="inline-block push-right-small">
       <b>Length</b>
-      <%= text_field_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_length", "",
+      <%= text_field_tag tool.id.to_s + "_length", "",
                          class: "bha-value",
                          value: bha_item.length,
                          placeholder: "Length" %>
@@ -81,15 +46,15 @@
 
     <div class="inline-block push-right tooltip-info" data-title="Upward connection">
       <b><i class="icon-arrow-up"></i></b>
-      <%= select_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_up",
+      <%= select_tag tool.id.to_s + "_up",
                      options_for_select(BhaItem.options),
-                         class: "custom-select-ajax bha-value2 align-top push-up",
-                         placeholder: "Up" %>
+                     class: "custom-select-ajax bha-value2 align-top push-up",
+                     placeholder: "Up" %>
     </div>
 
     <div class="inline-block push-right-small tooltip-info" data-title="Downward connection">
       <b><i class="icon-arrow-down"></i></b>
-      <%= select_tag (tool.is_a?(PrimaryTool) ? "pt_tool_" : "st_tool_") + tool.id.to_s + "_down",
+      <%= select_tag tool.id.to_s + "_down",
                      options_for_select(BhaItem.options),
                      class: "custom-select-ajax bha-value2 align-top push-up",
                      placeholder: "Down" %>

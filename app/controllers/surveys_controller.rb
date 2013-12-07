@@ -3,7 +3,14 @@ class SurveysController < ApplicationController
     def index
         if params[:document].present?
             @document = Document.find_by_id(params[:document])
-            @survey = Survey.find_by_document_id(@document.id)
+            not_found unless !@document.nil?
+
+            if @document.document_type == Document::SURVEY
+                @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @document.job.well_id).first
+            elsif @document.document_type == Document::WELL_PLAN
+                @survey = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @document.job.well_id).first
+            end
+            #@survey = Survey.find_by_document_id(@document.id)
             if @survey.nil?
                 if @document.document_type == Document::SURVEY
                     @survey = Survey.new(name: @document.name, plan: false)
@@ -25,7 +32,7 @@ class SurveysController < ApplicationController
         not_found unless @survey.present?
 
         if !@survey.plan? && !@survey.document.nil?
-            @active_well_plan = Survey.includes(:document => :job).where(:plan => true).where("jobs.id = ?", @survey.document.job_id).first
+            @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
             render 'surveys/show_entry'
         else
             render 'surveys/show'
@@ -56,54 +63,68 @@ class SurveysController < ApplicationController
         end
 
         Survey.transaction do
+
+            file_data = params[:file_source]
+            if file_data.respond_to?(:read)
+                contents = file_data.read
+            elsif file_data.respond_to?(:path)
+                contents = File.read(file_data.path)
+            else
+                logger.error "Bad file_data: #{file_data.class.name}: #{file_data.inspect}"
+            end
+
             @survey = Survey.new(params[:survey])
             @survey.company = current_user.company
             @survey.document = @document
             @survey.plan = true
+            @survey.north_type = Survey::GRID
 
             if @survey.name.blank?
                 @survey.name = @document.name
             end
 
-            #if params[:active_well].present? && params[:active_well] == "true"
-            #    @survey.name = "Active Well Plan"
-            #end
+            entry_lines = []
+
+            if true #Compass File
+                lines = contents.split("\r\n")
+
+                dividers = 0
+                lines.each_with_index do |line, index|
+                    if line.start_with?(' ===')
+                        dividers += 1
+                    else
+                        if line.start_with?('VSect. Azimuth')
+                            @survey.vertical_section_azimuth = line.split(':')[1].strip!
+                        elsif dividers >= 2
+                            entry_lines << line
+                        end
+                    end
+                end
+            end
 
             @survey.save
 
-            @import_tie_on = params[:import_tie_on].present? && params[:import_tie_on] == "true"
-            @survey_points = params[:points]
-            lines = @survey_points.split("\r\n")
-            SurveyPoint.transaction do
-
-                if !@import_tie_on
-                    survey_point = SurveyPoint.create @survey, current_user, "Tie On", params[:tie_on_md], params[:tie_on_i], params[:tie_on_a]
-                    survey_point.tie_on = true
-                    survey_point.true_vertical_depth = params[:tie_on_tvd]
-                    survey_point.north_south = params[:tie_on_ns]
-                    survey_point.east_west = params[:tie_on_ew]
-                    survey_point.save
-                end
-
-                lines.each_with_index do |line, index|
-                    parts = line.split("\t")
-                    survey_point = nil
-                    if parts.count >= 4
-                        survey_point = SurveyPoint.create @survey, current_user, parts[0], parts[1], parts[2], parts[3]
-                    elsif parts.count == 3
-                        survey_point = SurveyPoint.create @survey, current_user, nil, parts[0], parts[1], parts[2]
-                    end
-
-                    if @import_tie_on && index ==0
-                        survey_point.tie_on = true
-                        survey_point.true_vertical_depth = parts[4]
-                        survey_point.vertical_section = parts[5]
-                        survey_point.north_south = parts[6]
-                        survey_point.east_west = parts[7]
-                        survey_point.save
-
-                    end
-                end
+            entry_lines.each_with_index do |line, index|
+                parts = line.gsub('/\s+/m', ' ').strip.split(' ')
+                survey_point = SurveyPoint.new
+                survey_point.company = current_user.company
+                survey_point.user = current_user
+                survey_point.user_name = current_user.name
+                survey_point.survey = @survey
+                survey_point.comment = nil
+                survey_point.measured_depth = parts[1].to_d
+                survey_point.inclination = parts[2].to_d
+                survey_point.azimuth = parts[3].to_d
+                survey_point.course_length = parts[4].to_d
+                survey_point.true_vertical_depth = parts[5].to_d
+                survey_point.vertical_section = parts[6].to_d
+                survey_point.north_south = parts[7].to_d
+                survey_point.east_west = parts[8].to_d
+                survey_point.closure_distance = parts[9].to_d
+                survey_point.closure_angle = parts[10].to_d
+                survey_point.dog_leg_severity = parts[11].to_d
+                survey_point.save
+                survey_point
             end
 
             if @survey.errors.any?
@@ -128,46 +149,68 @@ class SurveysController < ApplicationController
 
     def update
         @survey = Survey.find(params[:id])
-
-        @survey_points = ''
-        @import_tie_on = true
         @plan = true
 
-        @import_tie_on = params[:import_tie_on].present? && params[:import_tie_on] == "true"
-        @survey_points = params[:points]
-        lines = @survey_points.split("\r\n")
         SurveyPoint.transaction do
+
+            file_data = params[:file_source]
+            if file_data.respond_to?(:read)
+                contents = file_data.read
+            elsif file_data.respond_to?(:path)
+                contents = File.read(file_data.path)
+            else
+                logger.error "Bad file_data: #{file_data.class.name}: #{file_data.inspect}"
+            end
+
+            @survey.north_type = Survey::GRID
+
+            entry_lines = []
+
+            if true #Compass File
+                lines = contents.split("\r\n")
+
+                dividers = 0
+                lines.each_with_index do |line, index|
+                    if line.start_with?(' ===')
+                        dividers += 1
+                    else
+                        if line.start_with?('VSect. Azimuth')
+                            @survey.vertical_section_azimuth = line.split(':')[1].strip!
+                        elsif dividers >= 2
+                            entry_lines << line
+                        end
+                    end
+                end
+            end
+
+            @survey.save
+
+
             @survey.survey_points.each do |sp|
                 sp.destroy
             end
 
-            if !@import_tie_on
-                survey_point = SurveyPoint.create @survey, current_user, "Tie On", params[:tie_on_md], params[:tie_on_i], params[:tie_on_a]
-                survey_point.tie_on = true
-                survey_point.true_vertical_depth = params[:tie_on_tvd]
-                survey_point.north_south = params[:tie_on_ns]
-                survey_point.east_west = params[:tie_on_ew]
+            entry_lines.each_with_index do |line, index|
+                parts = line.gsub('/\s+/m', ' ').strip.split(' ')
+                survey_point = SurveyPoint.new
+                survey_point.company = current_user.company
+                survey_point.user = current_user
+                survey_point.user_name = current_user.name
+                survey_point.survey = @survey
+                survey_point.comment = nil
+                survey_point.measured_depth = parts[1].to_d
+                survey_point.inclination = parts[2].to_d
+                survey_point.azimuth = parts[3].to_d
+                survey_point.course_length = parts[4].to_d
+                survey_point.true_vertical_depth = parts[5].to_d
+                survey_point.vertical_section = parts[6].to_d
+                survey_point.north_south = parts[7].to_d
+                survey_point.east_west = parts[8].to_d
+                survey_point.closure_distance = parts[9].to_d
+                survey_point.closure_angle = parts[10].to_d
+                survey_point.dog_leg_severity = parts[11].to_d
                 survey_point.save
-            end
-
-            lines.each_with_index do |line, index|
-                parts = line.split("\t")
-                survey_point = nil
-                if parts.count >= 4
-                    survey_point = SurveyPoint.create @survey, current_user, parts[0], parts[1], parts[2], parts[3]
-                elsif parts.count == 3
-                    survey_point = SurveyPoint.create @survey, current_user, nil, parts[0], parts[1], parts[2]
-                end
-
-                if @import_tie_on && index ==0
-                    survey_point.tie_on = true
-                    survey_point.true_vertical_depth = parts[4]
-                    survey_point.vertical_section = parts[5]
-                    survey_point.north_south = parts[6]
-                    survey_point.east_west = parts[7]
-                    survey_point.save
-
-                end
+                survey_point
             end
         end
 

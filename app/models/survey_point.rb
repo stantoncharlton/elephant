@@ -12,7 +12,10 @@ class SurveyPoint < ActiveRecord::Base
                     :closure_distance,
                     :closure_angle,
                     :comment,
-                    :user_name
+                    :user_name,
+                    :magnetic_field_strength,
+                    :magnetic_dip_angle,
+                    :gravity_total
 
     belongs_to :company
     belongs_to :survey
@@ -32,6 +35,24 @@ class SurveyPoint < ActiveRecord::Base
         survey_point.azimuth = azimuth
         survey_point.save
         survey_point
+    end
+
+    def valid_magnetic_field_strength?
+        return true if self.magnetic_field_strength.blank?
+        return self.magnetic_field_strength > (self.survey.magnetic_field_strength - 0.005) &&
+                self.magnetic_field_strength < (self.survey.magnetic_field_strength + 0.005)
+    end
+
+    def valid_magnetic_dip_angle?
+        return true if self.magnetic_field_strength.blank?
+        return self.magnetic_dip_angle > (self.survey.magnetic_dip_angle - 2) &&
+                self.magnetic_dip_angle < (self.survey.magnetic_dip_angle + 2)
+    end
+
+    def valid_gravity_total?
+        return true if self.magnetic_field_strength.blank?
+        return self.gravity_total > (self.survey.gravity_total - 0.003) &&
+                self.gravity_total < (self.survey.gravity_total + 0.003)
     end
 
 end

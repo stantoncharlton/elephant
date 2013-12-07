@@ -1,3 +1,17 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$ ->
+  $('.range-validator').live "keyup", ->
+    value = parseFloat($(this).val())
+    if value < parseFloat($(this).attr('data-minimum')) || value > parseFloat($(this).attr('data-maximum'))
+      $(this).addClass 'ui-autocomplete-bad'
+    else
+      $(this).removeClass 'ui-autocomplete-bad'
+
+    any = false
+    $('.range-validator').each ->
+      if $(this).hasClass 'ui-autocomplete-bad'
+        any = true
+
+    if any
+      $('#survey_out_of_range').removeClass 'hidden'
+    else
+      $('#survey_out_of_range').addClass 'hidden'

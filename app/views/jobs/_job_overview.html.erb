@@ -53,28 +53,26 @@
 
 
     <div class="chart-block">
-      <div class="chart-title">Failures</div>
+      <div class="chart-title">Failures
+      </div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text chart-text-red failure-count"><%= job.failures_count %></div>
-        <div class="percentage "></div>
+        <div class="donut-text chart-text-red failure-count"><%= job.issues.count %></div>
+        <div class="percentage ">
+          <%= link_to "New", failures_path(:job_id => @job.id, :rate => "false"), remote: true,
+                                                       class: "add-job-member add-failure tooltip-info show-modal-button",
+                                                       id: "add_failure",
+                                                       "data-placement" => "bottom",
+                                                       "data-title" => "Add failure to job" %>
+        </div>
       </div>
     </div>
 
 
-    <div class="chart-block chart-block-extended">
-      <div class="">
-        <%= link_to "Add/Remove Job Failures", failures_path(:job_id => @job.id, :rate => "false"), remote: true,
-                    class: "add-job-member add-failure tooltip-info show-modal-button",
-                    id: "add_failure",
-                    "data-placement" => "bottom",
-                    "data-title" => "Add failure to job type" %>
-        <br>
-        <br>
-      </div>
-      <div class="failures-list">
-        <%= render 'jobs/job_failure_list', job: @job %>
-      </div>
-    </div>
+    <% if false %>
+        <div class="failures-list">
+          <%= render 'jobs/job_failure_list', job: @job %>
+        </div>
+    <% end %>
 
 
   </div>

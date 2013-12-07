@@ -7,19 +7,23 @@
     <span class="label label-success status-open <%= @issue.status == Issue::OPEN ? "" : "hidden" %>">OPEN</span>
     <span class="label label-important status-closed <%= @issue.status == Issue::CLOSED ? "" : "hidden" %>">CLOSED</span>
   </span>
-  <span class="push-right">Created <p class="inline push-right-small"><%= @issue.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p></span>
+  <span class="push-right"><p class="inline push-right-small"><%= @issue.failure_at.strftime("%a %m/%d/%Y %l:%M %p") %></p></span>
 
   <div class="pull-right">
     <% if @issue.status == Issue::OPEN %>
-        <%= link_to "CLOSE CASE", "#", "data-id" => @issue.id, class: "bluebtn red close-case-link" %>
+        <%= link_to "CLOSE Issue", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
         <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
     <% end %>
   </div>
 </div>
 
+<div class='inline-block pull-right'>
+  <%= render 'issues/part', issue: @issue, no_link: false %>
+</div>
+
 <div>
   <div><%= @issue.failure.failure_master_template.product_line.name %>
-    / <%= @issue.failure.job.job_template.name %></div>
+    / <%= @issue.job.job_template.name %></div>
   <div><h3 class="warning-text"><%= @issue.failure.failure_master_template.text %></h3></div>
 </div>
 

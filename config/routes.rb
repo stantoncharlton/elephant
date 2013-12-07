@@ -114,10 +114,10 @@ ElephantWebApp::Application.routes.draw do
 
     resources :bhas, only: [:show, :new, :create, :edit, :update, :destroy]
 
-    resources :issues, only: [:index, :show, :update]
+    resources :issues, only: [:index, :show, :create, :update]
 
     resources :surveys, only: [:index, :new, :create, :show, :edit, :update, :destroy]
-    resources :survey_points, only: [:new, :create, :destroy]
+    resources :survey_points, only: [:new, :create, :edit, :update, :destroy]
 
     resources :rig_memberships, only: [:new, :create, :destroy]
 end

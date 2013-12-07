@@ -3,9 +3,22 @@
 </div>
 
 <div class="form" data-form="new_well_plan">
-  <%= form_for @survey do |f| %>
+  <%= form_for @survey, :html=> {:multipart=>true} do |f| %>
 
-      <%= render "fields", f: f, show_name: false %>
+      <p class='help-text'>Import new active well plan...</p>
+
+      <div style="position:relative;">
+        <a class='btn' href='javascript:;'>
+          Choose File...
+          <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val());'>
+        </a>
+        <br>
+        <span class='label label-info push-down' id="upload-file-info">No file chosen...</span>
+      </div>
+
+      <% if false %>
+          <%= render "fields", f: f, show_name: false %>
+      <% end %>
 
       <div class="content actions">
         <%= f.submit "Save Well Plan",
@@ -13,7 +26,7 @@
                      "data-form" => "new_well_plan" %>
 
         <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
-                    "data-title" => "Cancel well changes and go back"%>
+                    "data-title" => "Cancel well changes and go back" %>
       </div>
 
   <% end %>

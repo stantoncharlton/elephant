@@ -22,6 +22,11 @@
   </div>
 </div>
 
+<div>
+  <%= render 'jobs/job_progress_link', job: @survey.document.job, show_summary_data: false, job_name: false %>
+  <br>
+</div>
+
 <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
 
 <div id="chartdiv2" class='inline-block' style="width: 400px; height: 500px;"></div>
@@ -30,17 +35,16 @@
   <div class="list-item-column list-item-column-short">M. Depth</div>
   <div class="list-item-column list-item-column-short">Inclination</div>
   <div class="list-item-column list-item-column-short">Azimuth</div>
+  <div class="list-item-column list-item-column-short">Course</div>
   <div class="list-item-column list-item-column-short">TVD</div>
   <div class="list-item-column list-item-column-short">V Sect</div>
-  <div class="list-item-column list-item-column-short">NS</div>
-  <div class="list-item-column list-item-column-short">EW</div>
-  <div class="list-item-column list-item-column-count">BR</div>
-  <div class="list-item-column list-item-column-count">TR</div>
+  <div class="list-item-column list-item-column-short">+N/S-</div>
+  <div class="list-item-column list-item-column-short">+E/W-</div>
   <div class="list-item-column list-item-column-count">DLS</div>
 </div>
 <hr>
 
-<% calculated_points = @survey.calculated_points %>
+<% calculated_points = @survey.survey_points %>
 
 <% last_point = nil %>
 <% index = 0 %>
@@ -52,22 +56,25 @@
         <i class="icon-comment"></i><b class='survey-comment'><%= point.comment %></b>
         <hr>
     <% end %>
-    <div>
-      <% if !point.tie_on && (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
+
+    <div class='tooltip-info survey-point'
+         data-title="<%= render 'surveys/hover', point: point %>"
+         data-html="true"
+         data-placement="right">
+      <% if last_point.nil? || (point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0) %>
           <% changing = true %>
       <% else %>
           <% changing = false %>
       <% end %>
-      <div class="list-item-column list-item-column-short"><%= point.measured_depth %></div>
+      <div class="list-item-column list-item-column-short"><%= number_with_delimiter(point.measured_depth.round(2), :delimiter => ',') %></div>
       <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
       <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
-      <div class="list-item-column list-item-column-short"><%= point.true_vertical_depth.round(2) %></div>
-      <div class="list-item-column list-item-column-short blue-text"><%= point.vertical_section.round(2) %></div>
+      <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.course_length %></div>
+      <div class="list-item-column list-item-column-short"><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></div>
+      <div class="list-item-column list-item-column-short blue-text"><%= number_with_delimiter(point.vertical_section.round(2), :delimiter => ',') %></div>
       <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
       <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
 
-      <div class="list-item-column list-item-column-count"><%= 0.round(2) %></div>
-      <div class="list-item-column list-item-column-count"><%= 0.round(2) %></div>
       <div class="list-item-column list-item-column-count"><%= point.dog_leg_severity.round(2) %></div>
 
       <% last_point = point %>
@@ -147,8 +154,8 @@
         }
 
         var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
-        circles.each(function(index) {
-            if(chartData[index].comment != '' || index == chartData.length - 1) {
+        circles.each(function (index) {
+            if (chartData[index].comment != '' || index == chartData.length - 1) {
                 $(this).attr('r', 4);
             }
         });
@@ -217,8 +224,8 @@
         }
 
         var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
-        circles.each(function(index) {
-            if(chartData2[index].comment != '' || index == chartData2.length - 1) {
+        circles.each(function (index) {
+            if (chartData2[index].comment != '' || index == chartData2.length - 1) {
                 $(this).attr('r', 4);
             }
         });

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131204194141) do
+ActiveRecord::Schema.define(:version => 20131205222645) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -398,8 +398,11 @@ ActiveRecord::Schema.define(:version => 20131204194141) do
     t.integer  "job_id"
     t.integer  "failure_id"
     t.integer  "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.datetime "failure_at"
+    t.integer  "part_id"
+    t.string   "part_serial_number"
   end
 
   add_index "issues", ["company_id"], :name => "index_issues_on_company_id"
@@ -752,8 +755,8 @@ ActiveRecord::Schema.define(:version => 20131204194141) do
     t.boolean  "tie_on"
     t.decimal  "true_vertical_depth"
     t.decimal  "north_south"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.decimal  "east_west"
     t.string   "comment"
     t.decimal  "vertical_section"
@@ -763,6 +766,9 @@ ActiveRecord::Schema.define(:version => 20131204194141) do
     t.decimal  "dog_leg_severity"
     t.decimal  "closure_distance"
     t.decimal  "closure_angle"
+    t.decimal  "magnetic_field_strength"
+    t.decimal  "magnetic_dip_angle"
+    t.decimal  "gravity_total"
   end
 
   add_index "survey_points", ["survey_id"], :name => "index_survey_points_on_survey_id"
@@ -774,9 +780,15 @@ ActiveRecord::Schema.define(:version => 20131204194141) do
     t.integer  "user_id"
     t.boolean  "plan"
     t.string   "name"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-    t.integer  "north_type",  :default => 1
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.integer  "north_type",               :default => 1
+    t.decimal  "vertical_section_azimuth"
+    t.decimal  "magnetic_field_strength"
+    t.decimal  "magnetic_dip_angle"
+    t.decimal  "gravity_total"
+    t.string   "gyro_company"
+    t.datetime "gyro_date"
   end
 
   add_index "surveys", ["document_id"], :name => "index_surveys_on_document_id"

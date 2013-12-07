@@ -1,7 +1,7 @@
 <div id="failures_list">
-  <% job.failures.each do |failure| %>
+  <% job.issues.each do |issue| %>
       <div class="">
-        <%= render "failures/job_failure", failure: failure %>
+        <%= render "issues/issue", issue: issue %>
       </div>
   <% end %>
 </div>

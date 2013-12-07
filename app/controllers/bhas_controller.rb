@@ -6,12 +6,12 @@ class BhasController < ApplicationController
             @bha = Bha.find_by_id(params[:id])
             not_found unless @bha.present? && @bha.company == current_user.company
 
-            @bhas = Bha.where(:document_id => @bha.document.id).order("bhas.created_at ASC")
+            @bhas = Bha.includes(document: {job: :well}).where("wells.id = ?", @bha.document.job.well_id).order("bhas.created_at ASC")
         else
             @document = Document.find_by_id(params[:id])
-            not_found unless @document.present? && @document.company == current_user.company
+            not_found unless !@document.nil? && @document.company == current_user.company
 
-            @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
+            @bhas = Bha.includes(document: {job: :well}).where("wells.id = ?", @document.job.well_id).order("bhas.created_at ASC")
 
             if params[:bha].present?
                 @bha = Bha.find_by_id(params[:bha])
@@ -27,13 +27,7 @@ class BhasController < ApplicationController
             @document = Document.find_by_id(params[:document])
             if !@document.nil?
                 not_found unless @document.company == current_user.company
-                if params[:tool].starts_with? 'pt_'
-                    @primary_tool = PrimaryTool.find_by_id(params[:tool].gsub('pt_', ''))
-                    not_found unless @primary_tool.company == current_user.company
-                elsif params[:tool].starts_with? 'st_'
-                    @secondary_tool = SecondaryTool.find_by_id(params[:tool].gsub('st_', ''))
-                    not_found unless @secondary_tool.company == current_user.company
-                end
+                @part_membership = PartMembership.find_by_id(params[:tool])
             end
         elsif params[:clone].present? && params[:clone] == "true"
             old_bha = Bha.find_by_id(params[:bha])
@@ -89,17 +83,8 @@ class BhasController < ApplicationController
                 index = 0
                 if params[:bha_items].present?
                     params[:bha_items].each do |k, v|
-                        if (k.starts_with?('pt_tool_') || k.starts_with?('st_tool_')) && v == "1"
-                            tool = nil
-                            key = k.dup
-                            if k.starts_with? 'pt_tool_'
-                                id = key.sub! 'pt_tool_', ''
-                                tool = PrimaryTool.find_by_id(id)
-                            elsif k.starts_with? 'st_tool_'
-                                id = key.sub! 'st_tool_', ''
-                                tool = SecondaryTool.find_by_id(id)
-                            end
-
+                        if v == "1"
+                            tool = PartMembership.find_by_id(k)
                             not_found unless tool.company == current_user.company
 
                             id = BigDecimal.new(params[k + '_id'])
@@ -147,17 +132,8 @@ class BhasController < ApplicationController
 
                 index = 0
                 params[:bha_items].each do |k, v|
-                    if (k.starts_with?('pt_tool_') || k.starts_with?('st_tool_')) && v == "1"
-                        tool = nil
-                        key = k.dup
-                        if k.starts_with? 'pt_tool_'
-                            id = key.sub! 'pt_tool_', ''
-                            tool = PrimaryTool.find_by_id(id)
-                        elsif k.starts_with? 'st_tool_'
-                            id = key.sub! 'st_tool_', ''
-                            tool = SecondaryTool.find_by_id(id)
-                        end
-
+                    if v == "1"
+                        tool = PartMembership.find_by_id(k)
                         not_found unless tool.company == current_user.company
 
                         id = BigDecimal.new(params[k + '_id'])

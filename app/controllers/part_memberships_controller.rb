@@ -34,7 +34,7 @@ class PartMembershipsController < ApplicationController
         @part_membership.job = Job.find_by_id(job_id)
         not_found unless @part_membership.job.present? && @part_membership.job.company == current_user.company
 
-        if !part_id.blank?
+        if !part_id.blank? && @part_membership.part_type == PartMembership::INVENTORY
             @part_membership.part = Part.find_by_id(part_id)
             not_found unless @part_membership.part.present?
             not_found unless @part_membership.part.company == current_user.company

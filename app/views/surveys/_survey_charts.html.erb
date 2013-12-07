@@ -1,12 +1,41 @@
 <div id="survey_charts">
 
   <% if well_plan.present? %>
+
+      <% calculated_points_survey = survey.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : [] %>
+      <% well_plan_points = well_plan.survey_points %>
+
+      <% if calculated_points_survey.any? %>
+          <% point = calculated_points_survey.last %>
+          <div class='tooltip-info survey-point'
+               data-title="<%= render 'surveys/hover', point: point %>"
+               data-html="true"
+               data-placement="right">
+            <span class="label label-warning">LIVE SURVEY</span>
+
+            <div class='inline-block push-right-small'>
+              <b class='blue-text'><%= point.created_at.strftime("%l:%M %p") %></b>
+
+              <div class='inline-block push-right'>
+                <p class='inline'>M Depth &nbsp;</p>
+                <b class=''><%= number_with_delimiter(point.measured_depth.round(2), :delimiter => ',') %></b></div>
+              <div class='inline-block push-right'>
+                <p class='inline'>TVD &nbsp;</p>
+                <b class=''><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></b>
+              </div>
+              <div class='inline-block push-right'>
+                <p class='inline'>DLS &nbsp;</p>
+                <span class='label label-info'><%= point.dog_leg_severity.round(2) %></span></div>
+            </div>
+
+            <%= link_to "Show live survey", survey, target: "_blank", class: "pull-right activity-user-link push-left" %>
+            <br><br>
+          </div>
+      <% end %>
+
       <div id="chartdiv" class='inline-block' style="width: 490px; height: <%= height %>px;"></div>
       <div id="chartdiv2" class='inline-block' style="width: 400px; height: <%= height %>px;"></div>
 
-      <% calculated_points_survey = survey.present? ? survey.calculated_points : [] %>
-      <% calculated_points = well_plan.calculated_points %>
-
-      <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+      <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: well_plan_points %>
   <% end %>
 </div>

@@ -16,8 +16,10 @@
   box-shadow: 0;
 
   border-width: 0;
-  font-size: 18px;
-  color: #db7a1b;
+  font-size: 14px;
+  color: #12608d;
+
+  font-family: "gothammediumregular";
 }
 
 .bha-value2 {
@@ -41,4 +43,13 @@
   margin-right: 0px !important;
   margin-bottom: 5px !important;
   margin-top: 5px !important;
+}
+
+.bha-line {
+
+  padding-top: 10px;
+
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: #ebebeb;
 }

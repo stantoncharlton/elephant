@@ -4,44 +4,55 @@ $('body').append("<%= j render 'layouts/modal_error', title: "Failed to add surv
 $('#alert').modal({show: true});
 <% else %>
 
-$("#list").append("<%= j render 'survey_points/survey_point', point: @survey_point, last_point: @last_point %>");
-
-$('#survey_point_measured_depth').val('');
-$('#survey_point_inclination').val('');
-$('#survey_point_azimuth').val('');
+<% @survey_points = @survey.calculated_points(@well_plan.vertical_section_azimuth).to_a  %>
+$("#list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points[@survey_points.count - 2] %>");
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.activity-user-link').tooltip();
     $('.tooltip-info').tooltip();
 }
 
+<% if @survey_point.tie_on? %>
+    $('#survey_tie_in').remove();
+    $('#survey_entry').removeClass('hidden');
+<% else %>
+$('#survey_point_measured_depth').val('');
+$('#survey_point_inclination').val('');
+$('#survey_point_azimuth').val('');
+$('#survey_point_magnetic_field_strength').val('');
+$('#survey_point_magnetic_dip_angle').val('');
+$('#survey_point_gravity_total').val('');
+
 $('.form[data-form=new_survey_point]').show();
 $('.form-loading[data-form=new_survey_point]').addClass('hidden');
-
+<% end %>
 
 <% calculated_points_survey = @survey_points %>
-<% calculated_points = @well_plan.calculated_points %>
+<% calculated_points = @well_plan.survey_points %>
 
 
 var chart;
-<% combined_tvd_vs = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment} } %>
+<% combined_tvd_vs = calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} } %>
 <% calculated_points_survey.each do |p| %>
-<% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1) } %>
+<% combined_tvd_vs << { "tvd2" => p.true_vertical_depth.round(1), "vs2" => p.vertical_section.round(1)} %>
 <% end %>
 var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
+var chartDataAdded = <%= calculated_points_survey.count %>;
 
 var chart2;
-<% combined_ns_ew = calculated_points.select{ |p| !p.comment.blank? }.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment} } %>
+<% combined_ns_ew = calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} } %>
 <% calculated_points_survey.each do |p| %>
 <% combined_ns_ew << { "ns2" => p.north_south.round(1), "ew2" => p.east_west.round(1) } %>
 <% end %>
 var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
+var chartData2Added = <%= calculated_points_survey.count %>;
 
 
 // SERIAL CHART
 chart = new AmCharts.AmXYChart();
 chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
 chart.dataProvider = chartData;
+
 
 var valueAxis = new AmCharts.ValueAxis();
 valueAxis.title = "Vertical Section";
@@ -68,15 +79,16 @@ graph.xField = "vs";
 graph.yField = "tvd";
 graph.type = "smoothedLine";
 graph.bullet = "round";
-graph.balloonText = "<b>[[comment]]</b><br> TVD [[tvd]] ft, VS [[vs]] ft";
+graph.balloonText = "<b>[[comment]]</b> TVD [[tvd]] ft, VS [[vs]] ft";
 graph.bulletColor = "#FFFFFF";
-graph.bulletBorderColor = "#00BBCC";
+graph.bulletBorderColor = "#cc4800";
 graph.bulletBorderAlpha = 1;
 graph.bulletBorderThickness = 2;
-graph.bulletSize = 7;
+graph.bulletSize = 1.2;
 graph.title = "tvd";
-graph.lineThickness = 2;
-graph.lineColor = "#00BBCC";
+graph.lineThickness = 0;
+graph.lineApha = 0.3;
+graph.lineColor = "#cc4800";
 graph.clustered = true;
 chart.addGraph(graph);
 
@@ -86,15 +98,15 @@ graph.xField = "vs2";
 graph.yField = "tvd2";
 graph.type = "smoothedLine";
 graph.bullet = "round";
-graph.balloonText = "<b>Survey</b><br> TVD [[tvd2]] ft, VS [[vs2]] ft";
+graph.balloonText = "<b>Survey</b> TVD [[tvd2]] ft, VS [[vs2]] ft";
 graph.bulletColor = "#FFFFFF";
-graph.bulletBorderColor = "#cc4800";
+graph.bulletBorderColor = "#00BBCC";
 graph.bulletBorderAlpha = 1;
 graph.bulletBorderThickness = 2;
 graph.bulletSize = 0;
 graph.title = "tvd";
 graph.lineThickness = 2;
-graph.lineColor = "#cc4800";
+graph.lineColor = "#00BBCC";
 graph.clustered = true;
 chart.addGraph(graph);
 
@@ -102,6 +114,7 @@ chart.addGraph(graph);
 var chartCursor = new AmCharts.ChartCursor();
 chartCursor.cursorPosition = "mouse";
 chart.addChartCursor(chartCursor);
+
 
 // WRITE
 chart.write("chartdiv");
@@ -114,20 +127,27 @@ if (label.length > 0) {
     }
 }
 
-var circle = $('#chartdiv').find('circle[stroke=#cc4800]:last');
+var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
+circles.each(function(index) {
+    if(chartData[index].comment != '' || index == chartData.length - chartDataAdded - 1) {
+        $(this).attr('r', 4);
+    }
+});
+
+var circle = $('#chartdiv').find('circle[stroke=#00BBCC]:last');
 var increasing = true;
 var pulse = function () {
     var radius = parseFloat(circle.attr('r'));
-    if (increasing) {
+    if(increasing) {
         radius += 0.5;
     }
     else {
         radius -= 0.5;
     }
-    if (radius > 5) {
+    if(radius > 5) {
         increasing = false;
     }
-    if (radius < 3.5) {
+    if(radius < 3.5) {
         increasing = true;
     }
     circle.attr('r', radius);
@@ -172,13 +192,14 @@ graph.type = "smoothedLine";
 graph.bullet = "round";
 graph.balloonText = "<b>[[comment]]</b> [[ns]], [[ew]]";
 graph.bulletColor = "#FFFFFF";
-graph.bulletBorderColor = "#00BBCC";
+graph.bulletBorderColor = "#cc4800";
 graph.bulletBorderAlpha = 1;
 graph.bulletBorderThickness = 2;
-graph.bulletSize = 7;
-graph.title = "ns";
-graph.lineThickness = 2;
-graph.lineColor = "#00BBCC";
+graph.bulletSize = 1.2;
+graph.title = "tvd";
+graph.lineThickness = 0;
+graph.lineApha = 0.3;
+graph.lineColor = "#cc4800";
 graph.clustered = true;
 chart2.addGraph(graph);
 
@@ -189,13 +210,13 @@ graph.type = "smoothedLine";
 graph.bullet = "round";
 graph.balloonText = "<b>Survey</b> [[ns2]], [[ew2]]";
 graph.bulletColor = "#FFFFFF";
-graph.bulletBorderColor = "#cc4800";
+graph.bulletBorderColor = "#00BBCC";
 graph.bulletBorderAlpha = 1;
 graph.bulletBorderThickness = 2;
 graph.bulletSize = 0;
 graph.title = "ns";
 graph.lineThickness = 2;
-graph.lineColor = "#cc4800";
+graph.lineColor = "#00BBCC";
 graph.clustered = true;
 chart2.addGraph(graph);
 
@@ -216,20 +237,28 @@ if (label.length > 0) {
     }
 }
 
-var circle2 = $('#chartdiv2').find('circle[stroke=#cc4800]:last');
+var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
+circles.each(function (index) {
+    if (chartData2[index].comment != '' || index == chartData2.length - chartData2Added - 1) {
+        $(this).attr('r', 4);
+    }
+});
+
+
+var circle2 = $('#chartdiv2').find('circle[stroke=#00BBCC]:last');
 var increasing2 = true;
 var pulse2 = function () {
     var radius = parseFloat(circle2.attr('r'));
-    if (increasing2) {
+    if(increasing2) {
         radius += 0.5;
     }
     else {
         radius -= 0.5;
     }
-    if (radius > 5) {
+    if(radius > 5) {
         increasing2 = false;
     }
-    if (radius < 3.5) {
+    if(radius < 3.5) {
         increasing2 = true;
     }
     circle2.attr('r', radius);

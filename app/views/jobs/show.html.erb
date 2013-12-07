@@ -39,27 +39,34 @@
         </a>
       </li>
 
-      <li class="push-right-small">
+      <li class="">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="tools_assets"
            data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
         </a>
       </li>
 
-      <li class="push-right-small">
+      <li class="">
+        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="failures"
+           data-placement="bottom" data-title="List of job failures">Failures
+        </a>
+      </li>
+
+      <li class="">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="notes"
            data-placement="bottom" data-title="Notes and Tasks for this job">Reports/Notes
         </a>
       </li>
 
-      <li class="push-right-small">
+      <li class="">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="activity"
            data-placement="bottom" data-title="All Job Activity">Activity</a>
       </li>
 
-      <li class="push-right-small">
+      <li class="">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="time"
            data-placement="bottom" data-title="Time/Scheduling">Time Sheet</a>
@@ -106,6 +113,20 @@
           <div class="loading center">
             <br><br>
             <span class="ajax-loading search-loading"><b>Loading Reports/Notes...</b></span>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-tray custom-data-closed" data-tray="failures">
+      <div id="failures_loading">
+        <div class="remote-loading">
+          <br><br>
+
+          <div class="loading center">
+            <br><br>
+            <span class="ajax-loading search-loading"><b>Loading Failures...</b></span>
             <br>
           </div>
         </div>
@@ -187,6 +208,12 @@
 
                 $.ajax({
                     url: "/job_times?job=" + <%= @job.id.to_s %>,
+                    type: "GET",
+                    dataType: "script"
+                });
+
+                $.ajax({
+                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=failures",
                     type: "GET",
                     dataType: "script"
                 });

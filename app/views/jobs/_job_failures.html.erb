@@ -1,0 +1,46 @@
+<div class="page_header">
+  <h1>Failures</h1>
+</div>
+
+
+<% if !job.issues.any? %>
+    <p class='center help-text'>
+      No failures...
+    </p>
+<% end %>
+<% job.issues.each do |issue| %>
+    <%= link_to issue, class: "job-status job-link tooltip-info",
+                "data-placement" => "left",
+                "data-title" => "Click to open failure" do %>
+
+        <div>
+
+          <% if job.status != Job::COMPLETE %>
+              <span class="pull-right"><%= time_ago_in_words(issue.failure_at) %> ago</span>
+          <% else %>
+              <span class="pull-right"><%= issue.failure_at %></span>
+          <% end %>
+
+          <div>
+            <% if issue.status == Issue::OPEN %>
+                <span class="label label-success">OPEN</span>
+            <% elsif issue.status == Issue::CLOSED %>
+                <span class="label label-important">CLOSED</span>
+            <% end %>
+          </div>
+
+          <% if issue.failure.present? %>
+              <div class='warning-text'>
+                <%= issue.failure.failure_master_template.text %>
+              </div>
+          <% end %>
+
+
+        </div>
+
+        <br>
+        <%= render 'issues/part', issue: issue, no_link: true %>
+
+
+    <% end %>
+<% end %>

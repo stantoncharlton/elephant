@@ -1,0 +1,18 @@
+<div>
+  <div>
+    <h3 class="warning-text"><%= issue.failure.failure_master_template.text %></h3>
+  </div>
+  <div>
+    <% if issue.status == Issue::OPEN %>
+        <span class="label label-success">OPEN</span>
+    <% elsif issue.status == Issue::CLOSED %>
+        <span class="label label-important">CLOSED</span>
+    <% end %>
+
+    <p class="inline push-right-small"><%= issue.failure_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
+  </div>
+
+  <div>
+    <%= link_to "view case", issue, class: "activity-user-link inline" %>
+  </div>
+</div>

@@ -40,7 +40,7 @@ class Job < ActiveRecord::Base
 
     has_many :secondary_tools, dependent: :destroy
 
-    has_many :failures, dependent: :destroy, order: "text ASC"
+    has_many :issues, order: "failure_at DESC"
     has_many :alerts, dependent: :destroy
 
     has_many :document_shares, order: "created_at DESC"

@@ -1,62 +1,40 @@
 <div class="form" data-form="failures_list">
-  <%= form_for :failures, url: failures_path, remote: true do |f| %>
-
-      <% if !current_user.role.limit_to_assigned_jobs? || current_user == @job.get_role(JobMembership::CREATOR) || current_user == @job.get_role(JobMembership::MANAGER) || current_user == @job.get_role(JobMembership::COORDINATOR) %>
-          <% if @rate || @job.status == Job::COMPLETE %>
-              <div class="page_header failure-page-header ">
-                <h1>Performance</h1>
-
-                <p>Please rate the quality and performance of the job</p>
-              </div>
-
-              <%= hidden_field_tag "performance_rating", "", name: "performance_rating", value: job.rating %>
-              <div>
-                <div class="rating-level"><p>poor &nbsp;</p></div>
-
-                <div class="inline">
-                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 1 ? "star-button-filled" : "" %>" level="1">1</a>
-                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 2 ? "star-button-filled" : "" %>" level="2">2</a>
-                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 3 ? "star-button-filled" : "" %>" level="3">3</a>
-                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 4 ? "star-button-filled" : "" %>" level="4">4</a>
-                  <a href="#" class="star-button <%= !job.rating.nil? && job.rating >= 5 ? "star-button-filled" : "" %>" level="5">5</a>
-                </div>
-
-                <div class="rating-level"><p>&nbsp; excellent</p></div>
-
-              </div>
-
-              <br>
-          <% end %>
-      <% end %>
-
+  <%= form_for Issue.new, remote: true do |f| %>
       <div class="page_header failure-page-header ">
-        <h1>Failures</h1>
-
-        <p>Please mark any failures that occurred</p>
+        <h1>New Failure</h1>
       </div>
 
       <%= f.hidden_field :job_id, value: job.id %>
 
-      <% job.job_template.failures.each do |failure| %>
-          <fieldset class="field">
+      <%= f.select :failure_id, options_for_select(job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }),
+                   {prompt: "Select a Failure..."},
+                   class: "inline-block custom-select-long custom-select custom-select-ajax" %>
 
-            <% job_failure = job.failures.find_by_failure_master_template_id(failure.failure_master_template.id) %>
+      <div class="inline-block date-fields">
+        <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
+               name="date"
+               id="entry_date"
+               class="job-field-value-editable input-small datepicker">
 
-            <div class="failure-checkbox-div pull-left">
-              <%= f.check_box failure.id.to_s, checked: (job_failure.present? ? true : false),
-                              class: "regular-checkbox failure-checkbox", id: "checkbox_" + failure.id.to_s %>
-              <label for="checkbox_<%= failure.id.to_s %>"></label>
-            </div>
 
-            <p class="failure-checkbox-text">
-              <b><%= failure.failure_master_template.text %></b>
-            </p>
+        <div class="inline bootstrap-timepicker">
+          <input id="entry_time" type="text" class="job-field-value-editable input-small timepicker">
+          <span class="add-on"><i class="icon-time"></i></span>
+        </div>
+      </div>
 
-          </fieldset>
-      <% end %>
+      <div class=''>
+        <%= select_tag "part_membership_id", options_for_select(job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }),
+                     prompt: "(Optional) Select asset...",
+                     class: "inline-block custom-select custom-select-long custom-select-ajax" %>
+      </div>
+
+      <%= text_area_tag "description", "",
+                         placeholder: "Description of Failure...",
+                         class: "txtfield job-notes-text custom-select-long" %>
 
       <div class="content actions">
-        <%= f.submit "Save", class: "bluebtn pull-right form-loading-on-click",
+        <%= f.submit "Add Failure", class: "bluebtn pull-right form-loading-on-click",
                      "data-form" => "failures_list" %>
       </div>
   <% end %>

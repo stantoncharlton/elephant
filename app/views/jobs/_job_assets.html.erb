@@ -28,7 +28,7 @@
         <%= form_for PartMembership.new, remote: true do |f| %>
 
             <%= f.hidden_field :job_id, value: @job.id %>
-            <%= f.hidden_field :part_type, id: "part_type" %>
+            <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
 
             <div class='push-down'>
               <ul class="nav nav-pills selection-nav">

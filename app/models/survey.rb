@@ -1,7 +1,13 @@
 class Survey < ActiveRecord::Base
     attr_accessible :name,
                     :plan,
-                    :north_type
+                    :north_type,
+                    :vertical_section_azimuth,
+                    :gyro_company,
+                    :gyro_date,
+                    :magnetic_field_strength,
+                    :magnetic_dip_angle,
+                    :gravity_total
 
     belongs_to :company
     belongs_to :document
@@ -14,12 +20,12 @@ class Survey < ActiveRecord::Base
     MAGNETIC = 2
     GRID = 3
 
-    def calculated_points
+    def calculated_points vertical_section_azimuth
         survey_points = self.survey_points.order("measured_depth ASC").to_a
 
         last_point = nil
 
-        target_vs = survey_points.last.azimuth
+        target_vs = vertical_section_azimuth
 
         survey_points.each do |point|
             point = Survey.calculate_point point, last_point, target_vs
@@ -94,7 +100,6 @@ class Survey < ActiveRecord::Base
                 cl_dir2 = 0
             end
 
-            target_vs = 324.60
             direction_difference = 0.0
             closure_direction = 0.0
 
@@ -116,7 +121,17 @@ class Survey < ActiveRecord::Base
                 closure_direction = cl_dir2
             end
 
-            point.vertical_section =  point.closure_distance * Math::cos(direction_difference * (pi/180))
+            point.vertical_section = point.closure_distance * Math::cos(direction_difference * (pi/180))
+
+            build_rate = (100 / (point.measured_depth - last_point.measured_depth)) * (point.inclination - last_point.inclination)
+
+            if last_point.azimuth > 270 && point.azimuth < 90
+                walk_rate = (100 / (point.measured_depth - last_point.measured_depth)) * ((360 - last_point.azimuth) + point.azimuth)
+            elsif last_point.azimuth < 90 && point.azimuth > 270
+                walk_rate = (100 / (point.measured_depth - last_point.measured_depth)) * (point.azimuth - (360 + last_point.azimuth))
+            else
+                walk_rate = (100 / (point.measured_depth - last_point.measured_depth)) * (point.azimuth - last_point.azimuth)
+            end
 
         end
 

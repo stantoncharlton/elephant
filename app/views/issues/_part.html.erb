@@ -1,0 +1,22 @@
+<% if !issue.part_serial_number.blank? %>
+    <% if issue.part.present? && !no_link %>
+        <%= link_to issue.part,
+                    class: "part-box2" do %>
+            <div class='bar' style="background: <%= '#' + (issue.part.present? ? Digest::MD5.hexdigest(issue.part.master_part.name)[0..5] : "666666") %>;"></div>
+            <% if issue.part.nil? %>
+                <div class='rental'>R</div>
+            <% end %>
+            <div class='center name'><%= issue.part.present? ? issue.part.master_part.name : '' %></div>
+            <div class='center'><%= issue.part_serial_number %></div>
+        <% end %>
+    <% else %>
+        <div class="part-box2">
+          <div class='bar' style="background: <%= '#' + (issue.part.present? ? Digest::MD5.hexdigest(issue.part.master_part.name)[0..5] : "666666") %>;"></div>
+          <% if issue.part.nil? %>
+              <div class='rental'>R</div>
+          <% end %>
+          <div class='center name'><%= issue.part.present? ? issue.part.master_part.name : '' %></div>
+          <div class='center'><%= issue.part_serial_number %></div>
+        </div>
+    <% end %>
+<% end %>
