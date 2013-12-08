@@ -1,5 +1,5 @@
 class DrillingLogEntriesController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :create, :destroy]
+    before_filter :signed_in_user, only: [:new, :create, :edit, :update, :destroy]
 
     def new
 
@@ -47,6 +47,14 @@ class DrillingLogEntriesController < ApplicationController
         if @last_entry.nil?
             @last_entry = @drilling_log_entry
         end
+    end
+
+    def edit
+
+    end
+
+    def update
+
     end
 
     def destroy

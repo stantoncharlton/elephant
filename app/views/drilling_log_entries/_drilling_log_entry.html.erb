@@ -1,10 +1,22 @@
-<div id="drilling_log_entry_<%= entry.id %>" class='field'>
+<div id="drilling_log_entry_<%= entry.id %>"
+     class='field drilling-log-entry'>
   <div class="">
-    <div class="pull-right align-top">
-      <%= link_to "remove", entry, method: :delete, remote: true,
-                  data: {confirm: "Remove Entry?"}, class: "delete-button-small tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Remove Entry" %>
+
+    <div class="btn-group inline-block align-top pull-right push-up">
+      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to "Edit Entry", edit_drilling_log_entry_path(entry), class: "dropdown-menu-link" %>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <%= link_to "Remove Entry", entry, method: :delete, remote: true,
+                      data: {confirm: "Remove Entry?"}, class: "dropdown-menu-link tooltip-info",
+                      "data-placement" => "bottom",
+                      "data-title" => "Remove Entry" %>
+        </li>
+      </ul>
     </div>
 
     <p class="list-item-column list-item-column-short">

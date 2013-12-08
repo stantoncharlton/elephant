@@ -20,11 +20,11 @@ class ApplicationController < ActionController::Base
 
 
     def session_expiry
-        if !request.headers['x-access-token'].blank? && current_user
+        #if !request.headers['x-access-token'].blank? && current_user
 
-        else
+        #else
             get_session_time_left
-        end
+        #end
     end
 
     private

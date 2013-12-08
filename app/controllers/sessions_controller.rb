@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
     #skip_before_filter :verify_authenticity_token
 
     skip_before_filter :session_expiry
-    skip_before_filter :update_activity_time
+    skip_before_filter :update_session_expiration
     skip_before_filter :verify_traffic
 
     def show
