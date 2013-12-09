@@ -38,7 +38,7 @@ class DrillingLogEntriesController < ApplicationController
             @drilling_log_entry.entry_at = override_date
         end
 
-        @last_entry = DrillingLogEntry.where(:company_id => current_user.company_id).where(:job_id => @drilling_log.job_id).last
+        @last_entry = @drilling_log.drilling_log_entries.last
 
         @drilling_log_entry.save
 

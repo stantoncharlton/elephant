@@ -10,6 +10,7 @@ $ ->
   $('.unitsSelect').customSelect()
 
   $('.job-start-date').datepicker()
+  $('.date-picker').datepicker()
 
 
   $('.job-start-date').change ->

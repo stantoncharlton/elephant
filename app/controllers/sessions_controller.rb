@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     def show
         store_location
         @is_signed_in = signed_in?
+        puts "Signed in: " +  @is_signed_in.to_s
     end
 
     def new

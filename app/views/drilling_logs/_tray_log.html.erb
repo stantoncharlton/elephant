@@ -57,18 +57,7 @@
   <div class="" id="list">
     <% last_entry = nil %>
     <% dates.each_with_index do |date| %>
-        <div class="log-entry-group"
-             data-date="<%= date[0].strftime("%m/%d/%Y") %>">
-          <h3 class='orange-text'><%= date[0].strftime("%A %m/%d/%Y") %></h3>
-          <br>
-          <div class='log-entry-hidden hidden help-text'></div>
-          <br>
-
-          <% date[1].each do |entry| %>
-              <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, last_entry: last_entry.nil? ? entry : last_entry %>
-              <% last_entry = entry %>
-          <% end %>
-        </div>
+        <%= render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1], last_entry: last_entry %>
     <% end %>
   </div>
 
@@ -134,7 +123,7 @@
                 <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
                        name="date"
                        id="entry_date"
-                       class="job-field-value-editable input-small job-start-date">
+                       class="job-field-value-editable input-small date-picker">
 
 
                 <div class="inline bootstrap-timepicker">

@@ -15,7 +15,10 @@ $ ->
       $('.log-entry-group').each ->
         $(this).hide()
       $('.log-entry-group:last').show()
-      $('.log-entry-group:last').find('.log-entry-hidden').text('' + ($('.log-entry-group:last').find('.drilling-log-entry').length - 5) + ' previous entries this day...').removeClass 'hidden'
+      count = $('.log-entry-group:last').find('.drilling-log-entry').length - 5
+      if count < 0
+        count = 0
+      $('.log-entry-group:last').find('.log-entry-hidden').text('' + (count) + ' previous entries this day...').removeClass 'hidden'
       $('.log-entry-group:last').find('.drilling-log-entry').each ->
         $(this).hide()
       $('.log-entry-group:last').find('.drilling-log-entry').slice(-5).each ->

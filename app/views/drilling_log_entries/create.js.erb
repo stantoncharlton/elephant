@@ -9,12 +9,23 @@ $('#alert').modal({show:true});
 
 <% else %>
 
-$('.no-job-log-entries').remove();
+if($('.no-job-log-entries').length > 0) {
+    $('.no-job-log-entries').remove();
+}
 
-$("#list").append("<%= j render 'drilling_log_entries/drilling_log_entry', entry: @drilling_log_entry, last_entry: @last_entry %>");
+<% date = @drilling_log_entry.entry_at %>
+var group = $(".log-entry-group[data-date='<%= date.strftime("%m/%d/%Y") %>']");
+if(group.length > 0) {
+    alert('found group');
+    group.append("<%= j render 'drilling_log_entries/drilling_log_entry', entry: @drilling_log_entry, last_entry: @last_entry %>");
+}
+else {
+    alert('no group');
+    $("#list").append("<%= j render 'drilling_log_entries/drilling_log_entry_group', date: date, entries: [@drilling_log_entry], last_entry: nil %>");
+}
+
+alert('done');
 $('#new_job_log_id').val('');
-
-$('#drilling_overview').replaceWith('<%= j render 'drilling_logs/overview', drilling_log: @drilling_log_entry.drilling_log %>');
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
