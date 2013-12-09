@@ -1,9 +1,17 @@
 <div class="<%= condensed ? "inline-block" : "" %>">
   <% if condensed %>
-      <%= link_to part, class: "part-box tooltip-info " + part.status_css,
-                  "data-placement" => "right", "data-html" => "true",
-                   "data-title" => part.status == Part::ON_JOB && part.current_job.present? ? render('jobs/well_tooltip', job: part.current_job, show_summary_data: true) : part.status_string do %>
-        <%= part.serial_number %>
+      <% if part.template? %>
+          <%= link_to part, class: "part-box tooltip-info ",
+                      "data-placement" => "right", "data-html" => "true",
+                      "data-title" => "Master Asset" do %>
+              <%= part.material_number %>
+          <% end %>
+      <% else %>
+          <%= link_to part, class: "part-box tooltip-info " + part.status_css,
+                      "data-placement" => "right", "data-html" => "true",
+                      "data-title" => part.status == Part::ON_JOB && part.current_job.present? ? render('jobs/well_tooltip', job: part.current_job, show_summary_data: true) : part.status_string do %>
+              <%= part.serial_number %>
+          <% end %>
       <% end %>
   <% else %>
       <%= link_to part, class: "job-link push-right" do %>

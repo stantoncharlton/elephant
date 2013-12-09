@@ -44,9 +44,9 @@ class UsersController < ApplicationController
 
         @activities = Activity.activities_for_user(@user).paginate(page: params[:page], limit: 20)
 
-        if current_user.role.global_read? && @user != current_user
+        if !current_user.role.limit_to_assigned_jobs?
             @average_job_performance = average_job_performance @user.jobs
-            @job_success_rate = job_success_rate @user.jobs
+            @failure_rate = (@user.jobs.reorder('').joins(:issues).count("issues.id").to_f / @user.jobs.count.to_f)
         end
     end
 

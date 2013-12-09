@@ -64,8 +64,7 @@ module JobAnalysisHelper
     def job_failure_rate(jobs)
         return 0 unless jobs.count > 0
 
-        failure_count = jobs.reorder('').joins(:failures).count("failures.id")
-        puts "Failure count: " + failure_count.to_s
+        failure_count = jobs.reorder('').joins(:issues).count("issues.id")
         ((failure_count.to_f / jobs.count().to_f) * 100).round(0)
     end
 

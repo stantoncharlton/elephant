@@ -29,6 +29,12 @@
                      class: "inline-block custom-select custom-select-long custom-select-ajax" %>
       </div>
 
+      <div class=''>
+        <%= select_tag "responsible_by_id", options_for_select(job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }),
+                       prompt: "(Optional) Responsible personnel...",
+                       class: "inline-block custom-select custom-select-long custom-select-ajax" %>
+      </div>
+
       <%= text_area_tag "description", "",
                          placeholder: "Description of Failure...",
                          class: "txtfield job-notes-text custom-select-long" %>

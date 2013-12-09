@@ -29,7 +29,7 @@
     </p>
 
     <p class="list-item-column2">
-      <b><%= entry.depth %></b>
+      <b><%= number_with_delimiter(entry.depth, :delimiter => ',') %></b>
       <span class="help-text push-right-small <%= entry.depth - last_entry.depth < 0 ? "warning-text" : "" %>"><%= entry.depth - last_entry.depth %></span>
     </p>
 

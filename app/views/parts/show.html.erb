@@ -275,6 +275,71 @@
       <div class="corner blcorner"></div>
     </div>
 
+    <script type='text/javascript'>
+        var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+        map.attributionControl = false;
+        map.scrollWheelZoom.disable();
+
+        var geoJson = [];
+
+        <% coordinates_for_zoom = [] %>
+        <% coordinates_for_lines = [] %>
+
+        <% @parts.each_with_index do |part, index| %>
+            <% if part.current_job.present? && !part.current_job.well.location.blank? %>
+                <% x = part.current_job.well.x_location %>
+                <% y = part.current_job.well.y_location  %>
+                <% coordinates_for_lines << [x, y] %>
+                <% coordinates_for_zoom << [y, x] %>
+                geoJson.push({
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [<%= x %>, <%= y %>]
+                    },
+                    "properties": {
+                        title: '<%= part.serial_number %>',
+                        'marker-size': 'medium',
+                        'marker-color': '#0058a8',
+                        'marker-symbol': '<%= (index + 1).to_s %>',
+                        url: '/parts/' + <%= part.id %>
+                        //'marker-symbol': '1'
+                    }
+                });
+            <% end %>
+        <% end %>
+
+        map.markerLayer.setGeoJSON(geoJson);
+
+        map.markerLayer.on('click', function (e) {
+            map.panTo(e.layer.getLatLng());
+        });
+        map.markerLayer.on('click', function (e) {
+            e.layer.unbindPopup();
+            window.location = e.layer.feature.properties.url;
+        });
+
+        var bounds = [];
+        <% coordinates_for_zoom.each do |c| %>
+        bounds.push([<%= c[0] %>, <%= c[1] %>]);
+        <% end %>
+        map.fitBounds(bounds);
+        zoom = Math.round(map.getZoom());
+        map.setZoom(zoom - 1);
+        <% if coordinates_for_zoom.count == 1 %>
+        if (zoom > 8) {
+            map.setZoom(8);
+        }
+        <% end %>
+
+        map.markerLayer.on('mouseover', function (e) {
+            e.layer.openPopup();
+        });
+        map.markerLayer.on('mouseout', function (e) {
+            e.layer.closePopup();
+        });
+    </script>
+
     <br><br>
 
     <div class="push-right-small">
@@ -335,39 +400,16 @@
       <li class="push-right-small">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="failures"
-           data-placement="bottom" data-title="Failures overview">Failures</a>
+           data-placement="bottom" data-title="Failures">Failures</a>
       </li>
 
     </ul>
 
-    <div class='content'>
-      <div class="page_header">
-        <h1>Full History</h1>
-        <b>Run &amp; Maintenance</b> <span class="help-text">(<%= @part.jobs.count %>)</span>
-      </div>
 
+    <%= render 'parts/tray_full_history', part: @part %>
+    <%= render 'parts/tray_maintenance', part: @part %>
+    <%= render 'parts/tray_failures', part: @part %>
 
-      <div class="map-container">
-        <div id='map' class='dark' style='width:100%;height:300px;'></div>
-        <div class="corner tlcorner"></div>
-        <div class="corner trcorner"></div>
-        <div class="corner brcorner"></div>
-        <div class="corner blcorner"></div>
-      </div>
-
-      <% if @part.jobs.any? %>
-          <br><br>
-
-          <div>
-            <% @part.jobs.order("created_at DESC").each_with_index do |job, index| %>
-                <%= render 'parts/part_run', job: job, index: index %>
-                <br>
-            <% end %>
-          </div>
-      <% else %>
-          <p class="center help-text"><br>This tool has not been run on any jobs...</p>
-      <% end %>
-    </div>
 <% end %>
 
 
@@ -401,117 +443,6 @@
             }
         });
     }(jQuery));
-</script>
-
-
-<script type='text/javascript'>
-    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
-    map.attributionControl = false;
-    map.scrollWheelZoom.disable();
-
-    var geoJson = [];
-
-    <% coordinates_for_zoom = [] %>
-    <% coordinates_for_lines = [] %>
-
-    <% if !@part.template? %>
-    <% @part.jobs.order("created_at DESC").each_with_index do |job, index| %>
-    <% if index < 7 && !job.well.location.blank? %>
-    <% x = job.well.x_location %>
-    <% y = job.well.y_location  %>
-    <% coordinates_for_lines << [x, y] %>
-    <% coordinates_for_zoom << [y, x] %>
-    geoJson.push({
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [<%= x %>, <%= y %>]
-        },
-        "properties": {
-            title: '<%= job.field.name + ' | ' + job.well.name %>',
-            'marker-size': 'medium',
-            'marker-color': '#0058a8',
-            'marker-symbol': '<%= (index + 1).to_s %>',
-            url: '/jobs/' + <%= job.id %>
-            //'marker-symbol': '1'
-        }
-    });
-    <% end %>
-    <% end %>
-    <% else %>
-    <% @parts.each_with_index do |part, index| %>
-    <% if part.current_job.present? && !part.current_job.well.location.blank? %>
-    <% x = part.current_job.well.x_location %>
-    <% y = part.current_job.well.y_location  %>
-    <% coordinates_for_lines << [x, y] %>
-    <% coordinates_for_zoom << [y, x] %>
-    geoJson.push({
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [<%= x %>, <%= y %>]
-        },
-        "properties": {
-            title: '<%= part.serial_number %>',
-            'marker-size': 'medium',
-            'marker-color': '#0058a8',
-            'marker-symbol': '<%= (index + 1).to_s %>',
-            url: '/parts/' + <%= part.id %>
-            //'marker-symbol': '1'
-        }
-    });
-    <% end %>
-    <% end %>
-    <% end %>
-
-    map.markerLayer.setGeoJSON(geoJson);
-
-    map.markerLayer.on('click', function (e) {
-        map.panTo(e.layer.getLatLng());
-    });
-    map.markerLayer.on('click', function (e) {
-        e.layer.unbindPopup();
-        window.location = e.layer.feature.properties.url;
-    });
-
-    var bounds = [];
-    <% coordinates_for_zoom.each do |c| %>
-    bounds.push([<%= c[0] %>, <%= c[1] %>]);
-    <% end %>
-    map.fitBounds(bounds);
-    zoom = Math.round(map.getZoom());
-    map.setZoom(zoom - 1);
-    <% if coordinates_for_zoom.count == 1 %>
-    if (zoom > 8) {
-        map.setZoom(8);
-    }
-    <% end %>
-
-    <% if !@part.template? %>
-    lines = {
-        type: 'Feature',
-        geometry: {
-            type: 'LineString',
-            coordinates: <%= raw coordinates_for_lines.to_json %>
-        },
-        properties: { }
-    };
-
-    L.geoJson(lines, {
-        style: {
-            "color": "#FFFFFF"
-            //"weight": 5,
-            //"opacity": 0.65
-        }
-    }).addTo(map);
-    <% end %>
-
-    map.markerLayer.on('mouseover', function (e) {
-        e.layer.openPopup();
-    });
-    map.markerLayer.on('mouseout', function (e) {
-        e.layer.closePopup();
-    });
 </script>
 
 

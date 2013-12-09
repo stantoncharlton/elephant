@@ -1,0 +1,19 @@
+<div class='job-tray custom-data-closed' data-tray="failures">
+  <div class='content'>
+    <div class='page_header'>
+      <h2 class="inline">Failures</h2>
+      <span class="help-text push-right-small">(<%= part.issues.count %>)</span>
+    </div>
+
+
+    <% if !part.issues.any? %>
+        <p class='center help-text'>
+          No failures...
+        </p>
+    <% end %>
+    <% part.issues.each do |issue| %>
+        <%= render 'issues/issue', issue: issue %>
+    <% end %>
+
+  </div>
+</div>

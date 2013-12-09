@@ -1,0 +1,74 @@
+<div>
+  <div>
+    <% if index < 7 %>
+        <div class='part-number-container inline-block'>
+          <%= image_tag 'tool.png' %>
+        </div>
+        &nbsp;
+    <% end %>
+
+    <%= redress.received_at.strftime("%m/%d/%Y") %>
+    <% if !redress.finished_redress_at.nil? %>
+        -  <%= redress.finished_redress_at.strftime("%m/%d/%Y") %>
+    <% end %>
+
+    <div class='inline-block push-right-small pull-right'>
+      <%= render 'users/icon', user: redress.received_by %>
+    </div>
+
+    <span class='help-text pull-right push-down-small'>Duration - <%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) + "" : '' %></span>
+
+  </div>
+
+
+  <div class='content'>
+
+
+    <b class='blue-text'>Notes</b>
+
+    <div>
+      <% if redress.notes.any? %>
+          <div class=''>
+            <% redress.notes.each do |note| %>
+                <div>
+                  <div class='pull-right'>
+                    <span class='help-text'><%= note.created_at.strftime("%m/%d/%Y %l:%M %p") %></span>
+                    <div class='push-right-small'>
+                      <%= render 'users/icon', user: note.user %>
+                    </div>
+                  </div>
+                  <div class='inline-block align-top push-down-small'>
+                    <%= note.text %>
+                  </div>
+                </div>
+            <% end %>
+          </div>
+      <% else %>
+          <p class='help-text'>No Notes...</p>
+      <% end %>
+    </div>
+
+    <br>
+    <b class='blue-text'>Documents</b>
+
+    <div>
+      <% documents = redress.documents %>
+      <% if documents.any? %>
+          <div class="content">
+            <% documents.each do |d| %>
+                <% if !d.blank? %>
+                    <div>
+                      <%= render 'documents/document_metadata', document: d %>
+                    </div>
+                <% end %>
+            <% end %>
+          </div>
+      <% else %>
+          <p class='help-text'>No Documents...</p>
+      <% end %>
+    </div>
+
+
+  </div>
+  <hr>
+</div>

@@ -29,14 +29,12 @@
             <span class="help-text status-good"><%= part.status_string %></span>
         <% elsif part.status == Part::ON_JOB %>
             <span class=""><%= part.status_string %></span>
-            <% if part.current_job.present? %>
-              <span class="part-job-name tooltip-info"
-                    data-placement="right"
-                    data-html="true"
-                    data-title="<%= render 'jobs/well_tooltip', job: part.current_job, show_summary_data: true %>">
-                             - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
-              </span>
-            <% end %>
+                  <span class="part-job-name tooltip-info"
+                        data-placement="right"
+                        data-html="true"
+                        data-title="<%= render 'jobs/well_tooltip', job: part.current_job, show_summary_data: true %>">
+                                 - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
+                  </span>
         <% else %>
             <span class="warning-text"><%= part.status_string %></span>
         <% end %>

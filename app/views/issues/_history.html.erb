@@ -1,7 +1,4 @@
-<% failures = Failure.includes(:issue).includes(:job).where(:company_id => current_user.company_id).where(:failure_master_template_id => failure.id).where("jobs.job_template_id IS NOT NULL").order("failures.created_at DESC") %>
 <div>
-  <h3 class="inline">Incident History</h3> <span class="inline"> <%= failures.count %></span>
-  <hr>
   <% failures.each do |f| %>
       <% if f.job.present? && f.job.job_template.present? %>
           <br>

@@ -54,7 +54,6 @@ class Job < ActiveRecord::Base
     POST_JOB = 7
 
 
-
     COMPLETE = 50
 
     ABANDONED = 100
@@ -420,8 +419,18 @@ class Job < ActiveRecord::Base
         end
 
         Alert.where("alerts.alert_type = :alert_type AND alerts.job_id = :job_id",
-                          alert_type: Alert::PRE_JOB_DATA_READY,
-                          job_id: self.id).each { |a| a.destroy }
+                    alert_type: Alert::PRE_JOB_DATA_READY,
+                    job_id: self.id).each { |a| a.destroy }
+    end
+
+    def begin_on_job
+        self.part_memberships.each do |part_membership|
+            if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+                part_membership.part.current_job = self
+                part_membership.part.status = Part::ON_JOB
+                part_membership.part.save
+            end
+        end
     end
 
     def close_job(user)
@@ -435,6 +444,17 @@ class Job < ActiveRecord::Base
                           job_id: self.id).each { |a| a.destroy }
 
         Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)
+
+
+        self.part_memberships.each do |part_membership|
+            if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+                if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job == self
+                    part_membership.part.current_job = nil
+                    part_membership.part.status = Part::AVAILABLE
+                    part_membership.part.save
+                end
+            end
+        end
 
         #self.unique_participants.each do |participant|
         #    participant.send_job_completed_email(self)

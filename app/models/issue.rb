@@ -1,7 +1,8 @@
 class Issue < ActiveRecord::Base
     attr_accessible :status,
                     :failure_at,
-                    :part_serial_number
+                    :part_serial_number,
+                    :responsible_by_name
 
     acts_as_tenant(:company)
 
@@ -9,6 +10,8 @@ class Issue < ActiveRecord::Base
     belongs_to :failure
     belongs_to :job
     belongs_to :part
+
+    belongs_to :responsible_by, class_name: "User"
 
     has_many :job_notes
     has_many :documents, :dependent => :destroy, as: :owner, :class_name => "Document"

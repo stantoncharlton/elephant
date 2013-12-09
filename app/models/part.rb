@@ -35,7 +35,7 @@ class Part < ActiveRecord::Base
     has_many :part_memberships, foreign_key: "part_id"
     has_many :part_redresses, order: "created_at DESC"
     has_many :jobs, through: :part_memberships, source: :job
-
+    has_many :issues, order: "failure_at DESC"
 
     AVAILABLE = 1
     ON_JOB = 2

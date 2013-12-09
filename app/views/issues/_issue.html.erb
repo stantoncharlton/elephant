@@ -30,4 +30,12 @@
 
     <br>
     <%= render 'issues/part', issue: issue, no_link: true %>
+
+    <% if !current_user.role.limit_to_assigned_jobs? && issue.responsible_by.present? %>
+        <div class='push-down'>
+          <%= render 'users/user_icon', user: issue.responsible_by, use_link: false %>
+          <p class='inline-block help-text'> - Responsible Personnel</p>
+          <br><br>
+        </div>
+    <% end %>
 <% end %>

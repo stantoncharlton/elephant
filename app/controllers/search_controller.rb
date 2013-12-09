@@ -18,11 +18,12 @@ class SearchController < ApplicationController
                     @districts = District.search(params, current_user.company, false).results.take(3)
                     @fields = Field.search(params, current_user.company).results.take(3)
                     @wells = Well.search(params, current_user.company).results.take(3)
+                    @assets = Part.search_no_district(params, current_user.company).results.take(10)
                 end
             end
             format.xlsx do
                 params[:page] =
-                @jobs = Job.search(current_user, params, current_user.company, false).results
+                        @jobs = Job.search(current_user, params, current_user.company, false).results
                 excel = to_excel @jobs
                 send_data excel.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             end

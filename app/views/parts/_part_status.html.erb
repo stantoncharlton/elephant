@@ -4,12 +4,9 @@
         <span class="status-good"><%= part.status_string %></span>
     <% elsif part.status == Part::ON_JOB %>
         <span class=""><%= part.status_string %></span>
-        <% if part.current_job.present? %>
-        <span class="push-right-small">
+                <span class="push-right-small">
                             (<%= render 'activities/job_description', job: part.current_job, inside_job: false %>)
               </span>
-        <% end %>
-
     <% elsif part.status == Part::IN_REDRESS %>
         <span class="warning-text"><%= part.status_string %></span>
         <span>for <%= time_ago_in_words(part.updated_at) %></span>

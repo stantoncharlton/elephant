@@ -293,6 +293,7 @@ class JobsController < ApplicationController
                 when "begin_job"
                     @job.update_attribute(:status, Job::ON_JOB)
                     Activity.add(current_user, Activity::BEGIN_ON_JOB, @job, nil, @job)
+                    @job.delay.begin_on_job
                 when "begin_post_job"
                     @job.update_attribute(:status, Job::POST_JOB)
                     Activity.add(current_user, Activity::BEGIN_POST_JOB, @job, nil, @job)

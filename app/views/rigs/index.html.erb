@@ -55,7 +55,7 @@
 
     <% @rigs.each_with_index do |rig, index| %>
     <% well = rig.wells.last %>
-    <% if well.present? && index < 7 && !well.location.blank? %>
+    <% if well.present? && !well.location.blank? %>
     <% x = well.x_location %>
     <% y = well.y_location  %>
     <% coordinates_for_lines << [x, y] %>

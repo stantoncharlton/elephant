@@ -8,76 +8,126 @@
     <span class="label label-important status-closed <%= @issue.status == Issue::CLOSED ? "" : "hidden" %>">CLOSED</span>
   </span>
   <span class="push-right"><p class="inline push-right-small"><%= @issue.failure_at.strftime("%a %m/%d/%Y %l:%M %p") %></p></span>
+</div>
 
-  <div class="pull-right">
-    <% if @issue.status == Issue::OPEN %>
-        <%= link_to "CLOSE Issue", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
-        <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
-    <% end %>
+
+
+
+<div class='well'>
+  <div class='inline-block pull-right'>
+    <%= render 'issues/part', issue: @issue, no_link: false %>
   </div>
-</div>
 
-<div class='inline-block pull-right'>
-  <%= render 'issues/part', issue: @issue, no_link: false %>
-</div>
-
-<div>
-  <div><%= @issue.failure.failure_master_template.product_line.name %>
-    / <%= @issue.job.job_template.name %></div>
-  <div><h3 class="warning-text"><%= @issue.failure.failure_master_template.text %></h3></div>
-</div>
-
-<div>
-  <br>
-  <%= render 'jobs/job_progress_link', job: @issue.job, show_summary_data: false, job_name: false %>
-</div>
-
-<div>
-  <div class="content">
-    <% @issue.documents.each do |document| %>
-        <%= render 'documents/document', document: document, editable: false, can_upload: true %>
-    <% end %>
+  <div>
+    <div><%= @issue.failure.failure_master_template.product_line.name %>
+      / <%= @issue.job.job_template.name %></div>
+    <div><h3 class="warning-text"><%= @issue.failure.failure_master_template.text %></h3></div>
   </div>
-</div>
 
-<div class="content">
-  <div class="field">
-    <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
-        <div class="new-product-line well">
-          <div class="form" data-form="new-note-form">
-            <%= f.hidden_field :issue_id, value: @issue.id %>
-
-            <b>Add new note</b>
-
-            <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
-                            class: "txtfield job-notes-text tooltip-info", autofocus: false,
-                            id: "new_note_id",
-                            "data-placement" => "bottom",
-                            "data-title" => "Note/Action text" %>
-
-            <%= f.submit "Add note", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
-                         "data-form" => "new-note-form",
-                         "data-placement" => "bottom",
-                         "data-title" => "Add new note/action" %>
-
-
-            <br><br>
-          </div>
-
-          <div class="form-loading hidden" data-form="new-note-form">
-            <%= render 'layouts/inline_loading', title: "Creating note..." %>
-            <br><br>
-          </div>
-
-        </div>
-    <% end %>
-  </div>
-</div>
-<div id="job_notes" class="content">
-  <% @issue.job_notes.includes(comments: :user).each do |job_note| %>
-      <%= render 'job_notes/job_note', job_note: job_note %>
+  <% if !current_user.role.limit_to_assigned_jobs? && @issue.responsible_by.present? %>
+      <div class='push-down'>
+        <%= render 'users/icon', user: @issue.responsible_by %><%= render 'activities/user', user: @issue.responsible_by %>
+        <p class='inline-block help-text'> - Responsible Personnel</p>
+      </div>
   <% end %>
+
+  <div>
+    <div class="content">
+      <% @issue.documents.each do |document| %>
+          <%= render 'documents/document', document: document, editable: false, can_upload: true %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @issue.status == Issue::OPEN %>
+      <div>
+        <div class="push-right-small">
+          <%= link_to "CLOSE Issue Case", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
+          <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
+        </div>
+      </div>
+  <% end %>
+
 </div>
 
-<br><br>
-<%= render 'issues/history', failure: @issue.failure.failure_master_template %>
+
+<div>
+  <%= render 'jobs/job_progress_link', job: @issue.job, show_summary_data: false, job_name: false %>
+  <br>
+</div>
+
+<div>
+  <ul class="nav nav-pills alert alert-nav">
+    <li class="active">
+      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="notes"
+         data-placement="bottom" data-title="Description/Notes">Description/Notes
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="past_occurrences"
+         data-placement="bottom" data-title="Past Occurrences">Past Occurrences</a>
+    </li>
+  </ul>
+</div>
+
+
+<div class='job-tray' data-tray="notes">
+  <div class="content">
+
+    <div class='page_header'>
+      <h2>Description/Notes</h2>
+    </div>
+
+    <div class="field">
+      <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
+          <div class="new-product-line">
+            <div class="form" data-form="new-note-form">
+              <%= f.hidden_field :issue_id, value: @issue.id %>
+
+              <p><b>Add new note</b></p>
+
+              <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
+                              class: "txtfield job-notes-text tooltip-info", autofocus: false,
+                              id: "new_note_id",
+                              "data-placement" => "bottom",
+                              "data-title" => "Note/Action text" %>
+
+              <%= f.submit "Add note", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
+                           "data-form" => "new-note-form",
+                           "data-placement" => "bottom",
+                           "data-title" => "Add new note/action" %>
+
+
+              <br><br>
+            </div>
+
+            <div class="form-loading hidden" data-form="new-note-form">
+              <%= render 'layouts/inline_loading', title: "Creating note..." %>
+              <br><br>
+            </div>
+
+          </div>
+      <% end %>
+    </div>
+  </div>
+  <div id="job_notes" class="content">
+    <% @issue.job_notes.includes(comments: :user).each do |job_note| %>
+        <%= render 'job_notes/job_note', job_note: job_note %>
+    <% end %>
+  </div>
+</div>
+
+<div class='job-tray custom-data-closed' data-tray="past_occurrences">
+  <div class='content'>
+    <% failures = Failure.includes(:issue).includes(:job).where(:company_id => current_user.company_id).where(:failure_master_template_id =>  @issue.failure.failure_master_template_id).where("jobs.job_template_id IS NOT NULL").order("failures.created_at DESC") %>
+
+    <div class='page_header'>
+      <h2 class="inline">Past Occurrences</h2>
+    </div>
+
+    <%= render 'issues/history', failures: failures %>
+  </div>
+</div>

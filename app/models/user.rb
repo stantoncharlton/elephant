@@ -66,6 +66,7 @@
 
     has_many :activities
 
+    has_many :issues, foreign_key: "responsible_by_id", order: "failure_at DESC"
 
 
     searchable do

@@ -64,97 +64,20 @@
   <% end %>
 </div>
 
-<div class="">
 
-  <div class="pull-right">
-    <% if @average_job_performance.present? %>
-        <div class="chart-block tooltip-info"
-             data-title="'Performance Rating' is the average job rating.">
-          <div class="chart-title">Performance Rating</div>
-          <div class="donut-chart-div">
-            <div id="performance_rating" class="donut-chart "></div>
-            <div class="donut-inner-circle <%= @average_job_performance >= 3 ? "" : "inner-circle-red" %>"></div>
-            <div class="donut-text <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>"><%= @average_job_performance %></div>
-            <div class="percentage-circle <%= @average_job_performance >= 3 ? "" : "chart-text-red" %>">of 5</div>
-          </div>
-        </div>
-    <% end %>
+<% @adjusted_today_date = Time.now %>
+<% @start_date = @adjusted_today_date.beginning_of_week - 1.days - (@adjusted_today_date.beginning_of_week.day + (7 - (@adjusted_today_date.beginning_of_week.day % 7))).days %>
+<% @page = 1 %>
+<% @job_times = JobTime.where(:company_id => current_user.company_id).where(:user_id => @user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month) %>
+<% job_times_array = @job_times.to_a %>
+<% if current_user.company.work_day_type == Company::HOURLY_WORK_DAY %>
+    <% @total_this_month= job_times_array.select { |jt| jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+    <% @total_last_month = job_times_array.select { |jt| jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+<% else %>
+    <% @total_this_month= job_times_array.select { |jt| jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+    <% @total_last_month = job_times_array.select { |jt| jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+<% end %>
 
-    <% if @job_success_rate.present? %>
-        <div class="chart-block tooltip-info"
-             data-title="'Job Success Rate' shows the percentage of jobs that are successful.">
-          <div class="chart-title">Job Success Rate</div>
-          <div class="donut-chart-div">
-            <div id="failure_rate" class="donut-chart "></div>
-            <div class="donut-inner-circle <%= @job_success_rate > 70 ? "" : "inner-circle-red" %>"></div>
-            <div class="donut-text <%= @job_success_rate > 70 ? "" : "chart-text-red" %>"><%= @job_success_rate %></div>
-            <div class="percentage-circle <%= @job_success_rate > 70 ? "" : "chart-text-red" %>">%</div>
-          </div>
-        </div>
-    <% end %>
-  </div>
-
-  <div>
-    <div class="chart-block tooltip-info"
-         data-title="Total active jobs for this user right now.">
-      <div class="chart-title">Active Jobs</div>
-      <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= @user.active_jobs.count %></div>
-        <div class="percentage ">jobs</div>
-      </div>
-    </div>
-
-    <div class="chart-block tooltip-info"
-         data-title="Total jobs this user has ever been on.">
-      <div class="chart-title">Total Jobs</div>
-      <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= @user.jobs.count %></div>
-        <div class="percentage ">jobs</div>
-      </div>
-    </div>
-
-    <br><br><br>
-
-    <% @adjusted_today_date = Time.now %>
-    <% @start_date = @adjusted_today_date.beginning_of_week - 1.days - (@adjusted_today_date.beginning_of_week.day + (7 - (@adjusted_today_date.beginning_of_week.day % 7))).days %>
-    <% @page = 1 %>
-    <% @job_times = JobTime.where(:company_id => current_user.company_id).where(:user_id => @user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month) %>
-    <% job_times_array = @job_times.to_a %>
-    <% if current_user.company.work_day_type == Company::HOURLY_WORK_DAY %>
-        <% total_this_month= job_times_array.select { |jt| jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
-        <% total_last_month = job_times_array.select { |jt| jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
-    <% else %>
-        <% total_this_month= job_times_array.select { |jt| jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
-        <% total_last_month = job_times_array.select { |jt| jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
-    <% end %>
-
-    <div>
-      <div class="chart-block tooltip-info"
-           data-title="Total days worked during this month.">
-        <div class="chart-title">Worked This Month</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= total_this_month %></div>
-          <div class="percentage ">days</div>
-        </div>
-      </div>
-
-      <div class="chart-block tooltip-info"
-           data-title="Total days worked in the previous month.">
-        <div class="chart-title">Worked Last Month</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= total_last_month %></div>
-          <div class="percentage ">days</div>
-        </div>
-      </div>
-    </div>
-
-    <br><br>
-  </div>
-
-
-  <br>
-
-</div>
 
 
 <div>
@@ -164,18 +87,23 @@
 
       <li class="active">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="jobs"
-           data-placement="bottom" data-title="All jobs this user has been on in the past or is currently now on">Jobs
-          <%= "(" + @user.jobs.count.to_s + ")" %></a>
+           data-tray="overview"
+           data-placement="bottom" data-title="Overview">Overview</a>
       </li>
 
-      <li class="push-right-small">
+      <li class="">
+        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="jobs"
+           data-placement="bottom" data-title="Jobs">Jobs</a>
+      </li>
+
+      <li class="">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="user-activity"
            data-placement="bottom" data-title="All activity of this user">Activity</a>
       </li>
 
-      <li class="push-right-small">
+      <li class="">
         <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="time"
            data-placement="bottom" data-title="Time/Scheduling">Time/Scheduling</a>
@@ -183,7 +111,9 @@
 
     </ul>
 
-    <div class="job-tray " data-tray="jobs">
+    <%= render 'users/tray_overview' %>
+
+    <div class="job-tray custom-data-closed" data-tray="jobs">
       <div class="page_header">
         <h1><%= t ".jobs" %></h1>
 

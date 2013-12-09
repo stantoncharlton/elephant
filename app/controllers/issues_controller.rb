@@ -37,12 +37,20 @@ class IssuesController < ApplicationController
             @issue.failure_at = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]}:00 #{params[:meridian]}", '%m/%d/%Y %I:%M:%S %p').in_time_zone(Time.zone)
 
             if !params[:part_membership_id].blank?
-                @part_membership = PartMembership.find(params[:part_membership_id])
+                @part_membership = PartMembership.find_by_id(params[:part_membership_id])
                 if @part_membership.present?
                     if @part_membership.part.present?
                         @issue.part = @part_membership.part
                     end
                     @issue.part_serial_number = @part_membership.serial_number
+                end
+            end
+
+            if !params[:responsible_by_id].blank?
+                @user = User.find_by_id(params[:responsible_by_id])
+                if @user.present?
+                    @issue.responsible_by = @user
+                    @issue.responsible_by_name = @user.name
                 end
             end
 

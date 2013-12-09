@@ -26,6 +26,9 @@
     <% if !@jobs.nil? && @jobs.any? %>
         <span class="label label-info search-count"><%= pluralize(@jobs.count, "Job") %></span>
     <% end %>
+    <% if !@assets.nil? && @assets.any? %>
+        <span class="label label-info search-count"><%= pluralize(@assets.count, "Asset") %></span>
+    <% end %>
     <% if !@districts.nil? && @districts.any? %>
         <span class="label label-info search-count"><%= pluralize(@districts.count, "District") %></span>
     <% end %>
@@ -63,6 +66,17 @@
                 <%= render 'users/user_line', user: user %>
             <% end %>
           </div>
+      <% end %>
+    </div>
+    <hr>
+<% end %>
+
+<% if !@assets.nil? && @assets.any? %>
+    <div id="assets_list">
+      <div>Assets</div>
+      <br>
+      <% @assets.each do |asset| %>
+          <%= render 'parts/sub_part2', part: asset, index: 0, show_warehouse: true, condensed: true %>
       <% end %>
     </div>
     <hr>
