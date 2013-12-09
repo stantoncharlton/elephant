@@ -91,7 +91,6 @@
 
                 var expire = new Date(new Date().getTime() + (1000 * 60 * 120));
                 setInterval(function () {
-                    alert("timeout");
                     if (new Date().getTime() >= expire.getTime()) {
                         $.ajax({
                             url: "/is_signed_in",

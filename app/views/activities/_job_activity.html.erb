@@ -175,6 +175,24 @@
             <p class="activity-message">Job failure:
               <b><%= activity.target.failure_master_template.text %></b></p>
         <% end %>
+        <% if activity.activity_type == Activity::ISSUE_OPENED %>
+            <p class="activity-message">Issue/Failure Opened
+            </p>
+            <% if activity.target.present? %>
+                <%= render 'issues/issue_activity', issue: activity.target %>
+            <% else %>
+                <p><%= activity.metadata %></p>
+            <% end %>
+        <% end %>
+        <% if activity.activity_type == Activity::ISSUE_CLOSED %>
+            <p class="activity-message">Issue/Failure Closed
+            </p>
+            <% if activity.target.present? %>
+                <%= render 'issues/issue_activity', issue: activity.target %>
+            <% else %>
+                <p><%= activity.metadata %></p>
+            <% end %>
+        <% end %>
         <% if activity.activity_type == Activity::JOB_RATING %>
             <p class="activity-message">Job rating set to
               <% activity.metadata.to_i.times do |i| %>
@@ -225,12 +243,14 @@
                   <div><p><a href='#' class='user-link pull-right activity-report-show-all'>Show Full Report</a></p>
                   </div>
                   <div class='past-day hidden'>
-                    <p class="inline-block list-item-column-short"><b>Past day</b></p><span class='activity-message-content'><%= note_activity_report.past %></span>
+                    <p class="inline-block list-item-column-short"><b>Past day</b></p>
+                    <span class='activity-message-content'><%= note_activity_report.past %></span>
                   </div>
                   <div><p class="inline-block list-item-column-short present-day hidden"><b class=''>Present</b>
                   </p><span class='activity-message-content'><%= note_activity_report.present %></span></div>
                   <div class='next-day hidden'>
-                    <p class="inline-block list-item-column-short"><b>Next day</b></p><span class='activity-message-content'><%= note_activity_report.future %></span>
+                    <p class="inline-block list-item-column-short"><b>Next day</b></p>
+                    <span class='activity-message-content'><%= note_activity_report.future %></span>
                   </div>
                 </div>
             <% elsif activity.target.note_type == JobNote::ASSET_REQUEST %>

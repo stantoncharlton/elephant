@@ -69,6 +69,8 @@ class IssuesController < ApplicationController
             document.owner = @issue
             document.company = current_user.company
             document.save
+
+            Activity.delay.add(current_user, Activity::ISSUE_OPENED, @issue, @issue.failure.failure_master_template.text, @issue.job)
         end
 
         #job_failure.delay.add_alert(current_user, @job)
@@ -82,6 +84,7 @@ class IssuesController < ApplicationController
 
         if params[:closed] == "true"
             @issue.update_attribute(:status, Issue::CLOSED)
+            Activity.delay.add(current_user, Activity::ISSUE_CLOSED, @issue, @issue.failure.failure_master_template.text, @issue.job)
         end
     end
 

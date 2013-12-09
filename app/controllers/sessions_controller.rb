@@ -9,7 +9,15 @@ class SessionsController < ApplicationController
     def show
         store_location
         @is_signed_in = signed_in?
-        puts "Signed in: " +  @is_signed_in.to_s
+        puts 'Signed in: ' +  @is_signed_in.to_s
+
+        expire_time = session[:expires_at] || Time.now
+        @session_time_left = (expire_time - Time.now).to_i
+        if @is_signed_in && @session_time_left <= 0
+            @is_signed_in = false
+        end
+        puts 'Signed in: ' +  @is_signed_in.to_s
+        puts @session_time_left.to_s
     end
 
     def new

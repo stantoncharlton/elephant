@@ -58,6 +58,9 @@ class Activity < ActiveRecord::Base
     JOB_RATING = 160
     JOB_FAILURE = 170
 
+    ISSUE_OPENED = 180
+    ISSUE_CLOSED = 181
+
 
     def message
         case self.activity_type
@@ -129,6 +132,10 @@ class Activity < ActiveRecord::Base
                 "Started Post Job Phase"
             when BEGIN_ON_JOB
                 "Started Job Phase"
+            when ISSUE_OPENED
+                "Issue Opened"
+            when ISSUE_CLOSED
+                "Issue Closed"
 
         end
     end
