@@ -9,5 +9,5 @@
     </p>
 <% end %>
 <% job.issues.each do |issue| %>
-    <%= render 'issues/issue', issue: issue %>
+    <%= render 'issues/issue', issue: issue, show_job: false %>
 <% end %>

@@ -2,7 +2,7 @@
     <% names = user.present? ? user.name.split : [] %>
     <% if use_link %>
         <%= link_to user,
-                    class: "member-icon tooltip-info",
+                    class: "member-icon tooltip-info align-top",
                     "data-placement" => "bottom",
                     "data-html" => true,
                     "data-title" => "<div class='activity-tooltip'><h2 class='white-text'>" +
@@ -22,7 +22,7 @@
             <% end %>
         <% end %>
     <% else %>
-        <div class="member-icon">
+        <div class="member-icon align-top">
           <p>
             <% if names.any? %>
                 <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

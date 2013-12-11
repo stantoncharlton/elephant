@@ -122,12 +122,10 @@
 
 <div class='job-tray custom-data-closed' data-tray="past_occurrences">
   <div class='content'>
-    <% failures = Failure.includes(:issue).includes(:job).where(:company_id => current_user.company_id).where(:failure_master_template_id =>  @issue.failure.failure_master_template_id).where("jobs.job_template_id IS NOT NULL").order("failures.created_at DESC") %>
-
     <div class='page_header'>
       <h2 class="inline">Past Occurrences</h2>
     </div>
 
-    <%= render 'issues/history', failures: failures %>
+    <%= render 'issues/history', failure: @issue.failure %>
   </div>
 </div>

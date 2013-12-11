@@ -7,17 +7,13 @@ class SessionsController < ApplicationController
     skip_before_filter :verify_traffic
 
     def show
-        store_location
+        store_last_location
         @is_signed_in = signed_in?
-        puts 'Signed in: ' +  @is_signed_in.to_s
-
         expire_time = session[:expires_at] || Time.now
         @session_time_left = (expire_time - Time.now).to_i
         if @is_signed_in && @session_time_left <= 0
             @is_signed_in = false
         end
-        puts 'Signed in: ' +  @is_signed_in.to_s
-        puts @session_time_left.to_s
     end
 
     def new
@@ -50,8 +46,12 @@ class SessionsController < ApplicationController
                         redirect_back_or root_path
                     end
                 }
+                format.js {
+                    sign_in(user, params[:session]["stay_logged_in"] == "1")
+                    @is_signed_in = true
+                    render 'sessions/show'
+                }
                 format.xml {
-
                     render xml: user,
                            :methods => [:api_key],
                            except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password, :unverified_network, :verified_networks, :network_access_code, :accepted_tou]

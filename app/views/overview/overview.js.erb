@@ -5,6 +5,8 @@ $('#overview_trays').show();
     $('#overview_company').replaceWith('<%= j render 'overview/tray_company' %>');
 <% elsif params[:section] == "company_failures" %>
     $('#company_failures').replaceWith('<%= j render 'overview/company_failures' %>');
+<% elsif params[:section] == "rigs" %>
+    $('#overview_rigs').replaceWith('<%= j render 'overview/tray_rigs' %>');
 <% elsif params[:section] == "drilling" %>
     $('#overview_drilling').replaceWith('<%= j render 'overview/tray_drilling' %>');
 <% elsif params[:section] == "failures" %>

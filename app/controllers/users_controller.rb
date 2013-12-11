@@ -196,7 +196,7 @@ class UsersController < ApplicationController
     end
 
     def signed_in_support_role
-        unless signed_in_admin? || current_user.role.global_edit?
+        unless signed_in_admin? || current_user.role.district_edit?
             store_location
             redirect_to signin_url, error: "Please sign in."
         end

@@ -40,10 +40,11 @@
        data-title="Failures/Feet">
     <div class="chart-title">Failures</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= 0.0 %></div>
-      <div class="percentage ">failures/ft</div>
+      <div class="donut-text "><%= drilling_log.nil? ? "-" : (drilling_log.total_drilled.to_f /  Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).count.to_f).round(1)  %></div>
+      <div class="percentage ">ft/failure</div>
     </div>
   </div>
+
 
   <br><br><br>
 
@@ -63,25 +64,6 @@
 
   <br>
 
-  <div class=''>
-    <b>Active Well</b>
-
-    <div class='inline-block push-right'>
-      <span><div class='well-plan'></div> Well Plan</span>
-      <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
-    </div>
-
-    <% if false %>
-        <%= link_to new_survey_path(modal: true, document_id: @drilling_log.document.id),
-                    remote: true,
-                    class: "activity-user-link pull-right tooltip-info show-modal-button",
-                    "data-placement" => "bottom",
-                    "data-title" => "Update active well plan." do %>
-            <i class="icon-signal"></i> Update Active Well Plan
-        <% end %>
-    <% end %>
-  </div>
-
 
   <% active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
   <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).order("surveys.updated_at ASC").first %>
@@ -90,6 +72,14 @@
   <% else %>
       <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
   <% end %>
+
+  <div class=''>
+    <div class='inline-block alert'>
+      <span><div class='well-plan'></div> Well Plan</span>
+      <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
+    </div>
+  </div>
+
   <br><br>
 </div>
 
@@ -268,7 +258,7 @@
     <% rops = [] %>
     <% last_entry = drilling_log.drilling_log_entries.first %>
     <% drilling_log.drilling_log_entries.each do |dl| %>
-    <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
+    <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0)] %>
     <% last_entry = dl %>
     <% end %>
 

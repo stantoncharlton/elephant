@@ -51,9 +51,14 @@ $ ->
       update_filter()
 
   $('.clear-filter-link').click ->
-    $('#overview_filters').addClass 'hidden'
-    $('.loading').removeClass 'hidden'
-    $('#results').hide()
+    $("#division_filter").val('')
+    $("#division_filter_id").val('')
+    $("#district_filter").val('')
+    $("#district_filter_id").val('')
+    $("#person_filter").val('')
+    $("#person_filter_id").val('')
+    update_filter()
+    return false
 
   $('#show_hide_overview_filters').click ->
     if $(this).attr('data-showing') == "basic"
@@ -73,6 +78,7 @@ $ ->
     $(this).closest('li').addClass 'active'
     $("#time_filter_id").val($(this).data('time'))
     update_filter()
+    return false
 
   $('.overview-rating-filter').click ->
     $('.overview-rating-filter').each ->
@@ -80,6 +86,7 @@ $ ->
     $(this).closest('li').addClass 'active'
     $("#rating_filter_id").val($(this).data('rating'))
     update_filter()
+    return false
 
   $('.overview-failure-filter').click ->
     $('.overview-failure-filter').each ->
@@ -87,3 +94,4 @@ $ ->
     $(this).closest('li').addClass 'active'
     $("#failure_filter_id").val($(this).data('failure'))
     update_filter()
+    return false

@@ -8,7 +8,7 @@
       <% if issue.job.status != Job::COMPLETE %>
           <span class="pull-right"><%= time_ago_in_words(issue.failure_at) %> ago</span>
       <% else %>
-          <span class="pull-right"><%= issue.failure_at %></span>
+          <span class="pull-right"><%= issue.failure_at.strftime("%a %m/%d/%Y") %></span>
       <% end %>
 
       <div>
@@ -20,7 +20,7 @@
       </div>
 
       <% if issue.failure.present? %>
-          <div class='warning-text'>
+          <div class=''>
             <%= issue.failure.failure_master_template.text %>
           </div>
       <% end %>
@@ -33,9 +33,14 @@
 
     <% if !current_user.role.limit_to_assigned_jobs? && issue.responsible_by.present? %>
         <div class='push-down'>
-          <%= render 'users/user_icon', user: issue.responsible_by, use_link: false %>
+          <%= render 'users/user_icon', user: issue.responsible_by, use_link: false, use_name: true %>
           <p class='inline-block help-text'> - Responsible Personnel</p>
           <br><br>
         </div>
+    <% end %>
+
+    <% if show_job %>
+        <%= render 'jobs/job_progress', job: issue.job, show_summary_data: true, job_name: false %>
+
     <% end %>
 <% end %>

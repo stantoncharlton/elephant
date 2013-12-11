@@ -5,10 +5,10 @@
     <%= render 'layouts/paged_header', items: @users %>
   </h2>
 
-  <% if current_user.role.global_edit? %>
+  <% if current_user.role.district_edit? %>
       <%= link_to "+ Add New User", new_user_path, class: "bluebtn page_header_button tooltip-info",
                   "data-placement" => "bottom",
-                  "data-title" => "Create new user"%>
+                  "data-title" => "Create new user" %>
   <% end %>
 </div>
 
@@ -27,7 +27,11 @@
 
 <div id="users_list">
   <div id="users" class="list">
-    <%= render @users %>
+    <% @users.each do |user| %>
+        <% if !user.admin? %>
+            <%= render 'users/user', user: user %>
+        <% end %>
+    <% end %>
   </div>
   <%= will_paginate @users %>
 </div>

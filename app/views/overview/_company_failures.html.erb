@@ -18,19 +18,7 @@
 
         <% @failures_list.each do |failure_group| %>
             <% failure = Failure.find_by_id(failure_group[0]) %>
-            <%= link_to failure, class: " failure-link tooltip-info",
-                        "data-placement" => "right",
-                        "data-title" => "Click to view failures" do %>
-                <div class="chart-problem">
-                  <div class="chart-problem-name">
-                    <%= failure.text %>
-                    <p class="inline job-failure-item">&nbsp;<%= failure_group[1] %></p>
-                  </div>
-                  <div class="chart-problem-bar">
-                    <div style="width: <%= (failure_group[1].to_f / [@failures_list.first[1].to_f, 50].max) * 100 %>%"></div>
-                  </div>
-                </div>
-            <% end %>
+            <%= render 'failures/master_failure_link', failure: failure, failure_count: failure_group[1], max_count: [@failures_list.first[1].to_f, 50].max %>
         <% end %>
     <% end %>
 

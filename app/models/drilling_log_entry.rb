@@ -22,75 +22,133 @@ class DrillingLogEntry < ActiveRecord::Base
     belongs_to :bha
 
 
-    STANDBY = 0
+    # In-hole
+    DRILLING = 1
+    SLIDING = 2
+    CIRCULATING = 3
+    CONNECTION_SURVEY = 4
+    REAMING = 5
+    CHANGE_MUD = 6
+    CHANGE_BHA = 7
+    POOH = 8
+    TIH = 9
+    WIRELINE = 10
+    WORK_PIPE = 11
+    BOP_DRILL = 12
+    MWD_SURVEY = 13
+    LD_DP = 14
+    PU_DP = 15
 
-    SLIDE = 1
-    CONNECTION_SURVEY = 2
-    ROTATE = 3
-    CIRCULATE = 4
-    DRILL_CEMENT = 5
-    REAMING = 6
-    TRIP_IN_HOLE = 7
-    TRIP_OUT_HOLE = 8
+    STANDBY_INHOLE = 50
+    RIG_REPAIR = 51
+    PIPE_STUCK = 52
+    FISHING = 53
+    RIG_SERVICE_INHOLE = 51
 
-    RIG_SERVICE = 50
-    PICK_UP_BHA = 51
-    LAY_DOWN_BHA = 52
-    CHANGE_BHA = 53
+    # Out-hole
+    NU_BOPS = 100
+    ND_BOPS = 101
+    TEST_BOPS = 103
 
-    WASH = 70
-    OTHER = 80
+    STANDBY_OUTHOLE = 150
+    RIG_SERVICE_OUTHOLE = 151
 
 
     def self.activity_code_string code
         case code
-            when SLIDE
-                "Slide"
+            when DRILLING
+                "Drilling"
+            when SLIDING
+                "Sliding"
+            when CIRCULATING
+                "Circulating"
             when CONNECTION_SURVEY
                 "Connection & Survey"
-            when ROTATE
-                "Rotate"
-            when CIRCULATE
-                "Circulate"
-            when OTHER
-                "Other"
-            when STANDBY
-                "Stand-by"
-            when TRIP_IN_HOLE
-                "Trip in Hole"
-            when TRIP_OUT_HOLE
-                "Trip Out of Hole"
-            when PICK_UP_BHA
-                "Pick Up BHA"
-            when LAY_DOWN_BHA
-                "Lay Down BHA"
-            when CHANGE_BHA
-                "Change BHA"
-            when DRILL_CEMENT
-                "Drill Cement"
             when REAMING
                 "Reaming"
-            when WASH
-                "Wash"
+            when CHANGE_MUD
+                "Change Mud"
+            when CHANGE_BHA
+                "Change BHA"
+            when POOH
+                "POOH (Pull Out of Hole)"
+            when TIH
+                "TIH (Trip in Hole)"
+            when WIRELINE
+                "Wireline"
+            when WORK_PIPE
+                "Work Pipe"
+            when BOP_DRILL
+                "BOP Drilling"
+            when MWD_SURVEY
+                "MWD Survey"
+            when LD_DP
+                "L/D Pipe (Lay Down)"
+            when PU_DP
+                "P/U Pipe (Pick Up)"
+
+            when STANDBY_INHOLE
+                "Stand-by (In-hole)"
+            when RIG_REPAIR
+                "Rig Repair"
+            when PIPE_STUCK
+                "Pipe Stuck"
+            when FISHING
+                "Fishing"
+            when RIG_SERVICE_INHOLE
+                "Rig Service (In-hole)"
+
+
+            when NU_BOPS
+                "N/U BOPs (Nipple Up)"
+            when ND_BOPS
+                "N/D BOPs (Nipple Down)"
+            when TEST_BOPS
+                "Test BOPs"
+
+            when STANDBY_OUTHOLE
+                "Stand-by (Out-hole)"
+            when RIG_SERVICE_OUTHOLE
+                "Rig Service (Out-hole)"
         end
     end
 
     def self.options
         options = []
-        options << [DrillingLogEntry.activity_code_string(SLIDE), SLIDE]
+        options << ["** In-hole Activities **", -1]
+        options << [DrillingLogEntry.activity_code_string(DRILLING), DRILLING]
+        options << [DrillingLogEntry.activity_code_string(SLIDING), SLIDING]
+        options << [DrillingLogEntry.activity_code_string(CIRCULATING), CIRCULATING]
         options << [DrillingLogEntry.activity_code_string(CONNECTION_SURVEY), CONNECTION_SURVEY]
-        options << [DrillingLogEntry.activity_code_string(ROTATE), ROTATE]
-        options << [DrillingLogEntry.activity_code_string(CIRCULATE), CIRCULATE]
-        options << [DrillingLogEntry.activity_code_string(STANDBY), STANDBY]
-        options << [DrillingLogEntry.activity_code_string(TRIP_IN_HOLE), TRIP_IN_HOLE]
-        options << [DrillingLogEntry.activity_code_string(TRIP_OUT_HOLE), TRIP_OUT_HOLE]
-        options << [DrillingLogEntry.activity_code_string(PICK_UP_BHA), PICK_UP_BHA]
-        options << [DrillingLogEntry.activity_code_string(LAY_DOWN_BHA), LAY_DOWN_BHA]
-        options << [DrillingLogEntry.activity_code_string(CHANGE_BHA), CHANGE_BHA]
-        options << [DrillingLogEntry.activity_code_string(DRILL_CEMENT), DRILL_CEMENT]
         options << [DrillingLogEntry.activity_code_string(REAMING), REAMING]
-        options << [DrillingLogEntry.activity_code_string(WASH), WASH]
-        options << [DrillingLogEntry.activity_code_string(OTHER), OTHER]
+        options << [DrillingLogEntry.activity_code_string(CHANGE_MUD), CHANGE_MUD]
+        options << [DrillingLogEntry.activity_code_string(CHANGE_BHA), CHANGE_BHA]
+        options << [DrillingLogEntry.activity_code_string(POOH), POOH]
+        options << [DrillingLogEntry.activity_code_string(TIH), TIH]
+        options << [DrillingLogEntry.activity_code_string(WIRELINE), WIRELINE]
+        options << [DrillingLogEntry.activity_code_string(WORK_PIPE), WORK_PIPE]
+        options << [DrillingLogEntry.activity_code_string(BOP_DRILL), BOP_DRILL]
+        options << [DrillingLogEntry.activity_code_string(MWD_SURVEY), MWD_SURVEY]
+        options << [DrillingLogEntry.activity_code_string(LD_DP), LD_DP]
+        options << [DrillingLogEntry.activity_code_string(PU_DP), PU_DP]
+
+
+        options << [DrillingLogEntry.activity_code_string(STANDBY_INHOLE), STANDBY_INHOLE]
+        options << [DrillingLogEntry.activity_code_string(RIG_REPAIR), RIG_REPAIR]
+        options << [DrillingLogEntry.activity_code_string(PIPE_STUCK), PIPE_STUCK]
+        options << [DrillingLogEntry.activity_code_string(FISHING), FISHING]
+        options << [DrillingLogEntry.activity_code_string(RIG_SERVICE_INHOLE), RIG_SERVICE_INHOLE]
+
+
+        options << ["", -1]
+        options << ["** Out-hole Activities **", -1]
+
+        options << [DrillingLogEntry.activity_code_string(NU_BOPS), NU_BOPS]
+        options << [DrillingLogEntry.activity_code_string(ND_BOPS), ND_BOPS]
+        options << [DrillingLogEntry.activity_code_string(TEST_BOPS), TEST_BOPS]
+        options << [DrillingLogEntry.activity_code_string(STANDBY_OUTHOLE), STANDBY_OUTHOLE]
+        options << [DrillingLogEntry.activity_code_string(RIG_SERVICE_OUTHOLE), RIG_SERVICE_OUTHOLE]
+
         options
     end
 

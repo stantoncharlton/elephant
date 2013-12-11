@@ -17,7 +17,7 @@ class Failure < ActiveRecord::Base
     belongs_to :job_template
     belongs_to :job, :counter_cache => true
 
-    has_one :issue
+    has_many :issues
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id)

@@ -8,7 +8,6 @@ class IssuesController < ApplicationController
         end
 
         @issues = @issues.paginate(page: params[:page], limit: 20)
-        @failures_current_year = Failure.where(:company_id => current_user.company_id).where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', failures.created_at) as DATE").group("date_trunc('month', failures.created_at)").count("failures.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge)
     end
 
     def show

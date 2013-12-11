@@ -29,7 +29,7 @@
           <% if drilling_log.present? %>
             <div class='stat'>
               <p>ft/min</p>
-              <h1><%= drilling_log.rop.round(1) %></h1>
+              <h1><%= drilling_log.rop.present? ? drilling_log.rop.round(1) : "-" %></h1>
             </div>
               <div class='stat'>
                 <p>failure/ft</p>

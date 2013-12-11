@@ -9,7 +9,6 @@ class OverviewController < ApplicationController
         if params[:section] == "company"
             @jobs = Job.from_company(current_user.company).includes(:district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
             filter
-
             @personnel_utilization = personnel_utilization(@jobs)
             @total_personnel = total_personnel(@jobs)
             @total_districts = total_districts(@jobs)
@@ -24,6 +23,10 @@ class OverviewController < ApplicationController
             @failures = failures(@jobs)
             @failures_list = @failures.take(4).to_a
             @failures_count = @failures.count()
+        else
+            @jobs = Job.from_company(current_user.company).includes(:district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
+            filter
+            @jobs_sql = @jobs.reorder('').select('jobs.id').to_sql
         end
 
         render 'overview'
@@ -89,6 +92,7 @@ class OverviewController < ApplicationController
             @jobs = @jobs.where("jobs.start_date > :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @end_date)
         end
 
+        puts @rating + "................"
         case @rating
             when "1"
                 @jobs = @jobs.where("jobs.rating = 1")
@@ -102,15 +106,16 @@ class OverviewController < ApplicationController
                 @jobs = @jobs.where("jobs.rating = 5")
         end
 
+        puts @failure_level + "................"
         case @failure_level
             when "0"
-                @jobs = @jobs.where("failures_count = 0")
+                @jobs = @jobs.where("jobs.failures_count = 0")
             when "1"
-                @jobs = @jobs.where("failures_count = 1")
+                @jobs = @jobs.where("jobs.failures_count = 1")
             when "2"
-                @jobs = @jobs.where("failures_count = 2")
+                @jobs = @jobs.where("jobs.failures_count = 2")
             when "3"
-                @jobs = @jobs.where("failures_count >= 3")
+                @jobs = @jobs.where("jobs.failures_count >= 3")
         end
 
     end

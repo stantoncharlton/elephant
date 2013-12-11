@@ -71,22 +71,22 @@ class DrillingLog < ActiveRecord::Base
                 length_change = entry.depth - last_entry.depth
                 total_drill_length += length_change
 
-                if entry.activity_code >= 1 && entry.activity_code < 50
+                if entry.activity_code >= 1 && entry.activity_code < 100
                     time = ((entry.entry_at - last_time) / 60 / 60).to_f
                     below += time
                 end
 
-                if entry.activity_code == DrillingLogEntry::SLIDE
+                if entry.activity_code == DrillingLogEntry::SLIDING
                     total_drill_time += time
                     drilling_log.slide_footage += length_change
                     drilling_log.slide_hours += time
-                elsif entry.activity_code == DrillingLogEntry::ROTATE
+                elsif entry.activity_code == DrillingLogEntry::DRILLING
                     total_drill_time += time
                     drilling_log.rotate_footage += length_change
                     drilling_log.rotate_hours += time
                 elsif entry.activity_code == DrillingLogEntry::REAMING
                     drilling_log.ream_hours += time
-                elsif entry.activity_code == DrillingLogEntry::CIRCULATE
+                elsif entry.activity_code == DrillingLogEntry::CIRCULATING
                     drilling_log.circulation_hours += time
                 end
 
@@ -94,25 +94,25 @@ class DrillingLog < ActiveRecord::Base
                 last_entry = entry
             end
 
-            drilling_log.rotary_hours_pct = drilling_log.rotate_hours / total_drill_time
-            drilling_log.rotary_footage_pct = drilling_log.rotate_footage / total_drill_length
-            drilling_log.rotate_rop = drilling_log.rotate_footage / drilling_log.rotate_hours / 60
-            drilling_log.slide_hours_pct = drilling_log.slide_hours / total_drill_time
-            drilling_log.slide_footage_pct = drilling_log.slide_footage / total_drill_length
-            drilling_log.slide_rop = drilling_log.slide_footage / drilling_log.slide_hours / 60
+            drilling_log.rotary_hours_pct = total_drill_time > 0 ? drilling_log.rotate_hours / total_drill_time : 0.0
+            drilling_log.rotary_footage_pct = total_drill_length > 0 ? drilling_log.rotate_footage / total_drill_length : 0.0
+            drilling_log.rotate_rop = drilling_log.rotate_hours > 0 ? drilling_log.rotate_footage / drilling_log.rotate_hours / 60 : 0.0
+            drilling_log.slide_hours_pct = total_drill_time > 0 ? drilling_log.slide_hours / total_drill_time : 0.0
+            drilling_log.slide_footage_pct = total_drill_length > 0 ? drilling_log.slide_footage / total_drill_length : 0.0
+            drilling_log.slide_rop = drilling_log.slide_hours > 0 ? drilling_log.slide_footage / drilling_log.slide_hours / 60 : 0.0
 
             drilling_log.below_rotary = below
             drilling_log.total_drilled = total_drill_length
-            drilling_log.rop = total_drill_length / ((entries.last.entry_at - entries.first.entry_at) / 60).to_f
+            rop_divisor = ((entries.last.entry_at - entries.first.entry_at) / 60).to_f
+            drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0
         end
 
         drilling_log
     end
 
-    def get_times
+    def get_times(entries = self.drilling_log_entries.to_a)
         hash = {}
 
-        entries = self.drilling_log_entries.to_a
         if entries.any?
             last_entry = entries.first
             entries.each do |entry|

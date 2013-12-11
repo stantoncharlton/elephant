@@ -1,61 +1,51 @@
 <% provide(:title, @drilling_log.document.name) %>
 
-<div class="page_header page-header-no-line">
-  <h1 id="part_name"><%= @drilling_log.document.name %></h1>
+<% if true %>
+    <div class="page_header page-header-no-line">
+      <h1 id="part_name">Drilling</h1>
 
-  <h3 class="inline">&nbsp;Drilling Log</h3>
+      <div>
+        <%= render 'jobs/job_progress_link', job: @drilling_log.job, show_summary_data: false, job_name: false %>
+      </div>
+    </div>
 
-  <div class="btn-group inline pull-right">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Export
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <%= link_to "Export as Excel", drilling_logs_path(@drilling_log, format: "xlsx"),
-                    target: "_blank",
-                    class: "dropdown-menu-link tooltip-info submit-form",
-                    "data-placement" => "left",
-                    "data-title" => "Export log as Microsoft Excel file." %>
-      </li>
-    </ul>
-  </div>
-
-  <div>
-    <%= render 'jobs/job_progress_link', job: @drilling_log.job, show_summary_data: false, job_name: false %>
-  </div>
-</div>
+<% else %>
+    <%= render 'jobs/job_data_header', job: @drilling_log.job %>
+    <br>
+<% end %>
 
 
 <ul class="nav nav-pills alert alert-nav">
   <li class="active">
-    <a href="#" class="job-tray-toggle custom-data-toggle"
-       data-tray="log">Drilling Log</a>
-  </li>
-  <li class="push-right-small">
     <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
        data-tray="drilling-overview">Overview</a>
   </li>
 
-  <li class="push-right-small">
+  <li class="">
     <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
        data-tray="drilling-daily">Daily Totals</a>
   </li>
 
-  <li class="push-right-small">
+  <li class="">
     <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
        data-tray="drilling-bha">BHA Totals</a>
   </li>
 
-  <li class="push-right-small">
+  <li class="">
     <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
-       data-tray="rop">ROP Analysis</a>
+       data-tray="npt">Non-Productive Time</a>
+  </li>
+
+  <li class="">
+    <a href="#" class="job-tray-toggle custom-data-toggle"
+       data-tray="log">Drilling Log</a>
   </li>
 </ul>
 
 
 <%= render 'drilling_logs/tray_log' %>
 
-<div id="drilling_overview" class="job-tray custom-data-closed" data-tray="drilling-overview">
+<div id="drilling_overview" class="" data-tray="drilling-overview">
   <div class="drilling-overview-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
   </div>
@@ -73,7 +63,7 @@
   </div>
 </div>
 
-<div class="job-tray custom-data-closed" data-tray="rop">
+<div class="job-tray custom-data-closed" data-tray="npt">
 </div>
 
 
@@ -85,6 +75,21 @@
     <%= render "layouts/inline_loading", title: "Loading..." %>
   </div>
 </div>
+
+<script type='text/javascript'>
+  if(document.location.hash == '') {
+    $('#drilling_overview').find('.content').hide();
+    $('.drilling-overview-loading').removeClass('hidden');
+    $('.drilling-overview-loading').find('.loading').removeClass('hidden');
+      setTimeout(function() {
+    $.ajax({
+        url: "/drilling_logs/<%= @drilling_log.id %>?section=drilling_overview",
+        type: "GET",
+        dataType: "script"
+    });
+      }, 1);
+  }
+</script>
 
 
 

@@ -1,0 +1,13 @@
+<%= link_to failure, class: " failure-link tooltip-info",
+            "data-placement" => "right",
+            "data-title" => "Click to view failures" do %>
+    <div class="chart-problem">
+      <div class="chart-problem-name">
+        <%= failure.text %>
+        <p class="inline job-failure-item">&nbsp;<%= failure_count %></p>
+      </div>
+      <div class="chart-problem-bar">
+        <div style="width: <%= (failure_count.to_f / max_count.to_f) * 100 %>%"></div>
+      </div>
+    </div>
+<% end %>

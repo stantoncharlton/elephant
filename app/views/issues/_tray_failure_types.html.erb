@@ -1,0 +1,22 @@
+<div class='job-tray custom-data-closed' data-tray="failure_types">
+  <% failures = Failure.includes(:failure_master_template).joins(:issues).select("failures.*, count(issues.id) AS issues_count").group("failures.failure_master_template_id").order("count(issues.id) DESC").count("failures.failure_master_template_id") %>
+
+  <div class='content'>
+    <div class='page_header'>
+      <h1 class="inline">Failure Types</h1>
+      <span class="help-text push-right-small">(<%= failures.count %>)</span>
+    </div>
+
+    <% total = 0 %>
+    <% failures.each do |group| %>
+        <% total = total + group[1] %>
+    <% end %>
+    <% failures.each_with_index do |group, index| %>
+        <div>
+          <% failure = Failure.find_by_id(group[0]) %>
+          <%= render 'failures/master_failure_link', failure: failure, failure_count: group[1], max_count: total %>
+        </div>
+    <% end %>
+
+  </div>
+</div>
