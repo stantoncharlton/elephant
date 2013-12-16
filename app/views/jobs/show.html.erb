@@ -186,7 +186,7 @@
                     dataType: "script"
                 });
 
-                <% if @job.active %>
+                <% if false && @job.active %>
                 $.ajax({
                     url: "/failures/" + <%= @job.id.to_s %>,
                     type: "GET",

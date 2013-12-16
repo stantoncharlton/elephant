@@ -19,9 +19,20 @@
   </div>
 
   <div>
-    <div><%= @issue.failure.failure_master_template.product_line.name %>
-      / <%= @issue.job.job_template.name %></div>
-    <div><h3 class="warning-text"><%= @issue.failure.failure_master_template.text %></h3></div>
+
+    <%= select_tag "failure_id", options_for_select(@issue.job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }, @issue.failure_id),
+                   prompt: "Select a Failure...",
+                   class: "inline-block custom-select-long custom-select custom-select-ajax" %>
+
+    <div class=''>
+      <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }),
+                     prompt: "(Optional) Select asset...",
+                     class: "inline-block custom-select custom-select-ajax inline-block" %>
+
+      <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }),
+                     prompt: "(Optional) Responsible personnel...",
+                     class: "inline-block custom-select custom-select-ajax inline-block" %>
+    </div>
   </div>
 
   <% if !current_user.role.limit_to_assigned_jobs? && @issue.responsible_by.present? %>
@@ -126,6 +137,8 @@
       <h2 class="inline">Past Occurrences</h2>
     </div>
 
-    <%= render 'issues/history', failure: @issue.failure %>
+    <% if @issue.failure.present? %>
+        <%= render 'issues/history', failure: @issue.failure %>
+    <% end %>
   </div>
 </div>

@@ -233,7 +233,7 @@
       <div class="chart-block">
         <div class="chart-title">Usage</div>
         <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text part-on-hand"><%= @part.part_memberships.sum(:usage) %></div>
+          <div class="donut-text part-on-hand"><%= @part.below_rotary.present? ? @part.below_rotary.round(1) : "0.0" %></div>
           <div class="percentage ">hours</div>
         </div>
       </div>

@@ -159,13 +159,18 @@ class BhasController < ApplicationController
         @bha = Bha.find_by_id(params[:id])
         not_found unless @bha.company == current_user.company
 
-        @document = @bha.document
-        @bha.destroy
+        if DrillingLogEntry.where(:bha_id => @bha.id).count == 0
+            @document = @bha.document
+            @bha.destroy
 
-        @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
-        @bha = @bhas.first
+            @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
+            @bha = @bhas.first
 
-        redirect_to bha_path(@document, bha: @bha)
+            redirect_to bha_path(@document, bha: @bha)
+        else
+            errors.add(:base, "This BHA is associated with Drilling Log entries and therefore can't be deleted.")
+            redirect_to bha_path(@document, bha: @bha)
+        end
     end
 
 end

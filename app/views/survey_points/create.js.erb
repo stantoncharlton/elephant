@@ -1,3 +1,4 @@
+
 <% if @survey_point.new_record? %>
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Failed to add survey point", message: @survey_point.errors.full_messages.join(', ').html_safe %>");
@@ -5,7 +6,7 @@ $('#alert').modal({show: true});
 <% else %>
 
 <% @survey_points = @survey.calculated_points(@well_plan.vertical_section_azimuth).to_a  %>
-$("#list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points[@survey_points.count - 2] %>");
+$("#list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points.count > 1 ? @survey_points[@survey_points.count - 2] : @survey_points.last %>");
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.activity-user-link').tooltip();
@@ -14,7 +15,8 @@ if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").match
 
 <% if @survey_point.tie_on? %>
     $('#survey_tie_in').remove();
-    $('#survey_entry').removeClass('hidden');
+    $('#survey_entry').replaceWith("<%= j render 'surveys/survey_entry' %>");
+    $("html, body").animate({ scrollTop: $(document).height() }, "fast");
 <% else %>
 $('#survey_point_measured_depth').val('');
 $('#survey_point_inclination').val('');

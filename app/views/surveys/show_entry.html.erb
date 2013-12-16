@@ -80,87 +80,12 @@
 
     <br><br>
 
-    <div id="survey_entry" class="well <%= @survey.survey_points.empty? ? "hidden" : "" %>">
-      <div>
-        <b>Add New Survey Point</b>
-        <br>
-        <br>
-      </div>
-      <div class="form" data-form="new_survey_point">
-        <%= form_for SurveyPoint.new, remote: true do |f| %>
-
-            <%= f.hidden_field :survey_id, value: @survey.id %>
-
-            <div>
-              <i class="icon-arrow-down"></i>
-              <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield extra-small tooltip-info",
-                               "data-placement" => "bottom",
-                               "data-title" => "Measured Depth" %>
-
-              <i class="icon-resize-full"></i>
-              <%= f.text_field :inclination, placeholder: "Inclination", class: "txtfield extra-small tooltip-info",
-                               "data-placement" => "bottom",
-                               "data-title" => "Inclination" %>
-
-              <i class="icon-screenshot"></i>
-              <%= f.text_field :azimuth, placeholder: "Azimuth", class: "txtfield extra-small tooltip-info",
-                               "data-placement" => "bottom",
-                               "data-title" => "Azimuth" %>
-            </div>
-
-            <%= f.submit "Add Survey Point",
-                         class: "bluebtn pull-right push-up form-loading-on-click",
-                         "data-form" => "new_survey_point" %>
-            <div>
-              <div class='survey-tie-in-label'>MFS</div>
-              <%= f.text_field :magnetic_field_strength,
-                               placeholder: "Magnetic Field Strength",
-                               class: "txtfield extra-small tooltip-info range-validator",
-                               "data-minimum" => @survey.magnetic_field_strength - 0.005,
-                               "data-maximum" => @survey.magnetic_field_strength + 0.005,
-                               "data-placement" => "bottom",
-                               "data-title" => "Magnetic Field Strength" %>
-
-              <div class='survey-tie-in-label'>MDA</div>
-              <%= f.text_field :magnetic_dip_angle,
-                               placeholder: "Magnetic Dip Angle",
-                               class: "txtfield extra-small tooltip-info range-validator",
-                               "data-minimum" => @survey.magnetic_dip_angle - 2,
-                               "data-maximum" => @survey.magnetic_dip_angle + 2,
-                               "data-placement" => "bottom",
-                               "data-title" => "Magnetic Dip Angle" %>
-
-              <div class='inline-block'><b>G</b></div>
-              <%= f.text_field :gravity_total,
-                               placeholder: "Gravity Total",
-                               class: "txtfield extra-small tooltip-info range-validator",
-                               "data-minimum" => @survey.gravity_total - 0.003,
-                               "data-maximum" => @survey.gravity_total + 0.003,
-                               "data-placement" => "bottom",
-                               "data-title" => "Gravity Total" %>
-            </div>
-
-            <div id='survey_out_of_range' class='hidden'>
-              <div class='warning-text'>Value is out of the range of valid values which could indicate a bad survey.</div>
-            </div>
-
-
-
-            <% if false %>
-                <br>
-                <i class="icon-comment"></i>
-                <%= f.text_field :comment, placeholder: "Comment", class: "txtfield txtfield-long tooltip-info",
-                                 "data-placement" => "bottom",
-                                 "data-title" => "Point Comment" %>
-            <% end %>
-        <% end %>
-      </div>
-
-      <div class="form-loading hidden" data-form="new_survey_point">
-        <%= render 'layouts/inline_loading', title: "Adding survey point..." %>
-        <br><br>
-      </div>
-    </div>
+    <% if @survey.survey_points.empty? %>
+        <div id="survey_entry" class="hidden">
+        </div>
+    <% else %>
+        <%= render 'surveys/survey_entry' %>
+    <% end %>
 
     <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
 <% end %>

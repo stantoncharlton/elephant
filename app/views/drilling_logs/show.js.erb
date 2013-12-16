@@ -1,6 +1,9 @@
 
 <% if params[:section] == "drilling_overview" %>
-$('#drilling_overview').replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
+if(!$('#drilling_overview').hasClass('custom-data-closed')) {
+    $('#drilling_overview').replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
+}
+
 
     <% if @drilling_log.job.status == Job::ON_JOB %>
         setTimeout(function() {

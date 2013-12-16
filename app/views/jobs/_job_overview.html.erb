@@ -1,35 +1,90 @@
 <div id="job_overview">
   <% if Document.where(:job_id => @job.id).where(:document_type => Document::DRILLING_LOG).count() > 0 %>
-      <% @drilling_log = DrillingLog.where(:job_id => @job.id).first %>
+
+      <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
+
+      <div class=''>
+        <h3 class='inline-block orange-text'>Drilling Overview</h3>
+        <%= link_to "Open Drilling Dashboard/Reports", "/drilling_logs/#{@drilling_log.id}#drilling-overview", target: "_blank", class: "bluebtn btnextrasmall gray pull-right push-up" %>
+        <br><br>
+      </div>
+
       <%= render 'drilling_logs/overview', drilling_log: @drilling_log %>
-      <hr>
+
   <% end %>
 
   <% if Document.where(:job_id => @job.id).where(:document_type => Document::SURVEY).count() > 0 %>
-      <% if @job.status == Job::ON_JOB && @drilling_log.present? %>
-          <div>
-            <span class="label label-warning">LIVE RIG</span>
-
-            <% last_entry = @drilling_log.drilling_log_entries.last %>
-            <% if last_entry.present? %>
-                <div class='inline-block push-right-small'>
-                  <b class='blue-text'><%= last_entry.entry_at.strftime("%l:%M %p") %></b>
-                  <b class='push-right-small'><%= DrillingLogEntry.activity_code_string(last_entry.activity_code) %></b>
-                  <span><%= last_entry.comment %></span>
-                </div>
-            <% end %>
-
-            <%= link_to "Show live drilling dashboard", "/drilling_logs/#{@drilling_log.id}#drilling-overview", target: "_blank", class: "pull-right activity-user-link push-left" %>
-            <br><br>
-          </div>
-      <% end %>
-
 
       <% well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => true).first %>
       <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => false).first %>
-      <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
+
+      <% if @job.status == Job::ON_JOB && @drilling_log.present? %>
+          <div class=' push-down'>
+            <br>
+
+            <div>
+              <div class='inline-block list-item-column3'>
+                <span class="label label-warning">LIVE DRILLING</span>
+              </div>
+
+              <% last_entry = @drilling_log.drilling_log_entries.last %>
+              <% if last_entry.present? %>
+                  <div class='inline-block push-right-small'>
+                    <b class='blue-text'><%= last_entry.entry_at.strftime("%l:%M %p") %></b>
+                    <b class='push-right'><%= DrillingLogEntry.activity_code_string(last_entry.activity_code) %></b>
+
+                    <div class='inline-block push-right'><%= last_entry.comment %></div>
+                  </div>
+              <% end %>
+
+            </div>
+
+            <% calculated_points_survey = survey.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : [] %>
+
+            <% if calculated_points_survey.any? %>
+                <% point = calculated_points_survey.last %>
+                <div class='tooltip-info'
+                     data-title="<%= render 'surveys/hover', point: point %>"
+                     data-html="true"
+                     data-placement="right">
+                  <div class='inline-block list-item-column3'>
+                    <span class="label label-warning">LIVE SURVEY</span>
+                  </div>
+
+                  <div class='inline-block push-right-small'>
+                    <b class='blue-text'><%= point.created_at.strftime("%l:%M %p") %></b>
+
+                    <div class='inline-block push-right'>
+                      <p class='inline'>M Depth &nbsp;</p>
+                      <b class=''><%= number_with_delimiter(point.measured_depth.round(2), :delimiter => ',') %></b>
+                    </div>
+                    <div class='inline-block push-right'>
+                      <p class='inline'>TVD &nbsp;</p>
+                      <b class=''><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></b>
+                    </div>
+                    <div class='inline-block push-right'>
+                      <p class='inline'>DLS &nbsp;</p>
+                      <span class='label label-info'><%= point.dog_leg_severity.round(2) %></span></div>
+                  </div>
+
+                  <% if false %>
+                      <%= link_to "Open survey", survey, target: "_blank", class: "pull-right activity-user-link push-left" %>
+                  <% end %>
+                </div>
+            <% end %>
+
+          </div>
+
+      <% end %>
+
+
+      <% if false %>
+          <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
+      <% end %>
 
       <hr>
+
+
   <% end %>
 
 
@@ -59,10 +114,10 @@
         <div class="donut-text chart-text-red failure-count"><%= job.issues.count %></div>
         <div class="percentage ">
           <%= link_to "New", failures_path(:job_id => @job.id, :rate => "false"), remote: true,
-                                                       class: "add-job-member add-failure tooltip-info show-modal-button",
-                                                       id: "add_failure",
-                                                       "data-placement" => "bottom",
-                                                       "data-title" => "Add failure to job" %>
+                      class: "add-job-member add-failure tooltip-info show-modal-button",
+                      id: "add_failure",
+                      "data-placement" => "bottom",
+                      "data-title" => "Add failure to job" %>
         </div>
       </div>
     </div>

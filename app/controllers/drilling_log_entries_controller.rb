@@ -44,6 +44,8 @@ class DrillingLogEntriesController < ApplicationController
 
         @drilling_log.recalculate
 
+        @drilling_log_entry.bha.delay.update_usage
+
         if @last_entry.nil?
             @last_entry = @drilling_log_entry
         end

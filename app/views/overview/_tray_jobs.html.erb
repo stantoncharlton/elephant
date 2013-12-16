@@ -3,7 +3,7 @@
     <% jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
     <% jobs = jobs.where("jobs.status >= 1 AND jobs.status < 50") %>
     <% jobs.each do |job| %>
-        <% drilling_log = DrillingLog.where(:job_id => job.id).first %>
+        <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
         <div class='overview-job'>
           <div class='name blue-text'><%= job.field.name %> | <%= job.well.name %></div>
           <div class='rig'>

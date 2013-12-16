@@ -43,14 +43,16 @@
 
       <div class="" id="list">
         <% @bha.bha_items.each do |bha_item| %>
-            <%= render 'bhas/bha_tool', bha_item: bha_item, tool: bha_item.tool, document: @document %>
+            <% if bha_item.tool.present? %>
+                <%= render 'bhas/bha_tool', bha_item: bha_item, tool: bha_item.tool, document: @document %>
+            <% end %>
         <% end %>
       </div>
 
       <div class="form" id="add_tool" data-form="add_tool">
         <% serial = '' %>
         <% options = [] %>
-        <% # Includes only jobs with BHA %>
+        <% # Includes only jobs with BHA  %>
         <% PartMembership.includes(job: :well).includes(job: :documents).where("wells.id = ?", @job.well_id).where("documents.document_type = ?", Document::BOTTOM_HOLE_ASSEMBLY).order("part_memberships.name ASC").each do |p| %>
             <% options << [p.name + ' - ' + p.serial_number, p.id] %>
         <% end %>
@@ -88,8 +90,8 @@
 
 
 <script type="text/javascript">
-    $('.custom-select-ajax').each( function() {
-        if(!$(this).hasClass('custom-select-added')) {
+    $('.custom-select-ajax').each(function () {
+        if (!$(this).hasClass('custom-select-added')) {
             $(this).addClass('custom-select-added');
             $(this).customSelect();
         }

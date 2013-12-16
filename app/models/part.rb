@@ -10,7 +10,9 @@ class Part < ActiveRecord::Base
                     :total_count,
                     :on_hand_count,
                     :total_uses,
-                    :location
+                    :location,
+                    :below_rotary,
+                    :above_rotary
 
     acts_as_tenant(:company)
 

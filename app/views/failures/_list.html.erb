@@ -6,9 +6,11 @@
 
       <%= f.hidden_field :job_id, value: job.id %>
 
-      <%= f.select :failure_id, options_for_select(job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }),
-                   {prompt: "Select a Failure..."},
-                   class: "inline-block custom-select-long custom-select custom-select-ajax" %>
+      <% if false %>
+          <%= f.select :failure_id, options_for_select(job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }),
+                       {prompt: "Select a Failure..."},
+                       class: "inline-block custom-select-long custom-select custom-select-ajax" %>
+      <% end %>
 
       <div class="inline-block date-fields">
         <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
@@ -23,21 +25,23 @@
         </div>
       </div>
 
-      <div class=''>
-        <%= select_tag "part_membership_id", options_for_select(job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }),
-                     prompt: "(Optional) Select asset...",
-                     class: "inline-block custom-select custom-select-long custom-select-ajax" %>
-      </div>
+      <% if false %>
+          <div class=''>
+            <%= select_tag "part_membership_id", options_for_select(job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }),
+                           prompt: "(Optional) Select asset...",
+                           class: "inline-block custom-select custom-select-long custom-select-ajax" %>
+          </div>
 
-      <div class=''>
-        <%= select_tag "responsible_by_id", options_for_select(job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }),
-                       prompt: "(Optional) Responsible personnel...",
-                       class: "inline-block custom-select custom-select-long custom-select-ajax" %>
-      </div>
+          <div class=''>
+            <%= select_tag "responsible_by_id", options_for_select(job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }),
+                           prompt: "(Optional) Responsible personnel...",
+                           class: "inline-block custom-select custom-select-long custom-select-ajax" %>
+          </div>
+      <% end %>
 
       <%= text_area_tag "description", "",
-                         placeholder: "Description of Failure...",
-                         class: "txtfield job-notes-text custom-select-long" %>
+                        placeholder: "Description of Failure...",
+                        class: "txtfield job-notes-text custom-select-long" %>
 
       <div class="content actions">
         <%= f.submit "Add Failure", class: "bluebtn pull-right form-loading-on-click",

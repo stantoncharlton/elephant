@@ -1,5 +1,5 @@
 <div id="part_membership_<%= part_membership.id %>" class="inline-block align-top">
-  <%= link_to part_membership.part,
+  <%= link_to part_membership.part.present? ? part_membership.part : part_membership.job.present? ? job_path(part_membership.job, anchor: 'tools_assets') : jobs_path,
               target: "_blank",
               class: "part-box2 popover " + (part_membership.part_type == PartMembership::ACCESSORY ? "part-box-accessory" : ""),
               "data-html" => "true",

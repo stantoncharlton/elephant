@@ -38,16 +38,22 @@ class DrillingLogEntry < ActiveRecord::Base
     MWD_SURVEY = 13
     LD_DP = 14
     PU_DP = 15
+    DRILLING_CEMENT = 16
+    LOGGING = 17
+    CONNECTION = 18
+    JETTING = 19
+    SHORT_TRIP = 20
+    CEMENTING = 21
 
-    STANDBY_INHOLE = 50
+    OTHER = 50
     RIG_REPAIR = 51
     PIPE_STUCK = 52
     FISHING = 53
     RIG_SERVICE_INHOLE = 51
+    WAIT_ON_WEATHER = 52
 
     # Out-hole
-    NU_BOPS = 100
-    ND_BOPS = 101
+    NIPPLE_BOPS = 100
     TEST_BOPS = 103
 
     STANDBY_OUTHOLE = 150
@@ -66,12 +72,16 @@ class DrillingLogEntry < ActiveRecord::Base
                 "Connection & Survey"
             when REAMING
                 "Reaming"
+            when CEMENTING
+                "Cementing"
             when CHANGE_MUD
                 "Change Mud"
             when CHANGE_BHA
                 "Change BHA"
             when POOH
                 "POOH (Pull Out of Hole)"
+            when SHORT_TRIP
+                "Short Trip"
             when TIH
                 "TIH (Trip in Hole)"
             when WIRELINE
@@ -86,9 +96,17 @@ class DrillingLogEntry < ActiveRecord::Base
                 "L/D Pipe (Lay Down)"
             when PU_DP
                 "P/U Pipe (Pick Up)"
+            when DRILLING_CEMENT
+                "Drill Cement"
+            when LOGGING
+                "Logging"
+            when CONNECTION
+                "Connection"
+            when JETTING
+                "Jetting"
 
-            when STANDBY_INHOLE
-                "Stand-by (In-hole)"
+            when OTHER
+                "Undefined - No Other Activity Code (In-hole)"
             when RIG_REPAIR
                 "Rig Repair"
             when PIPE_STUCK
@@ -97,12 +115,12 @@ class DrillingLogEntry < ActiveRecord::Base
                 "Fishing"
             when RIG_SERVICE_INHOLE
                 "Rig Service (In-hole)"
+            when WAIT_ON_WEATHER
+                "Wait on Weather"
 
 
-            when NU_BOPS
-                "N/U BOPs (Nipple Up)"
-            when ND_BOPS
-                "N/D BOPs (Nipple Down)"
+            when NIPPLE_BOPS
+                "Nipple Up/Down BOPs"
             when TEST_BOPS
                 "Test BOPs"
 
@@ -120,10 +138,13 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(SLIDING), SLIDING]
         options << [DrillingLogEntry.activity_code_string(CIRCULATING), CIRCULATING]
         options << [DrillingLogEntry.activity_code_string(CONNECTION_SURVEY), CONNECTION_SURVEY]
+        options << [DrillingLogEntry.activity_code_string(CONNECTION), CONNECTION]
         options << [DrillingLogEntry.activity_code_string(REAMING), REAMING]
+        options << [DrillingLogEntry.activity_code_string(CEMENTING), CEMENTING]
         options << [DrillingLogEntry.activity_code_string(CHANGE_MUD), CHANGE_MUD]
         options << [DrillingLogEntry.activity_code_string(CHANGE_BHA), CHANGE_BHA]
         options << [DrillingLogEntry.activity_code_string(POOH), POOH]
+        options << [DrillingLogEntry.activity_code_string(SHORT_TRIP), SHORT_TRIP]
         options << [DrillingLogEntry.activity_code_string(TIH), TIH]
         options << [DrillingLogEntry.activity_code_string(WIRELINE), WIRELINE]
         options << [DrillingLogEntry.activity_code_string(WORK_PIPE), WORK_PIPE]
@@ -131,20 +152,24 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(MWD_SURVEY), MWD_SURVEY]
         options << [DrillingLogEntry.activity_code_string(LD_DP), LD_DP]
         options << [DrillingLogEntry.activity_code_string(PU_DP), PU_DP]
+        options << [DrillingLogEntry.activity_code_string(DRILLING_CEMENT), DRILLING_CEMENT]
+        options << [DrillingLogEntry.activity_code_string(LOGGING), LOGGING]
+        options << [DrillingLogEntry.activity_code_string(JETTING), JETTING]
 
 
-        options << [DrillingLogEntry.activity_code_string(STANDBY_INHOLE), STANDBY_INHOLE]
+
+        options << [DrillingLogEntry.activity_code_string(OTHER), OTHER]
         options << [DrillingLogEntry.activity_code_string(RIG_REPAIR), RIG_REPAIR]
         options << [DrillingLogEntry.activity_code_string(PIPE_STUCK), PIPE_STUCK]
         options << [DrillingLogEntry.activity_code_string(FISHING), FISHING]
         options << [DrillingLogEntry.activity_code_string(RIG_SERVICE_INHOLE), RIG_SERVICE_INHOLE]
+        options << [DrillingLogEntry.activity_code_string(WAIT_ON_WEATHER), WAIT_ON_WEATHER]
 
 
         options << ["", -1]
         options << ["** Out-hole Activities **", -1]
 
-        options << [DrillingLogEntry.activity_code_string(NU_BOPS), NU_BOPS]
-        options << [DrillingLogEntry.activity_code_string(ND_BOPS), ND_BOPS]
+        options << [DrillingLogEntry.activity_code_string(NIPPLE_BOPS), NIPPLE_BOPS]
         options << [DrillingLogEntry.activity_code_string(TEST_BOPS), TEST_BOPS]
         options << [DrillingLogEntry.activity_code_string(STANDBY_OUTHOLE), STANDBY_OUTHOLE]
         options << [DrillingLogEntry.activity_code_string(RIG_SERVICE_OUTHOLE), RIG_SERVICE_OUTHOLE]

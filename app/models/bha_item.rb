@@ -3,8 +3,7 @@ class BhaItem < ActiveRecord::Base
                     :outer_diameter,
                     :length,
                     :up,
-                    :down,
-                    :tool_type
+                    :down
 
 
     acts_as_tenant(:company)
@@ -14,7 +13,7 @@ class BhaItem < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :bha
-    belongs_to :tool, :polymorphic => true
+    belongs_to :tool, class_name: "PartMembership"
 
 
     def self.add(bha, tool, id, od, length, up, down, ordering)

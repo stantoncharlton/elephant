@@ -1,5 +1,6 @@
 class DrillingLog < ActiveRecord::Base
     attr_accessible :below_rotary,
+                    :above_rotary,
                     :circulation_hours,
                     :ream_hours,
                     :rop,
@@ -55,6 +56,7 @@ class DrillingLog < ActiveRecord::Base
             last_entry = entries.first
             last_time = entries.first.entry_at
             below = 0.0
+            above = 0.0
             time = 0.0
             length_change = 0.0
             total_drill_time = 0.0
@@ -71,9 +73,12 @@ class DrillingLog < ActiveRecord::Base
                 length_change = entry.depth - last_entry.depth
                 total_drill_length += length_change
 
+                time = ((entry.entry_at - last_time) / 60 / 60).to_f
+
                 if entry.activity_code >= 1 && entry.activity_code < 100
-                    time = ((entry.entry_at - last_time) / 60 / 60).to_f
                     below += time
+                else
+                   above += time
                 end
 
                 if entry.activity_code == DrillingLogEntry::SLIDING
@@ -102,6 +107,7 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.slide_rop = drilling_log.slide_hours > 0 ? drilling_log.slide_footage / drilling_log.slide_hours / 60 : 0.0
 
             drilling_log.below_rotary = below
+            drilling_log.above_rotary = above
             drilling_log.total_drilled = total_drill_length
             rop_divisor = ((entries.last.entry_at - entries.first.entry_at) / 60).to_f
             drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0

@@ -9,7 +9,9 @@
       &nbsp;
   <% end %>
 
-  <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y") %>
+  <div class='inline-block align-top push-down-small'>
+    <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y") %>
+  </div>
 
   <div class="pull-right">
     <% part_membership = @part.part_memberships.where(:job_id => job.id).first %>
@@ -18,7 +20,17 @@
     <% end %>
   </div>
 
+  <div class='inline-block pull-right'>
+    <div class="donut-chart-div job-donut-chart-div">
+      <% bha = Bha.joins(job: :well).joins(bha_items: {tool: :part}).where("wells.id = ?", job.well_id).where("parts.id = ?", @part.id).first %>
+      <div class="donut-text part-on-hand"><%= bha.present? && bha.below_rotary.present? ? bha.below_rotary.round(1) : "0.0" %></div>
+      <div class="percentage ">hours</div>
+    </div>
+  </div>
+  <br><br>
+
+
   <%= render 'jobs/job_progress_link', job: job %>
 
-
+  <br>
 </div>

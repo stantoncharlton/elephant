@@ -20,8 +20,6 @@ class IssuesController < ApplicationController
         failure_id = params[:issue][:failure_id]
         params[:issue].delete(:failure_id)
 
-        @failure = Failure.find_by_id(failure_id)
-
         job_id = params[:issue][:job_id]
         params[:issue].delete(:job_id)
 
@@ -30,7 +28,10 @@ class IssuesController < ApplicationController
 
         Issue.transaction do
             @issue = Issue.new(status: Issue::OPEN)
-            @issue.failure = @failure
+            if !failure_id.blank?
+                @failure = Failure.find_by_id(failure_id)
+                @issue.failure = @failure
+            end
             @issue.company = current_user.company
             @issue.job = @job
             @issue.failure_at = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]}:00 #{params[:meridian]}", '%m/%d/%Y %I:%M:%S %p').in_time_zone(Time.zone)
@@ -77,7 +78,7 @@ class IssuesController < ApplicationController
             document.company = current_user.company
             document.save
 
-            Activity.delay.add(current_user, Activity::ISSUE_OPENED, @issue, @issue.failure.failure_master_template.text, @issue.job)
+            Activity.delay.add(current_user, Activity::ISSUE_OPENED, @issue, nil, @issue.job)
         end
 
         #job_failure.delay.add_alert(current_user, @job)
