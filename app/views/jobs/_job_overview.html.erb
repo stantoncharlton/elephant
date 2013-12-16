@@ -19,7 +19,7 @@
       <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => false).first %>
 
       <% if @job.status == Job::ON_JOB && @drilling_log.present? %>
-          <div class=' push-down'>
+          <div class='content'>
             <br>
 
             <div>

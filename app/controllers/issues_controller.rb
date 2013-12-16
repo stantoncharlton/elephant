@@ -90,7 +90,30 @@ class IssuesController < ApplicationController
         @issue = Issue.find_by_id(params[:id])
         not_found unless @issue.company == current_user.company
 
-        if params[:closed] == "true"
+        if params[:update_field].present? && params[:update_field] == "true" &&
+                params[:field].present? && params[:value].present?
+            case params[:field]
+                when "failure_id"
+                    @issue.failure = Failure.find_by_id(params[:value])
+                    @issue.save
+                when "part_membership_id"
+                    part_membership = PartMembership.find_by_id(params[:value])
+                    if part_membership.present?
+                        if part_membership.part.present?
+                            @issue.part = part_membership.part
+                        end
+                        @issue.part_serial_number = part_membership.serial_number
+                        @issue.save
+                    end
+                when "responsible_by_id"
+                    user = User.find_by_id(params[:value])
+                    if user.present?
+                        @issue.responsible_by = user
+                        @issue.responsible_by_name = user.name
+                        @issue.save
+                    end
+            end
+        elsif params[:closed] == "true"
             @issue.update_attribute(:status, Issue::CLOSED)
             Activity.delay.add(current_user, Activity::ISSUE_CLOSED, @issue, @issue.failure.failure_master_template.text, @issue.job)
         end

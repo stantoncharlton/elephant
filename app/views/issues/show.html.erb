@@ -22,16 +22,22 @@
 
     <%= select_tag "failure_id", options_for_select(@issue.job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }, @issue.failure_id),
                    prompt: "Select a Failure...",
-                   class: "inline-block custom-select-long custom-select custom-select-ajax" %>
+                   class: "inline-block custom-select-long custom-select custom-select-ajax issue-update-field",
+                   "data-id" => @issue.id,
+                   "data-field" => "failure_id" %>
 
     <div class=''>
       <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }),
                      prompt: "(Optional) Select asset...",
-                     class: "inline-block custom-select custom-select-ajax inline-block" %>
+                     class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
+                     "data-id" => @issue.id,
+                     "data-field" => "part_membership_id" %>
 
       <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }),
                      prompt: "(Optional) Responsible personnel...",
-                     class: "inline-block custom-select custom-select-ajax inline-block" %>
+                     class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
+                     "data-id" => @issue.id,
+                     "data-field" => "responsible_by_id"%>
     </div>
   </div>
 
