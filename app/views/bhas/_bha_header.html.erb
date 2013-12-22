@@ -14,6 +14,9 @@
           <%= link_to bha_path(bh, bhas: true),
                       class: "bluebtn btnsmall new-bha bha-button " + (bh == @bha ? "" : "gray"), remote: true do %>
               <%= bh.name %>
+              <% if !bh.description.blank? %>
+                - <%= bh.description %>
+              <% end %>
           <% end %>
         </div>
         &nbsp;

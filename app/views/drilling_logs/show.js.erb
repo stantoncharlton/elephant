@@ -11,8 +11,10 @@ if(!$('#drilling_overview').hasClass('custom-data-closed')) {
                 type: 'get',
                 dataType: 'script'
             });
-        }, 60000);
+        }, 1000 * 60 * 5);
     <% end %>
+<% elsif params[:section] == "drilling_runs" %>
+$('#drilling_runs').replaceWith("<%= j render 'drilling_logs/tray_runs', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling_daily" %>
 $('#drilling_daily').replaceWith("<%= j render 'drilling_logs/tray_daily', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling_bha" %>

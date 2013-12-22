@@ -6,7 +6,7 @@
   <br>
 
   <% entries.each do |entry| %>
-      <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, last_entry: last_entry.nil? ? entry : last_entry %>
-      <% last_entry = entry %>
+      <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, last_entry: @last_entry.nil? ? entry : @last_entry %>
+      <% @last_entry = entry %>
   <% end %>
 </div>

@@ -16,6 +16,7 @@
       <% end %>
   <% end %>
 
+
   <%= csrf_meta_tags %>
   <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -45,6 +46,19 @@
       <%= render 'layouts/footer' %>
 
       <div id="logged_out" class="hidden">
+      </div>
+
+      <div id="working" class="curtain hidden">
+        <div class='curtain-content'>
+          <div>
+            <h1>Loading</h1>
+            <div class='inline-block push-right-small'>
+              <div class="inline-block ajax-loading search-loading push-right-small"><b class='white-text'>Please wait...</b></div>
+            </div>
+          </div>
+          <br><br><br>
+          <%= image_tag "blue_logo_small.png" %>
+        </div>
       </div>
 
       <%= debug(params) if Rails.env.development? %>
@@ -86,6 +100,15 @@
 
 <% if signed_in? %>
     <script type="text/javascript">
+        function showWorkingCurtain() {
+            $('#working').removeClass('hidden');
+            $('body').animate({scrollTop: 0 }, 'fast');
+            $('html, body').css({
+                'overflow': 'hidden',
+                'height': '100%'
+            });
+        }
+
         (function ($) {
             $(document).ready(function () {
 

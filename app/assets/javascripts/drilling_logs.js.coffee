@@ -1,10 +1,13 @@
 $ ->
 
   $('#activity_code_select').live "change", ->
-    if $(this).find('option:selected').val() == '2'
-      $('.survey-entry').removeClass 'hidden'
-    else
-      $('.survey-entry').addClass 'hidden'
+    #if $(this).find('option:selected').val() == '4'
+    #  $('.survey-entry').removeClass 'hidden'
+    #else
+    #  $('.survey-entry').addClass 'hidden'
+    return false
+
+  $('.show-working-curtain').live "click", ->
 
     return false
 
@@ -41,3 +44,6 @@ $ ->
   $('#add_new_entry_jump').live "click", ->
     $("html, body").animate({ scrollTop: $(document).height() }, "fast")
     return false
+
+  if $('#checkbox_override_date').is(':checked')
+    $('.date-fields').removeClass 'hidden'

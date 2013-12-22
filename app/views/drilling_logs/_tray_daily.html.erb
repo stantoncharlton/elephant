@@ -6,7 +6,16 @@
   </div>
 
   <div class="content">
-    <br>
+
+    <div class='well'>
+
+      <h1 class="donut-text inline"><%= 3 %></h1>
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">Days</h3>
+      </div>
+
+    </div>
+
 
     <% if drilling_log.drilling_log_entries.any? %>
         <% drilling_entry = nil %>
@@ -21,7 +30,7 @@
                 <div class="page_header">
                   <h1><%= drilling_entry.entry_at.strftime("%A") %></h1>
 
-                  <p class='inline-block'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
+                  <p class='inline-block push-right-small'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
                 </div>
 
                 <div>

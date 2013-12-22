@@ -22,10 +22,10 @@
   </div>
 
   <div class="chart-block tooltip-info"
-       data-title="Time in hours spent below the rotary table.">
-    <div class="chart-title">Below Rotary</div>
+       data-title="Time in hours spent rotating and sliding.">
+    <div class="chart-title">Drilling Time</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1) %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>

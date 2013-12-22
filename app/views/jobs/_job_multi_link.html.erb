@@ -1,0 +1,50 @@
+<% if job.well.jobs.count > 1 %>
+    <div class="btn-group inline-block push-right-small">
+      <a class=" custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+        <div class="job-status  inline-block">
+          <h2 class="job-title job-title4 inline"><%= job.field.name %></h2>
+
+          <p class="job-title-divider2">|</p>
+
+          <h2 class="job-title job-title4 inline"><%= job.well.name %></h2>
+        </div>
+        &nbsp;
+      </a>
+      <ul class="dropdown-menu">
+
+        <% full_jobs = job.well.jobs.to_a %>
+        <% jobs = [] %>
+        <% full_jobs.each do |j| %>
+            <% if j.can_user_view?(current_user) %>
+                <% jobs << j %>
+            <% end %>
+        <% end %>
+        <% jobs.each_with_index do |j, index| %>
+            <li>
+              <%= link_to j.job_template.name, j,
+                          class: "dropdown-menu-link tooltip-info",
+                          "data-placement" => "right",
+                          "data-html" => "true",
+                          "data-title" => render('jobs/well_tooltip', job: j, show_summary_data: false) %>
+            </li>
+            <% if index < jobs.length - 1 %>
+                <li class="divider"></li>
+            <% end %>
+        <% end %>
+      </ul>
+    </div>
+<% else %>
+    <% if job.can_user_view?(current_user) %>
+        <%= link_to job, class: "job-status job-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Click to open job" do %>
+            <div class="">
+              <h2 class="job-title job-title4 inline"><%= job.field.name %></h2>
+
+              <p class="job-title-divider2">|</p>
+
+              <h2 class="job-title job-title4 inline"><%= job.well.name %></h2>
+            </div>
+        <% end %>
+    <% end %>
+<% end %>

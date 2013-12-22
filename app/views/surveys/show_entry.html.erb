@@ -7,7 +7,7 @@
 <div class="page_header">
   <h1><%= @survey.name %></h1>
 
-  <div class="btn-group inline pull-right">
+  <div class="push-right btn-group inline pull-right push-down">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
       Advanced Actions
     </a>
@@ -20,11 +20,10 @@
       </li>
     </ul>
   </div>
-</div>
 
-<div>
-  <%= render 'jobs/job_progress_link', job: @survey.document.job, show_summary_data: false, job_name: false %>
-  <br>
+  <div class='pull-right'>
+    <%= render 'jobs/job_multi_link', job: @survey.document.job %>
+  </div>
 </div>
 
 <% if @active_well_plan.nil? || @active_well_plan.survey_points.empty? %>

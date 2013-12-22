@@ -8,13 +8,25 @@
 <div class="content">
 <br>
 
+<% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id) %>
+
+
 <div>
   <div class="chart-block tooltip-info"
        data-title="Average Total Rate of Penetration.">
     <div class="chart-title">Avg Total ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1) %></div>
-      <div class="percentage ">ft/min</div>
+      <div class="donut-text chart-text-red"><%= drilling_log.nil? || drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1) %></div>
+      <div class="percentage chart-text-red">ft/min</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Total Number of Failures.">
+    <div class="chart-title">Failures</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text chart-text-red"><%= issues.count %></div>
+      <div class="percentage chart-text-red"></div>
     </div>
   </div>
 
@@ -28,20 +40,11 @@
   </div>
 
   <div class="chart-block tooltip-info"
-       data-title="Time in hours spent below the rotary table.">
-    <div class="chart-title">Below Rotary</div>
+       data-title="Time in hours spent rotating or sliding.">
+    <div class="chart-title">Drilling Time</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1) %></div>
       <div class="percentage ">hours</div>
-    </div>
-  </div>
-
-  <div class="chart-block tooltip-info"
-       data-title="Failures/Feet">
-    <div class="chart-title">Failures</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? ? "-" : (drilling_log.total_drilled.to_f /  Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).count.to_f).round(1)  %></div>
-      <div class="percentage ">ft/failure</div>
     </div>
   </div>
 
@@ -58,9 +61,34 @@
     <br><br>
 
     <div class="tooltip-info" data-title="ROP">
-      <canvas id="canvas" height="140" width="700"></canvas>
+      <canvas id="canvas" height="160" width="700"></canvas>
     </div>
   </div>
+
+
+  <div>
+
+    <div class="chart-block tooltip-info"
+         data-title="Failures/Feet">
+      <div class="chart-title">Failure Rate</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text chart-text-red"><%= drilling_log.nil? ? "-" : (drilling_log.total_drilled.to_f /  issues.count.to_f).round(1)  %></div>
+        <div class="percentage chart-text-red">ft/failure</div>
+      </div>
+    </div>
+
+
+    <div class="chart-block tooltip-info"
+         data-title="Total feet drilled.">
+      <div class="chart-title">Runs</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text "><%= 2  %></div>
+        <div class="percentage "><span class="push-right-small"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
 
   <br>
 
@@ -89,7 +117,7 @@
 <div>
   <div class="chart-block tooltip-info"
        data-title="Rotate Rate of Penetration.">
-    <div class="chart-title">Rotary ROP</div>
+    <div class="chart-title">ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.rotate_rop.nil? ? "-" : drilling_log.rotate_rop.round(1) %></div>
       <div class="percentage ">ft/min</div>
@@ -98,7 +126,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Total rotary feet drilled.">
-    <div class="chart-title">Rotary Drilled</div>
+    <div class="chart-title">Drilled</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.rotate_footage.nil? ? "-" : number_with_delimiter(drilling_log.rotate_footage.to_i, :delimiter => ',') %></div>
       <div class="percentage "><span class="push-right-small">ft</span></div>
@@ -107,7 +135,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Time in hours spent in rotary drilling.">
-    <div class="chart-title">Rotary Hours</div>
+    <div class="chart-title">Time</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.rotate_hours.nil? ? "-" : drilling_log.rotate_hours.round(1) %></div>
       <div class="percentage ">hours</div>
@@ -120,7 +148,7 @@
 <div>
   <div class="chart-block tooltip-info"
        data-title="Rotary Length Percentage.">
-    <div class="chart-title">Rotary Length</div>
+    <div class="chart-title">Feet %</div>
     <div class="donut-chart-div">
       <div id="rotary_footage_pct" class="donut-chart "></div>
       <div class="donut-inner-circle"></div>
@@ -131,7 +159,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Rotary Time Percentage.">
-    <div class="chart-title">Rotary Time</div>
+    <div class="chart-title">Time %</div>
     <div class="donut-chart-div">
       <div id="rotary_hours_pct" class="donut-chart "></div>
       <div class="donut-inner-circle"></div>
@@ -150,7 +178,7 @@
 <div>
   <div class="chart-block tooltip-info"
        data-title="Slide Rate of Penetration.">
-    <div class="chart-title">Slide ROP</div>
+    <div class="chart-title">ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.slide_rop.nil? ? "-" : drilling_log.slide_rop.round(1) %></div>
       <div class="percentage ">ft/min</div>
@@ -159,7 +187,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Total slide feet drilled.">
-    <div class="chart-title">Slide Drilled</div>
+    <div class="chart-title">Drilled</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.slide_footage.nil? ? "-" : number_with_delimiter(drilling_log.slide_footage.to_i, :delimiter => ',') %></div>
       <div class="percentage "><span class="push-right-small">ft</span></div>
@@ -168,7 +196,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Time in hours spent in slide drilling.">
-    <div class="chart-title">Slide Hours</div>
+    <div class="chart-title">Time</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.slide_hours.nil? ? "-" : drilling_log.slide_hours.round(1) %></div>
       <div class="percentage ">hours</div>
@@ -181,7 +209,7 @@
 <div>
   <div class="chart-block tooltip-info"
        data-title="Slide Length Percentage.">
-    <div class="chart-title">Slide Length</div>
+    <div class="chart-title">Feet %</div>
     <div class="donut-chart-div">
       <div id="slide_footage_pct" class="donut-chart "></div>
       <div class="donut-inner-circle"></div>
@@ -192,7 +220,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Slide Time Percentage.">
-    <div class="chart-title">Slide Time</div>
+    <div class="chart-title">Time %</div>
     <div class="donut-chart-div">
       <div id="slide_hours_pct" class="donut-chart "></div>
       <div class="donut-inner-circle"></div>
@@ -208,6 +236,7 @@
 <br>
 
 <div>
+
   <div class="chart-block tooltip-info"
        data-title="Reaming Hours.">
     <div class="chart-title">Reaming Hours</div>
@@ -225,10 +254,30 @@
       <div class="percentage ">hours</div>
     </div>
   </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Time in hours spent below the rotary table.">
+    <div class="chart-title">Below Rotary</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
+      <div class="percentage ">hours</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Time in hours spent above the rotary table.">
+    <div class="chart-title">Above Rotary</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.above_rotary.nil? ? "-" : drilling_log.above_rotary.round(1) %></div>
+      <div class="percentage ">hours</div>
+    </div>
+  </div>
 </div>
 
 </div>
 </div>
+
+
 
 <script type="text/javascript">
         chart = new AmCharts.AmPieChart();
@@ -243,12 +292,9 @@
         chart.balloonText = "<b>[[text]]</b><br><span style='font-size:14px'>([[time]] hours)</span>";
         chart.write("time_chart");
 
-        var label = $("g[cursor=pointer]");
+        var label = $("tspan:contains('chart by amcharts.com')");
         if (label.length > 0) {
-            var tspan = label.find('tspan');
-            if (tspan.length > 0) {
-                label.remove();
-            }
+            label.remove();
         }
 </script>
 
@@ -258,12 +304,15 @@
     <% rops = [] %>
     <% last_entry = drilling_log.drilling_log_entries.first %>
     <% drilling_log.drilling_log_entries.each do |dl| %>
-    <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0)] %>
+    <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
+    <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.1 %>
+    <% rops << [dl.entry_at, dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0) : 0.0] %>
+    <% end %>
     <% last_entry = dl %>
     <% end %>
 
     var lineChartData = {
-        labels: <%= raw rops.map { |dl| dl[0].strftime("%l:%M") }.to_json.html_safe %>,
+        labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
         datasets: [
             {
                 fillColor: "rgba(220,220,220,0.5)",
@@ -275,7 +324,7 @@
         ]
     }
 
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData, { pointDot : false, scaleShowGridLines : false, animation : false, scaleOverride : true, scaleSteps : 4, scaleStepWidth : 5, scaleStartValue : -4 });
     <% end %>
 </script>
 

@@ -125,6 +125,11 @@ $ ->
       $('.drilling-daily-loading').removeClass 'hidden'
       $('.drilling-daily-loading').find('.loading').removeClass 'hidden'
       $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_daily", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "drilling-runs"
+      $('#drilling_runs').find('.content').hide()
+      $('.drilling-runs-loading').removeClass 'hidden'
+      $('.drilling-runs-loading').find('.loading').removeClass 'hidden'
+      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_runs", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "drilling-bha"
       $('#drilling_bha').find('.content').hide()
       $('.drilling-bha-loading').removeClass 'hidden'

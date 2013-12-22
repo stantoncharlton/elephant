@@ -23,9 +23,9 @@
       <b class='blue-text'><%= entry.entry_at.strftime("%l:%M %p") %></b>
     </p>
 
-    <p class="list-item-column list-item-column-short">
+    <p class="list-item-column list-item-column-short blue-text">
       <% minutes = (entry.entry_at - last_entry.entry_at) / 60 %>
-      <%= (minutes / 60).round(2) %>
+      <b><%= (minutes / 60).round(2) %></b> hrs
     </p>
 
     <p class="list-item-column2">
@@ -34,7 +34,7 @@
     </p>
 
     <p class="list-item-column list-item-column3">
-      <span class=""><b><%= DrillingLogEntry.activity_code_string(entry.activity_code) %></b></span>
+      <span class="<%= entry.activity_code != DrillingLogEntry::DRILLING && entry.activity_code != DrillingLogEntry::SLIDING && entry.activity_code != DrillingLogEntry::CONNECTION_SURVEY && entry.activity_code != DrillingLogEntry::CONNECTION ? "warning-text" : "" %>"><b><%= DrillingLogEntry.activity_code_string(entry.activity_code) %></b></span>
     </p>
 
     <p class="list-item-column">
@@ -42,7 +42,14 @@
     </p>
 
     <div class="inline-block align-top push-up">
-      <%= render "users/icon", user: entry.user %>
+      <% if entry.bha.present? %>
+          <% name = entry.bha.name %>
+          <div class="member-icon" style="background: <%= Digest::MD5.hexdigest(name)[0..5] %>;">
+            <p>
+              <%= name[0, 1] %>
+            </p>
+          </div>
+      <% end %>
     </div>
   </div>
 </div>

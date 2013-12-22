@@ -12,7 +12,7 @@ class DrillingLogEntry < ActiveRecord::Base
     validates_presence_of :company_id
     validates_presence_of :job_id
     validates_presence_of :drilling_log_id
-    validates_presence_of :bha_id
+    validates_presence_of :bha_id, :if => :in_hole
     validates_presence_of :user_id
 
     belongs_to :company
@@ -49,8 +49,8 @@ class DrillingLogEntry < ActiveRecord::Base
     RIG_REPAIR = 51
     PIPE_STUCK = 52
     FISHING = 53
-    RIG_SERVICE_INHOLE = 51
-    WAIT_ON_WEATHER = 52
+    RIG_SERVICE_INHOLE = 54
+    WAIT_ON_WEATHER = 55
 
     # Out-hole
     NIPPLE_BOPS = 100
@@ -58,6 +58,10 @@ class DrillingLogEntry < ActiveRecord::Base
 
     STANDBY_OUTHOLE = 150
     RIG_SERVICE_OUTHOLE = 151
+
+    def in_hole
+        self.activity_code < 100
+    end
 
 
     def self.activity_code_string code

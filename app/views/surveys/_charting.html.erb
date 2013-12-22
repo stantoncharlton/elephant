@@ -87,12 +87,9 @@
         // WRITE
         chart.write("chartdiv");
 
-        var label = $("g[cursor=pointer]");
+        var label = $("tspan:contains('chart by amcharts.com')");
         if (label.length > 0) {
-            var tspan = label.find('tspan');
-            if (tspan.length > 0) {
-                label.remove();
-            }
+            label.remove();
         }
 
         var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
@@ -195,13 +192,10 @@
         // WRITE
         chart2.write("chartdiv2");
 
-        var label = $("g[cursor=pointer]");
-        if (label.length > 0) {
-            var tspan = label.find('tspan');
-            if (tspan.length > 0) {
-                label.remove();
-            }
-        }
+    var label = $("tspan:contains('chart by amcharts.com')");
+    if (label.length > 0) {
+        label.remove();
+    }
 
     var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
     circles.each(function (index) {

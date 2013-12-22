@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131211144321) do
+ActiveRecord::Schema.define(:version => 20131216155228) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -306,9 +306,11 @@ ActiveRecord::Schema.define(:version => 20131211144321) do
     t.decimal  "slide_hours_pct"
     t.decimal  "rotary_footage_pct"
     t.decimal  "slide_footage_pct"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.decimal  "above_rotary"
+    t.decimal  "drilling_time"
+    t.decimal  "total_circulation_time"
   end
 
   add_index "drilling_logs", ["company_id"], :name => "index_drilling_logs_on_company_id"

@@ -27,13 +27,13 @@
                    "data-field" => "failure_id" %>
 
     <div class=''>
-      <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }),
+      <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }, @issue.part_id),
                      prompt: "(Optional) Select asset...",
                      class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
                      "data-id" => @issue.id,
                      "data-field" => "part_membership_id" %>
 
-      <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }),
+      <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }, @issue.responsible_by_id),
                      prompt: "(Optional) Responsible personnel...",
                      class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
                      "data-id" => @issue.id,

@@ -5,7 +5,7 @@
 
   <h3 class="inline">&nbsp;BHAs</h3>
 
-  <div class="btn-group inline pull-right">
+  <div class="push-right btn-group inline pull-right push-down">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
       Export
     </a>
@@ -20,11 +20,10 @@
     </ul>
   </div>
 
-</div>
+  <div class='pull-right'>
+    <%= render 'jobs/job_multi_link', job: @document.job %>
+  </div>
 
-
-<div>
-  <%= render 'jobs/job_progress_link', job: @document.job, show_summary_data: false, job_name: false %>
 </div>
 
 <br>
@@ -35,7 +34,7 @@
 <div id="bha">
 
   <% if @bhas.any? %>
-    <%= render "bhas/bha_tally", bha: @bha %>
+      <%= render "bhas/bha_tally", bha: @bha %>
   <% end %>
 
   <div id="bha_loader" class="push-down center hidden inline">
@@ -45,8 +44,6 @@
       <span class="ajax-loading search-loading"><b>Loading..</b></span>
     </div>
   </div>
-
-</div>
 
 </div>
 

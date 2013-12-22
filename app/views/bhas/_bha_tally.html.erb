@@ -92,7 +92,9 @@
                   </p>
 
                   <% if item.up >= 0 || item.down >= 0 %>
-                      <p class="list-item-column2 list-item-column-short  help-text">
+                      <p class="list-item-column2 list-item-column-short help-text tooltip-info"
+                         data-html="true"
+                        data-title="Up: <%= item.up >= 0 ? BhaItem.connection_string(item.up) : "-" %><br>Down: <%= item.down >= 0 ? BhaItem.connection_string(item.down) : "-" %>">
                         <%= item.up >= 0 ? BhaItem.connection_string(item.up) : "-" %>
                         &nbsp;/&nbsp;
                         <%= item.down >= 0 ? BhaItem.connection_string(item.down) : "-" %>

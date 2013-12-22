@@ -1,6 +1,8 @@
 class DrillingLog < ActiveRecord::Base
     attr_accessible :below_rotary,
                     :above_rotary,
+                    :drilling_time,
+                    :total_circulation_time,
                     :circulation_hours,
                     :ream_hours,
                     :rop,
@@ -26,7 +28,7 @@ class DrillingLog < ActiveRecord::Base
     belongs_to :job
     belongs_to :document
 
-    has_many :drilling_log_entries, order: "drilling_log_entries.depth ASC"
+    has_many :drilling_log_entries, order: "drilling_log_entries.depth ASC, drilling_log_entries.entry_at ASC"
 
     def recalculate
         drilling_log = DrillingLog.calculate self.drilling_log_entries
@@ -42,9 +44,12 @@ class DrillingLog < ActiveRecord::Base
         self.slide_hours_pct = drilling_log.slide_hours_pct
         self.slide_footage_pct = drilling_log.slide_footage_pct
         self.slide_rop = drilling_log.slide_rop
+        self.above_rotary = drilling_log.above_rotary
         self.below_rotary = drilling_log.below_rotary
         self.total_drilled = drilling_log.total_drilled
         self.rop = drilling_log.rop
+        self.drilling_time = drilling_log.drilling_time
+        self.total_circulation_time = drilling_log.total_circulation_time
         self.save
     end
 
@@ -71,7 +76,6 @@ class DrillingLog < ActiveRecord::Base
             entries.each do |entry|
 
                 length_change = entry.depth - last_entry.depth
-                total_drill_length += length_change
 
                 time = ((entry.entry_at - last_time) / 60 / 60).to_f
 
@@ -79,6 +83,10 @@ class DrillingLog < ActiveRecord::Base
                     below += time
                 else
                    above += time
+                end
+
+                if entry.activity_code == DrillingLogEntry::SLIDING || entry.activity_code == DrillingLogEntry::DRILLING
+                    total_drill_length += length_change
                 end
 
                 if entry.activity_code == DrillingLogEntry::SLIDING
@@ -108,6 +116,8 @@ class DrillingLog < ActiveRecord::Base
 
             drilling_log.below_rotary = below
             drilling_log.above_rotary = above
+            drilling_log.drilling_time = total_drill_time
+            drilling_log.total_circulation_time = total_drill_time + drilling_log.circulation_hours
             drilling_log.total_drilled = total_drill_length
             rop_divisor = ((entries.last.entry_at - entries.first.entry_at) / 60).to_f
             drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0
@@ -135,6 +145,41 @@ class DrillingLog < ActiveRecord::Base
         end
 
         hash
+    end
+
+    def get_runs(entries = self.drilling_log_entries.to_a)
+        runs = []
+
+        if entries.any?
+            current_run = []
+            pooh = false
+            last_bha = nil
+
+            entries.each do |entry|
+                if entry.activity_code == DrillingLogEntry::POOH
+                    pooh = true
+                    last_bha = entry.bha
+                end
+
+                if pooh &&
+                        (entry.bha != last_bha ||
+                        entry.activity_code == DrillingLogEntry::CHANGE_BHA ||
+                        entry.activity_code == DrillingLogEntry::TIH)
+                    pooh = false
+                    runs << current_run
+                    current_run = []
+                end
+
+                current_run << entry
+
+            end
+
+            if current_run.any?
+                runs << current_run
+            end
+        end
+
+        runs
     end
 
 end

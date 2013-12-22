@@ -27,6 +27,7 @@
 //= require bootstrap-datepicker
 //= require bootstrap-timepicker
 //= require amcharts
+//= require serial
 //= require xy
 //= require pie
 

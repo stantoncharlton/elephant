@@ -1,19 +1,39 @@
 <div id="drilling_bha" class="job-tray" data-tray="drilling-bha">
 
+  <% bha_document = Document.where("documents.job_id = ?", drilling_log.job_id).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).last %>
+
   <div class="drilling-bha-loading hidden">
     <br><br>
     <%= render 'layouts/inline_loading', title: "Please wait, loading BHA totals..." %>
   </div>
 
   <div class="content">
-    <br>
 
     <% bhas = Bha.where(:job_id => drilling_log.job_id).order("name ASC") %>
+
+
+    <div class='well'>
+      <h1 class="donut-text inline"><%= bhas.count %></h1>
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">BHAs</h3>
+      </div>
+
+      <div class='pull-right'>
+        <%= link_to "+ Add New BHA", new_bha_path(document: bha_document.id), class: "bluebtn" %>
+      </div>
+    </div>
+
+
     <% if bhas.any? %>
         <% bhas.each do |bha| %>
             <div>
               <div class="page_header">
-                <h1><%= bha.name %> - <%= bha.description %></h1>
+                <h1><%= bha.name %>
+                  <% if !bha.description.blank? %>
+                      - <%= bha.description %>
+                  <% end %>
+                </h1>
+                <%= link_to "View", bha_path(bha.document, bha: bha.id), class: "bluebtn btnsmall gray pull-right" %>
               </div>
               <%= render 'drilling_logs/bha', bha: bha, drilling_log: drilling_log %>
               <br><br>
@@ -21,6 +41,10 @@
         <% end %>
     <% else %>
         <p class='help-text'>No BHAs configured...</p>
+
+
     <% end %>
+
+
   </div>
 </div>
