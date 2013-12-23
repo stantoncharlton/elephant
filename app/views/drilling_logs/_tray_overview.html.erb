@@ -5,7 +5,7 @@
   <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
 </div>
 
-<div class="content">
+<div class="content job-tray-content">
 <br>
 
 <% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id) %>
@@ -77,12 +77,20 @@
       </div>
     </div>
 
-
     <div class="chart-block tooltip-info"
          data-title="Total feet drilled.">
       <div class="chart-title">Runs</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= 2  %></div>
+        <div class="donut-text "><%= drilling_log.get_runs.count  %></div>
+        <div class="percentage "><span class="push-right-small"></span></div>
+      </div>
+    </div>
+
+    <div class="chart-block tooltip-info"
+         data-title="Total feet drilled.">
+      <div class="chart-title">BHAs</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text "><%= @bhas.count  %></div>
         <div class="percentage "><span class="push-right-small"></span></div>
       </div>
     </div>
@@ -112,7 +120,7 @@
 </div>
 
 <div class="page_header">
-  <h1>Rotary Drilling</h1>
+  <h1>Rotating</h1>
 </div>
 <div>
   <div class="chart-block tooltip-info"
@@ -173,7 +181,7 @@
 <br><br>
 
 <div class="page_header">
-  <h1>Slide Drilling</h1>
+  <h1>Sliding</h1>
 </div>
 <div>
   <div class="chart-block tooltip-info"
@@ -281,8 +289,8 @@
 
 <script type="text/javascript">
         chart = new AmCharts.AmPieChart();
-        chart.dataProvider = <%= raw drilling_log.get_times.map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string]} }.to_a.to_json.html_safe %>;
-        chart.colors = ["#f7464a", "#46bfbd", "#fdb45c", "#24bfe0", "#949fb1", "#4d5360", "#e5dfdb"];
+        chart.dataProvider = <%= raw drilling_log.get_times.map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string], color: DrillingLogEntry.activity_code_color(k)} }.to_a.to_json.html_safe %>;
+        chart.colorField = "color";
         chart.titleField = "activity";
         chart.valueField = "time";
         chart.sequencedAnimation = false;

@@ -5,11 +5,15 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading daily totals..." %>
   </div>
 
-  <div class="content">
+  <div class="content job-tray-content">
+
+    <% entries = drilling_log.drilling_log_entries.to_a %>
+    <% dates = entries.group_by { |item| item.entry_at.to_date } %>
 
     <div class='well'>
 
-      <h1 class="donut-text inline"><%= 3 %></h1>
+      <h1 class="donut-text inline"><%= dates.count %></h1>
+
       <div class='inline-block push-down push-right-small'>
         <h3 class="inline-block">Days</h3>
       </div>
@@ -17,116 +21,81 @@
     </div>
 
 
-    <% if drilling_log.drilling_log_entries.any? %>
-        <% drilling_entry = nil %>
-        <% drilling_log.drilling_log_entries.each do |entry| %>
-            <% if drilling_entry == nil ||
-                    drilling_entry.entry_at.day != entry.entry_at.day ||
-                    drilling_entry.entry_at.month != entry.entry_at.month ||
-                    drilling_entry.entry_at.year != entry.entry_at.year %>
-                <% drilling_entry = entry %>
-                <% entries = drilling_log.drilling_log_entries.where("drilling_log_entries.entry_at > '#{entry.entry_at.beginning_of_day}' AND drilling_log_entries.entry_at <= '#{entry.entry_at.end_of_day}' ").to_a %>
-                <% log = DrillingLog.calculate(entries) %>
-                <div class="page_header">
-                  <h1><%= drilling_entry.entry_at.strftime("%A") %></h1>
+    <% if dates.any? %>
+        <% dates.each_with_index do |date, index| %>
+            <% log = DrillingLog.calculate(date[1]) %>
+            <div class="page_header">
+              <h1><%= date[0].strftime("%A") %></h1>
 
-                  <p class='inline-block push-right-small'><%= drilling_entry.entry_at.strftime("%m/%d/%Y") %></p>
+              <p class='inline-block push-right-small'><%= date[0].strftime("%m/%d/%Y") %></p>
+            </div>
+
+            <div>
+              <div class="chart-block tooltip-info"
+                   data-title="Average Total Rate of Penetration.">
+                <div class="chart-title">Avg Total ROP</div>
+                <div class="donut-chart-div job-donut-chart-div">
+                  <div class="donut-text "><%= log.nil? || log.rop.nil? ? "-" : log.rop.round(1) %></div>
+                  <div class="percentage ">ft/min</div>
                 </div>
+              </div>
 
-                <div>
-                  <div class="chart-block tooltip-info"
-                       data-title="Average Total Rate of Penetration.">
-                    <div class="chart-title">Avg Total ROP</div>
-                    <div class="donut-chart-div job-donut-chart-div">
-                      <div class="donut-text "><%= log.nil? || log.rop.nil? ? "-" : log.rop.round(1) %></div>
-                      <div class="percentage ">ft/min</div>
-                    </div>
-                  </div>
-
-                  <div class="chart-block tooltip-info"
-                       data-title="Total feet drilled.">
-                    <div class="chart-title">Total Drilled</div>
-                    <div class="donut-chart-div job-donut-chart-div">
-                      <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" : log.total_drilled.to_i %></div>
-                      <div class="percentage "><span class="push-right-small">ft</span></div>
-                    </div>
-                  </div>
-
-                  <div class="chart-block tooltip-info"
-                       data-title="Time in hours spent below the rotary table.">
-                    <div class="chart-title">Below Rotary</div>
-                    <div class="donut-chart-div job-donut-chart-div">
-                      <div class="donut-text "><%= log.nil? || log.below_rotary.nil? ? "-" : log.below_rotary.round(1) %></div>
-                      <div class="percentage ">hours</div>
-                    </div>
-                  </div>
-
-                  <div class="chart-daily tooltip-info" data-title="ROP">
-                    <canvas id="canvas_<%= drilling_entry.id %>" height="110" width="220"></canvas>
-                  </div>
-
-
-                  <script>
-                      <% rops = [] %>
-                      <% last_entry = entries.first %>
-                      <% entries.each do |dl| %>
-                      <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
-                      <% last_entry = dl %>
-                      <% end %>
-
-                      var lineChartData = {
-                          labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
-                          datasets: [
-                              {
-                                  fillColor: "rgba(220,220,220,0.5)",
-                                  strokeColor: "rgba(220,220,220,1)",
-                                  pointColor: "rgba(220,220,220,1)",
-                                  pointStrokeColor: "#fff",
-                                  data: <%= raw rops.map { |dl| dl[1] }.to_json.html_safe %>
-                              }
-                          ]
-                      }
-
-                      var myLine = new Chart(document.getElementById("canvas_<%= drilling_entry.id %>").getContext("2d")).Line(lineChartData, { scaleShowLabels: false });
-                  </script>
-
-
+              <div class="chart-block tooltip-info"
+                   data-title="Total feet drilled.">
+                <div class="chart-title">Total Drilled</div>
+                <div class="donut-chart-div job-donut-chart-div">
+                  <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" : number_with_delimiter(log.total_drilled.to_i, :delimiter => ',') %></div>
+                  <div class="percentage "><span class="push-right-small">ft</span></div>
                 </div>
-                <% if false %>
-                    <br><br>
+              </div>
 
-                    <div>
+              <div class="chart-block tooltip-info"
+                   data-title="Time in hours spent drilling or sliding.">
+                <div class="chart-title">Drilling Time</div>
+                <div class="donut-chart-div job-donut-chart-div">
+                  <div class="donut-text "><%= log.nil? || log.drilling_time.nil? ? "-" : log.drilling_time.round(1) %></div>
+                  <div class="percentage ">hours</div>
+                </div>
+              </div>
 
-                      <div class='inline-block'>
-                        <div class="chart-title">Time Breakdown</div>
-                        <div class='time-chart' id="time_chart2" style="width: 200px; height: 200px;"></div>
-                      </div>
+              <div class="chart-daily tooltip-info" data-title="ROP">
+                <canvas id="canvas_<%= index %>" height="110" width="220"></canvas>
+              </div>
 
-                      <script type="text/javascript">
-                          var chart = new AmCharts.AmPieChart();
-                          chart.dataProvider = <%= raw log.get_times(entries).map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string]} }.to_a.to_json.html_safe %>;
-                          chart.colors = ["#f7464a", "#46bfbd", "#fdb45c", "#24bfe0", "#949fb1", "#4d5360", "#e5dfdb"];
-                          chart.titleField = "activity";
-                          chart.valueField = "time";
-                          chart.sequencedAnimation = false;
-                          chart.startDuration = 0;
-                          chart.innerRadius = "30%";
-                          chart.labelsEnabled = false;
-                          chart.balloonText = "<b>[[text]]</b><br><span style='font-size:14px'>([[time]] hours)</span>";
-                          chart.write("time_chart2");
 
-                          var label = $("g[cursor=pointer]");
-                          if (label.length > 0) {
-                              var tspan = label.find('tspan');
-                              if (tspan.length > 0) {
-                                  label.remove();
-                              }
+              <script>
+                  <% rops = [] %>
+                  <% last_entry = date[1].first %>
+                  <% date[1].each do |dl| %>
+                  <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
+                  <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.1 %>
+                  <% rop = ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0)  %>
+                  <% puts rop %>
+                  <% rops << [dl.entry_at, dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? rop : 0.0] %>
+                  <% end %>
+                  <% last_entry = dl %>
+                  <% end %>
+
+                  var lineChartData = {
+                      labels: <%= raw rops.map { |dl| '' }.to_json.html_safe %>,
+                      datasets: [
+                          {
+                              fillColor: "rgba(220,220,220,0.5)",
+                              strokeColor: "rgba(220,220,220,1)",
+                              pointColor: "rgba(220,220,220,1)",
+                              pointStrokeColor: "#fff",
+                              data: <%= raw rops.map { |dl| dl[1] }.to_json.html_safe %>
                           }
-                      </script>
-                    </div>
-                <% end %>
-                <br><br>
-            <% end %>
+                      ]
+                  }
+
+                  var myLine = new Chart(document.getElementById("canvas_<%= index %>").getContext("2d")).Line(lineChartData, { pointDot: false, scaleShowGridLines: false, animation: false, scaleOverride: true, scaleSteps: 4, scaleStepWidth: 5, scaleStartValue: -4 });
+
+              </script>
+
+
+            </div>
+            <br><br>
         <% end %>
     <% else %>
         <p class='help-text'>No drilling log entries...</p>

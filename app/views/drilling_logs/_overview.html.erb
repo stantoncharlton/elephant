@@ -36,12 +36,17 @@
     <% rops = [] %>
     <% last_entry = drilling_log.drilling_log_entries.first %>
     <% drilling_log.drilling_log_entries.each do |dl| %>
-    <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
+    <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
+    <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.1 %>
+    <% rop = ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0)  %>
+    <% puts rop %>
+    <% rops << [dl.entry_at, dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? rop : 0.0] %>
+    <% end %>
     <% last_entry = dl %>
     <% end %>
 
     var lineChartData = {
-        labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
+        labels: <%= raw rops.map { |dl| '' }.to_json.html_safe %>,
         datasets: [
             {
                 fillColor: "rgba(220,220,220,0.5)",
@@ -53,7 +58,8 @@
         ]
     }
 
-    var myLine = new Chart(document.getElementById("overview_rop_canvas").getContext("2d")).Line(lineChartData, { scaleShowLabels: false });
+    var myLine = new Chart(document.getElementById("overview_rop_canvas").getContext("2d")).Line(lineChartData, { pointDot: false, scaleShowGridLines: false, animation: false, scaleOverride: true, scaleSteps: 4, scaleStepWidth: 5, scaleStartValue: -4 });
+
     <% end %>
 
 </script>

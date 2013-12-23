@@ -136,8 +136,9 @@ class DrillingLog < ActiveRecord::Base
                 if hash.has_key?(entry.activity_code)
                     sub_hash = hash[entry.activity_code]
                     sub_hash[:time] += time
+                    sub_hash[:entries] += 1
                 else
-                    hash.merge!(entry.activity_code => {time: time, activity_code: entry.activity_code, activity_code_string: DrillingLogEntry.activity_code_string(entry.activity_code) })
+                    hash.merge!(entry.activity_code => {time: time, activity_code: entry.activity_code, activity_code_string: DrillingLogEntry.activity_code_string(entry.activity_code), entries: 1 })
                 end
 
                 last_entry = entry

@@ -76,7 +76,7 @@ class DrillingLogEntriesController < ApplicationController
                     drilling_log_entry.user = current_user
                     drilling_log_entry.user_name = current_user.name
                     if !row[3].blank?
-                        bha = Bha.find_by_name(row[3].to_i.to_s)
+                        bha = Bha.includes(document: { job: :well }).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
                         drilling_log_entry.bha = bha
                         last_bha = bha
                     elsif !last_bha.nil?

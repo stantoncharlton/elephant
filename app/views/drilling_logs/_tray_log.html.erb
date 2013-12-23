@@ -1,6 +1,12 @@
-<div class="job-tray job-tray custom-data-closed" data-tray="log">
+<div id="drilling_log" class="job-tray" data-tray="log">
 
-<% entries = @drilling_log.drilling_log_entries.to_a %>
+<div class="drilling-log-loading hidden">
+  <br><br>
+  <%= render 'layouts/inline_loading', title: "Please wait, loading logs..." %>
+</div>
+
+<div class='job-tray-content'>
+<% entries = @drilling_log.drilling_log_entries.includes(:bha).to_a %>
 <% dates = entries.group_by { |item| item.entry_at.to_date } %>
 <% filter_options = [] %>
 <% filter_options << ["Show Recent", 'recent'] %>
@@ -89,6 +95,7 @@
 
   <% if @drilling_log.drilling_log_entries.empty? %>
       <br><br>
+
       <p class="center help-text no-job-log-entries"><br>No log entries...</p>
 
       <br><br>
@@ -223,5 +230,6 @@
 
     </div>
 <% end %>
+</div>
 </div>
 

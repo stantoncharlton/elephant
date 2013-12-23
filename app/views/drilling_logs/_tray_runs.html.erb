@@ -5,7 +5,7 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading runs..." %>
   </div>
 
-  <div class="content">
+  <div class="content job-tray-content">
 
     <% runs = drilling_log.get_runs %>
 
@@ -57,7 +57,7 @@
                    data-title="Total feet drilled.">
                 <div class="chart-title">Total Drilled</div>
                 <div class="donut-chart-div job-donut-chart-div">
-                  <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" : log.total_drilled.to_i %></div>
+                  <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" :  number_with_delimiter(log.total_drilled.to_i, :delimiter => ',') %></div>
                   <div class="percentage "><span class="push-right-small">ft</span></div>
                 </div>
               </div>
@@ -80,12 +80,17 @@
                   <% rops = [] %>
                   <% last_entry = entries.first %>
                   <% entries.each do |dl| %>
-                  <% rops << [dl.entry_at, dl == last_entry ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f)] %>
+                  <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
+                  <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.1 %>
+                  <% rop = ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0)  %>
+                  <% puts rop %>
+                  <% rops << [dl.entry_at, dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? rop : 0.0] %>
+                  <% end %>
                   <% last_entry = dl %>
                   <% end %>
 
                   var lineChartData = {
-                      labels: <%= raw rops.map { |dl| "" }.to_json.html_safe %>,
+                      labels: <%= raw rops.map { |dl| '' }.to_json.html_safe %>,
                       datasets: [
                           {
                               fillColor: "rgba(220,220,220,0.5)",
@@ -97,7 +102,8 @@
                       ]
                   }
 
-                  var myLine = new Chart(document.getElementById("canvas_<%= index %>").getContext("2d")).Line(lineChartData, { scaleShowLabels: false });
+                  var myLine = new Chart(document.getElementById("canvas_<%= index %>").getContext("2d")).Line(lineChartData, { pointDot : false, scaleShowGridLines : false, animation : false, scaleOverride : true, scaleSteps : 4, scaleStepWidth : 5, scaleStartValue : -4 });
+
               </script>
 
 
@@ -109,7 +115,7 @@
 
                   <div class='inline-block'>
                     <div class="chart-title">Time Breakdown</div>
-                    <div class='time-chart' id="time_chart2" style="width: 200px; height: 200px;"></div>
+                    <div class='time-chart' id="time_chart_<%= index %>" style="width: 200px; height: 200px;"></div>
                   </div>
 
                   <div class="chart-block tooltip-info align-top"
@@ -123,8 +129,8 @@
 
                   <script type="text/javascript">
                       var chart = new AmCharts.AmPieChart();
-                      chart.dataProvider = <%= raw log.get_times(entries).map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string]} }.to_a.to_json.html_safe %>;
-                      chart.colors = ["#f7464a", "#46bfbd", "#fdb45c", "#24bfe0", "#949fb1", "#4d5360", "#e5dfdb"];
+                      chart.dataProvider = <%= raw log.get_times(entries).sort.map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string], color: DrillingLogEntry.activity_code_color(k)} }.to_a.to_json.html_safe %>;
+                      chart.colorField = "color";
                       chart.titleField = "activity";
                       chart.valueField = "time";
                       chart.sequencedAnimation = false;
@@ -132,14 +138,11 @@
                       chart.innerRadius = "30%";
                       chart.labelsEnabled = false;
                       chart.balloonText = "<b>[[text]]</b><br><span style='font-size:14px'>([[time]] hours)</span>";
-                      chart.write("time_chart2");
+                      chart.write("time_chart_<%= index %>");
 
-                      var label = $("g[cursor=pointer]");
+                      var label = $("tspan:contains('chart by amcharts.com')");
                       if (label.length > 0) {
-                          var tspan = label.find('tspan');
-                          if (tspan.length > 0) {
-                              label.remove();
-                          }
+                          label.remove();
                       }
                   </script>
                 </div>

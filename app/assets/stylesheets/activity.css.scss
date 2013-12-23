@@ -83,6 +83,25 @@
   }
 }
 
+.underline-link {
+  display: inline-block;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+
+  &:active, &:link, &:visited {
+    color: #1dbbfd;
+    background: transparent;
+    text-decoration: underline;
+  }
+  &:hover {
+    color: #166485;
+    background: transparent;
+    text-decoration: underline;
+  }
+}
+
 .no-bottom-margin {
   margin-bottom: 0px;
 }

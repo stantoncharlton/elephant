@@ -135,6 +135,73 @@ class DrillingLogEntry < ActiveRecord::Base
         end
     end
 
+    def self.activity_code_color code
+        case code
+            when DRILLING
+                "#00BBCC"
+            when SLIDING
+                "#223bf2"
+            when CIRCULATING
+                "#46bfbd"
+            when CONNECTION_SURVEY
+                "#fdb45c"
+            when REAMING
+                "#e5dfdb"
+            when CEMENTING
+                "#c4b6ac"
+            when CHANGE_MUD
+                "#24bfe0"
+            when CHANGE_BHA
+                "#bc88d4"
+            when POOH
+                "#f7464a"
+            when SHORT_TRIP
+                "#4d5360"
+            when TIH
+                "#949fb1"
+            when WIRELINE
+                "#889bd4"
+            when WORK_PIPE
+                "#404e78"
+            when BOP_DRILL
+                "#0b7582"
+            when MWD_SURVEY
+                "#7ce0ec"
+            when LD_DP
+                "#cfc08c"
+            when PU_DP
+                "#dbba46"
+            when DRILLING_CEMENT
+                "#8ccf95"
+            when LOGGING
+                "#163671"
+            when CONNECTION
+                "#567bbf"
+            when JETTING
+                "#d8e7a8"
+            when OTHER
+                "#121212"
+            when RIG_REPAIR
+                "#c57765"
+            when PIPE_STUCK
+                "#d75e33"
+            when FISHING
+                "Fishing"
+            when RIG_SERVICE_INHOLE
+                "#f24922"
+            when WAIT_ON_WEATHER
+                "#fecfbe"
+            when NIPPLE_BOPS
+                "#d1e8b5"
+            when TEST_BOPS
+                "#a3bf82"
+            when STANDBY_OUTHOLE
+                "#9c9998"
+            when RIG_SERVICE_OUTHOLE
+                "#994527"
+        end
+    end
+
     def self.options
         options = []
         options << ["** In-hole Activities **", -1]

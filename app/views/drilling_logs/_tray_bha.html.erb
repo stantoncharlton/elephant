@@ -7,7 +7,7 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading BHA totals..." %>
   </div>
 
-  <div class="content">
+  <div class="content job-tray-content">
 
     <% bhas = Bha.where(:job_id => drilling_log.job_id).order("name ASC") %>
 

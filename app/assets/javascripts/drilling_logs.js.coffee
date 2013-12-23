@@ -7,9 +7,6 @@ $ ->
     #  $('.survey-entry').addClass 'hidden'
     return false
 
-  $('.show-working-curtain').live "click", ->
-
-    return false
 
   $('#drilling_log_filter').live "change", ->
     selection = $(this).find('option:selected').val()
