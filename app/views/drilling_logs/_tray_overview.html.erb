@@ -72,8 +72,8 @@
          data-title="Failures/Feet">
       <div class="chart-title">Failure Rate</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text chart-text-red"><%= drilling_log.nil? ? "-" : (drilling_log.total_drilled.to_f /  issues.count.to_f).round(1)  %></div>
-        <div class="percentage chart-text-red">ft/failure</div>
+        <div class="donut-text chart-text-red"><%= drilling_log.nil? ? "-" : (issues.count.to_f / drilling_log.total_drilled.to_f * 1000.0).round(1)  %></div>
+        <div class="percentage chart-text-red">failure/1k ft</div>
       </div>
     </div>
 
@@ -265,7 +265,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Time in hours spent below the rotary table.">
-    <div class="chart-title">Below Rotary</div>
+    <div class="chart-title">In-hole</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.below_rotary.nil? ? "-" : drilling_log.below_rotary.round(1) %></div>
       <div class="percentage ">hours</div>
@@ -274,7 +274,7 @@
 
   <div class="chart-block tooltip-info"
        data-title="Time in hours spent above the rotary table.">
-    <div class="chart-title">Above Rotary</div>
+    <div class="chart-title">Out-hole</div>
     <div class="donut-chart-div job-donut-chart-div">
       <div class="donut-text "><%= drilling_log.nil? || drilling_log.above_rotary.nil? ? "-" : drilling_log.above_rotary.round(1) %></div>
       <div class="percentage ">hours</div>

@@ -5,8 +5,10 @@
 
       <div class=''>
         <h3 class='inline-block orange-text'>Drilling Overview</h3>
-        <%= link_to "/drilling_logs/#{@drilling_log.id}#drilling-overview", target: "_blank", class: "underline-link push-right-small push-up" do %>
-            Open Drilling Dashboard/Reports
+        <% if @drilling_log.present? %>
+            <%= link_to "/drilling_logs/#{@drilling_log.id}#drilling-overview", target: "_blank", class: "underline-link push-right-small push-up" do %>
+                Open Drilling Dashboard/Reports
+            <% end %>
         <% end %>
         <br><br>
       </div>

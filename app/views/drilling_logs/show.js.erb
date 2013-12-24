@@ -8,7 +8,13 @@ function removeOldContent(section) {
     $('#drilling_npt').find('.job-tray-content').remove();
 }
 
+<% if params[:section] == "drilling_overview" %>
+if(!$('#drilling_overview').hasClass('custom-data-closed')) {
+    removeOldContent('<%= params[:section] %>');
+}
+<% else %>
 removeOldContent('<%= params[:section] %>');
+<% end %>
 
 <% if params[:section] == "drilling_overview" %>
 if(!$('#drilling_overview').hasClass('custom-data-closed')) {

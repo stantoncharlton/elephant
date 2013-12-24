@@ -28,6 +28,9 @@ class DrillingLogEntriesController < ApplicationController
 
             last_bha = nil
             last_date = nil
+            last_wob = 0.0
+            last_flow = 0.0
+            last_rpm = 0.0
 
             DrillingLogEntry.transaction do
 
@@ -36,6 +39,7 @@ class DrillingLogEntriesController < ApplicationController
                     dls.destroy
                 end
 
+                headers = spreadsheet.row(3)
                 (3..spreadsheet.last_row).each do |i|
                     row = spreadsheet.row(i)
                     #if !last_date.blank?
@@ -77,16 +81,44 @@ class DrillingLogEntriesController < ApplicationController
                     drilling_log_entry.user_name = current_user.name
                     if !row[3].blank?
                         bha = Bha.includes(document: { job: :well }).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
+                        if bha.nil?
+                            bha = Bha.new
+                            bha.name = row[3]
+                            bha.company = current_user.company
+                            bha.document = Document.includes(job: :well).where("wells.id = ?", @drilling_log.job.well_id).last
+                            bha.job = @drilling_log.job
+                            bha.save
+                        end
                         drilling_log_entry.bha = bha
                         last_bha = bha
                     elsif !last_bha.nil?
                         drilling_log_entry.bha = last_bha
                     end
 
+                    if !row[6].blank?
+                        drilling_log_entry.wob = row[6].to_d
+                        last_wob = drilling_log_entry.wob
+                    else
+                        drilling_log_entry.wob = last_wob
+                    end
+                    if !row[7].blank?
+                        drilling_log_entry.flow = row[7].to_d
+                        last_flow = drilling_log_entry.flow
+                    else
+                        drilling_log_entry.flow = last_flow
+                    end
+                    if !row[8].blank?
+                        drilling_log_entry.rotary_rpm = row[8].to_d
+                        last_rpm = drilling_log_entry.rotary_rpm
+                    else
+                        drilling_log_entry.rotary_rpm = last_rpm
+                    end
+
                     drilling_log_entry.save
                 end
             end
 
+            @drilling_log = DrillingLog.find_by_id(drilling_log_id)
             @drilling_log.recalculate
 
             redirect_to drilling_log_path(@drilling_log, anchor: :log)

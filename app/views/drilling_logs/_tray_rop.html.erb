@@ -27,6 +27,12 @@
     </div>
     <div id="ropchart" style="width: 100%; height: 400px;"></div>
 
+    <div id="wobchart" style="width: 100%; height: 120px;"></div>
+
+    <div id="flowchart" style="width: 100%; height: 120px;"></div>
+
+    <div id="rpmchart" style="width: 100%; height: 120px;"></div>
+
   </div>
 </div>
 
@@ -42,7 +48,7 @@
     <% drilling_log.drilling_log_entries.each do |dl| %>
     <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
     <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.1 %>
-    <% rops <<  { "date" => dl.entry_at.strftime("%m/%d/%Y %k:%M"), "time" => time > 0  ? time.round(2) : 0.0, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl == last_entry || dl.activity_code == DrillingLogEntry::TIH || dl.activity_code == DrillingLogEntry::POOH ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0).round(2), "lineColor" => dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? (dl.activity_code == DrillingLogEntry::DRILLING ? "#00BBCC" : "#223bf2") : "#f24922", "bulletSize" => (dl.activity_code == DrillingLogEntry::POOH && last_entry.activity_code != DrillingLogEntry::POOH)  ? 11 : 0, "bulletColor" => dl.activity_code == DrillingLogEntry::CHANGE_BHA  ? "#000000" : "#f24922" } %>
+    <% rops <<  { "date" => dl.entry_at.strftime("%m/%d/%Y %k:%M"), "time" => time > 0  ? time.round(2) : 0.0, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl == last_entry || dl.activity_code == DrillingLogEntry::TIH || dl.activity_code == DrillingLogEntry::POOH ? 0.0 : ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0).round(2), "lineColor" => dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? (dl.activity_code == DrillingLogEntry::DRILLING ? "#00BBCC" : "#223bf2") : "#f24922", "bulletSize" => (dl.activity_code == DrillingLogEntry::POOH && last_entry.activity_code != DrillingLogEntry::POOH)  ? 11 : 0, "bulletColor" => dl.activity_code == DrillingLogEntry::CHANGE_BHA  ? "#000000" : "#f24922", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm } %>
     <% end %>
     <% last_entry = dl %>
     <% end %>
@@ -78,13 +84,6 @@
     //valueAxis.logarithmic = true; // this line makes axis logarithmic
     chart.addValueAxis(valueAxis);
 
-    var timeAxis = new AmCharts.ValueAxis();
-    timeAxis.title = "Time";
-    timeAxis.gridAlpha = 0;
-    timeAxis.axisAlpha = 0;
-    timeAxis.position = "right";
-    chart.addValueAxis(timeAxis);
-
     // GUIDE for average
     var guide = new AmCharts.Guide();
     guide.value = average;
@@ -101,7 +100,7 @@
     timeGraph.title = "Time (Hours)";
     timeGraph.type = "column";
     timeGraph.fillAlphas = 1;
-    timeGraph.valueAxis = timeAxis;
+    timeGraph.valueAxis = valueAxis;
     timeGraph.balloonText = "Time [[time]] hrs";
     timeGraph.lineColor = "#ccf7ff";
     timeGraph.lineThickness = 0;
@@ -126,6 +125,15 @@
     graph.lineColorField = "lineColor";
     chart.addGraph(graph);
 
+
+    var trendLine = new AmCharts.TrendLine();
+    trendLine.initialDate = new Date(2012, 11, 4, 0);
+    trendLine.finalDate = new Date(2012, 11, 4, 23);
+    trendLine.initialValue = 10;
+    trendLine.finalValue = 19;
+    trendLine.lineColor = "#CC0000";
+    chart.addTrendLine(trendLine);
+
     // CURSOR
     var chartCursor = new AmCharts.ChartCursor();
     chartCursor.cursorPosition = "mouse";
@@ -137,6 +145,141 @@
 
     // WRITE
     chart.write("ropchart");
+
+
+    // WOB
+    chart = new AmCharts.AmSerialChart();
+    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+    chart.dataProvider = <%= raw rops.to_json.html_safe %>;
+    chart.categoryField = "date";
+    chart.dataDateFormat = "MM/DD/YYYY H:NN";
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.parseDates = false;
+    categoryAxis.minPeriod = "mm";
+    categoryAxis.dashLength = 1;
+    categoryAxis.gridAlpha = 0.15;
+    categoryAxis.axisColor = "#DADADA";
+    categoryAxis.labelFunction = function (value, valueString, axis) {
+        return '';
+    };
+
+    var wobAxis = new AmCharts.ValueAxis();
+    wobAxis.title = "WOB";
+    wobAxis.gridAlpha = 0;
+    wobAxis.axisAlpha = 0;
+    chart.addValueAxis(wobAxis);
+
+    var graph = new AmCharts.AmGraph();
+    graph.type = "smoothedLine";
+    graph.bullet = "round";
+    graph.fillAlphas = 0.3;
+    graph.bulletBorderAlpha = 1;
+    graph.bulletBorderThickness = 2;
+    graph.bulletSize = "0";
+    graph.balloonText = "<b>[[activity]]</b><br>ROP [[rop]]<br>WOB [[wob]]";
+    graph.title = "WOB";
+    graph.valueField = "wob";
+    graph.lineThickness = 2;
+    graph.lineColor = "#8fc0e9";
+    chart.addGraph(graph);
+
+    var chartCursor = new AmCharts.ChartCursor();
+    chartCursor.cursorPosition = "mouse";
+    chart.addChartCursor(chartCursor);
+
+    chart.write("wobchart");
+
+
+
+
+    // Flow
+    chart = new AmCharts.AmSerialChart();
+    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+    chart.dataProvider = <%= raw rops.to_json.html_safe %>;
+    chart.categoryField = "date";
+    chart.dataDateFormat = "MM/DD/YYYY H:NN";
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.parseDates = false;
+    categoryAxis.minPeriod = "mm";
+    categoryAxis.dashLength = 1;
+    categoryAxis.gridAlpha = 0.15;
+    categoryAxis.axisColor = "#DADADA";
+    categoryAxis.labelFunction = function (value, valueString, axis) {
+        return '';
+    };
+
+    var wobAxis = new AmCharts.ValueAxis();
+    wobAxis.title = "Flow";
+    wobAxis.gridAlpha = 0;
+    wobAxis.axisAlpha = 0;
+    chart.addValueAxis(wobAxis);
+
+    var graph = new AmCharts.AmGraph();
+    graph.type = "smoothedLine";
+    graph.bullet = "round";
+    graph.fillAlphas = 0.3;
+    graph.bulletBorderAlpha = 1;
+    graph.bulletBorderThickness = 2;
+    graph.bulletSize = "0";
+    graph.balloonText = "<b>[[activity]]</b><br>ROP [[rop]]<br>Flow [[flow]]";
+    graph.title = "Flow";
+    graph.valueField = "flow";
+    graph.lineThickness = 2;
+    graph.lineColor = "#8fc0e9";
+    chart.addGraph(graph);
+
+    var chartCursor = new AmCharts.ChartCursor();
+    chartCursor.cursorPosition = "mouse";
+    chart.addChartCursor(chartCursor);
+
+    chart.write("flowchart");
+
+
+
+    // RPM
+    chart = new AmCharts.AmSerialChart();
+    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+    chart.dataProvider = <%= raw rops.to_json.html_safe %>;
+    chart.categoryField = "date";
+    chart.dataDateFormat = "MM/DD/YYYY H:NN";
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.parseDates = false;
+    categoryAxis.minPeriod = "mm";
+    categoryAxis.dashLength = 1;
+    categoryAxis.gridAlpha = 0.15;
+    categoryAxis.axisColor = "#DADADA";
+    categoryAxis.labelFunction = function (value, valueString, axis) {
+        return '';
+    };
+
+    var wobAxis = new AmCharts.ValueAxis();
+    wobAxis.title = "RPM";
+    wobAxis.gridAlpha = 0;
+    wobAxis.axisAlpha = 0;
+    chart.addValueAxis(wobAxis);
+
+    var graph = new AmCharts.AmGraph();
+    graph.type = "smoothedLine";
+    graph.bullet = "round";
+    graph.fillAlphas = 0.3;
+    graph.bulletBorderAlpha = 1;
+    graph.bulletBorderThickness = 2;
+    graph.bulletSize = "0";
+    graph.balloonText = "<b>[[activity]]</b><br>ROP [[rop]]<br>RPM [[rpm]]";
+    graph.title = "RPM";
+    graph.valueField = "rpm";
+    graph.lineThickness = 2;
+    graph.lineColor = "#8fc0e9";
+    chart.addGraph(graph);
+
+    var chartCursor = new AmCharts.ChartCursor();
+    chartCursor.cursorPosition = "mouse";
+    chart.addChartCursor(chartCursor);
+
+    chart.write("rpmchart");
 
     var label = $("tspan:contains('chart by amcharts.com')");
     if (label.length > 0) {

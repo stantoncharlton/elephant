@@ -3,7 +3,15 @@ class DrillingLogEntry < ActiveRecord::Base
                     :entry_at,
                     :activity_code,
                     :depth,
-                    :user_name
+                    :user_name,
+                    # Drilling Parameters
+                    :wob,
+                    :flow,
+                    :rotary_rpm,
+                    :motor_rpm,
+                    :spp,
+                    :torque
+
 
     acts_as_tenant(:company)
 

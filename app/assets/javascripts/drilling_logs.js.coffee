@@ -32,7 +32,7 @@ $ ->
       $('.log-entry-group').each ->
         if $(this).attr('data-date') == selection
           $(this).show()
-          $$(this).find('.drilling-log-entry').each ->
+          $(this).find('.drilling-log-entry').each ->
             $(this).show()
         else
           $(this).hide()
