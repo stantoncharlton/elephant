@@ -4,7 +4,7 @@ class BhaItem < ActiveRecord::Base
                     :length,
                     :up,
                     :down,
-                    :tool_type
+                    :asset_type
 
 
     acts_as_tenant(:company)
@@ -17,7 +17,7 @@ class BhaItem < ActiveRecord::Base
     belongs_to :tool, class_name: "PartMembership"
 
 
-    def self.add(bha, tool, id, od, length, up, down, tool_type, ordering)
+    def self.add(bha, tool, id, od, length, up, down, asset_type, ordering)
 
         bha_item = BhaItem.new
         bha_item.bha = bha
@@ -29,7 +29,7 @@ class BhaItem < ActiveRecord::Base
         bha_item.ordering = ordering
         bha_item.up = up
         bha_item.down = down
-        bha_item.tool_type = tool_type
+        bha_item.asset_type = asset_type
 
         bha_item.save!
         bha_item

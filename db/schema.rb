@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131225163250) do
+ActiveRecord::Schema.define(:version => 20140102152521) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(:version => 20131225163250) do
     t.integer  "company_id"
     t.integer  "bha_id"
     t.integer  "tool_id"
-    t.string   "tool_type"
     t.decimal  "inner_diameter"
     t.decimal  "outer_diameter"
     t.decimal  "length"
@@ -70,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20131225163250) do
     t.integer  "ordering"
     t.integer  "up"
     t.integer  "down"
+    t.integer  "asset_type"
   end
 
   add_index "bha_items", ["bha_id"], :name => "index_bha_items_on_bha_id"

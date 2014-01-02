@@ -91,10 +91,10 @@ class BhasController < ApplicationController
                             od = BigDecimal.new(params[k + '_od'])
                             length = BigDecimal.new(params[k + '_length'])
                             up = params[k + '_up']
-                            tool_type = params[k + '_tool_type']
+                            asset_type = params[k + '_asset_type']
                             #down = params[k + '_down']
 
-                            BhaItem.add(@bha, tool, id, od, length, up, nil, tool_type, index)
+                            BhaItem.add(@bha, tool, id, od, length, up, nil, asset_type, index)
                             index = index + 1
                         end
                     end
@@ -143,10 +143,10 @@ class BhasController < ApplicationController
                         od = BigDecimal.new(params[k + '_od'])
                         length = BigDecimal.new(params[k + '_length'])
                         up = params[k + '_up']
-                        tool_type = params[k + '_tool_type']
+                        asset_type = params[k + '_asset_type']
                         #down = params[k + '_down']
 
-                        BhaItem.add(@bha, tool, id, od, length, up, nil, tool_type, index)
+                        BhaItem.add(@bha, tool, id, od, length, up, nil, asset_type, index)
                         index = index + 1
                     end
                 end
