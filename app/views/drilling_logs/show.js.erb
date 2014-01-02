@@ -35,6 +35,7 @@ if(!$('#drilling_overview').hasClass('custom-data-closed')) {
     $('#drilling_log').replaceWith("<%= j render 'drilling_logs/tray_log', drilling_log: @drilling_log %>");
     $('#drilling_log_filter').trigger("change");
     $('.custom-select').customSelect();
+    $('.date-picker').datepicker()
 <% elsif params[:section] == "drilling_rop" %>
     $('#drilling_rop').replaceWith("<%= j render 'drilling_logs/tray_rop', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling_runs" %>

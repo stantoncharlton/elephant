@@ -33,9 +33,7 @@ $ ->
     tool = $(this).closest('.bha-tool')
     prev = tool.prev()
     if prev.hasClass 'bha-tool'
-      tool.remove()
       prev.before(tool)
-
       tool.addClass 'document-reorder-background'
       setTimeout (->
         tool.removeClass "document-reorder-background"
@@ -52,3 +50,9 @@ $ ->
     params = 'tool=' + $('#bha_tool_options').val() + '&document=' + $(this).attr("data-document")
     $.ajax '/bhas/new?' + params, type: 'get', dataType: 'script'
     return false
+
+  $('.select-tool-type').live "change", ->
+    if $(this).find('option:selected').val() == '1'
+      $(this).next('.bit-info').removeClass 'hidden'
+    else
+      $(this).next('.bit-info').addClass 'hidden'

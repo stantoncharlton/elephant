@@ -1,0 +1,29 @@
+<div>
+  <% start_depth = entries.sort_by { |e| e.depth }.first.depth %>
+  <% end_depth = entries.sort_by { |e| e.depth }.last.depth %>
+
+  <div>
+    <div class='inline-block'>
+      <div class='list-item-column2 help-text'>Start Depth</div>
+      <div class='list-item-column2'><%= number_with_delimiter(start_depth.to_i, :delimiter => ',') %> ft</div>
+    </div>
+
+    <div class='inline-block push-right-small'>
+      <div class='list-item-column2 help-text'>End Depth</div>
+      <div class='list-item-column2'><%= number_with_delimiter(end_depth.to_i, :delimiter => ',') %> ft</div>
+    </div>
+  </div>
+
+  <div>
+    <div class='inline-block'>
+      <div class='list-item-column2 help-text'>Max TVD</div>
+      <div class='list-item-column2'>0.0 ft</div>
+    </div>
+
+    <div class='inline-block push-right-small'>
+      <div class='list-item-column2 help-text'>End Depth</div>
+      <div class='list-item-column2'> %> ft</div>
+    </div>
+  </div>
+
+</div>

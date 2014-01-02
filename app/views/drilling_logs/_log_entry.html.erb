@@ -1,0 +1,268 @@
+<% if @drilling_log.job.status < Job::COMPLETE %>
+    <div id='drilling_log_entry' class="well content">
+      <div class="form" data-form="new-job-log">
+
+        <%= form_for DrillingLogEntry.new, remote: true do |f| %>
+
+
+            <div class="pull-right">
+              <%= f.select :bha_id, options_for_select(@bhas.collect { |bha| [bha.name + (!bha.description.blank? ? " - " + bha.description : ""), bha.id] }, nil),
+                           {prompt: "Select BHA..."},
+                           class: "inline  custom-select tooltip-info",
+                           "data-placement" => "right",
+                           "data-title" => "Current Bottom Hole Assembly" %>
+            </div>
+
+            <div>
+              <h3>Add New Entry</h3>
+            </div>
+
+            <div class='push-down'>
+              <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
+                     name="date"
+                     id="entry_date"
+                     class="job-field-value-editable input-small date-picker tooltip-info"
+                     data-title="Date of entry">
+
+
+              <div class="inline bootstrap-timepicker">
+                <span class="add-on push-right-small"><i class="icon-time"></i></span>
+                <input id="entry_time" type="text"
+                       class="job-field-value-editable input-small tooltip-info"
+                       placeholder="24 hr time"
+                    data-title="24 hour time">
+
+              </div>
+            </div>
+
+            <%= f.hidden_field :drilling_log_id, value: @drilling_log.id %>
+
+            <div>
+              <%= f.text_field :depth, placeholder: "Measured Depth",
+                               class: "txtfield small tooltip-info submit-enter",
+                               id: "depth_log_id",
+                               "data-placement" => "bottom",
+                               "data-title" => "Depth of log entry" %>
+
+              <%= f.select :activity_code, options_for_select(DrillingLogEntry.options, nil),
+                           {prompt: "Select Activity..."},
+                           id: "activity_code_select",
+                           class: "inline custom-select  tooltip-info align-top",
+                           "data-placement" => "right",
+                           "data-title" => "Type of log entry" %>
+
+              <%= f.text_field :comment, placeholder: "Comment/description",
+                               class: "txtfield tooltip-info submit-enter push-right-small",
+                               id: "new_job_log_id",
+                               "data-placement" => "bottom",
+                               "data-title" => "Comment/description text of entry" %>
+            </div>
+
+            <hr>
+
+            <div>
+              <div class='job-field-title2'>WOB</div>
+              <input id="wob" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="WOB"
+                     data-title="Weight on Bit">
+
+              <div class='job-field-title2 push-right-small'>Flow</div>
+              <input id="flow" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="Flow"
+                     data-title="Flow - GPM">
+
+              <div class='job-field-title2 push-right-small'>RPM</div>
+              <input id="rpm" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="RPM"
+                     data-title="Rotary RPM">
+
+              <div class='job-field-title2 push-right-small'>SPP</div>
+              <input id="spp" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="SPP"
+                     data-title="Standpipe Pressure">
+
+              <br>
+
+              <div class='job-field-title2'>Rot Wt</div>
+              <input id="rotary_weight" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="Rot Wt"
+                     data-title="Rotary Weight">
+
+              <div class='job-field-title2 push-right-small'>P/U Wt</div>
+              <input id="pu_weight" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="P/U Wt"
+                     data-title="Pick Up Weight">
+
+              <div class='job-field-title2 push-right-small'>S/O Wt</div>
+              <input id="so_weight" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="S/O Wt"
+                     data-title="Slack Off Weight">
+
+              <br>
+
+              <div class='job-field-title2'>Torque</div>
+              <input id="torque" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="Torque"
+                     data-title="Torque">
+
+              <div class='job-field-title2 push-right-small'>ADP</div>
+              <input id="adp" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="ADP"
+                     data-title="Average Differential Pressure">
+
+              <div class='job-field-title2 push-right-small'>Stall</div>
+              <input id="stall_pressure" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="Stall"
+                     data-title="Stall Pressure">
+
+              <div class='job-field-title2 push-right-small'>TFO</div>
+              <input id="stall_pressure" type="text"
+                     class="job-field-value-editable input-small tooltip-info"
+                     placeholder="TFO"
+                     data-title="Tool Face Orientation">
+            </div>
+
+            <hr>
+
+          <div>
+            <div class='job-field-title2'>Type</div>
+            <%= select_tag "mud_type",
+                           options_for_select([["Water", 1], ["Oil", 2], ["Synthetic", 3], ["Brine", 4]]),
+                           class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
+                           "data-title" => "Mud Type",
+                           placeholder: "Mud Type" %>
+
+            <div class='job-field-title2 push-right-small'>Wt</div>
+            <input id="mud_wt" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Mud Wt"
+                   data-title="Mud Weight">
+
+            <div class='job-field-title2 push-right-small'>Visc</div>
+            <input id="mud_visc" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Viscosity"
+                   data-title="Mud Viscosity">
+
+            <div class='job-field-title2 push-right-small'>CHL</div>
+            <input id="chlo" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Chlorides"
+                   data-title="Chlorides">
+
+            <br>
+
+            <div class='job-field-title2'>YP</div>
+            <input id="yp" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="YP"
+                   data-title="Yield Point">
+
+            <div class='job-field-title2 push-right-small'>PV</div>
+            <input id="pv" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="PV"
+                   data-title="Plastic Viscosity">
+
+            <div class='job-field-title2 push-right-small'>PH</div>
+            <input id="so_weight" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="PH"
+                   data-title="PH">
+
+            <br>
+
+            <div class='job-field-title2'>Gas %</div>
+            <input id="gas" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Gas %"
+                   data-title="Gas Content %">
+
+            <div class='job-field-title2 push-right-small'>Sand %</div>
+            <input id="sand" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Sand %"
+                   data-title="Sand Content %">
+
+            <div class='job-field-title2 push-right-small'>Solid %</div>
+            <input id="solids" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Solid %"
+                   data-title="Solid Content %">
+
+            <div class='job-field-title2 push-right-small'>Oil %</div>
+            <input id="oil" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Oil %"
+                   data-title="Oil Content %">
+
+            <br>
+
+            <div class='job-field-title2'>BHT</div>
+            <input id="bh_temp" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="BH Temp"
+                   data-title="Bottom Hole Temperature">
+
+            <div class='job-field-title2 push-right-small'>FLT </div>
+            <input id="fl_temp" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="FL Temp"
+                   data-title="Flow Line Temperature">
+
+            <div class='job-field-title2 push-right-small'>WL</div>
+            <input id="wl" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   placeholder="Water Loss"
+                   data-title="Water Loss">
+
+          </div>
+
+
+          <hr>
+
+            <div class="pull-right">
+
+              <div class='inline-block survey-entry hidden'>
+                <%= f.submit "Add Survey",
+                             class: "bluebtn btnsmall light-blue inline-block tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Add new survey point" %>
+                <br>
+              </div>
+
+              <%= f.submit "Add Entry",
+                           class: "bluebtn inline-block tooltip-info form-loading-on-click",
+                           "data-form" => "new-job-log",
+                           "data-placement" => "bottom",
+                           "data-title" => "Add new log entry" %>
+
+            </div>
+
+          <br>
+
+        <% end %>
+
+      </div>
+
+
+      <div class="form-loading hidden" data-form="new-job-log">
+        <%= render 'layouts/inline_loading', title: "Creating entry..." %>
+        <br><br>
+      </div>
+
+      <br><br>
+
+
+    </div>
+<% end %>

@@ -142,3 +142,46 @@
                        "data-field" => "inventory_notes" %>
   </div>
 </div>
+
+
+<% bha_document = Document.where("documents.job_id = ?", job.id).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).last %>
+<% if !bha_document.nil? %>
+    <div class='content'>
+    <% bhas = Bha.where(:job_id => job.id).order("name ASC") %>
+
+      <hr>
+
+    <div class=''>
+      <h1 class="donut-text inline"><%= bhas.count %></h1>
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">BHAs</h3>
+      </div>
+
+      <div class='pull-right'>
+        <%= link_to "+ Add New BHA", new_bha_path(document: bha_document.id), class: "bluebtn" %>
+      </div>
+    </div>
+
+      <br>
+
+
+    <% if bhas.any? %>
+        <% bhas.each do |bha| %>
+            <div>
+              <div class="page_header">
+                <h1><%= bha.name %>
+                  <% if !bha.description.blank? %>
+                      - <%= bha.description %>
+                  <% end %>
+                </h1>
+                <%= link_to "View", bha_path(bha.document, bha: bha.id), class: "bluebtn btnsmall gray pull-right" %>
+              </div>
+              <br>
+            </div>
+        <% end %>
+    <% else %>
+          <br>
+        <p class='help-text center'>No BHAs configured...</p>
+    <% end %>
+    </div>
+<% end %>

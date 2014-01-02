@@ -201,7 +201,7 @@
   border-style: dotted;
   border-bottom-color: #0058a8;
   text-decoration: none;
-  font-weight: bold;
+  font-family: "gothammediumregular";
 
   &:active, &:link, &:visited {
     background: transparent;
@@ -214,6 +214,11 @@
     border-color: #0058a8;
     text-decoration: none;
   }
+}
+
+.job-field-title2 {
+  display: inline-block;
+  width: 50px;
 }
 
 .job-field-long {

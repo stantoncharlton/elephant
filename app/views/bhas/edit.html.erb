@@ -20,25 +20,7 @@
 
       <%= render 'shared/error_messages', object: f.object %>
 
-      <div class="well">
-
-        <div class='pull-left'>
-          <b>BHA Number/Name</b>
-          <br><br>
-          <%= f.text_field :name, class: "txtfield",
-                           placeholder: "BHA Number..." %>
-        </div>
-
-
-        <div>
-          <b class='push-right-small'>Description</b>
-          <br><br>
-          <%= f.text_field :description, class: "txtfield push-right-small",
-                           placeholder: "Description/Purpose..." %>
-        </div>
-
-      </div>
-
+      <%= render 'bhas/fields', f: f %>
       <hr>
 
       <div class="" id="list">

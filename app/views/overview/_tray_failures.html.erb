@@ -9,20 +9,20 @@
 
   <div>
     <div class="chart-block tooltip-info align-top"
-         data-title="Open issues">
-      <div class="chart-title">Open Issues</div>
+         data-title="Open Incidents">
+      <div class="chart-title">Open Incidents</div>
       <div class="donut-chart-div job-donut-chart-div">
         <div class="donut-text chart-text-red"><%= Issue.where(:status => Issue::OPEN).where("issues.job_id IN (#{@jobs_sql})").count %></div>
-        <div class="percentage chart-text-red">issues</div>
+        <div class="percentage chart-text-red">incidents</div>
       </div>
     </div>
 
     <div class="chart-block tooltip-info align-top"
          data-title="Open issues">
-      <div class="chart-title">All Issues</div>
+      <div class="chart-title">All Incidents</div>
       <div class="donut-chart-div job-donut-chart-div">
         <div class="donut-text"><%= all_issues %></div>
-        <div class="percentage">issues</div>
+        <div class="percentage">incidents</div>
       </div>
     </div>
 

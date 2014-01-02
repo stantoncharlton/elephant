@@ -8,31 +8,35 @@
   <div class='content job-tray-content'>
     <br>
 
-    <div class='center'>
-      <div class="inline-block" style="width:10px;height:10px;background:#00BBCC;"></div>
-      <b>Drilling</b>
+    <% if drilling_log.drilling_log_entries.any? %>
+        <div class='center'>
+          <div class="inline-block" style="width:10px;height:10px;background:#00BBCC;"></div>
+          <b>Drilling</b>
 
-      <div class="inline-block push-right-small" style="width:10px;height:10px;background:#223bf2;"></div>
-      <b>Sliding</b>
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#223bf2;"></div>
+          <b>Sliding</b>
 
-      <div class="inline-block push-right-small" style="width:10px;height:10px;background:#f24922;"></div>
-      <b>NPT</b>
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#f24922;"></div>
+          <b>NPT</b>
 
-      <div class="inline-block push-right-small" style="width:10px;height:10px;background:#f24922;border-radius:100px;"></div>
-      <b>POOH</b>
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#f24922;border-radius:100px;"></div>
+          <b>POOH</b>
 
-      <div class="inline-block push-right-small" style="width:10px;height:10px;background:#ccf7ff;"></div>
-      <b>Time (hrs)</b>
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#ccf7ff;"></div>
+          <b>Time (hrs)</b>
 
-    </div>
-    <div id="ropchart" style="width: 100%; height: 400px;"></div>
+        </div>
+        <div id="ropchart" style="width: 100%; height: 400px;"></div>
 
-    <div id="wobchart" style="width: 100%; height: 120px;"></div>
+        <div id="wobchart" style="width: 100%; height: 120px;"></div>
 
-    <div id="flowchart" style="width: 100%; height: 120px;"></div>
+        <div id="flowchart" style="width: 100%; height: 120px;"></div>
 
-    <div id="rpmchart" style="width: 100%; height: 120px;"></div>
+        <div id="rpmchart" style="width: 100%; height: 120px;"></div>
 
+    <% else %>
+        <p class='help-text'>No drilling log entries...</p>
+    <% end %>
   </div>
 </div>
 
@@ -75,6 +79,7 @@
         return '';
     };
 
+
     // value
     var valueAxis = new AmCharts.ValueAxis();
     valueAxis.axisColor = "#DADADA";
@@ -93,6 +98,15 @@
     guide.inside = true;
     guide.lineAlpha = 1;
     valueAxis.addGuide(guide);
+
+    var trendLine = new AmCharts.TrendLine();
+    trendLine.initialDate = "12/04/2013 0:00";
+    trendLine.finalDate = "12/05/2013 18:00";
+    trendLine.initialValue = 19;
+    trendLine.finalValue = 0;
+    trendLine.lineColor = "#f33cfa";
+    trendLine.lineThickness = 3;
+    chart.addTrendLine(trendLine);
 
 
     var timeGraph = new AmCharts.AmGraph();
@@ -125,14 +139,6 @@
     graph.lineColorField = "lineColor";
     chart.addGraph(graph);
 
-
-    var trendLine = new AmCharts.TrendLine();
-    trendLine.initialDate = new Date(2012, 11, 4, 0);
-    trendLine.finalDate = new Date(2012, 11, 4, 23);
-    trendLine.initialValue = 10;
-    trendLine.finalValue = 19;
-    trendLine.lineColor = "#CC0000";
-    chart.addTrendLine(trendLine);
 
     // CURSOR
     var chartCursor = new AmCharts.ChartCursor();
@@ -191,8 +197,6 @@
     chart.write("wobchart");
 
 
-
-
     // Flow
     chart = new AmCharts.AmSerialChart();
     chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
@@ -235,7 +239,6 @@
     chart.addChartCursor(chartCursor);
 
     chart.write("flowchart");
-
 
 
     // RPM

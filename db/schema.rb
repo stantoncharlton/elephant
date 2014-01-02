@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131223233037) do
+ActiveRecord::Schema.define(:version => 20131225163250) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -80,11 +80,17 @@ ActiveRecord::Schema.define(:version => 20131223233037) do
     t.integer  "job_id"
     t.integer  "document_id"
     t.string   "name"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "description"
     t.decimal  "below_rotary"
     t.decimal  "above_rotary"
+    t.decimal  "bit_to_sensor"
+    t.decimal  "bit_to_gamma"
+    t.integer  "bit_type"
+    t.string   "bit_jets"
+    t.decimal  "bit_tfa"
+    t.decimal  "bit_size"
   end
 
   add_index "bhas", ["company_id"], :name => "index_bhas_on_company_id"

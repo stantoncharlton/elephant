@@ -1,6 +1,12 @@
 class Bha < ActiveRecord::Base
     attr_accessible :name,
                     :description,
+                    :bit_to_sensor,
+                    :bit_to_gamma,
+                    :bit_type,
+                    :bit_jets,
+                    :bit_tfa,
+                    :bit_size,
                     :below_rotary,
                     :above_rotary
 

@@ -3,7 +3,8 @@ class BhaItem < ActiveRecord::Base
                     :outer_diameter,
                     :length,
                     :up,
-                    :down
+                    :down,
+                    :tool_type
 
 
     acts_as_tenant(:company)
@@ -16,7 +17,7 @@ class BhaItem < ActiveRecord::Base
     belongs_to :tool, class_name: "PartMembership"
 
 
-    def self.add(bha, tool, id, od, length, up, down, ordering)
+    def self.add(bha, tool, id, od, length, up, down, tool_type, ordering)
 
         bha_item = BhaItem.new
         bha_item.bha = bha
@@ -28,6 +29,7 @@ class BhaItem < ActiveRecord::Base
         bha_item.ordering = ordering
         bha_item.up = up
         bha_item.down = down
+        bha_item.tool_type = tool_type
 
         bha_item.save!
         bha_item
@@ -67,38 +69,67 @@ class BhaItem < ActiveRecord::Base
 
     def self.connection_string connection
         base_string = ''
+
         case connection
             when 0
                 base_string = "None"
-            when 1 || 11
+            when 1
                 base_string = "3.5 IF"
-            when 2 || 12
+            when 11
+                base_string = "3.5 IF"
+            when 2
                 base_string = "3.5 REG"
-            when 3 || 13
+            when 12
+                base_string = "3.5 REG"
+            when 3
                 base_string = "4.5 FH"
-            when 4 || 14
+            when 13
+                base_string = "4.5 FH"
+            when 4
                 base_string = "4.5 IF"
-            when 5 || 15
+            when 14
+                base_string = "4.5 IF"
+            when 5
                 base_string =  "4.5 REG"
-            when 6 || 16
+            when 15
+                base_string =  "4.5 REG"
+            when 6
                 base_string =  "4.5 XH"
-            when 7 || 17
+            when 16
+                base_string =  "4.5 XH"
+            when 7
                 base_string =  "4 FH"
-            when 8 || 18
+            when 17
+                base_string =  "4 FH"
+            when 8
                 base_string = "4 IF"
-            when 9 || 19
+            when 18
+                base_string = "4 IF"
+            when 9
                 base_string = "6.625 REG"
-            when 10 || 20
+            when 19
+                base_string = "6.625 REG"
+            when 10
+                base_string = "NC56"
+            when 20
                 base_string = "NC56"
         end
 
         if connection == 0
             return base_string
         elsif connection > 10
-            return base_string + " P"
-        else
             return base_string + " B"
+        else
+            return base_string + " P"
         end
+    end
+
+    def self.type_options
+        options = []
+        options << ["Type...", -1]
+        options << ["Bit - PDC", 1]
+        options << ["Bit - ", 2]
+        options << ["MWD", 3]
     end
 
 end

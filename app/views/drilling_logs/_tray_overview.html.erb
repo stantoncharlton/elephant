@@ -10,6 +10,30 @@
 
 <% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id) %>
 
+<% if drilling_log.drilling_log_entries.empty? %>
+    <div class='alert'>
+      <div class='pull-left push-down'>
+        <%= image_tag "warning.png" %>
+      </div>
+
+      <div class='pull-left push-right-small'>
+      <h3 class='orange-text push-down-small'>No Data to Show</h3>
+      <p class='push-down'>There is no data to show because the job has not started yet or there are no
+        drilling log entries, yet. </p>
+
+        <%= link_to "Add Log", "#", id: "show_log", class: "bluebtn btnsmall gray push-down-small" %>
+      </div>
+
+      <script type='text/javascript'>
+            $('#show_log').click(function() {
+                $(".job-tray-toggle[data-tray='log']").trigger("click");
+                return false;
+            });
+      </script>
+      <br><br><br><br><br><br><br>
+    </div>
+    <br><br>
+<% else %>
 
 <div>
   <div class="chart-block tooltip-info"
@@ -34,7 +58,7 @@
        data-title="Total feet drilled.">
     <div class="chart-title">Total Drilled</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',')  %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') %></div>
       <div class="percentage "><span class="push-right-small">ft</span></div>
     </div>
   </div>
@@ -72,7 +96,7 @@
          data-title="Failures/Feet">
       <div class="chart-title">Failure Rate</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text chart-text-red"><%= drilling_log.nil? ? "-" : (issues.count.to_f / drilling_log.total_drilled.to_f * 1000.0).round(1)  %></div>
+        <div class="donut-text chart-text-red"><%= drilling_log.nil? || drilling_log.total_drilled.nil? || drilling_log.total_drilled == 0 ? "-" : (issues.count.to_f / drilling_log.total_drilled.to_f * 1000.0).round(1) %></div>
         <div class="percentage chart-text-red">failure/1k ft</div>
       </div>
     </div>
@@ -81,7 +105,7 @@
          data-title="Total feet drilled.">
       <div class="chart-title">Runs</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= drilling_log.get_runs.count  %></div>
+        <div class="donut-text "><%= drilling_log.get_runs.count %></div>
         <div class="percentage "><span class="push-right-small"></span></div>
       </div>
     </div>
@@ -90,7 +114,7 @@
          data-title="Total feet drilled.">
       <div class="chart-title">BHAs</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= @bhas.count  %></div>
+        <div class="donut-text "><%= @bhas.count %></div>
         <div class="percentage "><span class="push-right-small"></span></div>
       </div>
     </div>
@@ -282,28 +306,31 @@
   </div>
 </div>
 
+<% end %>
+
+
 </div>
 </div>
 
 
 
 <script type="text/javascript">
-        chart = new AmCharts.AmPieChart();
-        chart.dataProvider = <%= raw drilling_log.get_times.map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string], color: DrillingLogEntry.activity_code_color(k)} }.to_a.to_json.html_safe %>;
-        chart.colorField = "color";
-        chart.titleField = "activity";
-        chart.valueField = "time";
-        chart.sequencedAnimation = false;
-        chart.startDuration = 0;
-        chart.innerRadius = "30%";
-        chart.labelsEnabled = false;
-        chart.balloonText = "<b>[[text]]</b><br><span style='font-size:14px'>([[time]] hours)</span>";
-        chart.write("time_chart");
+    chart = new AmCharts.AmPieChart();
+    chart.dataProvider = <%= raw drilling_log.get_times.map{ |k, v| {time: v[:time].round(2), text: v[:activity_code_string], color: DrillingLogEntry.activity_code_color(k)} }.to_a.to_json.html_safe %>;
+    chart.colorField = "color";
+    chart.titleField = "activity";
+    chart.valueField = "time";
+    chart.sequencedAnimation = false;
+    chart.startDuration = 0;
+    chart.innerRadius = "30%";
+    chart.labelsEnabled = false;
+    chart.balloonText = "<b>[[text]]</b><br><span style='font-size:14px'>([[time]] hours)</span>";
+    chart.write("time_chart");
 
-        var label = $("tspan:contains('chart by amcharts.com')");
-        if (label.length > 0) {
-            label.remove();
-        }
+    var label = $("tspan:contains('chart by amcharts.com')");
+    if (label.length > 0) {
+        label.remove();
+    }
 </script>
 
 
@@ -332,7 +359,7 @@
         ]
     }
 
-    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData, { pointDot : false, scaleShowGridLines : false, animation : false, scaleOverride : true, scaleSteps : 4, scaleStepWidth : 5, scaleStartValue : -4 });
+    var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData, { pointDot: false, scaleShowGridLines: false, animation: false, scaleOverride: true, scaleSteps: 4, scaleStepWidth: 5, scaleStartValue: -4 });
     <% end %>
 </script>
 

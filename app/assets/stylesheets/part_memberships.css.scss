@@ -46,7 +46,13 @@
   z-index: 1;
 
   .name {
+    margin-left: 5px;
+    margin-right: 5px;
     font-family: "gothambookregular";
+    text-wrap: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .bar {

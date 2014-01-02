@@ -91,9 +91,10 @@ class BhasController < ApplicationController
                             od = BigDecimal.new(params[k + '_od'])
                             length = BigDecimal.new(params[k + '_length'])
                             up = params[k + '_up']
-                            down = params[k + '_down']
+                            tool_type = params[k + '_tool_type']
+                            #down = params[k + '_down']
 
-                            BhaItem.add(@bha, tool, id, od, length, up, down, index)
+                            BhaItem.add(@bha, tool, id, od, length, up, nil, tool_type, index)
                             index = index + 1
                         end
                     end
@@ -125,6 +126,8 @@ class BhasController < ApplicationController
         Bha.transaction do
             if @bha.update_attribute(:name, params[:bha][:name])
                 @bha.update_attribute(:description, params[:bha][:description])
+                @bha.update_attribute(:bit_to_sensor, params[:bha][:bit_to_sensor])
+                @bha.update_attribute(:bit_to_gamma, params[:bha][:bit_to_gamma])
 
                 @bha.bha_items.each do |i|
                     i.destroy
@@ -140,9 +143,10 @@ class BhasController < ApplicationController
                         od = BigDecimal.new(params[k + '_od'])
                         length = BigDecimal.new(params[k + '_length'])
                         up = params[k + '_up']
-                        down = params[k + '_down']
+                        tool_type = params[k + '_tool_type']
+                        #down = params[k + '_down']
 
-                        BhaItem.add(@bha, tool, id, od, length, up, down, index)
+                        BhaItem.add(@bha, tool, id, od, length, up, nil, tool_type, index)
                         index = index + 1
                     end
                 end

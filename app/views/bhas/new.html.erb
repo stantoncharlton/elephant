@@ -12,22 +12,7 @@
 
       <%= hidden_field_tag "[bha][document_id]", @document.id %>
 
-      <div class="well">
-        <div class='pull-left'>
-          <b>BHA Number/Name</b>
-          <br><br>
-          <%= f.text_field :name, class: "txtfield",
-                           placeholder: "BHA Number or Name...", autofocus: true %>
-        </div>
-
-
-        <div>
-          <b class='push-right-small'>Description</b>
-          <br><br>
-          <%= f.text_field :description, class: "txtfield push-right-small",
-                           placeholder: "Description/Purpose..." %>
-        </div>
-      </div>
+      <%= render 'bhas/fields', f: f %>
 
       <hr>
 
