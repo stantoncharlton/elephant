@@ -2,16 +2,24 @@
   <% drilling_log_document = Document.where("documents.job_id = ?", @job.id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
   <% if !drilling_log_document.nil? %>
       <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
-      <div class=''>
-        <h3 class='inline-block orange-text'>Drilling Overview</h3>
-        <%= link_to drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-overview"), target: "_blank", class: "underline-link push-right-small push-up" do %>
-            Open Drilling Dashboard/Reports
-        <% end %>
-        <br><br>
-      </div>
 
       <%= render 'drilling_logs/overview', drilling_log: @drilling_log %>
 
+      <br>
+
+      <div class=''>
+        <div class='inline-block push-right-small blue-text'>
+          Drilling &nbsp; &#10095;&#10095;
+        </div>
+        <div class='inline-block push-right-small'>
+          <%= link_to "Overview", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-overview"), target: "_blank", class: "btn btn-info white-text" %>
+          <%= link_to "ROP", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-rop"), target: "_blank", class: "btn btn-default" %>
+          <%= link_to "Runs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-runs"), target: "_blank", class: "btn btn-default" %>
+          <%= link_to "BHAs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-bhas"), target: "_blank", class: "btn btn-default" %>
+          <%= link_to "Log", drilling_logs_path(document: drilling_log_document.id, :anchor => "log"), target: "_blank", class: "btn btn-default" %>
+          <%= link_to "Reports", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-reports"), target: "_blank", class: "btn btn-default" %>
+        </div>
+      </div>
   <% end %>
 
   <% if Document.where(:job_id => @job.id).where(:document_type => Document::SURVEY).count() > 0 %>
@@ -21,13 +29,8 @@
 
       <% if @job.status == Job::ON_JOB && @drilling_log.present? %>
           <div class='content'>
-            <br>
 
             <div>
-              <div class='inline-block list-item-column3'>
-                <span class="label label-warning">LIVE DRILLING</span>
-              </div>
-
               <% last_entry = @drilling_log.drilling_log_entries.last %>
               <% if last_entry.present? %>
                   <div class='inline-block push-right-small'>
@@ -44,13 +47,10 @@
 
             <% if calculated_points_survey.any? %>
                 <% point = calculated_points_survey.last %>
-                <div class='tooltip-info'
+                <div class='tooltip-info push-down-small'
                      data-title="<%= render 'surveys/hover', point: point %>"
                      data-html="true"
                      data-placement="right">
-                  <div class='inline-block list-item-column3'>
-                    <span class="label label-warning">LIVE SURVEY</span>
-                  </div>
 
                   <div class='inline-block push-right-small'>
                     <b class='blue-text'><%= point.created_at.strftime("%l:%M %p") %></b>

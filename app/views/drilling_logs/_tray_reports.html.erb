@@ -1,0 +1,19 @@
+<div class="remote-tray" data-tray="drilling-reports">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading reports..." %>
+  </div>
+
+  <div class='content tray-content'>
+    <div class='page_header'>
+      <h1>Reports</h1>
+    </div>
+
+    <div>
+      <%= link_to "Drilling Report", drilling_log_path(@drilling_log.id, report: true, report_name: "daily_report"),
+                  class: "bluebtn btnsmall gray show-working-curtain",
+                  remote: false %>
+    </div>
+  </div>
+</div>

@@ -1,11 +1,11 @@
-<div id="drilling_daily" class="job-tray" data-tray="drilling-daily">
+<div class="remote-tray" data-tray="drilling-daily">
 
-  <div class="drilling-daily-loading hidden">
+  <div class="remote-loading hidden">
     <br><br>
     <%= render 'layouts/inline_loading', title: "Please wait, loading daily totals..." %>
   </div>
 
-  <div class="content job-tray-content">
+  <div class="content tray-content">
 
     <% entries = drilling_log.drilling_log_entries.to_a %>
     <% dates = entries.group_by { |item| item.entry_at.to_date } %>

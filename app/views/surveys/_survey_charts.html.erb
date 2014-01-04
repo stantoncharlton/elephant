@@ -11,7 +11,6 @@
                data-title="<%= render 'surveys/hover', point: point %>"
                data-html="true"
                data-placement="right">
-            <span class="label label-warning">LIVE SURVEY</span>
 
             <div class='inline-block push-right-small'>
               <b class='blue-text'><%= point.created_at.strftime("%l:%M %p") %></b>
@@ -28,7 +27,7 @@
                 <span class='label label-info'><%= point.dog_leg_severity.round(2) %></span></div>
             </div>
 
-            <%= link_to "Show live survey", survey, target: "_blank", class: "pull-right activity-user-link push-left" %>
+            <%= link_to "Show survey", survey, target: "_blank", class: "pull-right activity-user-link push-left" %>
             <br><br>
           </div>
       <% end %>

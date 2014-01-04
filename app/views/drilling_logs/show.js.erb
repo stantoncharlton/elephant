@@ -1,30 +1,21 @@
 function removeOldContent(section) {
-    $('#drilling_overview').find('.job-tray-content').remove();
-    $('#drilling_log').find('.job-tray-content').remove();
-    $('#drilling_rop').find('.job-tray-content').remove();
-    $('#drilling_runs').find('.job-tray-content').remove();
-    $('#drilling_daily').find('.job-tray-content').remove();
-    $('#drilling_bha').find('.job-tray-content').remove();
-    $('#drilling_npt').find('.job-tray-content').remove();
+    $('.remote-tray').each(function() {
+        if($(this).hasClass('custom-data-closed')) {
+            $(this).find('.tray-content').remove();
+        }
+    });
 }
 
-<% if params[:section] == "drilling_overview" %>
-if(!$('#drilling_overview').hasClass('custom-data-closed')) {
-    removeOldContent('<%= params[:section] %>');
-}
-<% else %>
 removeOldContent('<%= params[:section] %>');
-<% end %>
 
-<% if params[:section] == "drilling_overview" %>
-if(!$('#drilling_overview').hasClass('custom-data-closed')) {
-    $('#drilling_overview').replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
-}
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
+<% if params[:section] == "drilling-overview" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
 
     <% if @drilling_log.job.status == Job::ON_JOB %>
         setTimeout(function() {
-            $.ajax('/drilling_logs/' + <%= @drilling_log.id %> + "?section=drilling_overview", {
+            $.ajax('/drilling_logs/' + <%= @drilling_log.id %> + "?section=drilling-overview", {
                 type: 'get',
                 dataType: 'script'
             });
@@ -32,20 +23,22 @@ if(!$('#drilling_overview').hasClass('custom-data-closed')) {
     <% end %>
 
 <% elsif params[:section] == "log" %>
-    $('#drilling_log').replaceWith("<%= j render 'drilling_logs/tray_log', drilling_log: @drilling_log %>");
+    tray.replaceWith("<%= j render 'drilling_logs/tray_log', drilling_log: @drilling_log %>");
     $('#drilling_log_filter').trigger("change");
     $('.custom-select').customSelect();
-    $('.date-picker').datepicker()
-<% elsif params[:section] == "drilling_rop" %>
-    $('#drilling_rop').replaceWith("<%= j render 'drilling_logs/tray_rop', drilling_log: @drilling_log %>");
-<% elsif params[:section] == "drilling_runs" %>
-    $('#drilling_runs').replaceWith("<%= j render 'drilling_logs/tray_runs', drilling_log: @drilling_log %>");
-<% elsif params[:section] == "drilling_daily" %>
-    $('#drilling_daily').replaceWith("<%= j render 'drilling_logs/tray_daily', drilling_log: @drilling_log %>");
-<% elsif params[:section] == "drilling_bha" %>
-    $('#drilling_bha').replaceWith("<%= j render 'drilling_logs/tray_bha', drilling_log: @drilling_log %>");
-<% elsif params[:section] == "drilling_npt" %>
-    $('#drilling_npt').replaceWith("<%= j render 'drilling_logs/tray_npt', drilling_log: @drilling_log %>");
+    $('.date-picker').datepicker();
+<% elsif params[:section] == "drilling-rop" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_rop', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling-runs" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_runs', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling-daily" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_daily', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling-bha" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_bha', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling-npt" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_npt', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling-reports" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_reports', drilling_log: @drilling_log %>");
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

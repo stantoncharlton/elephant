@@ -112,6 +112,10 @@
         (function ($) {
             $(document).ready(function () {
 
+                $('.show-working-curtain').live("click", function() {
+                    showWorkingCurtain();
+                });
+
                 var expire = new Date(new Date().getTime() + (1000 * 60 * 120));
                 setInterval(function () {
                     if (new Date().getTime() >= expire.getTime()) {

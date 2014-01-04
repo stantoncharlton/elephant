@@ -32,95 +32,113 @@
 
 <ul class="nav nav-pills alert alert-nav">
   <li class="active">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-overview">Overview</a>
   </li>
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-rop">ROP</a>
   </li>
 
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-runs">Runs</a>
   </li>
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-daily">Days</a>
   </li>
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-bha">BHAs</a>
   </li>
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-npt">Time Analysis</a>
   </li>
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="log">Drilling Log</a>
   </li>
 
   <li class="">
-    <a href="#" class="job-tray-toggle custom-data-toggle" data-id="<%= @drilling_log.id %>"
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
        data-tray="drilling-reports">Reports</a>
   </li>
 </ul>
 
 
 
-<div id="drilling_overview" class="" data-tray="drilling-overview">
-  <div class="drilling-overview-loading">
+<div class="remote-tray" data-tray="drilling-overview">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
   </div>
 </div>
 
-<div id="drilling_rop" class="job-tray custom-data-closed" data-tray="drilling-rop">
-  <div class="drilling-rop-loading">
+<div class="remote-tray custom-data-closed" data-tray="drilling-rop">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading ROP Analysis..." %>
   </div>
 </div>
 
-<div id="drilling_runs" class="job-tray custom-data-closed" data-tray="drilling-runs">
-  <div class="drilling-runs-loading">
+<div class="remote-tray custom-data-closed" data-tray="drilling-runs">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading runs..." %>
   </div>
 </div>
 
-<div id="drilling_daily" class="job-tray custom-data-closed" data-tray="drilling-daily">
-  <div class="drilling-daily-loading">
+<div class="remote-tray custom-data-closed" data-tray="drilling-daily">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading daily totals..." %>
   </div>
 </div>
 
-<div id="drilling_npt" class="job-tray custom-data-closed" data-tray="drilling-npt">
-  <div class="drilling-npt-loading">
+<div class="remote-tray custom-data-closed" data-tray="drilling-npt">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading NPT..." %>
   </div>
 </div>
 
-<div id="drilling_bha" class="job-tray custom-data-closed" data-tray="drilling-bha">
-  <div class="drilling-bha-loading">
+<div class="remote-tray custom-data-closed" data-tray="drilling-bha">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading BHA totals..." %>
   </div>
 </div>
 
-<div class="job-tray custom-data-closed" data-tray="npt">
-</div>
-
-
-<div id="drilling_log" class="job-tray custom-data-closed" data-tray="log">
-  <div class="drilling-log-loading">
+<div class="remote-tray custom-data-closed" data-tray="log">
+  <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading logs..." %>
   </div>
 </div>
 
+
+<div class="remote-tray custom-data-closed" data-tray="drilling-reports">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading reports..." %>
+  </div>
+</div>
 
 <div id="modal_popup" class="modal-popup-background">
   <div class="modal-popup modal-popup-fixed">
@@ -133,12 +151,13 @@
 
 <script type='text/javascript'>
   if(document.location.hash == '') {
-    $('#drilling_overview').find('.content').hide();
-    $('.drilling-overview-loading').removeClass('hidden');
-    $('.drilling-overview-loading').find('.loading').removeClass('hidden');
+      tray = $(".remote-tray[data-tray='drilling-overview']");
+      tray.find('.content').hide();
+      tray.find('.remote-loading').removeClass('hidden');
+      tray.find('.loading').removeClass('hidden');
       setTimeout(function() {
     $.ajax({
-        url: "/drilling_logs/<%= @drilling_log.id %>?section=drilling_overview",
+        url: "/drilling_logs/<%= @drilling_log.id %>?section=drilling-overview",
         type: "GET",
         dataType: "script"
     });

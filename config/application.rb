@@ -64,5 +64,7 @@ module ElephantWebApp
 
     config.cache_store = :dalli_store
 
+    Rails.root.join("app", "assets", "templates")
+
   end
 end

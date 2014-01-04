@@ -7,12 +7,12 @@
   <% if  document.document_type == Document::SURVEY %>
       <% survey = Survey.includes(document: {job: :well}).where(:company_id => current_user.company_id).where(:plan => false).where("wells.id = ?", document.job.well_id).limit(1).first %>
   <% elsif document.document_type == Document::WELL_PLAN %>
-      <% survey = Survey.includes(document: {job: :well}).where(:company_id => current_user.company_id).where(:plan => false).where("wells.id = ?", document.job.well_id).limit(1).first %>
+      <% survey = Survey.includes(document: {job: :well}).where(:company_id => current_user.company_id).where(:plan => true).where("wells.id = ?", document.job.well_id).limit(1).first %>
   <% end %>
 
   <% if !document.template? && document.job_id.present? %>
       <div class="document-status">
-        <% if !document.blank? %>
+        <% if !document.empty? %>
             <%= image_tag "document_complete.png", class: "tooltip-info",
                           "data-placement" => "bottom",
                           "data-title" => "Complete" %>

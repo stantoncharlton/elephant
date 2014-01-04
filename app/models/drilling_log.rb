@@ -82,7 +82,7 @@ class DrillingLog < ActiveRecord::Base
                 if entry.activity_code >= 1 && entry.activity_code < 100
                     below += time
                 else
-                   above += time
+                    above += time
                 end
 
                 if entry.activity_code == DrillingLogEntry::SLIDING || entry.activity_code == DrillingLogEntry::DRILLING
@@ -138,7 +138,7 @@ class DrillingLog < ActiveRecord::Base
                     sub_hash[:time] += time
                     sub_hash[:entries] += 1
                 else
-                    hash.merge!(entry.activity_code => {time: time, activity_code: entry.activity_code, activity_code_string: DrillingLogEntry.activity_code_string(entry.activity_code), entries: 1 })
+                    hash.merge!(entry.activity_code => {time: time, activity_code: entry.activity_code, activity_code_string: DrillingLogEntry.activity_code_string(entry.activity_code), entries: 1})
                 end
 
                 last_entry = entry
@@ -164,14 +164,16 @@ class DrillingLog < ActiveRecord::Base
 
                 if pooh &&
                         (entry.bha != last_bha ||
-                        entry.activity_code == DrillingLogEntry::CHANGE_BHA ||
-                        entry.activity_code == DrillingLogEntry::TIH)
+                                entry.activity_code == DrillingLogEntry::CHANGE_BHA ||
+                                entry.activity_code == DrillingLogEntry::TIH)
                     pooh = false
                     runs << current_run
                     current_run = []
                 end
 
-                current_run << entry
+                if entry.activity_code >= 1 && entry.activity_code < 100
+                    current_run << entry
+                end
 
             end
 

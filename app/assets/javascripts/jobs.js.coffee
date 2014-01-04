@@ -145,6 +145,11 @@ $ ->
       $('.drilling-bha-loading').removeClass 'hidden'
       $('.drilling-bha-loading').find('.loading').removeClass 'hidden'
       $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_bha", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "drilling-reports"
+      $('#drilling_reports').find('.job-tray-content').hide()
+      $('.drilling-reports-loading').removeClass 'hidden'
+      $('.drilling-reports-loading').find('.loading').removeClass 'hidden'
+      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_reports", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "drilling-npt"
       $('#drilling_npt').find('.job-tray-content').hide()
       $('.drilling-npt-loading').removeClass 'hidden'
@@ -167,8 +172,34 @@ $ ->
         $.ajax '/overview/' + "?section=rigs", type: 'get', dataType: 'script'
     return false
 
+  $('.remote-tray-toggle').click ->
+    $('.remote-tray-toggle').closest('li').removeClass 'active'
+    $('.remote-tray').addClass 'custom-data-closed'
+    $(this).closest('li').addClass 'active'
+
+    tray_name = $(this).attr('data-tray')
+    controller = $(this).attr('data-tray-controller')
+    id = $(this).attr('data-id')
+
+    if tray_name.length > 0 && controller.length > 0 && id.length > 0
+      tray = $(".remote-tray[data-tray=" + tray_name + "]")
+      tray.removeClass 'custom-data-closed'
+      document.location.hash = tray_name
+
+      tray.find('.tray-content').hide()
+      tray.find('.remote-loading').removeClass 'hidden'
+      tray.find('.loading').removeClass 'hidden'
+
+      $.ajax '/' + controller + '/' + id + "?section=" + tray_name, type: 'get', dataType: 'script'
+
+    return false
+
   if document.location.hash != ''
-    $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
+    if $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").length != 0
+      $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
+    else if $(".remote-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").length != 0
+      $(".remote-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
+
 
   #$('#add_failure').click ->
   #  $('#modal_popup').css('visibility', 'visible')

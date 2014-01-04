@@ -1,13 +1,13 @@
-<div id="drilling_bha" class="job-tray" data-tray="drilling-bha">
+<div class="remote-tray" data-tray="drilling-bha">
 
   <% bha_document = Document.where("documents.job_id = ?", drilling_log.job_id).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).last %>
 
-  <div class="drilling-bha-loading hidden">
+  <div class="remote-loading hidden">
     <br><br>
     <%= render 'layouts/inline_loading', title: "Please wait, loading BHA totals..." %>
   </div>
 
-  <div class="content job-tray-content">
+  <div class="content tray-content">
 
     <% bhas = Bha.where(:job_id => drilling_log.job_id).order("name ASC") %>
 

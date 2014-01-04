@@ -14,16 +14,26 @@
     </div>
   </div>
 
-  <div>
-    <div class='inline-block'>
-      <div class='list-item-column2 help-text'>Max TVD</div>
-      <div class='list-item-column2'>0.0 ft</div>
-    </div>
+  <% if survey_points.present? && survey_points.any? %>
+      <% max_tvd = 0.0 %>
+      <% vertical_section = 0.0 %>
+      <% survey_points.each do |point| %>
+          <% if point.measured_depth >= start_depth && point.measured_depth <= end_depth %>
+              <% max_tvd = [max_tvd, point.true_vertical_depth].max %>
+              <% vertical_section = vertical_section + point.vertical_section %>
+          <% end %>
+      <% end %>
+      <div>
+        <div class='inline-block'>
+          <div class='list-item-column2 help-text'>Max TVD</div>
+          <div class='list-item-column2'><%= max_tvd %> ft</div>
+        </div>
 
-    <div class='inline-block push-right-small'>
-      <div class='list-item-column2 help-text'>End Depth</div>
-      <div class='list-item-column2'> %> ft</div>
-    </div>
-  </div>
+        <div class='inline-block push-right-small'>
+          <div class='list-item-column2 help-text'>Vertical Section</div>
+          <div class='list-item-column2'><%= vertical_section %> ft</div>
+        </div>
+      </div>
+  <% end %>
 
 </div>

@@ -7,7 +7,7 @@
        data-title="Average Total Rate of Penetration.">
     <div class="chart-title">Avg Total ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1) %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.rop.nil? ? 0.0 : drilling_log.rop.round(1) %></div>
       <div class="percentage ">ft/min</div>
     </div>
   </div>
@@ -16,7 +16,7 @@
        data-title="Total feet drilled.">
     <div class="chart-title">Total Drilled</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? 0 : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') %></div>
       <div class="percentage "><span class="push-right-small">ft</span></div>
     </div>
   </div>
@@ -25,7 +25,7 @@
        data-title="Time in hours spent rotating and sliding.">
     <div class="chart-title">Drilling Time</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= drilling_log.nil? || drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1) %></div>
+      <div class="donut-text "><%= drilling_log.nil? || drilling_log.drilling_time.nil? ? 0.0 : drilling_log.drilling_time.round(1) %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>

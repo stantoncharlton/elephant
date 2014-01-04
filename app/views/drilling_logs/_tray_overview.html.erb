@@ -1,11 +1,11 @@
-<div id="drilling_overview" class="job-tray" data-tray="drilling-overview">
+<div class="remote-tray" data-tray="drilling-overview">
 
-<div class="drilling-overview-loading hidden">
+<div class="remote-loading hidden">
   <br><br>
   <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
 </div>
 
-<div class="content job-tray-content">
+<div class="content tray-content">
 <br>
 
 <% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id) %>

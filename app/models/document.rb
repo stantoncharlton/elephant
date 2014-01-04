@@ -204,9 +204,16 @@ class Document < ActiveRecord::Base
             drilling_log_sql = DrillingLog.where(:document_id => self.id).select(:id).to_sql
             return DrillingLogEntry.where("drilling_log_entries.drilling_log_id IN (#{drilling_log_sql})").count == 0
         elsif self.document_type == BOTTOM_HOLE_ASSEMBLY
-            return Bha.where(:document_id => self.id).count == 0
-        elsif self.document_type == WELL_PLAN || self.document_type == SURVEY
-            survey = Survey.where(:document_id => self.id).first
+            return true if self.job.nil?
+            bha = Bha.joins(document: {job: :well}).where("wells.id = ?", self.job.well_id).order("bhas.updated_at DESC").limit(1).first
+            return bha.nil?
+        elsif self.document_type == WELL_PLAN
+            return true if self.job.nil?
+            survey = Survey.joins(document: {job: :well }).where(:plan => true).where("wells.id = ?", self.job.well_id).limit(1).first
+            return survey.nil? || survey.survey_points.count == 0
+        elsif self.document_type == SURVEY
+            return true if self.job.nil?
+            survey = Survey.joins(document: {job: :well }).where(:plan => false).where("wells.id = ?", self.job.well_id).limit(1).first
             return survey.nil? || survey.survey_points.count == 0
         end
 
