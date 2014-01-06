@@ -5,15 +5,88 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading reports..." %>
   </div>
 
-  <div class='content tray-content'>
+  <div class='content tray-content content-loaded'>
     <div class='page_header'>
       <h1>Reports</h1>
     </div>
 
-    <div>
-      <%= link_to "Drilling Report", drilling_log_path(@drilling_log.id, report: true, report_name: "daily_report"),
-                  class: "bluebtn btnsmall gray show-working-curtain",
-                  remote: false %>
+    <div class='report' data-report="drilling_report">
+      <div class='pull-right'>
+
+        <div class="inline-block generating-report hidden">
+          <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+          <div class="inline-block progress progress-info progress-striped active push-down">
+            <div class="bar" style="width: 400px;"></div>
+          </div>
+        </div>
+
+        <%= link_to "Generate", drilling_log_path(@drilling_log.id, report: true, report_name: "drilling_report"),
+                    class: "bluebtn btnsmall gray generate-report align-top",
+                    remote: true %>
+
+        <%= link_to "Download", "#",
+                    class: "bluebtn btnsmall green download-report align-top hidden" %>
+
+      </div>
+
+      <h3 class='inline-block push-down'>Drilling Report</h3>
+
+      <br> <br>
+      <hr class=''>
     </div>
+
+    <div class='report' data-report="run_report">
+      <div class='pull-right'>
+
+        <div class="inline-block generating-report hidden">
+          <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+          <div class="inline-block progress progress-info progress-striped active push-down">
+            <div class="bar" style="width: 400px;"></div>
+          </div>
+        </div>
+
+        <%= link_to "Generate", drilling_log_path(@drilling_log.id, report: true, report_name: "run_report"),
+                    class: "bluebtn btnsmall gray generate-report align-top",
+                    remote: true %>
+
+        <%= link_to "Download", "#",
+                    class: "bluebtn btnsmall green download-report align-top hidden" %>
+
+      </div>
+
+      <h3 class='inline-block push-down'>Run Report</h3>
+
+      <br> <br>
+      <hr class=''>
+    </div>
+
+    <div class='report' data-report="bha_report">
+      <div class='pull-right'>
+
+        <div class="inline-block generating-report hidden">
+          <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+          <div class="inline-block progress progress-info progress-striped active push-down">
+            <div class="bar" style="width: 400px;"></div>
+          </div>
+        </div>
+
+        <%= link_to "Generate", drilling_log_path(@drilling_log.id, report: true, report_name: "bha_report"),
+                    class: "bluebtn btnsmall gray generate-report align-top",
+                    remote: true %>
+
+        <%= link_to "Download", "#",
+                    class: "bluebtn btnsmall green download-report align-top hidden" %>
+
+      </div>
+
+      <h3 class='inline-block push-down'>BHA Report</h3>
+
+      <br> <br>
+      <hr class=''>
+    </div>
+
+
+
+    <%= link_to "Download", "#", id: "report_download", class: "", style: "opacity: 0.0;" %>
   </div>
 </div>

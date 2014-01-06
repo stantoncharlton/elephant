@@ -5,7 +5,7 @@
   <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
 </div>
 
-<div class="content tray-content">
+<div class="content tray-content content-loaded">
 <br>
 
 <% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id) %>

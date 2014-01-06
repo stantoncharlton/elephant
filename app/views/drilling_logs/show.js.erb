@@ -1,14 +1,22 @@
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
+if(!tray.hasClass('custom-data-closed')) {
 function removeOldContent(section) {
     $('.remote-tray').each(function() {
         if($(this).hasClass('custom-data-closed')) {
-            $(this).find('.tray-content').remove();
+            generating_report = $(this).find('.generating-report:not(.hidden)');
+            download_report = $(this).find('.download-report:not(.hidden)');
+            if(generating_report.length > 0 || download_report.length > 0) {
+
+            }
+            else {
+                $(this).find('.tray-content').remove();
+                $(this).find('.tray-content').removeClass('content-loaded');
+            }
         }
     });
 }
 
 removeOldContent('<%= params[:section] %>');
-
-tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
 <% if params[:section] == "drilling-overview" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");
@@ -39,6 +47,25 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
     tray.replaceWith("<%= j render 'drilling_logs/tray_npt', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling-reports" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_reports', drilling_log: @drilling_log %>");
+
+    $('.generate-report').each(function() {
+        $(this).click(function() {
+            report = $(this).closest('.report');
+            report.find('.generating-report').removeClass('hidden');
+            $(this).addClass('hidden');
+        });
+    });
+<% elsif params[:section] == "survey" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_survey', drilling_log: @drilling_log %>");
+<% else %>
+    hideWorkingCurtain();
+    report = $(".report[data-report='<%= @report_name %>']");
+    if(report.length > 0) {
+        report.find('.generating-report').addClass('hidden');
+        download_link = report.find('.download-report');
+        download_link.attr('href', "<%= sanitize(@full_url) %>");
+        download_link.removeClass('hidden');
+    }
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
@@ -46,3 +73,4 @@ if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").match
 }
 
 $('.custom-select-ajax').customSelect();
+}

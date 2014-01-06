@@ -186,11 +186,16 @@ $ ->
       tray.removeClass 'custom-data-closed'
       document.location.hash = tray_name
 
-      tray.find('.tray-content').hide()
-      tray.find('.remote-loading').removeClass 'hidden'
-      tray.find('.loading').removeClass 'hidden'
+      if tray.find('.tray-content').hasClass 'content-loaded'
+        tray.find('.tray-content').show()
+        tray.find('.remote-loading').addClass 'hidden'
+        tray.find('.loading').addClass 'hidden'
+      else
+        tray.find('.tray-content').hide()
+        tray.find('.remote-loading').removeClass 'hidden'
+        tray.find('.loading').removeClass 'hidden'
 
-      $.ajax '/' + controller + '/' + id + "?section=" + tray_name, type: 'get', dataType: 'script'
+        $.ajax '/' + controller + '/' + id + "?section=" + tray_name, type: 'get', dataType: 'script'
 
     return false
 

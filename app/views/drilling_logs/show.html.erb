@@ -53,12 +53,12 @@
        data-tray="drilling-runs">Runs</a>
   </li>
 
-  <li class="">
-    <a href="#" class="remote-tray-toggle custom-data-toggle"
-       data-id="<%= @drilling_log.id %>"
-       data-tray-controller="drilling_logs"
-       data-tray="drilling-daily">Days</a>
-  </li>
+      <li class="">
+        <a href="#" class="remote-tray-toggle custom-data-toggle"
+           data-id="<%= @drilling_log.id %>"
+           data-tray-controller="drilling_logs"
+           data-tray="drilling-daily">Days</a>
+      </li>
 
   <li class="">
     <a href="#" class="remote-tray-toggle custom-data-toggle"
@@ -71,14 +71,21 @@
     <a href="#" class="remote-tray-toggle custom-data-toggle"
        data-id="<%= @drilling_log.id %>"
        data-tray-controller="drilling_logs"
-       data-tray="drilling-npt">Time Analysis</a>
+       data-tray="drilling-npt">Time</a>
   </li>
 
   <li class="">
     <a href="#" class="remote-tray-toggle custom-data-toggle"
        data-id="<%= @drilling_log.id %>"
        data-tray-controller="drilling_logs"
-       data-tray="log">Drilling Log</a>
+       data-tray="log">Log</a>
+  </li>
+
+  <li class="">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
+       data-tray="survey">Survey</a>
   </li>
 
   <li class="">
@@ -133,6 +140,11 @@
   </div>
 </div>
 
+<div class="remote-tray custom-data-closed" data-tray="survey">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading survey..." %>
+  </div>
+</div>
 
 <div class="remote-tray custom-data-closed" data-tray="drilling-reports">
   <div class="remote-loading">
@@ -150,19 +162,19 @@
 </div>
 
 <script type='text/javascript'>
-  if(document.location.hash == '') {
-      tray = $(".remote-tray[data-tray='drilling-overview']");
-      tray.find('.content').hide();
-      tray.find('.remote-loading').removeClass('hidden');
-      tray.find('.loading').removeClass('hidden');
-      setTimeout(function() {
-    $.ajax({
-        url: "/drilling_logs/<%= @drilling_log.id %>?section=drilling-overview",
-        type: "GET",
-        dataType: "script"
-    });
-      }, 1);
-  }
+    if (document.location.hash == '') {
+        tray = $(".remote-tray[data-tray='drilling-overview']");
+        tray.find('.content').hide();
+        tray.find('.remote-loading').removeClass('hidden');
+        tray.find('.loading').removeClass('hidden');
+        setTimeout(function () {
+            $.ajax({
+                url: "/drilling_logs/<%= @drilling_log.id %>?section=drilling-overview",
+                type: "GET",
+                dataType: "script"
+            });
+        }, 1);
+    }
 </script>
 
 

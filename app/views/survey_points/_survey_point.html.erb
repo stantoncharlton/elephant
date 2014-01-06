@@ -43,7 +43,6 @@
     <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
     <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
 
-    <div class="list-item-column list-item-column-short"><%= point.course_length.round(2) %></div>
 
     <div class="list-item-column list-item-column-short"><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></div>
     <div class="list-item-column list-item-column-short blue-text"><%= number_with_delimiter(point.vertical_section.round(2), :delimiter => ',') %></div>

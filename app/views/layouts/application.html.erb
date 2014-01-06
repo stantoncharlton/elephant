@@ -109,6 +109,14 @@
             });
         }
 
+        function hideWorkingCurtain() {
+            $('#working').addClass('hidden');
+            $('html, body').css({
+                'overflow': 'auto',
+                'height': 'auto'
+            });
+        }
+
         (function ($) {
             $(document).ready(function () {
 

@@ -3,67 +3,6 @@
   <% log = DrillingLog.calculate(entries) %>
 
 
-  <div>
-    <div class="chart-block tooltip-info"
-         data-title="Average Total Rate of Penetration.">
-      <div class="chart-title">Avg Total ROP</div>
-      <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= log.nil? || log.rop.nil? ? "-" : log.rop.round(1) %></div>
-        <div class="percentage ">ft/min</div>
-      </div>
-    </div>
+  <%= render 'drilling_logs/overview', drilling_log: log, drilling_log_entries: entries %>
 
-    <div class="chart-block tooltip-info"
-         data-title="Total feet drilled.">
-      <div class="chart-title">Total Drilled</div>
-      <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= log.nil? || log.total_drilled.nil? ? "-" : number_with_delimiter(log.total_drilled.to_i, :delimiter => ',') %></div>
-        <div class="percentage "><span class="push-right-small">ft</span></div>
-      </div>
-    </div>
-
-    <div class="chart-block tooltip-info"
-         data-title="Time in hours spent rotating or sliding.">
-      <div class="chart-title">Drilling Time</div>
-      <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= log.nil? || log.drilling_time.nil? ? "-" : log.drilling_time.round(1) %></div>
-        <div class="percentage ">hours</div>
-      </div>
-    </div>
-
-    <div class="chart-daily tooltip-info" data-title="ROP">
-      <canvas id="canvas_<%= bha.id %>" height="110" width="220"></canvas>
-    </div>
-
-    <script>
-        <% rops = [] %>
-        <% last_entry = entries.first %>
-        <% entries.each do |dl| %>
-        <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
-        <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.1 %>
-        <% rop = ((dl.depth - last_entry.depth).to_f / (dl.entry_at - last_entry.entry_at).to_f * 60.0)  %>
-        <% puts rop %>
-        <% rops << [dl.entry_at, dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? rop : 0.0] %>
-        <% end %>
-        <% last_entry = dl %>
-        <% end %>
-
-        var lineChartData = {
-            labels: <%= raw rops.map { |dl| '' }.to_json.html_safe %>,
-            datasets: [
-                {
-                    fillColor: "rgba(220,220,220,0.5)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    data: <%= raw rops.map { |dl| dl[1] }.to_json.html_safe %>
-                }
-            ]
-        }
-
-        var myLine = new Chart(document.getElementById("canvas_<%= bha.id %>").getContext("2d")).Line(lineChartData, { pointDot : false, scaleShowGridLines : false, animation : false, scaleOverride : true, scaleSteps : 4, scaleStepWidth : 5, scaleStartValue : -4 });
-
-    </script>
-
-  </div>
 </div>

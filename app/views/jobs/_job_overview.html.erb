@@ -3,7 +3,9 @@
   <% if !drilling_log_document.nil? %>
       <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
 
-      <%= render 'drilling_logs/overview', drilling_log: @drilling_log %>
+      <%= render 'drilling_logs/overview', drilling_log: @drilling_log, drilling_log_entries: @drilling_log.drilling_log_entries %>
+
+
 
       <br>
 
@@ -12,12 +14,13 @@
           Drilling &nbsp; &#10095;&#10095;
         </div>
         <div class='inline-block push-right-small'>
-          <%= link_to "Overview", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-overview"), target: "_blank", class: "btn btn-info white-text" %>
-          <%= link_to "ROP", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-rop"), target: "_blank", class: "btn btn-default" %>
-          <%= link_to "Runs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-runs"), target: "_blank", class: "btn btn-default" %>
-          <%= link_to "BHAs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-bhas"), target: "_blank", class: "btn btn-default" %>
-          <%= link_to "Log", drilling_logs_path(document: drilling_log_document.id, :anchor => "log"), target: "_blank", class: "btn btn-default" %>
-          <%= link_to "Reports", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-reports"), target: "_blank", class: "btn btn-default" %>
+          <%= link_to "Overview", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-overview"), class: "btn btn-info white-text" %>
+          <%= link_to "ROP", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-rop"), class: "btn btn-default" %>
+          <%= link_to "Runs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-runs"), class: "btn btn-default" %>
+          <%= link_to "BHAs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-bha"), class: "btn btn-default" %>
+          <%= link_to "Log", drilling_logs_path(document: drilling_log_document.id, :anchor => "log"), class: "btn btn-default" %>
+          <%= link_to "Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-default" %>
+          <%= link_to "Reports", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-reports"), class: "btn btn-default" %>
         </div>
       </div>
   <% end %>

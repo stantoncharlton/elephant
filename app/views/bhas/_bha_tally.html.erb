@@ -29,10 +29,15 @@
       </div>
     </div>
 
+    <div class='push-down'>
+      <%= render 'drilling_logs/bha', bha: bha, drilling_log: DrillingLog.includes(document: {job: :well}).where("wells.id = ?", bha.job.well.id).first %>
+    </div>
 
-    <div class="content">
-      <p class="list-item-column list-item-column-long help-text">
-        Tool
+    <hr>
+
+    <div class="">
+      <p class="list-item-column list-item-column3 help-text">
+        <span class='push-right-small'>Tool</span>
       </p>
 
       <p class="list-item-column2 list-item-column-short  help-text">
@@ -71,7 +76,7 @@
               <div class="bha-line">
 
                 <div class="push-right-small">
-                  <div class="list-item-column list-item-column-long orange-text">
+                  <div class="list-item-column list-item-column3 orange-text">
                     <%= render 'part_memberships/part_membership', part_membership: item.tool %>
                   </div>
 
@@ -105,6 +110,8 @@
       <% end %>
     </div>
 
+    <br>
+
     <div class='push-down pull-right'>
       <div class='inline-block'>
         <b>Bit to Sensor</b><span class='push-right-small blue-text'><%= bha.bit_to_sensor.present? ? bha.bit_to_sensor : "-" %></span>
@@ -114,10 +121,6 @@
       </div>
     </div>
 
-    <div class='push-down'>
-      <br><br><br>
-      <%= render 'drilling_logs/bha', bha: bha, drilling_log: DrillingLog.includes(document: {job: :well}).where("wells.id = ?", bha.job.well.id).first %>
-    </div>
   </div>
 
   <div id="bha_loader" class="push-down center hidden inline">

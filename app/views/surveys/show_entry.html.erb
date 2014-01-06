@@ -1,9 +1,6 @@
 <% provide(:title, @survey.name) %>
 
 
-<% calculated_points = @active_well_plan.survey_points %>
-<% calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth) %>
-
 <div class="page_header">
   <h1><%= @survey.name %></h1>
 
@@ -37,6 +34,10 @@
         <%= link_to "Update " + document.name, "/surveys?document=" + document.id.to_s, class: "bluebtn" %>
     <% end %>
 <% else %>
+
+    <% calculated_points = @active_well_plan.survey_points %>
+    <% calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth) %>
+
 
     <% if @survey.survey_points.empty? %>
         <%= render 'surveys/tie_in' %>

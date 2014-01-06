@@ -35,7 +35,7 @@
       <span class="help-text push-right-small <%= entry.depth - last_entry.depth < 0 ? "warning-text" : "" %>"><%= entry.depth - last_entry.depth %></span>
     </p>
 
-    <p class="list-item-column list-item-column3">
+    <p class="list-item-column list-item-column4">
       <span class="<%= entry.activity_code != DrillingLogEntry::DRILLING && entry.activity_code != DrillingLogEntry::SLIDING && entry.activity_code != DrillingLogEntry::CONNECTION_SURVEY && entry.activity_code != DrillingLogEntry::CONNECTION ? "warning-text" : "" %>"><b><%= DrillingLogEntry.activity_code_string(entry.activity_code) %></b></span>
     </p>
 

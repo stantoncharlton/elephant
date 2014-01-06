@@ -5,7 +5,7 @@
   <%= render 'layouts/inline_loading', title: "Please wait, loading logs..." %>
 </div>
 
-<div class='tray-content'>
+<div class='tray-content content-loaded'>
 <% entries = @drilling_log.drilling_log_entries.includes(:bha).to_a %>
 <% dates = entries.group_by { |item| item.entry_at.to_date } %>
 <% filter_options = [] %>
@@ -72,7 +72,7 @@
       Depth
     </p>
 
-    <p class="help-text list-item-column list-item-column3">
+    <p class="help-text list-item-column list-item-column4">
       Activity
     </p>
 

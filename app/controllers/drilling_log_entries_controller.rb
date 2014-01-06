@@ -83,9 +83,9 @@ class DrillingLogEntriesController < ApplicationController
                         bha = Bha.includes(document: { job: :well }).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
                         if bha.nil?
                             bha = Bha.new
-                            bha.name = row[3]
+                            bha.name = row[3].to_i.to_s
                             bha.company = current_user.company
-                            bha.document = Document.includes(job: :well).where("wells.id = ?", @drilling_log.job.well_id).last
+                            bha.document = Document.includes(job: :well).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).where("wells.id = ?", @drilling_log.job.well_id).last
                             bha.job = @drilling_log.job
                             bha.save
                         end
