@@ -53,7 +53,15 @@ removeOldContent('<%= params[:section] %>');
             report = $(this).closest('.report');
             report.find('.generating-report').removeClass('hidden');
             $(this).addClass('hidden');
+            $(this).closest('.generate-report-div').addClass('hidden');
         });
+    });
+
+
+    $('.report-type').change(function() {
+        report = $(this).closest('.report');
+        report.find('.generate-report').removeClass('hidden');
+        report.find('.download-report').addClass('hidden');
     });
 <% elsif params[:section] == "survey" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_survey', drilling_log: @drilling_log %>");
@@ -61,6 +69,7 @@ removeOldContent('<%= params[:section] %>');
     report = $(".report[data-report='<%= @report_name %>']");
     if(report.length > 0) {
         report.find('.generating-report').addClass('hidden');
+        report.find('.generate-report-div').removeClass('hidden');
         download_link = report.find('.download-report');
         download_link.attr('href', "<%= sanitize(@full_url) %>");
         download_link.removeClass('hidden');
@@ -71,5 +80,10 @@ if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").match
     $('.tooltip-info').tooltip();
 }
 
-$('.custom-select-ajax').customSelect();
+$('.custom-select-ajax').each(function() {
+    span_tag = $(this).next('span');
+    if($(this).prop("tagName").toLowerCase() == 'select' && span_tag.length <= 0 && !span_tag.hasClass('customSelect')) {
+       $(this).customSelect();
+    }
+});
 }

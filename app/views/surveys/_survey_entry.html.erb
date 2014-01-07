@@ -1,3 +1,4 @@
+<% if @drilling_log.job.status < Job::COMPLETE && signed_in? %>
 <div id="survey_entry" class="well <%= @survey.survey_points.empty? ? "hidden" : "" %>">
   <div>
     <b>Add New Survey Point</b>
@@ -89,3 +90,4 @@
     <br><br>
   </div>
 </div>
+<% end %>

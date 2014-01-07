@@ -13,7 +13,7 @@
   </div>
   <div>
     <div class='survey-point-hover-label'>Course</div>
-    <div class='survey-point-hover-value'><%= point.course_length.round(2) %></div>
+    <div class='survey-point-hover-value'><%= point.course_length.present? ? point.course_length.round(2) : '-' %></div>
   </div>
 
   <div>

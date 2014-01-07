@@ -1,4 +1,4 @@
-<% if @drilling_log.job.status < Job::COMPLETE %>
+<% if @drilling_log.job.status < Job::COMPLETE && signed_in? %>
     <div id='drilling_log_entry' class="well content">
       <div class="form" data-form="new-job-log">
 

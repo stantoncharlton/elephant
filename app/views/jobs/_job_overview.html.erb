@@ -25,71 +25,7 @@
       </div>
   <% end %>
 
-  <% if Document.where(:job_id => @job.id).where(:document_type => Document::SURVEY).count() > 0 %>
-
-      <% well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => true).first %>
-      <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", @job.well.id).where(:plan => false).first %>
-
-      <% if @job.status == Job::ON_JOB && @drilling_log.present? %>
-          <div class='content'>
-
-            <div>
-              <% last_entry = @drilling_log.drilling_log_entries.last %>
-              <% if last_entry.present? %>
-                  <div class='inline-block push-right-small'>
-                    <b class='blue-text'><%= last_entry.entry_at.strftime("%l:%M %p") %></b>
-                    <b class='push-right'><%= DrillingLogEntry.activity_code_string(last_entry.activity_code) %></b>
-
-                    <div class='inline-block push-right'><%= last_entry.comment %></div>
-                  </div>
-              <% end %>
-
-            </div>
-
-            <% calculated_points_survey = survey.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : [] %>
-
-            <% if calculated_points_survey.any? %>
-                <% point = calculated_points_survey.last %>
-                <div class='tooltip-info push-down-small'
-                     data-title="<%= render 'surveys/hover', point: point %>"
-                     data-html="true"
-                     data-placement="right">
-
-                  <div class='inline-block push-right-small'>
-                    <b class='blue-text'><%= point.created_at.strftime("%l:%M %p") %></b>
-
-                    <div class='inline-block push-right'>
-                      <p class='inline'>M Depth &nbsp;</p>
-                      <b class=''><%= number_with_delimiter(point.measured_depth.round(2), :delimiter => ',') %></b>
-                    </div>
-                    <div class='inline-block push-right'>
-                      <p class='inline'>TVD &nbsp;</p>
-                      <b class=''><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></b>
-                    </div>
-                    <div class='inline-block push-right'>
-                      <p class='inline'>DLS &nbsp;</p>
-                      <span class='label label-info'><%= point.dog_leg_severity.round(2) %></span></div>
-                  </div>
-
-                  <% if false %>
-                      <%= link_to "Open survey", survey, target: "_blank", class: "pull-right activity-user-link push-left" %>
-                  <% end %>
-                </div>
-            <% end %>
-
-          </div>
-
-      <% end %>
-
-
-      <% if false %>
-          <%= render 'surveys/survey_charts', well_plan: well_plan, survey: survey, height: 350 %>
-      <% end %>
-
-      <hr>
-
-
-  <% end %>
+  <hr>
 
 
   <div class="">

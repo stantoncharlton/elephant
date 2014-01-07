@@ -81,7 +81,16 @@ class DrillingLogsController < ApplicationController
             report = ODFReport::Report.new(Rails.root.join("app/assets/templates/#{@report_name}.odt")) do |r|
                 case @report_name
                     when "drilling_report"
-                        fill_drilling_report @drilling_log.job, @drilling_log.drilling_log_entries, r, Time.now, Time.now + 1.day
+                        type = params[:type].to_i
+                        entries = @drilling_log.drilling_log_entries.includes(:bha).to_a
+                        dates = entries.group_by { |item| item.entry_at.to_date }
+                        dates.each_with_index do |d, index|
+                            if type == index + 1
+                                entries = d[1]
+                            end
+                        end
+
+                        fill_drilling_report @drilling_log.job, entries, r, entries.first.entry_at, entries.last.entry_at
                 end
             end
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"

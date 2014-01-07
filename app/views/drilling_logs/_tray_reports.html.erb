@@ -15,14 +15,33 @@
 
         <div class="inline-block generating-report hidden">
           <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
           <div class="inline-block progress progress-info progress-striped active push-down">
             <div class="bar" style="width: 400px;"></div>
           </div>
         </div>
 
-        <%= link_to "Generate", drilling_log_path(@drilling_log.id, report: true, report_name: "drilling_report"),
-                    class: "bluebtn btnsmall gray generate-report align-top",
-                    remote: true %>
+        <div class='inline-block generate-report-div'>
+          <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
+              <%= hidden_field_tag "report", "", value: true %>
+              <%= hidden_field_tag "report_name", "", value: "drilling_report" %>
+
+              <% entries = @drilling_log.drilling_log_entries.includes(:bha).to_a %>
+              <% dates = entries.group_by { |item| item.entry_at.to_date } %>
+              <% filter_options = [] %>
+              <% filter_options << ["All Days", 0] %>
+              <% dates.each_with_index do |d, index| %>
+                  <% filter_options << [d[0].strftime("%A %m/%d/%Y"), index + 1] %>
+              <% end %>
+
+              <%= select_tag "type",
+                             options_for_select(filter_options, 0),
+                             class: "custom-select custom-select-ajax align-top report-type" %>
+
+              <%= f.submit "Generate",
+                           class: "bluebtn btnsmall gray generate-report align-top" %>
+          <% end %>
+        </div>
 
         <%= link_to "Download", "#",
                     class: "bluebtn btnsmall green download-report align-top hidden" %>
@@ -40,14 +59,32 @@
 
         <div class="inline-block generating-report hidden">
           <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
           <div class="inline-block progress progress-info progress-striped active push-down">
             <div class="bar" style="width: 400px;"></div>
           </div>
         </div>
 
-        <%= link_to "Generate", drilling_log_path(@drilling_log.id, report: true, report_name: "run_report"),
-                    class: "bluebtn btnsmall gray generate-report align-top",
-                    remote: true %>
+        <div class='generate-report-div'>
+          <%= form_for @drilling_log, :method => :get, remote: true do |f| %>
+              <%= hidden_field_tag "report", "", value: true %>
+              <%= hidden_field_tag "report_name", "", value: "run_report" %>
+
+              <% runs = @drilling_log.get_runs %>
+              <% filter_options = [] %>
+              <% filter_options << ["All Runs", 0] %>
+              <% runs.each_with_index do |d, index| %>
+                  <% filter_options << ["Run #{index + 1}", index + 1] %>
+              <% end %>
+
+              <%= select_tag "type",
+                             options_for_select(filter_options, 0),
+                             class: "custom-select custom-select-ajax align-top report-type" %>
+
+              <%= f.submit "Generate",
+                           class: "bluebtn btnsmall gray generate-report align-top" %>
+          <% end %>
+        </div>
 
         <%= link_to "Download", "#",
                     class: "bluebtn btnsmall green download-report align-top hidden" %>
@@ -65,14 +102,31 @@
 
         <div class="inline-block generating-report hidden">
           <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
           <div class="inline-block progress progress-info progress-striped active push-down">
             <div class="bar" style="width: 400px;"></div>
           </div>
         </div>
 
-        <%= link_to "Generate", drilling_log_path(@drilling_log.id, report: true, report_name: "bha_report"),
-                    class: "bluebtn btnsmall gray generate-report align-top",
-                    remote: true %>
+        <div class='generate-report-div'>
+          <%= form_for @drilling_log, :method => :get, remote: true do |f| %>
+              <%= hidden_field_tag "report", "", value: true %>
+              <%= hidden_field_tag "report_name", "", value: "bha_report" %>
+              <% bhas = Bha.where(:job_id => @drilling_log.job_id).order("name ASC") %>
+              <% filter_options = [] %>
+              <% bhas.each_with_index do |bha, index| %>
+                  <% filter_options << ["#{bha.name} - #{bha.description}", bha.id] %>
+              <% end %>
+
+              <%= select_tag "type",
+                             options_for_select(filter_options, bhas.first),
+                             class: "custom-select custom-select-ajax align-top report-type" %>
+
+              <%= f.submit "Generate",
+                          class: "bluebtn btnsmall gray generate-report align-top" %>
+          <% end %>
+        </div>
+
 
         <%= link_to "Download", "#",
                     class: "bluebtn btnsmall green download-report align-top hidden" %>

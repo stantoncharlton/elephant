@@ -55,6 +55,7 @@ class ApplicationController < ActionController::Base
     def set_tenant
         if current_user.present?
             set_current_tenant(current_user.company)
+        # For Shared drilling log
         elsif request.path == drilling_logs_path &&
                 cookies[:share].present? &&
                 cookies[:access_code].present? &&
