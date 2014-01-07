@@ -6,7 +6,7 @@
   <%= stylesheet_link_tag "application", media: "all" %>
   <%= javascript_include_tag "application" %>
 
-  <% if signed_in? %>
+  <% if signed_in? || cookies[:access_code].present? %>
       <% if Rails.env.dev? %>
           <script src='assets/javascript/mapbox.js'></script>
           <link href='assets/stylesheets/mapbox.css' rel='stylesheet'/>

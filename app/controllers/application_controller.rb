@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
         #if !request.headers['x-access-token'].blank? && current_user
 
         #else
-            get_session_time_left
+        get_session_time_left
         #end
     end
 
@@ -55,6 +55,14 @@ class ApplicationController < ActionController::Base
     def set_tenant
         if current_user.present?
             set_current_tenant(current_user.company)
+        elsif request.path == drilling_logs_path &&
+                cookies[:share].present? &&
+                cookies[:access_code].present? &&
+                cookies[:email].present?
+            @document_share = DocumentShare.find_by_id(cookies[:share])
+            if @document_share.access_code == cookies[:access_code] && @document_share.email == cookies[:email]
+                set_current_tenant(@document_share.company)
+            end
         end
     end
 

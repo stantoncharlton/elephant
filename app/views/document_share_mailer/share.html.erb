@@ -2,29 +2,51 @@
 <link rel="stylesheet" type="text/css" href="/application.css"/>
 <body class="email-body">
 
-<h1><%= @document_share.shared_by.name %> Shared a Document</h1>
+<% if @document_share.document.document_type == Document::DOCUMENT %>
+    <h1><%= @document_share.shared_by.name %> Shared a Document</h1>
 
-<h3 class="center"><b>'<%= @document_share.document.name %>'</b></h3>
+    <h3 class="center"><b>'<%= @document_share.document.name %>'</b></h3>
 
-<hr>
+    <hr>
 
-<% if User.find_by_email(@document_share.email).present? %>
-    <p>Add document to existing job on Elephant</p>
+    <% if User.find_by_email(@document_share.email).present? %>
+        <p>Add document to existing job on Elephant</p>
+
+        <p>
+          <% if Rails.env.production? %>
+              <%= image_tag "added.png" %>
+          <% end %>
+          <%= link_to "Add Document to Job", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
+
+        <p>Or</p>
+    <% end %>
+
     <p>
       <% if Rails.env.production? %>
-          <%= image_tag "added.png" %>
+          <%= image_tag "document_download.png" %>
       <% end %>
-      <%= link_to "Add Document to Job", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?add_to_job=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
-    <p>Or</p>
+      <%= link_to "Download Document Now", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
+
+    <br>
+
+<% elsif @document_share.document.document_type == Document::DRILLING_LOG %>
+    <h1>Drilling Report</h1>
+    <h3 class="center"><b><%= @document_share.document.job.field.name %> - <%= @document_share.document.job.well.name %></b></h3>
+
+    <hr>
+
+    <p>View drilling overview, ROP, runs, BHAs, log, survey and more...</p>
+
+    <br>
+
+    <p>
+      <%= link_to "View Drilling Report", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?view=true&access_code=" + @document_share.access_code, class: "bluebtn", style: "font-family: Arial;" %>
+    </p>
+
+    <br>
+
 <% end %>
 
-<p>
-  <% if Rails.env.production? %>
-    <%= image_tag "document_download.png" %>
-  <% end %>
-  <%= link_to "Download Document Now", "https://www.elephant-cloud.com/document_shares/" + @document_share.id.to_s + "?download=true&access_code=" + @document_share.access_code, class: "activity-user-link push-right-small" %></p>
-
-<br>
 
 <hr>
 

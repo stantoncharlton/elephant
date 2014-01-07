@@ -1,6 +1,11 @@
 class DocumentSharesController < ApplicationController
     before_filter :signed_in_user, only: [:index, :new, :create, :update, :destroy]
 
+    skip_before_filter :verify_traffic, only: [:show]
+    skip_before_filter :accept_terms_of_use, only: [:show]
+    skip_before_filter :session_expiry, only: [:show]
+    skip_before_filter :update_session_expiration, only: [:show]
+
     def index
         @document = Document.find_by_id(params[:document])
         not_found unless @document.company == current_user.company
@@ -35,6 +40,16 @@ class DocumentSharesController < ApplicationController
 
         if params[:download].present? && params[:download] == "true"
             redirect_to @document_share.document.full_url
+        elsif params[:view].present? && params[:view] == "true"
+            if @document_share.document.document_type == Document::DRILLING_LOG
+                @drilling_log = DrillingLog.find_by_document_id(@document_share.document_id)
+                if @drilling_log.present?
+                    cookies[:share] = @document_share.id
+                    cookies[:access_code] = @document_share.access_code
+                    cookies[:email] = @document_share.email
+                    redirect_to drilling_log_path(@drilling_log)
+                end
+            end
         elsif params[:add_to_job].present? && params[:add_to_job] == "true"
             return signed_in_user unless signed_in?
             #not_found unless @document_share.email.downcase == current_user.email.downcase

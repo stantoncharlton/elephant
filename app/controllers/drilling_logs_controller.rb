@@ -1,5 +1,38 @@
 class DrillingLogsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show]
+    before_filter :signed_in_user, only: [:index]
+
+    skip_before_filter :verify_traffic, only: [:show]
+    skip_before_filter :accept_terms_of_use, only: [:show]
+    skip_before_filter :session_expiry, only: [:show]
+    skip_before_filter :update_session_expiration, only: [:show]
+
+    before_filter :check_user_or_access_code, only: [:show]
+
+    def check_user_or_access_code
+        if !signed_in?
+            share = cookies[:share]
+            access_code = cookies[:access_code]
+            email = cookies[:email]
+
+            if !share.blank? && !access_code.blank? && !email.blank?
+                @document_share = DocumentShare.find_by_id(share)
+                not_found unless @document_share.present? &&
+                        @document_share.access_code == access_code &&
+                        @document_share.email == email
+
+                @drilling_log = DrillingLog.find_by_id(params[:id])
+                not_found unless @drilling_log.present? && @drilling_log.document == @document_share.document
+            else
+                signed_in_user
+            end
+        else
+            verify_traffic
+            accept_terms_of_use
+            session_expiry
+            update_session_expiration
+            signed_in_user
+        end
+    end
 
     include DrillingLogsHelper
 
@@ -25,54 +58,59 @@ class DrillingLogsController < ApplicationController
     def show
         @drilling_log = DrillingLog.find(params[:id])
         not_found unless @drilling_log.present?
-        @bhas = Bha.where(:company_id => current_user.company_id).where(:job_id => @drilling_log.job_id).order("bhas.name ASC")
+        @bhas = Bha.where(:job_id => @drilling_log.job_id).order("bhas.name ASC")
 
         if params[:report].present? && params[:report] == "true" && params[:report_name].present?
-
-            report_exists = false
-            @report_name = params[:report_name]
-            case @report_name
-                when "drilling_report"
-                    report_exists = true
-            end
-
-            if report_exists
-
-                report = ODFReport::Report.new(Rails.root.join("app/assets/templates/#{@report_name}.odt")) do |r|
-                    case @report_name
-                        when "drilling_report"
-                            fill_drilling_report @drilling_log.job, @drilling_log.drilling_log_entries, r, Time.now, Time.now + 1.day
-                    end
-                end
-                file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
-                report.generate(file)
-
-                url = "docs/#{SecureRandom.hex}/#{@report_name}.odt"
-                s3 = AWS::S3.new
-                s3.buckets['elephant-docs'].objects[url].write(File.read(file))
-
-                Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
-                Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
-
-                oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(url)}"
-                newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf?storage=elephant"
-
-                RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
-
-                pdf = s3.buckets['elephant-docs'].objects["#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf"]
-                @full_url = pdf.url_for(:get, {
-                        expires: 10.minutes,
-                        response_content_disposition: 'attachment;'
-                }).to_s
-
-                File.delete(file) if File.exist?(file)
-
-                #redirect_to full_url
-            end
-            #send_data excel.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
-            #return
+            create_report
         end
     end
 
+
+    private
+
+    def create_report
+        report_exists = false
+        @report_name = params[:report_name]
+        case @report_name
+            when "drilling_report"
+                report_exists = true
+        end
+
+        if report_exists
+
+            report = ODFReport::Report.new(Rails.root.join("app/assets/templates/#{@report_name}.odt")) do |r|
+                case @report_name
+                    when "drilling_report"
+                        fill_drilling_report @drilling_log.job, @drilling_log.drilling_log_entries, r, Time.now, Time.now + 1.day
+                end
+            end
+            file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
+            report.generate(file)
+
+            url = "docs/#{SecureRandom.hex}/#{@report_name}.odt"
+            s3 = AWS::S3.new
+            s3.buckets['elephant-docs'].objects[url].write(File.read(file))
+
+            Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
+            Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
+
+            oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(url)}"
+            newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf?storage=elephant"
+
+            RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
+
+            pdf = s3.buckets['elephant-docs'].objects["#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf"]
+            @full_url = pdf.url_for(:get, {
+                    expires: 10.minutes,
+                    response_content_disposition: 'attachment;'
+            }).to_s
+
+            File.delete(file) if File.exist?(file)
+
+            #redirect_to full_url
+        end
+        #send_data excel.to_stream.read, :filename => 'jobs.xlsx', :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+        #return
+    end
 
 end

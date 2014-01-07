@@ -58,7 +58,6 @@ removeOldContent('<%= params[:section] %>');
 <% elsif params[:section] == "survey" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_survey', drilling_log: @drilling_log %>");
 <% else %>
-    hideWorkingCurtain();
     report = $(".report[data-report='<%= @report_name %>']");
     if(report.length > 0) {
         report.find('.generating-report').addClass('hidden');
