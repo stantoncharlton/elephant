@@ -34,7 +34,8 @@ class BhasController < ApplicationController
             not_found unless old_bha.company == current_user.company
             Bha.transaction do
                 @bha = Bha.new
-                @bha.name = old_bha.name + " Clone " + SecureRandom.urlsafe_base64[1..7].to_s
+                @bhas = Bha.includes(document: {job: :well}).where("wells.id = ?", old_bha.document.job.well_id).order("bhas.name ASC")
+                @bha.name = (@bhas.last.name.to_i + 1).to_s
                 @bha.company = current_user.company
                 @bha.document = old_bha.document
                 @bha.job = old_bha.job
@@ -100,7 +101,8 @@ class BhasController < ApplicationController
                     end
                 end
 
-                redirect_to bha_path(@document, bha: @bha)
+                @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
+                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha)
             else
                 render 'new'
             end
@@ -151,7 +153,8 @@ class BhasController < ApplicationController
                     end
                 end
 
-                redirect_to bha_path(@document, bha: @bha)
+                @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
+                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha)
             else
                 render 'edit'
             end
@@ -169,12 +172,12 @@ class BhasController < ApplicationController
 
             @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
             @bha = @bhas.first
-
-            redirect_to bha_path(@document, bha: @bha)
         else
             flash[:error] = "This BHA is attached to log entries and therefore can't be deleted. Delete the log if you really want to continue."
-            redirect_to bha_path(@document, bha: @bha)
         end
+
+        @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
+        redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha)
     end
 
 end

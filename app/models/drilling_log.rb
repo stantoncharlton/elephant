@@ -30,6 +30,13 @@ class DrillingLog < ActiveRecord::Base
 
     has_many :drilling_log_entries, order: "drilling_log_entries.depth ASC, drilling_log_entries.entry_at ASC"
 
+    attr_accessor :start_depth
+    attr_accessor :end_depth
+    attr_accessor :low_wob
+    attr_accessor :high_wob
+    attr_accessor :low_flow
+    attr_accessor :high_flow
+
     def recalculate
         drilling_log = DrillingLog.calculate self.drilling_log_entries
         self.slide_footage = drilling_log.slide_footage
@@ -74,6 +81,17 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.circulation_hours = 0.0
 
             entries.each do |entry|
+
+                drilling_log.start_depth = drilling_log.start_depth.nil? ? entry.depth : [drilling_log.start_depth, entry.depth].min
+                drilling_log.end_depth = drilling_log.end_depth.nil? ? entry.depth : [drilling_log.end_depth, entry.depth].max
+                if entry.wob.present?
+                    drilling_log.low_wob = drilling_log.low_wob.nil? ? entry.wob : [drilling_log.low_wob, entry.wob].min
+                    drilling_log.high_wob = drilling_log.high_wob.nil? ? entry.wob : [drilling_log.high_wob, entry.wob].max
+                end
+                if entry.flow.present?
+                    drilling_log.low_flow = drilling_log.low_flow.nil? ? entry.flow : [drilling_log.low_flow, entry.flow].min
+                    drilling_log.high_flow = drilling_log.high_flow.nil? ? entry.flow : [drilling_log.high_flow, entry.flow].max
+                end
 
                 length_change = entry.depth - last_entry.depth
 
@@ -123,6 +141,7 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0
         end
 
+        drilling_log.drilling_log_entries = entries
         drilling_log
     end
 

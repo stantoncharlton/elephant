@@ -11,6 +11,10 @@
 
     <% @bhas = Bha.where(:job_id => drilling_log.job_id).order("name ASC") %>
     <% @bha = @bhas.first %>
+    <% p = CGI.parse(URI.parse(request.referrer).query)  %>
+    <% if p["bha"].present? %>
+        <% @bha = Bha.find_by_id(p["bha"]) %>
+    <% end %>
 
 
 
