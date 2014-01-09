@@ -628,6 +628,11 @@
   }
 }
 
+.job-status-no-wrap {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .job-status-no-border {
   .job-status {
     border-width: 0px 0px 0px 0px !important;

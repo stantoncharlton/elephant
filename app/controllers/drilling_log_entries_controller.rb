@@ -71,7 +71,7 @@ class DrillingLogEntriesController < ApplicationController
                         end
                     end
 
-                    puts  drilling_log_entry.entry_at.in_time_zone(Time.zone).strftime("%H:%M %p")
+                    puts drilling_log_entry.entry_at.in_time_zone(Time.zone).strftime("%H:%M %p")
 
                     drilling_log_entry.depth = row[2]
                     drilling_log_entry.comment = row[5]
@@ -122,6 +122,12 @@ class DrillingLogEntriesController < ApplicationController
 
             @drilling_log = DrillingLog.find_by_id(drilling_log_id)
             @drilling_log.recalculate
+
+
+            bhas = Bha.joins(document: { job: :well }).where("wells.id = ?", @drilling_log.job.well_id)
+            bhas.each do |bha|
+                bha.delay.update_usage
+            end
 
             redirect_to drilling_log_path(@drilling_log, anchor: :log)
             return
