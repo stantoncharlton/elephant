@@ -28,7 +28,7 @@
   </div>
   <div>
     <div class='survey-point-hover-label'>Dog Leg Severity</div>
-    <div class='survey-point-hover-value'><span class='label label-info'><%= number_with_delimiter(point.dog_leg_severity.round(2), :delimiter => ',') %></span></div>
+    <div class='survey-point-hover-value'><span class='label label-info'><%= number_with_delimiter(point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0, :delimiter => ',') %></span></div>
   </div>
   <div>
     <div class='survey-point-hover-label'>Closure Distance</div>
