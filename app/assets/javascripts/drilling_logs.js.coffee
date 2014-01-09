@@ -44,3 +44,13 @@ $ ->
 
   if $('#checkbox_override_date').is(':checked')
     $('.date-fields').removeClass 'hidden'
+
+  $('.toggle-content-link').live "click", ->
+
+    content = $(this).next('.toggle-content')
+    if content.length > 0
+      if content.hasClass 'hidden'
+        content.removeClass 'hidden'
+      else
+        content.addClass 'hidden'
+    return false

@@ -43,7 +43,8 @@
               </h2>
 
               <% if last_entry.bha.present? %>
-              <h2 class='inline-block push-right'>BHA <%= last_entry.bha.name %> - <%= last_entry.bha.description %></h2>
+                  <h2 class='inline-block push-right'>BHA <%= last_entry.bha.name %>
+                    - <%= last_entry.bha.description %></h2>
               <% end %>
 
               <div class='inline-block help-text pull-right'>
@@ -146,8 +147,12 @@
                       </div>
                     </div>
 
-                    <div><%= link_to "Show Full Run Details", "#", class: "activity-user-link" %></div>
-                    <%= render 'drilling_logs/range_details', entries: entries, survey_points: survey_points %>
+                    <div>
+                      <%= link_to "Show/Hide Full Run Details", "#", class: "btn btn-info white-text toggle-content-link" %>
+                      <div class='toggle-content hidden push-down'>
+                        <%= render 'drilling_logs/range_details', entries: entries, survey_points: survey_points %>
+                      </div>
+                    </div>
                   </div>
 
                   <script type="text/javascript">

@@ -1,39 +1,193 @@
 <div>
-  <% start_depth = entries.sort_by { |e| e.depth }.first.depth %>
-  <% end_depth = entries.sort_by { |e| e.depth }.last.depth %>
+  <% log = DrillingLog.calculate(entries) %>
 
   <div>
     <div class='inline-block'>
-      <div class='list-item-column2 help-text'>Start Depth</div>
-      <div class='list-item-column2'><%= number_with_delimiter(start_depth.to_i, :delimiter => ',') %> ft</div>
+      <div class='run-detail help-text'>Start Depth</div>
+      <div class='run-detail'><%= log.start_depth.nil? ? '-' : number_with_delimiter(log.start_depth.to_i, :delimiter => ',') %>
+        ft
+      </div>
     </div>
 
-    <div class='inline-block push-right-small'>
-      <div class='list-item-column2 help-text'>End Depth</div>
-      <div class='list-item-column2'><%= number_with_delimiter(end_depth.to_i, :delimiter => ',') %> ft</div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>End Depth</div>
+      <div class='run-detail'><%= log.end_depth.nil? ? '-' : number_with_delimiter(log.end_depth.to_i, :delimiter => ',') %>
+        ft
+      </div>
+    </div>
+
+    <% if survey_points.present? && survey_points.any? %>
+        <% max_tvd = 0.0 %>
+        <% vertical_section = 0.0 %>
+        <% survey_points.each do |point| %>
+            <% if point.measured_depth >= log.start_depth && point.measured_depth <= log.end_depth %>
+                <% max_tvd = [max_tvd, point.true_vertical_depth].max %>
+                <% vertical_section = vertical_section + point.vertical_section %>
+            <% end %>
+        <% end %>
+        <div class='inline-block'>
+          <div class='run-detail help-text'>Max TVD</div>
+          <div class='run-detail'><%= max_tvd %> ft</div>
+        </div>
+    <% end %>
+  </div>
+
+
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Circulation</div>
+      <div class='run-detail'><%= log.circulation_hours.nil? ? '-' : log.circulation_hours.round(1) %> hrs</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Total Circulation</div>
+      <div class='run-detail'><%= log.total_circulation_time.nil? ? '-' : log.total_circulation_time.round(1) %> hrs</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Reaming</div>
+      <div class='run-detail'><%= log.ream_hours.nil? ? '-' : log.ream_hours.round(1) %> hrs</div>
     </div>
   </div>
 
-  <% if survey_points.present? && survey_points.any? %>
-      <% max_tvd = 0.0 %>
-      <% vertical_section = 0.0 %>
-      <% survey_points.each do |point| %>
-          <% if point.measured_depth >= start_depth && point.measured_depth <= end_depth %>
-              <% max_tvd = [max_tvd, point.true_vertical_depth].max %>
-              <% vertical_section = vertical_section + point.vertical_section %>
-          <% end %>
-      <% end %>
-      <div>
-        <div class='inline-block'>
-          <div class='list-item-column2 help-text'>Max TVD</div>
-          <div class='list-item-column2'><%= max_tvd %> ft</div>
-        </div>
+  <hr>
 
-        <div class='inline-block push-right-small'>
-          <div class='list-item-column2 help-text'>Vertical Section</div>
-          <div class='list-item-column2'><%= vertical_section %> ft</div>
-        </div>
+  <div class=''>
+    <div class='inline-block'>
+      <div class='run-detail'><b class='blue-text'>Rotating</b></div>
+      <div class='run-detail'></div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Time %</div>
+      <div class='run-detail'><%= log.rotary_hours_pct.nil? ? '-' : log.rotary_hours_pct.round(1) %> %</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Foot %</div>
+      <div class='run-detail'><%= log.rotary_footage_pct.nil? ? '-' : log.rotary_footage_pct.round(1) %> %</div>
+    </div>
+  </div>
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>ROP</div>
+      <div class='run-detail'><%= log.rotate_rop.nil? ? '-' : log.rotate_rop.round(1) %> ft/min</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Drilled</div>
+      <div class='run-detail'><%= log.rotate_footage.nil? ? '-' : number_with_delimiter(log.rotate_footage.to_i, :delimiter => ',') %>
+        ft
       </div>
-  <% end %>
+    </div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Drilling Time</div>
+      <div class='run-detail'><%= log.rotate_hours.nil? ? '-' : log.rotate_hours.round(1) %> hrs</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class=''>
+    <div class='inline-block'>
+      <div class='run-detail'><b class='blue-text'>Sliding</b></div>
+      <div class='run-detail'></div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Time %</div>
+      <div class='run-detail'><%= log.slide_hours_pct.nil? ? '-' : log.slide_hours_pct.round(1) %> %</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Foot %</div>
+      <div class='run-detail'><%= log.slide_footage_pct.nil? ? '-' : log.slide_footage_pct.round(1) %> %</div>
+    </div>
+  </div>
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>ROP</div>
+      <div class='run-detail'><%= log.slide_rop.nil? ? '-' : log.slide_rop.round(1) %> ft/min</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Drilled</div>
+      <div class='run-detail'><%= log.slide_footage.nil? ? '-' : number_with_delimiter(log.slide_footage.to_i, :delimiter => ',') %>
+        ft
+      </div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Drilling Time</div>
+      <div class='run-detail'><%= log.slide_hours.nil? ? '-' : log.slide_hours.round(1) %> hrs</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>WOB</div>
+      <div class='run-detail'><%= "#{log.low_wob.to_i} - #{log.high_wob.to_i} lbs"%></div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>RPM</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Flow</div>
+      <div class='run-detail'><%= "#{log.low_flow.to_i} - #{log.high_flow.to_i} lbs" %></div>
+    </div>
+  </div>
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Rotate Weight</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>P/U Weight</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>S/O Weight</div>
+      <div class='run-detail'>-</div>
+    </div>
+  </div>
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>SPP</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Rotary RPM</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Motor RPM</div>
+      <div class='run-detail'>-</div>
+    </div>
+  </div>
+  <div>
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Torque</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Avg Diff Pressure</div>
+      <div class='run-detail'>-</div>
+    </div>
+
+    <div class='inline-block'>
+      <div class='run-detail help-text'>Stall Pressure</div>
+      <div class='run-detail'>-</div>
+    </div>
+  </div>
 
 </div>

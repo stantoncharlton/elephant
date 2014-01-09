@@ -1,6 +1,6 @@
 <% last_point = nil %>
 <% index = 0 %>
-<div id="list">
+<div id="survey_list">
   <% points.each do |point| %>
       <%= render 'survey_points/survey_point', point: point, last_point: last_point %>
       <% last_point = point %>

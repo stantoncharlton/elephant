@@ -4,29 +4,31 @@
     <div class="page_header">
       <h1><%= bha.name %> - <%= bha.description %></h1>
 
-      <div class="btn-group inline pull-right">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Assembly Actions
-        </a>
-        <ul class="dropdown-menu">
+      <% if signed_in? %>
+          <div class="btn-group inline pull-right">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              Assembly Actions
+            </a>
+            <ul class="dropdown-menu">
 
-          <li>
-            <%= link_to "Edit", edit_bha_path(bha), class: "dropdown-menu-link" %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= link_to "Clone", new_bha_path(clone: true, bha: bha), class: "dropdown-menu-link" %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= link_to "Delete Assembly", bha, method: :delete,
-                        data: {confirm: "Delete Assembly?"},
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Delete assembly?" %>
-          </li>
-        </ul>
-      </div>
+              <li>
+                <%= link_to "Edit", edit_bha_path(bha), class: "dropdown-menu-link" %>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Clone", new_bha_path(clone: true, bha: bha), class: "dropdown-menu-link" %>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Delete Assembly", bha, method: :delete,
+                            data: {confirm: "Delete Assembly?"},
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Delete assembly?" %>
+              </li>
+            </ul>
+          </div>
+      <% end %>
     </div>
 
     <div class='push-down'>
@@ -57,7 +59,7 @@
       </p>
 
       <p class="list-item-column2 list-item-column-count  help-text tooltip-info"
-        data-title="Upward Connection">
+         data-title="Upward Connection">
         <i class="icon-arrow-up"></i>
         Up
       </p>
@@ -70,7 +72,7 @@
     <div id="items" class="list">
       <% bha.bha_items.each do |item| %>
 
-          <% if item.tool.present?  %>
+          <% if item.tool.present? %>
               <% depth = depth + item.length %>
 
               <div class="bha-line">
@@ -99,7 +101,7 @@
                   <% if item.up >= 0 %>
                       <p class="list-item-column2 list-item-column-short help-text tooltip-info"
                          data-html="true"
-                        data-title="Upward Connection: <%= item.up >= 0 ? BhaItem.connection_string(item.up) : "-" %>">
+                         data-title="Upward Connection: <%= item.up >= 0 ? BhaItem.connection_string(item.up) : "-" %>">
                         <%= item.up >= 0 ? BhaItem.connection_string(item.up) : "-" %>
                       </p>
                   <% end %>
@@ -114,10 +116,12 @@
 
     <div class='push-down pull-right'>
       <div class='inline-block'>
-        <b>Bit to Sensor</b><span class='push-right-small blue-text'><%= bha.bit_to_sensor.present? ? bha.bit_to_sensor : "-" %></span>
+        <b>Bit to
+          Sensor</b><span class='push-right-small blue-text'><%= bha.bit_to_sensor.present? ? bha.bit_to_sensor : "-" %></span>
       </div>
       <div class='inline-block push-right'>
-        <b>Bit to Gamma</b><span class='push-right-small blue-text'><%= bha.bit_to_gamma.present? ? bha.bit_to_gamma : "-" %></span>
+        <b>Bit to
+          Gamma</b><span class='push-right-small blue-text'><%= bha.bit_to_gamma.present? ? bha.bit_to_gamma : "-" %></span>
       </div>
     </div>
 

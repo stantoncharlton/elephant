@@ -1,6 +1,8 @@
+tray = $(".remote-tray[data-tray='survey']");
+if(!tray.hasClass('custom-data-closed')) {
 <% if @survey.present? && @active_well_plan.present? %>
 <% calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth) %>
-$('#list').replaceWith("<%= j render 'surveys/survey_list', points: calculated_points_survey %>");
+$('#survey_list').replaceWith("<%= j render 'surveys/survey_list', points: calculated_points_survey %>");
 
 <% if @survey.document.job.status == Job::ON_JOB %>
 setTimeout(function() {
@@ -16,3 +18,4 @@ if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").match
     $('.tooltip-info').tooltip();
 }
 <% end %>
+}

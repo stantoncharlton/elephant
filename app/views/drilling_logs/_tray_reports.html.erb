@@ -67,8 +67,8 @@
           </div>
         </div>
 
-        <div class='generate-report-div'>
-          <%= form_for @drilling_log, :method => :get, remote: true do |f| %>
+        <div class='generate-report-div inline-block'>
+          <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
               <%= hidden_field_tag "report", "", value: true %>
               <%= hidden_field_tag "report_name", "", value: "run_report" %>
 
@@ -110,8 +110,8 @@
           </div>
         </div>
 
-        <div class='generate-report-div'>
-          <%= form_for @drilling_log, :method => :get, remote: true do |f| %>
+        <div class='generate-report-div inline-block'>
+          <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
               <%= hidden_field_tag "report", "", value: true %>
               <%= hidden_field_tag "report_name", "", value: "bha_report" %>
               <% bhas = Bha.where(:job_id => @drilling_log.job_id).order("name ASC") %>
@@ -141,6 +141,52 @@
       <hr class=''>
     </div>
 
+
+
+    <div class='report' data-report="log">
+      <div class='pull-right'>
+
+        <div class="inline-block generating-report hidden">
+          <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
+          <div class="inline-block progress progress-info progress-striped active push-down">
+            <div class="bar" style="width: 400px;"></div>
+          </div>
+        </div>
+
+        <div class='generate-report-div inline-block'>
+          <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
+              <%= hidden_field_tag "report", "", value: true %>
+              <%= hidden_field_tag "report_name", "", value: "log" %>
+
+              <% entries = @drilling_log.drilling_log_entries.includes(:bha).to_a %>
+              <% dates = entries.group_by { |item| item.entry_at.to_date } %>
+              <% filter_options = [] %>
+              <% filter_options << ["All Days", 0] %>
+              <% dates.each_with_index do |d, index| %>
+                  <% filter_options << [d[0].strftime("%A %m/%d/%Y"), index + 1] %>
+              <% end %>
+
+              <%= select_tag "type",
+                             options_for_select(filter_options, 0),
+                             class: "custom-select custom-select-ajax align-top report-type" %>
+
+              <%= f.submit "Generate",
+                           class: "bluebtn btnsmall gray generate-report align-top" %>
+          <% end %>
+        </div>
+
+
+        <%= link_to "Download", "#",
+                    class: "bluebtn btnsmall green download-report align-top hidden" %>
+
+      </div>
+
+      <h3 class='inline-block push-down'>Log</h3>
+
+      <br> <br>
+      <hr class=''>
+    </div>
 
 
     <%= link_to "Download", "#", id: "report_download", class: "", style: "opacity: 0.0;" %>

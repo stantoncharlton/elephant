@@ -2,7 +2,6 @@ class DrillingLogsController < ApplicationController
     before_filter :signed_in_user, only: [:index]
 
     skip_before_filter :verify_traffic, only: [:show]
-    skip_before_filter :accept_terms_of_use, only: [:show]
     skip_before_filter :session_expiry, only: [:show]
     skip_before_filter :update_session_expiration, only: [:show]
 
@@ -27,10 +26,9 @@ class DrillingLogsController < ApplicationController
             end
         else
             verify_traffic
-            accept_terms_of_use
-            session_expiry
-            update_session_expiration
-            signed_in_user
+            session_expiry unless !signed_in?
+            update_session_expiration unless !signed_in?
+            signed_in_user unless !signed_in?
         end
     end
 
@@ -74,6 +72,8 @@ class DrillingLogsController < ApplicationController
         case @report_name
             when "drilling_report"
                 report_exists = true
+            when "log"
+                report_exists = true
         end
 
         if report_exists
@@ -91,6 +91,17 @@ class DrillingLogsController < ApplicationController
                         end
 
                         fill_drilling_report @drilling_log.job, entries, r, entries.first.entry_at, entries.last.entry_at
+                    when "log"
+                        type = params[:type].to_i
+                        entries = @drilling_log.drilling_log_entries.includes(:bha).to_a
+                        dates = entries.group_by { |item| item.entry_at.to_date }
+                        dates.each_with_index do |d, index|
+                            if type == index + 1
+                                entries = d[1]
+                            end
+                        end
+
+                        fill_log @drilling_log.job, entries, r, entries.first.entry_at, entries.last.entry_at
                 end
             end
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
@@ -110,7 +121,7 @@ class DrillingLogsController < ApplicationController
 
             pdf = s3.buckets['elephant-docs'].objects["#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf"]
             @full_url = pdf.url_for(:get, {
-                    expires: 10.minutes,
+                    expires: 1.day,
                     response_content_disposition: 'attachment;'
             }).to_s
 

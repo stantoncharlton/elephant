@@ -19,8 +19,8 @@ module DrillingLogsHelper
 
         r.add_field "T1", drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1)
         r.add_field "T2", drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',')
-        r.add_field "T3", drilling_log.rop.nil? ? "-" : drilling_log.drilling_time.round(1)
-        r.add_field "T4", drilling_log.rop.nil? ? "-" : drilling_log.total_circulation_time.round(1)
+        r.add_field "T3", drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1)
+        r.add_field "T4", drilling_log.total_circulation_time.nil? ? "-" : drilling_log.total_circulation_time.round(1)
         r.add_field "T5", issues.count
         r.add_field "T6", "#{number_with_delimiter(entries.first.depth.to_i, :delimiter => ',')} - #{number_with_delimiter(entries.last.depth.to_i, :delimiter => ',')}"
 
@@ -163,5 +163,39 @@ module DrillingLogsHelper
         r.add_field "VVV9", ""
     end
 
+
+    def fill_log job, entries, r, start_time, end_time
+        r.add_field "JOB_NAME", job.field.name + ' - ' + job.well.name
+        r.add_field "JOB_NUMBER", 'Job # ' + (job.job_number || '-')
+        r.add_field "RIG", 'Rig ' + (job.well.rig.present? ? job.well.rig.name : '-')
+        r.add_field "CLIENT", job.company.name
+        hours = (end_time - start_time).to_f / 60.0 / 60.0
+        if hours <= 24
+            r.add_field "TIME_SPAN", "#{start_time.strftime('%m/%d/%Y')} (#{hours.ceil.to_i} hours)"
+        else
+            r.add_field "TIME_SPAN", "#{start_time.strftime('%m/%d/%Y')} - #{end_time.strftime('%m/%d/%Y')} (#{(hours / 24.0).round(0).to_i} days)"
+        end
+
+        last_entry = entries.first
+        index = 0
+        r.add_table("TABLE", entries, :header => false) do |t|
+            current_entry = entries[index]
+
+            t.add_column("TIME") do |entry|
+                "#{entry.entry_at.strftime("%H:%M %p")}"
+            end
+            minutes = (current_entry.entry_at - last_entry.entry_at) / 60
+            t.add_column("SPAN") { "#{(minutes / 60).round(2)} hrs" }
+            t.add_column("DEPTH") { |entry| "#{number_with_delimiter(entry.depth, :delimiter => ',')}" }
+            delta = current_entry.depth - last_entry.depth
+            t.add_column("DELTA") { "(#{delta})" }
+            t.add_column("ACTIVITY") { |entry| "#{DrillingLogEntry.activity_code_string(entry.activity_code)}" }
+            t.add_column("COMMENT") { |entry| "#{entry.comment}" }
+            t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name : ''}" }
+
+            last_entry = current_entry
+            index += 1
+        end
+    end
 
 end
