@@ -53,23 +53,25 @@ class DrillingLogEntriesController < ApplicationController
                     #puts row[5]
 
                     drilling_log_entry = DrillingLogEntry.new
+
                     if !row[0].blank?
                         if row[1].is_a?(Float)
-                            time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}",'%s')
-                            drilling_log_entry.entry_at = Time.strptime("#{row[0]} #{time.strftime("%l:%M %p")} #{Time.zone.utc_offset}", '%Y-%m-%d %l:%M %p %z')
+                            time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}", '%s')
+                            drilling_log_entry.entry_at = Time.strptime("#{row[0]} #{time.strftime("%l:%M %p")} #{Time.zone.name}", '%Y-%m-%d %l:%M %p %Z')
                         else
-                            drilling_log_entry.entry_at = Time.strptime("#{row[0]} 24:00 #{Time.zone.utc_offset}", '%Y-%m-%d %k:%M %z')
+                            drilling_log_entry.entry_at = Time.strptime("#{row[0]} 24:00 #{Time.zone.name}", '%Y-%m-%d %k:%M %Z')
                         end
                         last_date = row[0]
                     else
                         if row[1].is_a?(Float)
-                            time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}",'%s')
-                            drilling_log_entry.entry_at = Time.strptime("#{last_date} #{time.strftime("%l:%M %p")} #{Time.zone.utc_offset}", '%Y-%m-%d %l:%M %p %z')
+                            time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}", '%s')
+                            drilling_log_entry.entry_at = Time.strptime("#{last_date} #{time.strftime("%l:%M %p")} #{Time.zone.name}", '%Y-%m-%d %l:%M %p %Z')
                         else
-                            drilling_log_entry.entry_at = Time.strptime("#{last_date} 24:00 #{Time.zone.utc_offset}", '%Y-%m-%d %k:%M %z')
+                            drilling_log_entry.entry_at = Time.strptime("#{last_date} 24:00 #{Time.zone.name}", '%Y-%m-%d %k:%M %Z')
                         end
                     end
 
+                    puts  drilling_log_entry.entry_at.in_time_zone(Time.zone).strftime("%H:%M %p")
 
                     drilling_log_entry.depth = row[2]
                     drilling_log_entry.comment = row[5]
@@ -80,7 +82,7 @@ class DrillingLogEntriesController < ApplicationController
                     drilling_log_entry.user = current_user
                     drilling_log_entry.user_name = current_user.name
                     if !row[3].blank?
-                        bha = Bha.includes(document: { job: :well }).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
+                        bha = Bha.includes(document: {job: :well}).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
                         if bha.nil?
                             bha = Bha.new
                             bha.name = row[3].to_i.to_s
@@ -128,9 +130,12 @@ class DrillingLogEntriesController < ApplicationController
             bha_id = params[:drilling_log_entry][:bha_id]
             params[:drilling_log_entry].delete(:bha_id)
 
+            depth = params[:drilling_log_entry][:depth]
+            params[:drilling_log_entry].delete(:depth)
+
             override_date = nil
             if params[:drilling_log_entry][:override_date] == "1"
-                override_date = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]}:00 #{params[:meridian]}", '%m/%d/%Y %I:%M:%S %p').in_time_zone(Time.zone)
+                override_date = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]} #{Time.zone.utc_offset}", '%m/%d/%Y %H:%M %z')
             end
 
             params[:drilling_log_entry].delete(:override_date)
@@ -141,6 +146,7 @@ class DrillingLogEntriesController < ApplicationController
             @drilling_log_entry.job = @drilling_log.document.job
             @drilling_log_entry.user = current_user
             @drilling_log_entry.user_name = current_user.name
+            @drilling_log_entry.depth = depth.gsub(',' '')
             if !bha_id.blank?
                 @bha = Bha.find_by_id(bha_id)
                 @drilling_log_entry.bha = @bha
@@ -180,8 +186,9 @@ class DrillingLogEntriesController < ApplicationController
 
     def destroy
         @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
+        not_found unless @drilling_log_entry.present?
         @drilling_log_entry.destroy
-        @drilling_log.recalculate
+        @drilling_log_entry.drilling_log.recalculate
     end
 
 

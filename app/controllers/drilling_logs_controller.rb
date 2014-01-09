@@ -72,6 +72,10 @@ class DrillingLogsController < ApplicationController
         case @report_name
             when "drilling_report"
                 report_exists = true
+            when "bha_report"
+                report_exists = true
+            when "run_report"
+                report_exists = true
             when "log"
                 report_exists = true
         end

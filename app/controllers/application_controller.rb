@@ -9,9 +9,10 @@ class ApplicationController < ActionController::Base
 
     before_filter :verify_traffic
 
+    before_filter :set_current_user_for_observer
     before_filter :set_user_time_zone
     before_filter :set_locale
-    before_filter :set_current_user_for_observer
+
 
     before_filter :accept_terms_of_use
 
@@ -47,7 +48,6 @@ class ApplicationController < ActionController::Base
 
 
     def set_current_user_for_observer
-        puts request.path
         UserObserver.current_user = current_user
     end
 
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     def set_tenant
         if current_user.present?
             set_current_tenant(current_user.company)
-        # For Shared drilling log
+            # For Shared drilling log
         elsif request.path == drilling_logs_path &&
                 cookies[:share].present? &&
                 cookies[:access_code].present? &&
@@ -96,11 +96,14 @@ class ApplicationController < ActionController::Base
     private
 
     def set_user_time_zone
-        Time.zone = current_user.time_zone.present? ? current_user.time_zone : "Central Time (US & Canada)" if signed_in?
+        if signed_in?
+            Time.zone = current_user.present? && current_user.time_zone.present? ? current_user.time_zone : "Central Time (US & Canada)"
+        else
+            Time.zone = "Central Time (US & Canada)"
+        end
     end
 
     def set_locale
-        puts request.env["HTTP_ACCEPT_LANGUAGE"]
         I18n.locale = params[:locale] if params[:locale].present?
         # current_user.locale
         # request.subdomain
