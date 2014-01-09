@@ -32,8 +32,8 @@
           <%= f.text_field :magnetic_field_strength,
                            placeholder: "Magnetic Field Strength",
                            class: "txtfield extra-small tooltip-info range-validator",
-                           "data-minimum" => @survey.magnetic_field_strength - 0.005,
-                           "data-maximum" => @survey.magnetic_field_strength + 0.005,
+                           "data-minimum" => (@survey.magnetic_field_strength.present? ? @survey.magnetic_field_strength : 0) - 0.005,
+                           "data-maximum" => (@survey.magnetic_field_strength.present? ? @survey.magnetic_field_strength : 0)  + 0.005,
                            "data-placement" => "bottom",
                            "data-title" => "Magnetic Field Strength" %>
 
@@ -41,8 +41,8 @@
           <%= f.text_field :magnetic_dip_angle,
                            placeholder: "Magnetic Dip Angle",
                            class: "txtfield extra-small tooltip-info range-validator",
-                           "data-minimum" => @survey.magnetic_dip_angle - 2,
-                           "data-maximum" => @survey.magnetic_dip_angle + 2,
+                           "data-minimum" => (@survey.magnetic_dip_angle.present? ? @survey.magnetic_dip_angle : 0) - 2,
+                           "data-maximum" => (@survey.magnetic_dip_angle.present? ? @survey.magnetic_dip_angle : 0) + 2,
                            "data-placement" => "bottom",
                            "data-title" => "Magnetic Dip Angle" %>
 
@@ -50,8 +50,8 @@
           <%= f.text_field :gravity_total,
                            placeholder: "Gravity Total",
                            class: "txtfield extra-small tooltip-info range-validator",
-                           "data-minimum" => @survey.gravity_total - 0.003,
-                           "data-maximum" => @survey.gravity_total + 0.003,
+                           "data-minimum" => (@survey.gravity_total.present? ? @survey.gravity_total : 1)  - 0.003,
+                           "data-maximum" => (@survey.gravity_total.present? ? @survey.gravity_total : 1) + 0.003,
                            "data-placement" => "bottom",
                            "data-title" => "Gravity Total" %>
         </div>
