@@ -147,7 +147,7 @@
 <% bha_document = Document.where("documents.job_id = ?", job.id).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).last %>
 <% if !bha_document.nil? %>
     <div class='content'>
-      <% bhas = Bha.where(:job_id => job.id).order("name ASC") %>
+      <% bhas = Bha.joins(document: { job: :well }).where("wells.id = ?", job.well_id).order("bhas.name ASC") %>
 
       <hr>
 

@@ -32,11 +32,11 @@
   </div>
   <div>
     <div class='survey-point-hover-label'>Closure Distance</div>
-    <div class='survey-point-hover-value'><%= point.closure_distance.round(2) %></div>
+    <div class='survey-point-hover-value'><%= point.closure_distance.present? ? point.closure_distance.round(2) : 0.0 %></div>
   </div>
   <div>
     <div class='survey-point-hover-label'>Closure Angle</div>
-    <div class='survey-point-hover-value'><%= point.closure_angle.round(2) %></div>
+    <div class='survey-point-hover-value'><%= point.closure_angle.present? ? point.closure_angle.round(2) : 0.0 %></div>
   </div>
 
   <% if !point.tie_on %>
