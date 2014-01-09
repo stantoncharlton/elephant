@@ -122,6 +122,9 @@ class Survey < ActiveRecord::Base
             end
 
             point.vertical_section = point.closure_distance * Math::cos(direction_difference * (pi/180))
+            if point.vertical_section == 0
+                point.vertical_section = point.vertical_section.abs
+            end
 
             build_rate = (100 / (point.measured_depth - last_point.measured_depth)) * (point.inclination - last_point.inclination)
 

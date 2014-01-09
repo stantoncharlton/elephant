@@ -50,7 +50,7 @@
     <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
 
     <div class="list-item-column list-item-column-count">
-      <span class='label label-info'><%= point.dog_leg_severity.round(2) %></span></div>
+      <span class='label label-info'><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : "-" %></span></div>
 
   </div>
 </div>

@@ -56,16 +56,18 @@
                            "data-title" => "Gravity Total" %>
         </div>
 
-        <%= f.submit "Add Survey",
-                     class: "bluebtn pull-right push-down form-loading-on-click",
-                     "data-form" => "new_survey_point" %>
-
         <div class='survey-tie-in-label'><i class="icon-comment"></i></div>
         <%= f.text_field :comment,
                          placeholder: "Comment",
                          class: "txtfield long tooltip-info",
                          "data-placement" => "bottom",
                          "data-title" => "Comment" %>
+
+        <%= f.submit "Add Survey",
+                     class: "bluebtn pull-right push-down form-loading-on-click",
+                     "data-form" => "new_survey_point" %>
+
+
 
         <div id='survey_out_of_range' class='hidden pull-left'>
           <div class='warning-text push-down'>Value is out of the range of valid values which could indicate a bad survey.</div>

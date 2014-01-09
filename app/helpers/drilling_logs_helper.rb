@@ -178,23 +178,26 @@ module DrillingLogsHelper
 
         last_entry = entries.first
         index = 0
-        r.add_table("TABLE", entries, :header => false) do |t|
-            current_entry = entries[index]
+        entries.each_with_index do |entry, i|
+            entry.last_entry =  last_entry
+            last_entry = entry
+        end
 
+        last_entry = entries.first
+        r.add_table("TABLE", entries, :header => false) do |t|
             t.add_column("TIME") do |entry|
                 "#{entry.entry_at.strftime("%H:%M %p")}"
             end
-            minutes = (current_entry.entry_at - last_entry.entry_at) / 60
-            t.add_column("SPAN") { "#{(minutes / 60).round(2)} hrs" }
+            t.add_column("SPAN") do |entry|
+                "#{((entry.entry_at - entry.last_entry.entry_at) / 60 / 60).round(2)} hrs"
+            end
             t.add_column("DEPTH") { |entry| "#{number_with_delimiter(entry.depth, :delimiter => ',')}" }
-            delta = current_entry.depth - last_entry.depth
-            t.add_column("DELTA") { "(#{delta})" }
+            t.add_column("DELTA") do |entry|
+                "(#{entry.depth - entry.last_entry.depth})"
+            end
             t.add_column("ACTIVITY") { |entry| "#{DrillingLogEntry.activity_code_string(entry.activity_code)}" }
             t.add_column("COMMENT") { |entry| "#{entry.comment}" }
             t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name : ''}" }
-
-            last_entry = current_entry
-            index += 1
         end
     end
 

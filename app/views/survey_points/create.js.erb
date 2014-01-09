@@ -6,7 +6,7 @@ $('#alert').modal({show: true});
 <% else %>
 
 <% @survey_points = @survey.calculated_points(@well_plan.vertical_section_azimuth).to_a  %>
-$("#list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points.count > 1 ? @survey_points[@survey_points.count - 2] : @survey_points.last %>");
+$("#survey_list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points.count > 1 ? @survey_points[@survey_points.count - 2] : @survey_points.last %>");
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.activity-user-link').tooltip();
@@ -121,14 +121,6 @@ chart.addChartCursor(chartCursor);
 // WRITE
 chart.write("chartdiv");
 
-var label = $("g[cursor=pointer]");
-if (label.length > 0) {
-    var tspan = label.find('tspan');
-    if (tspan.length > 0) {
-        label.remove();
-    }
-}
-
 var circles = $('#chartdiv').find('circle[stroke=#cc4800]');
 circles.each(function(index) {
     if(chartData[index].comment != '' || index == chartData.length - chartDataAdded - 1) {
@@ -231,12 +223,9 @@ chart2.addChartCursor(chartCursor);
 // WRITE
 chart2.write("chartdiv2");
 
-var label = $("g[cursor=pointer]");
+var label = $("tspan:contains('chart by amcharts.com')");
 if (label.length > 0) {
-    var tspan = label.find('tspan');
-    if (tspan.length > 0) {
-        label.remove();
-    }
+    label.remove();
 }
 
 var circles = $('#chartdiv2').find('circle[stroke=#cc4800]');
