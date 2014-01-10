@@ -69,17 +69,15 @@ class PartsController < ApplicationController
 
         if params[:master_part].present?
             @part.master_part = Part.find_by_id(params[:master_part])
-            not_found unless @part.master_part.company == current_user.company
             @part.district = @part.master_part.district
         else
-            @warehouse = Warehouse.find_by_id(params[:warehouse])
-            not_found unless @warehouse.company == current_user.company
+            @district = District.find_by_id(params[:district])
         end
     end
 
     def create
-        warehouse_id = params[:part][:warehouse_id]
-        params[:part].delete(:warehouse_id)
+        district_id = params[:part][:district_id]
+        params[:part].delete(:district_id)
 
         master_part_id = params[:part][:master_part_id]
         params[:part].delete(:master_part_id)
@@ -89,15 +87,13 @@ class PartsController < ApplicationController
 
         if !master_part_id.blank?
             @part.master_part = Part.find_by_id(master_part_id)
-            not_found unless @part.master_part.company == current_user.company
             @part.material_number = @part.master_part.material_number
             @part.district = @part.master_part.district
             @part.warehouse = @part.master_part.warehouse
             @part.template = false
             @part.status = Part::AVAILABLE
         else
-            @part.warehouse = Warehouse.find_by_id(warehouse_id)
-            not_found unless @part.warehouse.company == current_user.company
+            @part.district = District.find_by_id(district_id)
             @part.template = true
         end
 
@@ -107,8 +103,7 @@ class PartsController < ApplicationController
                     flash[:success] = "Asset created - #{@part.name}"
                     redirect_to @part
                 else
-                    @warehouse = Warehouse.find_by_id(warehouse_id)
-                    not_found unless @warehouse.company == current_user.company
+                    @district = District.find_by_id(district_id)
                     render 'new'
                 end
             }
@@ -120,7 +115,6 @@ class PartsController < ApplicationController
 
     def update
         @part = Part.find(params[:id])
-        not_found unless @part.company == current_user.company
 
         @part_update = false
         @inline_part_update = false
@@ -253,7 +247,7 @@ class PartsController < ApplicationController
             if @part.master_part.present?
                 redirect_to @part.master_part
             else
-                redirect_to inventory_path
+                redirect_to inventory_index_path
             end
         end
     end

@@ -1,5 +1,3 @@
-
-
 <% provide(:title, 'Inventory') %>
 
 
@@ -47,6 +45,13 @@
                             class: "dropdown-menu-link tooltip-info",
                             "data-placement" => "left",
                             "data-title" => "Create new master asset." %>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "+ Add New Master Asset", new_part_path(template: true, district: @district),
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Create new master asset" %>
               </li>
           <% end %>
         </ul>
@@ -123,10 +128,31 @@
     </div>
 <% else %>
 
-    <br><br>
-    <br>
-    <br><br>
-    <br>
+    <div class="alert">
+      View District Inventory
+      <br><br>
+
+      <div class="district-jump">
+        <%= hidden_field_tag "district_id", id: "district_id" %>
+      </div>
+      <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-down-small" %>
+      <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                         placeholder: "Type a district name...",
+                         id: "district_name",
+                         class: "txtfield small tooltip-info district-jump-to align-top",
+                         "data-placement" => "top",
+                         "data-title" => "District Name, select from drop down based on search results" %>
+
+      or &nbsp;
+
+        <%= select_tag "District",
+                       options_for_select(current_user.company.districts.where(:master => false).collect { |d| [d.name, d.id] }),
+                       class: "tooltip-info custom-select align-top",
+                       id: "jump_to_district_select",
+                       "data-placement" => "bottom",
+                       "data-title" => "Select a District",
+                       prompt: "Select by name..." %>
+    </div>
 <% end %>
 
 <% if @district.present? %>
@@ -149,20 +175,22 @@
 
 <br>
 
-<div class="content">
-  <h3>Recently Shipped</h3>
-</div>
+<% if false %>
+    <div class="content">
+      <h3>Recently Shipped</h3>
+    </div>
 
-<hr>
+    <hr>
 
-<div class="content" id="jobs">
-  <% @jobs.each do |job| %>
-      <%= render 'jobs/job_progress_link', job: job %>
-  <% end %>
-</div>
+    <div class="content" id="jobs">
+      <% @jobs.each do |job| %>
+          <%= render 'jobs/job_progress_link', job: job %>
+      <% end %>
+    </div>
 
-<% if @jobs.empty? %>
-    <div class='center help-text'>No recently shipped jobs...</div>
+    <% if @jobs.empty? %>
+        <div class='center help-text'>No recently shipped jobs...</div>
+    <% end %>
 <% end %>
 
 

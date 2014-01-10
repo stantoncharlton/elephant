@@ -297,7 +297,7 @@ class UserRole < ActiveRecord::Base
     def self.limit_jobs_scope(user, jobs)
         if user.role.limit_to_assigned_jobs?
             return jobs.where("jobs.id IN (SELECT job_id FROM job_memberships where user_id = :user_id)", user_id: user.id)
-        elsif user.role.limit_to_district?
+        elsif user.role.limit_to_district? && user.district.present?
             return jobs.where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: user.district.master_district_id)
         elsif user.role.limit_to_product_line?
             if !user.product_line.nil?

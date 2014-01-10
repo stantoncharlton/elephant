@@ -3,14 +3,14 @@
 <div class="">
   <div>
     <div class='pull-right'>
-      <%= link_to @part.warehouse.name, @part.warehouse, class: "activity-user-link" %>
+      <%= link_to @part.district.name, @part.district, class: "activity-user-link" %>
     </div>
 
     <b>Assets</b>
 
     <div class="filter-search-box">
-      <% if @part.warehouse.district.present? %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @part.warehouse.district_id)},
+      <% if @part.district.present? %>
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @part.district_id)},
                              placeholder: "Search for asset...",
                              class: "txtfield search-query tooltip-info part-search",
                              id: "part_search",
@@ -202,7 +202,7 @@
       <div class="chart-block">
         <div class="chart-title">Avg Redress</div>
         <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.material_number = ?", @part.material_number).where("jobs.district_id = ?", @part.warehouse.district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
+          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.material_number = ?", @part.material_number).where("jobs.district_id = ?", @part.district.id).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
           <div class="percentage ">days</div>
         </div>
       </div>
@@ -348,11 +348,11 @@
       </p>
 
       <p class="help-text list-item-column">
-        Serial Number
+        Serial #
       </p>
 
-      <p class="help-text list-item-column list-item-column3">
-        District Number
+      <p class="help-text list-item-column list-item-column4">
+        District #
       </p>
 
       <p class="help-text list-item-column list-item-column-long">
