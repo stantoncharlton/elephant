@@ -4,6 +4,9 @@
   <% total_rop = total_rop + r[0] %>
 <% end %>
 
+<% total_feet = DrillingLog.where("drilling_logs.created_at >= ?", Date.today - 1.year).sum("drilling_logs.total_drilled") %>
+<% accountable_issues = Issue.where("issues.accountable is TRUE").where("issues.created_at >= ?", Date.today - 1.year).count %>
+
 <div id="overview_drilling" data-loaded='true'>
 
   <div>
@@ -18,9 +21,9 @@
 
     <div class="chart-block tooltip-info"
          data-title="Total number of active rigs">
-      <div class="chart-title">Feet Between Failure</div>
+      <div class="chart-title">Failures per Foot</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= 0 %></div>
+        <div class="donut-text "><%= (accountable_issues / total_feet.to_f).round(3) %></div>
         <div class="percentage ">f/ft</div>
       </div>
     </div>
