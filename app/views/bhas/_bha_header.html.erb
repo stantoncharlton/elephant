@@ -13,7 +13,7 @@
     <% end %>
     <% bhas.each do |bh| %>
         <div class="inline-block">
-          <%= link_to request.referrer + '?section=drilling-bha&bha=' + bh.id.to_s,
+          <%= link_to request.path + '?section=drilling-bha&bha=' + bh.id.to_s,
                       class: "bluebtn btnsmall new-bha bha-button " + (bh == @bha ? "" : "gray"), remote: true do %>
               <%= bh.name %>
               <% if !bh.description.blank? %>

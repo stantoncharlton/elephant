@@ -36,7 +36,7 @@
     <%= render "bhas/bha_header", document: @document, bhas: @bhas %>
 
     <div id="bha">
-      <% if @bhas.any? %>
+      <% if  @bha.present? %>
           <%= render "bhas/bha_tally", bha: @bha %>
       <% end %>
 
