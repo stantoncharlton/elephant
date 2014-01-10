@@ -125,7 +125,7 @@
         <div class='inline-block pull-left push-right-small'>
           <%= link_to "Elephant", root_path, id: "logo", class: "", alt: "Home of Elephant Oil & Gas Energy Software" %>
         </div>
-        <% if request.path != drilling_logs_path %>
+        <% if !request.path.starts_with? "/drilling_log" %>
             <% if request.path != root_path %>
                 <%= link_to "Email Us Now", "mailto:sales@elephant-cloud.com", class: "login-now-btn push-right bluebtn btnsmall gray pull-left" %>
             <% end %>
