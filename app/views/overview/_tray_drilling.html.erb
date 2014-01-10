@@ -1,4 +1,8 @@
-<% @rops_current_year = DrillingLog.where(:company_id => current_user.company_id).where("drilling_logs.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @rops_current_year = DrillingLog.where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% total_rop = 0.0 %>
+<% @rops_current_year.each do |r| %>
+  <% total_rop = total_rop + r[0] %>
+<% end %>
 
 <div id="overview_drilling" data-loaded='true'>
 
@@ -23,9 +27,9 @@
 
     <div class="chart-block tooltip-info"
          data-title="Total number of active rigs">
-      <div class="chart-title">Feet Per Hour</div>
+      <div class="chart-title">Average ROP</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= 0 %></div>
+        <div class="donut-text "><%= (total_rop.to_f / @rops_current_year.length).round(1) %></div>
         <div class="percentage ">ft/hr</div>
       </div>
     </div>
@@ -34,7 +38,7 @@
   <hr>
 
   <div class='center'>
-    <b class='blue-text'>Drilling ROP per year</b>
+    <b class='blue-text'>Drilling ROP (trailing year)</b>
     <br><br>
   </div>
   <div class="">

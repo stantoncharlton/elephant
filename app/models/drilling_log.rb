@@ -28,7 +28,7 @@ class DrillingLog < ActiveRecord::Base
     belongs_to :job
     belongs_to :document
 
-    has_many :drilling_log_entries, order: "drilling_log_entries.entry_at ASC, drilling_log_entries.depth ASC"
+    has_many :drilling_log_entries, order: "drilling_log_entries.depth ASC, drilling_log_entries.entry_at ASC"
 
     attr_accessor :start_depth
     attr_accessor :end_depth
@@ -89,8 +89,8 @@ class DrillingLog < ActiveRecord::Base
                     drilling_log.high_wob = drilling_log.high_wob.nil? ? entry.wob : [drilling_log.high_wob, entry.wob].max
                 end
                 if entry.flow.present?
-                    drilling_log.low_flow = drilling_log.low_flow.nil? ? entry.flow : [drilling_log.low_flow, entry.flow].min
-                    drilling_log.high_flow = drilling_log.high_flow.nil? ? entry.flow : [drilling_log.high_flow, entry.flow].max
+                    drilling_log.low_flow = drilling_log.low_flow.nil? ? entry.wob : [drilling_log.low_flow, entry.flow].min
+                    drilling_log.high_flow = drilling_log.high_flow.nil? ? entry.wob : [drilling_log.high_flow, entry.flow].max
                 end
 
                 length_change = entry.depth - last_entry.depth
@@ -127,17 +127,17 @@ class DrillingLog < ActiveRecord::Base
 
             drilling_log.rotary_hours_pct = total_drill_time > 0 ? drilling_log.rotate_hours / total_drill_time : 0.0
             drilling_log.rotary_footage_pct = total_drill_length > 0 ? drilling_log.rotate_footage / total_drill_length : 0.0
-            drilling_log.rotate_rop = drilling_log.rotate_hours > 0 ? drilling_log.rotate_footage / drilling_log.rotate_hours / 60 : 0.0
+            drilling_log.rotate_rop = drilling_log.rotate_hours > 0 ? drilling_log.rotate_footage / drilling_log.rotate_hours : 0.0
             drilling_log.slide_hours_pct = total_drill_time > 0 ? drilling_log.slide_hours / total_drill_time : 0.0
             drilling_log.slide_footage_pct = total_drill_length > 0 ? drilling_log.slide_footage / total_drill_length : 0.0
-            drilling_log.slide_rop = drilling_log.slide_hours > 0 ? drilling_log.slide_footage / drilling_log.slide_hours / 60 : 0.0
+            drilling_log.slide_rop = drilling_log.slide_hours > 0 ? drilling_log.slide_footage / drilling_log.slide_hours : 0.0
 
             drilling_log.below_rotary = below
             drilling_log.above_rotary = above
             drilling_log.drilling_time = total_drill_time
             drilling_log.total_circulation_time = total_drill_time + drilling_log.circulation_hours
             drilling_log.total_drilled = total_drill_length
-            rop_divisor = ((entries.last.entry_at - entries.first.entry_at) / 60).to_f
+            rop_divisor = ((entries.last.entry_at - entries.first.entry_at) / 60 / 60).to_f
             drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0
         end
 

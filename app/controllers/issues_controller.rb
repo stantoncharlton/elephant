@@ -96,6 +96,9 @@ class IssuesController < ApplicationController
                 when "failure_id"
                     @issue.failure = Failure.find_by_id(params[:value])
                     @issue.save
+                when "accountable"
+                    @issue.accountable = params[:value] == "true"
+                    @issue.save
                 when "part_membership_id"
                     part_membership = PartMembership.find_by_id(params[:value])
                     if part_membership.present?

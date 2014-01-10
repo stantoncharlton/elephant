@@ -2,7 +2,8 @@ class Issue < ActiveRecord::Base
     attr_accessible :status,
                     :failure_at,
                     :part_serial_number,
-                    :responsible_by_name
+                    :responsible_by_name,
+                    :accountable
 
     acts_as_tenant(:company)
 

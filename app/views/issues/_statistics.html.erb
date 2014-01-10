@@ -1,7 +1,7 @@
 <% if jobs_sql.nil? %>
-    <% issues = Issue.includes(:failure).where(:company_id => current_user.company_id).where("issues.failure_at >= '#{ Time.now.year }/1/1'").order("issues.failure_at DESC") %>
+    <% issues = Issue.includes(:failure).where("issues.accountable IS TRUE").where("issues.failure_at >= ?", Date.today - 1.year).order("issues.failure_at DESC") %>
 <% else %>
-    <% issues = Issue.includes(:job).includes(:failure).where(:company_id => current_user.company_id).where("issues.job_id IN (#{jobs_sql})").where("issues.failure_at >= '#{ Time.now.year }/1/1'").order("issues.failure_at DESC") %>
+    <% issues = Issue.includes(:job).includes(:failure).where("issues.accountable IS TRUE").where("issues.job_id IN (#{jobs_sql})").where("issues.failure_at >= ?", Date.today - 1.year).order("issues.failure_at DESC") %>
 <% end %>
 <% failures_current_year = issues.reorder('').select("date_trunc('month', issues.failure_at) as DATE").group("date_trunc('month', issues.failure_at)").count("issues.failure_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 

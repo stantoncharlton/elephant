@@ -14,8 +14,22 @@
 
 
 <div class='well'>
+
   <div class='inline-block pull-right'>
-    <%= render 'issues/part', issue: @issue, no_link: false %>
+
+    <div class="">
+      <%= check_box_tag "accountable", "", @issue.accountable,
+                        class: "regular-checkbox issue-update-field",
+                        id: "accountable",
+                        "data-id" => @issue.id,
+                        "data-field" => "accountable"%>
+      <label for="accountable"></label>
+      <p class="checkbox-label">Accountable</p>
+    </div>
+
+    <% if false %>
+        <%= render 'issues/part', issue: @issue, no_link: false %>
+    <% end %>
   </div>
 
   <div>
@@ -27,7 +41,8 @@
                    "data-field" => "failure_id" %>
 
     <div class=''>
-      <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }, @issue.part_id),
+      <% found_pm = @issue.job.part_memberships.where(:part_id => @issue.part_id).first %>
+      <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }, found_pm.present? ? found_pm.id : nil),
                      prompt: "(Optional) Select asset...",
                      class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
                      "data-id" => @issue.id,
@@ -37,7 +52,7 @@
                      prompt: "(Optional) Responsible personnel...",
                      class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
                      "data-id" => @issue.id,
-                     "data-field" => "responsible_by_id"%>
+                     "data-field" => "responsible_by_id" %>
     </div>
   </div>
 

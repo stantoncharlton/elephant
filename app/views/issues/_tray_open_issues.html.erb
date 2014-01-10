@@ -13,7 +13,7 @@
             No Incidents...
           </p>
       <% end %>
-      <% @issues.each do |issue| %>
+      <% @issues.where(:status => Issue::OPEN).each do |issue| %>
           <%= link_to issue, class: "job-status job-link tooltip-info",
                       "data-placement" => "left",
                       "data-title" => "Click to open job" do %>
