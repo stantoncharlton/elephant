@@ -30,6 +30,7 @@ class DynamicField < ActiveRecord::Base
     belongs_to :company
 
     STRING = 1
+    VALUES = 2
 
     LENGTH = 10
     LENGTH_FT = 11
@@ -341,6 +342,8 @@ class DynamicField < ActiveRecord::Base
         case value_type.to_i
             when STRING
                 ""
+            when VALUES
+                ""
             when LENGTH_FT
                 "ft"
             when LENGTH_IN
@@ -417,6 +420,8 @@ class DynamicField < ActiveRecord::Base
         case value_type.to_i
             when STRING
                 ""
+            when VALUES
+                ""
             when LENGTH_FT
                 "Feet"
             when LENGTH_IN
@@ -492,6 +497,7 @@ class DynamicField < ActiveRecord::Base
         units = Array.new
 
         units << ["Text", STRING]
+        units << ["Preset Value Selection (separate by comma)", VALUES]
         units << ["Length | Feet", LENGTH_FT]
         units << ["Length | Inches", LENGTH_IN]
         units << ["Length | Meters", LENGTH_M]
@@ -648,6 +654,8 @@ class DynamicField < ActiveRecord::Base
         case value_type.to_i
             when STRING
                 STRING
+            when VALUES
+                VALUES
             when LENGTH_FT, LENGTH_M
                 LENGTH_FT
             when LENGTH_IN, LENGTH_CM
