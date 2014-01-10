@@ -122,13 +122,22 @@
     </div>
 
     <% if !signed_in? %>
-        <%= link_to "Elephant", root_path, id: "logo", class: "push-right-small", alt: "Home of Elephant Oil & Gas Energy Software" %>
-        <% if request.path != root_path %>
-            <%= link_to "Email Us Now", "mailto:sales@elephant-cloud.com", class: "login-now-btn push-right bluebtn btnsmall gray pull-left" %>
-        <% end %>
-        <div class="non-signed-in-header-right pull-right">
-          <%= render 'layouts/signed_out_tab' %>
+        <div class='inline-block pull-left push-right-small'>
+          <%= link_to "Elephant", root_path, id: "logo", class: "", alt: "Home of Elephant Oil & Gas Energy Software" %>
         </div>
+        <% if request.path != drilling_log_path %>
+            <% if request.path != root_path %>
+                <%= link_to "Email Us Now", "mailto:sales@elephant-cloud.com", class: "login-now-btn push-right bluebtn btnsmall gray pull-left" %>
+            <% end %>
+            <div class="non-signed-in-header-right pull-right">
+              <%= render 'layouts/signed_out_tab' %>
+            </div>
+        <% else %>
+            <div class="non-signed-in-header-right pull-right push-down push-right">
+              <h3 class='white-text'>Shared Drilling Overview</h3>
+              <%= link_to "Learn more about Elephant", features_path, class: "user-link" %>
+            </div>
+        <% end %>
     <% end %>
     <div class="container container-header">
       <% if signed_in? %>

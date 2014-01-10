@@ -256,7 +256,7 @@
           <% if job.status == Job::COMPLETE %>
               <span class="label label-success current-job-status"><%= job.status_string %></span>
           <% else %>
-              <p class="current-job-status"><%= job.status_string %></p>
+              <p class="current-job-status"><b><%= job.status_string %></b></p>
           <% end %>
 
 
