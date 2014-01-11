@@ -61,9 +61,6 @@
 
 <% if current_user.role.global_read? %>
     <div class="pull-right">
-      <span class='help-text pull-right'>Jump to Different Inventory</span>
-      <br>
-
       <div class='push-down-small'>
         <div class="district-jump">
           <%= hidden_field_tag "district_id", id: "district_id" %>

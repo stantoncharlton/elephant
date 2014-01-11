@@ -21,28 +21,28 @@ class InventoryController < ApplicationController
 
         if @district.present?
             if current_user.role.district_read? && !@district_present
-                @jobs = Job.where("jobs.company_id = ?", current_user.company_id).where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
+                @jobs = Job.where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: @district.id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
             else
                 if current_user.role.limit_to_assigned_jobs?
-                    @jobs = Job.where("jobs.company_id = ?", current_user.company_id).where("jobs.id in (select job_id from job_memberships where user_id = :user_id)", user_id: current_user.id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
+                    @jobs = Job.where("jobs.id in (select job_id from job_memberships where user_id = :user_id)", user_id: current_user.id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
                 else
-                    @jobs = Job.where("jobs.company_id = ?", current_user.company_id).where("jobs.district_id = ?", @district.id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
+                    @jobs = Job.where("jobs.district_id = ?", @district.id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
                 end
             end
         elsif !current_user.role.limit_to_assigned_jobs?
-            @jobs = Job.where("jobs.company_id = ?", current_user.company_id).where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
+            @jobs = Job.where("jobs.status > ? AND jobs.status < 100", Job::ON_JOB).order("jobs.start_date DESC")
         end
 
         if !@district.nil?
             if current_user.role.district_read?
-                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).order("parts.name ASC")
+                @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.name ASC")
             elsif current_user.role.limit_to_assigned_jobs?
-                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT warehouse_id FROM warehouse_memberships where user_id = :user_id)", user_id: current_user.id).where(:template => false).order("parts.name ASC")
+                @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.name ASC")
             else
-                @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).order("parts.name ASC")
+                @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.name ASC")
             end
         elsif !current_user.role.limit_to_assigned_jobs?
-            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where(:template => false).order("parts.name ASC")
+            @parts = Part.includes(:parts).where(:template => false).order("parts.name ASC")
         end
 
     end
@@ -55,11 +55,11 @@ class InventoryController < ApplicationController
         @condensed = true
 
         if current_user.role.district_read?
-            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         elsif current_user.role.limit_to_assigned_jobs?
-            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT warehouse_id FROM warehouse_memberships where user_id = :user_id)", user_id: current_user.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         else
-            @parts = Part.includes(:parts).where(:company_id => current_user.company_id).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
         end
 
         respond_to do |format|
