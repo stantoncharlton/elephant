@@ -132,23 +132,25 @@
                         "data-title" => "Permanently delete asset." %>
           </li>
 
-          <% warehouses = current_user.role.limit_to_assigned_jobs? ? current_user.warehouses : @part.warehouse.district.warehouses %>
-          <% if warehouses.count > 1 %>
-              <li class="divider"></li>
-              <li>
-                <div>
-                  <b class='blue-text push-right-small'>Transfer To</b>
-                </div>
-              </li>
-              <% warehouses.each do |warehouse| %>
-                  <% if warehouse != @part.warehouse %>
-                      <li>
-                        <%= link_to warehouse.name, part_path(@part, transfer_warehouse: true, warehouse: warehouse),
-                                    method: :put,
-                                    class: "dropdown-menu-link tooltip-info",
-                                    "data-placement" => "left",
-                                    "data-title" => "Transfer to warehouse." %>
-                      </li>
+          <% if @part.warehouse.present? %>
+              <% warehouses = current_user.role.limit_to_assigned_jobs? ? current_user.warehouses : @part.warehouse.district.warehouses %>
+              <% if warehouses.count > 1 %>
+                  <li class="divider"></li>
+                  <li>
+                    <div>
+                      <b class='blue-text push-right-small'>Transfer To</b>
+                    </div>
+                  </li>
+                  <% warehouses.each do |warehouse| %>
+                      <% if warehouse != @part.warehouse %>
+                          <li>
+                            <%= link_to warehouse.name, part_path(@part, transfer_warehouse: true, warehouse: warehouse),
+                                        method: :put,
+                                        class: "dropdown-menu-link tooltip-info",
+                                        "data-placement" => "left",
+                                        "data-title" => "Transfer to warehouse." %>
+                          </li>
+                      <% end %>
                   <% end %>
               <% end %>
           <% end %>
@@ -286,27 +288,27 @@
         <% coordinates_for_lines = [] %>
 
         <% @parts.each_with_index do |part, index| %>
-            <% if part.current_job.present? && !part.current_job.well.location.blank? %>
-                <% x = part.current_job.well.x_location %>
-                <% y = part.current_job.well.y_location  %>
-                <% coordinates_for_lines << [x, y] %>
-                <% coordinates_for_zoom << [y, x] %>
-                geoJson.push({
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [<%= x %>, <%= y %>]
-                    },
-                    "properties": {
-                        title: '<%= part.serial_number %>',
-                        'marker-size': 'medium',
-                        'marker-color': '#0058a8',
-                        'marker-symbol': '<%= (index + 1).to_s %>',
-                        url: '/parts/' + <%= part.id %>
-                        //'marker-symbol': '1'
-                    }
-                });
-            <% end %>
+        <% if part.current_job.present? && !part.current_job.well.location.blank? %>
+        <% x = part.current_job.well.x_location %>
+        <% y = part.current_job.well.y_location  %>
+        <% coordinates_for_lines << [x, y] %>
+        <% coordinates_for_zoom << [y, x] %>
+        geoJson.push({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [<%= x %>, <%= y %>]
+            },
+            "properties": {
+                title: '<%= part.serial_number %>',
+                'marker-size': 'medium',
+                'marker-color': '#0058a8',
+                'marker-symbol': '<%= (index + 1).to_s %>',
+                url: '/parts/' + <%= part.id %>
+                //'marker-symbol': '1'
+            }
+        });
+        <% end %>
         <% end %>
 
         map.markerLayer.setGeoJSON(geoJson);
