@@ -106,6 +106,7 @@
 <% elsif params[:section] == "overview" %>
     $('#job_overview').replaceWith('<%= j render 'jobs/job_overview', job: @job %>');
 
+    <% if false %>
     <% if @job.status == Job::ON_JOB %>
     setTimeout(function() {
         $.ajax('/jobs/' + <%= @job.id %> + "?section=overview", {
@@ -113,6 +114,7 @@
             dataType: 'script'
         });
     }, 60000);
+    <% end %>
     <% end %>
 <% end %>
 

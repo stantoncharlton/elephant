@@ -60,15 +60,19 @@ $ ->
           window.location = '/parts/' +  ui.item.id
 
   part_focused = false
-  $('.part-search').focusin ->
+  $('.part-search').live "focusin", ->
     part_focused = true
+    $(this).prev("input[id=part_membership_part_id]").val('')
     $(this).removeClass 'ui-autocomplete-bad'
     $(this).addClass 'ui-autocomplete-typing'
     $(this).val('')
 
-  $('.part-search').focusout ->
+  $('.part-search').live "focusout", ->
     if part_focused
-      $(this).addClass 'ui-autocomplete-bad'
+      if $(this).prev("input[id=part_membership_part_id]").val() == ''
+        $(this).addClass 'ui-autocomplete-bad'
+      else
+        $(this).removeClass 'ui-autocomplete-bad'
       if $(this).val() == ''
         $(this).removeClass 'ui-autocomplete-typing'
 

@@ -1,0 +1,98 @@
+<div class='add-new-asset content'>
+  <h3>Add New Asset</h3>
+
+  <div class='form' data-form="new-asset-form">
+    <%= form_for PartMembership.new, remote: true do |f| %>
+
+        <%= f.hidden_field :job_id, value: @job.id %>
+        <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
+
+        <div class='push-down'>
+          <ul class="nav nav-pills selection-nav">
+            <li class='active'>
+              <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
+            </li>
+            <li class="push-right-small">
+              <a href="#" class='change-asset-type blue-text' data-type="rental">Rental</a>
+            </li>
+            <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
+              Dumb Iron</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class='inline-block asset-type-form align-top' data-type="inventory">
+          <%= f.hidden_field :part_id %>
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id)},
+                             placeholder: "Asset Serial #, Material #, or Name",
+                             class: "txtfield search-query tooltip-info part-search align-top",
+                             id: "part_search",
+                             "data-placement" => "bottom",
+                             "data-title" => "Asset Serial #, Material #, or Name" %>
+
+        </div>
+
+        <div class='inline-block asset-type-form align-top hidden' data-type="rental">
+          <%= text_field_tag "rental_name", "",
+                             placeholder: "Asset Name",
+                             class: "txtfield asset-input  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Asset Name" %>
+
+          <%= text_field_tag "rental_serial_number", "",
+                             placeholder: "Serial Number",
+                             class: "txtfield asset-input  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Serial Number" %>
+
+        </div>
+
+        <div class='inline-block asset-type-form align-top hidden' data-type="accessory">
+          <%= text_field_tag "accessory_name", "",
+                             placeholder: "Asset Name",
+                             class: "txtfield asset-input  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Asset Name" %>
+
+          <div class='inline-block help-text push-down'>Optional</div>
+          <%= text_field_tag "accessory_serial_number", "",
+                             placeholder: "Serial Number",
+                             class: "txtfield asset-input2 push-right-small  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Serial Number" %>
+
+        </div>
+
+        <div class='inline-block push-right-small id-od-box'>
+          <%= text_field_tag "id", "",
+                             placeholder: "ID",
+                             class: "txtfield bha-value id-od tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "ID (Inner Diameter) of Asset" %>
+          <%= text_field_tag "od", "",
+                             placeholder: "OD",
+                             class: "txtfield bha-value id-od tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "OD (Outer Diameter) of Asset" %>
+          <%= text_field_tag "length", "",
+                             placeholder: "Length",
+                             class: "txtfield bha-value id-od tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Length of Asset" %>
+        </div>
+
+        <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
+                     "data-form" => "new-asset-form",
+                     "data-placement" => "bottom",
+                     "data-title" => "Add new asset" %>
+
+
+    <% end %>
+  </div>
+
+  <div class="form-loading hidden" data-form="new-asset-form">
+    <%= render 'layouts/inline_loading', title: "Adding asset..." %>
+    <br><br>
+  </div>
+  <hr>
+</div>

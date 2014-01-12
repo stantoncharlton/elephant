@@ -6,7 +6,10 @@ class PartMembership < ActiveRecord::Base
                     :template,
                     :track_usage,
                     :usage,
-                    :optional
+                    :optional,
+                    :inner_diameter,
+                    :outer_diameter,
+                    :length
 
 
     require 'digest/md5'

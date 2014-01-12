@@ -7,11 +7,15 @@
   <% end %>
 
   <% if !part_membership.serial_number.blank? %>
-      <p>Serial # <%= part_membership.serial_number %></p>
+      <p><span class='inline-block list-item-column-short'>Serial #</span><b><%= part_membership.serial_number %></b></p>
   <% end %>
   <% if !part_membership.material_number.blank? %>
-      <p>Material # <%= part_membership.material_number %></p>
+      <p><span class='inline-block list-item-column-short'>Material #</span><b><%= part_membership.material_number %></b></p>
   <% end %>
+
+  <p><span class='inline-block list-item-column-short'>ID</span><b><%= part_membership.inner_diameter.present? ? part_membership.inner_diameter : '-' %></b></p>
+  <p><span class='inline-block list-item-column-short'>OD</span><b><%= part_membership.outer_diameter.present? ? part_membership.outer_diameter : '-' %></b></p>
+  <p><span class='inline-block list-item-column-short'>Length</span><b><%= part_membership.length.present? ? part_membership.length : '-' %></b></p>
 
   <div class='push-down-small'>
     <% if part_membership.part.present? %>
@@ -29,5 +33,7 @@
            data-placement='bottom'
            data-title='Remove from Job'>Remove</a>
     <% end %>
+
+    <a href='#' class='btn btn-danger'>Ship To Shop</a>
   </div>
 </div>

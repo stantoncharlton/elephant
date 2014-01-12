@@ -45,6 +45,8 @@ class Part < ActiveRecord::Base
     IN_REDRESS = 4
     DECOMMISSIONED = 5
 
+    SHIPPING = 10
+
 
     searchable do
         text :name, :as => :code_textp do

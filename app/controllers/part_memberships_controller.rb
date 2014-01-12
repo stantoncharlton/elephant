@@ -31,6 +31,10 @@ class PartMembershipsController < ApplicationController
                 @part_membership.serial_number = params["accessory_serial_number"]
         end
 
+        @part_membership.inner_diameter = BigDecimal(params[:id])
+        @part_membership.outer_diameter = BigDecimal(params[:od])
+        @part_membership.length = BigDecimal(params[:length])
+
         @part_membership.job = Job.find_by_id(job_id)
         not_found unless @part_membership.job.present? && @part_membership.job.company == current_user.company
 

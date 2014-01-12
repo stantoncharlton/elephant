@@ -21,95 +21,7 @@
 </div>
 
 <% if !job.closed %>
-    <div class='add-new-asset content'>
-      <h3>Add New Asset</h3>
-
-      <div class='form' data-form="new-asset-form">
-        <%= form_for PartMembership.new, remote: true do |f| %>
-
-            <%= f.hidden_field :job_id, value: @job.id %>
-            <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
-
-            <div class='push-down'>
-              <ul class="nav nav-pills selection-nav">
-                <li class='active'>
-                  <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
-                </li>
-                <li class="push-right-small">
-                  <a href="#" class='change-asset-type blue-text' data-type="rental">Rental</a>
-                </li>
-                <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
-                  Dumb Iron</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class='asset-type-form' data-type="inventory">
-              <div class="push-up">
-                <%= f.hidden_field :part_id %>
-                <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id)},
-                                   placeholder: "Asset Serial #, Material #, or Name",
-                                   class: "txtfield search-query tooltip-info part-search",
-                                   id: "part_search",
-                                   "data-placement" => "bottom",
-                                   "data-title" => "Asset Serial #, Material #, or Name" %>
-
-                <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
-                             "data-form" => "new-asset-form",
-                             "data-placement" => "bottom",
-                             "data-title" => "Add new asset" %>
-              </div>
-            </div>
-
-            <div class='asset-type-form push-up hidden' data-type="rental">
-              <%= text_field_tag "rental_name", "",
-                                 placeholder: "Asset Name",
-                                 class: "txtfield asset-input  tooltip-info",
-                                 "data-placement" => "bottom",
-                                 "data-title" => "Asset Name" %>
-
-              <%= text_field_tag "rental_serial_number", "",
-                                 placeholder: "Serial Number",
-                                 class: "txtfield asset-input  tooltip-info",
-                                 "data-placement" => "bottom",
-                                 "data-title" => "Serial Number" %>
-
-              <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
-                           "data-form" => "new-asset-form",
-                           "data-placement" => "bottom",
-                           "data-title" => "Add new asset" %>
-            </div>
-
-            <div class='asset-type-form push-up hidden' data-type="accessory">
-              <%= text_field_tag "accessory_name", "",
-                                 placeholder: "Asset Name",
-                                 class: "txtfield asset-input  tooltip-info",
-                                 "data-placement" => "bottom",
-                                 "data-title" => "Asset Name" %>
-
-              <span class='help-text'>Optional</span>
-              <%= text_field_tag "accessory_serial_number", "",
-                                 placeholder: "Serial Number",
-                                 class: "txtfield asset-input2 push-right-small  tooltip-info",
-                                 "data-placement" => "bottom",
-                                 "data-title" => "Serial Number" %>
-
-              <%= f.submit "Add", class: "bluebtn btnsmall inline-block  tooltip-info form-loading-on-click",
-                           "data-form" => "new-asset-form",
-                           "data-placement" => "bottom",
-                           "data-title" => "Add new asset" %>
-            </div>
-
-
-        <% end %>
-      </div>
-
-      <div class="form-loading hidden" data-form="new-asset-form">
-        <%= render 'layouts/inline_loading', title: "Adding asset..." %>
-        <br><br>
-      </div>
-      <hr>
-    </div>
+    <%= render 'part_memberships/new' %>
 <% end %>
 
 <div id="asset_list" class='content'>
@@ -143,11 +55,25 @@
   </div>
 </div>
 
+<hr>
+
+<% if job.status == Job::ON_JOB || job.status == Job::POST_JOB %>
+    <div class='push-right-small'>
+      <%= link_to "Transfer All To..", "#", class: "btn btn-default" %> &nbsp;
+      <%= link_to "Ship All To Shop", "#", class: "btn btn-danger" %>
+
+      <div class='inline-block push-right-small'>
+        <%= link_to "Confirm Assets To Close Job", "#", class: "btn btn-success" %>
+      </div>
+    </div>
+<% end %>
+
 
 <% bha_document = Document.where("documents.job_id = ?", job.id).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).last %>
 <% if !bha_document.nil? %>
     <div class='content'>
-      <% bhas = Bha.joins(document: { job: :well }).where("wells.id = ?", job.well_id).order("bhas.name ASC") %>
+      <% bhas = Bha.joins(document: {job: :well}).where("wells.id = ?", job.well_id).order("bhas.name ASC") %>
+      <% drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", bha_document.job.well_id).first %>
 
       <hr>
 
@@ -159,32 +85,13 @@
         </div>
 
         <div class='pull-right'>
-          <%= link_to "+ Add New BHA", new_bha_path(document: bha_document.id), class: "bluebtn" %>
+          <%= link_to "View All BHAs", drilling_log_path(drilling_log, anchor: "drilling-bha"), class: "bluebtn gray" %>
+
+          <div class='inline-block push-right-small'>
+            <%= link_to "+ Add New BHA", new_bha_path(document: bha_document.id), class: "bluebtn" %>
+          </div>
         </div>
       </div>
 
-      <br>
-
-
-      <% drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", bha_document.job.well_id).first %>
-      <% if bhas.any? && drilling_log.present? %>
-          <% bhas.each do |bha| %>
-              <div>
-                <div class="page_header">
-                  <h1><%= bha.name %>
-                    <% if !bha.description.blank? %>
-                        - <%= bha.description %>
-                    <% end %>
-                  </h1>
-                  <%= link_to "View", drilling_log_path(drilling_log, bha: bha.id, anchor: "drilling-bha"), class: "bluebtn btnsmall gray pull-right" %>
-                </div>
-                <br>
-              </div>
-          <% end %>
-      <% else %>
-          <br>
-
-          <p class='help-text center'>No BHAs configured...</p>
-      <% end %>
     </div>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140109205733) do
+ActiveRecord::Schema.define(:version => 20140111150121) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -619,6 +619,9 @@ ActiveRecord::Schema.define(:version => 20140109205733) do
     t.datetime "received_at"
     t.integer  "received_by"
     t.integer  "part_type"
+    t.decimal  "inner_diameter"
+    t.decimal  "outer_diameter"
+    t.decimal  "length"
   end
 
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"
