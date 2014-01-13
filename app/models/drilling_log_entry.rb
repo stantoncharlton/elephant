@@ -10,7 +10,32 @@ class DrillingLogEntry < ActiveRecord::Base
                     :rotary_rpm,
                     :motor_rpm,
                     :spp,
-                    :torque
+                    :torque,
+                    :rotary_weight,
+                    :pu_weight,
+                    :so_weight,
+                    :diff_pressure,
+                    :stall,
+                    :tfo,
+                    # Mud Parameters
+                    :mud_type,
+                    :mud_weight,
+                    :viscosity,
+                    :chlorides,
+                    :yp,
+                    :pv,
+                    :ph,
+                    :gas,
+                    :sand,
+                    :solids,
+                    :oil,
+                    :bh_temp,
+                    :fl_temp,
+                    :water_loss,
+                    #MWD
+                    :battery_1_amps,
+                    :battery_2_amps,
+                    :battery_volts
 
 
     acts_as_tenant(:company)
@@ -18,6 +43,8 @@ class DrillingLogEntry < ActiveRecord::Base
     validates :comment, length: {minimum: 0, maximum: 500}
     validates :entry_at, presence: true
     validates_presence_of :company_id
+    validates_presence_of :activity_code
+    validates_presence_of :depth
     validates_presence_of :job_id
     validates_presence_of :drilling_log_id
     validates_presence_of :bha_id, :if => :in_hole
@@ -69,7 +96,8 @@ class DrillingLogEntry < ActiveRecord::Base
     RIG_SERVICE_OUTHOLE = 151
 
     def in_hole
-        self.activity_code < 100
+        return true if self.activity_code.nil?
+        return self.activity_code < 100
     end
 
 
@@ -235,7 +263,6 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(DRILLING_CEMENT), DRILLING_CEMENT]
         options << [DrillingLogEntry.activity_code_string(LOGGING), LOGGING]
         options << [DrillingLogEntry.activity_code_string(JETTING), JETTING]
-
 
 
         options << [DrillingLogEntry.activity_code_string(OTHER), OTHER]

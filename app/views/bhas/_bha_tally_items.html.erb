@@ -17,7 +17,7 @@
         <% bha.bha_items.each do |item| %>
 
             <% if item.tool.present? %>
-                <% depth = depth + item.length %>
+                <% depth = depth + (item.tool.length || 0) %>
 
                 <div class="bha-line">
 
@@ -27,15 +27,15 @@
                     </div>
 
                     <p class="list-item-column2 list-item-column-short">
-                      <b><%= item.inner_diameter.to_s %></b>
+                      <b><%= item.tool.inner_diameter || 0.0 %></b>
                     </p>
 
                     <p class="list-item-column2 list-item-column-short ">
-                      <b><%= item.outer_diameter.to_s %></b>
+                      <b><%= item.tool.outer_diameter || 0.0 %></b>
                     </p>
 
                     <p class="list-item-column2 list-item-column-short">
-                      <b><%= item.length.to_s %></b>
+                      <b><%= item.tool.length || 0.0 %></b>
                     </p>
 
                     <p class="list-item-column2 list-item-column-short ">

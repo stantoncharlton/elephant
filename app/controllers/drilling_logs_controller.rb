@@ -56,7 +56,7 @@ class DrillingLogsController < ApplicationController
     def show
         @drilling_log = DrillingLog.find(params[:id])
         not_found unless @drilling_log.present?
-        @bhas = Bha.joins(document: { job: :well }).where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC")
+        @bhas = Bha.joins(document: { job: :well }).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC")
 
         if params[:report].present? && params[:report] == "true" && params[:report_name].present?
             create_report

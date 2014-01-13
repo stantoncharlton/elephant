@@ -87,7 +87,7 @@
   </div>
 
   <div class="" id="list">
-    <% @last_entry = nil %>
+    <% @last_entry = @drilling_log.drilling_log_entries.last %>
     <% dates.each_with_index do |date| %>
         <%= render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1] %>
     <% end %>

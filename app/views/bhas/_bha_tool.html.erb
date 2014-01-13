@@ -20,32 +20,35 @@
   <% df = DynamicField.new %>
   <% df.value_type = DynamicField::LENGTH_IN %>
   <div class="inline-block bha-other-items">
-    <div class="inline-block push-right-small tooltip-info"
-         data-title="Inner Diameter (ID) of Tool">
-      <b>ID</b>
-      <%= text_field_tag tool.id.to_s + "_id", "",
-                         class: "bha-value",
-                         value: bha_item.inner_diameter || tool.inner_diameter,
-                         placeholder: "ID" %>
-    </div>
+    <% if false %>
 
-    <div class="inline-block push-right-small tooltip-info"
-         data-title="Outer Diameter (OD) of Tool">
-      <b>OD</b>
-      <%= text_field_tag tool.id.to_s + "_od", "",
-                         class: "bha-value",
-                         value: bha_item.outer_diameter || tool.outer_diameter,
-                         placeholder: "OD" %>
-    </div>
+        <div class="inline-block push-right-small tooltip-info"
+             data-title="Inner Diameter (ID) of Tool">
+          <b>ID</b>
+          <%= text_field_tag tool.id.to_s + "_id", "",
+                             class: "bha-value",
+                             value: bha_item.inner_diameter || tool.inner_diameter,
+                             placeholder: "ID" %>
+        </div>
 
-    <div class="inline-block push-right-small tooltip-info"
-         data-title="Length of Tool">
-      <b>Length</b>
-      <%= text_field_tag tool.id.to_s + "_length", "",
-                         class: "bha-value",
-                         value: bha_item.length || tool.length,
-                         placeholder: "Length" %>
-    </div>
+        <div class="inline-block push-right-small tooltip-info"
+             data-title="Outer Diameter (OD) of Tool">
+          <b>OD</b>
+          <%= text_field_tag tool.id.to_s + "_od", "",
+                             class: "bha-value",
+                             value: bha_item.outer_diameter || tool.outer_diameter,
+                             placeholder: "OD" %>
+        </div>
+
+        <div class="inline-block push-right-small tooltip-info"
+             data-title="Length of Tool">
+          <b>Length</b>
+          <%= text_field_tag tool.id.to_s + "_length", "",
+                             class: "bha-value",
+                             value: bha_item.length || tool.length,
+                             placeholder: "Length" %>
+        </div>
+    <% end %>
 
     <div class="inline-block push-right tooltip-info" data-title="Upward connection">
       <b><i class="icon-arrow-up"></i></b>
@@ -56,14 +59,14 @@
     </div>
 
     <% if false %>
-    <div class="inline-block push-right-small tooltip-info" data-title="Downward connection">
-      <b><i class="icon-arrow-down"></i></b>
-      <%= select_tag tool.id.to_s + "_down",
-                     options_for_select(BhaItem.options, bha_item.down),
-                     class: "custom-select-ajax bha-value2 align-top push-up",
-                     placeholder: "Down" %>
-    </div>
-        <% end %>
+        <div class="inline-block push-right-small tooltip-info" data-title="Downward connection">
+          <b><i class="icon-arrow-down"></i></b>
+          <%= select_tag tool.id.to_s + "_down",
+                         options_for_select(BhaItem.options, bha_item.down),
+                         class: "custom-select-ajax bha-value2 align-top push-up",
+                         placeholder: "Down" %>
+        </div>
+    <% end %>
 
     <div class="inline-block push-right-small tooltip-info" data-title="Tool Type">
       <%= image_tag "tool.png", class: "inline-block push-down-small" %>
@@ -79,12 +82,12 @@
     <br>
 
     <%= text_field_tag "Jets", "",
-                   class: "txtfield extra-small align-top",
-                   placeholder: "Jets..." %>
+                       class: "txtfield extra-small align-top",
+                       placeholder: "Jets..." %>
 
     <%= text_field_tag "TFS", "",
-                   class: "txtfield extra-small align-top",
-                   placeholder: "Tool Flow Area..." %>
+                       class: "txtfield extra-small align-top",
+                       placeholder: "Tool Flow Area..." %>
   </div>
 
   <hr>

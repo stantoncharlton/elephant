@@ -17,15 +17,15 @@ class BhaItem < ActiveRecord::Base
     belongs_to :tool, class_name: "PartMembership"
 
 
-    def self.add(bha, tool, id, od, length, up, down, asset_type, ordering)
+    def self.add(bha, tool, up, down, asset_type, ordering)
 
         bha_item = BhaItem.new
         bha_item.bha = bha
         bha_item.company = bha.company
         bha_item.tool = tool
-        bha_item.inner_diameter = id
-        bha_item.outer_diameter = od
-        bha_item.length = length
+        #bha_item.inner_diameter = id
+        #bha_item.outer_diameter = od
+        #bha_item.length = length
         bha_item.ordering = ordering
         bha_item.up = up
         bha_item.down = down

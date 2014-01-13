@@ -124,7 +124,7 @@ class DrillingLogEntriesController < ApplicationController
             @drilling_log.recalculate
 
 
-            bhas = Bha.joins(document: { job: :well }).where("wells.id = ?", @drilling_log.job.well_id)
+            bhas = Bha.joins(document: {job: :well}).where("wells.id = ?", @drilling_log.job.well_id)
             bhas.each do |bha|
                 bha.delay.update_usage
             end
@@ -139,9 +139,10 @@ class DrillingLogEntriesController < ApplicationController
             depth = params[:drilling_log_entry][:depth]
             params[:drilling_log_entry].delete(:depth)
 
-            override_date = nil
-            if params[:drilling_log_entry][:override_date] == "1"
-                override_date = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]} #{Time.zone.utc_offset}", '%m/%d/%Y %H:%M %z')
+            begin
+                override_date = Time.strptime("#{params[:date]} #{params[:entry_time]} #{Time.zone.name}", '%m/%d/%Y %k:%M %Z')
+            rescue
+                override_date = nil
             end
 
             params[:drilling_log_entry].delete(:override_date)
@@ -152,7 +153,7 @@ class DrillingLogEntriesController < ApplicationController
             @drilling_log_entry.job = @drilling_log.document.job
             @drilling_log_entry.user = current_user
             @drilling_log_entry.user_name = current_user.name
-            @drilling_log_entry.depth = depth.gsub(',' '')
+            @drilling_log_entry.depth = depth.to_s.gsub(/,/, '').to_f
             if !bha_id.blank?
                 @bha = Bha.find_by_id(bha_id)
                 @drilling_log_entry.bha = @bha

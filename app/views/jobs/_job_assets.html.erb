@@ -59,8 +59,31 @@
 
 <% if job.status == Job::ON_JOB || job.status == Job::POST_JOB %>
     <div class='push-right-small'>
-      <%= link_to "Transfer All To..", "#", class: "btn btn-default" %> &nbsp;
-      <%= link_to "Ship All To Shop", "#", class: "btn btn-danger white-text" %>
+
+      <div class="btn-group inline-block">
+        <a class="btn btn-default tooltip-info  align-top" data-toggle="dropdown" href="#" data-placement="top" data-title="Transfer assets to another well.">
+          Transfer All To..
+        </a>
+        <ul class="dropdown-menu">
+          <% jobs = current_user.jobs.where("jobs.status >= 1 AND jobs.status < 50") %>
+          <% if jobs.any? %>
+              <% jobs.each do |j| %>
+                  <li>
+                    <%= link_to j.field.name + ' | ' + j.well.name, job_path(@job, transfer: true, job: j),
+                                method: :put,
+                                remote: true,
+                                class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                                "data-form" => "update-part-status",
+                                "data-placement" => "right",
+                                "data-title" => "Transfer to: " + (j.field.name + ' | ' + j.well.name)  %>
+                  </li>
+              <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      &nbsp;
+      <%= link_to "Ship All To Shop", "#", class: "btn btn-danger white-text align-top" %>
 
       <div class='inline-block pull-right'>
         <div class="inline-block  <%= job.inventory_confirmed? ? "hidden" : "" %>">

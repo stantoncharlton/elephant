@@ -55,11 +55,11 @@ class InventoryController < ApplicationController
         @condensed = true
 
         if current_user.role.district_read?
-            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 40)
         elsif current_user.role.limit_to_assigned_jobs?
-            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 40)
         else
-            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 30)
+            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => true).order("parts.name ASC").paginate(page: params[:page], limit: 40)
         end
 
         respond_to do |format|

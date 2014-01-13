@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140113144301) do
+ActiveRecord::Schema.define(:version => 20140113151957) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -291,6 +291,29 @@ ActiveRecord::Schema.define(:version => 20140113144301) do
     t.decimal  "motor_rpm"
     t.decimal  "spp"
     t.decimal  "torque"
+    t.decimal  "rotary_weight"
+    t.decimal  "pu_weight"
+    t.decimal  "so_weight"
+    t.decimal  "diff_pressure"
+    t.decimal  "stall"
+    t.decimal  "tfo"
+    t.integer  "mud_type"
+    t.decimal  "mud_weight"
+    t.decimal  "viscosity"
+    t.decimal  "chlorides"
+    t.decimal  "yp"
+    t.decimal  "pv"
+    t.decimal  "ph"
+    t.decimal  "gas"
+    t.decimal  "sand"
+    t.decimal  "solids"
+    t.decimal  "oil"
+    t.decimal  "bh_temp"
+    t.decimal  "fl_temp"
+    t.decimal  "water_loss"
+    t.decimal  "battery_1_amps"
+    t.decimal  "battery_2_amps"
+    t.decimal  "battery_volts"
   end
 
   add_index "drilling_log_entries", ["bha_id"], :name => "index_drilling_log_entries_on_bha_id"
