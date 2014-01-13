@@ -51,8 +51,8 @@
                     "data-placement" => "bottom",
                     "data-title" => "Open " + document.document_type_string %>
     <% elsif document.document_type == Document::BOTTOM_HOLE_ASSEMBLY %>
-        <% drilling_log_document = Document.where(:document_type => Document::DRILLING_LOG).where("documents.job_id = ?", document.job_id).first %>
-        <% if drilling_log_document.present? %>
+        <% drilling_log_document = Document.where("documents.job_id = ?", document.job_id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
+        <% if !drilling_log_document.nil? %>
             <%= link_to document.name, drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-bha"),
                         target: "_blank",
                         class: "document-name tooltip-info",
@@ -72,8 +72,8 @@
                     "data-placement" => "bottom",
                     "data-title" => "Open " + document.document_type_string %>
     <% elsif document.document_type == Document::SURVEY %>
-        <% drilling_log_document = Document.where(:document_type => Document::DRILLING_LOG).where("documents.job_id = ?", document.job_id).first %>
-        <% if drilling_log_document.present? %>
+        <% drilling_log_document = Document.where("documents.job_id = ?", document.job_id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
+        <% if !drilling_log_document.nil? %>
             <%= link_to document.name, drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"),
                         target: "_blank",
                         class: "document-name tooltip-info",
