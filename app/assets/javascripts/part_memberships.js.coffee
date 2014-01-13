@@ -27,3 +27,13 @@ $ ->
     $('#shop_notes').find('input').focus()
     return false
 
+  $('.part-working').live "click", ->
+    part = $('#part_membership_' + $(this).attr('data-id'))
+    part.find('.popover').popover('hide')
+    name = part.find('.name')
+    name.text('working')
+    name.addClass 'ajax-loading'
+    name.addClass 'search-loading'
+    name.next('div').text('')
+    return false
+

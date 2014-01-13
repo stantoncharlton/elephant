@@ -1,3 +1,8 @@
-<% if @part_membership.present? && params[:usage].present? %>
- $('.usage-hours-updated').removeClass('hidden');
+<% if @part_membership.present? %>
+    <% if params[:usage].present? %>
+        $('.usage-hours-updated').removeClass('hidden');
+    <% else %>
+        $('#part_membership_<%= @part_membership.id %>').replaceWith("<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>");
+        $('#part_membership_<%= @part_membership.id %>').find('.popover').popover({  delay: { show: 100, hide: 100 } });
+    <% end %>
 <% end %>

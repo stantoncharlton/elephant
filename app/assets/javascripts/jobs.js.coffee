@@ -115,46 +115,6 @@ $ ->
     if $(this).attr('data-tray') == "notes"
       $('.notes-loading').removeClass 'hidden'
       $('.notes-loading').find('.loading').removeClass 'hidden'
-    if $(this).attr('data-tray') == "drilling-overview"
-      $('#drilling_overview').find('.job-tray-content').hide()
-      $('.drilling-overview-loading').removeClass 'hidden'
-      $('.drilling-overview-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_overview", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "log"
-      $('#drilling_log').find('.job-tray-content').hide()
-      $('.drilling-log-loading').removeClass 'hidden'
-      $('.drilling-log-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=log", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "drilling-daily"
-      $('#drilling_daily').find('.job-tray-content').hide()
-      $('.drilling-daily-loading').removeClass 'hidden'
-      $('.drilling-daily-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_daily", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "drilling-rop"
-      $('#drilling_rop').find('.job-tray-content').hide()
-      $('.drilling-rop-loading').removeClass 'hidden'
-      $('.drilling-rop-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_rop", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "drilling-runs"
-      $('#drilling_runs').find('.job-tray-content').hide()
-      $('.drilling-runs-loading').removeClass 'hidden'
-      $('.drilling-runs-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_runs", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "drilling-bha"
-      $('#drilling_bha').find('.job-tray-content').hide()
-      $('.drilling-bha-loading').removeClass 'hidden'
-      $('.drilling-bha-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_bha", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "drilling-reports"
-      $('#drilling_reports').find('.job-tray-content').hide()
-      $('.drilling-reports-loading').removeClass 'hidden'
-      $('.drilling-reports-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_reports", type: 'get', dataType: 'script'
-    if $(this).attr('data-tray') == "drilling-npt"
-      $('#drilling_npt').find('.job-tray-content').hide()
-      $('.drilling-npt-loading').removeClass 'hidden'
-      $('.drilling-npt-loading').find('.loading').removeClass 'hidden'
-      $.ajax '/drilling_logs/' + $(this).attr('data-id') + "?section=drilling_npt", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "failures"
       if $('#overview_failures').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=failures", type: 'get', dataType: 'script'
@@ -257,4 +217,15 @@ $ ->
 
   $('.job-update-field').live "change", ->
     $.ajax '/jobs/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
+
+  $('#confirm-assets').live "click", ->
+    div = $(this).closest('div')
+    div.addClass 'hidden'
+    div.next('div').removeClass 'hidden'
+    return false
+  $('#confirm-assets-undo').live "click", ->
+    div = $(this).closest('div')
+    div.addClass 'hidden'
+    div.prev('div').removeClass 'hidden'
+    return false
 

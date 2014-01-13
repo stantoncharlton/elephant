@@ -57,12 +57,14 @@ class PartMembershipsController < ApplicationController
     end
 
     def update
-        if params[:usage].present?
-            @part_membership = PartMembership.find_by_id(params[:id])
-            if !@part_membership.template?
-                not_found unless @part_membership.part.company == current_user.company
+        @part_membership = PartMembership.find_by_id(params[:id])
 
-                @part_membership.update_attribute(:usage, Float(params[:usage]))
+        if params[:usage].present?
+            @part_membership.update_attribute(:usage, Float(params[:usage]))
+        elsif params[:shipping].present?
+            @part_membership.update_attribute(:shipping, params[:value] == "true")
+            if @part_membership.part_type == PartMembership::INVENTORY
+                @part_membership.part.update_attribute(:status, params[:value] == "true" ? Part::SHIPPING : Part::ON_JOB)
             end
         end
     end

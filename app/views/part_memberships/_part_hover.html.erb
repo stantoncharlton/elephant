@@ -7,23 +7,35 @@
   <% end %>
 
   <% if !part_membership.serial_number.blank? %>
-      <p><span class='inline-block list-item-column-short'>Serial #</span><b><%= part_membership.serial_number %></b></p>
+      <p><span class='inline-block list-item-column-short'>Serial #</span><b><%= part_membership.serial_number %></b>
+      </p>
   <% end %>
   <% if !part_membership.material_number.blank? %>
-      <p><span class='inline-block list-item-column-short'>Material #</span><b><%= part_membership.material_number %></b></p>
+      <p>
+        <span class='inline-block list-item-column-short'>Material #</span><b><%= part_membership.material_number %></b>
+      </p>
   <% end %>
 
-  <p><span class='inline-block list-item-column-short'>ID</span><b><%= part_membership.inner_diameter.present? ? part_membership.inner_diameter : '-' %></b></p>
-  <p><span class='inline-block list-item-column-short'>OD</span><b><%= part_membership.outer_diameter.present? ? part_membership.outer_diameter : '-' %></b></p>
-  <p><span class='inline-block list-item-column-short'>Length</span><b><%= part_membership.length.present? ? part_membership.length : '-' %></b></p>
+  <p>
+    <span class='inline-block list-item-column-short'>ID</span><b><%= part_membership.inner_diameter.present? ? part_membership.inner_diameter : '-' %></b>
+  </p>
+
+  <p>
+    <span class='inline-block list-item-column-short'>OD</span><b><%= part_membership.outer_diameter.present? ? part_membership.outer_diameter : '-' %></b>
+  </p>
+
+  <p>
+    <span class='inline-block list-item-column-short'>Length</span><b><%= part_membership.length.present? ? part_membership.length : '-' %></b>
+  </p>
 
   <div class='push-down-small'>
     <% if part_membership.part.present? %>
         <a href='/parts/<%= part_membership.part_id %>' class='inline-block activity-user-link align-top'>View Asset
           Details</a>
-        <% if part_membership.job.present? && !part_membership.job.closed %>|<% end %>
+        <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>|
+        <% end %>
     <% end %>
-    <% if part_membership.job.present? && !part_membership.job.closed %>
+    <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>
         <a href='/part_memberships/<%= part_membership.id %>'
            data-method='delete'
            data-remote='true'
@@ -34,6 +46,14 @@
            data-title='Remove from Job'>Remove</a>
     <% end %>
 
-    <a href='#' class='btn btn-danger'>Ship To Shop</a>
+    <div>
+      <% if !part_membership.shipping? %>
+          <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
+            To Shop</a>
+      <% else %>
+        <b class='warning-text'>Shipping to Shop</b>&nbsp;
+          <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=false' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='activity-user-link part-working'>undo</a>
+      <% end %>
+    </div>
   </div>
 </div>

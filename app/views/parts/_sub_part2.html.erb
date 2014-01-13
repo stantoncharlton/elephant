@@ -46,12 +46,6 @@
 
           </p>
 
-          <% if show_warehouse && part.master_part.warehouse.present? %>
-              <p class="list-item-column2 help-text">
-                <span class="help-text"><%= part.master_part.warehouse.name %></span>
-              </p>
-          <% end %>
-
           <% if false %>
               <p class="list-item-text list-item-column list-item-column-count">
                 <span class="help-text"><%= part.jobs.count %></span>

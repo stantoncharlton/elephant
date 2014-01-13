@@ -5,7 +5,8 @@ class Job < ActiveRecord::Base
                     :status,
                     :rating,
                     :job_number,
-                    :inventory_notes
+                    :inventory_notes,
+                    :inventory_confirmed
 
     include PostJobReportHelper
     acts_as_xlsx

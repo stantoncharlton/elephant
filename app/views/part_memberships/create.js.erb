@@ -9,7 +9,7 @@ $('#alert').css('z-index', '10000');
 <% else %>
 
 
-$('#asset_list').append('<%= j render 'part_memberships/part_membership', part_membership: @part_membership %>');
+$('#asset_list').append('<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>');
 
 $('#part_search').val('').removeClass('ui-autocomplete-bad').focus();
 $('#part_membership_part_id').val('');

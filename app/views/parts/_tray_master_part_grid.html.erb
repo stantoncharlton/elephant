@@ -1,0 +1,19 @@
+<div class="remote-tray" data-tray="grid">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading assets..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+    <br>
+
+    <div id="parts" class="list">
+      <% @parts.each_with_index do |part, index| %>
+          <%= render 'parts/sub_part2', part: part, index: index, condensed: true %>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>

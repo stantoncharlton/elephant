@@ -1,0 +1,126 @@
+<div class="remote-tray" data-tray="list">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading assets..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+    <br>
+
+    <div class="map-container">
+      <div id='map' class='dark' style='width:100%;height:300px;'></div>
+      <div class="corner tlcorner"></div>
+      <div class="corner trcorner"></div>
+      <div class="corner brcorner"></div>
+      <div class="corner blcorner"></div>
+    </div>
+
+    <script type='text/javascript'>
+        var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+        map.attributionControl = false;
+        map.scrollWheelZoom.disable();
+
+        var geoJson = [];
+
+        <% coordinates_for_zoom = [] %>
+        <% coordinates_for_lines = [] %>
+
+        <% @parts.each_with_index do |part, index| %>
+        <% if part.current_job.present? && !part.current_job.well.location.blank? %>
+        <% x = part.current_job.well.x_location %>
+        <% y = part.current_job.well.y_location  %>
+        <% coordinates_for_lines << [x, y] %>
+        <% coordinates_for_zoom << [y, x] %>
+        geoJson.push({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [<%= x %>, <%= y %>]
+            },
+            "properties": {
+                title: '<%= part.serial_number %>',
+                'marker-size': 'medium',
+                'marker-color': '#0058a8',
+                'marker-symbol': '<%= (index + 1).to_s %>',
+                url: '/parts/' + <%= part.id %>
+                //'marker-symbol': '1'
+            }
+        });
+        <% end %>
+        <% end %>
+
+        map.markerLayer.setGeoJSON(geoJson);
+
+        map.markerLayer.on('click', function (e) {
+            map.panTo(e.layer.getLatLng());
+        });
+        map.markerLayer.on('click', function (e) {
+            e.layer.unbindPopup();
+            window.location = e.layer.feature.properties.url;
+        });
+
+        var bounds = [];
+        <% coordinates_for_zoom.each do |c| %>
+        bounds.push([<%= c[0] %>, <%= c[1] %>]);
+        <% end %>
+        map.fitBounds(bounds);
+        zoom = Math.round(map.getZoom());
+        map.setZoom(zoom - 1);
+        <% if coordinates_for_zoom.count == 1 %>
+        if (zoom > 8) {
+            map.setZoom(8);
+        }
+        <% end %>
+
+        map.markerLayer.on('mouseover', function (e) {
+            e.layer.openPopup();
+        });
+        map.markerLayer.on('mouseout', function (e) {
+            e.layer.closePopup();
+        });
+    </script>
+
+    <br><br>
+
+    <div class="push-right-small">
+      <p class="help-text list-item-column list-item-column-count">
+
+      </p>
+
+      <p class="help-text list-item-column">
+        Serial #
+      </p>
+
+      <p class="help-text list-item-column list-item-column4">
+        District #
+      </p>
+
+      <p class="help-text list-item-column list-item-column-long">
+        Status
+      </p>
+
+      <p class="help-text list-item-column list-item-column-count">
+        Runs
+      </p>
+    </div>
+
+    <div id="parts" class="list">
+      <% @parts.each_with_index do |part, index| %>
+          <%= render 'parts/sub_part', part: part, index: index %>
+      <% end %>
+    </div>
+
+    <%= will_paginate @parts, :params => {show_decommissioned: @showing_decommissioned} %>
+
+    <% if !@showing_decommissioned %>
+        <div class="pull-right">
+          <br>
+          <br>
+          <%= link_to "Include decommissioned assets", part_path(@part, show_decommissioned: true), class: "activity-user-link" %>
+        </div>
+    <% end %>
+
+  </div>
+
+</div>

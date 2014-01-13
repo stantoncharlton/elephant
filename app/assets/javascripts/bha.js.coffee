@@ -56,3 +56,10 @@ $ ->
       $(this).next('.bit-info').removeClass 'hidden'
     else
       $(this).next('.bit-info').addClass 'hidden'
+
+
+  $('.tab').live "click", ->
+    $('.tab-content').addClass 'hidden'
+    tabcontent = $(".tab-content[data-tabsection=" + $(this).attr('data-tabsection')  + "]")
+    tabcontent.removeClass 'hidden'
+    return false

@@ -14,7 +14,7 @@
   </div>
 
   <div class='inline-block align-top'>
-    <%= render 'part_memberships/part_membership', part_membership: tool %>
+    <%= render 'part_memberships/part_membership', part_membership: tool, allow_remove: false %>
   </div>
 
   <% df = DynamicField.new %>
@@ -25,7 +25,7 @@
       <b>ID</b>
       <%= text_field_tag tool.id.to_s + "_id", "",
                          class: "bha-value",
-                         value: bha_item.inner_diameter,
+                         value: bha_item.inner_diameter || tool.inner_diameter,
                          placeholder: "ID" %>
     </div>
 
@@ -34,7 +34,7 @@
       <b>OD</b>
       <%= text_field_tag tool.id.to_s + "_od", "",
                          class: "bha-value",
-                         value: bha_item.outer_diameter,
+                         value: bha_item.outer_diameter || tool.outer_diameter,
                          placeholder: "OD" %>
     </div>
 
@@ -43,7 +43,7 @@
       <b>Length</b>
       <%= text_field_tag tool.id.to_s + "_length", "",
                          class: "bha-value",
-                         value: bha_item.length,
+                         value: bha_item.length || tool.length,
                          placeholder: "Length" %>
     </div>
 

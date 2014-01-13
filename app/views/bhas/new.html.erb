@@ -1,7 +1,11 @@
 <% provide(:title, "New BHA") %>
 
 <div class="page_header">
-  <h1 id="part_name">New Bottom Hole Assembly</h1>
+  <% if !@master_bha.present? %>
+      <h1 id="part_name">New Bottom Hole Assembly</h1>
+  <% else %>
+      <h1 id="part_name">New BHA Tool String</h1>
+  <% end %>
 </div>
 
 
@@ -11,6 +15,9 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= hidden_field_tag "[bha][document_id]", @document.id %>
+      <% if @master_bha.present? %>
+          <%= hidden_field_tag "[bha][master_bha_id]", @master_bha.id %>
+      <% end %>
 
       <%= render 'bhas/fields', f: f %>
 
@@ -22,7 +29,7 @@
 
       <div class="form" id="add_tool" data-form="add_tool">
         <% options = [] %>
-        <% # Includes only jobs with BHA %>
+        <% # Includes only jobs with BHA   %>
         <% PartMembership.includes(job: :well).includes(job: :documents).where("wells.id = ?", @job.well_id).where("documents.document_type = ?", Document::BOTTOM_HOLE_ASSEMBLY).order("part_memberships.name ASC").each do |p| %>
             <% options << [p.name + ' - ' + p.serial_number, p.id] %>
         <% end %>

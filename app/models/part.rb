@@ -164,6 +164,8 @@ class Part < ActiveRecord::Base
                 return "Awaiting Maintenance"
             when IN_REDRESS
                 return "In Maintenance"
+            when SHIPPING
+                return "Shipping"
             when DECOMMISSIONED
                 return "Decommissioned"
         end
@@ -178,6 +180,8 @@ class Part < ActiveRecord::Base
             when USED
                 return "part-box-maintenance"
             when IN_REDRESS
+                return "part-box-maintenance"
+            when SHIPPING
                 return "part-box-maintenance"
             when DECOMMISSIONED
                 return ""

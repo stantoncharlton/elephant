@@ -24,6 +24,9 @@ class Bha < ActiveRecord::Base
 
     has_many :bha_items, :dependent => :destroy, order: "ordering ASC"
 
+    belongs_to :master_bha, class_name: "Bha"
+    has_one :tool_string, :dependent => :destroy, class_name: "Bha", foreign_key: "master_bha_id"
+
     def update_usage
         drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first
         entries = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", self.id).to_a

@@ -61,9 +61,11 @@ class BhasController < ApplicationController
             @bha = Bha.new
 
             @document = Document.find_by_id(params[:document])
-            not_found unless @document.company == current_user.company
-
             @job = @document.job
+
+            if params[:bha].present?
+                @master_bha = Bha.find(params[:bha])
+            end
         end
     end
 
@@ -71,13 +73,20 @@ class BhasController < ApplicationController
         document_id = params[:bha][:document_id]
         params[:bha].delete(:document_id)
 
+        master_bha_id = params[:bha][:master_bha_id]
+        params[:bha].delete(:master_bha_id)
+
         @bha = Bha.new(params[:bha])
         @bha.company = current_user.company
         @bha.document = Document.find_by_id(document_id)
-        not_found unless @bha.document.company == current_user.company
         @bha.job = @bha.document.job
         @document = @bha.document
         @job = @bha.job
+        if !master_bha_id.blank?
+            @master_bha = Bha.find_by_id(master_bha_id)
+            @bha.master_bha = @master_bha
+            @bha.name = @bha.master_bha.name + ' - Tool String'
+        end
 
         Bha.transaction do
             if @bha.save
@@ -102,7 +111,7 @@ class BhasController < ApplicationController
                 end
 
                 @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
-                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha)
+                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'new'
             end
@@ -111,10 +120,10 @@ class BhasController < ApplicationController
 
     def edit
         @bha = Bha.find_by_id(params[:id])
-        not_found unless @bha.company == current_user.company
-
         @document = @bha.document
         @job = @bha.job
+
+        @master_bha = @bha.master_bha
     end
 
 
@@ -126,10 +135,17 @@ class BhasController < ApplicationController
         @job = @bha.job
 
         Bha.transaction do
-            if @bha.update_attribute(:name, params[:bha][:name])
-                @bha.update_attribute(:description, params[:bha][:description])
-                @bha.update_attribute(:bit_to_sensor, params[:bha][:bit_to_sensor])
-                @bha.update_attribute(:bit_to_gamma, params[:bha][:bit_to_gamma])
+            if params[:bha].present? && params[:bha][:name].present?
+                passed = @bha.update_attribute(:name, params[:bha][:name])
+            else
+                passed = true
+            end
+            if passed
+                if params[:bha].present? && params[:bha][:name].present?
+                    @bha.update_attribute(:description, params[:bha][:description])
+                    @bha.update_attribute(:bit_to_sensor, params[:bha][:bit_to_sensor])
+                    @bha.update_attribute(:bit_to_gamma, params[:bha][:bit_to_gamma])
+                end
 
                 @bha.bha_items.each do |i|
                     i.destroy
@@ -154,7 +170,7 @@ class BhasController < ApplicationController
                 end
 
                 @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
-                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha)
+                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'edit'
             end
@@ -177,7 +193,7 @@ class BhasController < ApplicationController
         end
 
         @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
-        redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha)
+        redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
     end
 
 end

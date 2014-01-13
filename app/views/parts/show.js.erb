@@ -7,3 +7,15 @@ $('#part_name').val('<%= @part.name %>').trigger('focusout');
 <% else %>
 $('#part_name').val('').trigger('focusout');
 <% end %>
+
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
+
+<% if params[:section] == "grid" %>
+    tray.replaceWith("<%= j render 'parts/tray_master_part_grid' %>");
+<% elsif params[:section] == "list" %>
+    tray.replaceWith("<%= j render 'parts/tray_master_part_list' %>");
+<% end %>
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+}

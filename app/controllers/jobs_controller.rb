@@ -304,6 +304,8 @@ class JobsController < ApplicationController
                     @job.update_attribute(:rating, params[:value])
                     Activity.add(self.current_user, Activity::JOB_RATING, @job, @job.rating.to_i, @job)
                     @rating_updated = true
+                when "confirm_assets"
+                    @job.update_attribute(:inventory_confirmed, params[:value])
             end
         else
             if params["start_date"].present?

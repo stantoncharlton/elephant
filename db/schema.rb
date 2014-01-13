@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140111150121) do
+ActiveRecord::Schema.define(:version => 20140113144301) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20140111150121) do
     t.string   "bit_jets"
     t.decimal  "bit_tfa"
     t.decimal  "bit_size"
+    t.integer  "master_bha_id"
   end
 
   add_index "bhas", ["company_id"], :name => "index_bhas_on_company_id"
@@ -532,8 +533,8 @@ ActiveRecord::Schema.define(:version => 20140111150121) do
     t.integer  "client_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
     t.integer  "company_id"
     t.integer  "status"
     t.datetime "close_date"
@@ -542,6 +543,7 @@ ActiveRecord::Schema.define(:version => 20140111150121) do
     t.integer  "job_memberships_count",                :default => 0
     t.string   "job_number"
     t.string   "inventory_notes",       :limit => 500
+    t.boolean  "inventory_confirmed",                  :default => false
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"
@@ -622,6 +624,7 @@ ActiveRecord::Schema.define(:version => 20140111150121) do
     t.decimal  "inner_diameter"
     t.decimal  "outer_diameter"
     t.decimal  "length"
+    t.boolean  "shipping",                      :default => false
   end
 
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"

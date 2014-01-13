@@ -26,7 +26,7 @@
 
 <div id="asset_list" class='content'>
   <% @job.part_memberships.order('name ASC').each do |pm| %>
-      <%= render 'part_memberships/part_membership', part_membership: pm %>
+      <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
   <% end %>
 </div>
 
@@ -60,10 +60,26 @@
 <% if job.status == Job::ON_JOB || job.status == Job::POST_JOB %>
     <div class='push-right-small'>
       <%= link_to "Transfer All To..", "#", class: "btn btn-default" %> &nbsp;
-      <%= link_to "Ship All To Shop", "#", class: "btn btn-danger" %>
+      <%= link_to "Ship All To Shop", "#", class: "btn btn-danger white-text" %>
 
-      <div class='inline-block push-right-small'>
-        <%= link_to "Confirm Assets To Close Job", "#", class: "btn btn-success" %>
+      <div class='inline-block pull-right'>
+        <div class="inline-block  <%= job.inventory_confirmed? ? "hidden" : "" %>">
+          <p class='inline-block push-left-small help-text'>Confirm assets after job, either arriving at shop or new
+            well</p>
+          <%= link_to "Confirm Assets", job_path(job, update_field: true, field: "confirm_assets", value: true),
+                      remote: true, :method => :put,
+                      id: "confirm-assets",
+                      class: "btn btn-success white-text" %>
+        </div>
+        <div class="inline-block <%= !job.inventory_confirmed? ? "hidden" : "" %>">
+          <p class='inline-block status-good'><b>Assets Confirmed</b></p>
+          <% if !job.closed %>
+              <%= link_to "undo", job_path(job, update_field: true, field: "confirm_assets", value: false),
+                          remote: true, :method => :put,
+                          id: "confirm-assets-undo",
+                          class: "activity-user-link push-right-small update-section" %>
+          <% end %>
+        </div>
       </div>
     </div>
 <% end %>
@@ -72,7 +88,7 @@
 <% bha_document = Document.where("documents.job_id = ?", job.id).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).last %>
 <% if !bha_document.nil? %>
     <div class='content'>
-      <% bhas = Bha.joins(document: {job: :well}).where("wells.id = ?", job.well_id).order("bhas.name ASC") %>
+      <% bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("wells.id = ?", job.well_id).order("bhas.name ASC") %>
       <% drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", bha_document.job.well_id).first %>
 
       <hr>
