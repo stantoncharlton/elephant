@@ -72,8 +72,12 @@ class DynamicFieldsController < ApplicationController
         @dynamic_field.ordering = @dynamic_field.job_template.dynamic_fields.count
 
         if !value.blank?
-            @dynamic_field.predefined = true
-            @dynamic_field.value = value
+            if @dynamic_field.value_type != DynamicField::VALUES
+                @dynamic_field.predefined = true
+                @dynamic_field.value = value
+            else
+                @dynamic_field.values = value
+            end
         else
             @dynamic_field.predefined = false
         end
@@ -113,8 +117,12 @@ class DynamicFieldsController < ApplicationController
                 @dynamic_field.update_attribute(:priority, params[:dynamic_field][:priority])
                 @dynamic_field.update_attribute(:optional, params[:dynamic_field][:optional])
                 if !params[:dynamic_field][:value].blank?
-                    @dynamic_field.update_attribute(:value, params[:dynamic_field][:value])
-                    @dynamic_field.update_attribute(:predefined, true)
+                    if @dynamic_field.value_type != DynamicField::VALUES
+                        @dynamic_field.update_attribute(:predefined, true)
+                        @dynamic_field.update_attribute(:value, params[:dynamic_field][:value])
+                    else
+                        @dynamic_field.update_attribute(:values, params[:dynamic_field][:value])
+                    end
                 else
                     @dynamic_field.update_attribute(:predefined, false)
                 end
@@ -123,7 +131,7 @@ class DynamicFieldsController < ApplicationController
             if params[:value].present?
                 @save_value = params[:value]
                 if @dynamic_field.value_type != DynamicField::STRING
-                    @save_value.gsub!(',','')
+                    @save_value.gsub!(',', '')
                     @is_valid = @save_value.match(/\A[+-]?\d+?(\.\d+)?\Z/) != nil
                 end
                 @dynamic_field.value = @save_value

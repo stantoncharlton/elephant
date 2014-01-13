@@ -1,4 +1,4 @@
-<% provide(:title, 'Rig | ' + @rig.name) %>
+<% provide(:title, 'Rig | ' + sanitize(@rig.name)) %>
 
 <div class="page_header">
   <h1><%= @rig.name %></h1>

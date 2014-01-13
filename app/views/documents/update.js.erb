@@ -26,11 +26,13 @@ $('.tooltip-info').tooltip();
 }
 
 <% if !signed_in_admin? && @document.job_id.present? %>
+<% if false %>
 $.ajax({
     url:"/job_process/" + <%= @document.job_id.to_s %>,
     type:"GET",
     dataType:"script"
 });
+<% end %>
 
 $('#job-progress-status').find(':first').hide().remove();
 $('#job-progress-status').append('<%= j render 'jobs/job_progress_status', job: @document.job %>');

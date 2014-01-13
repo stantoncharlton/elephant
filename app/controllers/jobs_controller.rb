@@ -166,6 +166,8 @@ class JobsController < ApplicationController
                 job_dynamic_field.priority = dynamic_field.priority
                 job_dynamic_field.predefined = dynamic_field.predefined
                 job_dynamic_field.ordering = dynamic_field.ordering
+                job_dynamic_field.value = dynamic_field.value
+                job_dynamic_field.values = dynamic_field.values
                 job_dynamic_field.template = false
                 job_dynamic_field.dynamic_field_template = dynamic_field
                 job_dynamic_field.job_template = @job.job_template

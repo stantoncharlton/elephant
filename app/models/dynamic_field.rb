@@ -8,7 +8,8 @@ class DynamicField < ActiveRecord::Base
                     :optional,
                     :priority,
                     :predefined,
-                    :ordering
+                    :ordering,
+                    :values
 
     acts_as_xlsx
 
@@ -122,7 +123,7 @@ class DynamicField < ActiveRecord::Base
         value_type = value_type.to_i
         new_value_type = new_value_type.to_i
 
-        if value_type == new_value_type || value_type == STRING
+        if value_type == new_value_type || value_type == STRING || value_type == VALUES
             return value
         end
 

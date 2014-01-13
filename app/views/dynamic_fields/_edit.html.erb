@@ -20,6 +20,7 @@
 
           <%= f.text_field :value,
                            placeholder: "-",
+                           value: dynamic_field.value_type == DynamicField::VALUES ? dynamic_field.values : dynamic_field.value,
                            class: "job-field-value-editable push-right-small" %>
         </div>
 
