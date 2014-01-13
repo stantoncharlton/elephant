@@ -112,15 +112,11 @@ class Part < ActiveRecord::Base
             with(:company_id, company.id)
             if current_user.role.limit_to_assigned_jobs?
                 any_of do
-                    current_user.warehouses.each do |warehouse|
-                        with(:warehouse_id, warehouse.id)
-                    end
+                    with(:district_id, district.id)
                 end
             else
                 any_of do
-                    district.warehouses.each do |warehouse|
-                        with(:warehouse_id, warehouse.id)
-                    end
+                    with(:district_id, district.id)
                 end
             end
             order_by :name_sort, :desc
@@ -135,15 +131,11 @@ class Part < ActiveRecord::Base
             with(:company_id, company.id)
             if current_user.role.limit_to_assigned_jobs?
                 any_of do
-                    current_user.warehouses.each do |warehouse|
-                        with(:warehouse_id, warehouse.id)
-                    end
+                    with(:district_id, district.id)
                 end
             else
                 any_of do
-                    district.warehouses.each do |warehouse|
-                        with(:warehouse_id, warehouse.id)
-                    end
+                    with(:district_id, district.id)
                 end
             end
             with(:material_number, material_number)
