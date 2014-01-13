@@ -16,7 +16,9 @@
         <h3>No Well Plan</h3>
         <p>Please add a well plan before continuing with survey.</p>
 
-        <% document = Document.where("documents.job_id = ?", @survey.document.job.id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
+
+
+        <% document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
         <% if !document.nil? %>
             <br>
             <%= link_to "Update " + document.name, "/surveys?document=" + document.id.to_s, class: "bluebtn" %>
