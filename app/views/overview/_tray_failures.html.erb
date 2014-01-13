@@ -33,7 +33,7 @@
       <div class="donut-chart-div">
         <div id="tool_failures_chart" class="donut-chart "></div>
         <div class="donut-inner-circle"></div>
-        <div class="donut-text"><%= (tool_failures.to_f / all_issues.to_f * 100.0).round(0) %></div>
+        <div class="donut-text"><%= all_issues.length > 0 ? (tool_failures.to_f / all_issues.to_f * 100.0).round(0) : 0.0 %></div>
         <div class="percentage-circle">%</div>
       </div>
     </div>
@@ -44,7 +44,7 @@
       <div class="donut-chart-div">
         <div id="human_failures_chart" class="donut-chart "></div>
         <div class="donut-inner-circle"></div>
-        <div class="donut-text"><%= (human_failures.to_f / all_issues.to_f * 100.0).round(0)  %></div>
+        <div class="donut-text"><%= all_issues.length > 0 ? (human_failures.to_f / all_issues.to_f * 100.0).round(0) : 0.0 %></div>
         <div class="percentage-circle">%</div>
       </div>
     </div>

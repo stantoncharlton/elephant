@@ -1,7 +1,9 @@
 <% @rops_current_year = DrillingLog.where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 <% total_rop = 0.0 %>
-<% @rops_current_year.each do |r| %>
-  <% total_rop = total_rop + r[0] %>
+<% if !@rops_current_year.nil? %>
+    <% @rops_current_year.each do |r| %>
+        <% total_rop = total_rop + r[0] %>
+    <% end %>
 <% end %>
 
 <% total_feet = DrillingLog.where("drilling_logs.created_at >= ?", Date.today - 1.year).sum("drilling_logs.total_drilled") %>
