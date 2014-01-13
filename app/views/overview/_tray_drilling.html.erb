@@ -34,7 +34,7 @@
          data-title="Total number of active rigs">
       <div class="chart-title">Average ROP</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= (total_rop.to_f / @rops_current_year.length).round(1) %></div>
+        <div class="donut-text "><%= @rops_current_year.present? && @rops_current_year.length > 0 ? (total_rop.to_f / @rops_current_year.length).round(1) : 0.0 %></div>
         <div class="percentage ">ft/hr</div>
       </div>
     </div>

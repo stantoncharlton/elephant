@@ -5,6 +5,7 @@ class Job < ActiveRecord::Base
                     :status,
                     :rating,
                     :job_number,
+                    :api_number,
                     :inventory_notes,
                     :inventory_confirmed
 
