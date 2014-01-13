@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140113195010) do
+ActiveRecord::Schema.define(:version => 20140113203425) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -568,6 +568,7 @@ ActiveRecord::Schema.define(:version => 20140113195010) do
     t.string   "job_number"
     t.string   "inventory_notes",       :limit => 500
     t.boolean  "inventory_confirmed",                  :default => false
+    t.string   "api_number"
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"

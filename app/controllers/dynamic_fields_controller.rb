@@ -100,7 +100,11 @@ class DynamicFieldsController < ApplicationController
         if params[:id] == "0"
             if params[:job].present?
                 job = Job.find_by_id(params[:job])
-                job.update_attribute(:job_number, params[:value])
+                if params[:name] == "Job Number"
+                    job.update_attribute(:job_number, params[:value])
+                elsif params[:name] == "API Number"
+                    job.update_attribute(:api_number, params[:value])
+                end
                 render :nothing => true, :status => 200
                 return
             end

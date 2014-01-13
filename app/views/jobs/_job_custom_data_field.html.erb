@@ -24,6 +24,7 @@
           <% else %>
               <input id="dynamic_field_<%= df.id.present? ? df.id : "0" %>" type="text"
                      data-job="<%= df.job.id %>"
+                     data-name="<%= df.name %>"
                      placeholder="-"
                      class="job-field-value-editable custom-data-input tooltip-info align-top"
                      data-placement="bottom" data-title="Field value, click to change"
