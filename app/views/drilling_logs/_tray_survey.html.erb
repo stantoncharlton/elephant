@@ -10,10 +10,19 @@
     <% @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first %>
     <% @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first %>
 
+    <% if @survey.nil? %>
+        <% @document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::SURVEY).last %>
+        <% @survey = Survey.new(name: @document.name, plan: false) %>
+        <% @survey.company = current_user.company %>
+        <% @survey.document = @document %>
+        <% @survey.save %>
+    <% end %>
 
     <% if @active_well_plan.nil? || @active_well_plan.survey_points.empty? %>
         <br>
+
         <h3>No Well Plan</h3>
+
         <p>Please add a well plan before continuing with survey.</p>
 
 
@@ -70,8 +79,8 @@
     <% end %>
 
     <script type='text/javascript'>
-        <% if @survey.document.job.status == Job::ON_JOB %>
-        setTimeout(function() {
+        <% if @survey.present? && @survey.document.job.status == Job::ON_JOB %>
+        setTimeout(function () {
             $.ajax({
                 url: "/surveys/<%= @survey.id %>",
                 type: "GET",
