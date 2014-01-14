@@ -46,7 +46,8 @@ class UsersController < ApplicationController
 
         if !current_user.role.limit_to_assigned_jobs?
             @average_job_performance = average_job_performance @user.jobs
-            @failure_rate = (@user.jobs.reorder('').joins(:issues).count("issues.id").to_f / @user.jobs.count.to_f)
+            job_count = @user.jobs.count
+            @failure_rate = job_count > 0 ? (@user.jobs.reorder('').joins(:issues).count("issues.id").to_f / @user.jobs.count.to_f) : 0.0
         end
     end
 

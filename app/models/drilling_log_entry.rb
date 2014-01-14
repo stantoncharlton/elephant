@@ -65,7 +65,6 @@ class DrillingLogEntry < ActiveRecord::Base
     CONNECTION_SURVEY = 4
     REAMING = 5
     CHANGE_MUD = 6
-    CHANGE_BHA = 7
     POOH = 8
     TIH = 9
     WIRELINE = 10
@@ -91,6 +90,8 @@ class DrillingLogEntry < ActiveRecord::Base
     # Out-hole
     NIPPLE_BOPS = 100
     TEST_BOPS = 103
+    CHANGE_BHA = 104
+
 
     STANDBY_OUTHOLE = 150
     RIG_SERVICE_OUTHOLE = 151
@@ -250,7 +251,6 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(REAMING), REAMING]
         options << [DrillingLogEntry.activity_code_string(CEMENTING), CEMENTING]
         options << [DrillingLogEntry.activity_code_string(CHANGE_MUD), CHANGE_MUD]
-        options << [DrillingLogEntry.activity_code_string(CHANGE_BHA), CHANGE_BHA]
         options << [DrillingLogEntry.activity_code_string(POOH), POOH]
         options << [DrillingLogEntry.activity_code_string(SHORT_TRIP), SHORT_TRIP]
         options << [DrillingLogEntry.activity_code_string(TIH), TIH]
@@ -276,6 +276,7 @@ class DrillingLogEntry < ActiveRecord::Base
         options << ["", -1]
         options << ["** Out-hole Activities **", -1]
 
+        options << [DrillingLogEntry.activity_code_string(CHANGE_BHA), CHANGE_BHA]
         options << [DrillingLogEntry.activity_code_string(NIPPLE_BOPS), NIPPLE_BOPS]
         options << [DrillingLogEntry.activity_code_string(TEST_BOPS), TEST_BOPS]
         options << [DrillingLogEntry.activity_code_string(STANDBY_OUTHOLE), STANDBY_OUTHOLE]

@@ -81,13 +81,13 @@
     </p>
 
     <p class="help-text pull-right push-down-small">
-      User
+      BHA/Actions
     </p>
     <br><br>
   </div>
 
   <div class="" id="list">
-    <% @last_entry = @drilling_log.drilling_log_entries.last %>
+    <% @last_entry = @drilling_log.drilling_log_entries.first %>
     <% dates.each_with_index do |date| %>
         <%= render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1] %>
     <% end %>
