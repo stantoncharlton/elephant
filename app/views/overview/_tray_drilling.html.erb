@@ -25,7 +25,7 @@
          data-title="Total number of active rigs">
       <div class="chart-title">Failures per Foot</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text "><%= (accountable_issues / total_feet.to_f).round(3) %></div>
+        <div class="donut-text "><%= total_feet > 0 ? (accountable_issues / total_feet.to_f).round(3) : 0.0 %></div>
         <div class="percentage ">f/ft</div>
       </div>
     </div>
