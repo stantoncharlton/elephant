@@ -43,9 +43,13 @@
         <% end %>
 
         <div>
+          <div class='pull-right'>
+            <%= link_to "View Well Plan", @active_well_plan, class: "activity-user-link" %>
+          </div>
           <span><div class='well-plan'></div> Well Plan</span>
           <span class='push-right-small'><div class='active-survey'></div> Survey</span>
         </div>
+        <hr>
 
         <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>
         <div id="chartdiv2" class='inline-block' style="width: 420px; height: 400px;"></div>
