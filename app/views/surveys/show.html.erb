@@ -1,9 +1,9 @@
 <% provide(:title, @survey.name) %>
 
 <div class="page_header">
-  <h1><%= @survey.name %></h1>
 
-  <div class="push-right btn-group inline pull-right push-down">
+
+  <div class="btn-group pull-right push-right push-down">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
       Advanced Actions
     </a>
@@ -24,7 +24,11 @@
   <div class='pull-right'>
     <%= render 'jobs/job_multi_link', job: @survey.document.job %>
   </div>
+
+  <h1>Well Plan</h1>
 </div>
+
+
 
 <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
 
@@ -87,18 +91,18 @@
 <script type="text/javascript">
     var chart;
     var chartData = <%= raw calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} }.to_json.html_safe %>;
-    if(chartData[0].comment == '') {
+    if (chartData[0].comment == '') {
         chartData[0].comment = "Tie On";
     }
-    if(chartData[chartData.length - 1].comment == '') {
+    if (chartData[chartData.length - 1].comment == '') {
         chartData[chartData.length - 1].comment = "TD";
     }
     var chart2;
     var chartData2 = <%= raw calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} }.to_json.html_safe %>;
-    if(chartData2[0].comment == '') {
+    if (chartData2[0].comment == '') {
         chartData2[0].comment = "Tie On";
     }
-    if(chartData2[chartData2.length - 1].comment == '') {
+    if (chartData2[chartData2.length - 1].comment == '') {
         chartData2[chartData2.length - 1].comment = "TD";
     }
 

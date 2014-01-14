@@ -631,6 +631,7 @@
 .job-status-no-wrap {
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-wrap: none;
 }
 
 .job-status-no-border {

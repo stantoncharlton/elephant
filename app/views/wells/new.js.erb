@@ -13,15 +13,12 @@ $('#alert').modal({show: true});
 
 
 $('#modal_popup').find('.modal-content').append('<%= j render 'wells/new_well' %>');
-$('#modal_popup').css('visibility', 'visible');
-$('#modal_popup').find('.loading').addClass('hidden');
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
-    $('.job-type-description-target').tooltip();
+    //$('.job-type-description-target').tooltip();
     $('.tooltip-info').tooltip();
-    $('.unit-tooltip').tooltip();
+    //$('.unit-tooltip').tooltip();
 }
-
 
 var focusevent, last_selected_item, rig_focused;
 
