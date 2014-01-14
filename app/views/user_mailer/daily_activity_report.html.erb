@@ -8,25 +8,38 @@
 <hr>
 
 
-<p class='help-text'>Jobs On Location</p>
+<p class='help-text'>Jobs In Progress</p>
+
 <div id="jobs" class="list">
-  <% @jobs.where(:status => Job::ON_JOB).each do |job| %>
-      <%= render 'user_mailer/job_report', job: job %>
+  <% jobs = @jobs.where(:status => Job::ON_JOB) %>
+  <% if jobs.any? %>
+      <% @jobs.where(:status => Job::ON_JOB).each do |job| %>
+          <%= render 'user_mailer/job_report', job: job %>
+      <% end %>
+  <% else %>
+      <p class='help-text'>No Jobs in this phase...</p>
   <% end %>
 </div>
 
 <br><br>
 
 <p class='help-text push-down'>Jobs in Pre or Post Phase</p>
+
 <div id="jobs" class="list">
-  <% @jobs.where("jobs.status != ?", Job::ON_JOB).each do |job| %>
-      <%= render 'user_mailer/job_report', job: job %>
+  <% jobs = @jobs.where("jobs.status != ?", Job::ON_JOB) %>
+  <% if jobs.any? %>
+      <% @jobs.where("jobs.status != ?", Job::ON_JOB).each do |job| %>
+          <%= render 'user_mailer/job_report', job: job %>
+      <% end %>
+  <% else %>
+      <p class='help-text'>No Jobs in this phase...</p>
   <% end %>
 </div>
 
 
 <% if Rails.env.production? %>
-    <hr>
+    <br>
+
     <div class="center"><%= image_tag "blue_logo_small.png" %></div>
     <br>
 <% end %>
