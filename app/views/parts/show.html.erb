@@ -1,4 +1,4 @@
-<% provide(:title, 'Asset: ' + (@part.master_part.present? ? @part.master_part.name : @part.name)) %>
+<% provide(:title, 'Asset: ' + sanitize(@part.master_part.present? ? @part.master_part.name : @part.name)) %>
 
 <div class="">
   <div>
@@ -243,7 +243,7 @@
       <div class="chart-block">
         <div class="chart-title">Maximum Usage</div>
         <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text part-on-hand"><%= 109.0 %></div>
+          <div class="donut-text part-on-hand">-</div>
           <div class="percentage ">hours</div>
         </div>
       </div>

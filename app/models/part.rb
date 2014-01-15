@@ -149,13 +149,25 @@ class Part < ActiveRecord::Base
     def status_string
         case self.status
             when AVAILABLE
-                return "Available"
+                if self.warehouse.present?
+                    return "Available - " + self.warehouse.name
+                else
+                    return "Available"
+                end
             when ON_JOB
                 return "On Job"
             when USED
-                return "Awaiting Maintenance"
+                if self.warehouse.present?
+                    return "Awaiting Maintenance - " + self.warehouse.name
+                else
+                    return "Awaiting Maintenance"
+                end
             when IN_REDRESS
-                return "In Maintenance"
+                if self.warehouse.present?
+                    return "In Maintenance - " + self.warehouse.name
+                else
+                    return "In Maintenance"
+                end
             when SHIPPING
                 return "Shipping"
             when DECOMMISSIONED

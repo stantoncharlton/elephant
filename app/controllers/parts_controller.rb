@@ -119,7 +119,15 @@ class PartsController < ApplicationController
         @part_update = false
         @inline_part_update = false
 
-        if params[:receive] == "true"
+        if params[:update_field].present? && params[:update_field] == "true"
+            if params[:field].present? && params[:value].present?
+                case params[:field]
+                    when "warehouse_id"
+                        @part.update_attribute(:warehouse_id, Warehouse.find_by_id(params[:value]).id)
+                        render :nothing => true, :status => 200
+                end
+            end
+        elsif params[:receive] == "true"
             @part.status = Part::IN_REDRESS
             @part_redress = PartRedress.receive(@part.company, @part, current_user)
             @part.save

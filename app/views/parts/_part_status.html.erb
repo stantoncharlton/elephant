@@ -1,6 +1,15 @@
 <div class="part-status">
   <div class="form" data-form="update-part-status">
     <% if part.status == Part::AVAILABLE %>
+        <div class='pull-right'>
+          <div class='inline-block align-top push-down'><b>Warehouse</b></div>
+          <%= select_tag "warehouse_id", options_for_select(part.district.warehouses.collect { |w| [w.name, w.id] }, part.warehouse_id),
+                         prompt: "Select warehouse...",
+                         class: "inline-block custom-select custom-select-ajax inline-block update-field push-right-small",
+                         "data-id" => part.id,
+                         "data-controller" => "parts",
+                         "data-field" => "warehouse_id" %>
+        </div>
         <span class="status-good"><%= part.status_string %></span>
     <% elsif part.status == Part::ON_JOB %>
         <span class=""><%= part.status_string %></span>
@@ -13,12 +22,21 @@
                             (<%= render 'activities/job_description', job: part.current_job, inside_job: false %>)
               </span>
     <% elsif part.status == Part::IN_REDRESS %>
+        <div class='pull-right'>
+          <div class='inline-block align-top push-down'><b>Warehouse</b></div>
+          <%= select_tag "warehouse_id", options_for_select(part.district.warehouses.collect { |w| [w.name, w.id] }, part.warehouse_id),
+                         prompt: "Select warehouse...",
+                         class: "inline-block custom-select custom-select-ajax inline-block update-field push-right-small",
+                         "data-id" => part.id,
+                         "data-controller" => "parts",
+                         "data-field" => "warehouse_id" %>
+        </div>
         <span class="warning-text"><%= part.status_string %></span>
         <span>for <%= time_ago_in_words(part.updated_at) %></span>
 
         <% redress = PartRedress.where(:part_id => part.id).order("created_at ASC").last %>
 
-        <br><br>
+        <br><br><br>
 
         <% if redress.notes.any? %>
 

@@ -46,13 +46,6 @@
       </li>
       <li class="divider"></li>
       <li>
-        <%= link_to "+ Add New Master Asset", new_part_path(template: true, warehouse: @warehouse.id),
-                    class: "dropdown-menu-link tooltip-info",
-                    "data-placement" => "bottom",
-                    "data-title" => "Create new master asset" %>
-      </li>
-      <li class="divider"></li>
-      <li>
         <%= link_to "Show Warehouse Members", "#",
                     id: "show_warehouse_members",
                     class: "dropdown-menu-link tooltip-info",
@@ -69,60 +62,15 @@
 
 </div>
 
-<%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
+<%= render 'inventory/statistics', parts: @parts, show_rentals: false %>
 
-<% if false %>
-    <div class="content">
-      <p class="list-item-column list-item-column-long help-text">
-        Name
-      </p>
-
-      <p class="list-item-column2 help-text">
-        Material Number
-      </p>
-
-      <% if current_user.role.district_read? %>
-          <p class="list-item-column list-item-column2 help-text">
-            District
-          </p>
-      <% end %>
-    </div>
-
-<% end %>
 
 <br>
 
 
 <div id="parts" class="list">
-  <% @parts.each do |part| %>
-      <div class="">
-        <%= link_to part, class: "job-link" do %>
-            <div class="member-icon ">
-              <p>
-                <%= part.parts.count %>
-              </p>
-            </div>
-            &nbsp;
-
-            <p class="list-item-header-text inline">
-              <b><%= part.name %></b>
-            </p>
-
-            <p class="help-text inline">
-              <%= part.material_number %>
-            </p>
-
-
-        <% end %>
-
-        <div class="content">
-          <% part.parts.each_with_index do |p, i| %>
-              <%= render 'parts/sub_part2', part: p, index: i, condensed: @condensed %>
-          <% end %>
-        </div>
-
-        <hr>
-      </div>
+  <% @parts.each_with_index do |part, index| %>
+      <%= render 'parts/sub_part2', part: part, index: index, condensed: true %>
   <% end %>
 </div>
 

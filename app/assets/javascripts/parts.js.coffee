@@ -130,3 +130,8 @@ $ ->
     return false
 
 
+  $(document).ready ->
+    $('.update-field').live "change", ->
+      $.ajax '/' + $(this).attr("data-controller") +  '/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
+
+
