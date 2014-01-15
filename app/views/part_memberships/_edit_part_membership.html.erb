@@ -1,0 +1,48 @@
+<div class="page_header">
+  <h1>Edit Asset</h1>
+</div>
+
+<div class="ajax-form">
+  <br>
+
+  <%= form_for part_membership, remote: true do |f| %>
+
+      <div class=''>
+        <div class='inline-block'>
+          <b>ID</b>
+          <%= f.text_field :inner_diameter,
+                           placeholder: "ID",
+                           class: "txtfield bha-value id-od tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "ID (Inner Diameter) of Asset" %>
+        </div>
+        <div class='inline-block push-right-small'>
+          <b>OD</b>
+          <%= f.text_field :outer_diameter,
+                           placeholder: "OD",
+                           class: "txtfield bha-value id-od tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "OD (Outer Diameter) of Asset" %>
+        </div>
+
+        <div class='inline-block push-right-small'>
+          <b>Length</b>
+          <%= f.text_field :length,
+                           placeholder: "Length",
+                           class: "txtfield bha-value id-od tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Length of Asset" %>
+        </div>
+      </div>
+      <div class="content actions">
+        <%= f.submit "Update Asset", class: "bluebtn pull-right" %>
+      </div>
+  <% end %>
+</div>
+
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Saving asset...</b></span>
+  <br>
+</div>

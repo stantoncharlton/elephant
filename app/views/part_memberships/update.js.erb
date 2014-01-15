@@ -1,7 +1,17 @@
+<% if @part_membership.errors.any? %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem With Update", message: @part_membership.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+<% end %>
+
 <% if @part_membership.present? %>
     <% if params[:usage].present? %>
         $('.usage-hours-updated').removeClass('hidden');
     <% else %>
+        $('#modal_popup').css('visibility', 'hidden');
+        $('#modal_popup').find(".modal-content").children().remove();
+        $('#modal_popup').height(0);
+
         $('#part_membership_<%= @part_membership.id %>').replaceWith("<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>");
         $('#part_membership_<%= @part_membership.id %>').find('.popover').popover({  delay: { show: 100, hide: 100 } });
     <% end %>

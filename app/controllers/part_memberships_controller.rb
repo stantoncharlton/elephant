@@ -1,5 +1,5 @@
 class PartMembershipsController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :create, :update, :destroy]
+    before_filter :signed_in_user, only: [:new, :create, :edit, :update, :destroy]
 
     def new
         @part_membership = PartMembership.new
@@ -56,6 +56,10 @@ class PartMembershipsController < ApplicationController
         end
     end
 
+    def edit
+        @part_membership = PartMembership.find_by_id(params[:id])
+    end
+
     def update
         @part_membership = PartMembership.find_by_id(params[:id])
 
@@ -66,6 +70,8 @@ class PartMembershipsController < ApplicationController
             if @part_membership.part_type == PartMembership::INVENTORY
                 @part_membership.part.update_attribute(:status, params[:value] == "true" ? Part::SHIPPING : Part::ON_JOB)
             end
+        elsif params[:part_membership].present?
+            @part_membership.update_attributes(params[:part_membership])
         end
     end
 

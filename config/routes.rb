@@ -102,7 +102,7 @@ ElephantWebApp::Application.routes.draw do
     resources :warehouses, only: [:show, :new, :create, :destroy]
     resources :warehouse_memberships, only: [:new, :edit, :update, :create, :destroy]
 
-    resources :part_memberships, only: [:new, :create, :update, :destroy]
+    resources :part_memberships, only: [:new, :create, :edit, :update, :destroy]
 
 
     resources :job_logs, only: [:index, :create, :show]

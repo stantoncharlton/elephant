@@ -30,8 +30,7 @@
 
   <div class='push-down-small'>
     <% if part_membership.part.present? %>
-        <a href='/parts/<%= part_membership.part_id %>' class='inline-block activity-user-link align-top'>View Asset
-          Details</a>
+        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button'>Change Attributes</a>
         <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>|
         <% end %>
     <% end %>

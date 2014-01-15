@@ -1,0 +1,4 @@
+$('#modal_popup').find('.modal-content').append('<%= j render 'part_memberships/edit_part_membership', part_membership: @part_membership %>');
+$('#modal_popup').css('visibility', 'visible');
+$('#modal_popup').find('.loading').addClass('hidden');
+
