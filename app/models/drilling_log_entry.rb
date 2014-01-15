@@ -237,6 +237,9 @@ class DrillingLogEntry < ActiveRecord::Base
                 "#9c9998"
             when RIG_SERVICE_OUTHOLE
                 "#994527"
+            else
+                "#6b8cd1"
+
         end
     end
 

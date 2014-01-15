@@ -77,7 +77,7 @@
 
   <div class='inline-block'>
     <div class="chart-title">Time Breakdown</div>
-    <div class='time-chart' id="time_chart" style="width: 200px; height: 200px;"></div>
+    <div class='time-chart' id="overview_time_chart" style="width: 200px; height: 200px;"></div>
   </div>
 
   <div class='inline-block align-top'>
@@ -325,7 +325,7 @@
     chart.innerRadius = "30%";
     chart.labelsEnabled = false;
     chart.balloonText = "<b>[[text]]</b><br><span style='font-size:14px'>([[time]] hours)</span>";
-    chart.write("time_chart");
+    chart.write("overview_time_chart");
 
     var label = $("tspan:contains('chart by amcharts.com')");
     if (label.length > 0) {
