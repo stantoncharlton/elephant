@@ -25,130 +25,99 @@
   <hr>
 </div>
 
-<div class="page_header">
 
+
+<div class="page_header">
   <h1>Inventory</h1>
 
-  <h2>
-    <% page = params[:page].present? ? Integer(params[:page]) : 1 %>
-    <%= ((page - 1) * 30) + 1 %>
-    - <%= [((page - 1) * 30) + 30, @parts.count].min %> of <%= @parts.count.to_s %>
-  </h2>
+  <% if @district.present? %>
+      <span><%= @district.name %></span>
 
-
-  <div class="btn-group inline pull-right push-right-small">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Export
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <%= link_to "Export as Excel", inventory_path(district: @district, format: "xlsx"),
-                    target: "_blank",
-                    class: "dropdown-menu-link tooltip-info submit-form",
-                    "data-placement" => "left",
-                    "data-title" => "Export data as Microsoft Excel file." %>
-      </li>
-    </ul>
-  </div>
-
-</div>
-
-<%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
-
-<% if @district.present? %>
-    <br>
-    <div class="">
-      <b>Warehouses</b>
-
-      <div class='inline'>
-        <% if current_user.role.limit_to_assigned_jobs? %>
-            <% current_user.warehouses.each_with_index do |warehouse, i| %>
-                <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
-                    <%= warehouse.name %>
-                <% end %>
-            <% end %>
-        <% else %>
-            <% @district.warehouses.each_with_index do |warehouse, i| %>
-                <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
-                    <%= warehouse.name %>
-                <% end %>
-            <% end %>
-        <% end %>
+      <div class="btn-group inline pull-right push-right-small">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Advanced Actions
+        </a>
+        <ul class="dropdown-menu">
+          <% if !@district.nil? %>
+              <li>
+                <%= link_to "Create New Warehouse", new_warehouse_path(district: @district),
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Create new master asset." %>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Create New Master Asset", new_part_path(template: true, district: @district),
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Create new master asset" %>
+              </li>
+          <% end %>
+        </ul>
       </div>
-    </div>
-<% end %>
-
-<% if false %>
-    <div class="content">
-      <p class="list-item-column list-item-column-long help-text">
-        Name
-      </p>
-
-      <p class="list-item-column2 help-text">
-        Material Number
-      </p>
-
-      <% if current_user.role.district_read? %>
-          <p class="list-item-column list-item-column2 help-text">
-            District
-          </p>
-      <% end %>
-    </div>
-
-<% end %>
-
-<br>
-
-
-<div id="parts" class="list">
-  <% last_part = nil %>
-  <% remove_lines = [] %>
-  <% @parts.each do |part| %>
-      <div class="">
-        <% if last_part.nil? || part.material_number != last_part.material_number %>
-            <%= link_to part, class: "job-link" do %>
-                <div class="member-icon ">
-                  <p>
-                    <%= part.parts.count %>
-                  </p>
-                </div>
-                &nbsp;
-
-                <p class="list-item-header-text inline">
-                  <b><%= part.name %></b>
-                </p>
-
-                <p class="help-text inline">
-                  <%= part.material_number %>
-                </p>
-
-            <% end %>
-        <% else %>
-            <% remove_lines << last_part %>
-        <% end %>
-
-        <% if part.parts.any? %>
-            <div class="content">
-              <% part.parts.each_with_index do |p, i| %>
-                  <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed %>
-              <% end %>
-            </div>
-
-            <hr id="divider_part_<%= part.id %>">
-        <% end %>
-      </div>
-      <% last_part = part %>
   <% end %>
 </div>
 
-<%= will_paginate @parts %>
+
+<ul class="nav nav-pills alert alert-nav">
+  <li class="active">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @district.id %>"
+       data-tray-controller="inventory"
+       data-tray="overview">Overview</a>
+  </li>
+
+  <li class="">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @district.id %>"
+       data-tray-controller="inventory"
+       data-tray="maintenance">In Maintenance</a>
+  </li>
+
+
+  <li class="">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @district.id %>"
+       data-tray-controller="inventory"
+       data-tray="shipping">Shipping</a>
+  </li>
+
+  <li class="">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @district.id %>"
+       data-tray-controller="inventory"
+       data-tray="full">Full List</a>
+  </li>
+
+</ul>
+
+
+<div class="remote-tray" data-tray="overview">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="maintenance">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading assets in maintenance..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="shipping">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading assets in shipping..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="full">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading full asset list..." %>
+  </div>
+</div>
 
 
 <script type="text/javascript">
-
-  <% remove_lines.each do |l| %>
-    $('#divider_part_<%= l.id %>').remove();
-  <% end %>
 
     (function ($) {
         $(document).ready(function () {
@@ -158,6 +127,24 @@
             }
         });
     }(jQuery));
+</script>
+
+
+
+<script type='text/javascript'>
+    if (document.location.hash == '') {
+        tray = $(".remote-tray[data-tray='overview']");
+        tray.find('.content').hide();
+        tray.find('.remote-loading').removeClass('hidden');
+        tray.find('.loading').removeClass('hidden');
+        setTimeout(function () {
+            $.ajax({
+                url: "/inventory/<%= @district.id %>?section=overview",
+                type: "GET",
+                dataType: "script"
+            });
+        }, 1);
+    }
 </script>
 
 

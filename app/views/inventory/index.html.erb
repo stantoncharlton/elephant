@@ -59,6 +59,7 @@
   <% end %>
 </div>
 
+
 <% if current_user.role.global_read? %>
     <div class="pull-right">
       <div class='push-down-small'>
@@ -160,37 +161,10 @@
     </div>
 <% end %>
 
-<hr>
 
-<div id="inventory_overview" class="center">
-  <br>
-  <span class="ajax-loading search-loading  center"><b>Loading Inventory Overview...</b></span>
-  <br><br>
-</div>
 
-<hr>
 
 <br>
-
-<% if false %>
-    <div class="content">
-      <h3>Recently Shipped</h3>
-    </div>
-
-    <hr>
-
-    <div class="content" id="jobs">
-      <% @jobs.each do |job| %>
-          <%= render 'jobs/job_progress_link', job: job %>
-      <% end %>
-    </div>
-
-    <% if @jobs.empty? %>
-        <div class='center help-text'>No recently shipped jobs...</div>
-    <% end %>
-<% end %>
-
-
 
 
 <script type="text/javascript">

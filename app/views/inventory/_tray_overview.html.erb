@@ -1,0 +1,110 @@
+<div class="remote-tray" data-tray="overview">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
+  </div>
+
+  <div class="tray-content content-loaded">
+
+
+    <div class='content'>
+      <% if current_user.role.global_read? %>
+          <div class="pull-right">
+            <div class='push-down-small'>
+              <div class="district-jump">
+                <%= hidden_field_tag "district_id", id: "district_id" %>
+              </div>
+
+              <% if false %>
+                  <div class=' pull-right'>
+
+                    <%= select_tag "District",
+                                   options_for_select(current_user.company.districts.where(:master => true).collect { |d| [d.name, d.id] }),
+                                   class: "custom-select tooltip-info",
+                                   id: "jump_to_district_select",
+                                   "data-placement" => "bottom",
+                                   "data-title" => "Select a District",
+                                   prompt: "Select district..." %>
+                  </div>
+              <% end %>
+
+              <div class='pull-right'>
+                <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+                <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                                   placeholder: "Type a district name...",
+                                   id: "district_name",
+                                   class: "txtfield small tooltip-info district-jump-to",
+                                   "data-placement" => "top",
+                                   "data-title" => "District Name, select from drop down based on search results" %>
+
+              </div>
+
+            </div>
+          </div>
+      <% end %>
+
+
+      <% if @district.present? %>
+          <div class="">
+            <b class="inline">District</b>
+            <%= link_to @district.name, @district, class: "activity-user-link" %>
+
+            <br>
+            <b class=''>Warehouses</b>
+
+            <div class='inline-block'>
+              <% if current_user.role.limit_to_assigned_jobs? %>
+                  <% current_user.warehouses.each_with_index do |warehouse, i| %>
+                      <div class='inline-block push-right-small'>
+                        <%= link_to warehouse, class: "activity-user-link" do %>
+                            <%= warehouse.name %>
+                        <% end %>
+                      </div>
+                  <% end %>
+              <% else %>
+                  <% @district.warehouses.each_with_index do |warehouse, i| %>
+                      <div class='inline-block push-right-small'>
+                        <%= link_to warehouse, class: "activity-user-link" do %>
+                            <%= warehouse.name %>
+                        <% end %>
+                      </div>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+      <% else %>
+
+          <div class="alert">
+            View District Inventory
+            <br><br>
+
+            <div class="district-jump">
+              <%= hidden_field_tag "district_id", id: "district_id" %>
+            </div>
+            <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-down-small" %>
+            <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                               placeholder: "Type a district name...",
+                               id: "district_name",
+                               class: "txtfield small tooltip-info district-jump-to align-top",
+                               "data-placement" => "top",
+                               "data-title" => "District Name, select from drop down based on search results" %>
+
+            or &nbsp;
+
+            <%= select_tag "District",
+                           options_for_select(current_user.company.districts.where(:master => false).collect { |d| [d.name, d.id] }),
+                           class: "tooltip-info custom-select align-top",
+                           id: "jump_to_district_select",
+                           "data-placement" => "bottom",
+                           "data-title" => "Select a District",
+                           prompt: "Select by name..." %>
+          </div>
+      <% end %>
+    </div>
+
+    <%= render 'inventory/statistics', parts: @parts, show_rentals: current_user.role.district_read?, district: @district %>
+  </div>
+
+
+</div>

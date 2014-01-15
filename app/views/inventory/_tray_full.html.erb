@@ -1,0 +1,141 @@
+<div class="remote-tray" data-tray="full">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading full list..." %>
+  </div>
+
+  <div class="tray-content content-loaded">
+
+    <div class="">
+
+      <div class="btn-group inline pull-right push-right-small">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Export
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Export as Excel", inventory_path(district: @district, format: "xlsx"),
+                        target: "_blank",
+                        class: "dropdown-menu-link tooltip-info submit-form",
+                        "data-placement" => "left",
+                        "data-title" => "Export data as Microsoft Excel file." %>
+          </li>
+        </ul>
+      </div>
+
+      <br><br>
+    </div>
+
+
+    <% groups = @parts.group_by { |part| part.master_part_id } %>
+
+    <div class='well'>
+
+      <h1 class="donut-text inline"><%= @parts.count %></h1>
+
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">Assets</h3>
+      </div>
+
+      <h1 class="donut-text inline push-right"><%= groups.count %></h1>
+
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">Types</h3>
+      </div>
+    </div>
+    <% if false %>
+        <%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
+    <% end %>
+
+    <% if false && @district.present? %>
+        <br>
+
+        <div class="">
+          <b>Warehouses</b>
+
+          <div class='inline'>
+            <% if current_user.role.limit_to_assigned_jobs? %>
+                <% current_user.warehouses.each_with_index do |warehouse, i| %>
+                    <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
+                        <%= warehouse.name %>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <% @district.warehouses.each_with_index do |warehouse, i| %>
+                    <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
+                        <%= warehouse.name %>
+                    <% end %>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+
+    <% if false %>
+        <div class="content">
+          <p class="list-item-column list-item-column-long help-text">
+            Name
+          </p>
+
+          <p class="list-item-column2 help-text">
+            Material Number
+          </p>
+
+          <% if current_user.role.district_read? %>
+              <p class="list-item-column list-item-column2 help-text">
+                District
+              </p>
+          <% end %>
+        </div>
+
+    <% end %>
+
+    <br>
+
+    <% master_parts = [] %>
+    <% groups.each do |group| %>
+        <% master_parts << Part.find_by_id(group[0]) %>
+    <% end %>
+
+    <% master_parts = master_parts.sort_by { |p| p.name } %>
+
+    <div id="parts" class="list">
+      <% master_parts.each do |master_part| %>
+          <div class="">
+
+            <%= link_to master_part, class: "job-link" do %>
+                <div class="member-icon ">
+                  <p>
+                    <%= master_part.parts.count %>
+                  </p>
+                </div>
+                &nbsp;
+
+                <p class="list-item-header-text inline">
+                  <b><%= master_part.name %></b>
+                </p>
+
+                <p class="help-text inline">
+                  <%= master_part.material_number %>
+                </p>
+
+            <% end %>
+
+
+            <% if master_part.parts.any? %>
+                <div class="content">
+                  <% master_part.parts.each_with_index do |p, i| %>
+                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed %>
+                  <% end %>
+                </div>
+
+                <hr>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+
+
+  </div>
+</div>
