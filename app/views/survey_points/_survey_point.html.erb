@@ -10,7 +10,7 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-        <%= link_to "Edit Point", edit_survey_point_path(point), class: "dropdown-menu-link" %>
+        <%= link_to "Edit Point", edit_survey_point_path(point), remote: true, class: "dropdown-menu-link show-modal-button" %>
       </li>
       <li class="divider"></li>
       <li>

@@ -1,0 +1,79 @@
+<div class="page_header">
+  <h1>Edit Point</h1>
+</div>
+
+<div class="ajax-form">
+  <br>
+
+  <%= form_for survey_point, remote: true do |f| %>
+
+      <div>
+
+        <div>
+          <div class='survey-tie-in-label'>MD</div>
+          <%= f.text_field :measured_depth, placeholder: "Measured Depth", class: "txtfield extra-small tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Measured Depth" %>
+
+          <div class='survey-tie-in-label'>Inc</div>
+          <%= f.text_field :inclination, placeholder: "Inclination", class: "txtfield extra-small tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Inclination" %>
+
+          <br>
+          <div class='survey-tie-in-label'>Azi</div>
+          <%= f.text_field :azimuth, placeholder: "Azimuth", class: "txtfield extra-small tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Azimuth" %>
+        </div>
+
+        <div>
+          <div class='survey-tie-in-label'>MFS</div>
+          <%= f.text_field :magnetic_field_strength,
+                           placeholder: "Magnetic Field Strength",
+                           class: "txtfield extra-small tooltip-info range-validator",
+                           "data-minimum" => (survey_point.survey.magnetic_field_strength.present? ? survey_point.survey.magnetic_field_strength : 0) - 0.005,
+                           "data-maximum" => (survey_point.survey.magnetic_field_strength.present? ? survey_point.survey.magnetic_field_strength : 0)  + 0.005,
+                           "data-placement" => "bottom",
+                           "data-title" => "Magnetic Field Strength" %>
+
+          <div class='survey-tie-in-label'>MDA</div>
+          <%= f.text_field :magnetic_dip_angle,
+                           placeholder: "Magnetic Dip Angle",
+                           class: "txtfield extra-small tooltip-info range-validator",
+                           "data-minimum" => (survey_point.survey.magnetic_dip_angle.present? ? survey_point.survey.magnetic_dip_angle : 0) - 2,
+                           "data-maximum" => (survey_point.survey.magnetic_dip_angle.present? ? survey_point.survey.magnetic_dip_angle : 0) + 2,
+                           "data-placement" => "bottom",
+                           "data-title" => "Magnetic Dip Angle" %>
+
+          <br>
+          <div class='survey-tie-in-label'>Grav</div>
+          <%= f.text_field :gravity_total,
+                           placeholder: "Gravity Total",
+                           class: "txtfield extra-small tooltip-info range-validator",
+                           "data-minimum" => (survey_point.survey.gravity_total.present? ? survey_point.survey.gravity_total : 1)  - 0.003,
+                           "data-maximum" => (survey_point.survey.gravity_total.present? ? survey_point.survey.gravity_total : 1) + 0.003,
+                           "data-placement" => "bottom",
+                           "data-title" => "Gravity Total" %>
+        </div>
+
+        <div class='survey-tie-in-label'><i class="icon-comment"></i></div>
+        <%= f.text_field :comment,
+                         placeholder: "Comment",
+                         class: "txtfield long tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Comment" %>
+
+      </div>
+      <div class="content actions">
+        <%= f.submit "Update Point", class: "bluebtn pull-right" %>
+      </div>
+  <% end %>
+</div>
+
+<div class="ajax-loading center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Saving survey point...</b></span>
+  <br>
+</div>
