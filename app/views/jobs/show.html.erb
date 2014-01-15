@@ -48,7 +48,7 @@
 
       <li class="">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="failures"
+           data-tray="job_failures"
            data-placement="bottom" data-title="List of job failures">Failures
         </a>
       </li>
@@ -119,7 +119,7 @@
       </div>
     </div>
 
-    <div class="job-tray custom-data-closed" data-tray="failures">
+    <div class="job-tray custom-data-closed" data-tray="job_failures">
       <div id="failures_loading">
         <div class="remote-loading">
           <br><br>
@@ -180,22 +180,31 @@
                     dataType: "script"
                 });
 
+
+                if (document.location.hash == '') {
+                    tray = $(".job-tray[data-tray='documents_data']");
+                    tray.find('.content').hide();
+                    tray.find('.remote-loading').removeClass('hidden');
+                    tray.find('.loading').removeClass('hidden');
+                    setTimeout(function () {
+                        $.ajax({
+                            url: "/jobs/<%= @job.id %>?section=documents_data",
+                            type: "GET",
+                            dataType: "script"
+                        });
+                    }, 1);
+                }
+
+                <% if false %>
+
                 $.ajax({
                     url: "/jobs/" + <%= @job.id.to_s %> +"?section=documents",
                     type: "GET",
                     dataType: "script"
                 });
 
-                <% if false && @job.active %>
                 $.ajax({
-                    url: "/failures/" + <%= @job.id.to_s %>,
-                    type: "GET",
-                    dataType: "script"
-                });
-                <% end %>
-
-                $.ajax({
-                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=primary_tools",
+                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=tools_assets",
                     type: "GET",
                     dataType: "script"
                 });
@@ -217,6 +226,7 @@
                     type: "GET",
                     dataType: "script"
                 });
+                <% end %>
 
             }, 1);
 
@@ -240,6 +250,21 @@
 
 
 <script type='text/javascript'>
+
+    var oldHide = $.fn.popover.Constructor.prototype.hide;
+
+    $.fn.popover.Constructor.prototype.hide = function() {
+        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
+            var that = this;
+            // try again after what would have been the delay
+            setTimeout(function() {
+                return that.hide.call(that, arguments);
+            }, that.options.delay.hide);
+            return;
+        }
+        oldHide.call(this, arguments);
+    };
+
     var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
     map.attributionControl = false;
     map.scrollWheelZoom.disable();

@@ -112,9 +112,24 @@ $ ->
       $('.activity-loading').find('.loading').removeClass 'hidden'
       if $('.job-main-div').length > 0
         $.ajax '/activities?job_id=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "job_failures"
+      $('.failures_loading').removeClass 'hidden'
+      $('.failures_loading').find('.loading').removeClass 'hidden'
+      $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=job_failures", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "notes"
       $('.notes-loading').removeClass 'hidden'
       $('.notes-loading').find('.loading').removeClass 'hidden'
+      $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=notes", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "time"
+      $.ajax '/job_times/?job=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "documents_data"
+      $('.documents_loading').removeClass 'hidden'
+      $('.documents_loading').find('.loading').removeClass 'hidden'
+      $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=documents_data", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "tools_assets"
+      $('.assets_loading').removeClass 'hidden'
+      $('.assets_loading').find('.loading').removeClass 'hidden'
+      $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=tools_assets", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "failures"
       if $('#overview_failures').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=failures", type: 'get', dataType: 'script'

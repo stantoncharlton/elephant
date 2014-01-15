@@ -117,8 +117,12 @@ class IssuesController < ApplicationController
                     end
             end
         elsif params[:closed] == "true"
-            @issue.update_attribute(:status, Issue::CLOSED)
-            Activity.delay.add(current_user, Activity::ISSUE_CLOSED, @issue, @issue.failure.failure_master_template.text, @issue.job)
+            if @issue.failure.present?
+                @issue.update_attribute(:status, Issue::CLOSED)
+                Activity.delay.add(current_user, Activity::ISSUE_CLOSED, @issue, @issue.failure.text, @issue.job)
+            else
+                @issue.errors.add(:failure_id, " type needs to be set")
+            end
         end
     end
 

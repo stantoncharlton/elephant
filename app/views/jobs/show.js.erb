@@ -1,24 +1,10 @@
-<% if params[:section] == "primary_tools" %>
+<% if params[:section] == "tools_assets" %>
     $('#assets_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
     $('#assets_loading').remove();
 
 
     $('.popover').popover({  delay: { show: 100, hide: 100 } });
 
-
-    var oldHide = $.fn.popover.Constructor.prototype.hide;
-
-    $.fn.popover.Constructor.prototype.hide = function() {
-        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
-            var that = this;
-            // try again after what would have been the delay
-            setTimeout(function() {
-                return that.hide.call(that, arguments);
-            }, that.options.delay.hide);
-            return;
-        }
-        oldHide.call(this, arguments);
-    };
 
     var focusevent, last_selected_item, part_focused,
             _this = this;
@@ -77,14 +63,14 @@
 
 
 
-<% elsif params[:section] == "documents" %>
+<% elsif params[:section] == "documents_data" %>
     $('#documents_loading').after('<%= j render 'jobs/job_documents', job: @job %>');
     $('#documents_loading').remove();
 
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();
-<% elsif params[:section] == "failures" %>
+<% elsif params[:section] == "job_failures" %>
     if($('#failures_loading').length > 0) {
         $('#failures_loading').after('<%= j render 'jobs/job_failures', job: @job %>');
         $('#failures_loading').remove();

@@ -152,20 +152,22 @@ class BhasController < ApplicationController
                 end
 
                 index = 0
-                params[:bha_items].each do |k, v|
-                    if v == "1"
-                        tool = PartMembership.find_by_id(k)
-                        not_found unless tool.company == current_user.company
+                if params[:bha_items].present? && params[:bha_items].any?
+                    params[:bha_items].each do |k, v|
+                        if v == "1"
+                            tool = PartMembership.find_by_id(k)
+                            not_found unless tool.company == current_user.company
 
-                        #id = BigDecimal.new(params[k + '_id'])
-                        #od = BigDecimal.new(params[k + '_od'])
-                        #length = BigDecimal.new(params[k + '_length'])
-                        up = params[k + '_up']
-                        asset_type = params[k + '_asset_type']
-                        #down = params[k + '_down']
+                            #id = BigDecimal.new(params[k + '_id'])
+                            #od = BigDecimal.new(params[k + '_od'])
+                            #length = BigDecimal.new(params[k + '_length'])
+                            up = params[k + '_up']
+                            asset_type = params[k + '_asset_type']
+                            #down = params[k + '_down']
 
-                        BhaItem.add(@bha, tool, up, nil, asset_type, index)
-                        index = index + 1
+                            BhaItem.add(@bha, tool, up, nil, asset_type, index)
+                            index = index + 1
+                        end
                     end
                 end
 
