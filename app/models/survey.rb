@@ -144,4 +144,33 @@ class Survey < ActiveRecord::Base
 
         point
     end
+
+    def self.get_ranges entries
+        return [[0, 0], [0, 0], [0, 0], [0, 0]] if entries.nil? || !entries.any?
+
+        minimum_tvd = entries.first.true_vertical_depth
+        maximum_tvd = entries.first.true_vertical_depth
+        minimum_vs = entries.first.vertical_section
+        maximum_vs = entries.first.vertical_section
+
+        minimum_ns = entries.first.north_south
+        maximum_ns = entries.first.north_south
+        minimum_ew = entries.first.east_west
+        maximum_ew = entries.first.east_west
+
+        entries.each do |e|
+
+            minimum_tvd = [minimum_tvd, e.true_vertical_depth].min
+            maximum_tvd = [maximum_tvd, e.true_vertical_depth].max
+            minimum_vs = [minimum_vs, e.vertical_section].min
+            maximum_vs = [maximum_vs, e.vertical_section].max
+
+            minimum_ns = [minimum_ns, e.north_south].min
+            maximum_ns = [maximum_ns, e.north_south].max
+            minimum_ew = [minimum_ew, e.east_west].min
+            maximum_ew = [maximum_ew, e.east_west].max
+        end
+
+        [[minimum_tvd, maximum_tvd], [minimum_vs, maximum_vs], [minimum_ns, maximum_ns], [minimum_ew, maximum_ew]]
+    end
 end

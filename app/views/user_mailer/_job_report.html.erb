@@ -100,18 +100,20 @@
               <% job_memberships_array = job_memberships.to_a %>
               <% real_index = -1 %>
               <% job_memberships_array.each_with_index do |jm, index| %>
-                  <% if real_index < job_memberships_array.length %>
-                      <tr height="35">
-                        <% real_index = real_index + 1 %>
-                        <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
+                  <% if jm.job_role_id != JobMembership::CREATOR %>
+                      <% if real_index < job_memberships_array.length %>
+                          <tr height="35">
+                            <% real_index = real_index + 1 %>
+                            <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
 
-                        <% real_index = real_index + 1 %>
-                        <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
+                            <% real_index = real_index + 1 %>
+                            <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
 
-                        <% real_index = real_index + 1 %>
-                        <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
+                            <% real_index = real_index + 1 %>
+                            <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
 
-                      </tr>
+                          </tr>
+                      <% end %>
                   <% end %>
               <% end %>
             </table>

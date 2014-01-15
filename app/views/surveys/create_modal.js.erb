@@ -27,6 +27,7 @@ var chartData2 = <%= raw calculated_points.select{ |p| !p.comment.blank? }.map {
 
 
 
+
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
     chart.pathToImages = "http://www.amcharts.com/lib/3/images/";

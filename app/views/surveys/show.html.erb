@@ -105,6 +105,7 @@
     if (chartData2[chartData2.length - 1].comment == '') {
         chartData2[chartData2.length - 1].comment = "TD";
     }
+    <% ranges = Survey.get_ranges calculated_points %>
 
     AmCharts.ready(function () {
 
@@ -120,7 +121,8 @@
         valueAxis.dashLength = 5;
         valueAxis.axisAlpha = 0;
         valueAxis.autoGridCount = true;
-        valueAxis.minimum = -50;
+        valueAxis.minimum = <%= ranges[1][0] - 1 %>;
+        valueAxis.maximum = <%= ranges[1][1] + 1 %>;
         chart.addValueAxis(valueAxis);
 
         var valueAxis = new AmCharts.ValueAxis();
@@ -130,6 +132,8 @@
         valueAxis.axisAlpha = 0;
         valueAxis.autoGridCount = true;
         valueAxis.reversed = true;
+        valueAxis.minimum = <%= ranges[0][0] - 1 %>;
+        valueAxis.maximum = <%= ranges[0][1] + 1 %>;
         chart.addValueAxis(valueAxis);
 
 
@@ -189,7 +193,8 @@
         valueAxis.axisAlpha = 0;
         valueAxis.integersOnly = false;
         valueAxis.gridCount = 10;
-        valueAxis.minimum = -50;
+        valueAxis.minimum = <%= ranges[3][0] - 1 %>;
+        valueAxis.maximum = <%= ranges[3][1] + 1 %>;
         chart2.addValueAxis(valueAxis);
 
 
@@ -201,6 +206,8 @@
         valueAxis.integersOnly = false;
         valueAxis.gridCount = 10;
         valueAxis.reversed = true;
+        valueAxis.minimum = <%= ranges[2][0] - 1 %>;
+        valueAxis.maximum = <%= ranges[2][1] + 1 %>;
         chart2.addValueAxis(valueAxis);
 
 
