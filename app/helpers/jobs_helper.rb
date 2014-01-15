@@ -95,45 +95,13 @@ module JobsHelper
             wb.add_worksheet(:name => "Tools-Assets", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|
                 sheet.add_row ['Tools/Assets', '', '', ''], :style => title_cell
                 sheet.add_row [job.field.name + " | " + job.well.name, '', '', ''], :style => title_cell2
-                sheet.add_row ['', '', '', ''], :style => title_cell
+                sheet.add_row ['', '', '', '', '', '', ''], :style => title_cell
+                sheet.add_row ['Name', 'Serial #', 'Material #', 'Rental', 'ID', 'OD', 'Length'], :style => title_cell2
 
 
-                job.job_template.primary_tools.where(:template => false).where(:job_id => @job.id).includes(:tool).order("tools.name ASC, primary_tools.created_at ASC").each_with_index do |primary_tool, index|
-                    sheet.add_row [primary_tool.tool.name, primary_tool.tool.description, '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
-
-                    if primary_tool.simple_tracking
-                        sheet.add_row ['', 'RENTAL', 'Serial # ' + (primary_tool.serial_number.present? ? primary_tool.serial_number : ''), '', primary_tool.received? ? "Received" : ""], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1_serial, cell1] : [cell2_bold, cell2, cell2_serial, cell2]
-                    else
-                        primary_tool.part_memberships.where(:template => true).each_with_index do |p, index2|
-                            part_membership = p.usage_part_membership(job.id)
-                            if part_membership.present? && part_membership.part.present?
-                                sheet.add_row ['', 'Material # ' + p.material_number, 'Serial # ' + (part_membership.part.serial_number || ""), ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1_serial, cell1] : [cell2_bold, cell2, cell2_serial, cell2]
-                            else
-                                sheet.add_row ['', 'Material # ' + p.material_number, '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
-                            end
-                        end
-                        if !primary_tool.comments.blank?
-                            sheet.add_row ['', 'Comments: ' + (primary_tool.comments || ""), '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
-                        end
-                    end
+                job.part_memberships.order("part_memberships.name ASC").each_with_index do |part_membership, index|
+                    sheet.add_row [part_membership.name, part_membership.serial_number, part_membership.material_number, part_membership.part_type == PartMembership::INVENTORY ? '' : "Rental/DI", part_membership.inner_diameter, part_membership.outer_diameter, part_membership.length], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2, cell2, cell2, cell2]
                 end
-
-                sheet.add_row ['', '', '', ''], :style => title_cell
-                sheet.add_row ['', '', '', ''], :style => title_cell
-                sheet.add_row ['', '', '', ''], :style => title_cell
-
-                if job.secondary_tools.any?
-                    sheet.add_row ['Accessories', '', '', ''], :style => title_cell2
-                    job.secondary_tools.where(:job_id => @job.id).includes(:tool).order("tools.name ASC, secondary_tools.created_at ASC").each_with_index do |secondary_tool, index|
-                        sheet.add_row [secondary_tool.tool.name, secondary_tool.tool.description, '', ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell1] : [cell2_bold, cell2, cell2, cell2]
-
-                        if job.job_template.track_accessories
-                            sheet.add_row ['', 'Serial # ' + secondary_tool.serial_number, '', secondary_tool.received? ? "Received" : ""], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1_serial, cell1] : [cell2_bold, cell2, cell2_serial, cell2]
-                        end
-                    end
-                end
-
-                sheet.column_widths 25, 50, 20, 5
 
                 sheet.merge_cells("A1:D1")
                 sheet.merge_cells("A2:D2")
