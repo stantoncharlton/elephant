@@ -26,48 +26,48 @@
     <ul class="nav nav-pills alert alert-nav">
 
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "" : "active" %>">
-        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#documents_data" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="documents_data"
            data-placement="bottom" data-title="Custom job data and values">Documents
         </a>
       </li>
 
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
-        <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#custom_data" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="custom_data"
            data-placement="bottom" data-title="Custom job data and values"><%= "Job Info" %>
         </a>
       </li>
 
       <li class="">
-        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#tools_assets" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="tools_assets"
            data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
         </a>
       </li>
 
       <li class="">
-        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#job_failures" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="job_failures"
            data-placement="bottom" data-title="List of job failures">Failures
         </a>
       </li>
 
       <li class="">
-        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#notes" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="notes"
            data-placement="bottom" data-title="Daily Status, Requests, Notes, and Tasks for this job">Status Notes
         </a>
       </li>
 
       <li class="">
-        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#activity" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="activity"
            data-placement="bottom" data-title="All Job Activity">Activity</a>
       </li>
 
       <li class="">
-        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#time" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="time"
            data-placement="bottom" data-title="Time/Scheduling">Time Sheet</a>
       </li>
