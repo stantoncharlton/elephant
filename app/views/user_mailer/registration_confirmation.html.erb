@@ -8,17 +8,19 @@
 <hr>
 
 <br>
-<p>Elephant will help make your job easier in many ways as you will soon come to find out. For starters, remember that it will be the first and primary spot to find documents and communication for every job.</p>
+<p>Elephant will help make your job easier in many ways as you will soon come to find out. For starters, remember that it will be the first and primary spot to find documents, data, and communication for every job.</p>
 <p><%= link_to "www.elephant-cloud.com", "www.elephant-cloud.com", class: "activity-user-link" %></p>
 
-<br>
+<hr>
 
 <p>Login using your email: <%= @user.email %></p>
-<p>...and this temporary password: <span class="user-password"><%= @password %></span>
-<br>
-Once you login you will be prompted to create a new password.
+<p><b>This link below contains your temporary password:</b></p>
+<p>
+  <%= link_to "Click Here to Login Now", "www.elephant-cloud.com/update_password?new_account=true&email=" + @user.email + "&current_password=" + @password, class: "bluebtn" %>
 </p>
-<p><%= link_to "Login Now", "www.elephant-cloud.com", class: "activity-user-link" %></p>
+
+<br><br>
+<p>If the link above doesn't work, your temporary password is: <span class=""><%= @password %></span></p>
 
 <% if Rails.env.production? %>
     <hr>

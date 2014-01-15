@@ -2,7 +2,13 @@
 <div class="content">
 
   <div class="page_header">
-    <h1>Change Password</h1>
+    <h1>
+      <% if params[:new_account] == "true" %>
+          Welcome To Elephant
+      <% else %>
+          Change Password
+      <% end %>
+    </h1>
   </div>
 
   <%= form_for(:session, url: create_password_path) do |f| %>
@@ -24,29 +30,33 @@
       <div class="well">
         <div class="content">
           <% if params[:new_account] == "true" %>
-              <b class="inline">Email Address</b>
-              <br><br>
-              <%= f.text_field :email, placeholder: "Type Email", value: @email, class: "txtfield" %>
+              <div class="<%= !params[:email].blank? ? "hidden" : "" %>">
 
-              <hr>
+                <b class="inline">Email Address</b>
+                <br><br>
+                <%= f.text_field :email, placeholder: "Type Email", value: @email, class: "txtfield" %>
+
+                <hr>
+              </div>
+
           <% else %>
-            <%= f.hidden_field :email, value: @email %>
+              <%= f.hidden_field :email, value: @email %>
           <% end %>
 
           <%= f.hidden_field :new_account, value: @new_account %>
 
           <div class="">
-            <div class="field">
+            <div class="field <%= !params[:current_password].blank? ? "hidden" : "" %>">
               <%= f.label :current_password, class: "field-title field-title-long" %>
-              <%= f.password_field :current_password, class: "txtfield small" %>
+              <%= f.password_field :current_password, class: "txtfield small", value: params[:current_password] %>
             </div>
 
             <div class="field">
-              <%= f.label :password, class: "field-title field-title-long" %>
+              <%= f.label "New Password", class: "field-title field-title-long" %>
               <%= f.password_field :password, class: "txtfield small" %>
             </div>
             <div class="field">
-              <%= f.label :password_confirmation, class: "field-title field-title-long" %>
+              <%= f.label "New Password Again", class: "field-title field-title-long" %>
               <%= f.password_field :password_confirmation, class: "txtfield small" %>
             </div>
           </div>
