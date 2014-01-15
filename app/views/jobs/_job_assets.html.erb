@@ -68,15 +68,17 @@
           <% jobs = current_user.jobs.where("jobs.status >= 1 AND jobs.status < 50") %>
           <% if jobs.any? %>
               <% jobs.each do |j| %>
-                  <li>
-                    <%= link_to j.field.name + ' | ' + j.well.name, job_path(@job, transfer: true, job: j),
-                                method: :put,
-                                remote: true,
-                                class: "dropdown-menu-link tooltip-info form-loading-on-click",
-                                "data-form" => "update-part-status",
-                                "data-placement" => "right",
-                                "data-title" => "Transfer to: " + (j.field.name + ' | ' + j.well.name)  %>
-                  </li>
+                  <% if j != job %>
+                      <li>
+                        <%= link_to j.field.name + ' | ' + j.well.name, job_path(@job, transfer: true, job: j),
+                                    method: :put,
+                                    remote: true,
+                                    class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                                    "data-form" => "update-part-status",
+                                    "data-placement" => "right",
+                                    "data-title" => "Transfer to: " + (j.field.name + ' | ' + j.well.name) %>
+                      </li>
+                  <% end %>
               <% end %>
           <% end %>
         </ul>

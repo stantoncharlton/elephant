@@ -109,14 +109,6 @@ class JobMembership < ActiveRecord::Base
     end
 
     def icon_image_css_style
-        if self.shift_type > 0
-            if self.shift_type == SHIFT_NIGHT
-                return "member-icon-night"
-            else
-                return "member-icon-day"
-            end
-        end
-
         case self.job_role_id
             when OBSERVER
                 ""
