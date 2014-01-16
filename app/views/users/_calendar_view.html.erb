@@ -35,7 +35,7 @@
     </div>
 
     <% if @page != 1 %>
-        <%= link_to "back to " + Time.now.strftime("%B"), job_times_path(user: @user.id, page: 1), class: "start-loader activity-user-link pull-left", remote: true %>
+        <%= link_to "back to " + Time.zone.now.strftime("%B"), job_times_path(user: @user.id, page: 1), class: "start-loader activity-user-link pull-left", remote: true %>
         <br>
     <% end %>
     <br>

@@ -24,12 +24,12 @@ class AlertsController < ApplicationController
 
         @show_full_calendar = params[:calendar] == "true"
         @page = (params[:page] || "1").to_i
-        @adjusted_today_date = Time.now
+        @adjusted_today_date = Time.zone.now
         if @show_full_calendar
             @adjusted_today_date = @adjusted_today_date + (@page - 1).months
             @start_date = @adjusted_today_date.beginning_of_month.beginning_of_week - 1.days
         else
-            @start_date = Time.now.beginning_of_week - 1.days
+            @start_date = Time.zone.now.beginning_of_week - 1.days
         end
 
         @active_jobs = current_user.active_jobs

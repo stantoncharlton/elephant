@@ -139,10 +139,12 @@ class DrillingLogEntriesController < ApplicationController
             depth = params[:drilling_log_entry][:depth]
             params[:drilling_log_entry].delete(:depth)
 
+            override_date = nil
+
             begin
-                override_date = Time.strptime("#{params[:date]} #{params[:entry_time]} #{Time.zone.name}", '%m/%d/%Y %k:%M %Z')
+                date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
+                override_date = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:entry_time]}")
             rescue
-                override_date = nil
             end
 
             params[:drilling_log_entry].delete(:override_date)
@@ -161,7 +163,7 @@ class DrillingLogEntriesController < ApplicationController
 
 
             if override_date.nil?
-                @drilling_log_entry.entry_at = Time.now
+                @drilling_log_entry.entry_at = Time.zone.now
             else
                 @drilling_log_entry.entry_at = override_date
             end
