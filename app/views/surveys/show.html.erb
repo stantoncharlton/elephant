@@ -92,7 +92,7 @@
     var chart;
     var chartData = <%= raw calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} }.to_json.html_safe %>;
     if (chartData[0].comment == '') {
-        chartData[0].comment = "Tie On";
+        chartData[0].comment = "Tie In";
     }
     if (chartData[chartData.length - 1].comment == '') {
         chartData[chartData.length - 1].comment = "TD";
@@ -100,7 +100,7 @@
     var chart2;
     var chartData2 = <%= raw calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} }.to_json.html_safe %>;
     if (chartData2[0].comment == '') {
-        chartData2[0].comment = "Tie On";
+        chartData2[0].comment = "Tie In";
     }
     if (chartData2[chartData2.length - 1].comment == '') {
         chartData2[chartData2.length - 1].comment = "TD";

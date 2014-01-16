@@ -8,7 +8,7 @@
     var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
     var chartDataAdded = <%= calculated_points_survey.count %>;
     if(chartData[0].comment == '') {
-        chartData[0].comment = "Tie On";
+        chartData[0].comment = "Tie In";
     }
     if(chartData[chartData.length - chartDataAdded - 1].comment == '') {
         chartData[chartData.length - chartDataAdded - 1].comment = "TD";
@@ -22,7 +22,7 @@
     var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
     var chartData2Added = <%= calculated_points_survey.count %>;
     if(chartData2[0].comment == '') {
-        chartData2[0].comment = "Tie On";
+        chartData2[0].comment = "Tie In";
     }
     if(chartData2[chartData2.length - chartData2Added - 1].comment == '') {
         chartData2[chartData2.length - chartData2Added - 1].comment = "TD";

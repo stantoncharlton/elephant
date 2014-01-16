@@ -42,7 +42,7 @@ class SurveyPointsController < ApplicationController
                     @survey_point.north_south = params[:ns].to_f
                     @survey_point.east_west = params[:ew].to_f
                     @survey_point.tie_on = true
-                    @survey_point.comment = "Tie On"
+                    @survey_point.comment = "Tie In"
                     @survey_point.save
                 else
                     @survey_point.errors.add(:survey, "Tie-In fields can't be empty")
