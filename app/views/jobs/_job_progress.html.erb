@@ -30,20 +30,46 @@
             <div class="job-failure-item"><%= job.failures_count %></div>
         <% end %>
       </div>
+  <% else %>
+    <div class='push-right'></div>
   <% end %>
 
 
-  <div class="pull-right">
+  <div class="inline-block align-top">
 
-    <% if job.closed && !show_summary_data %>
-        <span class="label label-success">Complete</span>
-    <% elsif job.status >= Job::ON_JOB %>
-        <div class="progress progress-success job-progress-bar">
-          <div class="bar" style="width:100%">
-            <% if job.closed %>
-                <span class="pull-left push-right-small push-down-small">Complete</span>
-            <% end %></div>
+    <% if job.status == Job::COMPLETE %>
+        <div class='inline-block push-down'>
+          <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Complete</span>
         </div>
+    <% elsif job.status == Job::PRE_JOB %>
+        <div class='inline-block push-down'>
+          <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
+
+          <% if job.start_date.present? %>
+              <p class='inline-block push-right help-text'>Begins <%= job.start_date.strftime("%A %d/%m") %></p>
+          <% end %>
+        </div>
+    <% elsif job.status == Job::POST_JOB %>
+        <div class='inline-block push-down'>
+          <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Post-Job</span>
+        </div>
+    <% elsif job.status == Job::ON_JOB %>
+
+        <div class='inline-block push-down'>
+          <span class="label label-warning" style="padding: 4px; padding-left: 10px; padding-right: 10px;">In Progress</span>
+        </div>
+
+        <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
+        <% if drilling_log.present? %>
+            <p class='inline-block push-right-small'>
+              <b><%= drilling_log.rop.present? ? drilling_log.rop.round(1) : 0.0 %></b> ft/hr</p>
+
+            &nbsp;&nbsp;<i class="icon-chevron-right"></i>
+
+            <p class='inline-block push-right-small'>
+              <b><%= drilling_log.total_drilled.present? ? number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') : 0 %></b>
+              ft</p>
+        <% end %>
     <% else %>
         <div class="progress progress-info job-progress-bar">
           <div class="bar" style="width: <%= job.status_percentage %>%"></div>
