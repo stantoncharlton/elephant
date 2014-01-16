@@ -20,25 +20,33 @@ class SurveyPointsController < ApplicationController
 
         if params[:tie_in].present? && params[:tie_in] == "true"
             Survey.transaction do
-                @survey.gyro_company = params[:gyro_company]
-                @survey.gyro_date = Time.strptime("#{params[:gyro_date]}", '%m/%d/%Y').in_time_zone(Time.zone)
-                @survey.magnetic_field_strength = params[:mfs]
-                @survey.magnetic_dip_angle = params[:mda]
-                @survey.gravity_total = 1.0
-                @survey.save
+                if !params[:gyro_company].blank? &&
+                        !params[:gyro_date].blank? &&
+                        !params[:mfs].blank? &&
+                        !params[:mda].blank?
 
-                @survey_point.course_length = 0.0
-                @survey_point.measured_depth = params[:md]
-                @survey_point.inclination = params[:i]
-                @survey_point.azimuth = params[:a]
-                @survey_point.true_vertical_depth = params[:tvd]
-                @survey_point.vertical_section = params[:vs]
-                @survey_point.dog_leg_severity = params[:dls]
-                @survey_point.north_south = params[:ns]
-                @survey_point.east_west = params[:ew]
-                @survey_point.tie_on = true
-                @survey_point.comment = "Tie On"
-                @survey_point.save
+                    @survey.gyro_company = params[:gyro_company]
+                    @survey.gyro_date = Time.strptime("#{params[:gyro_date]}", '%m/%d/%Y').in_time_zone(Time.zone)
+                    @survey.magnetic_field_strength = params[:mfs]
+                    @survey.magnetic_dip_angle = params[:mda]
+                    @survey.gravity_total = 1.0
+                    @survey.save
+
+                    @survey_point.course_length = 0.0
+                    @survey_point.measured_depth = params[:md].to_f
+                    @survey_point.inclination = params[:i].to_f
+                    @survey_point.azimuth = params[:a].to_f
+                    @survey_point.true_vertical_depth = params[:tvd].to_f
+                    @survey_point.vertical_section = params[:vs].to_f
+                    @survey_point.dog_leg_severity = params[:dls].to_f
+                    @survey_point.north_south = params[:ns].to_f
+                    @survey_point.east_west = params[:ew].to_f
+                    @survey_point.tie_on = true
+                    @survey_point.comment = "Tie On"
+                    @survey_point.save
+                else
+                    @survey_point.errors.add(:survey, "Tie-In fields can't be empty")
+                end
             end
         else
             @survey_point.tie_on = false
