@@ -86,9 +86,8 @@ class DrillingLog < ActiveRecord::Base
                 drilling_log.end_depth = drilling_log.end_depth.nil? ? entry.depth : [drilling_log.end_depth, entry.depth].max
 
                 DrillingLogEntry.attribute_names.each do |attribute_name|
-                    if entry[attribute_name].present?
+                    if entry[attribute_name].present? && (entry[attribute_name].is_a?(BigDecimal) && entry[attribute_name] != 0.0)
                         if drilling_log.ranges.has_key? (attribute_name + '_min')
-
                             drilling_log.ranges[attribute_name + '_min'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_min']].min
                             drilling_log.ranges[attribute_name + '_max'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_max']].max
                             puts attribute_name + ": " + entry[attribute_name].to_s

@@ -5,14 +5,14 @@
     <div class='inline-block'>
       <div class='run-detail help-text'>Start Depth</div>
       <div class='run-detail'><%= log.start_depth.nil? ? '-' : number_with_delimiter(log.start_depth.to_i, :delimiter => ',') %>
-        ft
+        &nbsp;<span class='help-text'>ft</span>
       </div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>End Depth</div>
       <div class='run-detail'><%= log.end_depth.nil? ? '-' : number_with_delimiter(log.end_depth.to_i, :delimiter => ',') %>
-        ft
+        &nbsp;<span class='help-text'>ft</span>
       </div>
     </div>
 
@@ -36,17 +36,17 @@
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>Circulation</div>
-      <div class='run-detail'><%= log.circulation_hours.nil? ? '-' : log.circulation_hours.round(1) %> hrs</div>
+      <div class='run-detail'><%= log.circulation_hours.nil? ? '-' : log.circulation_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Total Circulation</div>
-      <div class='run-detail'><%= log.total_circulation_time.nil? ? '-' : log.total_circulation_time.round(1) %> hrs</div>
+      <div class='run-detail'><%= log.total_circulation_time.nil? ? '-' : log.total_circulation_time.round(1) %>&nbsp;<span class='help-text'>hrs</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Reaming</div>
-      <div class='run-detail'><%= log.ream_hours.nil? ? '-' : log.ream_hours.round(1) %> hrs</div>
+      <div class='run-detail'><%= log.ream_hours.nil? ? '-' : log.ream_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span></div>
     </div>
   </div>
 
@@ -71,18 +71,17 @@
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>ROP</div>
-      <div class='run-detail'><%= log.rotate_rop.nil? ? '-' : log.rotate_rop.round(1) %> ft/min</div>
+      <div class='run-detail'><%= log.rotate_rop.nil? ? '-' : log.rotate_rop.round(1) %>&nbsp;<span class='help-text'>ft/min</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Drilled</div>
-      <div class='run-detail'><%= log.rotate_footage.nil? ? '-' : number_with_delimiter(log.rotate_footage.to_i, :delimiter => ',') %>
-        ft
+      <div class='run-detail'><%= log.rotate_footage.nil? ? '-' : number_with_delimiter(log.rotate_footage.to_i, :delimiter => ',') %>&nbsp;<span class='help-text'>ft</span>
       </div>
     </div>
     <div class='inline-block'>
       <div class='run-detail help-text'>Drilling Time</div>
-      <div class='run-detail'><%= log.rotate_hours.nil? ? '-' : log.rotate_hours.round(1) %> hrs</div>
+      <div class='run-detail'><%= log.rotate_hours.nil? ? '-' : log.rotate_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span></div>
     </div>
   </div>
 
@@ -107,19 +106,19 @@
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>ROP</div>
-      <div class='run-detail'><%= log.slide_rop.nil? ? '-' : log.slide_rop.round(1) %> ft/min</div>
+      <div class='run-detail'><%= log.slide_rop.nil? ? '-' : log.slide_rop.round(1) %>&nbsp;<span class='help-text'>ft/min</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Drilled</div>
       <div class='run-detail'><%= log.slide_footage.nil? ? '-' : number_with_delimiter(log.slide_footage.to_i, :delimiter => ',') %>
-        ft
+        &nbsp;<span class='help-text'>ft</span>
       </div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Drilling Time</div>
-      <div class='run-detail'><%= log.slide_hours.nil? ? '-' : log.slide_hours.round(1) %> hrs</div>
+      <div class='run-detail'><%= log.slide_hours.nil? ? '-' : log.slide_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span></div>
     </div>
   </div>
 
@@ -128,12 +127,12 @@
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>WOB</div>
-      <div class='run-detail'><%= "#{log.ranges["wob_min"]} - #{log.ranges["wob_max"]} lbs"%></div>
+      <div class='run-detail'><%= "#{log.ranges["wob_min"]} - #{log.ranges["wob_max"]}"%>&nbsp;<span class='help-text'>lbs</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Flow</div>
-      <div class='run-detail'><%= "#{log.ranges["flow_min"]} - #{log.ranges["flow_max"]} gal/min" %></div>
+      <div class='run-detail'><%= "#{log.ranges["flow_min"]} - #{log.ranges["flow_max"]}" %>&nbsp;<span class='help-text'>g/m</span></div>
     </div>
 
     <div class='inline-block'>
@@ -144,49 +143,49 @@
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>SPP</div>
-      <div class='run-detail'><%= "#{log.ranges["spp_min"]} - #{log.ranges["spp_max"]} psi" %></div>
+      <div class='run-detail'><%= "#{log.ranges["spp_min"]} - #{log.ranges["spp_max"]}" %>&nbsp;<span class='help-text'>psi</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Rotary RPM</div>
-      <div class='run-detail'><%= "#{log.ranges["rotary_rpm_min"]} - #{log.ranges["rotary_rpm_max"]} rpm" %></div>
+      <div class='run-detail'><%= "#{log.ranges["rotary_rpm_min"]} - #{log.ranges["rotary_rpm_max"]}" %>&nbsp;<span class='help-text'>rpm</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Motor RPM</div>
-      <div class='run-detail'><%= "#{log.ranges["motor_rpm_min"]} - #{log.ranges["motor_rpm_min"]} rpm" %></div>
+      <div class='run-detail'><%= "#{log.ranges["motor_rpm_min"]} - #{log.ranges["motor_rpm_min"]}" %>&nbsp;<span class='help-text'>rpm</span></div>
     </div>
   </div>
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>Rotate Weight</div>
-      <div class='run-detail'><%= "#{log.ranges["rotary_weight_min"]} - #{log.ranges["rotary_weight_max"]} lbs" %></div>
+      <div class='run-detail'><%= "#{log.ranges["rotary_weight_min"]} - #{log.ranges["rotary_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>P/U Weight</div>
-      <div class='run-detail'><%= "#{log.ranges["pu_weight_min"]} - #{log.ranges["pu_weight_max"]} lbs" %></div>
+      <div class='run-detail'><%= "#{log.ranges["pu_weight_min"]} - #{log.ranges["pu_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>S/O Weight</div>
-      <div class='run-detail'><%= "#{log.ranges["so_weight_min"]} - #{log.ranges["so_weight_max"]} lbs" %></div>
+      <div class='run-detail'><%= "#{log.ranges["so_weight_min"]} - #{log.ranges["so_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span></div>
     </div>
   </div>
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>Torque</div>
-      <div class='run-detail'><%= "#{log.ranges["torque_min"]} - #{log.ranges["torque_max"]} lbs/in2" %></div>
+      <div class='run-detail'><%= "#{log.ranges["torque_min"]} - #{log.ranges["torque_max"]}" %>&nbsp;<span class='help-text'>lbs/in2</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Avg Diff Pressure</div>
-      <div class='run-detail'><%= "#{log.ranges["diff_pressure_min"]} - #{log.ranges["diff_pressure_max"]} psi" %></div>
+      <div class='run-detail'><%= "#{log.ranges["diff_pressure_min"]} - #{log.ranges["diff_pressure_max"]}" %>&nbsp;<span class='help-text'>psi</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Stall Pressure</div>
-      <div class='run-detail'><%= "#{log.ranges["stall_min"]} - #{log.ranges["stall_max"]} psi" %></div>
+      <div class='run-detail'><%= "#{log.ranges["stall_min"]} - #{log.ranges["stall_max"]}" %>&nbsp;<span class='help-text'>psi</span></div>
     </div>
   </div>
 
@@ -200,7 +199,7 @@
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Mud Weight</div>
-      <div class='run-detail'><%= "#{log.ranges["mud_weight_min"]} - #{log.ranges["mud_weight_max"]} lbs" %></div>
+      <div class='run-detail'><%= "#{log.ranges["mud_weight_min"]} - #{log.ranges["mud_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span></div>
     </div>
 
     <div class='inline-block'>
@@ -234,12 +233,12 @@
 
     <div class='inline-block'>
       <div class='run-detail help-text'>BH Temp</div>
-      <div class='run-detail'><%= "#{log.ranges["bh_temp_min"]} - #{log.ranges["bh_temp_max"]} f" %></div>
+      <div class='run-detail'><%= "#{log.ranges["bh_temp_min"]} - #{log.ranges["bh_temp_max"]}" %>&nbsp;<span class='help-text'>f</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>FL Temp</div>
-      <div class='run-detail'><%= "#{log.ranges["fl_temp_min"]} - #{log.ranges["fl_temp_max"]} f" %></div>
+      <div class='run-detail'><%= "#{log.ranges["fl_temp_min"]} - #{log.ranges["fl_temp_max"]}" %>&nbsp;<span class='help-text'>f</span></div>
     </div>
   </div>
 
@@ -278,17 +277,17 @@
   <div>
     <div class='inline-block'>
       <div class='run-detail help-text'>Bat 1 Amps</div>
-      <div class='run-detail'><%= "#{log.ranges["battery_1_amps_min"]} - #{log.ranges["battery_1_amps_max"]} amps" %></div>
+      <div class='run-detail'><%= "#{log.ranges["battery_1_amps_min"]} - #{log.ranges["battery_1_amps_max"]}" %>&nbsp;<span class='help-text'>amps</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Bat 2 Amps</div>
-      <div class='run-detail'><%= "#{log.ranges["battery_2_amps_min"]} - #{log.ranges["battery_2_amps_max"]} amps" %></div>
+      <div class='run-detail'><%= "#{log.ranges["battery_2_amps_min"]} - #{log.ranges["battery_2_amps_max"]}" %>&nbsp;<span class='help-text'>amps</span></div>
     </div>
 
     <div class='inline-block'>
       <div class='run-detail help-text'>Battery Volts</div>
-      <div class='run-detail'><%= "#{log.ranges["battery_volts_min"]} - #{log.ranges["battery_volts_max"]} volts" %></div>
+      <div class='run-detail'><%= "#{log.ranges["battery_volts_min"]} - #{log.ranges["battery_volts_max"]}" %>&nbsp;<span class='help-text'>volts</span></div>
     </div>
   </div>
 
