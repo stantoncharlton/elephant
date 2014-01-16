@@ -32,10 +32,8 @@ class DrillingLog < ActiveRecord::Base
 
     attr_accessor :start_depth
     attr_accessor :end_depth
-    attr_accessor :low_wob
-    attr_accessor :high_wob
-    attr_accessor :low_flow
-    attr_accessor :high_flow
+
+    attr_accessor :ranges
 
     def recalculate
         drilling_log = DrillingLog.calculate self.drilling_log_entries
@@ -80,17 +78,25 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.ream_hours = 0.0
             drilling_log.circulation_hours = 0.0
 
+            drilling_log.ranges = {}
+
             entries.each do |entry|
 
                 drilling_log.start_depth = drilling_log.start_depth.nil? ? entry.depth : [drilling_log.start_depth, entry.depth].min
                 drilling_log.end_depth = drilling_log.end_depth.nil? ? entry.depth : [drilling_log.end_depth, entry.depth].max
-                if entry.wob.present?
-                    drilling_log.low_wob = drilling_log.low_wob.nil? ? entry.wob : [drilling_log.low_wob, entry.wob].min
-                    drilling_log.high_wob = drilling_log.high_wob.nil? ? entry.wob : [drilling_log.high_wob, entry.wob].max
-                end
-                if entry.flow.present?
-                    drilling_log.low_flow = drilling_log.low_flow.nil? ? entry.wob : [drilling_log.low_flow, entry.flow].min
-                    drilling_log.high_flow = drilling_log.high_flow.nil? ? entry.wob : [drilling_log.high_flow, entry.flow].max
+
+                DrillingLogEntry.attribute_names.each do |attribute_name|
+                    if entry[attribute_name].present?
+                        if drilling_log.ranges.has_key? (attribute_name + '_min')
+
+                            drilling_log.ranges[attribute_name + '_min'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_min']].min
+                            drilling_log.ranges[attribute_name + '_max'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_max']].max
+                            puts attribute_name + ": " + entry[attribute_name].to_s
+                        else
+                            drilling_log.ranges[attribute_name + '_min'] = entry[attribute_name]
+                            drilling_log.ranges[attribute_name + '_max'] = entry[attribute_name]
+                        end
+                    end
                 end
 
                 length_change = entry.depth - last_entry.depth
@@ -140,6 +146,8 @@ class DrillingLog < ActiveRecord::Base
             rop_divisor = ((entries.last.entry_at - entries.first.entry_at) / 60 / 60).to_f
             drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0
         end
+
+        puts drilling_log.ranges
 
         drilling_log.drilling_log_entries = entries
         drilling_log
