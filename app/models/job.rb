@@ -278,19 +278,19 @@ class Job < ActiveRecord::Base
     end
 
     def notices_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::NOTICES)
+        self.documents.includes(:user, :document_template, :job, :document_shares, :document_revisions).where(:category => Document::NOTICES)
     end
 
     def pre_job_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::PRE_JOB)
+        self.documents.includes(:user, :document_template, :job, :document_shares, :document_revisions).where(:category => Document::PRE_JOB)
     end
 
     def on_job_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::ON_JOB)
+        self.documents.includes(:user, :document_template, :job, :document_shares, :document_revisions).where(:category => Document::ON_JOB)
     end
 
     def post_job_documents
-        self.documents.includes(:user, :document_template, :job, :document_shares).where(:category => Document::POST_JOB)
+        self.documents.includes(:user, :document_template, :job, :document_shares, :document_revisions).where(:category => Document::POST_JOB)
     end
 
     def post_job_report_document

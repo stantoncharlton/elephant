@@ -22,7 +22,7 @@
                  data-toggle="popover"
                  data-placement="bottom"
                  data-trigger="manual"
-                 data-original-title="Choose Hours">
+                 data-original-title="Choose <%= current_user.company.work_day_type == Company::HOURLY_WORK_DAY ? "Hours" : "Days" %>">
         </div>
     <% end %>
   </div>

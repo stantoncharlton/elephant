@@ -18,7 +18,7 @@
             </div>
 
             <div class='push-down'>
-              <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
+              <input type="text" value="<%= Time.zone.now.to_date.strftime("%m/%d/%Y") %>"
                      name="date"
                      id="entry_date"
                      class="job-field-value-editable input-small date-picker tooltip-info"
