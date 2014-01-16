@@ -186,11 +186,19 @@ class DrillingLogEntriesController < ApplicationController
     end
 
     def edit
-
+        @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
     end
 
     def update
+        @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
+        @drilling_log_entry.update_attributes(params[:drilling_log_entry])
 
+        begin
+            date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
+            override_date = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:entry_time]}")
+            @drilling_log_entry.update_attribute(:entry_at, override_date)
+        rescue
+        end
     end
 
     def destroy

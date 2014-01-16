@@ -105,7 +105,7 @@ class DrillingLogEntry < ActiveRecord::Base
     def self.activity_code_string code
         case code
             when DRILLING
-                "Drilling"
+                "Rotating"
             when SLIDING
                 "Sliding"
             when CIRCULATING
