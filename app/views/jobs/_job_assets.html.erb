@@ -114,7 +114,7 @@
 <% if !bha_document.nil? %>
     <div class='content'>
       <% bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("wells.id = ?", job.well_id).order("bhas.name ASC") %>
-      <% drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", bha_document.job.well_id).first %>
+      <% drilling_log_document = Document.where("documents.job_id = ?", job.id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
 
       <hr>
 
@@ -126,7 +126,7 @@
         </div>
 
         <div class='pull-right'>
-          <%= link_to "View All BHAs", drilling_log_path(drilling_log, anchor: "drilling-bha"), class: "bluebtn gray" %>
+          <%= link_to "View All BHAs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-bha"), class: "bluebtn gray" %>
 
           <div class='inline-block push-right-small'>
             <%= link_to "+ Add New BHA", new_bha_path(document: bha_document.id), class: "bluebtn" %>

@@ -168,7 +168,6 @@ class DrillingLogEntriesController < ApplicationController
                 @drilling_log_entry.entry_at = override_date
             end
 
-            @last_entry = @drilling_log.drilling_log_entries.last
         end
 
 
@@ -178,6 +177,14 @@ class DrillingLogEntriesController < ApplicationController
 
         if @drilling_log_entry.bha.present?
             @drilling_log_entry.bha.delay.update_usage
+        end
+
+        @last_entry = @drilling_log.drilling_log_entries.last
+        @drilling_log.drilling_log_entries.each do |dl|
+            if dl == @drilling_log_entry
+                break
+            end
+            @last_entry = dl
         end
 
         if @last_entry.nil?
@@ -199,6 +206,10 @@ class DrillingLogEntriesController < ApplicationController
             @drilling_log_entry.update_attribute(:entry_at, override_date)
         rescue
         end
+
+        if @drilling_log_entry.bha.present?
+            @drilling_log_entry.bha.delay.update_usage
+        end
     end
 
     def destroy
@@ -206,6 +217,10 @@ class DrillingLogEntriesController < ApplicationController
         not_found unless @drilling_log_entry.present?
         @drilling_log_entry.destroy
         @drilling_log_entry.drilling_log.recalculate
+
+        if @drilling_log_entry.bha.present?
+            @drilling_log_entry.bha.delay.update_usage
+        end
     end
 
 

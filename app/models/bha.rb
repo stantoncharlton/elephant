@@ -29,7 +29,7 @@ class Bha < ActiveRecord::Base
 
     def update_usage
         drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first
-        entries = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", self.id).to_a
+        entries = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", self.master_bha.present? ? self.master_bha_id : self.id).to_a
         log = DrillingLog.calculate(entries)
 
         self.below_rotary = log.below_rotary
@@ -45,6 +45,11 @@ class Bha < ActiveRecord::Base
                 part.above_rotary = BigDecimal.new(bha_query[:total_above_rotary])
                 part.save
             end
+        end
+
+        if !self.tool_string.nil?
+            puts "Updating tool string....."
+            self.tool_string.update_usage
         end
     end
 
