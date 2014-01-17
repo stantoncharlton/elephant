@@ -3,7 +3,7 @@
 </div>
 
 
-<div class="form">
+<div class="form" data-form="new_message">
   <%= form_for @conversation do |f| %>
 
 
@@ -28,7 +28,8 @@
 
         <div class="content actions">
           <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info form-loading-on-click",
-                       "data-title" => "Send message to recipients" %>
+                       "data-title" => "Send message to recipients",
+                        "data-form" => "new_message" %>
 
           <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
                       "data-title" => "Cancel new message and go back" %>
@@ -38,4 +39,9 @@
   <% end %>
 </div>
 
-<%= render "layouts/inline_loading", title: "Sending message, please wait" %>
+<div class="form-loading center hidden" data-form="new_message">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Sending message, please wait...</b></span>
+  <br>
+</div>

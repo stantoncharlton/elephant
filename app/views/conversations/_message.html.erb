@@ -1,7 +1,8 @@
 <div class="conversation-message">
   <div>
+
     <h3 class="inline">
-      <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
+      <%= render 'users/icon', user: message.user, use_link: true, use_name: false %>
       <%= render 'activities/user', user: message.user %>
     </h3>
 

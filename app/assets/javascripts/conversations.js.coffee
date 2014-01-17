@@ -8,6 +8,8 @@ jQuery ->
     #"<li><a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a></li>"
 
   $('.conversation-link').click ->
+    $('#message_content').addClass 'hidden'
+    $('#message_loading').removeClass 'hidden'
     $.ajax '/conversations/' + $(this).attr("id").replace("conversation_", ""), type: 'get', dataType: 'script'
 
 

@@ -1,10 +1,37 @@
-<a class="conversation-link" id="conversation_<%= conversation.id %>">
+<a class="conversation-link" id="conversation_<%= conversation.id %>" style="cursor: hand;">
   <div class="message-div tooltip-info"
        data-placement="left" data-title="Click to read/reply">
     <div>
-      <h3 class="inline"><%= conversation.participants.select { |user| user != current_user }.map { |user| user.name }.join(", ") %></h3>
-
       <p class="inline pull-right message-date"><%= conversation.messages.last.created_at.strftime("%b %d") %></p>
+
+      <% if conversation.participants.count > 2 %>
+          <div class="member-icon align-top pull-left" style="margin-right: 10px;">
+            <p>
+              <%= conversation.participants.count - 1 %>
+            </p>
+          </div>
+          <h3 class="inline multiple-recipients">
+            <%= conversation.participants.select { |user| user != current_user }.map { |user| user.name }.join(", ") %>
+          </h3>
+      <% else %>
+          <% person = conversation.participants.select { |user| user != current_user }.first %>
+          <h3 class="inline single-recipient">
+            <div class="member-icon align-top" style="margin-right: 5px;">
+              <p>
+                <% names = person.present? ? person.name.split : [] %>
+                <% if names.any? %>
+                    <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                <% else %>
+                    -
+                <% end %>
+              </p>
+            </div>
+            <div class='inline-block push-down-small align-top'>
+              <%= person.name %>
+            </div>
+          </h3>
+      <% end %>
+
     </div>
     <p class="message-preview-text">"<%= conversation.messages.last.text[0..40] %>..."</p>
 

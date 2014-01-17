@@ -1,12 +1,39 @@
 <div id="messages" class="message-view">
 
-  <div class="conversation-participants">
-    <h3 class="inline"><%= conversation.participants.map { |user| user == current_user ? I18n.t("conversations.you") : user.name }.join(", ") %></h3>
+  <div id="message_content" class=''>
+    <div class="conversation-participants">
+
+      <div class="btn-group inline-block align-top pull-right">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Actions
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Delete Conversation", conversation, method: :delete,
+                        data: {confirm: "Delete Conversation?"}, class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Delete Conversation" %>
+          </li>
+        </ul>
+      </div>
+
+      <h3 class="inline">
+
+        <%= conversation.participants.map { |user| user == current_user ? I18n.t("conversations.you") : user.name }.join(", ") %>
+      </h3>
+    </div>
+
+    <%= render 'conversations/conversation_messages', conversation: conversation %>
+
+    <div>
+      <%= render 'conversations/conversation_reply', conversation: conversation %>
+    </div>
   </div>
 
-  <%= render 'conversations/conversation_messages', conversation: conversation %>
-
-  <div>
-    <%= render 'conversations/conversation_reply', conversation: conversation %>
+  <div id="message_loading" class="form-loading center hidden">
+    <br>
+    <br>
+    <span class="ajax-loading search-loading"><b>Loading conversation...</b></span>
+    <br>
   </div>
 </div>

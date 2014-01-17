@@ -76,7 +76,9 @@ class ConversationsController < ApplicationController
     end
 
     def destroy
-
+        @conversation = Conversation.find_by_id(params[:id])
+        @conversation.destroy
+        redirect_to conversations_path
     end
 
     def update
