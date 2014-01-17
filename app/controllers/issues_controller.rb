@@ -1,5 +1,6 @@
 class IssuesController < ApplicationController
-    before_filter :signed_in_user_not_field, only: [:index, :show, :create, :update]
+    before_filter :signed_in_user, only: [:create]
+    before_filter :signed_in_user_not_field, only: [:index, :show, :update]
 
     def index
         @issues = Issue.where(:company_id => current_user.company).order("issues.status ASC, issues.created_at DESC")
@@ -34,7 +35,9 @@ class IssuesController < ApplicationController
             end
             @issue.company = current_user.company
             @issue.job = @job
-            @issue.failure_at = Time.strptime("#{params[:date]} #{params[:hour]}:#{params[:minute]}:00 #{params[:meridian]}", '%m/%d/%Y %I:%M:%S %p').in_time_zone(Time.zone)
+
+            date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
+            @issue.failure_at = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:hour]}:#{params[:minute]}:00")
 
             if !params[:part_membership_id].blank?
                 @part_membership = PartMembership.find_by_id(params[:part_membership_id])

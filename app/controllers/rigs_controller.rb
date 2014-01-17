@@ -1,5 +1,6 @@
 class RigsController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :show, :create, :index]
+    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user_not_field, only: [:new, :show, :create, ]
 
     def index
         respond_to do |format|
