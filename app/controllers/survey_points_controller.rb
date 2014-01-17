@@ -77,11 +77,22 @@ class SurveyPointsController < ApplicationController
         @survey_point = SurveyPoint.find_by_id(params[:id])
         not_found unless @survey_point.present?
         @survey_point.update_attributes(params[:survey_point])
+
+        if @survey_point.tie_on?
+            @survey_point.survey.magnetic_field_strength = @survey_point.magnetic_field_strength
+            @survey_point.survey.magnetic_dip_angle = @survey_point.magnetic_dip_angle
+            @survey_point.survey.save
+        end
     end
 
     def destroy
         @survey_point = SurveyPoint.find_by_id(params[:id])
         not_found unless @survey_point.present?
-        @survey_point.destroy
+
+        if @survey_point.tie_on? && @survey_point.survey.survey_points.count > 1
+            @survey_point.errors.add(:tie_on, "can't be deleted with other survey points")
+        else
+            @survey_point.destroy
+        end
     end
 end

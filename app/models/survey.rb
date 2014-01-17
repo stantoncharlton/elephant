@@ -42,10 +42,17 @@ class Survey < ActiveRecord::Base
         pi = Math::PI
 
         if point.tie_on
-            point.vertical_section = 0.0
-            point.dog_leg_severity = 0.0
-            point.closure_distance = 0.0
-            point.closure_angle = 0.0
+            if point.vertical_section.nil?
+                point.vertical_section = 0.0
+            end
+            if point.dog_leg_severity.nil?
+                point.dog_leg_severity = 0.0
+            end
+
+            point.closure_distance = Math::sqrt((point.north_south * point.north_south) + (point.east_west * point.east_west))
+            point.closure_angle = point.north_south == 0 ? Math::atan(point.east_west.abs / 0.00001) * (180/pi) : Math::atan(point.east_west.abs / point.north_south.abs) * (180/pi)
+
+
         elsif last_point.nil?
             point.true_vertical_depth = 0.0
             point.north_south = 0.0

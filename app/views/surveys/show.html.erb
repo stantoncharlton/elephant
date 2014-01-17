@@ -28,7 +28,11 @@
   <h1>Well Plan</h1>
 </div>
 
-
+<% drilling_log_document = Document.where("documents.job_id = ?", @survey.document.job_id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
+<div class=''>
+  <%= link_to "View or Create Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-info white-text pull-right" %>
+</div>
+<br><br>
 
 <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
 

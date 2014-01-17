@@ -2,7 +2,7 @@
   <h1>Edit Entry</h1>
 </div>
 
-<div class="ajax-form">
+<div class="form" data-form="edit_drilling_log_entry">
   <br>
 
   <%= form_for drilling_log_entry, remote: true do |f| %>
@@ -51,12 +51,14 @@
 
       </div>
       <div class="content actions">
-        <%= f.submit "Update Entry", class: "bluebtn pull-right" %>
+        <%= f.submit "Update Entry",
+                     class: "bluebtn pull-right form-loading-on-click",
+            "data-form" => "edit_drilling_log_entry" %>
       </div>
   <% end %>
 </div>
 
-<div class="ajax-loading center hidden">
+<div class="form-loading center hidden" data-form="edit_drilling_log_entry">
   <br>
   <br>
   <span class="ajax-loading search-loading"><b>Saving log entry...</b></span>
