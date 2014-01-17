@@ -110,7 +110,7 @@ class BhasController < ApplicationController
                     end
                 end
 
-                Activity.add(current_user, Activity::CREATE_BHA, @bha, @bha.name, @dynamic_field.job)
+                #Activity.add(current_user, Activity::CREATE_BHA, @bha, @bha.name, @dynamic_field.job)
 
                 @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
                 redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
