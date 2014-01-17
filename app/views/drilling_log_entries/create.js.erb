@@ -24,6 +24,16 @@ else {
 
 $('#new_job_log_id').val('');
 
+if($('#measured_depth').length > 0) {
+    $('#measured_depth').val('');
+    $('#inclination').val('');
+    $('#azimuth').val('');
+    $('#magnetic_field_strength').val('');
+    $('#magnetic_dip_angle').val('');
+    $('#gravity_total').val('');
+    $('#comment').val('');
+}
+
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
 $('.activity-user-link').tooltip();
 $('.tooltip-info').tooltip();
