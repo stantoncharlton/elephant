@@ -190,6 +190,25 @@ class DrillingLogEntriesController < ApplicationController
         if @last_entry.nil?
             @last_entry = @drilling_log_entry
         end
+
+        if params[:measured_depth].present? && !params[:measured_depth].blank?
+            begin
+                @survey_point = SurveyPoint.new(params[:survey_point])
+                @survey_point.survey = Survey.find_by_id(params[:survey_id])
+                @survey_point.company = current_user.company
+                @survey_point.user = current_user
+                @survey_point.user_name = current_user.name
+                @survey_point.measured_depth = params[:measured_depth].to_s.gsub(/,/, '').to_f
+                @survey_point.inclination = params[:inclination]
+                @survey_point.azimuth = params[:azimuth]
+                @survey_point.magnetic_field_strength = params[:magnetic_field_strength]
+                @survey_point.magnetic_dip_angle = params[:magnetic_dip_angle]
+                @survey_point.gravity_total = params[:gravity_total]
+                @survey_point.comment = params[:comment]
+                @survey_point.save
+            rescue
+            end
+        end
     end
 
     def edit
