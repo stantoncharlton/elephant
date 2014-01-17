@@ -91,6 +91,6 @@ class ConversationsController < ApplicationController
         @conversation.touch
 
         @message = @conversation.send_message(current_user, message_text)
-        current_user.delay.send_new_message_email(@message)
+        #current_user.delay.send_new_message_email(@message)
     end
 end
