@@ -61,6 +61,10 @@ class Activity < ActiveRecord::Base
     ISSUE_OPENED = 180
     ISSUE_CLOSED = 181
 
+    CREATE_BHA = 190
+    UPDATE_BHA = 191
+    DELETE_BHA = 192
+
 
     def message
         case self.activity_type
