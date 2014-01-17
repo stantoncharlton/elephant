@@ -102,7 +102,7 @@ class JobMembershipsController < ApplicationController
                     @job_membership.update_attribute(:shift_type, JobMembership::SHIFT_NIGHT)
             end
         else
-            @job_membership.update_attribute(:shift_type, SHIFT_NONE)
+            @job_membership.update_attribute(:shift_type, JobMembership::SHIFT_NONE)
         end
     end
 
