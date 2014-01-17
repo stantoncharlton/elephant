@@ -10,7 +10,11 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-        <%= link_to "Edit Point", edit_survey_point_path(point), remote: true, class: "dropdown-menu-link show-modal-button" %>
+        <% if point.tie_on? %>
+            <%= link_to "Edit Tie-In", edit_survey_point_path(point), remote: true, class: "dropdown-menu-link show-modal-button" %>
+        <% else %>
+            <%= link_to "Edit Point", edit_survey_point_path(point), remote: true, class: "dropdown-menu-link show-modal-button" %>
+        <% end %>
       </li>
       <li class="divider"></li>
       <li>
@@ -50,7 +54,8 @@
     <div class="list-item-column list-item-column-short"><%= point.east_west.present? ? point.east_west.round(2) : '-' %></div>
 
     <div class="list-item-column list-item-column-count">
-      <span class='label label-info'><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0.0 %></span></div>
+      <span class='label label-info'><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0.0 %></span>
+    </div>
 
   </div>
 </div>

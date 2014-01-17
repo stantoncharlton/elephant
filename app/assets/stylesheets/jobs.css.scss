@@ -490,6 +490,15 @@
   font-size: 13px;
   color: #0058a8;
   width: 120px;
+  padding-left: 7px;
+  padding-right: 7px;
+
+  p {
+    max-width: 120px;
+    text-overflow: ellipsis;
+    text-wrap: none;
+    white-space: nowrap;
+  }
 }
 
 .job-member-button {
