@@ -1,5 +1,6 @@
 class PartsController < ApplicationController
-    before_filter :signed_in_user_inventory, only: [:index, :show, :new, :create, :update, :destroy]
+    before_filter :signed_in_user, only: [:index]
+    before_filter :signed_in_user_inventory, only: [:show, :new, :create, :update, :destroy]
     set_tab :inventory
 
 

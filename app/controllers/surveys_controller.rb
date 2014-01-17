@@ -85,46 +85,48 @@ class SurveysController < ApplicationController
 
             entry_lines = []
 
-            if true #Compass File
-                lines = contents.split("\r\n")
+            if !contents.blank?
+                if true #Compass File
+                    lines = contents.split("\r\n")
 
-                dividers = 0
-                lines.each_with_index do |line, index|
-                    if line.start_with?(' ===')
-                        dividers += 1
-                    else
-                        if line.start_with?('VSect. Azimuth')
-                            @survey.vertical_section_azimuth = line.split(':')[1].strip!
-                        elsif dividers >= 2
-                            entry_lines << line
+                    dividers = 0
+                    lines.each_with_index do |line, index|
+                        if line.start_with?(' ===')
+                            dividers += 1
+                        else
+                            if line.start_with?('VSect. Azimuth')
+                                @survey.vertical_section_azimuth = line.split(':')[1].strip!
+                            elsif dividers >= 2
+                                entry_lines << line
+                            end
                         end
                     end
                 end
-            end
 
-            @survey.save
+                @survey.save
 
-            entry_lines.each_with_index do |line, index|
-                parts = line.gsub('/\s+/m', ' ').strip.split(' ')
-                survey_point = SurveyPoint.new
-                survey_point.company = current_user.company
-                survey_point.user = current_user
-                survey_point.user_name = current_user.name
-                survey_point.survey = @survey
-                survey_point.comment = nil
-                survey_point.measured_depth = parts[1].to_d
-                survey_point.inclination = parts[2].to_d
-                survey_point.azimuth = parts[3].to_d
-                survey_point.course_length = parts[4].to_d
-                survey_point.true_vertical_depth = parts[5].to_d
-                survey_point.vertical_section = parts[6].to_d
-                survey_point.north_south = parts[7].to_d
-                survey_point.east_west = parts[8].to_d
-                survey_point.closure_distance = parts[9].to_d
-                survey_point.closure_angle = parts[10].to_d
-                survey_point.dog_leg_severity = parts[11].to_d
-                survey_point.save
-                survey_point
+                entry_lines.each_with_index do |line, index|
+                    parts = line.gsub('/\s+/m', ' ').strip.split(' ')
+                    survey_point = SurveyPoint.new
+                    survey_point.company = current_user.company
+                    survey_point.user = current_user
+                    survey_point.user_name = current_user.name
+                    survey_point.survey = @survey
+                    survey_point.comment = nil
+                    survey_point.measured_depth = parts[1].to_d
+                    survey_point.inclination = parts[2].to_d
+                    survey_point.azimuth = parts[3].to_d
+                    survey_point.course_length = parts[4].to_d
+                    survey_point.true_vertical_depth = parts[5].to_d
+                    survey_point.vertical_section = parts[6].to_d
+                    survey_point.north_south = parts[7].to_d
+                    survey_point.east_west = parts[8].to_d
+                    survey_point.closure_distance = parts[9].to_d
+                    survey_point.closure_angle = parts[10].to_d
+                    survey_point.dog_leg_severity = parts[11].to_d
+                    survey_point.save
+                    survey_point
+                end
             end
 
             if @survey.errors.any?
