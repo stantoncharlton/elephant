@@ -29,7 +29,7 @@
   </p>
 
   <div class='push-down-small'>
-    <% if part_membership.part.present? %>
+    <% if part_membership.present? %>
         <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button'>Change Attributes</a>
         <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>|
         <% end %>
