@@ -279,6 +279,12 @@
   }
 }
 
+.job-link2 {
+  padding: 0px 15px 0px 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .primary-tool-expand {
   background: transparent;
   width: 83%;
@@ -648,6 +654,19 @@
   display: inline-block;
   width: 450px;
   height: 35px !important;
+}
+
+.job-rig-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: none;
+  white-space: nowrap;
+  display: inline-block;
+  width: 80px;
+  font-size: 12px;
+  font-family: "gothammediumregular";
+  text-transform: uppercase;
+  color: #3fb0f7;
 }
 
 .job-progress-bar {

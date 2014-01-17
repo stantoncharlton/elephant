@@ -1,6 +1,6 @@
 <% if job.job_template.present? %>
     <% if job.can_user_view?(current_user) %>
-        <%= link_to job, class: "job-status job-link tooltip-info",
+        <%= link_to job, class: "job-status job-link job-link2 tooltip-info",
                     "data-placement" => "left",
                     "data-title" => "Click to open job" do %>
             <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: false %>
