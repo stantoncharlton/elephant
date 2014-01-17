@@ -19,12 +19,12 @@
   <div>
     <div class='survey-point-hover-label'>True Vert. Depth</div>
     <div class='survey-point-hover-value orange-text '>
-      <b><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></b></div>
+      <b><%= point.true_vertical_depth.present? ? number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') : '-' %></b></div>
   </div>
   <div>
     <div class='survey-point-hover-label'>Vertical Section</div>
     <div class='survey-point-hover-value orange-text'>
-      <b><%= number_with_delimiter(point.vertical_section.round(2), :delimiter => ',') %></b></div>
+      <b><%= point.vertical_section.present? ? number_with_delimiter(point.vertical_section.round(2), :delimiter => ',') : '-' %></b></div>
   </div>
   <div>
     <div class='survey-point-hover-label'>Dog Leg Severity</div>

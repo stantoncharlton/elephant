@@ -9,6 +9,9 @@ class SurveyPointsController < ApplicationController
         survey_id = params[:survey_point][:survey_id]
         params[:survey_point].delete(:survey_id)
 
+        depth = params[:survey_point][:measured_depth]
+        params[:survey_point].delete(:measured_depth)
+
         @survey = Survey.find_by_id(survey_id)
         @well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
 
@@ -17,6 +20,9 @@ class SurveyPointsController < ApplicationController
         @survey_point.company = @survey.company
         @survey_point.user = current_user
         @survey_point.user_name = current_user.name
+        if !depth.blank?
+            @survey_point.measured_depth = depth.to_s.gsub(/,/, '').to_f
+        end
 
         if params[:tie_in].present? && params[:tie_in] == "true"
             Survey.transaction do
@@ -50,6 +56,7 @@ class SurveyPointsController < ApplicationController
             end
         else
             if @survey_point.measured_depth.present? &&
+                    @survey_point.measured_depth != 0 &&
                     @survey_point.inclination.present? &&
                     @survey_point.azimuth.present?
                 @survey_point.tie_on = false
@@ -63,15 +70,18 @@ class SurveyPointsController < ApplicationController
 
     def edit
         @survey_point = SurveyPoint.find_by_id(params[:id])
+        not_found unless @survey_point.present?
     end
 
     def update
         @survey_point = SurveyPoint.find_by_id(params[:id])
+        not_found unless @survey_point.present?
         @survey_point.update_attributes(params[:survey_point])
     end
 
     def destroy
         @survey_point = SurveyPoint.find_by_id(params[:id])
+        not_found unless @survey_point.present?
         @survey_point.destroy
     end
 end

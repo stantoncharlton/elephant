@@ -1,10 +1,10 @@
 $ ->
 
   $('#activity_code_select').live "change", ->
-    #if $(this).find('option:selected').val() == '4'
-    #  $('.survey-entry').removeClass 'hidden'
-    #else
-    #  $('.survey-entry').addClass 'hidden'
+    if $(this).find('option:selected').val() == '4'
+      $('#survey_entry').removeClass 'hidden'
+    else
+      $('#survey_entry').addClass 'hidden'
     return false
 
 

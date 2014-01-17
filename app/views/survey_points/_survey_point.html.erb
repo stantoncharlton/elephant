@@ -44,10 +44,10 @@
     <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
 
 
-    <div class="list-item-column list-item-column-short"><%= number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') %></div>
-    <div class="list-item-column list-item-column-short blue-text"><%= number_with_delimiter(point.vertical_section.round(2), :delimiter => ',') %></div>
-    <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
-    <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
+    <div class="list-item-column list-item-column-short"><%= point.true_vertical_depth.present? ? number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') : '-' %></div>
+    <div class="list-item-column list-item-column-short blue-text"><%= point.vertical_section.present? ? number_with_delimiter(point.vertical_section.round(2), :delimiter => ',') : '-' %></div>
+    <div class="list-item-column list-item-column-short"><%= point.north_south.present? ? point.north_south.round(2) : '-' %></div>
+    <div class="list-item-column list-item-column-short"><%= point.east_west.present? ? point.east_west.round(2) : '-' %></div>
 
     <div class="list-item-column list-item-column-count">
       <span class='label label-info'><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0.0 %></span></div>

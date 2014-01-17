@@ -59,6 +59,14 @@
                                "data-title" => "Comment/description text of entry" %>
             </div>
 
+          <% @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first %>
+          <% @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first %>
+
+          <div class='alert hidden' id="survey_entry">
+            <b>Add New Survey Point</b><p class='inline-block'>&nbsp;(Optional)</p>
+            <%= render 'surveys/survey_entry_fields' %>
+          </div>
+
             <hr>
 
             <div>
@@ -291,14 +299,6 @@
 
             <div class="pull-right">
 
-              <div class='inline-block survey-entry hidden'>
-                <%= f.submit "Add Survey",
-                             class: "bluebtn btnsmall light-blue inline-block tooltip-info",
-                             "data-placement" => "bottom",
-                             "data-title" => "Add new survey point" %>
-                <br>
-              </div>
-
               <%= f.submit "Add Entry",
                            class: "bluebtn inline-block tooltip-info form-loading-on-click",
                            "data-form" => "new-job-log",
@@ -307,19 +307,23 @@
 
             </div>
 
-          <br>
+      <br>
+
+
+
 
         <% end %>
 
       </div>
+
+      <br>
+
 
 
       <div class="form-loading hidden" data-form="new-job-log">
         <%= render 'layouts/inline_loading', title: "Creating entry..." %>
         <br><br>
       </div>
-
-      <br><br>
 
 
     </div>
