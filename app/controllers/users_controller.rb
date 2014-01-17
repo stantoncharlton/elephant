@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
     include JobAnalysisHelper
     before_filter :signed_in_user, only: [:index, :show, :settings, :update]
-    before_filter :signed_in_admin, only: [:destroy, :edit]
-    before_filter :signed_in_support_role, only: [:new, :create]
+    before_filter :signed_in_support_role, only: [:new, :create, :destroy, :edit]
     set_tab :users
 
     def index

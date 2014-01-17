@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show, :create, :update]
+    before_filter :signed_in_user_not_field, only: [:index, :show, :create, :update]
 
     def index
         @issues = Issue.where(:company_id => current_user.company).order("issues.status ASC, issues.created_at DESC")

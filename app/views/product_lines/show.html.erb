@@ -14,7 +14,7 @@
 
 <% if !@is_paged %>
     <div class="well">
-      <%= render 'jobs/index_parts/jobs_count', jobs: @product_line.jobs %>
+      <%= render 'jobs/index_parts/jobs_count', jobs: UserRole.limit_jobs_scope(current_user, @product_line.jobs) %>
     </div>
     <br>
 
@@ -37,7 +37,7 @@
 <% else %>
     <br>
     <div class="alert">
-      <%= link_to "View all jobs active and closed (" + @product_line.jobs.count.to_s + ")", product_line_path(:page => "1"), class: "activity-user-link" %>
+      <%= link_to "View all jobs active and closed", product_line_path(:page => "1"), class: "activity-user-link" %>
     </div>
     <% if @jobs.empty? %>
         <div class="no-alerts">

@@ -68,20 +68,24 @@
                         <li class="divider"></li>
                     <% end %>
 
-                    <li>
-                      <%= link_to issues_path, class: "menu-avatar" do %>
-                          <%= image_tag "error_blue.png", class: "job-status-avatar" %>
-                          <span class="push-right-small">Incidents</span>
-                      <% end %>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                      <%= link_to rigs_path, class: "menu-avatar" do %>
-                          <%= image_tag "rig_extrasmall.png", class: "job-status-avatar" %>
-                          <span class="push-right-small">Rigs</span>
-                      <% end %>
-                    </li>
-                    <li class="divider"></li>
+                    <% if !current_user.role.limit_to_assigned_jobs? %>
+                        <li>
+                          <%= link_to issues_path, class: "menu-avatar" do %>
+                              <%= image_tag "error_blue.png", class: "job-status-avatar" %>
+                              <span class="push-right-small">Incidents</span>
+                          <% end %>
+                        </li>
+                        <li class="divider"></li>
+                    <% end %>
+                    <% if !current_user.role.limit_to_assigned_jobs? %>
+                        <li>
+                          <%= link_to rigs_path, class: "menu-avatar" do %>
+                              <%= image_tag "rig_extrasmall.png", class: "job-status-avatar" %>
+                              <span class="push-right-small">Rigs</span>
+                          <% end %>
+                        </li>
+                        <li class="divider"></li>
+                    <% end %>
                 <% end %>
                 <% if signed_in_admin? %>
                     <li><%= link_to "Company Info", edit_company_path(current_user.company) %></li>

@@ -3,7 +3,7 @@
 
   <h3 class="inline">&nbsp;Well</h3>
 
-  <h2 class="inline push-right-small"><%= @well.jobs.count.to_s %> jobs</h2>
+  <h2 class="inline push-right-small"><%= @jobs.count.to_s %> jobs</h2>
 
   <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path(:well => @well.id), class: "bluebtn pull-right tooltip-info push-right-small",
               "data-placement" => "bottom",
@@ -215,7 +215,7 @@
 </div>
 
 <div id="jobs">
-  <% @well.jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).each do |job| %>
+  <% @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).each do |job| %>
       <% if job.job_template.present? %>
           <%= link_to job, class: "job-status job-link tooltip-info",
                       id: "division_" + job.job_template.product_line.segment.division_id.to_s,

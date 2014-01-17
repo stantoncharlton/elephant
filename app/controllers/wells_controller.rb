@@ -25,6 +25,8 @@ class WellsController < ApplicationController
             @divisions << [division.name, division.id]
         end
 
+        @jobs = UserRole.limit_jobs_scope current_user, @well.jobs
+
 
     end
 

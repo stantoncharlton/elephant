@@ -1,11 +1,13 @@
 <%= tabs_tag :builder => ApplicationHelper::MenuTabBuilder, open_tabs: {class: "admin_tab"} do |tab| %>
     <%= tab.alerts "Agenda", alerts_path %>
     <%= tab.jobs I18n.t("jobs.index.title"), jobs_path %>
-    <%= tab.overview "Overview", overview_path %>
+    <% if !current_user.role.limit_to_assigned_jobs? %>
+        <%= tab.overview "Overview", overview_path %>
+    <% end %>
     <% if false && current_user.role.global_edit? %>
         <%= tab.insight "Insight", insight_index_path %>
     <% end %>
-    <% if current_user.role.show_inventory?  %>
+    <% if current_user.role.show_inventory? %>
         <%= tab.inventory "Inventory", inventory_index_path %>
     <% end %>
 <% end %>

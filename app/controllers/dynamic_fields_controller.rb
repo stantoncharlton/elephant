@@ -145,12 +145,15 @@ class DynamicFieldsController < ApplicationController
                 @dynamic_field.save
             end
 
-            activity = @dynamic_field.job.activity.limit(1).last
-            if activity != nil and (activity.created_at > 10.minutes.ago) and activity.activity_type == Activity::DATA_EDITED && activity.metadata.length < 200
-                activity.metadata += ", " + @dynamic_field.name + " - " + @dynamic_field.value + " " + @dynamic_field.get_value_type_unit(@dynamic_field.value_type)
-                activity.save
-            elsif params[:value].present?
-                Activity.add(current_user, Activity::DATA_EDITED, @dynamic_field, @dynamic_field.name + " - " + @dynamic_field.value + " " + " " + @dynamic_field.get_value_type_unit(@dynamic_field.value_type), @dynamic_field.job)
+            begin
+                activity = @dynamic_field.job.activity.limit(1).last
+                if activity != nil and (activity.created_at > 10.minutes.ago) and activity.activity_type == Activity::DATA_EDITED && activity.metadata.length < 200
+                    activity.metadata += ", " + @dynamic_field.name + " - " + @dynamic_field.value + " " + @dynamic_field.get_value_type_unit(@dynamic_field.value_type)
+                    activity.save
+                elsif params[:value].present?
+                    Activity.add(current_user, Activity::DATA_EDITED, @dynamic_field, @dynamic_field.name + " - " + @dynamic_field.value + " " + " " + @dynamic_field.get_value_type_unit(@dynamic_field.value_type), @dynamic_field.job)
+                end
+            rescue
             end
         end
     end

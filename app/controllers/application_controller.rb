@@ -82,6 +82,13 @@ class ApplicationController < ActionController::Base
         end
     end
 
+    def signed_in_user_not_field
+        unless signed_in? && !current_user.role.limit_to_assigned_jobs?
+            store_location
+            redirect_to signin_url, error: "Please sign in."
+        end
+    end
+
     def signed_in_admin
         unless signed_in_admin?
             store_location

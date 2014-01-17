@@ -13,7 +13,7 @@
 
 <% if !@is_paged %>
     <div class="well">
-      <%= render 'jobs/index_parts/jobs_count', jobs: @segment.jobs %>
+      <%= render 'jobs/index_parts/jobs_count', jobs: UserRole.limit_jobs_scope(current_user, @segment.jobs) %>
     </div>
     <br>
 
