@@ -97,23 +97,21 @@
         <% job_memberships = job.job_memberships.includes(user: :district).order("job_role_id ASC").to_a %>
         <% if job_memberships.any? %>
             <table width="100%" style="margin-left: 10px;" border="0" cellpadding="0" cellspacing="0">
-              <% job_memberships_array = job_memberships.to_a %>
+              <% job_memberships_array = job_memberships.select { |jm| jm.job_role_id != JobMembership::CREATOR && jm.job_role_id != JobMembership::MANAGER && jm.job_role_id != JobMembership::TOOL_COORDINATOR && jm.job_role_id != JobMembership::OBSERVER && jm.job_role_id != JobMembership::SHOP  }.to_a %>
               <% real_index = -1 %>
               <% job_memberships_array.each_with_index do |jm, index| %>
-                  <% if jm.job_role_id != JobMembership::CREATOR %>
-                      <% if real_index < job_memberships_array.length %>
-                          <tr height="35">
-                            <% real_index = real_index + 1 %>
-                            <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
+                  <% if real_index < job_memberships_array.length %>
+                      <tr height="35">
+                        <% real_index = real_index + 1 %>
+                        <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
 
-                            <% real_index = real_index + 1 %>
-                            <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
+                        <% real_index = real_index + 1 %>
+                        <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
 
-                            <% real_index = real_index + 1 %>
-                            <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
+                        <% real_index = real_index + 1 %>
+                        <%= render 'user_mailer/job_report_user', real_index: real_index, job_memberships_array: job_memberships_array %>
 
-                          </tr>
-                      <% end %>
+                      </tr>
                   <% end %>
               <% end %>
             </table>
