@@ -1,8 +1,13 @@
 
 <% if @survey_point.new_record? %>
 
+<% if @survey_point.tie_on? %>
 $('.form[data-form=new_tie_in]').show();
 $('.form-loading[data-form=new_tie_in]').addClass('hidden');
+<% else %>
+$('.form[data-form=new_survey_point]').show();
+$('.form-loading[data-form=new_survey_point]').addClass('hidden');
+<% end %>
 
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Failed to add survey point", message: @survey_point.errors.full_messages.join(', ').html_safe %>");

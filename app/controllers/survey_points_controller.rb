@@ -27,8 +27,8 @@ class SurveyPointsController < ApplicationController
 
                     @survey.gyro_company = params[:gyro_company]
                     @survey.gyro_date = Time.strptime("#{params[:gyro_date]}", '%m/%d/%Y').in_time_zone(Time.zone)
-                    @survey.magnetic_field_strength = params[:mfs]
-                    @survey.magnetic_dip_angle = params[:mda]
+                    @survey.magnetic_field_strength = params[:mfs].to_f
+                    @survey.magnetic_dip_angle = params[:mda].to_f
                     @survey.gravity_total = 1.0
                     @survey.save
 
@@ -49,8 +49,14 @@ class SurveyPointsController < ApplicationController
                 end
             end
         else
-            @survey_point.tie_on = false
-            @survey_point.save
+            if @survey_point.measured_depth.present? &&
+                    @survey_point.inclination.present? &&
+                    @survey_point.azimuth.present?
+                @survey_point.tie_on = false
+                @survey_point.save
+            else
+                @survey_point.errors.add(:survey, "fields can't be empty")
+            end
         end
 
     end
