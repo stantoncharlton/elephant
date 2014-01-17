@@ -82,6 +82,17 @@
     <hr>
 <% end %>
 
+<% if !@rigs.nil? && @rigs.any? %>
+    <div id="rigs_list">
+      <div>Rigs</div>
+      <br>
+      <% @rigs.each do |rig| %>
+          <%= render rig %>
+      <% end %>
+    </div>
+    <hr>
+<% end %>
+
 <% if !@fields.nil? && @fields.any? %>
     <div id="fields_list">
       <% @fields.each do |field| %>

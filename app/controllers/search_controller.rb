@@ -19,6 +19,7 @@ class SearchController < ApplicationController
                     @fields = Field.search(params, current_user.company).results.take(3)
                     @wells = Well.search(params, current_user.company).results.take(3)
                     @assets = Part.search_no_district(params, current_user.company).results.take(10)
+                    @rigs = Rig.search(params, current_user.company).results.take(10)
                 end
             end
             format.xlsx do
