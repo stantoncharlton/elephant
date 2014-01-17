@@ -18,9 +18,12 @@ class SettingsController < ApplicationController
             @user.update_attribute(:send_daily_activity, params[:user][:send_daily_activity] == "1")
 
             if !@user.user_unit
-                @user.user_unit = UserUnit.new
-                @user.user_unit.company = current_user.company
-                @user.user_unit.save
+                @user_unit = UserUnit.new
+                @user_unit.company = current_user.company
+                @user_unit.save
+
+                @user.user_unit = @user_unit
+                @user.save
             end
 
             @user.user_unit.update_attributes(params[:user_unit])
