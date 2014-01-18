@@ -44,13 +44,13 @@ class SurveyPoint < ActiveRecord::Base
     end
 
     def valid_magnetic_dip_angle?
-        return true if self.magnetic_field_strength.blank?
+        return true if self.magnetic_dip_angle.blank?
         return self.magnetic_dip_angle > (self.survey.magnetic_dip_angle - 2) &&
                 self.magnetic_dip_angle < (self.survey.magnetic_dip_angle + 2)
     end
 
     def valid_gravity_total?
-        return true if self.magnetic_field_strength.blank?
+        return true if self.gravity_total.blank?
         return self.gravity_total > (self.survey.gravity_total - 0.003) &&
                 self.gravity_total < (self.survey.gravity_total + 0.003)
     end
