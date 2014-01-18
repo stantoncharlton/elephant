@@ -53,7 +53,7 @@
     has_many :followers, through: :reverse_relationships, source: :follower
 
     has_many :conversation_memberships, foreign_key: "user_id"
-    has_many :conversations, through: :conversation_memberships, source: :conversation
+    has_many :conversations, through: :conversation_memberships, source: :conversation, :conditions => {"conversation_memberships.deleted" => false}
 
     has_one :user_unit, dependent: :destroy
 

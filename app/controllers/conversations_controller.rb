@@ -77,7 +77,20 @@ class ConversationsController < ApplicationController
 
     def destroy
         @conversation = Conversation.find_by_id(params[:id])
-        @conversation.destroy
+
+        @membership = @conversation.conversation_memberships.where(:user_id => current_user.id).first
+        @membership.update_attribute(:deleted, true)
+
+        all_deleted = true
+        @conversation.conversation_memberships.each do |m|
+            if !m.deleted
+                all_deleted = false
+            end
+        end
+
+        if all_deleted
+            @conversation.destroy
+        end
         redirect_to conversations_path
     end
 
@@ -85,14 +98,20 @@ class ConversationsController < ApplicationController
 
         message_text = params[:conversation][:message_text]
         params[:conversation].delete(:message_text)
-        puts message_text
 
-        @conversation = Conversation.find_by_id(params[:id])
-        not_found unless @conversation.company == current_user.company
 
-        @conversation.touch
+        Conversation.transaction do
+            @conversation = Conversation.find_by_id(params[:id])
+            not_found unless @conversation.company == current_user.company
 
-        @message = @conversation.send_message(current_user, message_text)
+            @conversation.touch
+
+            @message = @conversation.send_message(current_user, message_text)
+
+            @conversation.conversation_memberships.each do |m|
+                m.update_attribute(:deleted, false)
+            end
+        end
         #current_user.delay.send_new_message_email(@message)
     end
 end

@@ -1,4 +1,5 @@
 class ConversationMembership < ActiveRecord::Base
+    attr_accessible :deleted
 
     acts_as_tenant(:company)
 
