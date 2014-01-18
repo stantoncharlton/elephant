@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140117235158) do
+ActiveRecord::Schema.define(:version => 20140118164714) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -315,6 +315,7 @@ ActiveRecord::Schema.define(:version => 20140117235158) do
     t.decimal  "battery_1_amps"
     t.decimal  "battery_2_amps"
     t.decimal  "battery_volts"
+    t.decimal  "rop"
   end
 
   add_index "drilling_log_entries", ["bha_id"], :name => "index_drilling_log_entries_on_bha_id"

@@ -155,7 +155,7 @@
 
     // WOB
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+    //chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
     chart.dataProvider = <%= raw rops.to_json.html_safe %>;
     chart.categoryField = "date";
     chart.dataDateFormat = "MM/DD/YYYY H:NN";
@@ -199,7 +199,7 @@
 
     // Flow
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+    //chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
     chart.dataProvider = <%= raw rops.to_json.html_safe %>;
     chart.categoryField = "date";
     chart.dataDateFormat = "MM/DD/YYYY H:NN";
@@ -243,7 +243,7 @@
 
     // RPM
     chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+    //chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
     chart.dataProvider = <%= raw rops.to_json.html_safe %>;
     chart.categoryField = "date";
     chart.dataDateFormat = "MM/DD/YYYY H:NN";

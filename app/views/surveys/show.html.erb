@@ -29,8 +29,9 @@
 </div>
 
 <% drilling_log_document = Document.where("documents.job_id = ?", @survey.document.job_id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
-<div class=''>
-  <%= link_to "View or Create Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-info white-text pull-right" %>
+<div class='pull-right'>
+  <%= link_to "View/Add Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-info white-text " %>
+  <%= link_to "Update Well Plan", edit_survey_path(@survey), class: "btn btn-default push-right-small" %>
 </div>
 <br><br>
 
@@ -115,7 +116,7 @@
 
         // SERIAL CHART
         chart = new AmCharts.AmXYChart();
-        chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
+        //chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
         chart.dataProvider = chartData;
 
 
@@ -186,7 +187,7 @@
 
         // SERIAL CHART
         chart2 = new AmCharts.AmXYChart();
-        chart2.pathToImages = "http://www.amcharts.com/lib/3/images/";
+        //chart2.pathToImages = "http://www.amcharts.com/lib/3/images/";
         chart2.dataProvider = chartData2;
 
 

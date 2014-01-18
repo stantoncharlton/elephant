@@ -1,13 +1,13 @@
-<% @rops_current_year = DrillingLog.where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @rops_current_year = DrillingLog.joins(:document).where("documents.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").where("drilling_logs.rop > 0").average("drilling_logs.rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 <% total_rop = 0.0 %>
 <% if !@rops_current_year.nil? %>
     <% @rops_current_year.each do |r| %>
-        <% total_rop = total_rop + r[0] %>
+        <% total_rop = total_rop + r[1] %>
     <% end %>
 <% end %>
 
-<% total_feet = DrillingLog.where("drilling_logs.created_at >= ?", Date.today - 1.year).sum("drilling_logs.total_drilled") %>
-<% accountable_issues = Issue.where("issues.accountable is TRUE").where("issues.created_at >= ?", Date.today - 1.year).count %>
+<% total_feet = DrillingLog.joins(:document).where("documents.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).sum("drilling_logs.total_drilled") %>
+<% accountable_issues = Issue.where("issues.job_id IN (#{@jobs_sql})").where("issues.accountable is TRUE").where("issues.created_at >= ?", Date.today - 1.year).count %>
 
 <div id="overview_drilling" data-loaded='true'>
 
@@ -23,7 +23,16 @@
 
     <div class="chart-block tooltip-info"
          data-title="Total number of active rigs">
-      <div class="chart-title">Failures per Foot</div>
+      <div class="chart-title">Feet/Failure</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text "><%= total_feet > 0 ? number_with_delimiter((total_feet.to_f / accountable_issues).to_i, :delimiter => ',') : 0.0 %></div>
+        <div class="percentage ">f/ft</div>
+      </div>
+    </div>
+
+    <div class="chart-block tooltip-info"
+         data-title="Total number of active rigs">
+      <div class="chart-title">Failure/Feet</div>
       <div class="donut-chart-div job-donut-chart-div">
         <div class="donut-text "><%= total_feet > 0 ? (accountable_issues / total_feet.to_f).round(3) : 0.0 %></div>
         <div class="percentage ">f/ft</div>

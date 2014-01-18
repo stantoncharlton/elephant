@@ -37,25 +37,34 @@ class DrillingLog < ActiveRecord::Base
 
     def recalculate
         drilling_log = DrillingLog.calculate self.drilling_log_entries
-        self.slide_footage = drilling_log.slide_footage
-        self.slide_hours = drilling_log.slide_hours
-        self.rotate_footage = drilling_log.rotate_footage
-        self.rotate_hours = drilling_log.rotate_hours
-        self.ream_hours = drilling_log.ream_hours
-        self.circulation_hours = drilling_log.circulation_hours
-        self.rotary_hours_pct = drilling_log.rotary_hours_pct
-        self.rotary_footage_pct = drilling_log.rotary_footage_pct
-        self.rotate_rop = drilling_log.rotate_rop
-        self.slide_hours_pct = drilling_log.slide_hours_pct
-        self.slide_footage_pct = drilling_log.slide_footage_pct
-        self.slide_rop = drilling_log.slide_rop
-        self.above_rotary = drilling_log.above_rotary
-        self.below_rotary = drilling_log.below_rotary
-        self.total_drilled = drilling_log.total_drilled
-        self.rop = drilling_log.rop
-        self.drilling_time = drilling_log.drilling_time
-        self.total_circulation_time = drilling_log.total_circulation_time
-        self.save
+
+        DrillingLog.transaction do
+            self.slide_footage = drilling_log.slide_footage
+            self.slide_hours = drilling_log.slide_hours
+            self.rotate_footage = drilling_log.rotate_footage
+            self.rotate_hours = drilling_log.rotate_hours
+            self.ream_hours = drilling_log.ream_hours
+            self.circulation_hours = drilling_log.circulation_hours
+            self.rotary_hours_pct = drilling_log.rotary_hours_pct
+            self.rotary_footage_pct = drilling_log.rotary_footage_pct
+            self.rotate_rop = drilling_log.rotate_rop
+            self.slide_hours_pct = drilling_log.slide_hours_pct
+            self.slide_footage_pct = drilling_log.slide_footage_pct
+            self.slide_rop = drilling_log.slide_rop
+            self.above_rotary = drilling_log.above_rotary
+            self.below_rotary = drilling_log.below_rotary
+            self.total_drilled = drilling_log.total_drilled
+            self.rop = drilling_log.rop
+            self.drilling_time = drilling_log.drilling_time
+            self.total_circulation_time = drilling_log.total_circulation_time
+            self.save
+
+            self.drilling_log_entries.each do |dl|
+                if dl.changed?
+                    dl.save
+                end
+            end
+        end
     end
 
     def self.calculate drilling_log_entries
@@ -127,6 +136,10 @@ class DrillingLog < ActiveRecord::Base
 
                 last_time = entry.entry_at
                 last_entry = entry
+
+                if length_change > 0 && time > 0
+                    entry.rop = length_change / time
+                end
             end
 
             drilling_log.rotary_hours_pct = total_drill_time > 0 ? drilling_log.rotate_hours / total_drill_time : 0.0

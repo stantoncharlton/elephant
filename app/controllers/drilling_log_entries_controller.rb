@@ -233,6 +233,7 @@ class DrillingLogEntriesController < ApplicationController
         rescue
         end
 
+        @drilling_log_entry.drilling_log.recalculate
         if @drilling_log_entry.bha.present?
             @drilling_log_entry.bha.delay.update_usage
         end

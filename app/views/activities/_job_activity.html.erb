@@ -1,4 +1,4 @@
-<% if activity.target.present? || (activity.activity_type == Activity::ASSET_ADDED || activity.activity_type == Activity::ASSET_REMOVED) %>
+<% if activity.target.present? || (activity.activity_type == Activity::ASSET_ADDED || activity.activity_type == Activity::ASSET_REMOVED) || (activity.activity_type == Activity::CREATE_BHA || activity.activity_type == Activity::UPDATE_BHA) %>
     <div class="activity">
 
     <% if activity.activity_type == Activity::JOB_NOTE_ADDED %>
@@ -260,6 +260,21 @@
             <% else %>
                 <span class='activity-message-content'><%= activity.target.text %></span>
             <% end %>
+            </p>
+        <% end %>
+        <% if activity.activity_type == Activity::CREATE_BHA %>
+            <p class="activity-message">
+              <b>Created BHA</b> <%= activity.metadata %>
+            </p>
+        <% end %>
+        <% if activity.activity_type == Activity::UPDATE_BHA %>
+            <p class="activity-message">
+              <b>Updated BHA</b> <%= activity.metadata %>
+            </p>
+        <% end %>
+        <% if activity.activity_type == Activity::DELETE_BHA %>
+            <p class="activity-message">
+              <b>Deleted BHA</b> <%= activity.metadata %>
             </p>
         <% end %>
       </div>

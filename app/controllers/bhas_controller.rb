@@ -110,7 +110,7 @@ class BhasController < ApplicationController
                     end
                 end
 
-                #Activity.add(current_user, Activity::CREATE_BHA, @bha, @bha.name, @dynamic_field.job)
+                @bha.delay.create_activity(current_user, Activity::CREATE_BHA)
 
                 @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
                 redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
@@ -173,6 +173,8 @@ class BhasController < ApplicationController
                     end
                 end
 
+                @bha.delay.create_activity(current_user, Activity::UPDATE_BHA)
+
                 @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
                 redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
@@ -184,6 +186,7 @@ class BhasController < ApplicationController
 
     def destroy
         @bha = Bha.find_by_id(params[:id])
+        @original_bha = @bha
         @document = @bha.document
         not_found unless @bha.company == current_user.company
 
@@ -196,8 +199,10 @@ class BhasController < ApplicationController
             flash[:error] = "This BHA is attached to log entries and therefore can't be deleted. Delete the log if you really want to continue."
         end
 
-        @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
-        redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+        @original_bha.create_activity(current_user, Activity::DELETE_BHA)
+
+        @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @original_bha.document.job.well_id).first
+        redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
     end
 
 end
