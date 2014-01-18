@@ -76,7 +76,14 @@ class SurveyPointsController < ApplicationController
     def update
         @survey_point = SurveyPoint.find_by_id(params[:id])
         not_found unless @survey_point.present?
-        @survey_point.update_attributes(params[:survey_point])
+        if params[:survey_point][:measured_depth].present? &&
+                params[:survey_point][:measured_depth].to_f != 0 &&
+                params[:survey_point][:inclination].present? &&
+                params[:survey_point][:azimuth].present?
+            @survey_point.update_attributes(params[:survey_point])
+        else
+            @survey_point.errors.add(:survey, "fields can't be empty")
+        end
 
         if @survey_point.tie_on?
             @survey_point.survey.magnetic_field_strength = @survey_point.magnetic_field_strength

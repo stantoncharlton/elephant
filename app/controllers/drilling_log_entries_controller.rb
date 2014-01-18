@@ -217,7 +217,14 @@ class DrillingLogEntriesController < ApplicationController
 
     def update
         @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
-        @drilling_log_entry.update_attributes(params[:drilling_log_entry])
+
+        if params[:drilling_log_entry][:depth].present? &&
+                params[:drilling_log_entry][:activity_code].present?
+            @drilling_log_entry.update_attributes(params[:drilling_log_entry])
+        else
+            @drilling_log_entry.errors.add(:drilling_log_entry, "fields can't be empty")
+            return
+        end
 
         begin
             date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
