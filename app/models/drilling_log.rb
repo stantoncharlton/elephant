@@ -28,7 +28,7 @@ class DrillingLog < ActiveRecord::Base
     belongs_to :job
     belongs_to :document
 
-    has_many :drilling_log_entries, order: "drilling_log_entries.depth ASC, drilling_log_entries.entry_at ASC"
+    has_many :drilling_log_entries, order: "drilling_log_entries.entry_at ASC, drilling_log_entries.depth ASC"
 
     attr_accessor :start_depth
     attr_accessor :end_depth

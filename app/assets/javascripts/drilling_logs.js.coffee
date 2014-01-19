@@ -1,7 +1,8 @@
 $ ->
 
   $('#activity_code_select').live "change", ->
-    if $(this).find('option:selected').val() == '4'
+    current_value = $(this).find('option:selected').val()
+    if current_value == '4' || current_value == '13'
       $('#survey_entry').removeClass 'hidden'
     else
       $('#survey_entry').addClass 'hidden'
