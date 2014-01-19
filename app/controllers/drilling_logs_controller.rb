@@ -94,7 +94,7 @@ class DrillingLogsController < ApplicationController
                             end
                         end
 
-                        fill_drilling_report @drilling_log.job, entries, r, entries.first.entry_at, entries.last.entry_at
+                        fill_drilling_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now
                     when "log"
                         type = params[:type].to_i
                         entries = @drilling_log.drilling_log_entries.includes(:bha).to_a

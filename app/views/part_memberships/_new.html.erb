@@ -23,7 +23,7 @@
 
         <div class='inline-block asset-type-form align-top' data-type="inventory">
           <%= f.hidden_field :part_id %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id)},
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id, show_master: false)},
                              placeholder: "Asset Serial #, Material #, or Name",
                              class: "txtfield search-query tooltip-info part-search align-top",
                              id: "part_search",

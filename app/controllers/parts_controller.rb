@@ -29,6 +29,10 @@ class PartsController < ApplicationController
                     end
                 end
 
+                if params[:show_master].present? && params[:show_master] == "false"
+                    @parts = @parts.select { |p| p.template == false }
+                end
+
                 if @parts.empty?
                     @parts << Part.new
                     render json: @parts.map { |part| {:value => "No asset found or available...", :name => "", :id => -1, :district_serial_number => -1, :warehouse => ""} }
