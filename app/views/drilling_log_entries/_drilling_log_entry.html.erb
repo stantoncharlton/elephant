@@ -54,4 +54,22 @@
       <% end %>
     </div>
   </div>
+
+  <% if false %>
+      <% if survey_point.present? %>
+          <div class=''>
+            <p class='push-up'>
+              <span class='inline-block label label-info'>Survey</span>
+              <span class='push-right-small'>Inc</span>
+              <b><%= survey_point.inclination %></b>
+              <span class='push-right-small'>Azi</span>
+              <b><%= survey_point.azimuth %></b>
+              <span class='push-right-small'>TVD</span>
+              <b><%= number_with_delimiter(survey_point.true_vertical_depth.to_i, :delimiter => ',') %></b>
+              <span class='push-right-small'>DLS</span>
+              <b><%= survey_point.dog_leg_severity %></b>
+            </p>
+          </div>
+      <% end %>
+  <% end %>
 </div>

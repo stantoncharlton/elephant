@@ -308,6 +308,9 @@ class JobsController < ApplicationController
                     @rating_updated = true
                 when "confirm_assets"
                     @job.update_attribute(:inventory_confirmed, params[:value])
+                when "transfer_assets"
+                    @new_job = Job.find_by_id(params[:value])
+                    @job.transfer_assets @new_job
             end
         else
             if params["start_date"].present?

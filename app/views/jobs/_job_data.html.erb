@@ -2,35 +2,54 @@
     <div class="field">
 
       <% if in_form %>
-          <% if job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit? %>
-              <div class="btn-group inline pull-right">
-                <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-                  Advanced Actions
-                </a>
-                <ul class="dropdown-menu">
 
-                  <% if job.status == Job::COMPLETE %>
-                      <li>
-                        <%= link_to "Reopen Job", job,
-                                    class: "dropdown-menu-link tooltip-info",
-                                    "data-placement" => "left",
-                                    "data-title" => "This will reopen the job for edit." %>
+          <div class="btn-group inline pull-right">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              Advanced Actions
+            </a>
+            <ul class="dropdown-menu">
 
-                        <!--<li class="divider"></li>-->
-                      </li>
-                  <% end %>
+              <% if false %>
+                  <li>
+                    <%= link_to "Create New Job (Rig Skid)", new_job_path(job: @job.id),
+                                remote: true,
+                                class: "dropdown-menu-link tooltip-info show-modal-button",
+                                "data-placement" => "left",
+                                "data-title" => "This will allow you to create a new job and transfer all assets, information, and people." %>
+                  </li>
+              <% end %>
+
+
+              <% if job.status == Job::COMPLETE %>
+                  <li>
+                    <%= link_to "Reopen Job", job,
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "This will reopen the job for edit." %>
+
+                    <!--<li class="divider"></li>-->
+                  </li>
+              <% end %>
+
+
+              <% if job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit? %>
+
+                  <li class="divider"></li>
+
 
                   <li>
                     <%= link_to "Delete Job", job, method: :delete,
-                                class: "dropdown-menu-link tooltip-info",
+                                class: "btn btn-danger white-text tooltip-info",
+                                style: "margin-left: 10px; ",
                                 data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
                                 "data-placement" => "left",
                                 "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
                   </li>
+              <% end %>
 
-                </ul>
-              </div>
-          <% end %>
+
+            </ul>
+          </div>
       <% end %>
 
 

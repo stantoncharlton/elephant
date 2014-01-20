@@ -69,12 +69,14 @@ class PartMembership < ActiveRecord::Base
         part_membership = PartMembership.new
         part_membership.job = self.job
         part_membership.part = self.part
-        part_membership.primary_tool = self.primary_tool
         part_membership.company = self.company
         part_membership.material_number = self.material_number
-        part_membership.template = self.template
-        part_membership.track_usage = self.track_usage
-        part_membership.optional = part_membership
+        part_membership.serial_number = self.serial_number
+        part_membership.name = self.name
+        part_membership.part_type = self.part_type
+        part_membership.inner_diameter = inner_diameter
+        part_membership.outer_diameter = outer_diameter
+        part_membership.length = length
         part_membership
     end
 

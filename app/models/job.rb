@@ -509,6 +509,18 @@ class Job < ActiveRecord::Base
         end
     end
 
+    def transfer_assets job
+        PartMembership.transaction do
+            self.part_memberships.each do |p|
+                if !p.shipping
+                    @part_membership = p.duplicate
+                    @part_membership.job = job
+                    @part_membership.save
+                end
+            end
+        end
+    end
+
     def self.cached_find(id)
         Rails.cache.fetch([name, id], expires_in: 10.minutes) { find(id) }
     end

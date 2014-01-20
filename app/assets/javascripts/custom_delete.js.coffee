@@ -18,7 +18,7 @@ $.rails.allowAction = (element) ->
 
   # Create the modal box with the message
   modal_html = """
-                 <div class="modal" id="myModal">
+                 <div class="modal" id="myModal" style="z-index: 10000000000;">
                    <div class="modal-header">
                      <a class="close" data-dismiss="modal">×</a>
                      <h2 class="page-title">#{message}</h2>
@@ -33,6 +33,7 @@ $.rails.allowAction = (element) ->
   $modal_html.find('.modal-footer').prepend($link)
   # Pop it up
   $modal_html.modal()
+  $('.modal-backdrop').css('z-index', '10000000000')
 
   $link.click ->
     $modal_html.find('.close').trigger 'click'
