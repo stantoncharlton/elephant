@@ -75,6 +75,7 @@
         end
 
         text :name, :as => :code_textp
+        text :phone_number, :as => :code_textp
         text :email
         time :created_at
         time :updated_at
