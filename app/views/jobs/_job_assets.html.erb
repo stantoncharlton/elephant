@@ -89,12 +89,12 @@
 
       <div class='inline-block pull-right'>
         <div class="inline-block  <%= job.inventory_confirmed? ? "hidden" : "" %>">
-          <p class='inline-block push-left-small help-text'>Confirm assets after job, either arriving at shop or new
-            well</p>
+          <p class='inline-block help-text'><b>After job completion, confirm assets arrived at new job or shop.</b></p>
+          <br>
           <%= link_to "Confirm Assets", job_path(job, update_field: true, field: "confirm_assets", value: true),
                       remote: true, :method => :put,
                       id: "confirm-assets",
-                      class: "btn btn-success white-text" %>
+                      class: "btn btn-success pull-right white-text" %>
         </div>
         <div class="inline-block <%= !job.inventory_confirmed? ? "hidden" : "" %>">
           <p class='inline-block status-good'><b>Assets Confirmed</b></p>
@@ -106,6 +106,7 @@
           <% end %>
         </div>
       </div>
+      <br><br>
     </div>
 <% end %>
 
