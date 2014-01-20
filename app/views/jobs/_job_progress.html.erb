@@ -53,7 +53,7 @@
           <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
 
           <% if job.start_date.present? %>
-              <p class='inline-block push-right help-text'>Begins <%= job.start_date.strftime("%A %d/%m") %></p>
+              <p class='inline-block push-right help-text'>Begins <%= job.start_date.strftime("%A #{job.start_date.day.ordinalize}") %></p>
           <% end %>
         </div>
     <% elsif job.status == Job::POST_JOB %>
