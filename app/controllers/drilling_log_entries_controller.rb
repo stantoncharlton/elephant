@@ -223,24 +223,30 @@ class DrillingLogEntriesController < ApplicationController
     def update
         @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
 
-        if params[:drilling_log_entry][:depth].present? &&
-                params[:drilling_log_entry][:activity_code].present?
-            @drilling_log_entry.update_attributes(params[:drilling_log_entry])
-        else
-            @drilling_log_entry.errors.add(:drilling_log_entry, "fields can't be empty")
-            return
-        end
+        DrillingLogEntry.transaction do
+            if params[:drilling_log_entry][:depth].present? &&
+                    params[:drilling_log_entry][:activity_code].present?
+                depth = params[:drilling_log_entry][:depth]
+                params[:drilling_log_entry].delete(:depth)
+                @drilling_log_entry.depth = depth.to_s.gsub(/,/, '').to_f
+                @drilling_log_entry.update_attributes(params[:drilling_log_entry])
+                @drilling_log_entry.save
+            else
+                @drilling_log_entry.errors.add(:drilling_log_entry, "fields can't be empty")
+                return
+            end
 
-        begin
-            date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
-            override_date = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:entry_time]}")
-            @drilling_log_entry.update_attribute(:entry_at, override_date)
-        rescue
-        end
+            begin
+                date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
+                override_date = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:entry_time]}")
+                @drilling_log_entry.update_attribute(:entry_at, override_date)
+            rescue
+            end
 
-        @drilling_log_entry.drilling_log.recalculate
-        if @drilling_log_entry.bha.present?
-            @drilling_log_entry.bha.delay.update_usage
+            @drilling_log_entry.drilling_log.recalculate
+            if @drilling_log_entry.bha.present?
+                @drilling_log_entry.bha.delay.update_usage
+            end
         end
     end
 
