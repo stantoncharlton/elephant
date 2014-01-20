@@ -127,159 +127,192 @@ class JobsController < ApplicationController
     end
 
     def create
-        job_template_id = params[:job][:job_template_id]
-        params[:job].delete(:job_template_id)
+        if !params[:old_job].present?
+            job_template_id = params[:job][:job_template_id]
+            params[:job].delete(:job_template_id)
 
-        client_id = params[:job][:client_id]
-        params[:job].delete(:client_id)
+            client_id = params[:job][:client_id]
+            params[:job].delete(:client_id)
 
-        district_id = params[:job][:district_id]
-        params[:job].delete(:district_id)
+            district_id = params[:job][:district_id]
+            params[:job].delete(:district_id)
 
-        field_id = params[:job][:field_id]
-        params[:job].delete(:field_id)
+            field_id = params[:job][:field_id]
+            params[:job].delete(:field_id)
 
-        well_id = params[:job][:well_id]
-        params[:job].delete(:well_id)
-
-        #Job.transaction do
-        @job = Job.new(params[:job])
-        @job.company = current_user.company
-        @job.client = Client.find_by_id(client_id)
-        @job.job_template = JobTemplate.find_by_id(job_template_id)
-        @job.district = District.find_by_id(district_id)
-        @job.field = Field.find_by_id(field_id)
-        @job.well = Well.find_by_id(well_id)
-        @job.status = Job::PRE_JOB
-
-        if @job.well.present? && (@job.well.field != @job.field)
-            @job.errors.add(:well, "Well does not belong to field")
+            well_id = params[:job][:well_id]
+            params[:job].delete(:well_id)
         end
 
-        if @job.save
+        Job.transaction do
+            @job = Job.new(params[:job])
+            @job.company = current_user.company
+            @job.status = Job::PRE_JOB
 
-            @job.job_template.dynamic_fields.each do |dynamic_field|
-                job_dynamic_field = DynamicField.new
-                job_dynamic_field.name = dynamic_field.name
-                job_dynamic_field.value_type = dynamic_field.value_type
-                job_dynamic_field.optional = dynamic_field.optional
-                job_dynamic_field.priority = dynamic_field.priority
-                job_dynamic_field.predefined = dynamic_field.predefined
-                job_dynamic_field.ordering = dynamic_field.ordering
-                job_dynamic_field.value = dynamic_field.value
-                job_dynamic_field.values = dynamic_field.values
-                job_dynamic_field.template = false
-                job_dynamic_field.dynamic_field_template = dynamic_field
-                job_dynamic_field.job_template = @job.job_template
-                job_dynamic_field.job = @job
-                job_dynamic_field.company = current_user.company
-                job_dynamic_field.save
-            end
+            if params[:old_job].present?
+                @old_job = Job.find_by_id(params[:old_job])
+                @job.client = @old_job.client
+                @job.job_template = @old_job.job_template
+                @job.district = @old_job.district
+                @job.field = @old_job.field
 
-            @job.job_template.documents.each do |document|
-                job_document = Document.new
-                job_document.category = document.category
-                job_document.name = document.name
-                job_document.status = document.status
-                job_document.document_type = document.document_type
-                job_document.read_only = document.read_only
-                job_document.ordering = document.ordering
-                job_document.template = false
-                job_document.url = nil
-                job_document.document_template = document
-                job_document.job_template = @job.job_template
-                job_document.job = @job
-
-                if !document.primary_tool_id.blank?
-                    job_document.primary_tool_id = document.primary_tool_id
-                end
-
-                job_document.company = current_user.company
-                job_document.save
-            end
-
-            @job.job_template.primary_tools.where(:template => true).each do |primary_tool|
-                tool = PrimaryTool.new
-                tool.template = false
-                tool.tool = primary_tool.tool
-                tool.job = @job
-                tool.job_template = primary_tool.job_template
-                tool.company = current_user.company
-
-                if tool.save
-                    primary_tool.documents.order("created_at ASC").each do |document|
-                        new_document = document.duplicate
-                        new_document.url = nil
-                        new_document.primary_tool_id = tool.id
-                        new_document.save
-                    end
-                    primary_tool.part_memberships.where(:template => true).order("created_at ASC").each do |part_membership|
-                        new_part_membership = part_membership.duplicate
-                        new_part_membership.part = nil
-                        new_part_membership.template = true
-                        new_part_membership.primary_tool = tool
-                        new_part_membership.save
-                    end
-                end
-            end
-
-            # Add to job as creator
-            @job.add_user!(current_user, JobMembership::CREATOR)
-
-            Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
-
-            flash[:success] = "Job created, add extra job data below."
-            redirect_to job_path(@job, new: "true")
-        else
-
-            @clients = current_user.company.clients
-            @districts = current_user.company.districts
-
-            @divisions = current_user.company.divisions
-            if @job.job_template.present?
-                @segments = @job.job_template.product_line.segment.division.segments
-                @product_lines = @job.job_template.product_line.segment.product_lines
-                @job_templates = @job.job_template.product_line.job_templates
-
-                @division = @job.job_template.product_line.segment.division
-                @segment = @job.job_template.product_line.segment
-                @product_line = @job.job_template.product_line
+                @new_well = Well.new
+                @new_well.name = params[:well_name]
+                @new_well.field = @old_job.field
+                @new_well.location = @old_job.well.location
+                @new_well.rig = @old_job.well.rig
+                @new_well.save
+                @job.well = @new_well
             else
-                if current_user.product_line.present?
-                    @segments = current_user.product_line.segment.division.segments
-                    @product_lines = current_user.product_line.segment.product_lines
-                    @job_templates = current_user.product_line.job_templates
+                @job.client = Client.find_by_id(client_id)
+                @job.job_template = JobTemplate.find_by_id(job_template_id)
+                @job.district = District.find_by_id(district_id)
+                @job.field = Field.find_by_id(field_id)
+                @job.well = Well.find_by_id(well_id)
+            end
 
-                    @division = current_user.product_line.segment.division
-                    @segment = current_user.product_line.segment
-                    @product_line = current_user.product_line
+
+            if @job.well.present? && (@job.well.field != @job.field)
+                @job.errors.add(:well, "Well does not belong to field")
+            end
+
+            if @job.save
+
+                @job.job_template.dynamic_fields.each do |dynamic_field|
+                    job_dynamic_field = DynamicField.new
+                    job_dynamic_field.name = dynamic_field.name
+                    job_dynamic_field.value_type = dynamic_field.value_type
+                    job_dynamic_field.optional = dynamic_field.optional
+                    job_dynamic_field.priority = dynamic_field.priority
+                    job_dynamic_field.predefined = dynamic_field.predefined
+                    job_dynamic_field.ordering = dynamic_field.ordering
+                    job_dynamic_field.value = dynamic_field.value
+                    job_dynamic_field.values = dynamic_field.values
+                    job_dynamic_field.template = false
+                    job_dynamic_field.dynamic_field_template = dynamic_field
+                    job_dynamic_field.job_template = @job.job_template
+                    job_dynamic_field.job = @job
+                    job_dynamic_field.company = current_user.company
+                    job_dynamic_field.save
+                end
+
+                @job.job_template.documents.each do |document|
+                    job_document = Document.new
+                    job_document.category = document.category
+                    job_document.name = document.name
+                    job_document.status = document.status
+                    job_document.document_type = document.document_type
+                    job_document.read_only = document.read_only
+                    job_document.ordering = document.ordering
+                    job_document.template = false
+                    job_document.url = nil
+                    job_document.document_template = document
+                    job_document.job_template = @job.job_template
+                    job_document.job = @job
+
+                    if !document.primary_tool_id.blank?
+                        job_document.primary_tool_id = document.primary_tool_id
+                    end
+
+                    job_document.company = current_user.company
+                    job_document.save
+                end
+
+                @job.job_template.primary_tools.where(:template => true).each do |primary_tool|
+                    tool = PrimaryTool.new
+                    tool.template = false
+                    tool.tool = primary_tool.tool
+                    tool.job = @job
+                    tool.job_template = primary_tool.job_template
+                    tool.company = current_user.company
+
+                    if tool.save
+                        primary_tool.documents.order("created_at ASC").each do |document|
+                            new_document = document.duplicate
+                            new_document.url = nil
+                            new_document.primary_tool_id = tool.id
+                            new_document.save
+                        end
+                        primary_tool.part_memberships.where(:template => true).order("created_at ASC").each do |part_membership|
+                            new_part_membership = part_membership.duplicate
+                            new_part_membership.part = nil
+                            new_part_membership.template = true
+                            new_part_membership.primary_tool = tool
+                            new_part_membership.save
+                        end
+                    end
+                end
+
+                # Add to job as creator
+                @job.add_user!(current_user, JobMembership::CREATOR)
+
+                if params[:old_job].present? && @old_job.present?
+                    @old_job.job_memberships.each do |jm|
+                        if jm.job_role_id != JobMembership::CREATOR
+                            job_membership = jm.duplicate
+                            job_membership.job = @job
+                            job_membership.save
+                        end
+                    end
+
+                    @old_job.transfer_assets @job
+                end
+
+                Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
+
+
+                flash[:success] = "Job created, add extra job data below."
+                redirect_to job_path(@job, new: "true")
+            else
+
+                @clients = current_user.company.clients
+                @districts = current_user.company.districts
+
+                @divisions = current_user.company.divisions
+                if @job.job_template.present?
+                    @segments = @job.job_template.product_line.segment.division.segments
+                    @product_lines = @job.job_template.product_line.segment.product_lines
+                    @job_templates = @job.job_template.product_line.job_templates
+
+                    @division = @job.job_template.product_line.segment.division
+                    @segment = @job.job_template.product_line.segment
+                    @product_line = @job.job_template.product_line
                 else
-                    @segments = Array.new
-                    @product_lines = Array.new
-                    @job_templates = Array.new
-                end
-            end
+                    if current_user.product_line.present?
+                        @segments = current_user.product_line.segment.division.segments
+                        @product_lines = current_user.product_line.segment.product_lines
+                        @job_templates = current_user.product_line.job_templates
 
-            if !@job.district.nil? && !@job.district.master_district.nil?
-                @fields = []
-                @job.district.master_district.districts.each do |d|
-                    d.fields.each do |field|
-                        @fields << field
+                        @division = current_user.product_line.segment.division
+                        @segment = current_user.product_line.segment
+                        @product_line = current_user.product_line
+                    else
+                        @segments = Array.new
+                        @product_lines = Array.new
+                        @job_templates = Array.new
                     end
                 end
-            else
-                @fields = Array.new
-            end
 
-            if !@job.field.nil?
-                @wells = @job.field.wells
-            else
-                @wells = Array.new
-            end
+                if !@job.district.nil? && !@job.district.master_district.nil?
+                    @fields = []
+                    @job.district.master_district.districts.each do |d|
+                        d.fields.each do |field|
+                            @fields << field
+                        end
+                    end
+                else
+                    @fields = Array.new
+                end
 
-            render 'new'
+                if !@job.field.nil?
+                    @wells = @job.field.wells
+                else
+                    @wells = Array.new
+                end
+
+                render 'new'
+            end
         end
-        #end
     end
 
     def update

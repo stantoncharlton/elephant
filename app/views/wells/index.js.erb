@@ -1,3 +1,4 @@
+if($('#job_well_id').length != 0) {
 $('#job_well_id').removeClass("ajax-loading");
 $('#job_well_id').find('option').remove();
 
@@ -14,4 +15,18 @@ $('<option>').val('-1').text('Select a Well...').appendTo('#job_well_id');
     $('#job_well_id').removeAttr("disabled");
     $('#job_well_id').css("opacity", "1");
 <% end %>
+}
 
+if ($('#well_name_id').length != 0) {
+    $('#similar_well').find('*').remove();
+
+    <% @wells.take(5).each do |well| %>
+    $('#similar_well').append("<p class='inline'><%= well.name %></p><span class='push-right-small'></span>");
+    <% end %>
+
+    <% if @query.blank? || @wells.count == 0 %>
+    $('.alert').addClass('hidden');
+    <% else %>
+    $('.alert').removeClass('hidden');
+    <% end %>
+}

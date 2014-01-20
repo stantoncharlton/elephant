@@ -154,6 +154,21 @@ class JobMembership < ActiveRecord::Base
         end
     end
 
+    def duplicate
+        job_membership = JobMembership.new
+        job_membership.job = self.job
+        job_membership.company = self.company
+        job_membership.user = self.user
+        job_membership.job_role_id = self.job_role_id
+        job_membership.user_name = self.user_name
+        job_membership.phone_number = self.phone_number
+        job_membership.email = self.email
+        job_membership.external_user = self.external_user
+        job_membership.shift_type = self.shift_type
+        job_membership
+    end
+
+
     private
     def after_save
         update_counter_cache

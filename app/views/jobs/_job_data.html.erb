@@ -9,7 +9,6 @@
             </a>
             <ul class="dropdown-menu">
 
-              <% if false %>
                   <li>
                     <%= link_to "Create New Job (Rig Skid)", new_job_path(job: @job.id),
                                 remote: true,
@@ -17,7 +16,6 @@
                                 "data-placement" => "left",
                                 "data-title" => "This will allow you to create a new job and transfer all assets, information, and people." %>
                   </li>
-              <% end %>
 
 
               <% if job.status == Job::COMPLETE %>

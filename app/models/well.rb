@@ -121,6 +121,16 @@ class Well < ActiveRecord::Base
         end
     end
 
+    def self.search_with_field(options, company, field)
+        Sunspot.search(Well) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            with(:field_id, field.id)
+            order_by :name_sort
+            paginate :page => options[:page], :per_page => 20
+        end
+    end
+
     def x_location
         location_decimal true
     end

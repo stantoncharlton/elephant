@@ -9,7 +9,7 @@
 <% @old_job = Job.find_by_id(params[:job]) %>
 
 <div class="form" data-form="rig_skid">
-  <%= form_for @job, remote: true do |f| %>
+  <%= form_for @job do |f| %>
 
 
       <% if @old_job.present? %>
@@ -19,12 +19,20 @@
       <% end %>
 
       <div class="">
-        <%= hidden_field_tag "old_job", "", name: "old_job", value: @old_job %>
+        <%= hidden_field_tag "old_job", "", name: "old_job", value: @old_job.id %>
 
         <%= text_field_tag "well_name", "", placeholder: "Well Name",
+                           id: "well_name_id",
                            class: "txtfield tooltip-info",
                            "data-placement" => "bottom",
                            "data-title" => "Well Name" %>
+      </div>
+
+      <div class="alert alert-warning hidden">
+        <b>Warning!</b> Wells that already exist
+        <br><br>
+
+        <div id="similar_well"></div>
       </div>
 
       <div class="content">

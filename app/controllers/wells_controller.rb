@@ -5,11 +5,19 @@ class WellsController < ApplicationController
     def index
         @wells = []
 
-        if params[:field_id].present?
-            field = Field.find_by_id(params[:field_id])
-            if field.company == current_user.company
-                @wells = field.wells
-            end
+        respond_to do |format|
+            format.html {
+                if params[:field_id].present?
+                    field = Field.find_by_id(params[:field_id])
+                    if field.company == current_user.company
+                        @wells = field.wells
+                    end
+                end
+            }
+            format.js {
+                @query = params[:search]
+                @wells = Well.search_with_field(params, current_user.company, Field.find_by_id(params[:field_id])).results
+            }
         end
 
     end
