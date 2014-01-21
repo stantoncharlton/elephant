@@ -68,6 +68,7 @@ class DrillingLogEntry < ActiveRecord::Base
     CHANGE_MUD = 6
     POOH = 8
     TIH = 9
+    TIH_CIRCULATING = 22
     WIRELINE = 10
     WORK_PIPE = 11
     BOP_DRILL = 12
@@ -127,6 +128,8 @@ class DrillingLogEntry < ActiveRecord::Base
                 "Short Trip"
             when TIH
                 "TIH (Trip in Hole)"
+            when TIH
+                "TIH - Circulating"
             when WIRELINE
                 "Wireline"
             when WORK_PIPE
@@ -258,6 +261,7 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(POOH), POOH]
         options << [DrillingLogEntry.activity_code_string(SHORT_TRIP), SHORT_TRIP]
         options << [DrillingLogEntry.activity_code_string(TIH), TIH]
+        options << [DrillingLogEntry.activity_code_string(TIH_CIRCULATING), TIH_CIRCULATING]
         options << [DrillingLogEntry.activity_code_string(WIRELINE), WIRELINE]
         options << [DrillingLogEntry.activity_code_string(WORK_PIPE), WORK_PIPE]
         options << [DrillingLogEntry.activity_code_string(BOP_DRILL), BOP_DRILL]
