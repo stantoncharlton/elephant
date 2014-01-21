@@ -223,12 +223,16 @@ class DrillingLogEntriesController < ApplicationController
     def update
         @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
 
+        bha_id = params[:drilling_log_entry][:bha_id]
+        params[:drilling_log_entry].delete(:bha_id)
+
         DrillingLogEntry.transaction do
             if params[:drilling_log_entry][:depth].present? &&
                     params[:drilling_log_entry][:activity_code].present?
                 depth = params[:drilling_log_entry][:depth]
                 params[:drilling_log_entry].delete(:depth)
                 @drilling_log_entry.depth = depth.to_s.gsub(/,/, '').to_f
+                @drilling_log_entry.bha = Bha.find_by_id(bha_id)
                 @drilling_log_entry.update_attributes(params[:drilling_log_entry])
                 @drilling_log_entry.save
             else

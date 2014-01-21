@@ -4,7 +4,8 @@
 
     <%= form_for DrillingLogEntry.new, remote: true do |f| %>
 
-    <% options = @bhas.collect { |bha| [bha.name + (!bha.description.blank? ? " - " + bha.description : ""), bha.id] } %>
+
+        <% options = @bhas.collect { |bha| [bha.name + (!bha.description.blank? ? " - " + bha.description : ""), bha.id] } %>
         <% options << ["None (Out-hole)", nil] %>
         <div class="pull-right">
           <%= f.select :bha_id, options_for_select(options, @last_entry.present? ? @last_entry.bha_id : nil),
