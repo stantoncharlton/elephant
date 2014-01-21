@@ -38,7 +38,7 @@ class Bha < ActiveRecord::Base
 
         self.bha_items.each do |bha_item|
             part_membership = bha_item.tool
-            if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+            if part_membership.part_type.present? && part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
                 part = part_membership.part
                 bha_query = Bha.joins(bha_items: {tool: :part}).where("parts.id = ?", part.id).select("sum(coalesce(bhas.below_rotary, 0)) as total_below_rotary, sum(coalesce(bhas.above_rotary, 0)) as total_above_rotary").first
                 part.below_rotary = BigDecimal.new(bha_query[:total_below_rotary])

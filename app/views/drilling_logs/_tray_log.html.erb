@@ -96,13 +96,13 @@
       </div>
 
       <div class="" id="list">
-        <% @last_entry = @drilling_log.drilling_log_entries.first %>
-        <% dates.each_with_index do |date| %>
+        <% @last_entry = entries.first %>
+        <% dates.each_with_index do |date, index| %>
             <%= render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1] %>
         <% end %>
       </div>
 
-      <% if @drilling_log.drilling_log_entries.empty? %>
+      <% if entries.empty? %>
           <br><br>
 
           <div class="no-job-log-entries alert">

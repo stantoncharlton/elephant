@@ -128,7 +128,7 @@ class DrillingLogsController < ApplicationController
                             end
                         end
 
-                        fill_log @drilling_log.job, entries, r, entries.first.entry_at, entries.last.entry_at
+                        fill_log @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now
                     when "survey"
                         @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
                         @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
