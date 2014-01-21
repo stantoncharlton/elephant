@@ -2,6 +2,56 @@ module DrillingLogsHelper
 
     include ActionView::Helpers::NumberHelper
 
+    def fill_run_report job, entries, r, start_time, end_time, run_number
+        fill_drilling_report job, entries, r, start_time, end_time
+
+        if run_number == 0
+            r.add_field "RUN_NAME", "ALL RUNS"
+        else
+            r.add_field "RUN_NAME", "RUN #{run_number}"
+        end
+
+        bhas = entries.select { |e| e.bha.present? }.group_by { |e| e.bha_id }
+        if bhas.count == 1 && bhas[0].present?
+            r.add_field "BHA1", "#{bhas[0].name}"
+            r.add_field "BHA1_DESC", "#{bhas[0].description}"
+        else
+            r.add_field "BHA1", "-"
+            r.add_field "BHA1_DESC", ""
+        end
+    end
+
+    def fill_bha_report job, entries, r, start_time, end_time, bha, run_number
+        fill_drilling_report job, entries, r, start_time, end_time
+
+        r.add_field "BHA_NAME", "BHA # #{bha.name} - #{bha.description}"
+        r.add_field "RUN", "#{run_number}"
+
+
+        last_index = 0
+        depth = 0.0
+        bha.bha_items.each_with_index do |bha_item, index|
+            depth = depth + (bha_item.tool.length || 0)
+            r.add_field "A#{index + 1}", "#{bha_item.tool.name}"
+            r.add_field "ID#{index + 1}", "#{bha_item.tool.inner_diameter}"
+            r.add_field "OD#{index + 1}", "#{bha_item.tool.outer_diameter}"
+            r.add_field "L#{index + 1}", "#{bha_item.tool.length}"
+            r.add_field "LT#{index + 1}", "#{depth.round(2)}"
+            r.add_field "TC#{index + 1}", "#{bha_item.up >= 0 ? BhaItem.connection_string(bha_item.up) : "-"}"
+            last_index = index
+        end
+
+        (11 - last_index).times do
+            last_index = last_index + 1
+            r.add_field "A#{last_index + 1}", ""
+            r.add_field "ID#{last_index + 1}", ""
+            r.add_field "OD#{last_index + 1}", ""
+            r.add_field "L#{last_index + 1}", ""
+            r.add_field "LT#{last_index + 1}", ""
+            r.add_field "TC#{last_index + 1}", ""
+        end
+    end
+
     def fill_drilling_report job, entries, r, start_time, end_time
         drilling_log = DrillingLog.calculate entries
         issues = Issue.includes(job: :well).where("wells.id = ?", job.well_id).where("issues.failure_at >= :start_time AND issues.failure_at <= :end_time", start_time: start_time, end_time: end_time)
@@ -22,7 +72,7 @@ module DrillingLogsHelper
         r.add_field "T3", drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1)
         r.add_field "T4", drilling_log.total_circulation_time.nil? ? "-" : drilling_log.total_circulation_time.round(1)
         r.add_field "T5", issues.count
-        r.add_field "T6", "#{number_with_delimiter(entries.first.depth.to_i, :delimiter => ',')} - #{number_with_delimiter(entries.last.depth.to_i, :delimiter => ',')}"
+        r.add_field "T6", "#{number_with_delimiter(drilling_log.start_depth.to_i, :delimiter => ',')} - #{number_with_delimiter(drilling_log.end_depth.to_i, :delimiter => ',')}"
 
         bhas = entries.select { |e| e.bha.present? }.group_by { |e| e.bha_id }
         r.add_field "T7", bhas.count
@@ -34,14 +84,14 @@ module DrillingLogsHelper
         r.add_field "C2", "-"
 
 
-        r.add_field "R1", drilling_log.rotary_footage_pct.nil? ? "-" : drilling_log.rotary_footage_pct.round(1)
-        r.add_field "R2", drilling_log.rotary_hours_pct.nil? ? "-" : drilling_log.rotary_hours_pct.round(1)
+        r.add_field "R1", drilling_log.rotary_footage_pct.nil? ? "-" : (drilling_log.rotary_footage_pct * 100).round(1)
+        r.add_field "R2", drilling_log.rotary_hours_pct.nil? ? "-" : (drilling_log.rotary_hours_pct * 100).round(1)
         r.add_field "R3", drilling_log.rotate_rop.nil? ? "-" : drilling_log.rotate_rop.round(1)
         r.add_field "R4", drilling_log.rotate_footage.nil? ? "-" : number_with_delimiter(drilling_log.rotate_footage.to_i, :delimiter => ',')
         r.add_field "R5", drilling_log.rotate_hours.nil? ? "-" : drilling_log.rotate_hours.round(1)
 
-        r.add_field "S1", drilling_log.slide_footage_pct.nil? ? "-" : drilling_log.slide_footage_pct.round(1)
-        r.add_field "S2", drilling_log.slide_hours_pct.nil? ? "-" : drilling_log.slide_hours_pct.round(1)
+        r.add_field "S1", drilling_log.slide_footage_pct.nil? ? "-" : (drilling_log.slide_footage_pct * 100).round(1)
+        r.add_field "S2", drilling_log.slide_hours_pct.nil? ? "-" : (drilling_log.slide_hours_pct * 100).round(1)
         r.add_field "S3", drilling_log.slide_rop.nil? ? "-" : drilling_log.slide_rop.round(1)
         r.add_field "S4", drilling_log.slide_footage.nil? ? "-" : number_with_delimiter(drilling_log.slide_footage.to_i, :delimiter => ',')
         r.add_field "S5", drilling_log.slide_hours.nil? ? "-" : drilling_log.slide_hours.round(1)
@@ -179,7 +229,7 @@ module DrillingLogsHelper
         last_entry = entries.first
         index = 0
         entries.each_with_index do |entry, i|
-            entry.last_entry =  last_entry
+            entry.last_entry = last_entry
             last_entry = entry
         end
 
@@ -198,6 +248,34 @@ module DrillingLogsHelper
             t.add_column("ACTIVITY") { |entry| "#{DrillingLogEntry.activity_code_string(entry.activity_code)}" }
             t.add_column("COMMENT") { |entry| "#{entry.comment}" }
             t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name : ''}" }
+        end
+    end
+
+
+    def fill_survey job, entries, r
+        r.add_field "JOB_NAME", job.field.name + ' - ' + job.well.name
+        r.add_field "JOB_NUMBER", 'Job # ' + (job.job_number || '-')
+        r.add_field "RIG", 'Rig ' + (job.well.rig.present? ? job.well.rig.name : '-')
+        r.add_field "CLIENT", job.company.name
+
+        r.add_table("TABLE", entries, :header => false) do |t|
+            t.add_column("DEPTH") do |entry|
+                "#{number_with_delimiter(entry.measured_depth.round(2), :delimiter => ',')}"
+            end
+            t.add_column("INC") do |entry|
+                "#{entry.inclination}"
+            end
+            t.add_column("AZI") do |entry|
+                "#{entry.azimuth}"
+            end
+            t.add_column("TVD") { |entry| "#{number_with_delimiter(entry.true_vertical_depth.round(2), :delimiter => ',')}" }
+
+            t.add_column("VSECT") do |entry|
+                "#{entry.vertical_section.round(2)}"
+            end
+            t.add_column("NS") { |entry| "#{entry.north_south.round(2)}" }
+            t.add_column("EW") { |entry| "#{entry.east_west.round(2)}" }
+            t.add_column("DLS") { |entry| "#{entry.dog_leg_severity.round(2)}" }
         end
     end
 

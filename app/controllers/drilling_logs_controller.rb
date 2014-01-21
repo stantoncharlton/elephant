@@ -56,7 +56,7 @@ class DrillingLogsController < ApplicationController
     def show
         @drilling_log = DrillingLog.find(params[:id])
         not_found unless @drilling_log.present?
-        @bhas = Bha.joins(document: { job: :well }).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC")
+        @bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC")
 
         if params[:report].present? && params[:report] == "true" && params[:report_name].present?
             create_report
@@ -78,6 +78,8 @@ class DrillingLogsController < ApplicationController
                 report_exists = true
             when "log"
                 report_exists = true
+            when "survey"
+                report_exists = true
         end
 
         if report_exists
@@ -95,6 +97,27 @@ class DrillingLogsController < ApplicationController
                         end
 
                         fill_drilling_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now
+                    when "run_report"
+                        index = params[:type].to_i
+                        if index > 0
+                            runs = @drilling_log.get_runs
+                            entries = runs[index - 1]
+                        else
+                            entries = @drilling_log.drilling_log_entries
+                        end
+
+                        fill_run_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now, index
+                    when "bha_report"
+                        bha_id = params[:type].to_i
+                        if bha_id > 0
+                            bha = Bha.find_by_id(bha_id)
+                            entries = @drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", bha.id).to_a
+                        else
+                            entries = @drilling_log.drilling_log_entries
+                            bha = entries.last.bha
+                        end
+
+                        fill_bha_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now, bha, 1
                     when "log"
                         type = params[:type].to_i
                         entries = @drilling_log.drilling_log_entries.includes(:bha).to_a
@@ -106,6 +129,11 @@ class DrillingLogsController < ApplicationController
                         end
 
                         fill_log @drilling_log.job, entries, r, entries.first.entry_at, entries.last.entry_at
+                    when "survey"
+                        @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
+                        calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth)
+                        fill_survey @drilling_log.job, calculated_points_survey, r
                 end
             end
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
