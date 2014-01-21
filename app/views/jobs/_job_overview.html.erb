@@ -3,7 +3,7 @@
   <% if !drilling_log_document.nil? %>
       <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
 
-      <%= render 'drilling_logs/overview', drilling_log: @drilling_log, drilling_log_entries: @drilling_log.present? ? @drilling_log.drilling_log_entries : [] %>
+      <%= render 'drilling_logs/overview', drilling_log: @drilling_log, drilling_log_entries: @drilling_log.present? ? @drilling_log.drilling_log_entries : [], show_drilled: false %>
 
       <br>
 

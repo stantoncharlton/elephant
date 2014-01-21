@@ -72,14 +72,27 @@
 
         <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
         <% if drilling_log.present? %>
-            <p class='inline-block push-right-small'>
-              <b><%= drilling_log.rop.present? ? drilling_log.rop.round(1) : 0.0 %></b> ft/hr</p>
 
-            &nbsp;&nbsp;<i class="icon-chevron-right"></i>
 
-            <p class='inline-block push-right-small'>
-              <b><%= drilling_log.total_drilled.present? ? number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') : 0 %></b>
+            <p class='inline-block push-right-small push-up'>
+              <b><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></b>
+              / <%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
               ft</p>
+
+            <p class='inline-block push-right-small'>
+              <b><%= drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).to_i  : 0 %></b> days
+            </p>
+            <% if false %>
+
+                <br>
+
+                <p class='inline-block push-right-small push-up'>
+                  <b><%= drilling_log.rop.present? ? drilling_log.rop.round(1) : 0.0 %></b> ft/hr
+                </p>
+
+
+            <% end %>
+
         <% end %>
     <% else %>
         <div class="progress progress-info job-progress-bar">
