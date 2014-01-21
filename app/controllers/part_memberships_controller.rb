@@ -45,6 +45,12 @@ class PartMembershipsController < ApplicationController
             @part_membership.name = @part_membership.part.master_part.name
             @part_membership.material_number = @part_membership.part.material_number
             @part_membership.serial_number = @part_membership.part.serial_number
+
+            if @part_membership.job.status == Job::ON_JOB
+                @part_membership.part.current_job = @part_membership.job
+                @part_membership.part.status = Part::ON_JOB
+                @part_membership.part.save
+            end
         end
 
         if @part_membership.save
