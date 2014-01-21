@@ -124,7 +124,7 @@ module DrillingLogsHelper
         r.add_field "P3", "In-Hole"
         r.add_field "V3", "#{drilling_log.below_rotary.present? ? drilling_log.below_rotary.round(1) : 0.0} hrs"
         r.add_field "P4", "Out-Hole"
-        r.add_field "V4", "#{drilling_log.v.present? ? drilling_log.above_rotary.round(1) : 0.0} hrs"
+        r.add_field "V4", "#{drilling_log.above_rotary.present? ? drilling_log.above_rotary.round(1) : 0.0} hrs"
         r.add_field "P5", "Circulation"
         r.add_field "V5", "#{drilling_log.circulation_hours.present? ? drilling_log.circulation_hours.round(1) : 0.0} hrs"
         r.add_field "P6", "Reaming"
