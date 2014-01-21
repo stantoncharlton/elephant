@@ -95,19 +95,10 @@
         <br><br>
       </div>
 
-      <div class="" id="list">
-        <% @last_entry = entries.first %>
-        <% @last_date = nil %>
-        <% dates.each_with_index do |date, index| %>
-            <% if index < dates.length - 1 %>
-                <%= render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1], empty: true %>
-            <% end %>
-            <% @last_date = date %>
-        <% end %>
-        <%= render 'drilling_log_entries/drilling_log_entry_group', date: @last_date[0], entries: @last_date[1], empty: false %>
-      </div>
 
       <% if entries.empty? %>
+
+          <div class="" id="list"></div>
           <br><br>
 
           <div class="no-job-log-entries alert">
@@ -122,6 +113,18 @@
 
           <br><br>
 
+      <% else %>
+          <div class="" id="list">
+            <% @last_entry = entries.first %>
+            <% @last_date = nil %>
+            <% dates.each_with_index do |date, index| %>
+                <% if index < dates.length - 1 %>
+                    <%= render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1], empty: true %>
+                <% end %>
+                <% @last_date = date %>
+            <% end %>
+            <%= render 'drilling_log_entries/drilling_log_entry_group', date: @last_date[0], entries: @last_date[1], empty: false %>
+          </div>
       <% end %>
 
     </div>
