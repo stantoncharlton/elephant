@@ -21,8 +21,12 @@
       <% end %>
     </div>
     <br>
+
     <div class="job-rig-name align-top push-up">
       <b><%= job.well.rig.present? ? job.well.rig.name : '-' %></b>
+    </div>
+    <div class='inline-block align-top push-up'>
+      <b class='help-text'><%= job.job_number %></b>
     </div>
   </div>
 
