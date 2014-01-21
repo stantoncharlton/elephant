@@ -127,6 +127,13 @@ class SurveysController < ApplicationController
                     survey_point.save
                     survey_point
                 end
+
+                if @survey.survey_points.any?
+                    drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first
+                    if drilling_log.present?
+                        drilling_log.update_attribute(:td_depth, @survey.survey_points.last.measured_depth)
+                    end
+                end
             end
 
             if @survey.errors.any?

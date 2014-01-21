@@ -128,7 +128,7 @@ class DrillingLogEntry < ActiveRecord::Base
                 "Short Trip"
             when TIH
                 "TIH (Trip in Hole)"
-            when TIH
+            when TIH_CIRCULATING
                 "TIH - Circulating"
             when WIRELINE
                 "Wireline"
@@ -200,6 +200,8 @@ class DrillingLogEntry < ActiveRecord::Base
             when SHORT_TRIP
                 "#4d5360"
             when TIH
+                "#949fb1"
+            when TIH_CIRCULATING
                 "#949fb1"
             when WIRELINE
                 "#889bd4"

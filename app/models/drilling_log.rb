@@ -16,7 +16,9 @@ class DrillingLog < ActiveRecord::Base
                     :slide_hours,
                     :slide_hours_pct,
                     :slide_rop,
-                    :total_drilled
+                    :total_drilled,
+                    :max_depth,
+                    :td_depth
 
     acts_as_tenant(:company)
 
@@ -54,9 +56,18 @@ class DrillingLog < ActiveRecord::Base
             self.above_rotary = drilling_log.above_rotary
             self.below_rotary = drilling_log.below_rotary
             self.total_drilled = drilling_log.total_drilled
+            self.max_depth = drilling_log.max_depth
             self.rop = drilling_log.rop
             self.drilling_time = drilling_log.drilling_time
             self.total_circulation_time = drilling_log.total_circulation_time
+
+            if self.td_depth.blank? || self.td_depth == 0.0
+                active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", self.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first
+                if active_well_plan.present? && active_well_plan.survey_points.any?
+                    self.td_depth = active_well_plan.survey_points.last.measured_depth
+                end
+            end
+
             self.save
 
             self.drilling_log_entries.each do |dl|
@@ -86,6 +97,7 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.rotate_hours = 0.0
             drilling_log.ream_hours = 0.0
             drilling_log.circulation_hours = 0.0
+            drilling_log.max_depth = 0.0
 
             drilling_log.ranges = {}
 
@@ -93,6 +105,7 @@ class DrillingLog < ActiveRecord::Base
 
                 drilling_log.start_depth = drilling_log.start_depth.nil? ? entry.depth : [drilling_log.start_depth, entry.depth].min
                 drilling_log.end_depth = drilling_log.end_depth.nil? ? entry.depth : [drilling_log.end_depth, entry.depth].max
+                drilling_log.max_depth = drilling_log.max_depth.nil? ? entry.depth : [drilling_log.max_depth, entry.depth].max
 
                 DrillingLogEntry.attribute_names.each do |attribute_name|
                     if entry[attribute_name].present? && (entry[attribute_name].is_a?(BigDecimal) && entry[attribute_name] != 0.0)

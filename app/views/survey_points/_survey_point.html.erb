@@ -48,8 +48,8 @@
         <% end %>
     <% end %>
     <div class="list-item-column list-item-column-short"><%= number_with_delimiter(point.measured_depth.round(2), :delimiter => ',') %></div>
-    <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
-    <div class="list-item-column list-item-column-short <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
+    <div class="list-item-column list-item-column-short3 <%= changing ? "orange-text" : "" %>"><%= point.inclination %></div>
+    <div class="list-item-column list-item-column-short3 <%= changing ? "orange-text" : "" %>"><%= point.azimuth %></div>
 
 
     <div class="list-item-column list-item-column-short"><%= point.true_vertical_depth.present? ? number_with_delimiter(point.true_vertical_depth.round(2), :delimiter => ',') : '-' %></div>
@@ -61,10 +61,15 @@
       <span class='label label-info'><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0.0 %></span>
     </div>
 
-    <div class="list-item-column list-item-column-short inline-block" style="width: 95px !important; font-size: 11px;">
-      <div class='inline-block list-item-column-count <%= point.valid_magnetic_field_strength? ? "" : "warning-text" %>'><%= point.magnetic_field_strength.present? ? point.magnetic_field_strength : '-' %></div>
-      <div class='inline-block list-item-column-count <%= point.valid_magnetic_dip_angle? ? "" : "warning-text" %>'><%= point.magnetic_dip_angle.present? ? point.magnetic_dip_angle : '-' %></div>
-    </div>
+    <% if point.tie_on? %>
+        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.magnetic_field_strength.present? ? point.survey.magnetic_field_strength : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.magnetic_dip_angle.present? ? point.survey.magnetic_dip_angle : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.gravity_total.present? ? point.survey.gravity_total : '-' %></div>
+    <% else %>
+        <div class='inline-block list-item-column-count push-down-small <%= point.valid_magnetic_field_strength? ? "" : "warning-text" %>'><%= point.magnetic_field_strength.present? ? point.magnetic_field_strength : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small <%= point.valid_magnetic_dip_angle? ? "" : "warning-text" %>'><%= point.magnetic_dip_angle.present? ? point.magnetic_dip_angle : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small <%= point.valid_gravity_total? ? "" : "warning-text" %>'><%= point.gravity_total.present? ? point.gravity_total : '-' %></div>
+    <% end %>
 
   </div>
 </div>
