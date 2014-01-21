@@ -275,7 +275,7 @@ module DrillingLogsHelper
             end
             t.add_column("NS") { |entry| "#{entry.north_south.round(2)}" }
             t.add_column("EW") { |entry| "#{entry.east_west.round(2)}" }
-            t.add_column("DLS") { |entry| "#{entry.dog_leg_severity.round(2)}" }
+            t.add_column("DLS") { |entry| "#{entry.dog_leg_severity.present? ? entry.dog_leg_severity.round(2) : '-'}" }
         end
     end
 
