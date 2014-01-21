@@ -85,7 +85,9 @@ class SurveyPointsController < ApplicationController
             @survey_point.errors.add(:survey, "fields can't be empty")
         end
 
-        if @survey_point.tie_on?
+        if @survey_point.tie_on? &&
+                @survey_point.magnetic_field_strength.present? &&
+                @survey_point.magnetic_dip_angle.present?
             @survey_point.survey.magnetic_field_strength = @survey_point.magnetic_field_strength
             @survey_point.survey.magnetic_dip_angle = @survey_point.magnetic_dip_angle
             @survey_point.survey.save

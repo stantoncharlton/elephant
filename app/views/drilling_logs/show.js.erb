@@ -35,6 +35,29 @@ removeOldContent('<%= params[:section] %>');
     $('#drilling_log_filter').trigger("change");
     $('.custom-select').customSelect();
     $('.date-picker').datepicker();
+
+    // Load rest of log
+    setTimeout(function() {
+        $.ajax('/drilling_logs/' + <%= @drilling_log.id %> + "?section=log2", {
+            type: 'get',
+            dataType: 'script'
+        });
+    }, 1);
+
+<% elsif params[:section] == "log2" %>
+    <% entries = @drilling_log.drilling_log_entries.includes(:bha).to_a %>
+    <% dates = entries.group_by { |item| item.entry_at.in_time_zone(Time.zone).to_date } %>
+    <% dates.each_with_index do |date, index| %>
+        <% if index < dates.length - 1 %>
+                group = $(".log-entry-group[data-date='<%= date[0].strftime("%m/%d/%Y") %>'");
+                is_visible = group.is(":visible");
+                group.replaceWith("<%= j render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1], empty: false %>");
+                group = $(".log-entry-group[data-date='<%= date[0].strftime("%m/%d/%Y") %>'");
+                if(!is_visible) {
+                    group.hide();
+                }
+        <% end %>
+    <% end %>
 <% elsif params[:section] == "drilling-rop" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_rop', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling-runs" %>

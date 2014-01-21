@@ -2,11 +2,21 @@
      data-date="<%= date.strftime("%m/%d/%Y") %>">
   <h3 class='orange-text'><%= date.strftime("%A %m/%d/%Y") %></h3>
   <br>
+
   <div class='log-entry-hidden hidden help-text'></div>
   <br>
 
-  <% entries.each do |entry| %>
-      <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, last_entry: @last_entry.nil? ? entry : @last_entry %>
-      <% @last_entry = entry %>
+  <% if !empty %>
+      <% entries.each do |entry| %>
+          <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, last_entry: @last_entry.nil? ? entry : @last_entry %>
+          <% @last_entry = entry %>
+      <% end %>
+  <% else %>
+      <div class="loading">
+        <span class="ajax-loading search-loading"><b>Loading day...</b></span>
+        <br>
+        <br>
+        <br>
+      </div>
   <% end %>
 </div>
