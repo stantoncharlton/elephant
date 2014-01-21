@@ -129,7 +129,7 @@ class DrillingLogEntry < ActiveRecord::Base
             when TIH
                 "TIH (Trip in Hole)"
             when TIH_CIRCULATING
-                "Wash to Bottom - Circulating"
+                "TIH - Circulating"
             when WIRELINE
                 "Wireline"
             when WORK_PIPE
