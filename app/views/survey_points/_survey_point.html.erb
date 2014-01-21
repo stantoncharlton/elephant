@@ -1,8 +1,10 @@
 <div id="survey_point_<%= point.id %>">
   <% if !point.comment.blank? %>
       <br>
-      <i class="icon-comment"></i><b class='survey-comment'><%= point.comment %></b>
-      <hr>
+
+      <div class='hr-underline'>
+        <i class="icon-comment"></i><b class='survey-comment'><%= point.comment %></b>
+      </div>
   <% end %>
 
   <div class="btn-group inline pull-right push-down-small">
@@ -26,11 +28,13 @@
     </ul>
   </div>
 
-  <div class='pull-right'>
-    <% if !point.tie_on && (!point.valid_magnetic_field_strength? || !point.valid_magnetic_dip_angle? || !point.valid_gravity_total?) %>
-        <%= image_tag "error_red.png", class: "inline-block align-top push-down-small" %>
-    <% end %>
-  </div>
+  <% if false %>
+      <div class='pull-right'>
+        <% if !point.tie_on && (!point.valid_magnetic_field_strength? || !point.valid_magnetic_dip_angle? || !point.valid_gravity_total?) %>
+            <%= image_tag "error_red.png", class: "inline-block align-top push-down-small" %>
+        <% end %>
+      </div>
+  <% end %>
 
   <div class='tooltip-info survey-point'
        data-title="<%= render 'surveys/hover', point: point %>"
@@ -55,6 +59,11 @@
 
     <div class="list-item-column list-item-column-count">
       <span class='label label-info'><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0.0 %></span>
+    </div>
+
+    <div class="list-item-column list-item-column-short inline-block" style="width: 95px !important; font-size: 11px;">
+      <div class='inline-block list-item-column-count <%= point.valid_magnetic_field_strength? ? "" : "warning-text" %>'><%= point.magnetic_field_strength.present? ? point.magnetic_field_strength : '-' %></div>
+      <div class='inline-block list-item-column-count <%= point.valid_magnetic_dip_angle? ? "" : "warning-text" %>'><%= point.magnetic_dip_angle.present? ? point.magnetic_dip_angle : '-' %></div>
     </div>
 
   </div>

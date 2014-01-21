@@ -26,6 +26,7 @@
 
 .survey-point {
 
+  height: 25px;
 
   &:active, &:link, &:visited {
     background: transparent;
@@ -37,6 +38,14 @@
     border-style: dashed;
     border-bottom-color: #63cbed;
   }
+}
+
+.hr-underline {
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: #d2d2d2;
+  padding-bottom: 5px;
 }
 
 .survey-hover {
