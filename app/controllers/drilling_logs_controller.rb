@@ -76,7 +76,7 @@ class DrillingLogsController < ApplicationController
                 report_exists = true
             when "run_report"
                 report_exists = true
-            when "log"
+            when "daily_activity"
                 report_exists = true
             when "survey"
                 report_exists = true
@@ -118,7 +118,7 @@ class DrillingLogsController < ApplicationController
                         end
 
                         fill_bha_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now, bha, 1
-                    when "log"
+                    when "daily_activity"
                         type = params[:type].to_i
                         entries = @drilling_log.drilling_log_entries.includes(:bha).to_a
                         dates = entries.group_by { |item| item.entry_at.to_date }

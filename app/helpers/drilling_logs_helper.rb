@@ -258,6 +258,31 @@ module DrillingLogsHelper
         r.add_field "RIG", 'Rig ' + (job.well.rig.present? ? job.well.rig.name : '-')
         r.add_field "CLIENT", job.company.name
 
+        if false
+            new_entries = []
+            entries.each do |e|
+                e.instance_eval do
+                    def comment_line
+                        instance_variable_get("@comment_line")
+                    end
+
+                    def comment_line=(val)
+                        instance_variable_set("@comment_line", val)
+                    end
+                end
+
+                e.comment_line = false
+
+                if !e.comment.blank?
+                    new_sp = e.clone
+                    new_sp.comment_line = true
+                    new_entries << e
+                end
+
+                new_entries << e
+            end
+        end
+
         r.add_table("TABLE", entries, :header => false) do |t|
             t.add_column("DEPTH") do |entry|
                 "#{number_with_delimiter(entry.measured_depth.round(2), :delimiter => ',')}"
