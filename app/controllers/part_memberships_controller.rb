@@ -76,6 +76,15 @@ class PartMembershipsController < ApplicationController
             if @part_membership.part_type == PartMembership::INVENTORY
                 @part_membership.part.update_attribute(:status, params[:value] == "true" ? Part::SHIPPING : Part::ON_JOB)
             end
+        elsif params[:receiving].present?
+            @part_membership.update_attribute(:shipping, false)
+            if @part_membership.part_type == PartMembership::INVENTORY
+                @warehouse = Warehouse.find_by_id(params[:value])
+                @part_membership.part.warehouse = @warehouse
+                @part_membership.part.status = Part::AVAILABLE
+                @part_membership.part.save
+                @make_green = true
+            end
         elsif params[:part_membership].present?
             @part_membership.update_attributes(params[:part_membership])
         end

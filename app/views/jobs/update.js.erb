@@ -34,5 +34,8 @@ if ($('#map').length > 0) {
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Assets Transferred", message: "Assets successfully transferred to #{@new_job.field.name} - #{@new_job.well.name}" %>");
 $('#alert').modal({show: true});
+if($('.modal-backdrop').length > 0) {
+    $('.modal-backdrop').css('z-index', '1000000000');
+}
 <% end %>
 <% end %>

@@ -16,14 +16,6 @@ $('#alert').modal({show:true});
         $('#serial_number_loader').addClass('hidden');
         $('#serial_number_part_fields').addClass('hidden');
         $('#serial_number_form').show();
-    <% elsif @inline_part_update %>
-        if($('#inline_part_<%= @part.id %>').find('.part-received').length > 0) {
-            $('#inline_part_<%= @part.id %>').find('.part-received').replaceWith("<%= j render 'parts/received', part_redress: @part_redress %>");
-        }
-        else {
-            $('#inline_part_<%= @part.id %>').empty();
-            $('#inline_part_<%= @part.id %>').append("<%= j render 'parts/received', part_redress: @part_redress %>");
-        }
     <% else %>
         $('#part_name').text('<%= @part.name %>');
         $('#rename_loader').addClass('hidden');
@@ -38,6 +30,7 @@ $('#alert').modal({show:true});
                 $('#part_run_<%= @part_redress.job.id %>').replaceWith('<%= j render 'parts/part_run', job: @part_redress.job, index: 0 %>');
             }
         <% end %>
+        $('.part-status').find('.custom-select-ajax').customSelect();
     }
 <% end %>
 

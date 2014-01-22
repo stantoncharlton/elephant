@@ -130,15 +130,12 @@ class PartsController < ApplicationController
                     when "warehouse_id"
                         @part.update_attribute(:warehouse_id, Warehouse.find_by_id(params[:value]).id)
                         render :nothing => true, :status => 200
+                    when "receive_asset"
+                        @warehouse = Warehouse.find_by_id(params[:value])
+                        @part.warehouse = @warehouse
+                        @part.status = Part::AVAILABLE
+                        @part.save
                 end
-            end
-        elsif params[:receive] == "true"
-            @part.status = Part::IN_REDRESS
-            @part_redress = PartRedress.receive(@part.company, @part, current_user)
-            @part.save
-            if !params[:part_page].present?
-                @part_update = true
-                @inline_part_update = true
             end
         elsif params[:transfer] == "true"
             @part.status = Part::AVAILABLE
@@ -147,7 +144,6 @@ class PartsController < ApplicationController
             @part.save
             if !params[:part_page].present?
                 @part_update = true
-                @inline_part_update = true
             end
 
             if params[:job].present? && params[:part_membership].present?
@@ -197,7 +193,6 @@ class PartsController < ApplicationController
                 redirect_to @part
             else
                 @part_redress = PartRedress.where(:part_id => @part.id).order("created_at ASC").last
-                @inline_part_update = true
             end
         elsif params[:cleaned] == "true"
             @part.status = Part::AVAILABLE

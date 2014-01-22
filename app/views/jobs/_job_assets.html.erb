@@ -70,7 +70,7 @@
               <% jobs.each do |j| %>
                   <% if j != job %>
                       <li>
-                        <%= link_to j.field.name + ' | ' + j.well.name,
+                        <%= link_to (j.well.rig.present? ? j.well.rig.name : '-') + ' | ' + j.field.name + ' | ' + j.well.name,
                                     job_path(job, update_field: true, field: "transfer_assets", value: j.id),
                                     remote: true, :method => :put,
                                     class: "dropdown-menu-link tooltip-info form-loading-on-click",

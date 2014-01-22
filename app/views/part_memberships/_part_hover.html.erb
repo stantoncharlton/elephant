@@ -30,7 +30,8 @@
 
   <div class='push-down-small'>
     <% if part_membership.present? %>
-        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button'>Change Attributes</a>
+        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button'>Change
+          Attributes</a>
         <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>|
         <% end %>
     <% end %>
@@ -45,14 +46,39 @@
            data-title='Remove from Job'>Remove</a>
     <% end %>
 
-    <div>
-      <% if !part_membership.shipping? %>
-          <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
-            To Shop</a>
-      <% else %>
-        <b class='warning-text'>Shipping to Shop</b>&nbsp;
-          <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=false' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='activity-user-link part-working'>undo</a>
-      <% end %>
-    </div>
+    <% if part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::ON_JOB && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
+        <div>
+          <% if !part_membership.shipping? %>
+              <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
+                To Shop</a>
+          <% else %>
+              <b class='warning-text'>Shipping to Shop</b>&nbsp;
+              <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=false' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='activity-user-link part-working'>undo</a>
+          <% end %>
+        </div>
+    <% end %>
   </div>
+
+  <% if current_user.role.access_to_inventory? && part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::SHIPPING %>
+      <div class='btn-group inline-block'>
+        <a class='btn btn-danger tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title='Receive Asset at Warehouse'>
+          Receive at Warehouse
+        </a>
+        <ul class='dropdown-menu' style='top: auto;bottom: 100%;'>
+          <% warehouses = part_membership.part.district.warehouses %>
+          <% if warehouses.any? %>
+              <% warehouses.each do |w| %>
+                  <li>
+                    <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=<%= w.id %>' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'><%= w.name %></a>
+                  </li>
+              <% end %>
+          <% else %>
+              <li>
+                <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=0' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'>Receive
+                  Asset</a>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+  <% end %>
 </div>

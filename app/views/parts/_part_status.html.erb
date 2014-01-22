@@ -21,6 +21,43 @@
             <span class="push-right-small">
                 (<%= render 'activities/job_description', job: part.current_job, inside_job: false %>)
             </span>
+
+
+        <br><br>
+        <div class='push-down'>
+        <div class="btn-group inline-block">
+          <a class="bluebtn red tooltip-info  align-top" data-toggle="dropdown" href="#" data-placement="top" data-title="Receive Asset at Warehouse">
+            Receive Asset at Warehouse
+          </a>
+          <ul class="dropdown-menu">
+            <% warehouses = part.district.warehouses %>
+            <% if warehouses.any? %>
+                <% warehouses.each do |w| %>
+                    <li>
+                      <%= link_to w.name,
+                                  part_path(part, update_field: true, field: "receive_asset", value: w.id),
+                                  remote: true, :method => :put,
+                                  class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                                  "data-form" => "update-part-status",
+                                  "data-placement" => "right",
+                                  "data-title" => "Receive at: " + (w.name) %>
+                    </li>
+                <% end %>
+            <% else %>
+                <li>
+                  <%= link_to "Mark as Received",
+                              part_path(part, update_field: true, field: "receive_asset", value: w.id),
+                              remote: true, :method => :put,
+                              class: "dropdown-menu-link tooltip-info form-loading-on-click",
+                              "data-form" => "update-part-status",
+                              "data-placement" => "right",
+                              "data-title" => "Receive" %>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+        </div>
+
     <% elsif part.status == Part::IN_REDRESS %>
         <div class='pull-right'>
           <div class='inline-block align-top push-down'><b>Warehouse</b></div>
@@ -109,7 +146,7 @@
         <span class="warning-text"><%= part.status_string %></span>
     <% end %>
 
-    <% if part.status != Part::IN_REDRESS %>
+    <% if part.status != Part::IN_REDRESS && part.status != Part::SHIPPING %>
         <div>
           <br><br>
 
