@@ -62,6 +62,16 @@
                         "data-title" => "Change material number of asset and all sub assets." %>
           </li>
           <li class="divider"></li>
+          <% if @part.template? %>
+              <li>
+                <%= link_to "Export as Excel", part_path(part: @part, format: "xlsx"),
+                            target: "_blank",
+                            class: "dropdown-menu-link tooltip-info submit-form",
+                            "data-placement" => "left",
+                            "data-title" => "Export data as Microsoft Excel file." %>
+              </li>
+              <li class="divider"></li>
+          <% end %>
           <li>
             <% if @part.parts.count == 0 %>
                 <%= link_to "Delete Asset", @part, method: :delete,

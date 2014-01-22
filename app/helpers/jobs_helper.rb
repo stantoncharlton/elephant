@@ -6,14 +6,14 @@ module JobsHelper
         wb = p.workbook
 
         wb.styles do |s|
-            title_cell = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 18, :alignment => {:horizontal => :center}
-            title_cell2 = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 14, :alignment => {:horizontal => :center}
-            column_name_cell = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :sz => 14, :b => true, :alignment => {:horizontal => :left}, :border => {:style => :thin, :color => "00", :edges => [:top, :bottom]}
+            title_cell = s.add_style :bg_color => "FF", :fg_color => "5d5d5d", :b => true, :sz => 18, :alignment => {:horizontal => :center}
+            title_cell2 = s.add_style :bg_color => "FF", :fg_color => "5d5d5d", :b => true, :sz => 14, :alignment => {:horizontal => :center}
+            column_name_cell = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :sz => 14, :b => true, :alignment => {:horizontal => :left}, :border => {:style => :thin, :color => "00", :edges => [:top, :bottom]}
 
-            cell1 = s.add_style :bg_color => "dbe6f1", :fg_color => "2c5c84", :b => false, :sz => 13, :alignment => {:horizontal => :left}
-            cell2 = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :b => false, :sz => 13, :alignment => {:horizontal => :left}
-            cell1_bold = s.add_style :bg_color => "dbe6f1", :fg_color => "2c5c84", :b => true, :sz => 13, :alignment => {:horizontal => :left}
-            cell2_bold = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :b => true, :sz => 13, :alignment => {:horizontal => :left}
+            cell1 = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => false, :sz => 13, :alignment => {:horizontal => :left}
+            cell2 = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => false, :sz => 13, :alignment => {:horizontal => :left}
+            cell1_bold = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => true, :sz => 13, :alignment => {:horizontal => :left}
+            cell2_bold = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => true, :sz => 13, :alignment => {:horizontal => :left}
 
 
             margins = {:left => 1, :right => 1, :top => 1, :bottom => 1, :header => 0, :footer => 0}
@@ -76,16 +76,16 @@ module JobsHelper
         wb = p.workbook
 
         wb.styles do |s|
-            title_cell = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 18, :alignment => {:horizontal => :center}
-            title_cell2 = s.add_style :bg_color => "FF", :fg_color => "2c5c84", :b => true, :sz => 14, :alignment => {:horizontal => :center}
-            column_name_cell = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :sz => 14, :b => true, :alignment => {:horizontal => :left}, :border => {:style => :thin, :color => "00", :edges => [:top, :bottom]}
+            title_cell = s.add_style :bg_color => "FF", :fg_color => "5d5d5d", :b => true, :sz => 18, :alignment => {:horizontal => :center}
+            title_cell2 = s.add_style :bg_color => "FF", :fg_color => "5d5d5d", :b => true, :sz => 14, :alignment => {:horizontal => :center}
+            column_name_cell = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :sz => 14, :b => true, :alignment => {:horizontal => :left}, :border => {:style => :thin, :color => "00", :edges => [:top, :bottom]}
 
-            cell1 = s.add_style :bg_color => "dbe6f1", :fg_color => "2c5c84", :b => false, :sz => 13, :alignment => {:horizontal => :left}
-            cell2 = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :b => false, :sz => 13, :alignment => {:horizontal => :left}
-            cell1_bold = s.add_style :bg_color => "dbe6f1", :fg_color => "2c5c84", :b => true, :sz => 13, :alignment => {:horizontal => :left}
-            cell2_bold = s.add_style :bg_color => "b9cce4", :fg_color => "2c5c84", :b => true, :sz => 13, :alignment => {:horizontal => :left}
-            cell1_serial = s.add_style :bg_color => "dbe6f1", :fg_color => "0058a8", :b => true, :sz => 13, :alignment => {:horizontal => :left}
-            cell2_serial = s.add_style :bg_color => "b9cce4", :fg_color => "0058a8", :b => true, :sz => 13, :alignment => {:horizontal => :left}
+            cell1 = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => false, :sz => 13, :alignment => {:horizontal => :left}
+            cell2 = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => false, :sz => 13, :alignment => {:horizontal => :left}
+            cell1_bold = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => true, :sz => 13, :alignment => {:horizontal => :left}
+            cell2_bold = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => true, :sz => 13, :alignment => {:horizontal => :left}
+            cell1_serial = s.add_style :bg_color => "fafdff", :fg_color => "0058a8", :b => true, :sz => 13, :alignment => {:horizontal => :left}
+            cell2_serial = s.add_style :bg_color => "f3f6fb", :fg_color => "0058a8", :b => true, :sz => 13, :alignment => {:horizontal => :left}
 
 
             margins = {:left => 1, :right => 1, :top => 1, :bottom => 1, :header => 0, :footer => 0}

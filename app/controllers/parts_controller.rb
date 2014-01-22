@@ -3,6 +3,8 @@ class PartsController < ApplicationController
     before_filter :signed_in_user_inventory, only: [:show, :new, :create, :update, :destroy]
     set_tab :inventory
 
+    include InventoryHelper
+
 
     def index
 
@@ -63,6 +65,19 @@ class PartsController < ApplicationController
             else
                 @showing_decommissioned = false
                 @parts = @part.parts.where("parts.status != ?", Part::DECOMMISSIONED).paginate(page: params[:page], limit: 100)
+            end
+
+            respond_to do |format|
+                format.html {
+
+                }
+                format.js {
+
+                }
+                format.xlsx {
+                    excel = parts_to_excel @part.parts
+                    send_data excel.to_stream.read, :filename => "Asset (#{@part.name}) List.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+                }
             end
         end
     end
