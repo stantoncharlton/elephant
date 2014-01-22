@@ -6,6 +6,7 @@ class PartMembership < ActiveRecord::Base
                     :template,
                     :track_usage,
                     :shipping,
+                    :received,
                     :usage,
                     :optional,
                     :inner_diameter,

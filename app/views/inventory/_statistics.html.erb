@@ -4,7 +4,7 @@
   <% parts_count = parts.count %>
   <% average_redress = PartRedress.includes(:job).where("part_redresses.part_id IN (#{parts.select(:id).to_sql})").average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %>
 
-  <% part_memberships = PartMembership.where(:template => false).where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+  <% part_memberships = PartMembership.where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= ?", Time.now - 1.year).select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 
 
@@ -56,104 +56,109 @@
           <div class="chart-title">Current Rentals</div>
           <div class="donut-chart-div">
             <% if district.present? %>
-                <div class="donut-text "><%= PrimaryTool.where(:template => false).where(:simple_tracking => true).where(:received => false).where("primary_tools.job_id IN (select id from jobs where jobs.district_id = #{district.id})").count() %></div>
+                <div class="donut-text "><%= PartMembership.joins(:job).where("jobs.status = ?", Job::ON_JOB).where("part_memberships.part_type = ?", PartMembership::RENTAL).where("part_memberships.job_id IN (select id from jobs where jobs.district_id = #{district.id})").count() %></div>
             <% else %>
-                <div class="donut-text "><%= PrimaryTool.where(:template => false).where(:simple_tracking => true).where(:received => false).count() %></div>
+                <div class="donut-text "><%= PartMembership.joins(:job).where("jobs.status = ?", Job::ON_JOB).where("part_memberships.part_type = ?", PartMembership::RENTAL).count() %></div>
             <% end %>
             <div class="percentage ">assets</div>
           </div>
         </div>
 
-        <div class="chart-block tooltip-info"
-             data-title="Number of rentals not returned after 5 days after job completes">
-          <div class="chart-title">Overdue Rentals</div>
-          <div class="donut-chart-div">
-            <% if district.present? %>
-                <div class="donut-text chart-text-red"><%= PrimaryTool.includes(:job).where("jobs.status = ?", Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).where(:template => false).where(:simple_tracking => true).where(:received => false).where("primary_tools.job_id IN (select id from jobs where jobs.district_id = #{district.id})").count() %></div>
-            <% else %>
-                <div class="donut-text chart-text-red"><%= PrimaryTool.includes(:job).where("jobs.status = ?", Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).where(:template => false).where(:simple_tracking => true).where(:received => false).count() %></div>
-            <% end %>
-            <div class="percentage chart-text-red">assets</div>
-          </div>
-        </div>
+        <% if false %>
+            <div class="chart-block tooltip-info"
+                 data-title="Number of rentals not returned after 5 days after job completes">
+              <div class="chart-title">Overdue Rentals</div>
+              <div class="donut-chart-div">
+                <% if district.present? %>
+                    <div class="donut-text chart-text-red"><%= PrimaryTool.includes(:job).where("jobs.status = ?", Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).where(:template => false).where(:simple_tracking => true).where(:received => false).where("primary_tools.job_id IN (select id from jobs where jobs.district_id = #{district.id})").count() %></div>
+                <% else %>
+                    <div class="donut-text chart-text-red"><%= PrimaryTool.includes(:job).where("jobs.status = ?", Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).where(:template => false).where(:simple_tracking => true).where(:received => false).count() %></div>
+                <% end %>
+                <div class="percentage chart-text-red">assets</div>
+              </div>
+            </div>
+        <% end %>
 
         <canvas id="usage_graph" height="200" width="400" class="tooltip-info" data-title="Asset Usage By Month"></canvas>
+        <div class='pull-right'>
+          <span class='help-text'>Trailing Year Asset Usage</span>
+        </div>
     <% end %>
   </div>
 
   <script>
-          var plot3 = $.jqplot('in_use_chart', [
-              [
-                  ['a', <%= in_use_count %>],
-                  ['b', <%= parts_count - in_use_count %>]
-              ]
-          ], {
-              animate: true,
-              animateReplot: true,
-              background: "#FFFFFF",
-              seriesColors: [ "#458fd2", "#FFFFFF"],
-              seriesDefaults: {
-                  textColor: " #00ff0000",
-                  shadow: false,
-                  renderer: $.jqplot.DonutRenderer,
-                  rendererOptions: {
-                      animation: {
-                          show: true,
-                          speed: 2500
-                      },
-                      padding: 0,
-                      innerDiameter: 95,
-                      sliceMargin: 0,
-                      startAngle: -90,
-                      showDataLabels: true,
-                      dataLabels: 'value'
-                  }
+      var plot3 = $.jqplot('in_use_chart', [
+          [
+              ['a', <%= in_use_count %>],
+              ['b', <%= parts_count - in_use_count %>]
+          ]
+      ], {
+          animate: true,
+          animateReplot: true,
+          background: "#FFFFFF",
+          seriesColors: [ "#458fd2", "#FFFFFF"],
+          seriesDefaults: {
+              textColor: " #00ff0000",
+              shadow: false,
+              renderer: $.jqplot.DonutRenderer,
+              rendererOptions: {
+                  animation: {
+                      show: true,
+                      speed: 2500
+                  },
+                  padding: 0,
+                  innerDiameter: 95,
+                  sliceMargin: 0,
+                  startAngle: -90,
+                  showDataLabels: true,
+                  dataLabels: 'value'
               }
-          });
-
-          var plot3 = $.jqplot('in_redress_chart', [
-              [
-                  ['a', <%= in_redress_count %>],
-                  ['b', <%= parts_count - in_redress_count  %>]
-              ]
-          ], {
-              animate: true,
-              animateReplot: true,
-              background: "#FFFFFF",
-              seriesColors: [ "#458fd2", "#FFFFFF"],
-              seriesDefaults: {
-                  textColor: " #00ff0000",
-                  shadow: false,
-                  renderer: $.jqplot.DonutRenderer,
-                  rendererOptions: {
-                      animation: {
-                          show: true,
-                          speed: 2500
-                      },
-                      padding: 0,
-                      innerDiameter: 95,
-                      sliceMargin: 0,
-                      startAngle: -90,
-                      showDataLabels: true,
-                      dataLabels: 'value'
-                  }
-              }
-          });
-
-          <% if show_rentals  %>
-          var lineChartData = {
-              labels: <%= raw (1..12).map { |i| Date::ABBR_MONTHNAMES[i] }.to_json.html_safe %>,
-              datasets: [
-                  {
-                      fillColor: "rgba(151,187,205,0.5)",
-                      strokeColor: "rgba(151,187,205,1)",
-                      pointColor: "rgba(151,187,205,1)",
-                      pointStrokeColor: "#fff",
-                      data: <%= raw (1..12).map { |month| (part_memberships && part_memberships[month]) || 0 }.to_json.html_safe %>
-                  }
-              ]
           }
-          var myLine = new Chart(document.getElementById("usage_graph").getContext("2d")).Line(lineChartData);
-          <% end %>
+      });
+
+      var plot3 = $.jqplot('in_redress_chart', [
+          [
+              ['a', <%= in_redress_count %>],
+              ['b', <%= parts_count - in_redress_count  %>]
+          ]
+      ], {
+          animate: true,
+          animateReplot: true,
+          background: "#FFFFFF",
+          seriesColors: [ "#458fd2", "#FFFFFF"],
+          seriesDefaults: {
+              textColor: " #00ff0000",
+              shadow: false,
+              renderer: $.jqplot.DonutRenderer,
+              rendererOptions: {
+                  animation: {
+                      show: true,
+                      speed: 2500
+                  },
+                  padding: 0,
+                  innerDiameter: 95,
+                  sliceMargin: 0,
+                  startAngle: -90,
+                  showDataLabels: true,
+                  dataLabels: 'value'
+              }
+          }
+      });
+
+      <% if show_rentals  %>
+      var lineChartData = {
+          labels: <%= raw (1..12).map { |i| Date::ABBR_MONTHNAMES[i] }.to_json.html_safe %>,
+          datasets: [
+              {
+                  fillColor: "rgba(151,187,205,0.5)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  pointStrokeColor: "#fff",
+                  data: <%= raw (1..12).map { |month| (part_memberships && part_memberships[month]) || 0 }.to_json.html_safe %>
+              }
+          ]
+      }
+      var myLine = new Chart(document.getElementById("usage_graph").getContext("2d")).Line(lineChartData);
+      <% end %>
   </script>
 </div>

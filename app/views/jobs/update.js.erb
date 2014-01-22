@@ -39,3 +39,28 @@ if($('.modal-backdrop').length > 0) {
 }
 <% end %>
 <% end %>
+<% if params[:field].present? && params[:field] == "ship_all_assets" %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "All Assets Shipped", message: "All Assets Shipped to #{@warehouse.name}" %>");
+$('#alert').modal({show: true});
+if($('.modal-backdrop').length > 0) {
+    $('.modal-backdrop').css('z-index', '1000000000');
+}
+<% end %>
+<% if params[:field].present? && params[:field] == "confirm_assets" %>
+$('#alert').remove();
+<% if params[:value] == "true" %>
+$('body').append("<%= j render 'layouts/modal_error', title: "Assets Confirmed", message: "All Assets Confirmed as received at new job site or at warehouse." %>");
+<% else %>
+$('body').append("<%= j render 'layouts/modal_error', title: "Undo Assets Confirmation", message: "Undo asset confirmation complete." %>");
+<% end %>
+$('#alert').modal({show: true});
+if($('.modal-backdrop').length > 0) {
+    $('.modal-backdrop').css('z-index', '1000000000');
+}
+$('#asset_list').find('*').remove();
+<% @job.part_memberships.order('name ASC').each do |pm| %>
+$('#asset_list').append("<%= j render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>");
+$('#part_membership_<%= pm.id %>').find('.popover').popover({  delay: { show: 100, hide: 100 } });
+<% end %>
+<% end %>

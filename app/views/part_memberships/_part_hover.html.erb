@@ -46,7 +46,7 @@
            data-title='Remove from Job'>Remove</a>
     <% end %>
 
-    <% if part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::ON_JOB && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
+    <% if part_membership.present? && part_membership.part.present? && (part_membership.part.status == Part::ON_JOB || part_membership.part.status == Part::SHIPPING)  && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
         <div>
           <% if !part_membership.shipping? %>
               <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
@@ -61,7 +61,7 @@
 
   <% if current_user.role.access_to_inventory? && part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::SHIPPING %>
       <div class='btn-group inline-block'>
-        <a class='btn btn-danger tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title='Receive Asset at Warehouse'>
+        <a class='btn btn-danger white-text tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title='Receive Asset at Warehouse'>
           Receive at Warehouse
         </a>
         <ul class='dropdown-menu' style='top: auto;bottom: 100%;'>

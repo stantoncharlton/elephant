@@ -85,7 +85,27 @@
       </div>
 
       &nbsp;
-      <%= link_to "Ship All To Shop", "#", class: "btn btn-danger white-text align-top" %>
+
+      <div class='btn-group inline-block'>
+        <a class='btn btn-danger white-text tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title=' Ship All To Warehouse'>
+          Ship All To Shop
+        </a>
+        <ul class='dropdown-menu'>
+          <% warehouses = @job.district.warehouses %>
+          <% if warehouses.any? %>
+              <% warehouses.each do |w| %>
+                  <li>
+                    <a href='/jobs/<%= @job.id %>?update_field=true&field=ship_all_assets&value=<%= w.id %>' data-remote='true' data-method='put' data-id='<%= @job.id %>' class='dropdown-menu-link part-working'><%= w.name %></a>
+                  </li>
+              <% end %>
+          <% else %>
+              <li>
+                <a href='/jobs/<%= @job.id %>?update_field=true&field=ship_all_assets&value=0' data-remote='true' data-method='put' data-id='<%= @job.id %>' class='dropdown-menu-link part-working'>Ship All</a>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
 
       <div class='inline-block pull-right'>
         <div class="inline-block  <%= job.inventory_confirmed? ? "hidden" : "" %>">
