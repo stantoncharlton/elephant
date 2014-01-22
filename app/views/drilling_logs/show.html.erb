@@ -4,27 +4,21 @@
     <div class="page_header page-header-no-line">
       <h1 id="part_name">Drilling</h1>
 
-      <div class="push-right btn-group inline pull-right push-down">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Advanced/Sharing
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            <%= link_to "Export as Excel", document_path(@drilling_log.document, format: "xlsx"),
-                        target: "_blank",
-                        class: "dropdown-menu-link tooltip-info submit-form",
-                        "data-placement" => "left",
-                        "data-title" => "Export log as Microsoft Excel file." %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= link_to "Share", document_shares_path(document: @drilling_log.document), remote: true,
-                        class: "dropdown-menu-link tooltip-info share-document-button",
-                        "data-placement" => "left",
-                        "data-title" => "Share drilling to person or another company." %>
-          </li>
-        </ul>
-      </div>
+      <% if !current_user.role.limit_to_assigned_jobs? %>
+          <div class="push-right btn-group inline pull-right push-down">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              Advanced/Sharing
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to "Share", document_shares_path(document: @drilling_log.document), remote: true,
+                            class: "dropdown-menu-link tooltip-info share-document-button",
+                            "data-placement" => "left",
+                            "data-title" => "Share drilling to person or another company." %>
+              </li>
+            </ul>
+          </div>
+      <% end %>
 
       <div class='pull-right'>
         <%= render 'jobs/job_multi_link', job: @drilling_log.job %>

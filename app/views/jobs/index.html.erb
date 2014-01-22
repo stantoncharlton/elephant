@@ -20,22 +20,10 @@
 </div>
 
 <% if !@is_paged %>
-    <% if current_user.role.no_assigned_jobs? %>
+    <% if !current_user.role.limit_to_assigned_jobs? %>
         <div class="well">
           <%= render 'jobs/index_parts/jobs_count', jobs: current_user.company.jobs %>
         </div>
-        <br>
-
-        <% if false %>
-            <div class="">
-              <%= render 'jobs/index_parts/divisions' %>
-            </div>
-        <% end %>
-    <% else %>
-        <div class="well">
-          <%= render 'jobs/index_parts/jobs_count', jobs: @jobs %>
-        </div>
-        <br>
     <% end %>
 <% end %>
 

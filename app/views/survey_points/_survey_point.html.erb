@@ -62,13 +62,13 @@
     </div>
 
     <% if point.tie_on? %>
-        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.magnetic_field_strength.present? ? point.survey.magnetic_field_strength : '-' %></div>
-        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.magnetic_dip_angle.present? ? point.survey.magnetic_dip_angle : '-' %></div>
-        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.gravity_total.present? ? point.survey.gravity_total : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.magnetic_field_strength.present? ? point.survey.magnetic_field_strength.round(4) : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.magnetic_dip_angle.present? ? point.survey.magnetic_dip_angle.round(4) : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small'><%= point.survey.gravity_total.present? ? point.survey.gravity_total.round(4) : '-' %></div>
     <% else %>
-        <div class='inline-block list-item-column-count push-down-small <%= point.valid_magnetic_field_strength? ? "" : "warning-text" %>'><%= point.magnetic_field_strength.present? ? point.magnetic_field_strength : '-' %></div>
-        <div class='inline-block list-item-column-count push-down-small <%= point.valid_magnetic_dip_angle? ? "" : "warning-text" %>'><%= point.magnetic_dip_angle.present? ? point.magnetic_dip_angle : '-' %></div>
-        <div class='inline-block list-item-column-count push-down-small <%= point.valid_gravity_total? ? "" : "warning-text" %>'><%= point.gravity_total.present? ? point.gravity_total : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small <%= point.valid_magnetic_field_strength? ? "" : "warning-text" %>'><%= point.magnetic_field_strength.present? ? point.magnetic_field_strength.round(4) : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small <%= point.valid_magnetic_dip_angle? ? "" : "warning-text" %>'><%= point.magnetic_dip_angle.present? ? point.magnetic_dip_angle.round(4) : '-' %></div>
+        <div class='inline-block list-item-column-count push-down-small <%= point.valid_gravity_total? ? "" : "warning-text" %>'><%= point.gravity_total.present? ? point.gravity_total.round(4) : '-' %></div>
     <% end %>
 
   </div>

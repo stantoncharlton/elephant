@@ -33,9 +33,10 @@
 
     <div class="btn-group inline pull-right push-right">
       <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-        Export/Import
+        Import
       </a>
       <ul class="dropdown-menu">
+        <% if false %>
         <li>
           <%= link_to "Export as Excel", drilling_logs_path(@drilling_log, format: "xlsx"),
                       target: "_blank",
@@ -43,10 +44,11 @@
                       "data-placement" => "left",
                       "data-title" => "Export log as Microsoft Excel file." %>
         </li>
+            <% end %>
         <li>
           <%= form_for DrillingLogEntry.new, :html => {:multipart => true} do |f| %>
               <%= f.hidden_field :drilling_log_id, value: @drilling_log.id %>
-              <a class='btn' style="background: #0058a8; color: white; margin-left: 20px; margin-bottom: 6px;" href='javascript:;'>
+              <a class='btn' style="background: #0058a8; color: white; margin-left: 10px; margin-right: 10px; margin-bottom: 6px;" href='javascript:;'>
                 Import Offline Log
                 <input type="file" style='position:absolute;z-index:2;top:0px;right:0px;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40" onchange="showWorkingCurtain(); $(this).closest('form').submit();">
               </a>

@@ -29,7 +29,7 @@
 
           <div>
             <% @rig.wells.order("created_at DESC").each_with_index do |well, index| %>
-                <% if index < 7 %>
+                <% if index < 7 && well.jobs.any? %>
                     <div class='part-number-container inline-block'>
                       <%= image_tag 'map_marker.png' %>
                       <p><%= index + 1 %></p>
@@ -45,8 +45,8 @@
                     <% jobs.each do |job| %>
                         <%= render 'jobs/job_progress_link', job: job %>
                     <% end %>
+                    <br>
                 <% end %>
-                <br>
             <% end %>
           </div>
       <% else %>
