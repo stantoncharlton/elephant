@@ -152,9 +152,9 @@ class DrillingLog < ActiveRecord::Base
                 elsif entry.activity_code == DrillingLogEntry::TIH_CIRCULATING
                     drilling_log.circulation_hours += time
                 elsif entry.activity_code == DrillingLogEntry::CONNECTION_SURVEY
-                    total_drill_time += time
+                    #total_drill_time += time
                 elsif entry.activity_code == DrillingLogEntry::CONNECTION
-                    total_drill_time += time
+                    #total_drill_time += time
                 end
 
                 last_time = entry.entry_at
