@@ -271,7 +271,13 @@
 
         <div class="inline-block job-field-value push-down-small">
           <% if job.status == Job::COMPLETE %>
-              <span class="label label-success current-job-status"><%= job.status_string %></span>
+              <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Complete</span>
+          <% elsif job.status == Job::ON_JOB %>
+              <span class="label label-warning" style="padding: 4px; padding-left: 10px; padding-right: 10px;">In Progress</span>
+          <% elsif job.status == Job::PRE_JOB %>
+              <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
+          <% elsif job.status == Job::POST_JOB %>
+              <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Post-Job</span>
           <% else %>
               <p class="current-job-status"><b><%= job.status_string %></b></p>
           <% end %>
@@ -329,6 +335,7 @@
         <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
             <div class="inline">
               <p class="job-field-title-div help-text">Close Date</p>
+
               <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
             </div>
         <% end %>
