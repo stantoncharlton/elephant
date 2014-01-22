@@ -6,6 +6,7 @@ class DrillingLog < ActiveRecord::Base
                     :circulation_hours,
                     :ream_hours,
                     :rop,
+                    :drilling_rop,
                     :rotary_footage_pct,
                     :rotary_hours_pct,
                     :rotate_footage,
