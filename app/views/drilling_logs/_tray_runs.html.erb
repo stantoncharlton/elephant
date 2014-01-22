@@ -56,9 +56,9 @@
             <div>
               <div class="chart-block tooltip-info"
                    data-title="Average Total Rate of Penetration.">
-                <div class="chart-title">Avg Total ROP</div>
+                <div class="chart-title">Drilling ROP</div>
                 <div class="donut-chart-div job-donut-chart-div">
-                  <div class="donut-text "><%= log.nil? || log.rop.nil? ? "-" : log.rop.round(1) %></div>
+                  <div class="donut-text "><%= log.nil? || log.drilling_rop.nil? ? "-" : log.drilling_rop.round(1) %></div>
                   <div class="percentage ">ft/hr</div>
                 </div>
               </div>

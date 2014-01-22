@@ -59,6 +59,7 @@ class DrillingLog < ActiveRecord::Base
             self.total_drilled = drilling_log.total_drilled
             self.max_depth = drilling_log.max_depth
             self.rop = drilling_log.rop
+            self.drilling_rop = drilling_log.drilling_rop
             self.drilling_time = drilling_log.drilling_time
             self.total_circulation_time = drilling_log.total_circulation_time
 
@@ -178,6 +179,7 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.total_drilled = total_drill_length
             rop_divisor = below + above
             drilling_log.rop = rop_divisor > 0 ? total_drill_length / rop_divisor : 0.0
+            drilling_log.drilling_rop = total_drill_time > 0 ? total_drill_length / total_drill_time : 0.0
         end
 
         drilling_log.drilling_log_entries = entries
