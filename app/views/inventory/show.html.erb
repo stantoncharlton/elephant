@@ -107,12 +107,22 @@
        data-tray="shipping">Shipping</a>
   </li>
 
+
+  <li class="">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @district.id %>"
+       data-tray-controller="inventory"
+       data-tray="warehouses">Warehouses</a>
+  </li>
+
   <li class="">
     <a href="#" class="remote-tray-toggle custom-data-toggle"
        data-id="<%= @district.id %>"
        data-tray-controller="inventory"
        data-tray="full">Full List</a>
   </li>
+
+
 
 </ul>
 
@@ -138,6 +148,12 @@
 <div class="remote-tray custom-data-closed" data-tray="full">
   <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading full asset list..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="warehouses">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading warehouses..." %>
   </div>
 </div>
 

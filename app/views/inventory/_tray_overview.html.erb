@@ -17,27 +17,30 @@
             <%= link_to @district.name, @district, class: "activity-user-link" %>
 
             <br>
-            <b class=''>Warehouses</b>
 
-            <div class='inline-block'>
-              <% if current_user.role.limit_to_assigned_jobs? %>
-                  <% current_user.warehouses.each_with_index do |warehouse, i| %>
-                      <div class='inline-block push-right-small'>
-                        <%= link_to warehouse, class: "activity-user-link" do %>
-                            <%= warehouse.name %>
-                        <% end %>
-                      </div>
+            <% if false %>
+                <b class=''>Warehouses</b>
+
+                <div class='inline-block'>
+                  <% if current_user.role.limit_to_assigned_jobs? %>
+                      <% current_user.warehouses.each_with_index do |warehouse, i| %>
+                          <div class='inline-block push-right-small'>
+                            <%= link_to warehouse, class: "activity-user-link" do %>
+                                <%= warehouse.name %>
+                            <% end %>
+                          </div>
+                      <% end %>
+                  <% else %>
+                      <% @district.warehouses.each_with_index do |warehouse, i| %>
+                          <div class='inline-block push-right-small'>
+                            <%= link_to warehouse, class: "activity-user-link" do %>
+                                <%= warehouse.name %>
+                            <% end %>
+                          </div>
+                      <% end %>
                   <% end %>
-              <% else %>
-                  <% @district.warehouses.each_with_index do |warehouse, i| %>
-                      <div class='inline-block push-right-small'>
-                        <%= link_to warehouse, class: "activity-user-link" do %>
-                            <%= warehouse.name %>
-                        <% end %>
-                      </div>
-                  <% end %>
-              <% end %>
-            </div>
+                </div>
+            <% end %>
           </div>
       <% else %>
 

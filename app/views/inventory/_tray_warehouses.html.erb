@@ -1,0 +1,55 @@
+<div class="remote-tray" data-tray="warehouses">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading warehouses..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+
+    <div class='well'>
+      <h1 class="donut-text inline"><%= @district.warehouses.count %></h1>
+
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">Warehouses</h3>
+      </div>
+    </div>
+
+    <div id="parts" class="list">
+      <% @district.warehouses.each do |warehouse| %>
+          <div class="">
+
+            <%= link_to warehouse, class: "job-link" do %>
+                <div class="member-icon ">
+                  <p>
+                    <%= warehouse.parts.count %>
+                  </p>
+                </div>
+                &nbsp;
+
+                <p class="list-item-header-text inline">
+                  <b><%= warehouse.name %></b>
+                </p>
+
+            <% end %>
+
+
+            <% if warehouse.parts.any? %>
+                <div class="content">
+                  <% warehouse.parts.each_with_index do |p, i| %>
+                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: false, condensed: @condensed %>
+                  <% end %>
+                </div>
+
+            <% else %>
+            <p class='help-text'>No assets in this warehouse...</p>
+            <% end %>
+            <hr>
+
+          </div>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>

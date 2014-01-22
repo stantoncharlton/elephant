@@ -43,7 +43,7 @@ module InventoryHelper
                     elsif p.status == Part::ON_JOB
                         cell_status = index % 2 == 0 ? cell1_on_job : cell2_on_job
                         if p.current_job.present?
-                            status = p.status_string + ' - ' + p.current_job.field.name + ' | ' + p.current_job.well.name
+                            status = p.status_string + ' - ' + (p.current_job.well.rig.present? ? p.current_job.well.rig.name + ' - ' : '') + p.current_job.field.name + ' | ' + p.current_job.well.name
                         end
                     elsif p.status == Part::IN_REDRESS
                         cell_status = index % 2 == 0 ? cell1_in_redress : cell2_in_redress

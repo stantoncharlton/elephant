@@ -48,49 +48,6 @@
         <%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
     <% end %>
 
-    <% if false && @district.present? %>
-        <br>
-
-        <div class="">
-          <b>Warehouses</b>
-
-          <div class='inline'>
-            <% if current_user.role.limit_to_assigned_jobs? %>
-                <% current_user.warehouses.each_with_index do |warehouse, i| %>
-                    <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
-                        <%= warehouse.name %>
-                    <% end %>
-                <% end %>
-            <% else %>
-                <% @district.warehouses.each_with_index do |warehouse, i| %>
-                    <%= link_to warehouse, class: "activity-user-link push-right-small" do %>
-                        <%= warehouse.name %>
-                    <% end %>
-                <% end %>
-            <% end %>
-          </div>
-        </div>
-    <% end %>
-
-    <% if false %>
-        <div class="content">
-          <p class="list-item-column list-item-column-long help-text">
-            Name
-          </p>
-
-          <p class="list-item-column2 help-text">
-            Material Number
-          </p>
-
-          <% if current_user.role.district_read? %>
-              <p class="list-item-column list-item-column2 help-text">
-                District
-              </p>
-          <% end %>
-        </div>
-
-    <% end %>
-
     <br>
 
     <% master_parts = [] %>
