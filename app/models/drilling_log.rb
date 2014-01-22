@@ -64,7 +64,7 @@ class DrillingLog < ActiveRecord::Base
             self.total_circulation_time = drilling_log.total_circulation_time
 
             if self.td_depth.blank? || self.td_depth == 0.0
-                if self.document.job.present?
+                if self.document.present? && self.document.job.present?
                     active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", self.document.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first
                     if active_well_plan.present? && active_well_plan.survey_points.any?
                         self.td_depth = active_well_plan.survey_points.last.measured_depth
