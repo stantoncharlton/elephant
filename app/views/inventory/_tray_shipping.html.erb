@@ -11,12 +11,22 @@
 
     <div class='well'>
       <h1 class="donut-text inline"><%= parts.count %></h1>
+
       <div class='inline-block push-down push-right-small'>
         <h3 class="inline-block">Assets</h3>
+      </div>
+
+      <div class='pull-right'>
+        <%= link_to "Create Shipment", shipments_path(district: @district),
+                    remote: true, method: :post,
+                    class: "bluebtn show-modal-button" %>
       </div>
     </div>
 
     <div id="parts" class="list">
+      <% Shipment.all.each do |shipment| %>
+        <%= shipment.created_at %>
+      <% end %>
       <% parts.where(:status => Part::SHIPPING).each_with_index do |part, index| %>
           <%= render 'parts/sub_part2', part: part, index: index, condensed: true %>
       <% end %>

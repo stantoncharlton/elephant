@@ -120,5 +120,7 @@ ElephantWebApp::Application.routes.draw do
     resources :survey_points, only: [:new, :create, :edit, :update, :destroy]
 
     resources :rig_memberships, only: [:new, :create, :destroy]
+
+    resources :shipments, only: [:index, :show, :new, :create, :destroy]
 end
 

@@ -28,7 +28,26 @@
           </table>
         </td>
       </tr>
+      <% if job.status == Job::ON_JOB %>
+          <tr>
+            <td colspan="3">
+              <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
+              <% if drilling_log.present? %>
+                  <p class='inline-block'  style="margin-left: 10px;">
+                    <b><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></b>
+                    / <%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
+                    ft</p>
+
+                  <p class='inline-block push-right-small'>
+                    <b><%= drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).to_i : 0 %></b>
+                    days
+                  </p>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
     </table>
+
     <% if false %>
         <div class='push-down'>
           <%= link_to "https://www.elephant-cloud.com/jobs/" + job.id.to_s, class: "job-status job-link" do %>

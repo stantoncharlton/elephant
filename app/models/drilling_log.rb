@@ -124,8 +124,10 @@ class DrillingLog < ActiveRecord::Base
                 end
 
                 length_change = entry.depth - last_entry.depth
-
                 time = [((entry.entry_at - last_time) / 60 / 60).to_f, 0.0].max
+
+                entry.course_length = length_change
+                entry.hours = time
 
                 if entry.activity_code >= 1 && entry.activity_code < 100
                     below += time
@@ -243,6 +245,32 @@ class DrillingLog < ActiveRecord::Base
         end
 
         runs
+    end
+
+    def get_surrounding_entries(date, window, entries = self.drilling_log_entries.to_a)
+        surrounding_entries = []
+        previous = nil
+        closest = nil
+        past = nil
+        if entries.any?
+            entries.each do |entry|
+                if entry.entry_at >= (date - window) && entry.entry_at <= (date + window)
+                    surrounding_entries << entry
+                    if entry.entry_at < date
+                        previous = entry
+                    end
+                    # Run before closest
+                    if past.nil? && closest.present?
+                        past = entry
+                    end
+                    if closest.nil? && entry.entry_at >= date
+                        closest = entry
+                    end
+                end
+            end
+        end
+
+        [surrounding_entries, [previous, closest, past]]
     end
 
 end

@@ -386,7 +386,9 @@ class Job < ActiveRecord::Base
     end
 
     def user_is_member?(user)
-        !self.job_memberships.includes(:user, :job).find { |jm| jm.user == user }.nil?
+        return false if user.nil?
+        job_memberships = self.job_memberships.to_a
+        return job_memberships.select { |jm| jm.user_id == user.id }.any?
     end
 
     def closed
@@ -519,6 +521,22 @@ class Job < ActiveRecord::Base
                 end
             end
         end
+    end
+
+    def drilling_log
+        DrillingLog.joins(:job).where("jobs.well_id = ?", self.well_id).first
+    end
+
+    def well_plan
+        Survey.joins(document: :job).where("jobs.well_id = ?", self.well_id).where(:plan => true).first
+    end
+
+    def survey
+        Survey.joins(document: :job).where("jobs.well_id = ?", self.well_id).where(:plan => false).first
+    end
+
+    def self.include_models(jobs)
+        jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).includes(:job_memberships).includes(well: :rig)
     end
 
     def self.cached_find(id)

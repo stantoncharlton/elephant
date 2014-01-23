@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140122134444) do
+ActiveRecord::Schema.define(:version => 20140123171804) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -283,8 +283,8 @@ ActiveRecord::Schema.define(:version => 20140122134444) do
     t.string   "comment"
     t.integer  "bha_id"
     t.decimal  "usage_hours"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "drilling_log_id"
     t.decimal  "wob"
     t.decimal  "flow"
@@ -316,6 +316,8 @@ ActiveRecord::Schema.define(:version => 20140122134444) do
     t.decimal  "battery_2_amps"
     t.decimal  "battery_volts"
     t.decimal  "rop"
+    t.decimal  "course_length",   :default => 0.0
+    t.decimal  "hours",           :default => 0.0
   end
 
   add_index "drilling_log_entries", ["bha_id"], :name => "index_drilling_log_entries_on_bha_id"
@@ -655,11 +657,13 @@ ActiveRecord::Schema.define(:version => 20140122134444) do
     t.decimal  "outer_diameter"
     t.decimal  "length"
     t.boolean  "shipping",                      :default => false
+    t.integer  "shipment_id"
   end
 
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"
   add_index "part_memberships", ["material_number"], :name => "index_part_memberships_on_material_number"
   add_index "part_memberships", ["primary_tool_id"], :name => "index_part_memberships_on_primary_tool_id"
+  add_index "part_memberships", ["shipment_id"], :name => "index_part_memberships_on_shipment_id"
 
   create_table "part_redresses", :force => true do |t|
     t.integer  "company_id"
@@ -793,6 +797,21 @@ ActiveRecord::Schema.define(:version => 20140122134444) do
 
   add_index "segments", ["company_id"], :name => "index_segments_on_company_id"
   add_index "segments", ["division_id"], :name => "index_segments_on_division_id"
+
+  create_table "shipments", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.integer  "accepted_by_id"
+    t.datetime "accepted_at"
+    t.integer  "from_type"
+    t.integer  "to_type"
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.integer  "status"
+    t.integer  "district_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "states", :force => true do |t|
     t.string   "iso"

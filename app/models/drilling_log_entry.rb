@@ -4,6 +4,8 @@ class DrillingLogEntry < ActiveRecord::Base
                     :activity_code,
                     :depth,
                     :user_name,
+                    :course_length,
+                    :hours,
                     :rop,
                     # Drilling Parameters
                     :wob,

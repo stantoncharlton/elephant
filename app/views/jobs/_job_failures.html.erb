@@ -8,6 +8,8 @@
       No failures...
     </p>
 <% end %>
-<% job.issues.each do |issue| %>
-    <%= render 'issues/issue', issue: issue, show_job: false %>
-<% end %>
+<div id="failures_list">
+  <% job.issues.each do |issue| %>
+      <%= render 'issues/issue', issue: issue, show_job: false %>
+  <% end %>
+</div>

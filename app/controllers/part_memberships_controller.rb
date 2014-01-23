@@ -6,8 +6,13 @@ class PartMembershipsController < ApplicationController
     end
 
     def create
-        job_id = params[:part_membership][:job_id]
-        params[:part_membership].delete(:job_id)
+        if params[:part_membership][:job_id].present?
+            job_id = params[:part_membership][:job_id]
+            params[:part_membership].delete(:job_id)
+        else
+            shipment_id = params[:part_membership][:shipment_id]
+            params[:part_membership].delete(:shipment_id)
+        end
 
         part_id = params[:part_membership][:part_id]
         params[:part_membership].delete(:part_id)
@@ -35,8 +40,12 @@ class PartMembershipsController < ApplicationController
         @part_membership.outer_diameter = BigDecimal(params[:od])
         @part_membership.length = BigDecimal(params[:length])
 
-        @part_membership.job = Job.find_by_id(job_id)
-        not_found unless @part_membership.job.present? && @part_membership.job.company == current_user.company
+        if !job_id.blank?
+            @part_membership.job = Job.find_by_id(job_id)
+            not_found unless @part_membership.job.present? && @part_membership.job.company == current_user.company
+        else
+            @part_membership.shipment = Shipment.find_by_id(shipment_id)
+        end
 
         if !part_id.blank? && @part_membership.part_type == PartMembership::INVENTORY
             @part_membership.part = Part.find_by_id(part_id)
@@ -46,18 +55,22 @@ class PartMembershipsController < ApplicationController
             @part_membership.material_number = @part_membership.part.material_number
             @part_membership.serial_number = @part_membership.part.serial_number
 
-            if @part_membership.job.status == Job::ON_JOB
-                @part_membership.part.current_job = @part_membership.job
-                @part_membership.part.status = Part::ON_JOB
-                @part_membership.part.save
+            if @part_membership.job.present?
+                if @part_membership.job.status == Job::ON_JOB
+                    @part_membership.part.current_job = @part_membership.job
+                    @part_membership.part.status = Part::ON_JOB
+                    @part_membership.part.save
+                end
             end
         end
 
         if @part_membership.save
-            if @part_membership.part.present?
-                Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
-            else
-                Activity.delay.add(current_user, Activity::ASSET_ADDED, nil, @part_membership.serial_number, @part_membership.job)
+            if @part_membership.job.present?
+                if @part_membership.part.present?
+                    Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
+                else
+                    Activity.delay.add(current_user, Activity::ASSET_ADDED, nil, @part_membership.serial_number, @part_membership.job)
+                end
             end
         end
     end

@@ -1,7 +1,7 @@
 <% provide(:title, "Issue") %>
 
 <div class="page_header">
-  <h1>Issue</h1>
+  <h1>Incident</h1>
   <span class="push-right-small">
     Status
     <span class="label label-success status-open <%= @issue.status == Issue::OPEN ? "" : "hidden" %>">OPEN</span>
@@ -22,8 +22,9 @@
                         class: "regular-checkbox issue-update-field",
                         id: "accountable",
                         "data-id" => @issue.id,
-                        "data-field" => "accountable"%>
+                        "data-field" => "accountable" %>
       <label for="accountable"></label>
+
       <p class="checkbox-label">Accountable</p>
     </div>
 
@@ -41,8 +42,11 @@
                    "data-field" => "failure_id" %>
 
     <div class=''>
-      <% found_pm = @issue.job.part_memberships.where(:part_id => @issue.part_id).first %>
-      <%= select_tag "part_membership_id", options_for_select(@issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] }, found_pm.present? ? found_pm.id : nil),
+
+      <% found_pm = @issue.job.part_memberships.where("part_memberships.part_id = ?", @issue.part_id).first %>
+      <% options = @issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] } %>
+      <% options << ["No Responsible Asset", 0] %>
+      <%= select_tag "part_membership_id", options_for_select(options, found_pm.present? ? found_pm.id : nil),
                      prompt: "(Optional) Select asset...",
                      class: "inline-block custom-select custom-select-ajax inline-block issue-update-field",
                      "data-id" => @issue.id,
@@ -95,6 +99,12 @@
          data-tray="notes"
          data-placement="bottom" data-title="Description/Notes">Description/Notes
       </a>
+    </li>
+
+    <li class="">
+      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="conditions"
+         data-placement="bottom" data-title="Past Occurrences">Running Conditions</a>
     </li>
 
     <li class="">
@@ -160,6 +170,44 @@
 
     <% if @issue.failure.present? %>
         <%= render 'issues/history', failure: @issue.failure %>
+    <% else %>
+        <p class='help-text'>Failure type must be set to view past occurences...</p>
     <% end %>
+  </div>
+</div>
+
+<div class='job-tray custom-data-closed' data-tray="conditions">
+  <div class='content'>
+    <div class='page_header'>
+      <h2 class="inline">Running Conditions</h2>
+    </div>
+
+    <% drilling_log = @issue.job.drilling_log %>
+    <% if drilling_log.present? %>
+        <% surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, 2.hours) %>
+        <% if surrounding[0].any? %>
+
+            <h3 class='blue-text'>Activities</h3>
+            <br>
+            <% surrounding[1].each do |entry| %>
+                <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, editable: false %>
+            <% end %>
+            <br>
+
+            <% well_plan = @issue.job.well_plan %>
+            <% survey = @issue.job.survey %>
+            <% survey_points = survey.present? && well_plan.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : nil %>
+            <div>
+              <h3 class='inline-block blue-text'>Parameters</h3><b class='help-text push-right-small'>4 hour window</b>
+            </div>
+            <br>
+            <%= render 'drilling_logs/range_details', entries: surrounding[0], survey_points: survey_points %>
+        <% else %>
+            <p class='help-text'>No running conditions are available...</p>
+        <% end %>
+    <% else %>
+        <p class='help-text'>No running conditions are available...</p>
+    <% end %>
+
   </div>
 </div>

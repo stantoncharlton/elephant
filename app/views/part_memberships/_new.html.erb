@@ -4,7 +4,11 @@
   <div class='form' data-form="new-asset-form">
     <%= form_for PartMembership.new, remote: true do |f| %>
 
-        <%= f.hidden_field :job_id, value: @job.id %>
+        <% if shipment.present? %>
+            <%= f.hidden_field :shipment_id, value: shipment.id %>
+        <% else %>
+            <%= f.hidden_field :job_id, value: @job.id %>
+        <% end %>
         <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
 
         <div class='push-down'>

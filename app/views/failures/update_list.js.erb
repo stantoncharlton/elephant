@@ -7,7 +7,7 @@ $('.failure-count').text('<%=  @job.issues.count.to_s %>');
 
 
 $.ajax({
-    url: "/jobs/" + <%= @job.id.to_s %> +"?section=failures",
+    url: "/jobs/" + <%= @job.id.to_s %> +"?section=job_failures",
     type: "GET",
     dataType: "script"
 });

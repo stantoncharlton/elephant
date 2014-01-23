@@ -15,8 +15,7 @@ class JobsController < ApplicationController
                     @jobs = @all_jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
                 end
 
-                @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).
-                        order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
+                @jobs = Job.include_models(@jobs).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
             }
             format.xml {
                 render xml: current_user.active_or_recently_closed_jobs,

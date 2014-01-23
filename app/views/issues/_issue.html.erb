@@ -24,11 +24,18 @@
             <%= issue.failure.failure_master_template.text %>
           </div>
       <% else %>
-      <div class='warning-text'>Unknown Failure</div>
+          <div class='warning-text'>Unknown Failure</div>
       <% end %>
 
 
     </div>
+
+    <% if !show_job && issue.job_notes.any? %>
+        <div class='push-down-small'>
+          <i class="icon-comment"></i>
+          <div class='inline-block push-right-small'><%= issue.job_notes.first.text %></div>
+        </div>
+    <% end %>
 
     <br>
     <%= render 'issues/part', issue: issue, no_link: true %>
@@ -43,6 +50,5 @@
 
     <% if show_job %>
         <%= render 'jobs/job_progress', job: issue.job, show_summary_data: true, job_name: false %>
-
     <% end %>
 <% end %>

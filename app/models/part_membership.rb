@@ -17,25 +17,34 @@ class PartMembership < ActiveRecord::Base
     require 'digest/md5'
     acts_as_tenant(:company)
 
-    validates_presence_of :job_id
+    validates_presence_of :job_id, :if => :not_shipment_present
+    validates_presence_of :shipment_id, :if => :shipment_present
     validates_presence_of :part_id, :if => :part_inventory
     validates_presence_of :name, :if => :part_rental
     validates_presence_of :serial_number, :if => :part_rental
 
-    validates_uniqueness_of :part_id, :scope => :job_id, :if => :part_present
+    validates_uniqueness_of :part_id, :scope => :job_id, :if => :part_present_and_job
 
     belongs_to :job
     belongs_to :part
     belongs_to :primary_tool
     belongs_to :company
-
+    belongs_to :shipment
 
     INVENTORY = 1
     RENTAL = 2
     ACCESSORY = 3
 
-    def part_present
-        !self.part_id.blank?
+    def part_present_and_job
+        !job_id.blank? && !self.part_id.blank?
+    end
+
+    def shipment_present
+        !self.shipment_id.blank?
+    end
+
+    def not_shipment_present
+        self.shipment_id.blank?
     end
 
     def part_inventory

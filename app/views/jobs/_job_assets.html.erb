@@ -21,7 +21,7 @@
 </div>
 
 <% if !job.closed %>
-    <%= render 'part_memberships/new' %>
+    <%= render 'part_memberships/new', shipment: nil %>
 <% end %>
 
 <div id="asset_list" class='content'>

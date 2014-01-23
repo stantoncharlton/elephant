@@ -2,65 +2,124 @@
   <div class=''>
     <% jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
     <% jobs = jobs.where("jobs.status = ?", Job::ON_JOB) %>
+    <% @jobs = [] %>
     <% jobs.each do |job| %>
-        <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
+        <% drilling_log = job.drilling_log %>
         <%= link_to job, class: "empty-link" do %>
-            <div class='overview-job'>
-              <div class='name'><%= job.field.name %> | <%= job.well.name %></div>
-              <div class='rig'>
-                <div class='inline-block align-top orange-text'><%= job.well.rig.present? ? job.well.rig.name : "-" %></div>
-                <div class='inline-block align-top push-right-small light-blue-text'><%= job.job_number.present? ? job.job_number : "-" %></div>
+            <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0] %>
+            <div class="chart-block tooltip-info"
+                 data-placement="top"
+                 data-html="true"
+                 data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: false %>">
+              <div class="chart-title"><%= job.well.rig.present? ? job.well.rig.name : "-" %>
+                <br>
+
+                <p class='help-text' style='font-weight: normal; font-size: 12px;'><%= drilling_log.drilling_log_entries.any? ? DrillingLogEntry.activity_code_string(drilling_log.drilling_log_entries.last.activity_code) : '' %></p>
               </div>
-
-              <% if drilling_log.present? %>
-
-                  <div class=''>
-                    <div class='stat'>
-                      <p class='warning-text'>ft/hr</p>
-
-                      <h1 class='warning-text'><%= drilling_log.drilling_rop.present? ? drilling_log.drilling_rop.round(1) : "-" %></h1>
-                    </div>
-                    <div class='stat'>
-                      <p class='<%= job.issues.count > 0 ? 'warning-text' : '' %>'>failures</p>
-
-                      <h1 class='<%= job.issues.count > 0 ? 'warning-text' : '' %>'><%= job.issues.count %></h1>
-                    </div>
-                  </div>
-                  <div>
-                    <div class='stat'>
-                      <p>TD <%= drilling_log.td_depth.present? ? number_with_delimiter(drilling_log.td_depth.round(0).to_i, :delimiter => ',') : "-" %>
-                        ft</p>
-
-                      <h1><%= drilling_log.max_depth.present? ? number_with_delimiter(drilling_log.max_depth.round(0).to_i, :delimiter => ',') : "-" %></h1>
-                    </div>
-                    <div class='stat'>
-                      <p>drill hours</p>
-
-                      <h1><%= drilling_log.drilling_time.present? ? drilling_log.drilling_time.round(1) : "-" %></h1>
-                    </div>
-                  </div>
-                  <div class='align-top'>
-                    <% last_entry = drilling_log.drilling_log_entries.last %>
-                    <% if last_entry.present? %>
-                        <p class='inline-block help-text'>
-                          <%= last_entry.entry_at.in_time_zone(Time.zone).strftime("%a") %>
-                        </p>
-
-                        <div class='inline-block'>
-                          <b><%= last_entry.entry_at.in_time_zone(Time.zone).strftime("%H:%M %p") %></b>
-                        </div>
-                        <br>
-
-                        <div class='inline-block blue-text'>
-                          <b><%= DrillingLogEntry.activity_code_string(last_entry.activity_code) %></b>
-                        </div>
-                    <% end %>
-                  </div>
-              <% end %>
-
+              <div class="donut-chart-div">
+                <div id="rig_chart_<%= job.id %>" class="donut-chart "></div>
+                <div class="donut-inner-circle"></div>
+                <div class="donut-text" style="color: #115ea3;"><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></div>
+                <div class="percentage-circle"><%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
+                  ft
+                </div>
+                <div style="color: #7aa8d0; position: absolute; bottom: 5px; right: 0px;"><%= drilling_log.drilling_rop.present? ? drilling_log.drilling_rop.round(1) : 0.0 %> ft/hr</div>
+              </div>
             </div>
+            <% if false %>
+                <div class='overview-job'>
+                  <div class='name'><%= job.field.name %> | <%= job.well.name %></div>
+                  <div class='rig'>
+                    <div class='inline-block align-top orange-text'><%= job.well.rig.present? ? job.well.rig.name : "-" %></div>
+                    <div class='inline-block align-top push-right-small light-blue-text'><%= job.job_number.present? ? job.job_number : "-" %></div>
+                  </div>
+
+                  <% if drilling_log.present? %>
+
+                      <div class=''>
+                        <div class='stat'>
+                          <p class='warning-text'>ft/hr</p>
+
+                          <h1 class='warning-text'><%= drilling_log.drilling_rop.present? ? drilling_log.drilling_rop.round(1) : "-" %></h1>
+                        </div>
+                        <div class='stat'>
+                          <p class='<%= job.issues.count > 0 ? 'warning-text' : '' %>'>failures</p>
+
+                          <h1 class='<%= job.issues.count > 0 ? 'warning-text' : '' %>'><%= job.issues.count %></h1>
+                        </div>
+                      </div>
+                      <div>
+                        <div class='stat'>
+                          <p>TD <%= drilling_log.td_depth.present? ? number_with_delimiter(drilling_log.td_depth.round(0).to_i, :delimiter => ',') : "-" %>
+                            ft</p>
+
+                          <h1><%= drilling_log.max_depth.present? ? number_with_delimiter(drilling_log.max_depth.round(0).to_i, :delimiter => ',') : "-" %></h1>
+                        </div>
+                        <div class='stat'>
+                          <p>drill hours</p>
+
+                          <h1><%= drilling_log.drilling_time.present? ? drilling_log.drilling_time.round(1) : "-" %></h1>
+                        </div>
+                      </div>
+                      <div class='align-top'>
+                        <% last_entry = drilling_log.drilling_log_entries.last %>
+                        <% if last_entry.present? %>
+                            <p class='inline-block help-text'>
+                              <%= last_entry.entry_at.in_time_zone(Time.zone).strftime("%a") %>
+                            </p>
+
+                            <div class='inline-block'>
+                              <b><%= last_entry.entry_at.in_time_zone(Time.zone).strftime("%H:%M %p") %></b>
+                            </div>
+                            <br>
+
+                            <div class='inline-block blue-text'>
+                              <b><%= DrillingLogEntry.activity_code_string(last_entry.activity_code) %></b>
+                            </div>
+                        <% end %>
+                      </div>
+                  <% end %>
+
+                </div>
+            <% end %>
         <% end %>
     <% end %>
+
+    <script>
+
+        <% @jobs.each do |a| %>
+        var plot3 = $.jqplot('rig_chart_<%= a[0] %>', [
+            [
+                ['a', <%= a[1].to_i %>],
+                ['b', <%= a[2].to_i - a[1].to_i %>]
+            ]
+        ], {
+            animate: true,
+            animateReplot: true,
+            background: "#FFFFFF",
+            seriesColors: [ "#bddbf5", "#FFFFFF"],
+            seriesDefaults: {
+                textColor: " #00ff0000",
+                shadow: false,
+                renderer: $.jqplot.DonutRenderer,
+                rendererOptions: {
+                    animation: {
+                        show: true,
+                        speed: 2500
+                    },
+                    padding: 0,
+                    innerDiameter: 95,
+                    sliceMargin: 0,
+                    startAngle: -90,
+                    showDataLabels: true,
+                    dataLabels: 'value'
+                }
+            }
+        });
+        <% end %>
+
+
+    </script>
   </div>
 
 

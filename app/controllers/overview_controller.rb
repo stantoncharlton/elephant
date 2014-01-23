@@ -7,7 +7,7 @@ class OverviewController < ApplicationController
     def overview
 
         if params[:section] == "company"
-            @jobs = Job.from_company(current_user.company).includes(:district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
+            @jobs = Job.include_models(Job.from_company(current_user.company))
             filter
             @personnel_utilization = personnel_utilization(@jobs)
             @total_personnel = total_personnel(@jobs)
@@ -17,14 +17,14 @@ class OverviewController < ApplicationController
             @average_job_performance = average_job_performance(@jobs)
             @jobs = @jobs.reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 10)
         elsif  params[:section] == "company_failures"
-            @jobs = Job.from_company(current_user.company).includes(:district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
+            @jobs = Job.include_models(Job.from_company(current_user.company))
             filter
             @job_success_rate = job_success_rate(@jobs)
             @failures = failures(@jobs)
             @failures_list = @failures.take(4).to_a
             @failures_count = @failures.count()
         else
-            @jobs = Job.from_company(current_user.company).includes(:district, :client, :dynamic_fields, :field, :well).includes(job_template: {product_line: {segment: :division}})
+            @jobs = Job.include_models(Job.from_company(current_user.company))
             filter
             @jobs_sql = @jobs.reorder('').select('jobs.id').to_sql
         end

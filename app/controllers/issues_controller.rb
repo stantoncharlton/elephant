@@ -37,7 +37,7 @@ class IssuesController < ApplicationController
             @issue.job = @job
 
             date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
-            @issue.failure_at = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:hour]}:#{params[:minute]}:00")
+            @issue.failure_at = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:entry_time]}")
 
             if !params[:part_membership_id].blank?
                 @part_membership = PartMembership.find_by_id(params[:part_membership_id])
@@ -103,13 +103,20 @@ class IssuesController < ApplicationController
                     @issue.accountable = params[:value] == "true"
                     @issue.save
                 when "part_membership_id"
-                    part_membership = PartMembership.find_by_id(params[:value])
-                    if part_membership.present?
-                        if part_membership.part.present?
-                            @issue.part = part_membership.part
-                        end
-                        @issue.part_serial_number = part_membership.serial_number
+                    if params[:value] == "0"
+                        @issue.part = nil
                         @issue.save
+                    else
+                        part_membership = PartMembership.find_by_id(params[:value])
+                        if part_membership.present?
+                            if part_membership.part.present?
+                                @issue.part = part_membership.part
+                            else
+                                @issue.part = nil
+                            end
+                            @issue.part_serial_number = part_membership.serial_number
+                            @issue.save
+                        end
                     end
                 when "responsible_by_id"
                     user = User.find_by_id(params[:value])

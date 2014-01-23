@@ -16,7 +16,7 @@ if ($('.no-job-log-entries').length > 0) {
 <% date = @drilling_log_entry.entry_at %>
 var group = $(".log-entry-group[data-date='<%= date.strftime("%m/%d/%Y") %>']");
 if (group.length > 0) {
-    group.append("<%= j render 'drilling_log_entries/drilling_log_entry', entry: @drilling_log_entry, last_entry: @last_entry %>");
+    group.append("<%= j render 'drilling_log_entries/drilling_log_entry', entry: @drilling_log_entry, editable: false %>");
 }
 else {
     $("#list").append("<%= j render 'drilling_log_entries/drilling_log_entry_group', date: date, entries: [@drilling_log_entry], empty: false %>");

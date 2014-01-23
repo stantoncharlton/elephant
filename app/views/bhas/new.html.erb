@@ -29,7 +29,7 @@
 
       <div class="form" id="add_tool" data-form="add_tool">
         <% options = [] %>
-        <% # Includes only jobs with BHA   %>
+        <% # Includes only jobs with BHA     %>
         <% PartMembership.includes(job: :well).includes(job: :documents).where("wells.id = ?", @job.well_id).where("documents.document_type = ?", Document::BOTTOM_HOLE_ASSEMBLY).order("part_memberships.name ASC").each do |p| %>
             <% options << [p.name + ' - ' + p.serial_number, p.id] %>
         <% end %>
@@ -66,7 +66,15 @@
       <%= f.submit "Save", class: "bluebtn pull-right push-right-small form-loading-on-click",
                    "data-form" => "new_bha" %>
 
-      <%= link_to "Cancel", request.referer + '#drilling-bha', class: "bluebtn red pull-right " %>
+      <% if request.referrer.present? %>
+          <%= link_to "Cancel", request.referer + '#drilling-bha', class: "bluebtn red pull-right " %>
+      <% else %>
+          @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first
+          <% if @drilling_log.present? %>
+              <%= link_to "Cancel", "/drilling_logs/#{@drilling_log.id}#drilling-bha", class: "bluebtn red pull-right " %>
+          <% end %>
+      <% end %>
+
 
 
       <br><br>

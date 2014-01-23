@@ -2,22 +2,24 @@
      class='field drilling-log-entry'>
 
   <div class="">
-    <div class="btn-group inline-block align-top pull-right push-up">
-      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      </a>
-      <ul class="dropdown-menu">
-        <li>
-          <%= link_to "Edit Entry", edit_drilling_log_entry_path(entry), remote: true, class: "dropdown-menu-link show-modal-button" %>
-        </li>
-        <li class="divider"></li>
-        <li>
-          <%= link_to "Remove Entry", entry, method: :delete, remote: true,
-                      data: {confirm: "Remove Entry?"}, class: "dropdown-menu-link tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Remove Entry" %>
-        </li>
-      </ul>
-    </div>
+    <% if editable %>
+        <div class="btn-group inline-block align-top pull-right push-up">
+          <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to "Edit Entry", edit_drilling_log_entry_path(entry), remote: true, class: "dropdown-menu-link show-modal-button" %>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <%= link_to "Remove Entry", entry, method: :delete, remote: true,
+                          data: {confirm: "Remove Entry?"}, class: "dropdown-menu-link tooltip-info",
+                          "data-placement" => "bottom",
+                          "data-title" => "Remove Entry" %>
+            </li>
+          </ul>
+        </div>
+    <% end %>
 
     <div class="inline-block pull-right" style="width:10px;height:30px;background:<%= DrillingLogEntry.activity_code_color(entry.activity_code) %>;"></div>
 
@@ -26,13 +28,12 @@
     </p>
 
     <p class="list-item-column list-item-column-short blue-text">
-      <% minutes = (entry.entry_at - last_entry.entry_at) / 60 %>
-      <b><%= (minutes / 60).round(2) %></b> hrs
+      <b><%= entry.hours.round(2) %></b> hrs
     </p>
 
     <p class="list-item-column2">
       <b><%= number_with_delimiter(entry.depth, :delimiter => ',') %></b>
-      <span class="help-text push-right-small <%= entry.depth - last_entry.depth < 0 ? "warning-text" : "" %>"><%= entry.depth - last_entry.depth %></span>
+      <span class="help-text push-right-small <%= entry.course_length < 0 ? "warning-text" : "" %>"><%= entry.course_length %></span>
     </p>
 
     <p class="list-item-column list-item-column4">
@@ -54,22 +55,4 @@
       <% end %>
     </div>
   </div>
-
-  <% if false %>
-      <% if survey_point.present? %>
-          <div class=''>
-            <p class='push-up'>
-              <span class='inline-block label label-info'>Survey</span>
-              <span class='push-right-small'>Inc</span>
-              <b><%= survey_point.inclination %></b>
-              <span class='push-right-small'>Azi</span>
-              <b><%= survey_point.azimuth %></b>
-              <span class='push-right-small'>TVD</span>
-              <b><%= number_with_delimiter(survey_point.true_vertical_depth.to_i, :delimiter => ',') %></b>
-              <span class='push-right-small'>DLS</span>
-              <b><%= survey_point.dog_leg_severity %></b>
-            </p>
-          </div>
-      <% end %>
-  <% end %>
 </div>
