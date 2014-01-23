@@ -8,12 +8,13 @@
   <div class="content tray-content content-loaded">
 
     <% parts = @parts.where(:status => Part::SHIPPING) %>
+    <% shipments = Shipment.where(:district_id => @district.id).order("created_at DESC") %>
 
     <div class='well'>
-      <h1 class="donut-text inline"><%= parts.count %></h1>
+      <h1 class="donut-text inline"><%= shipments.count %></h1>
 
       <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Assets</h3>
+        <h3 class="inline-block">Shipments</h3>
       </div>
 
       <div class='pull-right'>
@@ -23,10 +24,11 @@
       </div>
     </div>
 
-    <div id="parts" class="list">
-      <% Shipment.all.each do |shipment| %>
-        <%= shipment.created_at %>
+    <div id="shipments_list" class="list">
+      <% shipments.each do |shipment| %>
+          <%= render 'shipments/shipment', shipment: shipment %>
       <% end %>
+
       <% parts.where(:status => Part::SHIPPING).each_with_index do |part, index| %>
           <%= render 'parts/sub_part2', part: part, index: index, condensed: true %>
       <% end %>
@@ -35,3 +37,22 @@
   </div>
 
 </div>
+
+<script type='text/javascript'>
+
+    var oldHide = $.fn.popover.Constructor.prototype.hide;
+
+    $.fn.popover.Constructor.prototype.hide = function () {
+        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
+            var that = this;
+            // try again after what would have been the delay
+            setTimeout(function () {
+                return that.hide.call(that, arguments);
+            }, that.options.delay.hide);
+            return;
+        }
+        oldHide.call(this, arguments);
+    };
+
+    $('.popover').popover({  delay: { show: 100, hide: 100 } });
+</script>

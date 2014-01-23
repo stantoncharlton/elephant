@@ -1,0 +1,9 @@
+$('#modal_popup').css('visibility', 'hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').height(0);
+
+<% if @shipment.present? %>
+    if($("#shipment_<%= @shipment.id %>").length > 0) {
+    $("#shipment_<%= @shipment.id %>").remove();
+    }
+<% end %>

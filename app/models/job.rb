@@ -47,7 +47,7 @@ class Job < ActiveRecord::Base
 
     has_many :document_shares, order: "created_at DESC"
 
-    has_many :part_memberships, dependent: :destroy, foreign_key: "job_id"
+    has_many :part_memberships, order: "name ASC", dependent: :destroy, foreign_key: "job_id"
 
     ACTIVE = 1
 

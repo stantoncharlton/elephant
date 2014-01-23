@@ -1,5 +1,5 @@
 class ShipmentsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :new, :show, :create, :destroy]
+    before_filter :signed_in_user, only: [:index, :new, :show, :create, :edit, :update, :destroy]
 
     def index
 
@@ -24,6 +24,14 @@ class ShipmentsController < ApplicationController
         @shipment.user = current_user
         @shipment.status = 0
         @shipment.save
+    end
+
+    def edit
+        @shipment = Shipment.find(params[:id])
+    end
+
+    def update
+        @shipment = Shipment.find(params[:id])
     end
 
     def destroy

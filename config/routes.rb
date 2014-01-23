@@ -121,6 +121,6 @@ ElephantWebApp::Application.routes.draw do
 
     resources :rig_memberships, only: [:new, :create, :destroy]
 
-    resources :shipments, only: [:index, :show, :new, :create, :destroy]
+    resources :shipments, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 end
 

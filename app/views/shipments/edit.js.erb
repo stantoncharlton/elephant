@@ -1,6 +1,6 @@
 popup = $('#modal_popup');
 popup.find('.modal-content').find('*').remove();
-popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @shipment, new: true %>");
+popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @shipment, new: false %>");
 popup.css('visibility', 'visible');
 popup.find('.loading').addClass('hidden');
 
@@ -9,7 +9,8 @@ popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('
 
 $('.popover').popover({  delay: { show: 100, hide: 100 } });
 
-setTimeout(function () {
+
+setTimeout(function(){
 
 
     var focusevent, last_selected_item, part_focused,
@@ -17,7 +18,7 @@ setTimeout(function () {
 
     last_selected_item = null;
 
-    focusevent = function (event, ui) {
+    focusevent = function(event, ui) {
         var selected_item;
         if (last_selected_item !== null) {
             $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
@@ -27,14 +28,14 @@ setTimeout(function () {
         return last_selected_item = ui.item;
     };
 
-    popup.find('.part-search').each(function (index, element) {
+    popup.find('.part-search').each(function(index, element) {
         return $(element).autocomplete({
             source: $(element).data('autocomplete-source'),
             focus: focusevent,
-            select: function (event, ui) {
+            select: function(event, ui) {
                 if (ui.item.id > 0) {
                     $('#modal_popup').find('input[id=part_membership_part_id]').val(ui.item.id);
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#modal_popup').find('input[id=part_search]').val(ui.item.label + ' (Serial #' + ui.item.serial_number + ')');
                     }, 1);
                 }
@@ -44,14 +45,14 @@ setTimeout(function () {
 
     part_focused = false;
 
-    popup.find('.part-search').focusin(function () {
+    popup.find('.part-search').focusin(function() {
         part_focused = true;
         $(this).removeClass('ui-autocomplete-bad');
         $(this).addClass('ui-autocomplete-typing');
         return $(this).val('').trigger('keydown');
     });
 
-    popup.find('.part-search').focusout(function () {
+    popup.find('.part-search').focusout(function() {
         if (part_focused) {
             $(this).addClass('ui-autocomplete-bad');
             if ($(this).val() === '') {
@@ -67,17 +68,12 @@ setTimeout(function () {
     }
 }, 50);
 
-if($('#shipments_list').length > 0) {
-$("#shipments_list").prepend("<%= j render 'shipments/shipment', shipment: @shipment %>");
-}
-
 popup.find(".modal-popup-close").click(function () {
     $(this).unbind('click');
+
     if($("#shipment_<%= @shipment.id %>").length > 0) {
-        $("#shipment_<%= @shipment.id %>").remove();
+        $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment %>");
+        $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 100 } });
     }
-    $.ajax({
-        url: "/shipments/<%= @shipment.id %>",
-        type: "DELETE"
-    });
 });
+

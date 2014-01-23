@@ -105,13 +105,15 @@ class PartMembershipsController < ApplicationController
 
     def destroy
         @part_membership = PartMembership.find_by_id(params[:id])
-        not_found unless @part_membership.present? && @part_membership.company == current_user.company
+        not_found unless @part_membership.present?
 
         if @part_membership.destroy
-            if @part_membership.part.present?
-                Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
-            else
-                Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
+            if @part_membership.job.present?
+                if @part_membership.part.present?
+                    Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
+                else
+                    Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
+                end
             end
         end
     end

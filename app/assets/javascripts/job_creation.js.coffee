@@ -68,6 +68,12 @@ $ ->
     $('#modal_popup').height(0)
     return false
 
+  $('#close_modal2').live "click", ->
+    $('#modal_popup2').css "visibility", "hidden"
+    $('#modal_popup2').find(".modal-content").children().remove()
+    $('#modal_popup2').height(0)
+    return false
+
 
   $('#new_field_link').click ->
     if $('#job_district_id').val() != ''

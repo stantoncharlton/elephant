@@ -30,23 +30,35 @@
 
   <div class='push-down-small'>
     <% if part_membership.present? %>
-        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button'>Change
+        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button2'>Change
           Attributes</a>
-        <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>|
+        <% if (part_membership.shipment.present? || (part_membership.job.present? && !part_membership.job.closed)) && allow_remove %>
+            |
         <% end %>
     <% end %>
-    <% if part_membership.job.present? && !part_membership.job.closed && allow_remove %>
-        <a href='/part_memberships/<%= part_membership.id %>'
-           data-method='delete'
-           data-remote='true'
-           data-confirm='Remove <%= part_membership.name %> from Job? This will cause it to be removed from any BHA it currently resides on.'
-           rel='nofollow'
-           class='activity-user-link tooltip-info align-top'
-           data-placement='bottom'
-           data-title='Remove from Job'>Remove</a>
+    <% if (part_membership.shipment.present? || (part_membership.job.present? && !part_membership.job.closed)) && allow_remove %>
+        <% if part_membership.shipment.present? %>
+            <a href='/part_memberships/<%= part_membership.id %>'
+               data-method='delete'
+               data-remote='true'
+               data-confirm='Remove <%= part_membership.name %> from Shipment?'
+               rel='nofollow'
+               class='activity-user-link tooltip-info align-top'
+               data-placement='bottom'
+               data-title='Remove from Shipment'>Remove</a>
+        <% else %>
+            <a href='/part_memberships/<%= part_membership.id %>'
+               data-method='delete'
+               data-remote='true'
+               data-confirm='Remove <%= part_membership.name %> from Job? This will cause it to be removed from any BHA it currently resides on.'
+               rel='nofollow'
+               class='activity-user-link tooltip-info align-top'
+               data-placement='bottom'
+               data-title='Remove from Job'>Remove</a>
+        <% end %>
     <% end %>
 
-    <% if part_membership.present? && part_membership.part.present? && (part_membership.part.status == Part::ON_JOB || part_membership.part.status == Part::SHIPPING)  && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
+    <% if part_membership.present? && part_membership.part.present? && (part_membership.part.status == Part::ON_JOB || part_membership.part.status == Part::SHIPPING) && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
         <div>
           <% if !part_membership.shipping? %>
               <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship

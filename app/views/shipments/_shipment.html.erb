@@ -1,0 +1,27 @@
+<div id="shipment_<%= shipment.id %>">
+  <%= link_to edit_shipment_path(shipment), remote: true, class: "job-link  show-modal-button" do %>
+      <div style="margin-top: 10px; margin-bottom: 10px;">
+        <div class='pull-right'>
+
+          <% if shipment.status != Shipment::COMPLETE %>
+              <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
+          <% else %>
+              <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
+          <% end %>
+        </div>
+        <div>
+          <b>Houston</b>&nbsp;<i class="icon-chevron-right"></i>&nbsp;<b>H&P 246</b>&nbsp; - &nbsp;Jones | Marc 24H
+        </div>
+
+        <div>
+          <b class='warning-text'>In Transit</b>
+        </div>
+      </div>
+  <% end %>
+
+  <% shipment.part_memberships.each do |pm| %>
+      <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
+  <% end %>
+  <hr>
+
+</div>

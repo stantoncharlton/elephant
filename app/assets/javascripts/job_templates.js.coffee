@@ -74,6 +74,14 @@ $ ->
     $('#modal_popup').find('.loading').removeClass 'hidden'
     return false
 
+  $('.show-modal-button2').live "click", ->
+    $('#modal_popup2').css('visibility', 'visible')
+    inner = $('#modal_popup2').find('.modal-popup')
+    inner.css('margin-top', 100)
+    $('#modal_popup2').height($(document).height() + 100)
+    $('#modal_popup2').find('.loading').removeClass 'hidden'
+    return false
+
   $('.add-new-document-button').live "click", ->
     $('#new_documents_added').removeClass 'hidden'
     oldValue = $('#new_documents_added_names').text()

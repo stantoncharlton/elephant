@@ -19,7 +19,7 @@ class Shipment < ActiveRecord::Base
     belongs_to :from, :polymorphic => true
     belongs_to :to, :polymorphic => true
 
-    has_many :part_memberships, :dependent => :destroy
+    has_many :part_memberships, order: "name ASC", :dependent => :destroy
     has_many :job_notes
 
     AWAITING_SHIPMENT = 1

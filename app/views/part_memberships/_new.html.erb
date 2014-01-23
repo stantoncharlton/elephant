@@ -1,5 +1,7 @@
 <div class='add-new-asset content'>
-  <h3>Add New Asset</h3>
+  <% if !shipment.present? %>
+      <h3>Add New Asset</h3>
+  <% end %>
 
   <div class='form' data-form="new-asset-form">
     <%= form_for PartMembership.new, remote: true do |f| %>
@@ -27,7 +29,7 @@
 
         <div class='inline-block asset-type-form align-top' data-type="inventory">
           <%= f.hidden_field :part_id %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @job.district.id, show_master: false)},
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: shipment.present? ? shipment.district_id : @job.district.id, show_master: false)},
                              placeholder: "Asset Serial #, Material #, or Name",
                              class: "txtfield search-query tooltip-info part-search align-top",
                              id: "part_search",

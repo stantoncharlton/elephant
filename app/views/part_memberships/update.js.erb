@@ -8,11 +8,11 @@ $('#alert').modal({show:true});
     <% if params[:usage].present? %>
         $('.usage-hours-updated').removeClass('hidden');
     <% else %>
-        $('#modal_popup').css('visibility', 'hidden');
-        $('#modal_popup').find(".modal-content").children().remove();
-        $('#modal_popup').height(0);
+        $('#modal_popup2').css('visibility', 'hidden');
+        $('#modal_popup2').find(".modal-content").children().remove();
+        $('#modal_popup2').height(0);
 
-        $('#part_membership_<%= @part_membership.id %>').replaceWith("<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>");
-        $('#part_membership_<%= @part_membership.id %>').find('.popover').popover({  delay: { show: 100, hide: 100 } });
+        $('div[id=part_membership_<%= @part_membership.id %>]').replaceWith("<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>");
+        $('div[id=part_membership_<%= @part_membership.id %>]').find('.popover').popover({  delay: { show: 100, hide: 100 } });
     <% end %>
 <% end %>
