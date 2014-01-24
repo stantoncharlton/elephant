@@ -58,6 +58,8 @@ class DrillingLogEntriesController < ApplicationController
                         if row[1].is_a?(Float)
                             time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}", '%s')
                             drilling_log_entry.entry_at = Time.zone.parse("#{row[0]} #{time.strftime("%H:%M")}")
+                        elsif row[1].is_a?(String) && !row[1].blank?
+                            drilling_log_entry.entry_at = Time.zone.parse("#{row[0]} #{row[1]}")
                         else
                             drilling_log_entry.entry_at = Time.zone.parse("#{row[0]} 24:00")
                         end
@@ -66,6 +68,8 @@ class DrillingLogEntriesController < ApplicationController
                         if row[1].is_a?(Float)
                             time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}", '%s')
                             drilling_log_entry.entry_at = Time.zone.parse("#{last_date} #{time.strftime("%H:%M")}")
+                        elsif row[1].is_a?(String) && !row[1].blank?
+                            drilling_log_entry.entry_at = Time.zone.parse("#{last_date} #{row[1]}")
                         else
                             drilling_log_entry.entry_at = Time.zone.parse("#{last_date} 24:00}")
                         end
