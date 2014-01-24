@@ -49,10 +49,10 @@ removeOldContent('<%= params[:section] %>');
     <% dates = entries.group_by { |item| item.entry_at.in_time_zone(Time.zone).to_date } %>
     <% dates.each_with_index do |date, index| %>
         <% if index < dates.length - 1 %>
-                group = $(".log-entry-group[data-date='<%= date[0].strftime("%m/%d/%Y") %>'");
+                group = $(".log-entry-group[data-date='<%= date[0].strftime("%m/%d/%Y") %>']");
                 is_visible = group.is(":visible");
                 group.replaceWith("<%= j render 'drilling_log_entries/drilling_log_entry_group', date: date[0], entries: date[1], empty: false %>");
-                group = $(".log-entry-group[data-date='<%= date[0].strftime("%m/%d/%Y") %>'");
+                group = $(".log-entry-group[data-date='<%= date[0].strftime("%m/%d/%Y") %>']");
                 if(!is_visible) {
                     group.hide();
                 }

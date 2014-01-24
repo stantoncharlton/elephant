@@ -33,7 +33,7 @@
             <td colspan="3">
               <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
               <% if drilling_log.present? %>
-                  <p class='inline-block'  style="margin-left: 10px;">
+                  <p class='inline-block' style="margin-left: 10px;">
                     <b><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></b>
                     / <%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
                     ft</p>
@@ -116,9 +116,21 @@
         </table>
 
         <% job_memberships = job.job_memberships.includes(user: :district).order("job_role_id ASC").to_a %>
-        <% if job_memberships.any? %>
+        <% worked_job_memberships = [] %>
+        <% job_times = JobTime.where(:job_id => job.id).to_a %>
+        <% job_memberships.each do |jm| %>
+            <% if jm.job_role_id == JobMembership::FIELD %>
+                <% job_time = job_times.find { |jt| jt.user_id == jm.user_id && jt.time_for.to_date == Time.zone.now.to_date } %>
+                <% if job_time.present? %>
+                    <% worked_job_memberships << jm %>
+                <% end %>
+            <% else %>
+                <% worked_job_memberships << jm %>
+            <% end %>
+        <% end %>
+        <% if worked_job_memberships.any? %>
             <table width="100%" style="margin-left: 10px;" border="0" cellpadding="0" cellspacing="0">
-              <% job_memberships_array = job_memberships.select { |jm| jm.job_role_id != JobMembership::CREATOR && jm.job_role_id != JobMembership::MANAGER && jm.job_role_id != JobMembership::TOOL_COORDINATOR && jm.job_role_id != JobMembership::OBSERVER && jm.job_role_id != JobMembership::SHOP }.to_a %>
+              <% job_memberships_array = worked_job_memberships.select { |jm| jm.job_role_id != JobMembership::CREATOR && jm.job_role_id != JobMembership::MANAGER && jm.job_role_id != JobMembership::TOOL_COORDINATOR && jm.job_role_id != JobMembership::OBSERVER && jm.job_role_id != JobMembership::SHOP } %>
               <% real_index = -1 %>
               <% job_memberships_array.each_with_index do |jm, index| %>
                   <% if real_index < job_memberships_array.length %>

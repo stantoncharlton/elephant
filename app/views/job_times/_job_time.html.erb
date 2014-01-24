@@ -19,7 +19,7 @@
             <% end %>
           </div>
           <% 11.times do |i| %>
-              <div class="day-header <%= i == 2 && @page == 0 ? "orange-text" : "" %>">
+              <div class="day-header  <%= (@start_date + (i - 2).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
                 <%= (@start_date + (i - 2).days).strftime("%a") %>
                 <br>
                 <%= (@start_date + (i - 2).days).day %>

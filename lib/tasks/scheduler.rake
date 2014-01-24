@@ -1,4 +1,5 @@
 task :daily_activity_email => :environment do
+    Time.zone = "Central Time (US & Canada)"
     User.all.each do |user|
     #user = User.find(85)
         if false
