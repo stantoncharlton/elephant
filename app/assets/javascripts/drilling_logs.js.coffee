@@ -55,3 +55,19 @@ $ ->
       else
         content.addClass 'hidden'
     return false
+
+
+  $('.sub-tray-link').live "click", ->
+    $('.sub-tray-link').each ->
+      li = $(this).closest('li')
+      if li.hasClass 'active'
+        li.removeClass 'active'
+        $(this).addClass 'blue-text'
+
+    $(this).closest('li').addClass 'active'
+    $(this).removeClass 'blue-text'
+
+    $('.sub-tray').addClass 'hidden'
+    $('.sub-tray[data-tray=' + $(this).attr('data-tray') + ']').removeClass 'hidden'
+
+    return false

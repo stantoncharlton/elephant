@@ -304,4 +304,129 @@ module DrillingLogsHelper
         end
     end
 
+
+    def drilling_log_to_excel drilling_log
+        p = Axlsx::Package.new
+        wb = p.workbook
+
+        wb.styles do |s|
+            title_cell = s.add_style :bg_color => "FF", :fg_color => "5d5d5d", :b => true, :sz => 16, :alignment => {:horizontal => :center}
+            title_cell2 = s.add_style :bg_color => "FF", :fg_color => "5d5d5d", :b => true, :sz => 12, :alignment => {:horizontal => :center}
+            column_name_cell = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :sz => 12, :b => true, :alignment => {:horizontal => :left}, :border => {:style => :thin, :color => "00", :edges => [:top, :bottom]}
+
+            cell1 = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => false, :sz => 12, :alignment => {:horizontal => :left}
+            cell2 = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => false, :sz => 12, :alignment => {:horizontal => :left}
+            cell1_bold = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => true, :sz => 12, :alignment => {:horizontal => :left}
+            cell2_bold = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => true, :sz => 12, :alignment => {:horizontal => :left}
+
+            date1 = s.add_style :bg_color => "fafdff", :fg_color => "5d5d5d", :b => false, :sz => 12, :alignment => {:horizontal => :left}, :format_code => "yyyy-mm-dd"
+            date2 = s.add_style :bg_color => "f3f6fb", :fg_color => "5d5d5d", :b => false, :sz => 12, :alignment => {:horizontal => :left}, :format_code => "yyyy-mm-dd"
+
+            margins = {:left => 1, :right => 1, :top => 1, :bottom => 1, :header => 0, :footer => 0}
+            setup = {:fit_to_width => 1, :orientation => :portrait, :paper_width => "21cm", :paper_height => "29.7cm"}
+            options = {:grid_lines => true, :headings => true, :horizontal_centered => true}
+
+            wb.add_worksheet(:name => "Daily Activity", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|
+                sheet.add_row ['Daily Activity', '', '', '', ''], :style => title_cell
+                sheet.add_row [drilling_log.document.job.field.name + ' | ' + drilling_log.document.job.well.name, '', '', '', ''], :style => title_cell
+                sheet.add_row [drilling_log.document.job.well.rig.present? ? drilling_log.document.job.well.rig.name : '', '', '', '', ''], :style => title_cell
+                sheet.add_row ['', '', '', '', ''], :style => title_cell
+
+
+                sheet.add_row ['Date', 'Time', 'Depth', 'BHA #', 'Activity', 'Comments', 'WOB', 'GPM', 'RPM', 'TFO'], :style => column_name_cell
+
+                drilling_log.drilling_log_entries.includes(:bha).each_with_index do |dl, index|
+                    cell = index % 2 == 0 ? cell1 : cell2
+                    bold = index % 2 == 0 ? cell1_bold : cell2_bold
+                    date = index % 2 == 0 ? date1 : date2
+                    sheet.add_row [dl.entry_at.strftime("%Y-%m-%d"), dl.entry_at.strftime("%k:%M"), dl.depth, dl.bha.present? ? dl.bha.name : '', get_activity_code_string(dl.activity_code), dl.comment, dl.wob, dl.flow, dl.rotary_rpm, dl.tfo], :style => [date, bold, bold, cell, bold, cell, cell, cell, cell, cell]
+                end
+
+                sheet.column_widths 15, 10, 10, 8, 30, 45, 7, 7, 7, 7
+
+                sheet.merge_cells("A1:J1")
+                sheet.merge_cells("A2:J2")
+                sheet.merge_cells("A3:J3")
+                sheet.merge_cells("A4:J4")
+
+            end
+        end
+
+        p
+    end
+
+    def get_activity_code_string value
+        case value
+            when DrillingLogEntry::DRILLING
+                "DRILLING"
+            when DrillingLogEntry::SLIDING
+                "SLIDING"
+            when DrillingLogEntry::CIRCULATING
+                "CIRCULATING"
+            when DrillingLogEntry::CONNECTION_SURVEY
+                "CONNECTION & SURVEY"
+            when DrillingLogEntry::REAMING
+                "REAMING"
+            when DrillingLogEntry::CEMENTING
+                "CEMENTING"
+            when DrillingLogEntry::CHANGE_MUD
+                "CHANGE MUD"
+            when DrillingLogEntry::CHANGE_BHA
+                "CHANGE BHA"
+            when DrillingLogEntry::POOH
+                "POOH"
+            when DrillingLogEntry::SHORT_TRIP
+                "SHORT TRIP"
+            when DrillingLogEntry::TIH
+                "TIH"
+            when DrillingLogEntry::TIH_CIRCULATING
+                "TIH CIRCULATING"
+            when DrillingLogEntry::WIRELINE
+                "WIRELINE"
+            when DrillingLogEntry::WORK_PIPE
+                "WORK PIPE"
+            when DrillingLogEntry::BOP_DRILL
+                "BOP DRILL"
+            when DrillingLogEntry::MWD_SURVEY
+                "MWD SURVEY"
+            when DrillingLogEntry::LD_DP
+                "L/D DP"
+            when DrillingLogEntry::PU_DP
+                "P/U DP"
+            when DrillingLogEntry::DRILLING_CEMENT
+                "DRILLING CEMENT"
+            when DrillingLogEntry::LOGGING
+                "LOGGING"
+            when DrillingLogEntry::CONNECTION
+                "CONNECTION"
+            when DrillingLogEntry::JETTING
+                "JETTING"
+
+            when DrillingLogEntry::OTHER
+                "UNDEFINED"
+            when DrillingLogEntry::RIG_REPAIR
+                "RIG REPAIR"
+            when DrillingLogEntry::PIPE_STUCK
+                "PIPE STUCK"
+            when DrillingLogEntry::FISHING
+                "FISHING"
+            when DrillingLogEntry::RIG_SERVICE_INHOLE
+                "RIG SERVICE INHOLE"
+            when DrillingLogEntry::WAIT_ON_WEATHER
+                "WAIT ON WEATHER"
+
+
+            when DrillingLogEntry::NIPPLE_BOPS
+                "NIPPLE U/D BOPS"
+            when DrillingLogEntry::TEST_BOPS
+                "TEST BOPS"
+
+            when DrillingLogEntry::STANDBY_OUTHOLE
+                "STANDBY"
+            when DrillingLogEntry::RIG_SERVICE_OUTHOLE
+                "RIG SERVICE OUTHOLE"
+
+        end
+    end
+
 end

@@ -29,6 +29,8 @@ if(!tray.hasClass('custom-data-closed')) {
     tray.replaceWith("<%= j render 'inventory/tray_full', parts: @parts %>");
     <% elsif params[:section] == "warehouses" %>
     tray.replaceWith("<%= j render 'inventory/tray_warehouses', parts: @parts %>");
+    <% elsif params[:section] == "suppliers" %>
+    tray.replaceWith("<%= j render 'inventory/tray_suppliers', parts: @parts %>");
     <% end %>
 
     if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

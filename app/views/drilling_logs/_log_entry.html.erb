@@ -18,7 +18,8 @@
         <div>
           <h3>Add New Entry</h3>
 
-          <p class='help-text'>Entries should be added at the <b class='blue-text'>completion</b> of <b class='blue-text'>every</b> activity.</p>
+          <p class='help-text'>Entries should be added at the <b class='blue-text'>completion</b> of
+            <b class='blue-text'>every</b> activity.</p>
         </div>
 
         <div class='push-down'>
@@ -71,15 +72,43 @@
           <p class='inline-block'>&nbsp;(Optional)</p>
 
           <% if @survey.nil? || @survey.survey_points.empty? %>
-            <p class='help-text'>Please add Tie-In point on survey before entering surveys here...</p>
+              <p class='help-text'>Please add Tie-In point on survey before entering surveys here...</p>
           <% else %>
               <%= render 'surveys/survey_entry_fields' %>
-        <% end %>
+          <% end %>
         </div>
 
         <hr>
 
         <div>
+
+          <h3>Running Parameters</h3>
+
+          <p class='help-text'>Update parameters throughout run when changed...</p>
+
+        </div>
+
+        <div class='push-down'>
+          <ul class="nav nav-pills">
+            <li class='active'>
+              <a href="#" class='sub-tray-link' data-tray="drilling">Drilling Parameters</a>
+            </li>
+            <li class="push-right-small">
+              <a href="#" class='sub-tray-link blue-text' data-tray="mud">Mud</a>
+            </li>
+            <li class='push-right-small'><a href="#" class='sub-tray-link blue-text' data-tray="pumps">Pumps</a>
+            </li>
+            <li class='push-right-small'><a href="#" class='sub-tray-link blue-text' data-tray="casing">
+              Casing/Liner</a>
+            </li>
+            <li class='push-right-small'>
+              <a href="#" class='sub-tray-link blue-text' data-tray="mwd">MWD</a>
+            </li>
+          </ul>
+          <br>
+        </div>
+
+        <div class='sub-tray' data-tray="drilling">
           <div class='job-field-title2'>WOB</div>
           <input name="[drilling_log_entry][wob]" type="text"
                  class="job-field-value-editable input-small tooltip-info"
@@ -169,12 +198,10 @@
                  data-title="Tool Face Orientation">
         </div>
 
-        <hr>
-
-        <div>
+        <div class='sub-tray hidden' data-tray="mud">
           <div class='job-field-title2'>Type</div>
           <%= select_tag "[drilling_log_entry][mud_type]",
-                         options_for_select([["Water", 1], ["Oil", 2], ["Synthetic", 3], ["Brine", 4]], @last_entry.present? ? @last_entry.mud_type : nil),
+                         options_for_select([["Water", 1], ["Oil", 2], ["Synthetic", 3], ["Brine", 4], ["Air", 5]], @last_entry.present? ? @last_entry.mud_type : nil),
                          class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
                          "data-title" => "Mud Type",
                          placeholder: "Mud Type" %>
@@ -280,36 +307,124 @@
         </div>
 
 
-        <hr>
+        <div class='sub-tray hidden' data-tray="pumps">
+          <div class='job-field-title2'>Strk</div>
+          <input name="[drilling_log_entry][stroke_length]" type="text"
+                 class="job-field-value-editable input-small tooltip-info"
+                 value="<%= @last_entry.present? ? @last_entry.stroke_length : nil %>"
+                 placeholder="Strk Length"
+                 data-title="Stroke Length">
 
-        <div>
+          <div class='job-field-title2 push-right-small'>Eff</div>
+          <input name="[drilling_log_entry][pump_efficiency]" type="text"
+                 class="job-field-value-editable input-small tooltip-info"
+                 value="<%= @last_entry.present? ? @last_entry.pump_efficiency : nil %>"
+                 placeholder="Efficiency"
+                 data-title="Efficiency">
+
+          <div class='job-field-title2 push-right-small'>G/S</div>
+          <input name="[drilling_log_entry][gallons_stroke]" type="text"
+                 class="job-field-value-editable input-small tooltip-info"
+                 value="<%= @last_entry.present? ? @last_entry.gallons_stroke : nil %>"
+                 placeholder="Gallons/Strk"
+                 data-title="Gallons/Stroke">
+        </div>
+
+        <div class='sub-tray hidden' data-tray="casing">
+          <div class='job-field-title2 push-right-small'>Size</div>
+          <input name="[drilling_log_entry][casing_size]" type="text"
+                 class="job-field-value-editable input-small tooltip-info"
+                 value="<%= @last_entry.present? ? @last_entry.casing_size : nil %>"
+                 placeholder="Casing Size"
+                 data-title="Casing Size">
+        </div>
+
+
+        <div class='sub-tray hidden' data-tray="mwd">
+
+          <div class='job-field-title2'>Type</div>
+          <%= select_tag "[drilling_log_entry][mwd_type]",
+                         options_for_select([["EM", 1], ["Pulse", 2]], @last_entry.present? ? @last_entry.mwd_type : nil),
+                         id: "wmd_type",
+                         class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
+                         "data-title" => "MWD Type",
+                         placeholder: "MWD Type" %>
+          &nbsp;
+
+          <div id="em_parameters" class='inline-block'>
+            <div class='job-field-title2 push-right-small'>Hertz</div>
+            <%= select_tag "[drilling_log_entry][em_hertz]",
+                           options_for_select([["0.5", 0.5], ["1", 1.0], ["2", 2.0], ["4", 4.0], ["6", 6.0], ["12", 12.0]], @last_entry.present? ? @last_entry.em_hertz : nil),
+                           class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
+                           "data-title" => "Hertz",
+                           placeholder: "Hertz" %>
+
+            &nbsp;
+
+            <div class='job-field-title2 push-right-small'>Cycles</div>
+            <%= select_tag "[drilling_log_entry][em_cycles]",
+                           options_for_select([["1", 1.0], ["2", 2.0], ["3", 3.0]], @last_entry.present? ? @last_entry.em_cycles : nil),
+                           class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
+                           "data-title" => "Cycles",
+                           placeholder: "Cycles" %>
+            &nbsp;
+
+            <div class='job-field-title2 push-right-small'>Amps</div>
+            <%= select_tag "[drilling_log_entry][em_amps]",
+                           options_for_select([[".1", 0.1], [".3", 0.3], [".5", 0.5], ["1", 1.0], ["2", 2.0], ["3", 3.0], ["4", 4.0], ["5", 5.0], ["6", 6.0]], @last_entry.present? ? @last_entry.em_amps : nil),
+                           class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
+                           "data-title" => "Amperage",
+                           placeholder: "Amperage" %>
+          </div>
+
+          <hr>
+
           <div class='job-field-title2'>Bat 1</div>
           <input name="[drilling_log_entry][battery_1_amps]" type="text"
                  class="job-field-value-editable input-small tooltip-info"
                  value="<%= @last_entry.present? ? @last_entry.battery_1_amps : nil %>"
-                 placeholder="Bat 1 Amps"
-                 data-title="MWD Battery 1 Amps">
+                 placeholder="Bat 1 Ah"
+                 data-title="Battery 1 AmpHours">
+
+          <div class='job-field-title2 push-right-small'>B1 AHR</div>
+          <input name="[drilling_log_entry][battery_1_ahr]" type="text"
+                 class="job-field-value-editable input-small tooltip-info"
+                 value="<%= @last_entry.present? ? @last_entry.battery_1_ahr : nil %>"
+                 placeholder="Bat 1 AHR"
+                 data-title="Battery 1 AmpHours Remaining">
 
           <div class='job-field-title2 push-right-small'>Bat 2</div>
           <input name="[drilling_log_entry][battery_2_amps]" type="text"
                  class="job-field-value-editable input-small tooltip-info"
                  value="<%= @last_entry.present? ? @last_entry.battery_2_amps : nil %>"
-                 placeholder="Bat 2 Amps"
-                 data-title="MWD Battery 2 Amps">
+                 placeholder="Bat 2 Ah"
+                 data-title="Battery 2 AmpHours">
 
-          <div class='job-field-title2 push-right-small'>Volts</div>
+          <div class='job-field-title2 push-right-small'>B2 AHR</div>
+          <input name="[drilling_log_entry][battery_2_ahr]" type="text"
+                 class="job-field-value-editable input-small tooltip-info"
+                 value="<%= @last_entry.present? ? @last_entry.battery_2_ahr : nil %>"
+                 placeholder="Bat 2 AHR"
+                 data-title="Battery 2 AmpHours Remaining">
+
+          <br>
+          <div class='job-field-title2'>Volts</div>
           <input name="[drilling_log_entry][battery_volts]" type="text"
                  class="job-field-value-editable input-small tooltip-info"
                  value="<%= @last_entry.present? ? @last_entry.battery_volts : nil %>"
                  placeholder="Volts"
                  data-title="MWD Battery Volts">
 
+
+
         </div>
 
 
+        <hr>
+
         <div class="pull-right">
 
-          <%= f.submit "Add Entry",
+          <%= f.submit "Add Activity",
                        class: "bluebtn inline-block tooltip-info form-loading-on-click",
                        "data-form" => "new-job-log",
                        "data-placement" => "bottom",
@@ -318,6 +433,7 @@
         </div>
 
         <br>
+
 
 
     <% end %>

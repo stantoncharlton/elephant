@@ -35,10 +35,22 @@ class DrillingLogEntry < ActiveRecord::Base
                     :bh_temp,
                     :fl_temp,
                     :water_loss,
+                    #Pumps
+                    :stroke_length,
+                    :pump_efficiency,
+                    :gallons_stroke,
+                    #casing
+                    :casing_size,
                     #MWD
+                    :mwd_type,
+                    :em_hertz,
+                    :em_cycles,
+                    :em_amps,
                     :battery_1_amps,
+                    :battery_1_ahr,
                     :battery_2_amps,
-                    :battery_volts
+                    :battery_volts,
+                    :battery_2_ahr
 
 
     acts_as_tenant(:company)

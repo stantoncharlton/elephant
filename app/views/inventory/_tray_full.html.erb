@@ -32,6 +32,11 @@
 
     <div class='well'>
 
+      <%= link_to "New Asset Type", new_part_path(template: true, district: @district),
+                  class: "bluebtn tooltip-info pull-right",
+                  "data-placement" => "bottom",
+                  "data-title" => "Create new asset type" %>
+
       <h1 class="donut-text inline"><%= @parts.count %></h1>
 
       <div class='inline-block push-down push-right-small'>

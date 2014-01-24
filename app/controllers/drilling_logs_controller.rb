@@ -58,9 +58,22 @@ class DrillingLogsController < ApplicationController
         not_found unless @drilling_log.present?
         @bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC")
 
-        if params[:report].present? && params[:report] == "true" && params[:report_name].present?
-            create_report
+
+        respond_to do |format|
+            format.html {
+
+            }
+            format.js {
+                if params[:report].present? && params[:report] == "true" && params[:report_name].present?
+                    create_report
+                end
+            }
+            format.xlsx {
+                excel = drilling_log_to_excel @drilling_log
+                send_data excel.to_stream.read, :filename => "Daily Activity.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
         end
+
     end
 
 

@@ -8,7 +8,7 @@
         <% if drilling_log.present? %>
             <%= link_to job, class: "empty-link" do %>
                 <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0] %>
-                <div class="chart-block tooltip-info" style="margin-bottom: 20px;"
+                <div class="chart-block tooltip-info" style="margin-bottom: 35px;"
                      data-placement="top"
                      data-html="true"
                      data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: false %>">

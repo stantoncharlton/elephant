@@ -59,7 +59,6 @@
     var average = <%= drilling_log.nil? || drilling_log.rop.nil? ? 0.0 : drilling_log.rop.round(1) %>;
     var drilling_rop = <%= drilling_log.nil? || drilling_log.drilling_rop.nil? ? 0.0 : drilling_log.drilling_rop.round(1) %>;
 
-    setTimeout(function() {
     // SERIAL CHART
     var chart = new AmCharts.AmSerialChart();
     chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
@@ -169,7 +168,6 @@
     // WRITE
 
         chart.write("ropchart");
-        chart.validateData();
 
 
 
@@ -308,7 +306,6 @@
     if (label.length > 0) {
         label.remove();
     }
-    }, 50);
 
 
     <% end %>

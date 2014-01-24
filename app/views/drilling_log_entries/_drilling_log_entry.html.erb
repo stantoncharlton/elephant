@@ -8,14 +8,14 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <%= link_to "Edit Entry", edit_drilling_log_entry_path(entry), remote: true, class: "dropdown-menu-link show-modal-button" %>
+              <%= link_to "Edit Activity", edit_drilling_log_entry_path(entry), remote: true, class: "dropdown-menu-link show-modal-button" %>
             </li>
             <li class="divider"></li>
             <li>
-              <%= link_to "Remove Entry", entry, method: :delete, remote: true,
-                          data: {confirm: "Remove Entry?"}, class: "dropdown-menu-link tooltip-info",
+              <%= link_to "Remove Activity", entry, method: :delete, remote: true,
+                          data: {confirm: "Remove Activity?"}, class: "dropdown-menu-link tooltip-info",
                           "data-placement" => "bottom",
-                          "data-title" => "Remove Entry" %>
+                          "data-title" => "Remove Activity" %>
             </li>
           </ul>
         </div>

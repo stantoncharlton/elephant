@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140123171804) do
+ActiveRecord::Schema.define(:version => 20140124173823) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -318,6 +318,16 @@ ActiveRecord::Schema.define(:version => 20140123171804) do
     t.decimal  "rop"
     t.decimal  "course_length",   :default => 0.0
     t.decimal  "hours",           :default => 0.0
+    t.decimal  "stroke_length"
+    t.decimal  "pump_efficiency"
+    t.decimal  "gallons_stroke"
+    t.decimal  "casing_size"
+    t.integer  "mwd_type",        :default => 1
+    t.decimal  "em_hertz"
+    t.decimal  "em_cycles"
+    t.decimal  "em_amps"
+    t.decimal  "battery_1_ahr"
+    t.decimal  "battery_2_ahr"
   end
 
   add_index "drilling_log_entries", ["bha_id"], :name => "index_drilling_log_entries_on_bha_id"

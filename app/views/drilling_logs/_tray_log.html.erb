@@ -33,18 +33,16 @@
 
     <div class="btn-group inline pull-right push-right">
       <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-        Import
+        Import/Export
       </a>
       <ul class="dropdown-menu">
-        <% if false %>
         <li>
-          <%= link_to "Export as Excel", drilling_logs_path(@drilling_log, format: "xlsx"),
+          <%= link_to "Export as Excel", drilling_log_path(@drilling_log, format: "xlsx"),
                       target: "_blank",
                       class: "dropdown-menu-link tooltip-info submit-form",
                       "data-placement" => "left",
                       "data-title" => "Export log as Microsoft Excel file." %>
         </li>
-            <% end %>
         <li>
           <%= form_for DrillingLogEntry.new, :html => {:multipart => true} do |f| %>
               <%= f.hidden_field :drilling_log_id, value: @drilling_log.id %>

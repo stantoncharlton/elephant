@@ -36,6 +36,16 @@ removeOldContent('<%= params[:section] %>');
     $('.custom-select').customSelect();
     $('.date-picker').datepicker();
 
+    $('#wmd_type').change(function() {
+        var current_value = $(this).find('option:selected').val();
+        if (current_value === '1') {
+            $('#em_parameters').removeClass('hidden');
+        } else {
+            $('#em_parameters').addClass('hidden');
+        }
+        return false;
+    });
+
     // Load rest of log
     setTimeout(function() {
         $.ajax('/drilling_logs/' + <%= @drilling_log.id %> + "?section=log2", {

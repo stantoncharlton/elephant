@@ -39,8 +39,8 @@ class DrillingLogEntriesController < ApplicationController
                     dls.destroy
                 end
 
-                headers = spreadsheet.row(3)
-                (3..spreadsheet.last_row).each do |i|
+                headers = spreadsheet.row(6)
+                (6..spreadsheet.last_row).each do |i|
                     row = spreadsheet.row(i)
                     #if !last_date.blank?
                     #    puts last_date
@@ -57,21 +57,20 @@ class DrillingLogEntriesController < ApplicationController
                     if !row[0].blank?
                         if row[1].is_a?(Float)
                             time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}", '%s')
-                            drilling_log_entry.entry_at = Time.strptime("#{row[0]} #{time.strftime("%l:%M %p")} #{Time.zone.name}", '%Y-%m-%d %l:%M %p %Z')
+                            drilling_log_entry.entry_at = Time.zone.parse("#{row[0]} #{time.strftime("%H:%M")}")
                         else
-                            drilling_log_entry.entry_at = Time.strptime("#{row[0]} 24:00 #{Time.zone.name}", '%Y-%m-%d %k:%M %Z')
+                            drilling_log_entry.entry_at = Time.zone.parse("#{row[0]} 24:00")
                         end
                         last_date = row[0]
                     else
                         if row[1].is_a?(Float)
                             time = DateTime.strptime("#{DateTime.new(1899, 12, 30).to_f + row[1].to_f}", '%s')
-                            drilling_log_entry.entry_at = Time.strptime("#{last_date} #{time.strftime("%l:%M %p")} #{Time.zone.name}", '%Y-%m-%d %l:%M %p %Z')
+                            drilling_log_entry.entry_at = Time.zone.parse("#{last_date} #{time.strftime("%H:%M")}")
                         else
-                            drilling_log_entry.entry_at = Time.strptime("#{last_date} 24:00 #{Time.zone.name}", '%Y-%m-%d %k:%M %Z')
+                            drilling_log_entry.entry_at = Time.zone.parse("#{last_date} 24:00}")
                         end
                     end
 
-                    puts drilling_log_entry.entry_at.in_time_zone(Time.zone).strftime("%H:%M %p")
 
                     drilling_log_entry.depth = row[2]
                     drilling_log_entry.comment = row[5]
@@ -173,7 +172,9 @@ class DrillingLogEntriesController < ApplicationController
 
         @drilling_log_entry.save
 
+        @drilling_log = DrillingLog.find_by_id(@drilling_log.id)
         @drilling_log.recalculate
+        @drilling_log_entry = DrillingLogEntry.find_by_id(@drilling_log_entry.id)
 
         if @drilling_log_entry.bha.present?
             @drilling_log_entry.bha.delay.update_usage
@@ -281,6 +282,9 @@ class DrillingLogEntriesController < ApplicationController
     end
 
     def get_activity_code value
+        if value.nil?
+            return DrillingLogEntry::OTHER
+        end
         case value.upcase
             when "DRILLING"
                 DrillingLogEntry::DRILLING
@@ -304,6 +308,8 @@ class DrillingLogEntriesController < ApplicationController
                 DrillingLogEntry::SHORT_TRIP
             when "TIH"
                 DrillingLogEntry::TIH
+            when "TIH CIRCULATING"
+                DrillingLogEntry::TIH_CIRCULATING
             when "WIRELINE"
                 DrillingLogEntry::WIRELINE
             when "WORK PIPE"
@@ -353,4 +359,6 @@ class DrillingLogEntriesController < ApplicationController
                 DrillingLogEntry::OTHER
         end
     end
+
+
 end

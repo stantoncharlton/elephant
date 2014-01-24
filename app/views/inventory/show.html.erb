@@ -65,14 +65,14 @@
                 <%= link_to "Create New Warehouse", new_warehouse_path(district: @district),
                             class: "dropdown-menu-link tooltip-info",
                             "data-placement" => "left",
-                            "data-title" => "Create new master asset." %>
+                            "data-title" => "Create new warehouse" %>
               </li>
               <li class="divider"></li>
               <li>
                 <%= link_to "Create New Master Asset", new_part_path(template: true, district: @district),
                             class: "dropdown-menu-link tooltip-info",
                             "data-placement" => "bottom",
-                            "data-title" => "Create new master asset" %>
+                            "data-title" => "Create new asset type" %>
               </li>
           <% end %>
         </ul>
@@ -119,6 +119,13 @@
     <a href="#" class="remote-tray-toggle custom-data-toggle"
        data-id="<%= @district.id %>"
        data-tray-controller="inventory"
+       data-tray="suppliers">Suppliers</a>
+  </li>
+
+  <li class="">
+    <a href="#" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @district.id %>"
+       data-tray-controller="inventory"
        data-tray="full">Full List</a>
   </li>
 
@@ -154,6 +161,12 @@
 <div class="remote-tray custom-data-closed" data-tray="warehouses">
   <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading warehouses..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="suppliers">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading suppliers..." %>
   </div>
 </div>
 
