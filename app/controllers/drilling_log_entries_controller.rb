@@ -173,7 +173,6 @@ class DrillingLogEntriesController < ApplicationController
 
         end
 
-
         @drilling_log_entry.save
 
         @drilling_log = DrillingLog.find_by_id(@drilling_log.id)
@@ -183,6 +182,8 @@ class DrillingLogEntriesController < ApplicationController
         if @drilling_log_entry.bha.present?
             @drilling_log_entry.bha.delay.update_usage
         end
+
+        @drilling_log.delay.start_on_job_phase
 
         @last_entry = @drilling_log.drilling_log_entries.last
         @drilling_log.drilling_log_entries.each do |dl|

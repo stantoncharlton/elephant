@@ -31,7 +31,7 @@ class DrillingLog < ActiveRecord::Base
     belongs_to :job
     belongs_to :document
 
-    has_many :drilling_log_entries, order: "drilling_log_entries.entry_at ASC, drilling_log_entries.depth ASC"
+    has_many :drilling_log_entries, order: "drilling_log_entries.entry_at ASC"
 
     attr_accessor :start_depth
     attr_accessor :end_depth
@@ -271,6 +271,18 @@ class DrillingLog < ActiveRecord::Base
         end
 
         [surrounding_entries, [previous, closest, past]]
+    end
+
+    def start_on_job_phase
+        if self.document.present? && self.document.job.present?
+            self.document.job.well.jobs.each do |job|
+                if job.status == Job::PRE_JOB
+                    if job.documents.where(:document_type => Document::DRILLING_LOG).any?
+                        job.begin_on_job
+                    end
+                end
+            end
+        end
     end
 
 end

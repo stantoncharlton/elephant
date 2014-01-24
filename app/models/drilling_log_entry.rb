@@ -309,4 +309,22 @@ class DrillingLogEntry < ActiveRecord::Base
         options
     end
 
+
+    def self.get_mud_value_string value
+        case value
+            when 1
+                "Water"
+            when 2
+                "Oil"
+            when 3
+                "Synthetic"
+            when 4
+                "Brine"
+            when 5
+                "Air"
+            else
+                "-"
+        end
+    end
+
 end

@@ -38,10 +38,6 @@
                 Run <%= index + 1 %>
               </h1>
 
-              <h2 class='push-right'>
-                <%= ((last_entry.entry_at - first_entry.entry_at).to_f / 60.0 / 60.0).round(1) %> hours
-              </h2>
-
               <% if last_entry.bha.present? %>
                   <h2 class='inline-block push-right'>BHA <%= last_entry.bha.name %>
                     - <%= last_entry.bha.description %></h2>

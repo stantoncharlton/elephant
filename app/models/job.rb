@@ -428,6 +428,7 @@ class Job < ActiveRecord::Base
     end
 
     def begin_on_job
+        self.update_attribute(:status, Job::ON_JOB)
         self.part_memberships.each do |part_membership|
             if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
                 part_membership.part.current_job = self

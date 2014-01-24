@@ -1,7 +1,7 @@
 $('.form[data-form=new-job-log]').show();
 $('.form-loading[data-form=new-job-log]').addClass('hidden');
 
-<% if @drilling_log_entry.new_record? %>
+<% if @drilling_log_entry.new_record?  || @drilling_log_entry.errors.any?  %>
 
 $('#alert').remove();
 $('body').append("<%= j render 'layouts/modal_error', title: "Failed to add entry", message: @drilling_log_entry.errors.full_messages.join(', ').html_safe %>");
@@ -33,6 +33,14 @@ if ($('#measured_depth').length > 0) {
     $('#gravity_total').val('');
     $('#comment').val('');
 }
+
+<% if (@drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION_SURVEY || @drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION) %>
+<% if @drilling_log_entry.course_length > 0 %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem With Activity Entry", message: "Entry was accepted but it appears the course length (#{@drilling_log_entry.course_length} ft) is not equal to zero. A connection should have no change in depth. It might also be a problem with the date and time (#{@drilling_log_entry.entry_at.strftime("%d/%m/%Y %H:%M")})" %>");
+$('#alert').modal({show: true});
+<% end %>
+<% end %>
 
 <% if (@drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION_SURVEY || @drilling_log_entry.activity_code == DrillingLogEntry::MWD_SURVEY) %>
 <% if params[:measured_depth].present? && !params[:measured_depth].blank?  && !@survey_accepted %>
