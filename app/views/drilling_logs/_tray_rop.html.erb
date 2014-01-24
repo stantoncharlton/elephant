@@ -59,6 +59,7 @@
 
     var average = <%= drilling_log.nil? || drilling_log.rop.nil? ? 0.0 : drilling_log.rop.round(1) %>;
 
+    AmCharts.ready(function () {
     // SERIAL CHART
     var chart = new AmCharts.AmSerialChart();
     chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
@@ -146,8 +147,14 @@
     chart.addChartCursor(chartCursor);
 
     // SCROLLBAR
-    //var chartScrollbar = new AmCharts.ChartScrollbar();
-    //chart.addChartScrollbar(chartScrollbar);
+    var chartScrollbar = new AmCharts.ChartScrollbar();
+        chartScrollbar.graphType = "smoothedLine";
+        chartScrollbar.hideResizeGrips = true;
+        chartScrollbar.graph = timeGraph;
+        chartScrollbar.scrollbarHeight = 40;
+        chartScrollbar.color = "transparent";
+        chartScrollbar.autoGridCount = true;
+    chart.addChartScrollbar(chartScrollbar);
 
     // WRITE
     chart.write("ropchart");
@@ -288,6 +295,7 @@
     if (label.length > 0) {
         label.remove();
     }
+    });
 
     <% end %>
     <% end %>
