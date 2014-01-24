@@ -7,7 +7,10 @@
         <% drilling_log = job.drilling_log %>
         <% if drilling_log.present? %>
             <%= link_to job, class: "empty-link" do %>
-                <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0] %>
+                <% last_entry = drilling_log.drilling_log_entries.any? ? drilling_log.drilling_log_entries.last : nil %>
+                <% max_less_than = (drilling_log.max_depth.present? ? drilling_log.max_depth : 0) < (drilling_log.td_depth.present? ? drilling_log.td_depth : 0) %>
+                <% problem = (last_entry.present? &&  max_less_than && (last_entry.activity_code == DrillingLogEntry::POOH || last_entry.activity_code >= 100)) %>
+                <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0, problem ? "#fa381e" : "#115ea3"] %>
                 <div class="chart-block tooltip-info" style="margin-bottom: 35px;"
                      data-placement="top"
                      data-html="true"
@@ -15,12 +18,12 @@
                   <div class="chart-title" style="color: #266eab; font-family: 'gothamboldregular';"><%= job.well.rig.present? ? job.well.rig.name : "-" %>
                     <br>
 
-                    <p class='help-text' style='font-weight: normal; font-size: 12px;'><%= drilling_log.drilling_log_entries.any? ? DrillingLogEntry.activity_code_string(drilling_log.drilling_log_entries.last.activity_code) : '' %></p>
+                    <p class='help-text' style='font-weight: normal; font-size: 12px;'><%= last_entry.present? ? DrillingLogEntry.activity_code_string(last_entry.activity_code) : '' %></p>
                   </div>
                   <div class="donut-chart-div">
                     <div id="rig_chart_<%= job.id %>" class="donut-chart "></div>
-                    <div class="donut-inner-circle"></div>
-                    <div class="donut-text" style="font-size: 18px; color: #115ea3; text-shadow: 1px 2px 2px #FFFFFF;"><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></div>
+                    <div class="donut-inner-circle <%= problem ? "inner-circle-red" : "" %>"></div>
+                    <div class="donut-text" style="font-size: 18px; color: <%= problem ? "#fa381e" : "#115ea3" %>; text-shadow: 1px 2px 2px #FFFFFF;"><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></div>
                     <div class="percentage-circle"><%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
 
                     </div>
@@ -101,7 +104,7 @@
             animate: true,
             animateReplot: true,
             background: "#FFFFFF",
-            seriesColors: [ "#89e4fb", "#FFFFFF"],
+            seriesColors: [ "<%= a[3] %>", "#FFFFFF"],
             seriesDefaults: {
                 textColor: " #00ff0000",
                 shadow: false,
