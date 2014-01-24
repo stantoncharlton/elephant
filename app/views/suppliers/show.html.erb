@@ -1,0 +1,27 @@
+<% provide(:title, "Supplier - " + @supplier.name) %>
+
+<div class="page_header">
+  <h1><%= @supplier.name %></h1>
+
+  <h2>
+    Supplier
+  </h2>
+
+  <div class="btn-group inline pull-right push-right-small">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to "Edit Supplier", edit_supplier_path(@supplier),
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Edit supplier" %>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
+
+

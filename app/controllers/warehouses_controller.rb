@@ -1,5 +1,5 @@
 class WarehousesController < ApplicationController
-    before_filter :signed_in_user_inventory, only: [:show, :new, :create, :destroy]
+    before_filter :signed_in_user_inventory, only: [:show, :new, :create, :edit, :update, :destroy]
     set_tab :inventory
 
     include InventoryHelper
@@ -7,7 +7,7 @@ class WarehousesController < ApplicationController
 
     def show
         @warehouse = Warehouse.find_by_id(params[:id])
-        not_found unless @warehouse.present? && @warehouse.company == current_user.company
+        not_found unless @warehouse.present?
 
         if current_user.role.limit_to_assigned_jobs?
             if current_user.warehouses.find { |w| w.id == @warehouse.id} == nil
@@ -47,14 +47,28 @@ class WarehousesController < ApplicationController
         @warehouse.district = @district
 
         if @warehouse.save
-            redirect_to @warehouse
+            redirect_to inventory_path(@warehouse.district_id, anchor: "warehouses")
         else
             render 'new'
         end
     end
 
-    def destroy
+    def edit
+        @warehouse = Warehouse.find_by_id(params[:id])
+        not_found unless @warehouse.present?
+    end
 
+    def update
+        @warehouse = Warehouse.find_by_id(params[:id])
+        @warehouse.update_attributes(params[:warehouse])
+
+        redirect_to @warehouse
+    end
+
+    def destroy
+        @warehouse = Warehouse.find_by_id(params[:id])
+        @warehouse.destroy
+        redirect_to inventory_path(@warehouse.district_id, anchor: "warehouses")
     end
 
 end

@@ -1,0 +1,20 @@
+<div class="page_header">
+  <h1>New Supplier</h1>
+</div>
+
+<div class="form">
+  <%= form_for @supplier do |f| %>
+
+      <%= f.hidden_field :district, value: @district.id %>
+      <%= render "fields", f: f %>
+
+      <div class=" actions">
+        <%= f.submit "Create supplier", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                     "data-title" => "Create new supplier" %>
+      </div>
+
+  <% end %>
+</div>
+
+<%= render "layouts/inline_loading", title: "Creating supplier, please wait..." %>
+

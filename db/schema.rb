@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140124173823) do
+ActiveRecord::Schema.define(:version => 20140124203450) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -833,6 +833,22 @@ ActiveRecord::Schema.define(:version => 20140124173823) do
 
   add_index "states", ["country_id"], :name => "index_states_on_country_id"
 
+  create_table "suppliers", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "district_id"
+    t.string   "name"
+    t.string   "location"
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "postal_code"
+    t.string   "phone_number"
+    t.string   "email"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "survey_points", :force => true do |t|
     t.integer  "company_id"
     t.integer  "survey_id"
@@ -985,8 +1001,15 @@ ActiveRecord::Schema.define(:version => 20140124173823) do
     t.integer  "district_id"
     t.string   "name"
     t.string   "location"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "city"
+    t.string   "postal_code"
+    t.string   "phone_number"
+    t.string   "email"
+    t.string   "state"
   end
 
   add_index "warehouses", ["company_id"], :name => "index_warehouses_on_company_id"

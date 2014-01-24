@@ -8,11 +8,11 @@
     <ul class="dropdown-menu">
 
       <li>
-        <%= link_to "Delete Warehouse", @warehouse, method: :delete,
-                    data: {confirm: "Delete warehouse?"},
+        <%= link_to "Delete Supplier", @warehouse, method: :delete,
+                    data: {confirm: "Delete supplier?"},
                     class: "dropdown-menu-link tooltip-info",
                     "data-placement" => "left",
-                    "data-title" => "Permanently delete warehouse. Warning, the can't be undone. This will cause any parts associated with this district to may not work properly." %>
+                    "data-title" => "Permanently delete supplier. Warning, this can't be undone." %>
       </li>
 
 
@@ -22,15 +22,15 @@
 
 
 <div class="form">
-<%= form_for @warehouse do |f| %>
+<%= form_for @supplier do |f| %>
 
     <%= render "fields", f: f %>
 
     <div class="actions">
-      <%= f.submit "Save warehouse", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+      <%= f.submit "Save supplier", class: "bluebtn pull-right tooltip-info form-loading-on-click",
                    "data-title" => "Save warehouse"%>
     </div>
 <% end %>
 </div>
 
-<%= render "layouts/inline_loading", title: "Saving warehouse, please wait..." %>
+<%= render "layouts/inline_loading", title: "Saving supplier, please wait..." %>

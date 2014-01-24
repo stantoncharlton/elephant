@@ -27,16 +27,17 @@
           <div class="">
 
             <%= link_to warehouse, class: "job-link" do %>
-                <div class="member-icon ">
-                  <p>
-                    <%= warehouse.parts.count %>
-                  </p>
+                <div class='pull-right help-text push-down-small'>
+                  <%= "#{warehouse.city} #{warehouse.state}" %>
                 </div>
-                &nbsp;
+
 
                 <p class="list-item-header-text inline">
                   <b><%= warehouse.name %></b>
                 </p>
+
+                <br>
+                <h3 class='inline-block blue-text push-right-small'><%= warehouse.parts.count %></h3>&nbsp;<b>assets</b>
 
             <% end %>
 

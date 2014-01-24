@@ -1,4 +1,4 @@
-class Warehouse < ActiveRecord::Base
+class Supplier < ActiveRecord::Base
     attr_accessible :location,
                     :name,
                     :address_line_1,
@@ -18,10 +18,5 @@ class Warehouse < ActiveRecord::Base
 
     belongs_to :company
     belongs_to :district
-
-    has_many :parts, :conditions => { :template => false }
-
-    has_many :warehouse_memberships, dependent: :destroy, foreign_key: "warehouse_id", order: "created_at ASC"
-    has_many :participants, through: :warehouse_memberships, source: :user
 
 end

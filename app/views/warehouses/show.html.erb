@@ -38,6 +38,13 @@
     </a>
     <ul class="dropdown-menu">
       <li>
+        <%= link_to "Edit Warehouse", edit_warehouse_path(@warehouse),
+                    class: "dropdown-menu-link tooltip-info",
+                    "data-placement" => "left",
+                    "data-title" => "Edit warehouse" %>
+      </li>
+      <li class="divider"></li>
+      <li>
         <%= link_to "Export as Excel", warehouse_path(@warehouse, format: "xlsx"),
                     target: "_blank",
                     class: "dropdown-menu-link tooltip-info submit-form",
