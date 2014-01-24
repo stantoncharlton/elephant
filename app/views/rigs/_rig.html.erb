@@ -1,4 +1,4 @@
-<div class="inline-block">
+<div class="inline-block align-top">
   <% job = Job.includes(:well).where("jobs.status >= 1 AND jobs.status < 50").where("wells.rig_id = ?", rig.id).first %>
   <%= link_to rig, class: "part-box tooltip-info " + (job.present? ? "part-box-job" : ""),
                   "data-placement" => "right", "data-html" => "true",

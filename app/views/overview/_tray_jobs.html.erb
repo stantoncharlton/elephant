@@ -8,11 +8,11 @@
         <% if drilling_log.present? %>
             <%= link_to job, class: "empty-link" do %>
                 <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0] %>
-                <div class="chart-block tooltip-info"
+                <div class="chart-block tooltip-info" style="margin-bottom: 20px;"
                      data-placement="top"
                      data-html="true"
                      data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: false %>">
-                  <div class="chart-title"><%= job.well.rig.present? ? job.well.rig.name : "-" %>
+                  <div class="chart-title" style="color: #266eab; font-family: 'gothamboldregular';"><%= job.well.rig.present? ? job.well.rig.name : "-" %>
                     <br>
 
                     <p class='help-text' style='font-weight: normal; font-size: 12px;'><%= drilling_log.drilling_log_entries.any? ? DrillingLogEntry.activity_code_string(drilling_log.drilling_log_entries.last.activity_code) : '' %></p>
@@ -20,9 +20,9 @@
                   <div class="donut-chart-div">
                     <div id="rig_chart_<%= job.id %>" class="donut-chart "></div>
                     <div class="donut-inner-circle"></div>
-                    <div class="donut-text" style="color: #115ea3; text-shadow: 1px 2px 2px #FFFFFF;"><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></div>
+                    <div class="donut-text" style="font-size: 18px; color: #115ea3; text-shadow: 1px 2px 2px #FFFFFF;"><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></div>
                     <div class="percentage-circle"><%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
-                      ft
+
                     </div>
                     <div style="color: #7aa8d0; position: absolute; bottom: 5px; right: 0px;"><%= drilling_log.drilling_rop.present? ? drilling_log.drilling_rop.round(1) : 0.0 %>
                       ft/hr

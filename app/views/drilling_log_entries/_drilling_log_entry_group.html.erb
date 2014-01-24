@@ -8,7 +8,7 @@
 
   <% if !empty %>
       <% entries.each do |entry| %>
-          <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, editable: false  %>
+          <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, editable: true  %>
           <% @last_entry = entry %>
       <% end %>
   <% else %>
