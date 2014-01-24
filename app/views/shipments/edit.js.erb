@@ -4,7 +4,8 @@ popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @s
 popup.css('visibility', 'visible');
 popup.find('.loading').addClass('hidden');
 
-popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('padding-bottom', '50px');
+popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('padding-bottom', '20px');
+popup.find('.custom-select').customSelect();
 
 
 $('.popover').popover({  delay: { show: 100, hide: 100 } });

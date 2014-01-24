@@ -1,6 +1,8 @@
 class Shipment < ActiveRecord::Base
     attr_accessible :accepted_at,
-                    :status
+                    :status,
+                    :from_name,
+                    :to_name
 
     acts_as_tenant(:company)
 
@@ -25,5 +27,9 @@ class Shipment < ActiveRecord::Base
     AWAITING_SHIPMENT = 1
     IN_TRANSIT = 2
     COMPLETE = 3
+
+    WAREHOUSE = 1
+    SUPPLIER = 2
+    JOB = 3
 
 end

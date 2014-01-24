@@ -25,15 +25,78 @@
         <div id="no_assets" class='push-down center'>
           <br><br>
           <span class='help-text'>No assets added...</span>
+          <br><br>
         </div>
     <% end %>
 
 
+    <hr>
+
     <%= form_for shipment, remote: true do |f| %>
         <div class="content">
+
           <%= f.submit "Save",
-                      class: "bluebtn push-right-small pull-right form-loading-on-click",
-                      "data-form" => "new_shipment" %>
+                       class: "bluebtn push-right-small pull-right form-loading-on-click",
+                       "data-form" => "new_shipment" %>
+
+          <div style="margin-left: -10px;">
+            <div class='inline-block'>
+              <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
+                           {}, style: "width: 100px !important;",
+                           id: "shipment_from_select",
+                           class: "custom-select" %>
+
+
+              <div id="from_warehouses" class='inline-block'>
+                <%= select_tag "from_id_warehouse", options_for_select(shipment.district.warehouses.collect { |w| [w.name, w.id] }, shipment.from_id),
+                               placeholder: "Select from..",
+                               class: "custom-select" %>
+              </div>
+
+              <div id="from_suppliers" class='inline-block hidden'>
+                <%= select_tag "from_id_supplier", options_for_select(shipment.district.suppliers.collect { |w| [w.name, w.id] }, shipment.from_id),
+                               placeholder: "Select from..",
+                               class: "custom-select" %>
+              </div>
+
+              <div id="from_jobs" class='inline-block hidden'>
+                <%= select_tag "from_id_job", options_for_select(shipment.district.jobs.where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB).collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }, shipment.from_id),
+                               class: "custom-select",
+                               placeholder: "Select from.." %>
+              </div>
+            </div>
+
+            &nbsp;
+            <div class='inline-block align-top push-down'>
+              <i class="icon-chevron-right"></i>
+            </div>
+            &nbsp;
+
+            <div class='inline-block'>
+              <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
+                           {}, style: "width: 100px !important;",
+                           id: "shipment_to_select",
+                           class: "custom-select" %>
+
+              <div id="to_warehouses" class='inline-block hidden'>
+                <%= select_tag "to_id_warehouse", options_for_select(shipment.district.warehouses.collect { |w| [w.name, w.id] }, shipment.to_id),
+                               placeholder: "Select to..",
+                               class: "custom-select" %>
+              </div>
+
+              <div id="to_suppliers" class='inline-block hidden'>
+                <%= select_tag "to_id_supplier", options_for_select(shipment.district.suppliers.collect { |w| [w.name, w.id] }, shipment.to_id),
+                               placeholder: "Select to..",
+                               class: "custom-select" %>
+              </div>
+
+              <div id="to_jobs" class='inline-block'>
+                <%= select_tag "to_id_job", options_for_select(shipment.district.jobs.where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB).collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }, shipment.to_id),
+                               class: "custom-select",
+                               placeholder: "Select to.." %>
+              </div>
+            </div>
+          </div>
 
         </div>
     <% end %>

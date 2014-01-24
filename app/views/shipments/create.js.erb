@@ -4,8 +4,8 @@ popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @s
 popup.css('visibility', 'visible');
 popup.find('.loading').addClass('hidden');
 
-popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('padding-bottom', '50px');
-
+popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('padding-bottom', '20px');
+popup.find('.custom-select').customSelect();
 
 $('.popover').popover({  delay: { show: 100, hide: 100 } });
 
@@ -80,4 +80,38 @@ popup.find(".modal-popup-close").click(function () {
         url: "/shipments/<%= @shipment.id %>",
         type: "DELETE"
     });
+});
+
+$('#shipment_from_select').change(function() {
+    var current_value = $(this).find('option:selected').val();
+    $('#from_warehouses').addClass('hidden');
+    $('#from_suppliers').addClass('hidden');
+    $('#from_jobs').addClass('hidden');
+    if(current_value == "Warehouse") {
+        $('#from_warehouses').removeClass('hidden');
+    }
+    else if (current_value == "Supplier") {
+        $('#from_suppliers').removeClass('hidden');
+    }
+    else {
+        $('#from_jobs').removeClass('hidden');
+    }
+    return false;
+});
+
+$('#shipment_to_select').change(function() {
+    var current_value = $(this).find('option:selected').val();
+    $('#to_warehouses').addClass('hidden');
+    $('#to_suppliers').addClass('hidden');
+    $('#to_jobs').addClass('hidden');
+    if(current_value == "Warehouse") {
+        $('#to_warehouses').removeClass('hidden');
+    }
+    else if (current_value == "Supplier") {
+        $('#to_suppliers').removeClass('hidden');
+    }
+    else {
+        $('#to_jobs').removeClass('hidden');
+    }
+    return false;
 });
