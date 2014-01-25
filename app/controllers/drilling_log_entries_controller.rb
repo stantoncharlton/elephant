@@ -6,6 +6,7 @@ class DrillingLogEntriesController < ApplicationController
     end
 
     def create
+        not_found unless params[:drilling_log_entry].present?
         drilling_log_id = params[:drilling_log_entry][:drilling_log_id]
         params[:drilling_log_entry].delete(:drilling_log_id)
 
@@ -173,51 +174,52 @@ class DrillingLogEntriesController < ApplicationController
 
         end
 
-        @drilling_log_entry.save
+        if @drilling_log_entry.save
 
-        @drilling_log = DrillingLog.find_by_id(@drilling_log.id)
-        @drilling_log.recalculate
-        @drilling_log_entry = DrillingLogEntry.find_by_id(@drilling_log_entry.id)
+            @drilling_log = DrillingLog.find_by_id(@drilling_log.id)
+            @drilling_log.recalculate
+            @drilling_log_entry = DrillingLogEntry.find_by_id(@drilling_log_entry.id)
 
-        if @drilling_log_entry.bha.present?
-            @drilling_log_entry.bha.delay.update_usage
-        end
-
-        @drilling_log.delay.start_on_job_phase
-
-        @last_entry = @drilling_log.drilling_log_entries.last
-        @drilling_log.drilling_log_entries.each do |dl|
-            if dl == @drilling_log_entry
-                break
+            if @drilling_log_entry.present? && @drilling_log_entry.bha.present?
+                @drilling_log_entry.bha.delay.update_usage
             end
-            @last_entry = dl
-        end
 
-        if @last_entry.nil?
-            @last_entry = @drilling_log_entry
-        end
+            @drilling_log.delay.start_on_job_phase
 
-        if params[:measured_depth].present? && !params[:measured_depth].blank?
-            @survey_accepted = true
-            begin
-                if params[:inclination].blank? || params[:azimuth].blank?
-                    @survey_accepted = false
-                else
-                    @survey_point = SurveyPoint.new(params[:survey_point])
-                    @survey_point.survey = Survey.find_by_id(params[:survey_id])
-                    @survey_point.company = current_user.company
-                    @survey_point.user = current_user
-                    @survey_point.user_name = current_user.name
-                    @survey_point.measured_depth = params[:measured_depth].to_s.gsub(/,/, '').to_f
-                    @survey_point.inclination = params[:inclination]
-                    @survey_point.azimuth = params[:azimuth]
-                    @survey_point.magnetic_field_strength = params[:magnetic_field_strength]
-                    @survey_point.magnetic_dip_angle = params[:magnetic_dip_angle]
-                    @survey_point.gravity_total = params[:gravity_total]
-                    @survey_point.comment = params[:comment]
-                    @survey_point.save
+            @last_entry = @drilling_log.drilling_log_entries.last
+            @drilling_log.drilling_log_entries.each do |dl|
+                if dl == @drilling_log_entry
+                    break
                 end
-            rescue
+                @last_entry = dl
+            end
+
+            if @last_entry.nil?
+                @last_entry = @drilling_log_entry
+            end
+
+            if params[:measured_depth].present? && !params[:measured_depth].blank?
+                @survey_accepted = true
+                begin
+                    if params[:inclination].blank? || params[:azimuth].blank?
+                        @survey_accepted = false
+                    else
+                        @survey_point = SurveyPoint.new(params[:survey_point])
+                        @survey_point.survey = Survey.find_by_id(params[:survey_id])
+                        @survey_point.company = current_user.company
+                        @survey_point.user = current_user
+                        @survey_point.user_name = current_user.name
+                        @survey_point.measured_depth = params[:measured_depth].to_s.gsub(/,/, '').to_f
+                        @survey_point.inclination = params[:inclination]
+                        @survey_point.azimuth = params[:azimuth]
+                        @survey_point.magnetic_field_strength = params[:magnetic_field_strength]
+                        @survey_point.magnetic_dip_angle = params[:magnetic_dip_angle]
+                        @survey_point.gravity_total = params[:gravity_total]
+                        @survey_point.comment = params[:comment]
+                        @survey_point.save
+                    end
+                rescue
+                end
             end
         end
     end

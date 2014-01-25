@@ -138,7 +138,7 @@
 
   <% active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
   <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).order("surveys.updated_at ASC").first %>
-  <% if !active_well_plan.nil? %>
+  <% if !active_well_plan.nil? || (survey.present? && survey.no_well_plan) %>
       <%= render 'surveys/survey_charts', well_plan: active_well_plan, survey: survey, height: 350 %>
   <% else %>
       <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>

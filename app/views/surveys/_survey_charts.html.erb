@@ -1,9 +1,9 @@
 <div id="survey_charts">
 
-  <% if well_plan.present? %>
+  <% if well_plan.present? || (survey.present? && survey.no_well_plan && survey.survey_points.any?)  %>
 
-      <% calculated_points_survey = survey.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : [] %>
-      <% well_plan_points = well_plan.survey_points %>
+      <% calculated_points_survey = survey.present? ? survey.calculated_points(survey.no_well_plan ? 0 : well_plan.vertical_section_azimuth) : [] %>
+      <% well_plan_points = well_plan.present? ? well_plan.survey_points : [] %>
 
       <% if calculated_points_survey.any? %>
           <% point = calculated_points_survey.last %>

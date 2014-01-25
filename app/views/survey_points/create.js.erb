@@ -14,7 +14,7 @@ $('#alert').modal({show: true});
 <% else %>
 
 <% @drilling_log = DrillingLog.joins(document: :job).where("jobs.well_id = ?", @survey.document.job.well_id).first %>
-<% @survey_points = @survey.calculated_points(@well_plan.vertical_section_azimuth).to_a  %>
+<% @survey_points = @survey.calculated_points(@survey.no_well_plan ? 0 : @well_plan.vertical_section_azimuth).to_a  %>
 <% if @survey_points.last == @survey_point %>
 $("#survey_list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points.count > 1 ? @survey_points[@survey_points.count - 2] : @survey_points.last %>");
 <% else %>
@@ -43,7 +43,7 @@ $('.form-loading[data-form=new_survey_point]').addClass('hidden');
 <% end %>
 
 <% calculated_points_survey = @survey_points %>
-<% calculated_points = @well_plan.survey_points %>
+<% calculated_points = @survey.no_well_plan ? [] : @well_plan.survey_points %>
 
 
 var chart;
@@ -53,6 +53,14 @@ var chart;
 <% end %>
 var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
 var chartDataAdded = <%= calculated_points_survey.count %>;
+if(chartData.length > 0) {
+    if(chartData[0].comment == '') {
+        chartData[0].comment = "Tie In";
+    }
+    if(chartData.length < (chartData.length - chartDataAdded - 1) && chartData[chartData.length - chartDataAdded - 1].comment == '') {
+        chartData[chartData.length - chartDataAdded - 1].comment = "TD";
+    }
+}
 
 var chart2;
 <% combined_ns_ew = calculated_points.map { |point| {"ns" => point.north_south.round(1), "ew" => point.east_west.round(1), "comment" => point.comment || ''} } %>
@@ -61,7 +69,16 @@ var chart2;
 <% end %>
 var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
 var chartData2Added = <%= calculated_points_survey.count %>;
+if(chartData2.length > 0) {
+    if(chartData2[0].comment == '') {
+        chartData2[0].comment = "Tie In";
+    }
+    if(chartData2.length < (chartData2.length - chartData2 - 1) && chartData2[chartData2.length - chartData2Added - 1].comment == '') {
+        chartData2[chartData2.length - chartData2Added - 1].comment = "TD";
+    }
+}
 
+<% ranges = Survey.get_ranges(calculated_points.any? ? calculated_points : calculated_points_survey) %>
 
 // SERIAL CHART
 chart = new AmCharts.AmXYChart();
@@ -75,7 +92,8 @@ valueAxis.position = "bottom";
 valueAxis.dashLength = 5;
 valueAxis.axisAlpha = 0;
 valueAxis.autoGridCount = true;
-valueAxis.minimum = -200;
+valueAxis.minimum = <%= ranges[1][0] - 1 %>;
+valueAxis.maximum = <%= ranges[1][1] + 1 %>;
 chart.addValueAxis(valueAxis);
 
 var valueAxis = new AmCharts.ValueAxis();
@@ -85,6 +103,8 @@ valueAxis.dashLength = 5;
 valueAxis.axisAlpha = 0;
 valueAxis.autoGridCount = true;
 valueAxis.reversed = true;
+valueAxis.minimum = <%= ranges[0][0] - 1 %>;
+valueAxis.maximum = <%= ranges[0][1] + 1 %>;
 chart.addValueAxis(valueAxis);
 
 
@@ -177,6 +197,8 @@ valueAxis.dashLength = 5;
 valueAxis.axisAlpha = 0;
 valueAxis.integersOnly = false;
 valueAxis.gridCount = 10;
+valueAxis.minimum = <%= ranges[3][0] - 1 %>;
+valueAxis.maximum = <%= ranges[3][1] + 1 %>;
 chart2.addValueAxis(valueAxis);
 
 
@@ -188,6 +210,8 @@ valueAxis.axisAlpha = 0;
 valueAxis.integersOnly = false;
 valueAxis.gridCount = 10;
 valueAxis.reversed = true;
+valueAxis.minimum = <%= ranges[2][0] - 1 %>;
+valueAxis.maximum = <%= ranges[2][1] + 1 %>;
 chart2.addValueAxis(valueAxis);
 
 

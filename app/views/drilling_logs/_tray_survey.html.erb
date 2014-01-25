@@ -18,7 +18,7 @@
         <% @survey.save %>
     <% end %>
 
-    <% if @active_well_plan.nil? || @active_well_plan.survey_points.empty? %>
+    <% if (@active_well_plan.nil? || @active_well_plan.survey_points.empty?) && !@survey.no_well_plan %>
         <br>
 
         <h3>No Well Plan</h3>
@@ -32,10 +32,17 @@
             <br>
             <%= link_to "Update " + document.name, "/surveys?document=" + document.id.to_s, class: "bluebtn" %>
         <% end %>
+
+        <br><br>
+        or
+        <br><br>
+        <%= link_to "Straight Well - No Well Plan", job_path(@drilling_log.document.job, update_field: true, field: "no_well_plan", value: true),
+                    :method => :put,
+                    class: "bluebtn gray" %>
     <% else %>
 
-        <% calculated_points = @active_well_plan.survey_points %>
-        <% calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth) %>
+        <% calculated_points = @survey.no_well_plan ? [] : @active_well_plan.survey_points %>
+        <% calculated_points_survey = @survey.calculated_points(@survey.no_well_plan ? 0 : @active_well_plan.vertical_section_azimuth) %>
 
 
         <% if @survey.survey_points.empty? %>
@@ -44,15 +51,21 @@
 
         <div>
           <div class='pull-right'>
-            <%= link_to "View Well Plan", @active_well_plan, class: "activity-user-link" %>
+            <% if @survey.no_well_plan %>
+                <b>Straight Well - No Well Plan</b>
+            <% else %>
+                <%= link_to "View Well Plan", @active_well_plan, class: "activity-user-link" %>
+            <% end %>
           </div>
           <span><div class='well-plan'></div> Well Plan</span>
           <span class='push-right-small'><div class='active-survey'></div> Survey</span>
         </div>
         <hr>
 
-        <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>
-        <div id="chartdiv2" class='inline-block' style="width: 420px; height: 400px;"></div>
+        <% if calculated_points_survey.any? || calculated_points.any? %>
+            <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>
+            <div id="chartdiv2" class='inline-block' style="width: 420px; height: 400px;"></div>
+        <% end %>
 
 
         <div class='push-down'>

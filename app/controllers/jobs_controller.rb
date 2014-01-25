@@ -360,6 +360,13 @@ class JobsController < ApplicationController
                             part_membership.part.save
                         end
                     end
+                when "no_well_plan"
+                    survey = @job.survey
+                    if survey
+                        @survey = Survey.find_by_id(survey.id)
+                        @survey.update_attribute(:no_well_plan, true)
+                        redirect_to drilling_log_path(@job.drilling_log, anchor: "survey")
+                    end
             end
         else
             if params["start_date"].present?

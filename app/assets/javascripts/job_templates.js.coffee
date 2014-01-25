@@ -65,6 +65,7 @@ $ ->
       $('#map').hide()
     $('#modal_popup').css('visibility', 'visible')
     inner = $('#modal_popup').find('.modal-popup')
+    inner.css('max-width', '600px').css('width', '600px').css('padding-top', '50px').css('padding-bottom', '50px');
     inner.css('margin-top', 100)
     #if $(this).position().top > 380
     #  inner.css('margin-top', $(this).position().top - 300)

@@ -1,5 +1,4 @@
 <script type="text/javascript">
-
     var chart;
     <% combined_tvd_vs = calculated_points.map { |point| {"tvd" => point.true_vertical_depth.round(1), "vs" => point.vertical_section.round(1), "comment" => point.comment || ''} } %>
     <% calculated_points_survey.each do |p| %>
@@ -7,11 +6,13 @@
     <% end %>
     var chartData = <%= raw combined_tvd_vs.to_json.html_safe %>;
     var chartDataAdded = <%= calculated_points_survey.count %>;
+    if(chartData.length > 0) {
     if(chartData[0].comment == '') {
         chartData[0].comment = "Tie In";
     }
-    if(chartData[chartData.length - chartDataAdded - 1].comment == '') {
+    if(chartData.length < (chartData.length - chartDataAdded - 1) && chartData[chartData.length - chartDataAdded - 1].comment == '') {
         chartData[chartData.length - chartDataAdded - 1].comment = "TD";
+    }
     }
 
     var chart2;
@@ -21,14 +22,16 @@
     <% end %>
     var chartData2 = <%= raw combined_ns_ew.to_json.html_safe %>;
     var chartData2Added = <%= calculated_points_survey.count %>;
+    if(chartData2.length > 0) {
     if(chartData2[0].comment == '') {
         chartData2[0].comment = "Tie In";
     }
-    if(chartData2[chartData2.length - chartData2Added - 1].comment == '') {
+    if(chartData2.length < (chartData2.length - chartData2 - 1) && chartData2[chartData2.length - chartData2Added - 1].comment == '') {
         chartData2[chartData2.length - chartData2Added - 1].comment = "TD";
     }
+    }
 
-    <% ranges = Survey.get_ranges calculated_points %>
+    <% ranges = Survey.get_ranges(calculated_points.any? ? calculated_points : calculated_points_survey) %>
 
         // SERIAL CHART
         chart = new AmCharts.AmXYChart();

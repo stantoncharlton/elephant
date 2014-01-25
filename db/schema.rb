@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140124223017) do
+ActiveRecord::Schema.define(:version => 20140125163312) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -885,8 +885,8 @@ ActiveRecord::Schema.define(:version => 20140124223017) do
     t.integer  "user_id"
     t.boolean  "plan"
     t.string   "name"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
     t.integer  "north_type",               :default => 1
     t.decimal  "vertical_section_azimuth"
     t.decimal  "magnetic_field_strength"
@@ -894,6 +894,7 @@ ActiveRecord::Schema.define(:version => 20140124223017) do
     t.decimal  "gravity_total"
     t.string   "gyro_company"
     t.datetime "gyro_date"
+    t.boolean  "no_well_plan",             :default => false
   end
 
   add_index "surveys", ["document_id"], :name => "index_surveys_on_document_id"

@@ -1,6 +1,7 @@
 class Survey < ActiveRecord::Base
     attr_accessible :name,
                     :plan,
+                    :no_well_plan,
                     :north_type,
                     :vertical_section_azimuth,
                     :gyro_company,
