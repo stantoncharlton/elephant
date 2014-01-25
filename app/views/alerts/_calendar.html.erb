@@ -8,24 +8,38 @@
 
           <div class="jobs">
             <% day_jobs = jobs.select { |j| !j.start_date.nil? && (j.start_date.day == (start_date + i.days).day) && (j.start_date.month == (start_date + i.days).month) } %>
+            <% limit = current_user.role.limit_to_assigned_jobs? %>
+            <% if limit %>
+                <% day_jobs = @job_times_array.select { |jt| (jt.time_for.day == (start_date + i.days).day) && (jt.time_for.month == (start_date + i.days).month) }.map { |jt| jt.job } %>
+            <% end %>
             <% use_menu = day_jobs.count > 3 %>
             <% single = day_jobs.count == 1 %>
-            <% day_jobs.each_with_index do |job, i| %>
-                <% if !use_menu || (use_menu && i < 2) %>
-                    <%= link_to job, class: "inline-block " + (single ? "user-calendar-day light-blue" : "job") do %>
+            <% day_jobs.each_with_index do |job, i2| %>
+                <% if limit %>
+                    <% @job_time = @job_times_array.select { |jt| jt.job.present? && jt.job_id == job.id && (jt.time_for.day == (start_date + i.days).day) && (jt.time_for.month == (start_date + i.days).month) }.last %>
+                <% end %>
+                <% if !use_menu || (use_menu && i2 < 2) %>
+                    <%= link_to job, class: "inline-block " + (single ? ("user-calendar-day " + (limit && @job_time.present? && @job_time.status == JobTime::WORKED ? "green" : "light-blue")) : "job") do %>
                         <div class="tooltip-info "
                              data-placement="right"
                              data-html="true"
                              data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
                           <% if single %>
                               <div class="inline-block calendar-day">
-                                <p>
+                                <p class="<%= limit && @job_time.present? && @job_time.status == JobTime::WORKED ? "white-text" : "" %>">
+                                  <% if job.well.rig.present? %>
+                                      <b class="<%= limit && @job_time.present? && @job_time.status == JobTime::WORKED ? "white-text" : "orange-text" %>"><%= job.well.rig.name %></b>
+                                      <br>
+                                  <% end %>
                                   <%= job.field.name %>
                                   <br>
                                   <b><%= job.well.name %></b>
                                 </p>
                               </div>
                           <% else %>
+                              <% if job.well.rig.present? %>
+                                  <b class='orange-text'><%= job.well.rig.name %></b>
+                              <% end %>
                               <%= job.field.name + " | " + job.well.name %>
                           <% end %>
                         </div>
@@ -39,14 +53,17 @@
                     <p class='inline pull-left blue-text'><%= day_jobs.count - 2 %> More Jobs</p>
                   </a>
                   <ul class="dropdown-menu">
-                    <% day_jobs.each_with_index do |job, i| %>
-                        <% if i >= 2 %>
+                    <% day_jobs.each_with_index do |job, i2| %>
+                        <% if i2 >= 2 %>
                             <li>
                               <%= link_to job, class: "job" do %>
                                   <p class="tooltip-info"
                                      data-placement="right"
                                      data-html="true"
                                      data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
+                                    <% if job.well.rig.present? %>
+                                        <b class='orange-text'><%= job.well.rig.name %></b>
+                                    <% end %>
                                     <%= job.field.name + " | " + job.well.name %>
                                   </p>
                               <% end %>
@@ -61,4 +78,46 @@
     <% end %>
 
   </div>
+
+  <% if current_user.role.limit_to_assigned_jobs? %>
+
+      <div style="margin-bottom: -20px; margin-top: 20px;">
+        <% if current_user.company.work_day_type == Company::HOURLY_WORK_DAY %>
+            <% total_scheduled_time = @job_times_array.select { |jt| jt.job.present? && jt.user_id == current_user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+            <% total_work_time = @job_times_array.select { |jt| jt.job.present? && jt.user_id == current_user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+        <% else %>
+            <% total_scheduled_time = @job_times_array.select { |jt| jt.job.present? && jt.user_id == current_user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+            <% total_work_time = @job_times_array.select { |jt| jt.job.present? && jt.user_id == current_user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+        <% end %>
+
+        <div class=''>
+
+
+          <div>
+            <div class="chart-block tooltip-info"
+                 data-title="Total days scheduled for month">
+              <div class="chart-title">Scheduled</div>
+              <div class="donut-chart-div job-donut-chart-div">
+                <div class="donut-text "><%= total_scheduled_time %></div>
+                <div class="percentage ">days</div>
+              </div>
+            </div>
+
+            <div class="chart-block tooltip-info"
+                 data-title="Total days actually worked for month">
+              <div class="chart-title">Worked</div>
+              <div class="donut-chart-div job-donut-chart-div">
+                <div class="donut-text "><%= total_work_time %></div>
+                <div class="percentage ">days</div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+  <% end %>
+
+
 </div>

@@ -4,13 +4,17 @@
     <span class="inline"><%= @adjusted_today_date.strftime("%B, %Y").upcase %></span>
   </div>
 
+  <% jobs_word = current_user.role.limit_to_assigned_jobs? ? "Work" : "Jobs" %>
   <% if @show_full_calendar %>
-      <b>Jobs Calendar</b>
+      <b><%= jobs_word %> Calendar</b>
   <% else %>
       <b>Upcoming
-        Jobs <%= " (" + @active_jobs.where("jobs.start_date >= :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @start_date + 2.weeks).count.to_s + ")" %></b>
+        <%= jobs_word %> <%= " (" + @active_jobs.where("jobs.start_date >= :start_date AND jobs.start_date <= :end_date", start_date: @start_date, end_date: @start_date + 2.weeks).count.to_s + ")" %></b>
   <% end %>
 
+  <% if current_user.role.limit_to_assigned_jobs? %>
+      <% @job_times_array = JobTime.where(:user_id => current_user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month).to_a %>
+  <% end %>
 
   <br><br>
 
@@ -18,6 +22,7 @@
 
   <div id="calendar_loader" class="hidden center">
     <br>
+
     <div class="alert alert-info">
       <span class="ajax-loading search-loading"><b>loading..</b></span>
     </div>
@@ -43,6 +48,4 @@
     <% end %>
     <br>
   </div>
-
-
 </div>

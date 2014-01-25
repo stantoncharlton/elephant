@@ -11,7 +11,7 @@
     <% if alert.alert_type == Alert::ADDED_TO_JOB %>
         <div class="alert-title">
           <%= image_tag "add_arrow.png" %>
-          <% job_membership = alert.job.get_membership_role(alert.user) %>
+          <% job_membership = alert.job.get_membership_role(alert.created_by) %>
           <% if job_membership %>
               <%= render 'jobs/user', job_membership: job_membership, include_icon: true %>&nbsp;<%= t ".added_to_job" %>
           <% else %>
