@@ -190,7 +190,9 @@
             <h3 class='blue-text'>Activities</h3>
             <br>
             <% surrounding[1].each do |entry| %>
-                <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, editable: false %>
+                <% if !entry.nil? %>
+                    <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, editable: false %>
+                <% end %>
             <% end %>
             <br>
 

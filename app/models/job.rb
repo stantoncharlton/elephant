@@ -49,6 +49,8 @@ class Job < ActiveRecord::Base
 
     has_many :part_memberships, order: "name ASC", dependent: :destroy, foreign_key: "job_id"
 
+    has_many :job_times, dependent: :destroy
+
     ACTIVE = 1
 
     PRE_JOB = 5

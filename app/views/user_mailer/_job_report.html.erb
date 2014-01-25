@@ -82,34 +82,34 @@
           <% assets = JobNote.where(:job_id => job.id).where("created_at > ?", 1.day.ago).where("job_notes.note_type = ?", JobNote::ASSET_REQUEST).order("created_at ASC") %>
           <% assets_string = assets.collect(&:text).join(', ') %>
           <tr>
-            <td width="200">
+            <td width="200" class='align-top'>
               <span class='help-text align-top'>Today</span>
 
               <p class='align-top'><%= note_activity_report.present? ? note_activity_report.present : "-" %></p>
             </td>
-            <td width="200">
+            <td width="200" class='align-top'>
               <span class='help-text align-top'>Past Day</span>
 
               <p class='align-top'><%= note_activity_report.present? ? note_activity_report.past : "-" %></p>
             </td>
-            <td width="200">
+            <td width="200" class='align-top'>
               <span class='help-text align-top'>Next Day</span>
 
               <p class='align-top'><%= note_activity_report.present? ? note_activity_report.future : "-" %></p>
             </td>
           </tr>
           <tr>
-            <td width="200">
+            <td width="200" class='align-top'>
               <span class='help-text align-top'>Asset Requests</span>
 
               <p class='align-top'><%= assets_string.present? ? assets_string : "-" %></p>
             </td>
-            <td width="200">
+            <td width="200" class='align-top'>
               <span class='help-text align-top'>Notes</span>
 
               <p class='align-top'><%= notes_string.present? ? notes_string : "-" %></p>
             </td>
-            <td width="200">
+            <td width="200" class='align-top'>
 
             </td>
           </tr>
