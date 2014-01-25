@@ -25,6 +25,7 @@
                 <% end %>
                 <% if conflict %>
                     <% day_job_times.each do |job_time| %>
+                        <% job = job_time.job %>
                         <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : ""), style: "height: 35px; width: 55px; margin-top: 0px; margin-right: 0px; margin-left: 4px; margin-bottom: 5px;" do %>
                             <div class="tooltip-info "
                                  data-placement="right"
