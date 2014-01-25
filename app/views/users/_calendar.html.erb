@@ -8,7 +8,7 @@
 
           <div class="jobs">
             <% job_time = job_times.select { |jt| (jt.time_for.day == (start_date + i.days).day) && (jt.time_for.month == (start_date + i.days).month) }.first %>
-            <% if job_time.present? %>
+            <% if job_time.present? && job_time.job.present? %>
                 <% job = job_time.job %>
                 <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : "") do %>
                     <div class="tooltip-info "

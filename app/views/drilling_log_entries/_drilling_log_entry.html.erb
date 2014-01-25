@@ -36,11 +36,12 @@
       <span class="help-text push-right-small <%= entry.course_length < 0 ? "warning-text" : "" %>"><%= entry.course_length %></span>
     </p>
 
+    <% activity_code_string = DrillingLogEntry.activity_code_string(entry.activity_code) %>
     <p class="list-item-column list-item-column4">
-      <span class="<%= entry.activity_code != DrillingLogEntry::DRILLING && entry.activity_code != DrillingLogEntry::SLIDING && entry.activity_code != DrillingLogEntry::CONNECTION_SURVEY && entry.activity_code != DrillingLogEntry::CONNECTION ? "warning-text" : "" %>"><b><%= DrillingLogEntry.activity_code_string(entry.activity_code) %></b></span>
+      <span class="<%= entry.activity_code != DrillingLogEntry::DRILLING && entry.activity_code != DrillingLogEntry::SLIDING && entry.activity_code != DrillingLogEntry::CONNECTION_SURVEY && entry.activity_code != DrillingLogEntry::CONNECTION ? "warning-text" : "" %>"><b><%= activity_code_string %></b></span>
     </p>
 
-    <p class="list-item-column">
+    <p class="list-item-column tooltip-info" data-title="<%= entry.comment %>">
       <%= entry.comment %>
     </p>
 
