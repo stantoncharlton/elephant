@@ -42,14 +42,13 @@
   </div>
 
   <% if current_user.company.work_day_type == Company::HOURLY_WORK_DAY %>
-      <% total_scheduled_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
-      <% total_work_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+      <% total_scheduled_time = job_times_array.select { |jt| jt.job.present? &&  jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+      <% total_work_time = job_times_array.select { |jt| jt.job.present? &&  jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
   <% else %>
-      <% total_scheduled_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours }.reduce(:+) || 0 %>
-      <% total_work_time = job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+      <% total_scheduled_time = job_times_array.select { |jt| jt.job.present? && jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+      <% total_work_time = job_times_array.select { |jt| jt.job.present? &&  jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
   <% end %>
 
-  <% puts job_times_array.select { |jt| jt.user_id == @user.id && jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::SCHEDULED }.map(&:id) %>
   <div>
     <div class="chart-block tooltip-info"
          data-title="Total days scheduled for month">

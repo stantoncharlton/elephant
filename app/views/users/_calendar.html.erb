@@ -7,17 +7,48 @@
           <p class="<%= adjusted_today_date.month != (start_date + i.days).month ? "number2" : "number" %> <%= ((start_date + i.days).day == Date.today.day && (start_date + i.days).month == Date.today.month) ? "today" : "" %>"><%= (start_date + i.days).day %></p>
 
           <div class="jobs">
-            <% job_time = job_times.select { |jt| (jt.time_for.day == (start_date + i.days).day) && (jt.time_for.month == (start_date + i.days).month) }.first %>
+            <% day_job_times = job_times.select { |jt| (jt.time_for.day == (start_date + i.days).day) && (jt.time_for.month == (start_date + i.days).month) } %>
+            <% conflict = day_job_times.count > 1 %>
+            <% if conflict %>
+                <% job_time = day_job_times.select { |jt| jt.status == JobTime::WORKED }.last %>
+            <% end %>
+            <% if job_time.nil? %>
+                <% job_time = day_job_times.last %>
+            <% end %>
             <% if job_time.present? && job_time.job.present? %>
                 <% job = job_time.job %>
-                <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : "") do %>
-                    <div class="tooltip-info "
-                       data-placement="right"
-                       data-html="true"
-                       data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
-                      <p class="user-calendar-job <%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job.field.name + " | " + job.well.name %></p>
-                      <h1 class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) %></h1>
+                <% if conflict %>
+                    <div class="align-top pull-right tooltip-info" style="margin-top: -27px; margin-right: 30px;"
+                         data-title="Scheduling conflict. More than 1 job scheduled.">
+                      <%= image_tag "error_red.png", class: "align-top" %>
                     </div>
+                <% end %>
+                <% if conflict %>
+                    <% day_job_times.each do |job_time| %>
+                        <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : ""), style: "height: 35px; width: 55px; margin-top: 0px; margin-right: 0px; margin-left: 4px; margin-bottom: 5px;" do %>
+                            <div class="tooltip-info "
+                                 data-placement="right"
+                                 data-html="true"
+                                 data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
+                              <p style="margin-top: 0px;" class=" center <%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job.well.rig.present? ? job.well.rig.name : (job.field.name + " | " + job.well.name) %>
+                                <br>
+                                <b class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) %></b>
+                              </p>
+
+                            </div>
+                        <% end %>
+                    <% end %>
+                <% else %>
+                    <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : "") do %>
+                        <div class="tooltip-info "
+                             data-placement="right"
+                             data-html="true"
+                             data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
+                          <p class="user-calendar-job center <%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job.well.rig.present? ? job.well.rig.name : (job.field.name + " | " + job.well.name) %></p>
+
+                          <h1 class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) %></h1>
+                        </div>
+                    <% end %>
                 <% end %>
             <% end %>
 

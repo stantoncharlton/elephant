@@ -85,14 +85,14 @@
 <% @adjusted_today_date = Time.zone.now %>
 <% @start_date = @adjusted_today_date.beginning_of_week - 1.days - (@adjusted_today_date.beginning_of_week.day + (7 - (@adjusted_today_date.beginning_of_week.day % 7))).days %>
 <% @page = 1 %>
-<% @job_times = JobTime.where(:company_id => current_user.company_id).where(:user_id => @user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month) %>
+<% @job_times = JobTime.where(:user_id => @user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month) %>
 <% job_times_array = @job_times.to_a %>
 <% if current_user.company.work_day_type == Company::HOURLY_WORK_DAY %>
-    <% @total_this_month= job_times_array.select { |jt| jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
-    <% @total_last_month = job_times_array.select { |jt| jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+    <% @total_this_month= job_times_array.select { |jt| jt.job.present? &&  jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
+    <% @total_last_month = job_times_array.select { |jt| jt.job.present? &&  jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours >= 8 ? 1 : 0.5 }.reduce(:+) || 0 %>
 <% else %>
-    <% @total_this_month= job_times_array.select { |jt| jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
-    <% @total_last_month = job_times_array.select { |jt| jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+    <% @total_this_month= job_times_array.select { |jt| jt.job.present? &&  jt.time_for.month == @adjusted_today_date.month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
+    <% @total_last_month = job_times_array.select { |jt| jt.job.present? &&  jt.time_for.month == (@adjusted_today_date - 1.month).month && jt.status == JobTime::WORKED }.map { |jt| jt.hours }.reduce(:+) || 0 %>
 <% end %>
 
 
