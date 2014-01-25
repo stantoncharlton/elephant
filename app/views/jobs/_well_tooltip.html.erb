@@ -1,4 +1,4 @@
-<% if job.nil? %>
+<% if !job.nil? %>
 <%="<div class='well-tooltip'>" +
            "<h2 class='orange-text'>" + job.field.name + " | " + job.well.name + "</h2>" +
            "<h3 class='push-down'>" + job.job_template.product_line.name + "<br>" + job.job_template.name + "</h3>" +
