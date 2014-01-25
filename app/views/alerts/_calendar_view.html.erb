@@ -13,7 +13,7 @@
   <% end %>
 
   <% if current_user.role.limit_to_assigned_jobs? %>
-      <% @job_times_array = JobTime.where(:user_id => current_user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @adjusted_today_date - 1.month, end_date: @adjusted_today_date + 1.month).to_a %>
+      <% @job_times_array = JobTime.where(:user_id => current_user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @start_date, end_date: @show_full_calendar ?  @start_date + 1.month :  @start_date + 14.days).to_a %>
   <% end %>
 
   <br><br>
