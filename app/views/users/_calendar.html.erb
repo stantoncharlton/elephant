@@ -26,17 +26,19 @@
                 <% if conflict %>
                     <% day_job_times.each do |job_time| %>
                         <% job = job_time.job %>
-                        <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : ""), style: "height: 35px; width: 55px; margin-top: 0px; margin-right: 0px; margin-left: 4px; margin-bottom: 5px;" do %>
-                            <div class="tooltip-info "
-                                 data-placement="right"
-                                 data-html="true"
-                                 data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
-                              <p style="margin-top: 0px;" class=" center <%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job.well.rig.present? ? job.well.rig.name : (job.field.name + " | " + job.well.name) %>
-                                <br>
-                                <b class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) %></b>
-                              </p>
+                        <% if job.present? %>
+                            <%= link_to job, class: "user-calendar-day inline-block " + (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") + (job_time.time_for.month != adjusted_today_date.month ? " not-in-month" : ""), style: "height: 35px; width: 55px; margin-top: 0px; margin-right: 0px; margin-left: 4px; margin-bottom: 5px;" do %>
+                                <div class="tooltip-info "
+                                     data-placement="right"
+                                     data-html="true"
+                                     data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: true %>">
+                                  <p style="margin-top: 0px;" class=" center <%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= job.well.rig.present? ? job.well.rig.name : (job.field.name + " | " + job.well.name) %>
+                                    <br>
+                                    <b class="<%= job_time.status == JobTime::WORKED ? "white-text" : "" %>"><%= (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) %></b>
+                                  </p>
 
-                            </div>
+                                </div>
+                            <% end %>
                         <% end %>
                     <% end %>
                 <% else %>
