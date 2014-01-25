@@ -39,7 +39,7 @@ class SuppliersController < ApplicationController
 
     def update
         @supplier = Supplier.find_by_id(params[:id])
-        @warehouse.update_attributes(params[:supplier])
+        @supplier.update_attributes(params[:supplier])
 
         redirect_to @supplier
     end
