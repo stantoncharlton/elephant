@@ -9,8 +9,10 @@
             <%= link_to job, class: "empty-link" do %>
                 <% last_entry = drilling_log.drilling_log_entries.any? ? drilling_log.drilling_log_entries.last : nil %>
                 <% max_less_than = (drilling_log.max_depth.present? ? drilling_log.max_depth : 0) + 200 < (drilling_log.td_depth.present? ? drilling_log.td_depth : 0) %>
-                <% problem = (last_entry.present? &&  max_less_than && (last_entry.activity_code == DrillingLogEntry::POOH || last_entry.activity_code >= 100)) %>
-                <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0, problem ? "#fa381e" : "#115ea3"] %>
+                <% problem = (last_entry.present? && max_less_than && (last_entry.activity_code == DrillingLogEntry::POOH || last_entry.activity_code >= 100)) %>
+                <% max_depth = drilling_log.max_depth.present? ? drilling_log.max_depth : 0 %>
+                <% td_depth = drilling_log.td_depth.present? ? drilling_log.td_depth : 0 %>
+                <% @jobs << [job.id, max_depth, td_depth, problem ? "#fa381e" : (td_depth == 0 || max_depth == 0 ? "#d7e9fa" : "#115ea3")] %>
                 <div class="chart-block tooltip-info" style="margin-bottom: 35px;"
                      data-placement="top"
                      data-html="true"
@@ -97,8 +99,13 @@
         <% @jobs.each do |a| %>
         var plot3 = $.jqplot('rig_chart_<%= a[0] %>', [
             [
+                <% if a[1].to_i == 0 || a[2].to_i == 0 %>
+                ['a', 100],
+                ['b', 0]
+                <% else %>
                 ['a', <%= a[1].to_i %>],
                 ['b', <%= a[2].to_i - a[1].to_i %>]
+                <% end %>
             ]
         ], {
             animate: true,
