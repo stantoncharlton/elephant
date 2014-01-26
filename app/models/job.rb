@@ -51,6 +51,9 @@ class Job < ActiveRecord::Base
 
     has_many :job_times, dependent: :destroy
 
+    has_many :inbound_shipments, class_name: "Shipment", foreign_key: "to_id"
+    has_many :outbound_shipments, class_name: "Shipment", foreign_key: "from_id"
+
     ACTIVE = 1
 
     PRE_JOB = 5

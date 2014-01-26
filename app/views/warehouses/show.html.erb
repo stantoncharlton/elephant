@@ -32,6 +32,7 @@
     Warehouse
   </h2>
 
+
   <div class="btn-group inline pull-right push-right-small">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
       Advanced Actions
@@ -62,6 +63,11 @@
     </ul>
   </div>
 
+
+  <br>
+  <div class='help-text'>
+    <%= "#{@warehouse.city} #{@warehouse.state}" %>
+  </div>
 
   <div id="warehouse_members" class='hidden'>
     <%= render 'warehouses/warehouse_members', warehouse: @warehouse %>

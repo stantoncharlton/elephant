@@ -27,6 +27,7 @@
     <div id="shipments_list" class="list">
       <% shipments.each do |shipment| %>
           <%= render 'shipments/shipment', shipment: shipment %>
+          <hr>
       <% end %>
 
       <% parts.where(:status => Part::SHIPPING).each_with_index do |part, index| %>

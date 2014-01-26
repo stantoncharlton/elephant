@@ -2,17 +2,34 @@
   <div class="form" data-form="new_shipment">
 
     <div class="page_header">
-      <% if !new %>
+      <% if !new && editable %>
           <%= link_to "Delete Shipment", shipment,
                       method: :delete, remote: true,
                       data: {confirm: "Permanently Delete Shipment?"},
                       class: "activity-user-link pull-right form-loading-on-click",
                       "data-form" => "new_shipment" %>
       <% end %>
-      <h1>Create Shipment</h1>
+      <h1 class='inline-block'>Shipment</h1>
+      <% if shipment.status == Shipment::IN_TRANSIT %>
+          <h3 class='inline-block warning-text'>In Transit</h3>
+      <% else %>
+          <h3 class='inline-block good-text'>Completed</h3>
+      <% end %>
+      <b class='push-right-small help-text'>
+        created
+        <% if shipment.status != Shipment::COMPLETE %>
+            <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
+        <% else %>
+            <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
+        <% end %>
+      </b>
     </div>
 
-    <%= render 'part_memberships/new', shipment: shipment %>
+    <% if editable %>
+        <%= render 'part_memberships/new', shipment: shipment %>
+    <% else %>
+        <br>
+    <% end %>
 
 
     <div id="asset_list" class="">
@@ -35,67 +52,90 @@
     <%= form_for shipment, remote: true do |f| %>
         <div class="content">
 
+          <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+          <% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+          <% jobs = shipment.district.jobs.where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB).collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
+
           <%= f.submit "Save",
                        class: "bluebtn push-right-small pull-right form-loading-on-click",
                        "data-form" => "new_shipment" %>
 
           <div style="margin-left: -10px;">
-            <div class='inline-block'>
-              <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
-                           {}, style: "width: 100px !important;",
-                           id: "shipment_from_select",
-                           class: "custom-select" %>
+            <% if shipment.from.present? && shipment.to.present? %>
+                <div id="from_to_links" class='inline-block from_to_show align-top' style="margin-top: 10px;">
+                  <div class='inline-block'>
+                    <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link tooltip-info" %></b>
+                    &nbsp;&nbsp;&nbsp;
+                    <i class="icon-chevron-right"></i>
+                    &nbsp;&nbsp;&nbsp;
+                    <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link tooltip-info" %></b>
+                  </div>
+
+                  <% if editable %>
+                      <a id="edit_shipment" class="inline-block push-right empty-link" href="#"><i class="icon-edit"></i>&nbsp;edit</a>
+                  <% end %>
+                </div>
+            <% end %>
+            <% if editable %>
+                <div id="from_to_edit" class="<%= shipment.from.present? && shipment.to.present? ? "hidden" : "" %>">
+                  <div class='inline-block'>
+                    <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
+                                 {}, style: "width: 100px !important;",
+                                 id: "shipment_from_select",
+                                 class: "custom-select" %>
 
 
-              <div id="from_warehouses" class='inline-block'>
-                <%= select_tag "from_id_warehouse", options_for_select(shipment.district.warehouses.collect { |w| [w.name, w.id] }, shipment.from_id),
-                               placeholder: "Select from..",
-                               class: "custom-select" %>
-              </div>
+                    <div id="from_warehouses" class='inline-block'>
+                      <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
+                                     placeholder: "Select from..",
+                                     class: "custom-select" %>
+                    </div>
 
-              <div id="from_suppliers" class='inline-block hidden'>
-                <%= select_tag "from_id_supplier", options_for_select(shipment.district.suppliers.collect { |w| [w.name, w.id] }, shipment.from_id),
-                               placeholder: "Select from..",
-                               class: "custom-select" %>
-              </div>
+                    <div id="from_suppliers" class='inline-block hidden'>
+                      <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
+                                     placeholder: "Select from..",
+                                     class: "custom-select" %>
+                    </div>
 
-              <div id="from_jobs" class='inline-block hidden'>
-                <%= select_tag "from_id_job", options_for_select(shipment.district.jobs.where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB).collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }, shipment.from_id),
-                               class: "custom-select",
-                               placeholder: "Select from.." %>
-              </div>
-            </div>
+                    <div id="from_jobs" class='inline-block hidden'>
+                      <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
+                                     class: "custom-select",
+                                     placeholder: "Select from.." %>
+                    </div>
+                  </div>
 
-            &nbsp;
-            <div class='inline-block align-top push-down'>
-              <i class="icon-chevron-right"></i>
-            </div>
-            &nbsp;
+                  &nbsp;
+                  <div class='inline-block align-top push-down'>
+                    <i class="icon-chevron-right"></i>
+                  </div>
+                  &nbsp;
 
-            <div class='inline-block'>
-              <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
-                           {}, style: "width: 100px !important;",
-                           id: "shipment_to_select",
-                           class: "custom-select" %>
+                  <div class='inline-block'>
+                    <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
+                                 {}, style: "width: 100px !important;",
+                                 id: "shipment_to_select",
+                                 class: "custom-select" %>
 
-              <div id="to_warehouses" class='inline-block hidden'>
-                <%= select_tag "to_id_warehouse", options_for_select(shipment.district.warehouses.collect { |w| [w.name, w.id] }, shipment.to_id),
-                               placeholder: "Select to..",
-                               class: "custom-select" %>
-              </div>
+                    <div id="to_warehouses" class='inline-block hidden'>
+                      <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
+                                     placeholder: "Select to..",
+                                     class: "custom-select" %>
+                    </div>
 
-              <div id="to_suppliers" class='inline-block hidden'>
-                <%= select_tag "to_id_supplier", options_for_select(shipment.district.suppliers.collect { |w| [w.name, w.id] }, shipment.to_id),
-                               placeholder: "Select to..",
-                               class: "custom-select" %>
-              </div>
+                    <div id="to_suppliers" class='inline-block hidden'>
+                      <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
+                                     placeholder: "Select to..",
+                                     class: "custom-select" %>
+                    </div>
 
-              <div id="to_jobs" class='inline-block'>
-                <%= select_tag "to_id_job", options_for_select(shipment.district.jobs.where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB).collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }, shipment.to_id),
-                               class: "custom-select",
-                               placeholder: "Select to.." %>
-              </div>
-            </div>
+                    <div id="to_jobs" class='inline-block'>
+                      <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
+                                     class: "custom-select",
+                                     placeholder: "Select to.." %>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
           </div>
 
         </div>

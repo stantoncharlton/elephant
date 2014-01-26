@@ -62,9 +62,6 @@ class ShipmentsController < ApplicationController
                 @shipment.to_name = @shipment.to.present? ? (@shipment.to.well.rig.present? ? @shipment.to.well.rig.name + " - " : "") + @shipment.to.field.name + " | " + @shipment.to.well.name : ""
         end
 
-        puts ".............."
-        puts @shipment.from_name
-        puts @shipment.to_name
         @shipment.status = Shipment::IN_TRANSIT
         @shipment.save
     end

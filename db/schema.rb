@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140125163312) do
+ActiveRecord::Schema.define(:version => 20140125233622) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -813,8 +813,8 @@ ActiveRecord::Schema.define(:version => 20140125163312) do
     t.integer  "user_id"
     t.integer  "accepted_by_id"
     t.datetime "accepted_at"
-    t.integer  "from_type"
-    t.integer  "to_type"
+    t.string   "from_type"
+    t.string   "to_type"
     t.integer  "from_id"
     t.integer  "to_id"
     t.integer  "status"

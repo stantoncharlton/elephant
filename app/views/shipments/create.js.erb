@@ -1,6 +1,6 @@
 popup = $('#modal_popup');
 popup.find('.modal-content').find('*').remove();
-popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @shipment, new: true %>");
+popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @shipment, new: true, editable: true %>");
 popup.css('visibility', 'visible');
 popup.find('.loading').addClass('hidden');
 
@@ -80,6 +80,11 @@ popup.find(".modal-popup-close").click(function () {
         url: "/shipments/<%= @shipment.id %>",
         type: "DELETE"
     });
+});
+
+popup.find(".form-loading-on-click").click(function () {
+    $(this).unbind('click');
+    popup.find(".modal-popup-close").unbind('click');
 });
 
 $('#shipment_from_select').change(function() {
