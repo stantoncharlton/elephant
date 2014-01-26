@@ -215,8 +215,9 @@ class DrillingLogEntriesController < ApplicationController
                     if params[:inclination].blank? || params[:azimuth].blank?
                         @survey_accepted = false
                     else
+                        @survey = Survey.find_by_id(params[:survey_id])
                         @survey_point = SurveyPoint.new(params[:survey_point])
-                        @survey_point.survey = Survey.find_by_id(params[:survey_id])
+                        @survey_point.survey = @survey
                         @survey_point.company = current_user.company
                         @survey_point.user = current_user
                         @survey_point.user_name = current_user.name
@@ -227,7 +228,14 @@ class DrillingLogEntriesController < ApplicationController
                         @survey_point.magnetic_dip_angle = params[:magnetic_dip_angle]
                         @survey_point.gravity_total = params[:gravity_total]
                         @survey_point.comment = params[:comment]
-                        @survey_point.save
+
+                        last_survey = @survey.survey_points.last
+                        if last_survey.present? && last_survey.measured_depth == @survey_point.measured_depth
+                            @survey_accepted = false
+                            return
+                        else
+                            @survey_point.save
+                        end
                     end
                 rescue
                 end

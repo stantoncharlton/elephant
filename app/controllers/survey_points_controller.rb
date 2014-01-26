@@ -59,8 +59,14 @@ class SurveyPointsController < ApplicationController
                     @survey_point.measured_depth != 0 &&
                     @survey_point.inclination.present? &&
                     @survey_point.azimuth.present?
+
                 @survey_point.tie_on = false
-                @survey_point.save
+                last_survey = @survey.survey_points.last
+                if last_survey.present? && last_survey.measured_depth == @survey_point.measured_depth
+                    @survey_point.errors.add(:survey, "is duplicate of existing entry. That measured depth has already been taken.")
+                else
+                    @survey_point.save
+                end
             else
                 @survey_point.errors.add(:survey, "fields can't be empty")
             end
