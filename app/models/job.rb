@@ -529,6 +529,10 @@ class Job < ActiveRecord::Base
         end
     end
 
+    def receive_shipment
+
+    end
+
     def drilling_log
         DrillingLog.joins(:job).where("jobs.well_id = ?", self.well_id).first
     end

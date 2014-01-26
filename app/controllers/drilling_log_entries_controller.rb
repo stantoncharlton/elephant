@@ -143,6 +143,17 @@ class DrillingLogEntriesController < ApplicationController
             depth = params[:drilling_log_entry][:depth]
             params[:drilling_log_entry].delete(:depth)
 
+            last_survey_sequence = DrillingLogEntry.where("drilling_log_entries.drilling_log_id = ?", @drilling_log.id).where("drilling_log_entries.survey_sequence IS NOT NULL").order("drilling_log_entries.entry_at DESC").limit(1).first
+            if last_survey_sequence.present? && last_survey_sequence.survey_sequence == params[:drilling_log_entry][:survey_sequence]
+                params[:drilling_log_entry].delete(:survey_sequence)
+            end
+
+            last_logging_sequence = DrillingLogEntry.where("drilling_log_entries.drilling_log_id = ?", @drilling_log.id).where("drilling_log_entries.logging_sequence IS NOT NULL").order("drilling_log_entries.entry_at DESC").limit(1).first
+            if last_logging_sequence.present? && last_logging_sequence.logging_sequence == params[:drilling_log_entry][:logging_sequence]
+                params[:drilling_log_entry].delete(:logging_sequence)
+            end
+
+
             override_date = nil
 
             begin

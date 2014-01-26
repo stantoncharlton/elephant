@@ -50,7 +50,13 @@ class DrillingLogEntry < ActiveRecord::Base
                     :battery_1_ahr,
                     :battery_2_amps,
                     :battery_volts,
-                    :battery_2_ahr
+                    :battery_2_ahr,
+                    :survey_sequence,
+                    :logging_sequence,
+                    :pulse_width,
+                    :pulse_height,
+                    :poppet,
+                    :orifice
 
 
     acts_as_tenant(:company)

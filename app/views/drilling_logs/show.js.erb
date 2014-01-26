@@ -40,8 +40,10 @@ removeOldContent('<%= params[:section] %>');
         var current_value = $(this).find('option:selected').val();
         if (current_value === '1') {
             $('#em_parameters').removeClass('hidden');
+            $('#pulse_parameters').addClass('hidden');
         } else {
             $('#em_parameters').addClass('hidden');
+            $('#pulse_parameters').removeClass('hidden');
         }
         return false;
     });

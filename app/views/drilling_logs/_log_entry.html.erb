@@ -342,6 +342,8 @@
 
         <div class='sub-tray hidden' data-tray="mwd">
 
+          <% em_type = @last_entry.present? && @last_entry.mwd_type == 1 ? true : false %>
+
           <div class='job-field-title2'>Type</div>
           <%= select_tag "[drilling_log_entry][mwd_type]",
                          options_for_select([["EM", 1], ["Pulse", 2]], @last_entry.present? ? @last_entry.mwd_type : nil),
@@ -351,10 +353,10 @@
                          placeholder: "MWD Type" %>
           &nbsp;
 
-          <div id="em_parameters" class='inline-block'>
+          <div id="em_parameters" class="inline-block <%= em_type ? "" : "hidden" %>">
             <div class='job-field-title2 push-right-small'>Hertz</div>
             <%= select_tag "[drilling_log_entry][em_hertz]",
-                           options_for_select([["0.5", 0.5], ["1", 1.0], ["2", 2.0], ["4", 4.0], ["6", 6.0], ["12", 12.0]], @last_entry.present? ? @last_entry.em_hertz : nil),
+                           options_for_select([["0.5", 0.5], ["1", 1.0], ["2", 2.0], ["4", 4.0], ["6", 6.0], ["8", 8.0], ["12", 12.0]], @last_entry.present? ? @last_entry.em_hertz : nil),
                            class: "job-field-value-editable input-small custom-select-ajax tooltip-info",
                            "data-title" => "Hertz",
                            placeholder: "Hertz" %>
@@ -376,6 +378,56 @@
                            "data-title" => "Amperage",
                            placeholder: "Amperage" %>
           </div>
+
+          <div id="pulse_parameters" class="inline-block push-down <%= em_type ? "hidden" : "" %>">
+            <% last_survey_sequence = DrillingLogEntry.where("drilling_log_entries.drilling_log_id = ?", @drilling_log.id).where("drilling_log_entries.survey_sequence IS NOT NULL").order("drilling_log_entries.entry_at DESC").limit(1).first %>
+            <div class='job-field-title2'>Surv Sq</div>
+            <input name="[drilling_log_entry][survey_sequence]" type="text"
+                   class="job-field-value-editable tooltip-info"
+                   value="<%= last_survey_sequence.present? ? last_survey_sequence.survey_sequence : nil %>"
+                   placeholder="Survey Sequence"
+                   data-title="Survey Sequence - <%= last_survey_sequence.present? ? last_survey_sequence.survey_sequence : nil %>">
+
+            <% last_logging_sequence = DrillingLogEntry.where("drilling_log_entries.drilling_log_id = ?", @drilling_log.id).where("drilling_log_entries.logging_sequence IS NOT NULL").order("drilling_log_entries.entry_at DESC").limit(1).first %>
+            <div class='job-field-title2 push-right-small'>Log Sq</div>
+            <input name="[drilling_log_entry][logging_sequence]" type="text"
+                   class="job-field-value-editable tooltip-info"
+                   value="<%= last_logging_sequence.present? ? last_survey_sequence.logging_sequence : nil  %>"
+                   placeholder="TF/Logging Sequence"
+                   data-title="TF/Logging Sequence - <%= last_logging_sequence.present? ? last_survey_sequence.logging_sequence : nil %>">
+
+            <br>
+
+            <div class='job-field-title2'>Width</div>
+            <input name="[drilling_log_entry][pulse_width]" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   value="<%= @last_entry.present? ? @last_entry.pulse_width : nil %>"
+                   placeholder="Pulse Width"
+                   data-title="Pulse Width">
+
+            <div class='job-field-title2 push-right-small'>Height</div>
+            <input name="[drilling_log_entry][pulse_height]" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   value="<%= @last_entry.present? ? @last_entry.pulse_height : nil %>"
+                   placeholder="Pulse Height"
+                   data-title="Pulse Height">
+
+            <div class='job-field-title2 push-right-small'>Poppet</div>
+            <input name="[drilling_log_entry][poppet]" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   value="<%= @last_entry.present? ? @last_entry.poppet : nil %>"
+                   placeholder="Poppet"
+                   data-title="Poppet Size">
+
+            <div class='job-field-title2 push-right-small'>Orifice</div>
+            <input name="[drilling_log_entry][orifice]" type="text"
+                   class="job-field-value-editable input-small tooltip-info"
+                   value="<%= @last_entry.present? ? @last_entry.orifice : nil %>"
+                   placeholder="Orifice"
+                   data-title="Orifice Size">
+          </div>
+
+
 
           <hr>
 
@@ -408,13 +460,13 @@
                  data-title="Battery 2 AmpHours Remaining">
 
           <br>
+
           <div class='job-field-title2'>Volts</div>
           <input name="[drilling_log_entry][battery_volts]" type="text"
                  class="job-field-value-editable input-small tooltip-info"
                  value="<%= @last_entry.present? ? @last_entry.battery_volts : nil %>"
                  placeholder="Volts"
                  data-title="MWD Battery Volts">
-
 
 
         </div>
@@ -433,7 +485,6 @@
         </div>
 
         <br>
-
 
 
     <% end %>
