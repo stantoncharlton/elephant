@@ -8,7 +8,7 @@
         <% if drilling_log.present? %>
             <%= link_to job, class: "empty-link" do %>
                 <% last_entry = drilling_log.drilling_log_entries.any? ? drilling_log.drilling_log_entries.last : nil %>
-                <% max_less_than = (drilling_log.max_depth.present? ? drilling_log.max_depth : 0) - 200 < (drilling_log.td_depth.present? ? drilling_log.td_depth : 0) %>
+                <% max_less_than = (drilling_log.max_depth.present? ? drilling_log.max_depth : 0) + 200 < (drilling_log.td_depth.present? ? drilling_log.td_depth : 0) %>
                 <% problem = (last_entry.present? &&  max_less_than && (last_entry.activity_code == DrillingLogEntry::POOH || last_entry.activity_code >= 100)) %>
                 <% @jobs << [job.id, drilling_log.max_depth.present? ? drilling_log.max_depth : 0, drilling_log.td_depth.present? ? drilling_log.td_depth : 0, problem ? "#fa381e" : "#115ea3"] %>
                 <div class="chart-block tooltip-info" style="margin-bottom: 35px;"
