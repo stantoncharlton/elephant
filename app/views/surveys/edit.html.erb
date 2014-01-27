@@ -3,9 +3,13 @@
 </div>
 
 <div class="form" data-form="new_well_plan">
-  <%= form_for @survey, :html=> {:multipart=>true} do |f| %>
+  <%= form_for @survey, :html => {:multipart => true} do |f| %>
 
-      <p class='help-text'>Import new active well plan...</p>
+      <div class='alert'>
+        <h3 class='orange-text'>Import New Plan</h3>
+
+        <p>Select the Compass <b>.txt</b> well plan file for upload...</p>
+      </div>
 
       <div style="position:relative;">
         <a class='btn btn-info' href='javascript:;'>
