@@ -63,10 +63,10 @@ class ShipmentsController < ApplicationController
                 case to_type
                     when Warehouse.name
                         @shipment.to = Warehouse.find_by_id(params[:to_id_warehouse])
-                        @shipment.to_name = @shipment.to.present? ? @shipment.from.name : ""
+                        @shipment.to_name = @shipment.to.present? ? @shipment.to.name : ""
                     when Supplier.name
                         @shipment.to = Supplier.find_by_id(params[:to_id_supplier])
-                        @shipment.to_name = @shipment.to.present? ? @shipment.from.name : ""
+                        @shipment.to_name = @shipment.to.present? ? @shipment.to.name : ""
                     when Job.name
                         @shipment.to = Job.find_by_id(params[:to_id_job])
                         @shipment.to_name = @shipment.to.present? ? (@shipment.to.well.rig.present? ? @shipment.to.well.rig.name + " - " : "") + @shipment.to.field.name + " | " + @shipment.to.well.name : ""

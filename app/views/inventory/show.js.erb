@@ -25,6 +25,7 @@ if(!tray.hasClass('custom-data-closed')) {
     tray.replaceWith("<%= j render 'inventory/tray_maintenance', parts: @parts %>");
     <% elsif params[:section] == "shipping" %>
     tray.replaceWith("<%= j render 'inventory/tray_shipping', parts: @parts %>");
+    $('.popover').popover({  delay: { show: 100, hide: 200 } });
     <% elsif params[:section] == "full" %>
     tray.replaceWith("<%= j render 'inventory/tray_full', parts: @parts %>");
     <% elsif params[:section] == "warehouses" %>
