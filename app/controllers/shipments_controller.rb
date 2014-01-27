@@ -100,7 +100,9 @@ class ShipmentsController < ApplicationController
                                 part_membership.job = nil
                                 part_membership.shipment = @shipment
                                 part_membership.save
-                                part_membership.part.asset_shipping @shipment
+                                if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+                                    part_membership.part.asset_shipping @shipment
+                                end
                             end
                         end
                     end
