@@ -8,18 +8,22 @@
           <% else %>
               <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
           <% end %>
+
+
         </div>
         <div>
           <b><%= shipment.from_name %></b>&nbsp;&nbsp;&nbsp;<i class="icon-chevron-right"></i>&nbsp;&nbsp;&nbsp;<b><%= shipment.to_name %></b>
         </div>
 
         <div>
-          <b class='warning-text'>In Transit</b>
+           <b class='warning-text'>In Transit</b>
+
+          <h3 class='inline-block blue-text push-right-small'><%= shipment.part_memberships.count %></h3>&nbsp;<span class='help-text'><%= "asset".pluralize(shipment.part_memberships.count) %></span>
         </div>
       </div>
   <% end %>
 
-  <div class='push-right-small'>
+  <div class='' style="margin-left: 10px;">
     <% shipment.part_memberships.each do |pm| %>
         <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
     <% end %>

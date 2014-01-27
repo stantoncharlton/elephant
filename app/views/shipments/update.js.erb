@@ -6,3 +6,37 @@ if($("#shipment_<%= @shipment.id %>").length > 0) {
     $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment %>");
     $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 100 } });
 }
+
+if($('#no_outbound_shipments').length > 0) {
+    $('#no_outbound_shipments').remove();
+    $('#shipments_list').css('margin-top', '20px');
+}
+
+$('#deselect_all').click(function() {
+    $('.shipment_checkbox').each(function() {
+        $(this).prop('checked', false);
+        $(this).next().css('opacity', '0.3');
+    });
+    $('#deselect_all').addClass('hidden');
+    $('#select_all').removeClass('hidden');
+    return false;
+});
+
+$('#select_all').click(function() {
+    $('.shipment_checkbox').each(function() {
+        $(this).prop('checked', true);
+        $(this).next().css('opacity', '1.0');
+    });
+    $('#deselect_all').removeClass('hidden');
+    $('#select_all').addClass('hidden');
+    return false;
+});
+
+$('.shipment_checkbox').change(function() {
+    if($(this).is(":checked")) {
+        $(this).next().css('opacity', '1.0');
+    }
+    else {
+        $(this).next().css('opacity', '0.3');
+    }
+});

@@ -67,9 +67,10 @@
   </div>
 </div>
 
+<div>
+  <h3 class='orange-text'>Inbound Shipments <%=  job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %></h3>
+</div>
 <% if job.inbound_shipments.any? %>
-    <h3 class='orange-text'>Inbound Shipments</h3>
-    <hr>
     <% job.inbound_shipments.each do |shipment| %>
         <%= render 'shipments/shipment', shipment: shipment %>
         <% if shipment.accepted_at.nil? %>
@@ -77,16 +78,30 @@
         <% end %>
         <hr>
     <% end %>
-<% end %>
-<% if job.outbound_shipments.any? %>
-    <h3 class='orange-text'>Outbound Shipments</h3>
-    <hr>
-    <% job.outbound_shipments.each do |shipment| %>
-        <%= render 'shipments/shipment', shipment: shipment %>
-    <% end %>
+<% else %>
+    <p class='help-text push-down'>No inbound shipments...</p>
 <% end %>
 
-<% if job.status == Job::ON_JOB || job.status == Job::POST_JOB %>
+<div>
+  <div class='pull-right'>
+    <%= link_to "New Shipment", shipments_path(district: @job.district, job: @job),
+                remote: true, method: :post,
+                class: "bluebtn btnsmall align-top push-up show-modal-button" %>
+  </div>
+
+  <h3 class='orange-text'>Outbound Shipments <%=  job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %></h3>
+</div>
+<div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
+  <% if job.outbound_shipments.any? %>
+      <% job.outbound_shipments.each do |shipment| %>
+          <%= render 'shipments/shipment', shipment: shipment %>
+      <% end %>
+  <% else %>
+      <p id="no_outbound_shipments" class='help-text push-down'>No outbound shipments...</p>
+  <% end %>
+</div>
+
+<% if false && job.status == Job::ON_JOB || job.status == Job::POST_JOB %>
     <hr>
 
     <div class='push-right-small'>

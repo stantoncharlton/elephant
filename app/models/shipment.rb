@@ -2,7 +2,8 @@ class Shipment < ActiveRecord::Base
     attr_accessible :accepted_at,
                     :status,
                     :from_name,
-                    :to_name
+                    :to_name,
+                    :from_editable
 
     acts_as_tenant(:company)
 

@@ -4,6 +4,8 @@ $('#modal_popup').height(0);
 
 <% if @shipment.present? %>
     if($("#shipment_<%= @shipment.id %>").length > 0) {
-    $("#shipment_<%= @shipment.id %>").remove();
+        shipment = $("#shipment_<%= @shipment.id %>");
+        shipment.next('hr').remove();
+        shipment.remove();
     }
 <% end %>
