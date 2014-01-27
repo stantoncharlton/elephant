@@ -68,7 +68,8 @@
 </div>
 
 <div>
-  <h3 class='orange-text'>Inbound Shipments <%=  job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %></h3>
+  <h3 class='orange-text'>Inbound
+    Shipments <%= job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %></h3>
 </div>
 <% if job.inbound_shipments.any? %>
     <% job.inbound_shipments.each do |shipment| %>
@@ -91,7 +92,8 @@
                 class: "bluebtn btnsmall align-top push-up show-modal-button" %>
   </div>
 
-  <h3 class='orange-text'>Outbound Shipments <%=  job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %></h3>
+  <h3 class='orange-text'>Outbound
+    Shipments <%= job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %></h3>
 </div>
 <div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
   <% if job.outbound_shipments.any? %>
