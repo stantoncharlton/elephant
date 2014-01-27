@@ -34,10 +34,6 @@
           <% end %>
           <hr>
       <% end %>
-
-      <% parts.where(:status => Part::SHIPPING).each_with_index do |part, index| %>
-          <%= render 'parts/sub_part2', part: part, index: index, condensed: true %>
-      <% end %>
     </div>
 
   </div>
