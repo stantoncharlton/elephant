@@ -1,6 +1,6 @@
 popup = $('#modal_popup');
 popup.find('.modal-content').find('*').remove();
-popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @shipment, new: false, editable: true %>");
+popup.find('.modal-content').append("<%= j render 'shipments/list', shipment: @shipment, new: false, editable: @editable %>");
 popup.css('visibility', 'visible');
 popup.find('.loading').addClass('hidden');
 
@@ -8,7 +8,7 @@ popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('
 popup.find('.custom-select').customSelect();
 
 
-$('.popover').popover({  delay: { show: 100, hide: 100 } });
+$('.popover').popover({  delay: { show: 100, hide: 200 } });
 
 
 setTimeout(function () {
@@ -73,8 +73,8 @@ popup.find(".modal-popup-close").click(function () {
     $(this).unbind('click');
 
     if ($("#shipment_<%= @shipment.id %>").length > 0) {
-        $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment %>");
-        $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 100 } });
+        $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @editable %>");
+        $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 200 } });
     }
 });
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140126210039) do
+ActiveRecord::Schema.define(:version => 20140127015351) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -653,27 +653,28 @@ ActiveRecord::Schema.define(:version => 20140126210039) do
 
   create_table "part_memberships", :force => true do |t|
     t.integer  "primary_tool_id"
-    t.string   "material_number", :limit => 30
+    t.string   "material_number",        :limit => 30
     t.integer  "job_id"
     t.integer  "part_id"
-    t.boolean  "template",                      :default => true
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.boolean  "template",                             :default => true
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
     t.integer  "company_id"
     t.boolean  "track_usage"
     t.float    "usage"
-    t.boolean  "optional",                      :default => false
+    t.boolean  "optional",                             :default => false
     t.string   "name"
     t.string   "serial_number"
-    t.boolean  "received",                      :default => false
+    t.boolean  "received",                             :default => false
     t.datetime "received_at"
     t.integer  "received_by"
     t.integer  "part_type"
     t.decimal  "inner_diameter"
     t.decimal  "outer_diameter"
     t.decimal  "length"
-    t.boolean  "shipping",                      :default => false
+    t.boolean  "shipping",                             :default => false
     t.integer  "shipment_id"
+    t.integer  "job_part_membership_id"
   end
 
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"

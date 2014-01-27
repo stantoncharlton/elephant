@@ -31,7 +31,7 @@
   <% end %>
 
   <% job.inbound_shipments.each do |shipment| %>
-      <% if shipment.accepted_at.nil? %>
+      <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
           <% shipment.part_memberships.order('name ASC').each do |pm| %>
               <div class='inline-block align-top' style="opacity: 0.35;">
                 <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
@@ -72,9 +72,11 @@
 </div>
 <% if job.inbound_shipments.any? %>
     <% job.inbound_shipments.each do |shipment| %>
-        <%= render 'shipments/shipment', shipment: shipment %>
-        <% if shipment.accepted_at.nil? %>
-            <%= link_to "Receive Shipment", "#", class: "bluebtn btnsmall green push-down" %>
+        <%= render 'shipments/shipment', shipment: shipment, editable: false %>
+        <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
+            <%= link_to "Receive Shipment", job_path(job, update_field: true, field: "receive_shipment", value: shipment.id),
+                        remote: true, :method => :put,
+                        class: "bluebtn btnsmall green push-down receive-shipment-button" %>
         <% end %>
         <hr>
     <% end %>
@@ -94,7 +96,7 @@
 <div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
   <% if job.outbound_shipments.any? %>
       <% job.outbound_shipments.each do |shipment| %>
-          <%= render 'shipments/shipment', shipment: shipment %>
+          <%= render 'shipments/shipment', shipment: shipment, editable: true %>
       <% end %>
   <% else %>
       <p id="no_outbound_shipments" class='help-text push-down'>No outbound shipments...</p>

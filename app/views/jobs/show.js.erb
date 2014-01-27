@@ -2,8 +2,11 @@
     $('#assets_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
     $('#assets_loading').remove();
 
+    $('.receive-shipment-button').live("click", function() {
+       $(this).remove();
+    });
 
-    $('.popover').popover({  delay: { show: 100, hide: 100 } });
+    $('.popover').popover({  delay: { show: 100, hide: 200 } });
 
 
     var focusevent, last_selected_item, part_focused,

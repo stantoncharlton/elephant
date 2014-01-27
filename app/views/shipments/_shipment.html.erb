@@ -1,5 +1,5 @@
 <div id="shipment_<%= shipment.id %>">
-  <%= link_to edit_shipment_path(shipment), remote: true, class: "job-link  show-modal-button" do %>
+  <%= link_to edit_shipment_path(shipment, editable: editable), remote: true, class: "job-link  show-modal-button" do %>
       <div style="margin-top: 10px; margin-bottom: 10px;">
         <div class='pull-right'>
 
@@ -16,7 +16,15 @@
         </div>
 
         <div>
-           <b class='warning-text'>In Transit</b>
+          <% if shipment.status == Shipment::IN_TRANSIT %>
+              <b class='warning-text'>In Transit</b>
+          <% elsif shipment.status == Shipment::AWAITING_SHIPMENT %>
+              <b class='warning-text'>Not Yet Shipped</b>
+          <% else %>
+              <b class='good-text'>Completed</b>
+          <% end %>
+
+
 
           <h3 class='inline-block blue-text push-right-small'><%= shipment.part_memberships.count %></h3>&nbsp;<span class='help-text'><%= "asset".pluralize(shipment.part_memberships.count) %></span>
         </div>

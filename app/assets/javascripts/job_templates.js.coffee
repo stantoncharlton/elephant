@@ -76,11 +76,14 @@ $ ->
     return false
 
   $('.show-modal-button2').live "click", ->
-    $('#modal_popup2').css('visibility', 'visible')
-    inner = $('#modal_popup2').find('.modal-popup')
+    if $('#map').length > 0
+      $('#map').hide()
+    popup = $('#modal_popup2')
+    popup.css('visibility', 'visible')
+    inner = popup.find('.modal-popup')
     inner.css('margin-top', 100)
-    $('#modal_popup2').height($(document).height() + 100)
-    $('#modal_popup2').find('.loading').removeClass 'hidden'
+    popup.height($(document).height() + 100)
+    popup.find('.loading').removeClass 'hidden'
     return false
 
   $('.add-new-document-button').live "click", ->

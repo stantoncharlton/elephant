@@ -3,7 +3,7 @@ $('#add_tool_loader').addClass('hidden');
 
 <% if @part_membership.present? %>
     $tool = $('#list').append('<%= j render 'bhas/bha_tool', bha_item: BhaItem.new, tool: @part_membership, document: @document %>');
-$('.popover').popover({  delay: { show: 100, hide: 100 } });
+$('.popover').popover({  delay: { show: 100, hide: 200 } });
 <% else %>
 
 $('#alert').remove();

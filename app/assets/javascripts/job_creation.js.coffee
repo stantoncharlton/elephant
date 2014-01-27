@@ -69,6 +69,8 @@ $ ->
     return false
 
   $('#close_modal2').live "click", ->
+    if $('#map').length > 0 && $('#modal_popup').css('visibility') == 'hidden'
+      $('#map').show()
     $('#modal_popup2').css "visibility", "hidden"
     $('#modal_popup2').find(".modal-content").children().remove()
     $('#modal_popup2').height(0)
@@ -205,7 +207,7 @@ $ ->
       form = $('.form[data-form=' + data + ']')
       loading = $('.form-loading[data-form=' + data + ']')
 
-      if form.height() > 400
+      if form.height() > 400 && ($('#modal_popup').length == 0 || $('#modal_popup').css('visibility') == 'hidden')
         $('body').animate({scrollTop : form.position().top - 200},'slow');
 
       form.hide()

@@ -338,28 +338,9 @@ class JobsController < ApplicationController
                     @job.update_attribute(:rating, params[:value])
                     Activity.add(self.current_user, Activity::JOB_RATING, @job, @job.rating.to_i, @job)
                     @rating_updated = true
-                when "confirm_assets"
-                    @job.update_attribute(:inventory_confirmed, params[:value])
-                    @job.part_memberships.each do |part_membership|
-                        if params[:value] == "true"
-                            part_membership.update_attribute(:received, true)
-                        else
-                            part_membership.update_attribute(:received, false)
-                        end
-                    end
-                when "transfer_assets"
-                    @new_job = Job.find_by_id(params[:value])
-                    @job.transfer_assets @new_job
-                when "ship_all_assets"
-                    @warehouse = Warehouse.find_by_id(params[:value])
-                    @job.part_memberships.each do |part_membership|
-                        part_membership.update_attribute(:shipping, true)
-                        if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present? && part_membership.part.current_job == part_membership.job
-                            part_membership.part.warehouse = @warehouse
-                            part_membership.part.status = Part::SHIPPING
-                            part_membership.part.save
-                        end
-                    end
+                when "receive_shipment"
+                    @shipment = Shipment.find_by_id(params[:value])
+                    @job.receive_shipment @shipment, current_user
                 when "no_well_plan"
                     survey = @job.survey
                     if survey

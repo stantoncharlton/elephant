@@ -51,8 +51,8 @@ class Job < ActiveRecord::Base
 
     has_many :job_times, dependent: :destroy
 
-    has_many :inbound_shipments, class_name: "Shipment", foreign_key: "to_id"
-    has_many :outbound_shipments, class_name: "Shipment", foreign_key: "from_id"
+    has_many :inbound_shipments, order: "created_at DESC", class_name: "Shipment", foreign_key: "to_id"
+    has_many :outbound_shipments, order: "created_at DESC", class_name: "Shipment", foreign_key: "from_id"
 
     ACTIVE = 1
 
@@ -529,8 +529,22 @@ class Job < ActiveRecord::Base
         end
     end
 
-    def receive_shipment
+    def receive_shipment shipment, user
+        Shipment.transaction do
+            shipment.status = Shipment::COMPLETE
+            shipment.accepted_by = user
+            shipment.accepted_at = Time.zone.now
 
+            shipment.part_memberships.each do |pm|
+                part_membership = pm.duplicate
+                part_membership.job = self
+                part_membership.job_part_membership = pm
+                part_membership.shipment = shipment
+                part_membership.save
+            end
+
+            shipment.save
+        end
     end
 
     def drilling_log

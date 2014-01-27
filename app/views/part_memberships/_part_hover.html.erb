@@ -58,39 +58,43 @@
         <% end %>
     <% end %>
 
-    <% if part_membership.present? && part_membership.part.present? && (part_membership.part.status == Part::ON_JOB || part_membership.part.status == Part::SHIPPING) && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
-        <div>
-          <% if !part_membership.shipping? %>
-              <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
-                To Shop</a>
-          <% else %>
-              <b class='warning-text'>Shipping to Shop</b>&nbsp;
-              <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=false' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='activity-user-link part-working'>undo</a>
-          <% end %>
-        </div>
+    <% if false %>
+        <% if part_membership.present? && part_membership.part.present? && (part_membership.part.status == Part::ON_JOB || part_membership.part.status == Part::SHIPPING) && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
+            <div>
+              <% if !part_membership.shipping? %>
+                  <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
+                    To Shop</a>
+              <% else %>
+                  <b class='warning-text'>Shipping to Shop</b>&nbsp;
+                  <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=false' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='activity-user-link part-working'>undo</a>
+              <% end %>
+            </div>
+        <% end %>
     <% end %>
   </div>
 
-  <% if current_user.role.access_to_inventory? && part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::SHIPPING %>
-      <div class='btn-group inline-block'>
-        <a class='btn btn-danger white-text tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title='Receive Asset at Warehouse'>
-          Receive at Warehouse
-        </a>
-        <ul class='dropdown-menu' style='top: auto;bottom: 100%;'>
-          <% warehouses = part_membership.part.district.warehouses %>
-          <% if warehouses.any? %>
-              <% warehouses.each do |w| %>
+  <% if false %>
+      <% if current_user.role.access_to_inventory? && part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::SHIPPING %>
+          <div class='btn-group inline-block'>
+            <a class='btn btn-danger white-text tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title='Receive Asset at Warehouse'>
+              Receive at Warehouse
+            </a>
+            <ul class='dropdown-menu' style='top: auto;bottom: 100%;'>
+              <% warehouses = part_membership.part.district.warehouses %>
+              <% if warehouses.any? %>
+                  <% warehouses.each do |w| %>
+                      <li>
+                        <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=<%= w.id %>' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'><%= w.name %></a>
+                      </li>
+                  <% end %>
+              <% else %>
                   <li>
-                    <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=<%= w.id %>' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'><%= w.name %></a>
+                    <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=0' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'>Receive
+                      Asset</a>
                   </li>
               <% end %>
-          <% else %>
-              <li>
-                <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=0' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'>Receive
-                  Asset</a>
-              </li>
-          <% end %>
-        </ul>
-      </div>
+            </ul>
+          </div>
+      <% end %>
   <% end %>
 </div>

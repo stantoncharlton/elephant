@@ -7,7 +7,7 @@ popup.find('.loading').addClass('hidden');
 popup.find('.modal-popup').css('max-width', '900px').css('width', '900px').css('padding-bottom', '20px');
 popup.find('.custom-select').customSelect();
 
-$('.popover').popover({  delay: { show: 100, hide: 100 } });
+$('.popover').popover({  delay: { show: 100, hide: 200 } });
 
 setTimeout(function () {
 
@@ -68,7 +68,7 @@ setTimeout(function () {
 }, 50);
 
 if($('#shipments_list').length > 0) {
-$("#shipments_list").prepend("<%= j render 'shipments/shipment', shipment: @shipment %>");
+$("#shipments_list").prepend("<%= j render 'shipments/shipment', shipment: @shipment, editable: true %>");
 }
 
 popup.find(".modal-popup-close").click(function () {

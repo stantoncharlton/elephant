@@ -30,6 +30,7 @@ class PartMembership < ActiveRecord::Base
     belongs_to :primary_tool
     belongs_to :company
     belongs_to :shipment
+    belongs_to :job_part_membership, class_name: "PartMembership"
 
     INVENTORY = 1
     RENTAL = 2

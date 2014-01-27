@@ -1,10 +1,15 @@
+popup = $('#modal_popup');
 popup.css('visibility', 'hidden');
 popup.find(".modal-content").children().remove();
 popup.height(0);
 
+if ($('#map').length > 0) {
+    $('#map').show();
+}
+
 if($("#shipment_<%= @shipment.id %>").length > 0) {
-    $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment %>");
-    $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 100 } });
+    $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @shipment.from_editable %>");
+    $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 200 } });
 }
 
 if($('#no_outbound_shipments').length > 0) {

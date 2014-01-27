@@ -48,7 +48,7 @@
             <% shipment_assets = shipment.part_memberships.to_a %>
             <% shipment.from.part_memberships.each do |pm| %>
                 <div class='inline-block'>
-                  <% found = shipment_assets.select { |s| s.name == pm.name && s.serial_number == pm.serial_number }.any? %>
+                  <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
                   <% if shipment_assets.any? %>
                       <%= check_box_tag "pm_#{pm.id}", "true",
                                         (found ? true : false),
@@ -187,5 +187,6 @@
   <div class="form-loading hidden" data-form="new_shipment">
     <br><br>
     <%= render 'layouts/inline_loading', title: "Saving..." %>
+    <br><br>
   </div>
 </div>

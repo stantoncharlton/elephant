@@ -37,37 +37,40 @@ class ShipmentsController < ApplicationController
 
     def edit
         @shipment = Shipment.find_by_id(params[:id])
+        @editable = params[:editable] == 'true'
     end
 
     def update
         Shipment.transaction do
             @shipment = Shipment.find_by_id(params[:id])
 
-            from_type = params[:shipment][:from_type]
-            to_type = params[:shipment][:to_type]
+            if params[:shipment].present?
+                from_type = params[:shipment][:from_type]
+                to_type = params[:shipment][:to_type]
 
-            case from_type
-                when Warehouse.name
-                    @shipment.from = Warehouse.find_by_id(params[:from_id_warehouse])
-                    @shipment.from_name = @shipment.from.present? ? @shipment.from.name : ""
-                when Supplier.name
-                    @shipment.from = Supplier.find_by_id(params[:from_id_supplier])
-                    @shipment.from_name = @shipment.from.present? ? @shipment.from.name : ""
-                when Job.name
-                    @shipment.from = Job.find_by_id(params[:from_id_job])
-                    @shipment.from_name = @shipment.from.present? ? (@shipment.from.well.rig.present? ? @shipment.from.well.rig.name + " - " : "") + @shipment.from.field.name + " | " + @shipment.from.well.name : ""
-            end
+                case from_type
+                    when Warehouse.name
+                        @shipment.from = Warehouse.find_by_id(params[:from_id_warehouse])
+                        @shipment.from_name = @shipment.from.present? ? @shipment.from.name : ""
+                    when Supplier.name
+                        @shipment.from = Supplier.find_by_id(params[:from_id_supplier])
+                        @shipment.from_name = @shipment.from.present? ? @shipment.from.name : ""
+                    when Job.name
+                        @shipment.from = Job.find_by_id(params[:from_id_job])
+                        @shipment.from_name = @shipment.from.present? ? (@shipment.from.well.rig.present? ? @shipment.from.well.rig.name + " - " : "") + @shipment.from.field.name + " | " + @shipment.from.well.name : ""
+                end
 
-            case to_type
-                when Warehouse.name
-                    @shipment.to = Warehouse.find_by_id(params[:to_id_warehouse])
-                    @shipment.to_name = @shipment.to.present? ? @shipment.from.name : ""
-                when Supplier.name
-                    @shipment.to = Supplier.find_by_id(params[:to_id_supplier])
-                    @shipment.to_name = @shipment.to.present? ? @shipment.from.name : ""
-                when Job.name
-                    @shipment.to = Job.find_by_id(params[:to_id_job])
-                    @shipment.to_name = @shipment.to.present? ? (@shipment.to.well.rig.present? ? @shipment.to.well.rig.name + " - " : "") + @shipment.to.field.name + " | " + @shipment.to.well.name : ""
+                case to_type
+                    when Warehouse.name
+                        @shipment.to = Warehouse.find_by_id(params[:to_id_warehouse])
+                        @shipment.to_name = @shipment.to.present? ? @shipment.from.name : ""
+                    when Supplier.name
+                        @shipment.to = Supplier.find_by_id(params[:to_id_supplier])
+                        @shipment.to_name = @shipment.to.present? ? @shipment.from.name : ""
+                    when Job.name
+                        @shipment.to = Job.find_by_id(params[:to_id_job])
+                        @shipment.to_name = @shipment.to.present? ? (@shipment.to.well.rig.present? ? @shipment.to.well.rig.name + " - " : "") + @shipment.to.field.name + " | " + @shipment.to.well.name : ""
+                end
             end
 
             if !@shipment.from_editable
@@ -80,6 +83,7 @@ class ShipmentsController < ApplicationController
                             key = k.gsub("pm_", "")
                             pm = PartMembership.find_by_id(key)
                             part_membership = pm.duplicate
+                            part_membership.job_part_membership = pm
                             part_membership.job = nil
                             part_membership.shipment = @shipment
                             part_membership.save
