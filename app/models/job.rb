@@ -529,24 +529,6 @@ class Job < ActiveRecord::Base
         end
     end
 
-    def receive_shipment shipment, user
-        Shipment.transaction do
-            shipment.status = Shipment::COMPLETE
-            shipment.accepted_by = user
-            shipment.accepted_at = Time.zone.now
-
-            shipment.part_memberships.each do |pm|
-                part_membership = pm.duplicate
-                part_membership.job = self
-                part_membership.job_part_membership = pm
-                part_membership.shipment = shipment
-                part_membership.save
-            end
-
-            shipment.save
-        end
-    end
-
     def drilling_log
         DrillingLog.joins(:job).where("jobs.well_id = ?", self.well_id).first
     end

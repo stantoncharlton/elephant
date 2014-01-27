@@ -33,7 +33,7 @@
 
   <div class='' style="margin-left: 10px;">
     <% shipment.part_memberships.each do |pm| %>
-        <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
+        <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
     <% end %>
   </div>
 </div>

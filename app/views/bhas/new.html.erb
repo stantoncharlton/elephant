@@ -29,21 +29,36 @@
 
       <div class="form" id="add_tool" data-form="add_tool">
         <% options = [] %>
-        <% # Includes only jobs with BHA     %>
+        <% # Includes only jobs with BHA       %>
         <% PartMembership.includes(job: :well).includes(job: :documents).where("wells.id = ?", @job.well_id).where("documents.document_type = ?", Document::BOTTOM_HOLE_ASSEMBLY).order("part_memberships.name ASC").each do |p| %>
             <% options << [p.name + ' - ' + p.serial_number, p.id] %>
         <% end %>
-        <%= select_tag "Add Tool", options_for_select(options),
-                       id: "bha_tool_options",
-                       class: "inline-block custom-select custom-select-long tooltip-info",
-                       "data-form" => "add_tool",
-                       "data-placement" => "bottom",
-                       "data-title" => "Add tool to BHA",
-                       prompt: "Add tool to BHA..." %>
 
-        <%= link_to "Add", "#", id: "add_new_bha_item",
-                    "data-document" => @document.id.to_s,
-                    class: "bluebtn btnsmall" %>
+        <% if options.empty? %>
+            <div class="no-job-log-entries alert">
+              <%= image_tag "warning.png", class: "pull-left push-down" %>
+              <div class='pull-left push-right-small push-down-small'>
+                <h3 class='orange-text'>No tools/assets on well...</h3>
+
+                <p>You must first add assets or accept shipments on the job page to add them here.</p>
+              </div>
+              <br><br><br>
+            </div>
+        <% else %>
+
+            <%= select_tag "Add Tool", options_for_select(options),
+                           id: "bha_tool_options",
+                           class: "inline-block custom-select custom-select-long tooltip-info",
+                           "data-form" => "add_tool",
+                           "data-placement" => "bottom",
+                           "data-title" => "Add tool to BHA",
+                           prompt: "Add tool to BHA..." %>
+
+            <%= link_to "Add", "#", id: "add_new_bha_item",
+                        "data-document" => @document.id.to_s,
+                        class: "bluebtn btnsmall" %>
+        <% end %>
+
       </div>
       <div id="add_tool_loader" class="hidden" data-form="add_tool">
         <span class="ajax-loading search-loading"><b>Adding Tool...</b></span>

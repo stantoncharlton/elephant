@@ -347,7 +347,7 @@ class JobsController < ApplicationController
                     @rating_updated = true
                 when "receive_shipment"
                     @shipment = Shipment.find_by_id(params[:value])
-                    @job.receive_shipment @shipment, current_user
+                    @shipment.receive_shipment current_user
                 when "no_well_plan"
                     survey = @job.survey
                     if survey

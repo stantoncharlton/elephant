@@ -28,6 +28,7 @@ class Part < ActiveRecord::Base
     belongs_to :company
     belongs_to :district
     belongs_to :current_job, class_name: "Job"
+    belongs_to :current_shipment, class_name: "Shipment"
     belongs_to :master_part, class_name: "Part"
     belongs_to :primary_tool
     belongs_to :warehouse
@@ -85,6 +86,42 @@ class Part < ActiveRecord::Base
 
     def self.from_company(company)
         where("company_id = :company_id", company_id: company.id).order("parts.district_serial_number_id ASC")
+    end
+
+    def asset_on_job job
+        self.current_job = job
+        self.status = Part::ON_JOB
+        self.save
+    end
+
+    def asset_shipping shipment
+        self.status = Part::SHIPPING
+        self.current_shipment = shipment
+        self.save
+    end
+
+    def asset_at_warehouse warehouse
+        self.status = Part::AVAILABLE
+        self.current_job = nil
+        self.warehouse = warehouse
+        self.save
+    end
+
+    def removed from_job
+        if from_job
+            if self.current_shipment.present?
+                self.asset_shipping self.current_shipment
+            else
+                self.asset_at_warehouse self.warehouse
+            end
+        else
+            if self.current_job.present?
+                self.asset_on_job self.current_job
+            else
+                self.asset_at_warehouse self.warehouse
+            end
+        end
+
     end
 
     def self.search_no_district(options, company)

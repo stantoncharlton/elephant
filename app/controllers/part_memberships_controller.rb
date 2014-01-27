@@ -56,11 +56,9 @@ class PartMembershipsController < ApplicationController
             @part_membership.serial_number = @part_membership.part.serial_number
 
             if @part_membership.job.present?
-                if @part_membership.job.status == Job::ON_JOB
-                    @part_membership.part.current_job = @part_membership.job
-                    @part_membership.part.status = Part::ON_JOB
-                    @part_membership.part.save
-                end
+                @part_membership.part.asset_on_job @part_membership.job
+            elsif @part_membership.shipment.present?
+                @part_membership.part.asset_shipping @part_membership.shipment
             end
         end
 
@@ -84,20 +82,6 @@ class PartMembershipsController < ApplicationController
 
         if params[:usage].present?
             @part_membership.update_attribute(:usage, Float(params[:usage]))
-        elsif params[:shipping].present?
-            @part_membership.update_attribute(:shipping, params[:value] == "true")
-            if @part_membership.part_type == PartMembership::INVENTORY
-                @part_membership.part.update_attribute(:status, params[:value] == "true" ? Part::SHIPPING : Part::ON_JOB)
-            end
-        elsif params[:receiving].present?
-            @part_membership.update_attribute(:shipping, false)
-            if @part_membership.part_type == PartMembership::INVENTORY
-                @warehouse = Warehouse.find_by_id(params[:value])
-                @part_membership.part.warehouse = @warehouse
-                @part_membership.part.status = Part::AVAILABLE
-                @part_membership.part.save
-                @make_green = true
-            end
         elsif params[:part_membership].present?
             @part_membership.update_attributes(params[:part_membership])
         end
@@ -107,12 +91,17 @@ class PartMembershipsController < ApplicationController
         @part_membership = PartMembership.find_by_id(params[:id])
         not_found unless @part_membership.present?
 
-        if @part_membership.destroy
-            if @part_membership.job.present?
-                if @part_membership.part.present?
-                    Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
-                else
-                    Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
+        PartMembership.transaction do
+            if @part_membership.destroy
+                if @part_membership.job.present?
+                    if @part_membership.part.present?
+                        @part_membership.part.removed true
+                        Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
+                    else
+                        Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
+                    end
+                elsif @part_membership.shipment.present? && @part_membership.part.present?
+                    @part_membership.part.removed false
                 end
             end
         end
