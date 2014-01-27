@@ -92,7 +92,7 @@
           <% jobs = UserRole.limit_jobs_scope(current_user, shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB)).collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
 
           <%= f.submit "Save",
-                       class: "bluebtn push-right-small pull-right form-loading-on-click",
+                       class: "bluebtn push-right-small pull-right form-loading-on-click save-button",
                        "data-form" => "new_shipment" %>
 
           <div style="margin-left: -10px;">

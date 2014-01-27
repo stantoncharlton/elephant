@@ -17,6 +17,7 @@ class PartMembership < ActiveRecord::Base
     require 'digest/md5'
     acts_as_tenant(:company)
 
+    validates_presence_of :company_id
     validates_presence_of :job_id, :if => :not_shipment_present
     validates_presence_of :shipment_id, :if => :shipment_present
     validates_presence_of :part_id, :if => :part_inventory

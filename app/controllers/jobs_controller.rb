@@ -161,6 +161,13 @@ class JobsController < ApplicationController
                 @new_well.location = @old_job.well.location
                 @new_well.rig = @old_job.well.rig
                 @new_well.save
+
+                if @new_well.name.blank? || @new_well.new_record?
+                    @job.errors.add(:well, "name must be present for rig skid")
+                    flash[:error] = "Well name must be present to create new job."
+                    redirect_to job_path(@old_job)
+                    return
+                end
                 @job.well = @new_well
             else
                 @job.client = Client.find_by_id(client_id)
