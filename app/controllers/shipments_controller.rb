@@ -45,6 +45,10 @@ class ShipmentsController < ApplicationController
             @shipment = Shipment.find_by_id(params[:id])
             not_found unless @shipment.present?
 
+            if @shipment.status == Shipment::COMPLETE
+                return
+            end
+
             if params[:update_field].present? && params[:update_field] == "true" &&
                     params[:field].present? && params[:value].present?
                 case params[:field]

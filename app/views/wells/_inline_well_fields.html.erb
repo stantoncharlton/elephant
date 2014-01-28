@@ -11,7 +11,7 @@
     <%= text_field_tag "", "", value: well.location,
                        placeholder: "Surface Latitude, Longitude of well",
                        class: "well-update-field txtfield tooltip-info map-latlong-text-entry align-top push-right-small",
-                       "data-id" => well.id,
+                       "data-id" => well.id.to_s,
                        "data-field" => "location",
                        "data-placement" => "bottom",
                        "data-title" => "Well surface location in 'latitude, longitude' format separated by comma" %>
@@ -21,7 +21,7 @@
       <%= select_tag "datum",
                      options_for_select([["Datum NAD83", Well::DATUM_NAD83], ["Datum NAD27", Well::DATUM_NAD27]], well.datum),
                      class: "well-update-field custom-select align-top push-down",
-                     "data-id" => well.id,
+                     "data-id" => well.id.to_s,
                      "data-field" => "datum",
                      placeholder: "Datum" %>
     </div>
@@ -32,7 +32,7 @@
     <%= text_field_tag "", "", value: well.bottom_hole_location,
                        placeholder: "Bottom Hole Latitude, Longitude of well",
                        class: "well-update-field txtfield tooltip-info map-latlong-text-entry align-top push-right-small",
-                       "data-id" => well.id,
+                       "data-id" => well.id.to_s,
                        "data-field" => "bottom_hole_location",
                        "data-placement" => "bottom",
                        "data-title" => "Well bottom hole location in 'latitude, longitude' format separated by comma" %>
