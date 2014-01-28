@@ -44,7 +44,7 @@
 
     <%= form_for shipment, remote: true do |f| %>
 
-        <% if !shipment.from_editable && shipment.from_type == "Job" %>
+        <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE %>
             <div class="job-shipment-list">
               <% shipment_assets = shipment.part_memberships.to_a %>
               <% shipment.from.part_memberships.each do |pm| %>
@@ -70,7 +70,7 @@
         <% else %>
             <div id="asset_list" class="job-shipment-list">
               <% shipment.part_memberships.each do |pm| %>
-                  <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
+                  <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
               <% end %>
             </div>
 

@@ -39,22 +39,3 @@
   </div>
 
 </div>
-
-<script type='text/javascript'>
-
-    var oldHide = $.fn.popover.Constructor.prototype.hide;
-
-    $.fn.popover.Constructor.prototype.hide = function () {
-        if (this.options.trigger === "hover" && this.tip().is(":hover")) {
-            var that = this;
-            // try again after what would have been the delay
-            setTimeout(function () {
-                return that.hide.call(that, arguments);
-            }, that.options.delay.hide);
-            return;
-        }
-        oldHide.call(this, arguments);
-    };
-
-    $('.popover').popover({  delay: { show: 100, hide: 200 } });
-</script>
