@@ -208,7 +208,11 @@ class Part < ActiveRecord::Base
                     return "In Maintenance"
                 end
             when SHIPPING
-                return "Shipping"
+                if self.current_shipment.present?
+                    return "Shipping <br>[from] #{self.current_shipment.from_name}  <br>[to] #{self.current_shipment.to_name}"
+                else
+                    return "Shipping"
+                end
             when DECOMMISSIONED
                 return "Decommissioned"
         end

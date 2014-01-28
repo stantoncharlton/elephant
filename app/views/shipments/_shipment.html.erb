@@ -6,7 +6,7 @@
           <% if shipment.status != Shipment::COMPLETE %>
               <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
           <% else %>
-              <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
+              <span><%= shipment.created_at.strftime("%a %m/%d/%Y %H:%M %p") %></span>
           <% end %>
 
 
