@@ -8,7 +8,7 @@ if ($('#map').length > 0) {
 }
 
 if($("#shipment_<%= @shipment.id %>").length > 0) {
-    $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @shipment.from_editable %>");
+    $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @shipment.from_editable, show_assets: true %>");
     $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 200 } });
 }
 

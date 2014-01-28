@@ -6,6 +6,44 @@
        $(this).remove();
     });
 
+    $('#show_assets').live("click", function() {
+       $(this).addClass('hidden');
+        $('#add_assets').removeClass('hidden');
+        return false;
+    });
+
+    function show_assets(onsite) {
+        $('#asset_list').find('.part-membership').each(function() {
+            if(onsite && $(this).attr('data-shipping') == 'true') {
+                $(this).addClass('hidden');
+            }
+            else {
+                $(this).removeClass('hidden');
+            }
+        });
+    }
+
+    $("#show_all_assets").click(function() {
+        show_assets(false);
+        $(this).addClass('hidden');
+        $("#show_onsite_assets").removeClass('hidden');
+        return false;
+    });
+    $("#show_onsite_assets").click(function() {
+        show_assets(true);
+        $(this).addClass('hidden');
+        $("#show_all_assets").removeClass('hidden');
+        return false;
+    });
+
+    <% if @job.status != Job::COMPLETE %>
+        show_assets(true);
+
+        <% if @job.inbound_shipments.where(:status => Shipment::IN_TRANSIT).any? %>
+            $('#inbound_shipments_link').trigger('click');
+        <% end %>
+    <% end %>
+
     $('.popover').popover({  delay: { show: 100, hide: 200 } });
 
 

@@ -38,7 +38,7 @@ if($('.modal-backdrop').length > 0) {
     $('.modal-backdrop').css('z-index', '1000000000');
 }
 
-    $('#shipment_<%= @shipment.id %>').replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, new: false, editable: false %>");
+    $('#shipment_<%= @shipment.id %>').replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, new: false, editable: false, show_assets: true %>");
 
 <% @shipment = Shipment.find_by_id(@shipment.id) %>
 <% @job = Job.find_by_id(@job.id) %>

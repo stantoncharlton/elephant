@@ -21,7 +21,7 @@
 
         <% if part.current_shipment.present? %>
         <br>
-            <%= render 'shipments/shipment', shipment: part.current_shipment, editable: false %>
+            <%= render 'shipments/shipment', shipment: part.current_shipment, editable: false, show_assets: true %>
         <% end %>
 
 
