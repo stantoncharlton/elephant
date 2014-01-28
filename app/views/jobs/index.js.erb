@@ -1,0 +1,4 @@
+$("#jobs_search input").removeClass("ajax-loading");
+<% if @jobs.present? %>
+$("#jobs_list").replaceWith("<%= j render 'jobs/index_list' %>");
+<% end %>

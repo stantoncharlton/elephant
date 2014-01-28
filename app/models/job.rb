@@ -74,6 +74,9 @@ class Job < ActiveRecord::Base
         text :well_name, :as => :code_textp do
             well.name
         end
+        text :rig_name, :as => :code_textp do
+            well.rig.present? ? well.rig.name : ""
+        end
         text :product_line_name, :as => :code_textp do
             job_template.product_line.name
         end
@@ -130,6 +133,22 @@ class Job < ActiveRecord::Base
 
     def active
         self.status >= 1 && self.status < 50
+    end
+
+    def status_color
+        case self.status
+            when PRE_JOB
+                "#0058a8"
+            when ON_JOB
+                "#f89406"
+            when POST_JOB
+                "#428a1b"
+            when COMPLETE
+                "#428a1b"
+            else
+                "#0058a8"
+        end
+
     end
 
     def add_user!(user, role)

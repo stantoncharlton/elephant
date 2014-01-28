@@ -41,6 +41,9 @@
     <% if !@wells.nil? && @wells.any? %>
         <span class="label label-info search-count"><%= pluralize(@wells.count, "Well") %></span>
     <% end %>
+    <% if !@rigs.nil? && @rigs.any? %>
+        <span class="label label-info search-count"><%= pluralize(@rigs.count, "Rig") %></span>
+    <% end %>
   </div>
 
 </div>

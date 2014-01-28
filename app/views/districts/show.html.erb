@@ -64,9 +64,6 @@
 <% if !@district_jobs.nil? %>
     <div class="well">
 
-      <div class="pull-right">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @district.map_search %>&zoom=4&size=230x230&maptype=roadmap&sensor=false&markers=color:blue%7C<%= @district.map_search %>&key=AIzaSyC28fW0cLbMkTbKfyBgYKG4XbOCR3QBmT4">
-      </div>
 
       <div class="chart-block">
         <div class="chart-title">Personnel</div>
@@ -79,17 +76,36 @@
 
       <div class="chart-block chart-block-extended2">
 
-        <% if !@district.personnel.first.nil? %>
-            <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar pull-left" %>
-            <div>
-              <%= link_to @district.personnel.first.name, @district.personnel.first, class: "activity-user-link push-right-small" %>
-              <br>
-              <b class="push-right-small"><%= @district.personnel.first.role.title %></b>
+        <% manager = @district.personnel.where("users.role_id >= 50 AND users.role_id < 60").first %>
+        <% if manager.present? %>
+            <div class='pull-right'>
+              <% names = manager.present? ? manager.name.split : '' %>
+              <div class="inline-block align-top">
+                <div class='inline-block'>
+                  <div class="member-icon-large tooltip-info">
+                    <p>
+                      <% if names.any? %>
+                          <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                      <% else %>
+                          -
+                      <% end %>
+                    </p>
+
+                    <div class="member-icon-image member-icon-image-user"></div>
+                  </div>
+                </div>
+                <div class='inline-block align-top push-right-small'>
+                  <br><br>
+
+                  <h3><%= manager.name %></h3>
+                  <%= manager.role.title %>
+                  <br>
+                  <%= manager.phone_number %>
+                  | <%= link_to "Email", "mailto: " + manager.email, class: "activity-user-link" %>
+                </div>
+              </div>
             </div>
         <% end %>
-        <br>
-        <b><%= @district.phone_number %></b>
-        <a href="mailto:<%= @district.support_email %>" class="activity-user-link"><%= @district.support_email %></a>
       </div>
 
       <br><br><br>
@@ -102,13 +118,83 @@
           <div class="push-right-small">
             <%= image_tag "tool.png" %>
             <%= link_to inventory_index_path(district: @district.id), class: "push-right-small activity-user-link" do %>
-                Warehouse Inventory <span class="help-text">(<%= Part.includes(:parts).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).count()%>)</span>
+                Warehouse Inventory
+                <span class="help-text">(<%= Part.includes(:parts).where("parts.warehouse_id IN (SELECT id FROM warehouses where district_id = :district_id)", district_id: @district.id).where(:template => false).count() %>
+                  )</span>
             <% end %>
           </div>
       <% end %>
     </div>
 <% end %>
 
+<div class="map-container">
+  <div id='map' class='dark' style='width:100%;height:300px;'></div>
+  <div class="corner tlcorner"></div>
+  <div class="corner trcorner"></div>
+  <div class="corner brcorner"></div>
+  <div class="corner blcorner"></div>
+</div>
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+    map.attributionControl = false;
+    map.scrollWheelZoom.disable();
+
+    var geoJson = [];
+
+    <% coordinates_for_zoom = [] %>
+    <% coordinates_for_lines = [] %>
+
+    <% @jobs.includes(:well).each_with_index do |job, index| %>
+    <% if job.present? && !job.well.location.blank? %>
+    <% x = job.well.x_location %>
+    <% y = job.well.y_location  %>
+    <% coordinates_for_lines << [x, y] %>
+    <% coordinates_for_zoom << [y, x] %>
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= x %>, <%= y %>]
+        },
+        "properties": {
+            title: '<%= "#{job.well.rig.present? ? job.well.rig.name : ''} #{job.field.name} - #{job.well.name}" %>',
+            'marker-size': 'medium',
+            'marker-color': '<%= job.status_color  %>',
+            url: '/jobs/' + <%= job.id %>
+            //'marker-symbol': '1'
+        }
+    });
+    <% end %>
+    <% end %>
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function (e) {
+        map.panTo(e.layer.getLatLng());
+    });
+    map.markerLayer.on('click', function (e) {
+        e.layer.unbindPopup();
+        window.location = e.layer.feature.properties.url;
+    });
+
+    var bounds = [];
+    <% coordinates_for_zoom.each do |c| %>
+    bounds.push([<%= c[0] %>, <%= c[1] %>]);
+    <% end %>
+    map.fitBounds(bounds);
+    zoom = Math.round(map.getZoom());
+
+
+    map.markerLayer.on('mouseover', function (e) {
+        e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function (e) {
+        e.layer.closePopup();
+    });
+</script>
+
+<br><br>
 
 
 <div id="search_results">

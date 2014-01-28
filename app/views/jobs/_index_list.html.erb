@@ -1,0 +1,26 @@
+<div id="jobs_list">
+  <% jobs_array = @jobs.to_a %>
+  <% jobs_array = jobs_array.sort_by { |j| "#{j.field.name} - #{j.well.name}" } %>
+  <div id="jobs" class="list">
+    <% jobs_array.each do |job| %>
+        <%= render 'jobs/job_progress_link', job: job %>
+    <% end %>
+  </div>
+
+  <% if @is_paged %>
+      <%= will_paginate %>
+  <% else %>
+      <br><br><br>
+      <% if @jobs.empty? %>
+          <% if !current_user.role.no_assigned_jobs? %>
+              <div class="no-alerts">
+                <p class="center"><%= t ".no_jobs" %></p>
+              </div>
+          <% end %>
+      <% else %>
+          <div class="">
+            <%= link_to "View all jobs, active and complete", jobs_path(:page => "1"), class: "activity-user-link" %>
+          </div>
+      <% end %>
+  <% end %>
+</div>
