@@ -18,7 +18,7 @@
 
     <div id="parts" class="list">
       <% parts.each_with_index do |part, index| %>
-          <%= render 'parts/sub_part2', part: part, index: index, condensed: true %>
+          <%= render 'parts/sub_part2', part: part, index: index, condensed: true, show_name: true %>
       <% end %>
     </div>
 

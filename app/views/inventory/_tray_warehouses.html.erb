@@ -44,7 +44,7 @@
             <% if warehouse.parts.any? %>
                 <div class="content">
                   <% warehouse.parts.each_with_index do |p, i| %>
-                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: false, condensed: @condensed %>
+                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: false, condensed: @condensed, show_name: true %>
                   <% end %>
                 </div>
 

@@ -88,7 +88,7 @@
             <% if master_part.parts.any? %>
                 <div class="content">
                   <% master_part.parts.each_with_index do |p, i| %>
-                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed %>
+                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed, show_name: false %>
                   <% end %>
                 </div>
 
