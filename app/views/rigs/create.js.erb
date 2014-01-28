@@ -19,6 +19,10 @@ if($('#rig_id').length > 0) {
     $('#rig_name').val("<%= sanitize(@rig.name) %>");
 }
 
+if($('#rig_list').length > 0) {
+    $('#rig_list').append("<%= j render "rigs/rig", rig: @rig %>");
+}
+
 <% if !params[:reference].blank? %>
     $('#modal_popup').css('visibility', 'visible');
     $('#modal_popup').height($(document).height() + 100);
