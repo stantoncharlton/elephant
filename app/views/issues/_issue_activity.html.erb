@@ -17,6 +17,13 @@
             <%= issue.failure.failure_master_template.text %>
           </div>
       <% end %>
+
+      <% if issue.job_notes.any? %>
+          <div class='push-down-small'>
+            <i class="icon-comment"></i>
+            <div class='inline-block push-right-small'><%= issue.job_notes.first.text %></div>
+          </div>
+      <% end %>
     </div>
 
     <br>

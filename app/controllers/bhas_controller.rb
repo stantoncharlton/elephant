@@ -173,7 +173,9 @@ class BhasController < ApplicationController
                     end
                 end
 
+                @bha.delay.update_usage
                 @bha.delay.create_activity(current_user, Activity::UPDATE_BHA)
+
 
                 @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
                 redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)

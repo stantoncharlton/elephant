@@ -48,23 +48,25 @@
             <div class="job-shipment-list">
               <% shipment_assets = shipment.part_memberships.to_a %>
               <% shipment.from.part_memberships.each do |pm| %>
-                  <div class='inline-block'>
-                    <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
-                    <% if shipment_assets.any? %>
-                        <%= check_box_tag "pm_#{pm.id}", "true",
-                                          (found ? true : false),
-                                          name: "[pm][pm_#{pm.id}]",
-                                          class: "shipment_checkbox" %>
-                    <% else %>
-                        <%= check_box_tag "pm_#{pm.id}", "true",
-                                          true,
-                                          name: "[pm][pm_#{pm.id}]",
-                                          class: "shipment_checkbox" %>
-                    <% end %>
-                    <div class='inline-block align-top' style="<%= found || shipment_assets.empty? ? "" : "opacity: 0.3;" %>">
-                      <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
-                    </div>
-                  </div>
+                  <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
+                  <% if found || !pm.shipping %>
+                      <div class='inline-block'>
+                        <% if shipment_assets.any? %>
+                            <%= check_box_tag "pm_#{pm.id}", "true",
+                                              (found ? true : false),
+                                              name: "[pm][pm_#{pm.id}]",
+                                              class: "shipment_checkbox" %>
+                        <% else %>
+                            <%= check_box_tag "pm_#{pm.id}", "true",
+                                              true,
+                                              name: "[pm][pm_#{pm.id}]",
+                                              class: "shipment_checkbox" %>
+                        <% end %>
+                        <div class='inline-block align-top' style="<%= found || shipment_assets.empty? ? "" : "opacity: 0.3;" %>">
+                          <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
+                        </div>
+                      </div>
+                  <% end %>
               <% end %>
             </div>
         <% else %>

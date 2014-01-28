@@ -85,6 +85,9 @@ class ShipmentsController < ApplicationController
 
                 if !@shipment.from_editable
                     @shipment.part_memberships.each do |pm|
+                        if pm.job_part_membership.present?
+                            pm.job_part_membership.update_attribute(:shipping, false)
+                        end
                         pm.destroy
                         if pm.part_type == PartMembership::INVENTORY && pm.part.present?
                             pm.part.removed false
@@ -100,6 +103,7 @@ class ShipmentsController < ApplicationController
                                 part_membership.job = nil
                                 part_membership.shipment = @shipment
                                 part_membership.save
+                                pm.update_attribute(:shipping, true)
                                 if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
                                     part_membership.part.asset_shipping @shipment
                                 end
