@@ -56,4 +56,9 @@ class Issue < ActiveRecord::Base
     end
 
 
+    def update_failure_count
+        if self.job.present?
+            self.job.update_attribute(:failures_count, self.job.issues.count)
+        end
+    end
 end

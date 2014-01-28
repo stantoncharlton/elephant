@@ -7,7 +7,8 @@ class Job < ActiveRecord::Base
                     :job_number,
                     :api_number,
                     :inventory_notes,
-                    :inventory_confirmed
+                    :inventory_confirmed,
+                    :failures_count
 
     include PostJobReportHelper
     acts_as_xlsx

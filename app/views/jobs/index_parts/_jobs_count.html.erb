@@ -1,6 +1,6 @@
 <% active_jobs_count = jobs.reorder('').where("jobs.status >= 1 AND jobs.status < 50").count() %>
 <% jobs_sql = jobs.reorder('').where("jobs.status >= 1 AND jobs.status < 50").select("jobs.id").to_sql %>
-<% active_failures_count = Failure.where("failures.job_id IN (#{jobs_sql})").count() %>
+<% active_failures_count = Issue.where("issues.job_id IN (#{jobs_sql})").count() %>
 
 <div class="chart-block">
   <div class="chart-title">Active Jobs</div>

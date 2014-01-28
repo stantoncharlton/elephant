@@ -81,6 +81,7 @@ class IssuesController < ApplicationController
             document.company = current_user.company
             document.save
 
+            @issue.delay.update_failure_count
             Activity.delay.add(current_user, Activity::ISSUE_OPENED, @issue, nil, @issue.job)
         end
 
