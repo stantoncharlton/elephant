@@ -44,14 +44,14 @@ class Shipment < ActiveRecord::Base
                     case shipment.to_type
                         when Job.name
                             part_membership = pm.duplicate
-                            part_membership.job = self
+                            part_membership.job = shipment.to
                             part_membership.job_part_membership = pm
                             part_membership.shipment = shipment
                             part_membership.save
 
                             if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
                                 part_membership.part.status = Part::ON_JOB
-                                part_membership.part.current_job = self
+                                part_membership.part.current_job = shipment.to
                                 part_membership.part.save
                             end
                         when Warehouse.name
