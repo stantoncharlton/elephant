@@ -7,6 +7,7 @@
 
     <% redresses = PartRedress.where(:part_id => part.id).order("created_at DESC") %>
     <% jobs = part.jobs.order("created_at DESC") %>
+    <% shipments = Shipment.includes(part_memberships: :part).where("part_memberships.part_id = ?", part.id).order("shipments.created_at DESC") %>
 
     <div class="map-container">
       <div id='map' class='dark' style='width:100%;height:300px;'></div>
@@ -23,15 +24,27 @@
         <% redresses.each do |r| %>
             <% all_items << r %>
         <% end %>
+        <% shipments.each do |s| %>
+            <% all_items << s %>
+        <% end %>
         <% all_items = all_items.sort_by(&:created_at).reverse %>
-        <div>
+        <div style="margin-left: -10px; margin-right: -10px;">
           <% job_index = 0 %>
           <% all_items.each_with_index do |item, index| %>
               <% if item.is_a?(Job) %>
                   <%= render 'parts/part_run', job: item, index: job_index %>
                   <% job_index = job_index + 1 %>
-              <% else %>
+              <% elsif item.is_a?(PartRedress) %>
                   <%= render 'parts/maintenance', redress: item, index: index %>
+              <% elsif item.is_a?(Shipment) %>
+                  <div>
+                    <i class="icon-random"></i>       &nbsp;&nbsp;
+                    <div class='inline-block align-top'>
+                      <%= item.created_at.strftime("%m/%d/%Y") %>
+                    </div>
+                    <%= render 'shipments/shipment', shipment: item, editable: item.status != Shipment::COMPLETE, show_assets: false %>
+
+                  </div>
               <% end %>
               <br>
           <% end %>
