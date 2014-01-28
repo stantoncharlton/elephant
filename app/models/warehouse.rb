@@ -19,7 +19,7 @@ class Warehouse < ActiveRecord::Base
     belongs_to :company
     belongs_to :district
 
-    has_many :parts, :conditions => { :template => false }
+    has_many :parts, :conditions => "template = false AND status = 1 OR status = 4"
 
     has_many :warehouse_memberships, dependent: :destroy, foreign_key: "warehouse_id", order: "created_at ASC"
     has_many :participants, through: :warehouse_memberships, source: :user

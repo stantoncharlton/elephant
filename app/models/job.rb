@@ -13,6 +13,7 @@ class Job < ActiveRecord::Base
     acts_as_xlsx
 
     after_commit :flush_cache
+    before_destroy :remove_part_memberships
 
     acts_as_tenant(:company)
 
@@ -551,6 +552,16 @@ class Job < ActiveRecord::Base
 
     def flush_cache
         Rails.cache.delete([self.class.name, id])
+    end
+
+    private
+
+    def remove_part_memberships
+        self.part_memberships.each do |pm|
+            if pm.part_type == PartMembership::INVENTORY && pm.part.present?
+                pm.part.removed true
+            end
+        end
     end
 
 end

@@ -28,6 +28,8 @@ class Bha < ActiveRecord::Base
     has_one :tool_string, :dependent => :destroy, class_name: "Bha", foreign_key: "master_bha_id"
 
     def update_usage
+        return unless job.present?
+
         drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first
         entries = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", self.master_bha.present? ? self.master_bha_id : self.id).to_a
         log = DrillingLog.calculate(entries)

@@ -103,7 +103,9 @@ class Part < ActiveRecord::Base
     def asset_at_warehouse warehouse
         self.status = Part::AVAILABLE
         self.current_job = nil
-        self.warehouse = warehouse
+        if warehouse != nil
+            self.warehouse = warehouse
+        end
         self.save
     end
 
