@@ -9,7 +9,7 @@ $('#modal_popup').height(0);
         shipment.remove();
     }
 
-    <% if @shipment.from.present? && @shipment.from_type == Job.name %>
+    <% if @shipment.from.present? && @shipment.from_type == Job.name && @shipment.part_memberships.any?  %>
     if($('#asset_list').length > 0) {
         tray  =$('.job-tray[data-tray=tools_assets]');
         tray.find("*").remove();
