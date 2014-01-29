@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127162329) do
+ActiveRecord::Schema.define(:version => 20140129023825) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.boolean  "deleted",         :default => false
   end
 
+  add_index "conversation_memberships", ["company_id"], :name => "index_conversation_memberships_on_company_id"
   add_index "conversation_memberships", ["conversation_id"], :name => "index_conversation_memberships_on_conversation_id"
   add_index "conversation_memberships", ["user_id", "conversation_id"], :name => "index_conversation_memberships_on_user_id_and_conversation_id"
   add_index "conversation_memberships", ["user_id"], :name => "index_conversation_memberships_on_user_id"
@@ -221,6 +222,8 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "document_revisions", ["company_id"], :name => "index_document_revisions_on_company_id"
+
   create_table "document_shares", :force => true do |t|
     t.integer  "document_id"
     t.string   "email"
@@ -233,6 +236,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.integer  "company_id"
   end
 
+  add_index "document_shares", ["company_id"], :name => "index_document_shares_on_company_id"
   add_index "document_shares", ["document_id", "email"], :name => "index_document_shares_on_document_id_and_email", :unique => true
   add_index "document_shares", ["document_id"], :name => "index_document_shares_on_document_id"
   add_index "document_shares", ["email"], :name => "index_document_shares_on_email"
@@ -508,6 +512,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.integer  "shift_type"
   end
 
+  add_index "job_memberships", ["company_id"], :name => "index_job_memberships_on_company_id"
   add_index "job_memberships", ["job_id"], :name => "index_job_memberships_on_job_id"
   add_index "job_memberships", ["user_id"], :name => "index_job_memberships_on_user_id"
 
@@ -542,6 +547,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.string   "owner_type"
   end
 
+  add_index "job_notes", ["company_id"], :name => "index_job_notes_on_company_id"
   add_index "job_notes", ["owner_id", "owner_type"], :name => "index_job_notes_on_owner_id_and_owner_type"
 
   create_table "job_templates", :force => true do |t|
@@ -610,6 +616,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.integer  "company_id"
   end
 
+  add_index "messages", ["company_id"], :name => "index_messages_on_company_id"
   add_index "messages", ["conversation_id"], :name => "index_messages_on_conversation_id"
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
@@ -648,6 +655,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.integer  "job_note_id"
   end
 
+  add_index "note_activity_reports", ["company_id"], :name => "index_note_activity_reports_on_company_id"
   add_index "note_activity_reports", ["job_id"], :name => "index_note_activity_reports_on_job_id"
   add_index "note_activity_reports", ["job_note_id"], :name => "index_note_activity_reports_on_job_note_id"
 
@@ -675,8 +683,10 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.boolean  "shipping",                             :default => false
     t.integer  "shipment_id"
     t.integer  "job_part_membership_id"
+    t.integer  "supplier_id"
   end
 
+  add_index "part_memberships", ["company_id"], :name => "index_part_memberships_on_company_id"
   add_index "part_memberships", ["job_id"], :name => "index_part_memberships_on_job_id"
   add_index "part_memberships", ["material_number"], :name => "index_part_memberships_on_material_number"
   add_index "part_memberships", ["primary_tool_id"], :name => "index_part_memberships_on_primary_tool_id"
@@ -697,6 +707,10 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.string   "finished_redress_by_name"
     t.boolean  "no_redress",               :default => false
   end
+
+  add_index "part_redresses", ["company_id"], :name => "index_part_redresses_on_company_id"
+  add_index "part_redresses", ["job_id"], :name => "index_part_redresses_on_job_id"
+  add_index "part_redresses", ["part_id"], :name => "index_part_redresses_on_part_id"
 
   create_table "parts", :force => true do |t|
     t.string   "name"
@@ -780,6 +794,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.integer  "rig_id"
   end
 
+  add_index "rig_memberships", ["company_id"], :name => "index_rig_memberships_on_company_id"
   add_index "rig_memberships", ["rig_id"], :name => "index_rig_memberships_on_rig_id"
   add_index "rig_memberships", ["user_id", "rig_id"], :name => "index_rig_memberships_on_user_id_and_rig_id", :unique => true
   add_index "rig_memberships", ["user_id"], :name => "index_crew_memberships_on_user_id"
@@ -791,6 +806,8 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.datetime "updated_at",                           :null => false
     t.integer  "rig_memberships_count", :default => 0
   end
+
+  add_index "rigs", ["company_id"], :name => "index_rigs_on_company_id"
 
   create_table "secondary_tools", :force => true do |t|
     t.integer  "tool_id"
@@ -834,6 +851,8 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.boolean  "from_editable"
   end
 
+  add_index "shipments", ["company_id"], :name => "index_shipments_on_company_id"
+
   create_table "states", :force => true do |t|
     t.string   "iso"
     t.string   "name"
@@ -860,6 +879,8 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.datetime "updated_at",     :null => false
   end
 
+  add_index "suppliers", ["company_id"], :name => "index_suppliers_on_company_id"
+
   create_table "survey_points", :force => true do |t|
     t.integer  "company_id"
     t.integer  "survey_id"
@@ -885,6 +906,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.decimal  "gravity_total"
   end
 
+  add_index "survey_points", ["company_id"], :name => "index_survey_points_on_company_id"
   add_index "survey_points", ["survey_id"], :name => "index_survey_points_on_survey_id"
 
   create_table "surveys", :force => true do |t|
@@ -906,6 +928,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.boolean  "no_well_plan",             :default => false
   end
 
+  add_index "surveys", ["company_id"], :name => "index_surveys_on_company_id"
   add_index "surveys", ["document_id"], :name => "index_surveys_on_document_id"
   add_index "surveys", ["job_id"], :name => "index_surveys_on_job_id"
 
@@ -962,6 +985,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.integer  "viscosity"
   end
 
+  add_index "user_units", ["company_id"], :name => "index_user_units_on_company_id"
   add_index "user_units", ["user_id"], :name => "index_user_units_on_user_id"
 
   create_table "users", :force => true do |t|
@@ -1004,6 +1028,7 @@ ActiveRecord::Schema.define(:version => 20140127162329) do
     t.datetime "updated_at",   :null => false
   end
 
+  add_index "warehouse_memberships", ["company_id"], :name => "index_warehouse_memberships_on_company_id"
   add_index "warehouse_memberships", ["user_id", "warehouse_id"], :name => "index_warehouse_memberships_on_user_id_and_warehouse_id", :unique => true
   add_index "warehouse_memberships", ["user_id"], :name => "index_warehouse_memberships_on_user_id"
   add_index "warehouse_memberships", ["warehouse_id"], :name => "index_warehouse_memberships_on_warehouse_id"

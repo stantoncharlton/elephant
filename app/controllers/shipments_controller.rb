@@ -111,6 +111,9 @@ class ShipmentsController < ApplicationController
                                 if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
                                     part_membership.part.asset_shipping @shipment
                                 end
+                                if @shipment.from_type == Supplier.name
+                                    part_membership.supplier = @shipment.from
+                                end
                             end
                         end
                     end
@@ -126,7 +129,18 @@ class ShipmentsController < ApplicationController
 
     def destroy
         @shipment = Shipment.find(params[:id])
-        @shipment.destroy
+        @part_memberships = @shipment.part_memberships.to_a
+        if @shipment.destroy
+
+            @part_memberships.each do |pm|
+                if pm.job_part_membership.present?
+                    pm.job_part_membership.update_attribute(:shipping, false)
+                end
+                if pm.part_type == PartMembership::INVENTORY && pm.part.present?
+                    pm.part.removed false
+                end
+            end
+        end
     end
 
 

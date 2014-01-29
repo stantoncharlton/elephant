@@ -33,129 +33,105 @@
   <% end %>
 </div>
 
-<div class=''>
-  <ul class="nav nav-pills">
-    <li class='active'>
-      <a href="#" class='sub-tray-link' data-tray="assets">Assets</a>
-    </li>
-    <li class="push-right-small">
-      <a href="#" class='sub-tray-link blue-text' id="inbound_shipments_link" data-tray="inbound">
-        Inbound Shipments <%= job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %>
-      </a>
-    </li>
-    <li class='push-right-small'>
-      <a href="#" class='sub-tray-link blue-text' data-tray="outbound">
-        Outbound Shipments <%= job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %>
-      </a>
-    </li>
-  </ul>
-  <hr>
+<div>
+  <h3 class='inline-block  orange-text'>
+    <% if @job.status != Job::COMPLETE %>
+        Assets On-Site
+    <% else %>
+        All Assets
+    <% end %>
+  </h3>
+
+  <div class='pull-right'>
+    <% if @job.status != Job::COMPLETE %>
+        <a href="#" class='inline-block activity-user-link' id="show_all_assets">Show All Assets</a>
+        <a href="#" class='inline-block activity-user-link hidden' id="show_onsite_assets">Show On-site Assets</a>
+        &nbsp;|&nbsp;
+    <% end %>
+    <% if !job.closed %>
+        <a id="show_shop_notes" href='#' class='activity-user-link <%= job.inventory_notes.blank? ? '' : 'hidden' %>'>Add
+          Inventory/Shop Notes</a>
+    <% end %>
+  </div>
 </div>
+<div id="asset_list" class='content'>
 
-<div class='sub-tray' data-tray="assets">
-  <div>
-    <h3 class='inline-block  orange-text'>
-      <% if @job.status != Job::COMPLETE %>
-          Assets On-Site
-      <% else %>
-          All Assets
-      <% end %>
-    </h3>
-
-    <div class='pull-right'>
-      <% if @job.status != Job::COMPLETE %>
-          <a href="#" class='inline-block activity-user-link' id="show_all_assets">Show All Assets</a>
-          <a href="#" class='inline-block activity-user-link hidden' id="show_onsite_assets">Show On-site Assets</a>
-          &nbsp;|&nbsp;
-      <% end %>
-      <% if !job.closed %>
-          <a id="show_shop_notes" href='#' class='activity-user-link <%= job.inventory_notes.blank? ? '' : 'hidden' %>'>Add
-            Inventory/Shop Notes</a>
-      <% end %>
-    </div>
-  </div>
-  <div id="asset_list" class='content'>
-
-    <% @job.part_memberships.includes(:part).order('name ASC').each do |pm| %>
-        <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
-    <% end %>
-
-    <% job.inbound_shipments.each do |shipment| %>
-        <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
-            <% shipment.part_memberships.includes(:part, :shipment, :job).order('name ASC').each do |pm| %>
-                <div class='inline-block align-top' style="opacity: 0.35;">
-                  <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
-                </div>
-            <% end %>
-        <% end %>
-    <% end %>
-
-  </div>
-
-  <% if !@job.part_memberships.any? %>
-      <div id="no_assets" class='push-down center'>
-        <br><br>
-        <span class='help-text'>No assets added...</span>
-      </div>
+  <% @job.part_memberships.includes(:part).order('name ASC').each do |pm| %>
+      <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
   <% end %>
 
-  <div class='push-down content'>
-    <br>
+  <% job.inbound_shipments.each do |shipment| %>
+      <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
+          <% shipment.part_memberships.includes(:part, :shipment, :job).order('name ASC').each do |pm| %>
+              <div class='inline-block align-top' style="opacity: 0.35;">
+                <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
+              </div>
+          <% end %>
+      <% end %>
+  <% end %>
 
-    <div id="shop_notes" class='<%= job.inventory_notes.blank? ? 'hidden' : '' %>'>
-      <p class="inline help-text">Notes</p>
-      <%= text_field_tag "", "", value: job.inventory_notes,
-                         placeholder: "Inventory/Shop Notes...",
-                         disabled: job.closed ? true : false,
-                         class: "job-update-field txtfield full-width-well2 push-right-small primary-tool-comments",
-                         "data-id" => job.id,
-                         "data-field" => "inventory_notes" %>
+</div>
+
+<% if !@job.part_memberships.any? %>
+    <div id="no_assets" class='push-down center'>
+      <br><br>
+      <span class='help-text'>No assets added...</span>
     </div>
+<% end %>
+
+<div class='push-down content'>
+  <br>
+
+  <div id="shop_notes" class='<%= job.inventory_notes.blank? ? 'hidden' : '' %>'>
+    <p class="inline help-text">Notes</p>
+    <%= text_field_tag "", "", value: job.inventory_notes,
+                       placeholder: "Inventory/Shop Notes...",
+                       disabled: job.closed ? true : false,
+                       class: "job-update-field txtfield full-width-well2 push-right-small primary-tool-comments",
+                       "data-id" => job.id,
+                       "data-field" => "inventory_notes" %>
   </div>
 </div>
 
 
-<div class='sub-tray hidden' data-tray="inbound">
-  <div>
-    <h3 class='orange-text'>Inbound
-      Shipments <%= job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %></h3>
+<br><br>
+<div>
+  <h3 class='orange-text'>Inbound
+    Shipments <%= job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %></h3>
+</div>
+<% if job.inbound_shipments.any? %>
+    <% job.inbound_shipments.each do |shipment| %>
+        <%= render 'shipments/shipment', shipment: shipment, editable: false, show_assets: shipment.status != Shipment::COMPLETE %>
+        <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
+            <%= link_to "Receive Shipment", job_path(job, update_field: true, field: "receive_shipment", value: shipment.id),
+                        remote: true, :method => :put,
+                        class: "bluebtn btnsmall green push-down receive-shipment-button" %>
+        <% end %>
+        <hr>
+    <% end %>
+<% else %>
+    <p class='help-text push-down'>No inbound shipments...</p>
+<% end %>
+
+
+<div>
+  <div class='pull-right'>
+    <%= link_to "New Shipment", shipments_path(district: @job.district, job: @job),
+                remote: true, method: :post,
+                class: "bluebtn btnsmall align-top push-up show-modal-button" %>
   </div>
-  <% if job.inbound_shipments.any? %>
-      <% job.inbound_shipments.each do |shipment| %>
-          <%= render 'shipments/shipment', shipment: shipment, editable: false, show_assets: true %>
-          <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
-              <%= link_to "Receive Shipment", job_path(job, update_field: true, field: "receive_shipment", value: shipment.id),
-                          remote: true, :method => :put,
-                          class: "bluebtn btnsmall green push-down receive-shipment-button" %>
-          <% end %>
-          <hr>
+
+  <h3 class='orange-text'>Outbound
+    Shipments <%= job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %></h3>
+</div>
+<div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
+  <% if job.outbound_shipments.any? %>
+      <% job.outbound_shipments.each do |shipment| %>
+          <%= render 'shipments/shipment', shipment: shipment, editable: true, show_assets: shipment.status != Shipment::COMPLETE %>
       <% end %>
   <% else %>
-      <p class='help-text push-down'>No inbound shipments...</p>
+      <p id="no_outbound_shipments" class='help-text push-down'>No outbound shipments...</p>
   <% end %>
-</div>
-
-
-<div class='sub-tray hidden' data-tray="outbound">
-  <div>
-    <div class='pull-right'>
-      <%= link_to "New Shipment", shipments_path(district: @job.district, job: @job),
-                  remote: true, method: :post,
-                  class: "bluebtn btnsmall align-top push-up show-modal-button" %>
-    </div>
-
-    <h3 class='orange-text'>Outbound
-      Shipments <%= job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %></h3>
-  </div>
-  <div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
-    <% if job.outbound_shipments.any? %>
-        <% job.outbound_shipments.each do |shipment| %>
-            <%= render 'shipments/shipment', shipment: shipment, editable: true, show_assets: true %>
-        <% end %>
-    <% else %>
-        <p id="no_outbound_shipments" class='help-text push-down'>No outbound shipments...</p>
-    <% end %>
-  </div>
 </div>
 
 

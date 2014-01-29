@@ -8,7 +8,7 @@
   <div class="content tray-content content-loaded">
 
     <% parts = @parts.where(:status => Part::SHIPPING) %>
-    <% shipments = Shipment.where(:district_id => @district.id).order("created_at DESC") %>
+    <% shipments = Shipment.where(:district_id => @district.id).order("status ASC, created_at DESC") %>
 
     <div class='well'>
       <h1 class="donut-text inline"><%= shipments.count %></h1>

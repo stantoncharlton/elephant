@@ -8,7 +8,7 @@ if ($('#map').length > 0) {
 }
 
 if($("#shipment_<%= @shipment.id %>").length > 0) {
-    $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @shipment.from_editable, show_assets: true %>");
+    $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: true, show_assets: true %>");
     $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 200 } });
 }
 
@@ -16,6 +16,17 @@ if($('#no_outbound_shipments').length > 0) {
     $('#no_outbound_shipments').remove();
     $('#shipments_list').css('margin-top', '20px');
 }
+
+<% if @shipment.status == Shipment::IN_TRANSIT %>
+<% @shipment.part_memberships.each do |pm| %>
+<% if pm.job_part_membership.present? && pm.job_part_membership.job == @shipment.from %>
+var pm = $('#part_membership_<%= pm.job_part_membership.id %>');
+if(pm.length > 0) {
+    pm.css('opacity', '0.30');
+}
+<% end %>
+<% end %>
+<% end %>
 
 $('#deselect_all').click(function() {
     $('.shipment_checkbox').each(function() {

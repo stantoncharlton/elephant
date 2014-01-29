@@ -1,6 +1,12 @@
 <% if params[:section] == "tools_assets" %>
-    $('#assets_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
-    $('#assets_loading').remove();
+    if($('#assets_loading').length > 0) {
+        $('#assets_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
+        $('#assets_loading').remove();
+    }
+    else {
+        $('.job-tray[data-tray=tools_assets]').find('*').remove();
+        $('.job-tray[data-tray=tools_assets]').append('<%= j render 'jobs/job_assets', job: @job %>');
+    }
 
     $('.receive-shipment-button').live("click", function() {
        $(this).remove();

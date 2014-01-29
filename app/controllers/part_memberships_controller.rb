@@ -45,6 +45,9 @@ class PartMembershipsController < ApplicationController
             not_found unless @part_membership.job.present? && @part_membership.job.company == current_user.company
         else
             @part_membership.shipment = Shipment.find_by_id(shipment_id)
+            if @part_membership.shipment.present? && @part_membership.shipment.from_type == Supplier.name
+                @part_membership.supplier = @part_membership.shipment.from
+            end
         end
 
         if !part_id.blank? && @part_membership.part_type == PartMembership::INVENTORY

@@ -3,9 +3,19 @@ $('#modal_popup').find(".modal-content").children().remove();
 $('#modal_popup').height(0);
 
 <% if @shipment.present? %>
-    if($("#shipment_<%= @shipment.id %>").length > 0) {
+    if ($("#shipment_<%= @shipment.id %>").length > 0) {
         shipment = $("#shipment_<%= @shipment.id %>");
         shipment.next('hr').remove();
         shipment.remove();
     }
+
+    <% if @shipment.from.present? && @shipment.from_type == Job.name %>
+    if($('#asset_list').length > 0) {
+        $.ajax({
+            url: "/jobs/" + <%= @shipment.from.id.to_s %> +"?section=tools_assets",
+            type: "GET",
+            dataType: "script"
+        });
+    }
+    <% end %>
 <% end %>

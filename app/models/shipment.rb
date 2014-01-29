@@ -41,6 +41,8 @@ class Shipment < ActiveRecord::Base
             if shipment.to.present?
                 shipment.part_memberships.each do |pm|
 
+                    pm.update_attribute(:received, true)
+
                     case shipment.to_type
                         when Job.name
                             part_membership = pm.duplicate

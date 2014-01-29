@@ -29,6 +29,7 @@ class PartMembership < ActiveRecord::Base
     belongs_to :job
     belongs_to :part
     belongs_to :primary_tool
+    belongs_to :supplier
     belongs_to :company
     belongs_to :shipment
     belongs_to :job_part_membership, class_name: "PartMembership"
@@ -81,6 +82,7 @@ class PartMembership < ActiveRecord::Base
         part_membership = PartMembership.new
         part_membership.job = self.job
         part_membership.part = self.part
+        part_membership.supplier = self.supplier
         part_membership.company = self.company
         part_membership.material_number = self.material_number
         part_membership.serial_number = self.serial_number
