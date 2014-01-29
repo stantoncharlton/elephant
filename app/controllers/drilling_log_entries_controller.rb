@@ -369,12 +369,16 @@ class DrillingLogEntriesController < ApplicationController
                 DrillingLogEntry::RIG_SERVICE_INHOLE
             when "WAIT ON WEATHER"
                 DrillingLogEntry::WAIT_ON_WEATHER
+            when "TROUBLESHOOT MWD"
+                DrillingLogEntry::TROUBLESHOOT_MWD
 
 
             when "NIPPLE U/D BOPS"
                 DrillingLogEntry::NIPPLE_BOPS
             when "TEST BOPS"
                 DrillingLogEntry::TEST_BOPS
+            when "SURFACE TEST MWD"
+                DrillingLogEntry::SURFACE_TEST_MWD
 
             when "STANDBY"
                 DrillingLogEntry::STANDBY_OUTHOLE

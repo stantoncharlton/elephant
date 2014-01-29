@@ -5,7 +5,7 @@
       <p class='help-text center'>No BHA configured...</p>
 
       <br>
-      <% if signed_in? %>
+      <% if signed_in? && editable %>
           <div class='center'>
             <%= link_to "New Tool String BHA", new_bha_path(document: master_bha.document.id, bha: master_bha),
                         class: "bluebtn btnsmall" %>
@@ -69,7 +69,7 @@
                 Gamma</b><span class='push-right-small blue-text'><%= bha.bit_to_gamma.present? ? bha.bit_to_gamma : "-" %></span>
             </div>
           </div>
-      <% else %>
+      <% elsif  editable %>
           <br>
           <%= link_to "Edit Tool String", edit_bha_path(bha), class: "btn btn-default pull-right" %>
       <% end %>

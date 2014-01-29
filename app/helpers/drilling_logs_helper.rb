@@ -414,12 +414,17 @@ module DrillingLogsHelper
                 "RIG SERVICE INHOLE"
             when DrillingLogEntry::WAIT_ON_WEATHER
                 "WAIT ON WEATHER"
+            when DrillingLogEntry::TROUBLESHOOT_MWD
+                "TROUBLESHOOT MWD"
 
 
             when DrillingLogEntry::NIPPLE_BOPS
                 "NIPPLE U/D BOPS"
             when DrillingLogEntry::TEST_BOPS
                 "TEST BOPS"
+            when DrillingLogEntry::SURFACE_TEST_MWD
+                "SURFACE TEST MWD"
+
 
             when DrillingLogEntry::STANDBY_OUTHOLE
                 "STANDBY"

@@ -78,10 +78,10 @@
 
 
     <div class='tab-content' data-tabsection='drill-string'>
-      <%= render 'bhas/bha_tally_items', bha: bha %>
+      <%= render 'bhas/bha_tally_items', bha: bha, editable: true %>
     </div>
     <div class='tab-content hidden' data-tabsection='tool-string'>
-      <%= render 'bhas/bha_tally_items', bha: bha.tool_string, master_bha: bha %>
+      <%= render 'bhas/bha_tally_items', bha: bha.tool_string, master_bha: bha, editable: true %>
     </div>
 
   </div>

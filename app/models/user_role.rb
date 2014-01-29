@@ -279,7 +279,8 @@ class UserRole < ActiveRecord::Base
     end
 
     def limit_to_product_line?
-        self.role_id == ROLE_DISTRICT_MANAGER
+        false
+        #self.role_id == ROLE_DISTRICT_MANAGER
     end
 
     def no_assigned_jobs?

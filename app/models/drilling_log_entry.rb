@@ -108,11 +108,14 @@ class DrillingLogEntry < ActiveRecord::Base
     FISHING = 53
     RIG_SERVICE_INHOLE = 54
     WAIT_ON_WEATHER = 55
+    TROUBLESHOOT_MWD = 56
 
     # Out-hole
     NIPPLE_BOPS = 100
     TEST_BOPS = 103
     CHANGE_BHA = 104
+
+    SURFACE_TEST_MWD = 110
 
 
     STANDBY_OUTHOLE = 150
@@ -183,12 +186,16 @@ class DrillingLogEntry < ActiveRecord::Base
                 "Rig Service (In-hole)"
             when WAIT_ON_WEATHER
                 "Wait on Weather"
+            when TROUBLESHOOT_MWD
+                "Troubleshoot MWD"
 
 
             when NIPPLE_BOPS
                 "Nipple Up/Down BOPs"
             when TEST_BOPS
                 "Test BOPs"
+            when SURFACE_TEST_MWD
+                "Surface Test MWD"
 
             when STANDBY_OUTHOLE
                 "Stand-by (Out-hole)"
@@ -255,10 +262,14 @@ class DrillingLogEntry < ActiveRecord::Base
                 "#f24922"
             when WAIT_ON_WEATHER
                 "#fecfbe"
+            when TROUBLESHOOT_MWD
+                "#5da5a2"
             when NIPPLE_BOPS
                 "#d1e8b5"
             when TEST_BOPS
                 "#a3bf82"
+            when SURFACE_TEST_MWD
+                "#304847"
             when STANDBY_OUTHOLE
                 "#9c9998"
             when RIG_SERVICE_OUTHOLE
@@ -301,6 +312,8 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(FISHING), FISHING]
         options << [DrillingLogEntry.activity_code_string(RIG_SERVICE_INHOLE), RIG_SERVICE_INHOLE]
         options << [DrillingLogEntry.activity_code_string(WAIT_ON_WEATHER), WAIT_ON_WEATHER]
+        options << [DrillingLogEntry.activity_code_string(TROUBLESHOOT_MWD), TROUBLESHOOT_MWD]
+
 
 
         options << ["", -1]
@@ -309,6 +322,7 @@ class DrillingLogEntry < ActiveRecord::Base
         options << [DrillingLogEntry.activity_code_string(CHANGE_BHA), CHANGE_BHA]
         options << [DrillingLogEntry.activity_code_string(NIPPLE_BOPS), NIPPLE_BOPS]
         options << [DrillingLogEntry.activity_code_string(TEST_BOPS), TEST_BOPS]
+        options << [DrillingLogEntry.activity_code_string(SURFACE_TEST_MWD), SURFACE_TEST_MWD]
         options << [DrillingLogEntry.activity_code_string(STANDBY_OUTHOLE), STANDBY_OUTHOLE]
         options << [DrillingLogEntry.activity_code_string(RIG_SERVICE_OUTHOLE), RIG_SERVICE_OUTHOLE]
 
