@@ -110,10 +110,22 @@
           <% if shipment.from.present? && shipment.to.present? %>
               <div id="from_to_links" class='inline-block from_to_show align-top' style="margin-top: 10px;">
                 <div class='inline-block'>
+                  <div class='inline-block align-top push-up-small'>
+                    <% if  shipment.user.present? %>
+                        <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
+                    <% end %>
+                  </div>
+                  &nbsp;
                   <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link tooltip-info" %></b>
                   &nbsp;&nbsp;&nbsp;
                   <i class="icon-chevron-right"></i>
                   &nbsp;&nbsp;&nbsp;
+                  <div class='inline-block align-top push-up-small'>
+                    <% if  shipment.accepted_by.present? %>
+                        <%= render 'users/user_icon', user: shipment.accepted_by, use_name: false, use_link: true %>
+                    <% end %>
+                  </div>
+                  &nbsp;
                   <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link tooltip-info" %></b>
                 </div>
 
@@ -125,6 +137,7 @@
           <% if editable %>
               <div id="from_to_edit" class="<%= shipment.from.present? && shipment.to.present? ? "hidden" : "" %>">
                 <% if shipment.from_editable %>
+
                     <div class='inline-block'>
                       <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
                                    {}, style: "width: 100px !important;",
@@ -151,6 +164,12 @@
                       </div>
                     </div>
                 <% else %>
+                    <div class='inline-block align-top push-down-small'>
+                      <% if  shipment.user.present? %>
+                          <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
+                      <% end %>
+                    </div>
+                    &nbsp;
                     <div class='inline-block align-top push-down'>
                       <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link tooltip-info" %></b>
                     </div>
