@@ -11,6 +11,10 @@ $('#modal_popup').height(0);
 
     <% if @shipment.from.present? && @shipment.from_type == Job.name %>
     if($('#asset_list').length > 0) {
+        tray  =$('.job-tray[data-tray=tools_assets]');
+        tray.find("*").remove();
+        tray.append("<%= j render 'layouts/inline_loading', title: "Loading..." %>");
+        tray.find('.loading').removeClass('hidden');
         $.ajax({
             url: "/jobs/" + <%= @shipment.from.id.to_s %> +"?section=tools_assets",
             type: "GET",
