@@ -3,6 +3,8 @@
       <tr>
         <td width="100%">
           <%= link_to "https://www.elephant-cloud.com/jobs/" + job.id.to_s, class: "empty-link" do %>
+              <b class='job-title4 orange-text'><%= job.well.rig.present? ? job.well.rig.name : "" %></b>
+              &nbsp;&nbsp;
               <span class="job-title4"><%= job.field.name %></span>
               <span class="job-title-divider2">|</span>
               <span class="job-title4"><%= job.well.name %></span>
@@ -14,8 +16,20 @@
           <table width="100%" style="margin-left: 10px;">
             <tr>
               <td width="140">
-                <span>Rig</span>
-                <b><%= job.well.rig.present? ? job.well.rig.name : "-" %></b>
+                <% if job.status == Job::ON_JOB %>
+                    <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
+                    <% if drilling_log.present? %>
+                        <p class='inline-block' style="margin-left: 10px;">
+                          <b><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></b>
+                          / <%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
+                          ft</p>
+
+                        <p class='inline-block push-right-small'>
+                          <b><%= drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).to_i : 0 %></b>
+                          days
+                        </p>
+                    <% end %>
+                <% end %>
               </td>
               <td width="140">
                 <span>Job #</span>
@@ -28,24 +42,6 @@
           </table>
         </td>
       </tr>
-      <% if job.status == Job::ON_JOB %>
-          <tr>
-            <td colspan="3">
-              <% drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", job.well_id).first %>
-              <% if drilling_log.present? %>
-                  <p class='inline-block' style="margin-left: 10px;">
-                    <b><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></b>
-                    / <%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
-                    ft</p>
-
-                  <p class='inline-block push-right-small'>
-                    <b><%= drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).to_i : 0 %></b>
-                    days
-                  </p>
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
     </table>
 
     <% if false %>
@@ -82,35 +78,43 @@
           <% assets = JobNote.where(:job_id => job.id).where("created_at > ?", 1.day.ago).where("job_notes.note_type = ?", JobNote::ASSET_REQUEST).order("created_at ASC") %>
           <% assets_string = assets.collect(&:text).join(', ') %>
           <tr>
-            <td width="200">
+            <td width="120">
               <span class='help-text'>Today</span>
-
+            </td>
+            <td>
               <p><%= note_activity_report.present? ? note_activity_report.present : "-" %></p>
             </td>
-            <td width="200">
+          </tr>
+          <tr>
+            <td width="120">
               <span class='help-text'>Past Day</span>
-
+            </td>
+            <td>
               <p><%= note_activity_report.present? ? note_activity_report.past : "-" %></p>
             </td>
-            <td width="200">
+          </tr>
+          <tr>
+            <td width="120">
               <span class='help-text'>Next Day</span>
-
+            </td>
+            <td>
               <p><%= note_activity_report.present? ? note_activity_report.future : "-" %></p>
             </td>
           </tr>
           <tr>
-            <td width="200">
+            <td width="120">
               <span class='help-text'>Asset Requests</span>
-
+            </td>
+            <td>
               <p><%= assets_string.present? ? assets_string : "-" %></p>
             </td>
-            <td width="200">
+          </tr>
+          <tr>
+            <td width="120">
               <span class='help-text'>Notes</span>
-
-              <p><%= notes_string.present? ? notes_string : "-" %></p>
             </td>
-            <td width="200">
-
+            <td>
+              <p><%= notes_string.present? ? notes_string : "-" %></p>
             </td>
           </tr>
         </table>
@@ -129,7 +133,7 @@
             <% end %>
         <% end %>
         <% if worked_job_memberships.any? %>
-            <table width="100%" style="margin-left: 10px;" border="0" cellpadding="0" cellspacing="0">
+            <table width="100%" style="margin-left: 10px; margin-top: 10px;" border="0" cellpadding="0" cellspacing="0">
               <% job_memberships_array = worked_job_memberships.select { |jm| jm.job_role_id != JobMembership::CREATOR && jm.job_role_id != JobMembership::MANAGER && jm.job_role_id != JobMembership::TOOL_COORDINATOR && jm.job_role_id != JobMembership::OBSERVER && jm.job_role_id != JobMembership::SHOP } %>
               <% real_index = -1 %>
               <% job_memberships_array.each_with_index do |jm, index| %>

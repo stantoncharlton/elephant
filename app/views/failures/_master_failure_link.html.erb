@@ -3,7 +3,7 @@
             "data-title" => "Click to view failures" do %>
     <div class="chart-problem">
       <div class="chart-problem-name">
-        <%= failure.failure_master_template.present? ? failure.failure_master_template.text : "-" %>
+        <%= failure.present? ? failure.failure_master_template.text : "-" %>
         <p class="inline job-failure-item">&nbsp;<%= failure_count %></p>
       </div>
       <div class="chart-problem-bar">
