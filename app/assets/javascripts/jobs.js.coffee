@@ -244,3 +244,23 @@ $ ->
     div.prev('div').removeClass 'hidden'
     return false
 
+  $('#jobs_filter').live "change", ->
+    value = $(this).find('option:selected').val()
+    $('.job-link').each ->
+      $(this).show()
+    if value == '1'
+      $('.job-link').each ->
+        if $(this).attr('data-member') == 'false'
+          $(this).hide()
+    if value == '2'
+      $('.job-link').each ->
+        if $(this).attr('data-status') != '5'
+          $(this).hide()
+    if value == '3'
+      $('.job-link').each ->
+        if $(this).attr('data-status') != '6'
+          $(this).hide()
+    if value == '4'
+      $('.job-link').each ->
+        if $(this).attr('data-status') != '7'
+          $(this).hide()

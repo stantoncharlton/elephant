@@ -45,6 +45,22 @@
 <br><br>
 
 <% if !current_user.role.limit_to_assigned_jobs? %>
+    <% options = [] %>
+    <% options << ["All Jobs", 0] %>
+    <% if !current_user.role.no_assigned_jobs? %>
+        <% options << ["Only My Jobs", 1] %>
+    <% end %>
+    <% options << ["Pre-Job", 2] %>
+    <% options << ["In-Progress", 3] %>
+    <% options << ["Post-Job", 4] %>
+    <div class="pull-right push-up">
+      <%= select_tag "jobs_filter", options_for_select(options, 0),
+                     id: "jobs_filter",
+                     class: "inline  custom-select tooltip-info align-top push-up",
+                     "data-placement" => "right",
+                     "data-title" => "Filter which jobs are shown..." %>
+    </div>
+
     <div class="" style="margin-top: -10px; margin-bottom: 10px;">
       <%= form_tag jobs_path, :method => 'get', :id => "jobs_search", remote: true,
                    class: "filter-search-box" do %>
@@ -64,7 +80,7 @@
 <% end %>
 
 
-   <%= render 'jobs/index_list' %>
+<%= render 'jobs/index_list' %>
 
 
 <script type='text/javascript'>
