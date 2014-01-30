@@ -1,5 +1,10 @@
 class DrillingLogEntriesController < ApplicationController
-    before_filter :signed_in_user, only: [:new, :create, :edit, :update, :destroy]
+    before_filter :signed_in_user, only: [:show, :new, :create, :edit, :update, :destroy]
+
+    def show
+        @drilling_log_entry = DrillingLogEntry.find_by_id(params[:id])
+        not_found unless @drilling_log_entry.present?
+    end
 
     def new
 

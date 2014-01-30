@@ -303,6 +303,72 @@
 
 </div>
 
+<% if entries.last.mwd_type.present? && entries.last.mwd_type == 1 %>
+    <div>
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Hertz</div>
+        <div class='run-detail'><%= "#{log.ranges["em_hertz_min"]} - #{log.ranges["em_hertz_max"]}" %>&nbsp;<span class='help-text'>hz</span>
+        </div>
+      </div>
+
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Cycles</div>
+        <div class='run-detail'><%= "#{entries.last.em_cycles}" %></div>
+      </div>
+
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Amps</div>
+        <div class='run-detail'><%= "#{log.ranges["em_amps_min"]} - #{log.ranges["em_amps_max"]}" %>&nbsp;<span class='help-text'>A</span>
+        </div>
+      </div>
+    </div>
+
+<% else %>
+
+    <div>
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Survey Sequence</div>
+        <div class=''><%= "#{entries.last.survey_sequence}" %></span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class='inline-block'>
+        <div class='run-detail help-text'>TF/Logging Sequence</div>
+        <div class=''><%= "#{entries.last.logging_sequence }" %></span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Pulse Width</div>
+        <div class='run-detail'><%= "#{log.ranges["pulse_width_min"]} - #{log.ranges["pulse_width_max"]}" %></span>
+        </div>
+      </div>
+
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Pulse Height</div>
+        <div class='run-detail'><%= "#{log.ranges["pulse_height_min"]} - #{log.ranges["pulse_height_max"]}" %></span>
+        </div>
+      </div>
+      <br>
+
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Poppet</div>
+        <div class='run-detail'><%= "#{log.ranges["poppet_min"]} - #{log.ranges["poppet_max"]}" %></span>
+        </div>
+      </div>
+
+      <div class='inline-block'>
+        <div class='run-detail help-text'>Orifice</div>
+        <div class='run-detail'><%= "#{log.ranges["orifice_min"]} - #{log.ranges["orifice_max"]}" %></span>
+        </div>
+      </div>
+    </div>
+
+<% end %>
+
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Bat 1 Amps</div>
@@ -329,7 +395,7 @@
     <div class='run-detail'><%= "#{entries.last.battery_2_ahr}" %>&nbsp;<span class='help-text'>Ah</span></div>
   </div>
 
-  </div>
+</div>
 <div>
 
   <div class='inline-block'>
