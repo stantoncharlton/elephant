@@ -22,3 +22,29 @@
   text-overflow: ellipsis;
   margin-right: 0px;
 }
+
+.run-grid {
+  div {
+    height: 20px;
+    vertical-align: top;
+    text-align: left;
+
+    p {
+      vertical-align: top;
+    }
+
+    .units {
+      margin-left: 8px;
+      display: inline-block;
+      font-size: 10px;
+      color: #bababa;
+    }
+  }
+
+  .grid-line {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 1px;
+    background: #e4e4e4;
+  }
+}

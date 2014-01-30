@@ -1,6 +1,6 @@
 <div id="overview_jobs" data-loaded='true' class=''>
   <div class=''>
-    <% jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
+    <% jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
     <% jobs = jobs.where("jobs.status = ?", Job::ON_JOB) %>
     <% @jobs = [] %>
     <% jobs.each do |job| %>

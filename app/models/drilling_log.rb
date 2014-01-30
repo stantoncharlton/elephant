@@ -112,13 +112,16 @@ class DrillingLog < ActiveRecord::Base
                 drilling_log.max_depth = drilling_log.max_depth.nil? ? entry.depth : [drilling_log.max_depth, entry.depth].max
 
                 DrillingLogEntry.attribute_names.each do |attribute_name|
-                    if entry[attribute_name].present? && (entry[attribute_name].is_a?(BigDecimal) && entry[attribute_name] != 0.0)
-                        if drilling_log.ranges.has_key? (attribute_name + '_min')
-                            drilling_log.ranges[attribute_name + '_min'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_min']].min
-                            drilling_log.ranges[attribute_name + '_max'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_max']].max
-                        else
-                            drilling_log.ranges[attribute_name + '_min'] = entry[attribute_name]
-                            drilling_log.ranges[attribute_name + '_max'] = entry[attribute_name]
+                    if attribute_name != "id" && attribute_name != "company_id" && attribute_name != "document_id" && attribute_name != "job_id" && attribute_name != "user_id" && attribute_name != "user_name" && attribute_name != "entry_at" && attribute_name != "created_at" && attribute_name != "updated_at" && attribute_name != "activity_code" && attribute_name != "depth" && attribute_name != "comment" && attribute_name != "bha_id" && attribute_name != "usage_hours" && attribute_name != "drilling_log_id" && attribute_name != "hours" && attribute_name != "rop" && attribute_name != "course_length"
+
+                        if entry[attribute_name].present? && (entry[attribute_name].is_a?(BigDecimal) && entry[attribute_name] != 0.0)
+                            if drilling_log.ranges.has_key? (attribute_name + '_min')
+                                drilling_log.ranges[attribute_name + '_min'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_min']].min
+                                drilling_log.ranges[attribute_name + '_max'] = [entry[attribute_name], drilling_log.ranges[attribute_name + '_max']].max
+                            else
+                                drilling_log.ranges[attribute_name + '_min'] = entry[attribute_name]
+                                drilling_log.ranges[attribute_name + '_max'] = entry[attribute_name]
+                            end
                         end
                     end
                 end

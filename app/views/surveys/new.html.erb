@@ -8,7 +8,11 @@
       <%= hidden_field_tag "document_id", "document_id", value: @document.id %>
       <%= f.hidden_field :plan, value: @plan %>
 
-      <p class='help-text'>No Active Well plan, please import...</p>
+      <div class='alert'>
+        <h3 class='orange-text'>Import New Plan</h3>
+
+        <p>Select the Compass <b>.txt</b> well plan file for upload...</p>
+      </div>
 
 
       <div style="position:relative;">
