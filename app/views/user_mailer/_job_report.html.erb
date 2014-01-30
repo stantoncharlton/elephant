@@ -79,7 +79,7 @@
           <% assets_string = assets.collect(&:text).join(', ') %>
           <tr>
             <td width="120">
-              <span class='help-text'>Today</span>
+              <span class='help-text align-top'>Today</span>
             </td>
             <td>
               <p><%= note_activity_report.present? ? note_activity_report.present : "-" %></p>
@@ -87,7 +87,7 @@
           </tr>
           <tr>
             <td width="120">
-              <span class='help-text'>Past Day</span>
+              <span class='help-text align-top'>Past Day</span>
             </td>
             <td>
               <p><%= note_activity_report.present? ? note_activity_report.past : "-" %></p>
@@ -95,7 +95,7 @@
           </tr>
           <tr>
             <td width="120">
-              <span class='help-text'>Next Day</span>
+              <span class='help-text align-top'>Next Day</span>
             </td>
             <td>
               <p><%= note_activity_report.present? ? note_activity_report.future : "-" %></p>
@@ -103,7 +103,7 @@
           </tr>
           <tr>
             <td width="120">
-              <span class='help-text'>Asset Requests</span>
+              <span class='help-text align-top'>Asset Requests</span>
             </td>
             <td>
               <p><%= assets_string.present? ? assets_string : "-" %></p>
@@ -111,7 +111,7 @@
           </tr>
           <tr>
             <td width="120">
-              <span class='help-text'>Notes</span>
+              <span class='help-text align-top'>Notes</span>
             </td>
             <td>
               <p><%= notes_string.present? ? notes_string : "-" %></p>
