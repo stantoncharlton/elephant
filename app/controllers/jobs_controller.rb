@@ -227,6 +227,7 @@ class JobsController < ApplicationController
                     job_document.category = document.category
                     job_document.name = document.name
                     job_document.status = document.status
+                    job_document.access_level = document.access_level
                     job_document.document_type = document.document_type
                     job_document.read_only = document.read_only
                     job_document.ordering = document.ordering
@@ -244,30 +245,6 @@ class JobsController < ApplicationController
                     job_document.save
                 end
 
-                @job.job_template.primary_tools.where(:template => true).each do |primary_tool|
-                    tool = PrimaryTool.new
-                    tool.template = false
-                    tool.tool = primary_tool.tool
-                    tool.job = @job
-                    tool.job_template = primary_tool.job_template
-                    tool.company = current_user.company
-
-                    if tool.save
-                        primary_tool.documents.order("created_at ASC").each do |document|
-                            new_document = document.duplicate
-                            new_document.url = nil
-                            new_document.primary_tool_id = tool.id
-                            new_document.save
-                        end
-                        primary_tool.part_memberships.where(:template => true).order("created_at ASC").each do |part_membership|
-                            new_part_membership = part_membership.duplicate
-                            new_part_membership.part = nil
-                            new_part_membership.template = true
-                            new_part_membership.primary_tool = tool
-                            new_part_membership.save
-                        end
-                    end
-                end
 
                 # Add to job as creator
                 @job.add_user!(current_user, JobMembership::CREATOR)

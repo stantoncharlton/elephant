@@ -34,6 +34,7 @@ class Document < ActiveRecord::Base
     has_many :document_revisions, dependent: :destroy
 
     DOCUMENT = 0
+    PROTECTED_DOCUMENT = 50
     CHECKLIST = 1
     JOB_LOG = 2
     DRILLING_LOG = 3
@@ -51,6 +52,8 @@ class Document < ActiveRecord::Base
     PRIMARY_TOOL = "Primary Tool"
     PART_REDRESS = "Part Redress"
     ISSUES = "Issues"
+
+    DOCUMENT_RESTRICTED = 3
 
     def default_name
         self.name ||= File.basename(url, '.*').titleize if url
@@ -232,6 +235,7 @@ class Document < ActiveRecord::Base
     def duplicate
         document = Document.new
         document.category = self.category
+        document.access_level = self.access_level
         document.name = self.name
         document.status = self.status
         document.document_type = self.document_type

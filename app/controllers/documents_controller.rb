@@ -98,6 +98,13 @@ class DocumentsController < ApplicationController
         params[:document].delete(:owner_type)
 
         @document = Document.new(params[:document])
+        if @document.template?
+            @document.access_level = 0
+            if @document.document_type == Document::PROTECTED_DOCUMENT
+                @document.document_type = Document::DOCUMENT
+                @document.access_level = Document::DOCUMENT_RESTRICTED
+            end
+        end
         @document.company = current_user.company
 
         if @document.template?
@@ -162,6 +169,14 @@ class DocumentsController < ApplicationController
         @document.user = current_user
         @document.user_name = current_user.name
         @document.url = params[:document][:url]
+
+        if @document.template?
+            @document.access_level = 0
+            if params[:document][:document_type] == Document::PROTECTED_DOCUMENT
+                @document.document_type = Document::DOCUMENT
+                @document.access_level = Document::DOCUMENT_RESTRICTED
+            end
+        end
 
         @document.save
 

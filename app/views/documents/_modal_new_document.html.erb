@@ -38,7 +38,11 @@
 
                   <div>
                     <div class="list-item-column2">Access
-                      Level <%= image_tag "warning.png", class: "inline job-status-avatar push-right-small" %></div>
+                      Level
+                      <%= image_tag "lock_icon.png", class: "tooltip-info align-top push-right-small push-down-small",
+                                    "data-placement" => "bottom",
+                                    "data-title" => "Restricted Access" %>
+                    </div>
                     <%= f.select :access_level, options_for_select([["Available to All", 0], ["Restricted to Corporate", 3]]),
                                  {},
                                  class: "job-note-type custom-select inline" %>

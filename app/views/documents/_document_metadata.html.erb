@@ -202,6 +202,12 @@
                data-title="Job Log document type"><b><%= document.document_type_string %></b></p>
         <% end %>
       </div>
+
+      <% if document.access_level > 1 %>
+          <%= image_tag "lock_icon.png", class: "document-restricted tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Restricted Access" %>
+      <% end %>
   <% end %>
 
 
