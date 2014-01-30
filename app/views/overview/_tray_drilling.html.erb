@@ -116,8 +116,8 @@
       <% rigs.each do |rig| %>
           <% rops = DrillingLog.includes(document: { job: { well: :rig }}).joins(:document).where("drilling_logs.created_at >= ?", Date.today - 1.year).where("drilling_logs.drilling_rop > 0").where("rigs.id = ?", rig.id) %>
           <% rops.each do |dl| %>
-            <% points << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.day, "rop_#{rig.id}" => dl.rotate_rop.round(1) } %>
-            <% points2 << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.day, "rop_#{rig.id}" => dl.slide_rop.round(1) } %>
+            <% points << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.strftime("%W"), "rop_#{rig.id}" => dl.rotate_rop.round(1) } %>
+            <% points2 << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.strftime("%W"), "rop_#{rig.id}" => dl.slide_rop.round(1) } %>
           <% end %>
       <% end %>
       var chartData = <%= raw points.to_json.html_safe %>;
@@ -128,7 +128,7 @@
 
 
       var valueAxis = new AmCharts.ValueAxis();
-      valueAxis.title = "Day";
+      valueAxis.title = "Week of Year (trailing)";
       valueAxis.position = "bottom";
       valueAxis.dashLength = 5;
       valueAxis.axisAlpha = 0;
@@ -136,7 +136,7 @@
       chart.addValueAxis(valueAxis);
 
       var valueAxis = new AmCharts.ValueAxis();
-      valueAxis.title = "ROP";
+      valueAxis.title = "Rotate ROP";
       valueAxis.position = "left";
       valueAxis.dashLength = 5;
       valueAxis.axisAlpha = 0;
@@ -185,7 +185,7 @@
 
 
       var valueAxis = new AmCharts.ValueAxis();
-      valueAxis.title = "Day";
+      valueAxis.title = "Week of Year (trailing)";
       valueAxis.position = "bottom";
       valueAxis.dashLength = 5;
       valueAxis.axisAlpha = 0;
@@ -193,7 +193,7 @@
       chart.addValueAxis(valueAxis);
 
       var valueAxis = new AmCharts.ValueAxis();
-      valueAxis.title = "ROP";
+      valueAxis.title = "Slide ROP";
       valueAxis.position = "left";
       valueAxis.dashLength = 5;
       valueAxis.axisAlpha = 0;
