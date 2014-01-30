@@ -79,7 +79,7 @@ module JobAnalysisHelper
 
     def failures(jobs)
         jobs_query = jobs.select("jobs.id").to_sql
-        Issue.includes(:failure).where("issues.job_id IN (#{jobs_query})").order("COUNT(failures.id) DESC").select("failures.*, DISTINCT failures.id").group("failures.id").count()
+        Issue.includes(:failure).where("issues.job_id IN (#{jobs_query})").where("issues.failure_id IS NOT NULL").order("COUNT(failures.id) DESC").select("failures.*, DISTINCT failures.id").group("failures.id").count()
     end
 
 end

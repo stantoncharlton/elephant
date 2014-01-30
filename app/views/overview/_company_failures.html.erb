@@ -13,7 +13,7 @@
   <div class="chart-problem align-top">
     <% if @failures_count > 0 %>
         <div class="chart-title">Top Failures</div>
-        <p class="help-text inline-block align-top">(<%= @failures_count %> total failures)</p>
+        <p class="help-text inline-block align-top">(<%= @failures_count %>)</p>
         <br>
 
         <% @failures_list.each do |failure_group| %>

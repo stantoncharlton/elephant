@@ -55,6 +55,9 @@
 </div>
 
 <% post_job_documents = job.post_job_documents.to_a %>
+<% if false %>
+    <%= link_to "Download All", "#", class: "activity-user-link pull-right push-down", id: "download_all_post_job" %>
+<% end %>
 <% if post_job_documents.all? { |d| d.url.present? } %>
     <h3 class="document-section-header status-good"><%= t ".post_job" %>
     </h3>

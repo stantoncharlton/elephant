@@ -17,6 +17,7 @@
 //= require jquery-fileupload/vendor/tmpl
 //= require jquery.tokeninput
 //= require jquery.history
+//= require jquery.multiDownload
 //= require customSelect.jquery
 //= require Chart.min
 //= require jquery.jqplot.min
