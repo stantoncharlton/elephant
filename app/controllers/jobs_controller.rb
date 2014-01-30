@@ -8,7 +8,7 @@ class JobsController < ApplicationController
 
         respond_to do |format|
             format.html {
-                @all_jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
+                @all_jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
                 @jobs = @all_jobs
 
                 if !@is_paged
@@ -21,7 +21,7 @@ class JobsController < ApplicationController
                 if !params[:search].blank?
                     @jobs = Job.search(current_user, params, current_user.company).results
                 else
-                    @all_jobs = current_user.role.no_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
+                    @all_jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
                     @jobs = @all_jobs
 
                     if !@is_paged
