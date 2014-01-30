@@ -31,4 +31,12 @@ class Rig < ActiveRecord::Base
             paginate :page => options[:page], :per_page => 20
         end
     end
+
+    def color
+        if !self.name.blank?
+            Digest::MD5.hexdigest(self.name)[0..5]
+        else
+            '666666'
+        end
+    end
 end

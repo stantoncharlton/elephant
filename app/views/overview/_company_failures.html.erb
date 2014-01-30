@@ -1,7 +1,7 @@
 <div id="company_failures">
-  <div class="chart-block tooltip-info"
+  <div class="chart-block tooltip-info align-top"
        data-title="'Job Success Rate' shows the percentage of jobs that are successful.">
-    <div class="chart-title">Job Success Rate</div>
+    <div class="chart-title">Job Failure-Free Rate</div>
     <div class="donut-chart-div">
       <div id="failure_rate" class="donut-chart "></div>
       <div class="donut-inner-circle <%= @job_success_rate > 70 ? "" : "inner-circle-red" %>"></div>
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="chart-problem">
+  <div class="chart-problem align-top">
     <% if @failures_count > 0 %>
         <div class="chart-title">Top Failures</div>
         <p class="help-text inline-block align-top">(<%= @failures_count %> total failures)</p>

@@ -1,7 +1,7 @@
-<% @failures = Failure.where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= ?", 4.weeks.ago).order("failures.created_at DESC").paginate(page: params[:page], limit: 30) %>
+<% @issues = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= ?", 4.weeks.ago).order("issues.created_at DESC").paginate(page: params[:page], limit: 30) %>
 
-<% @failures_current_year = Failure.where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', failures.created_at) as DATE").group("date_trunc('month', failures.created_at)").count("failures.created_at").map {|k,v| {Date.strptime(k).month => v}  }.reduce(:merge) %>
-<% @failures_last_year = Failure.where(:template => false).where("failures.job_id IS NOT NULL").where("failures.created_at >= '1/1/#{ Time.now.year - 1 }' AND failures.created_at <= '12/31/#{ Time.now.year - 1 }'").select("date_trunc('month', failures.created_at) as DATE").group("date_trunc('month', failures.created_at)").count("failures.created_at").map {|k,v| {Date.strptime(k).month => v}  }.reduce(:merge) %>
+<% @failures_current_year = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', issues.created_at) as DATE").group("date_trunc('month', issues.created_at)").count("issues.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @failures_last_year = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= '1/1/#{ Time.now.year - 1 }' AND issues.created_at <= '12/31/#{ Time.now.year - 1 }'").select("date_trunc('month', issues.created_at) as DATE").group("date_trunc('month', issues.created_at)").count("issues.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 
 <div id="overview_insight" data-loaded='true'>
@@ -42,26 +42,14 @@
   </script>
 
   <br><br>
-  <h3>New Failures (<%= @failures.count %>)</h3>
+
+  <h3>New Failures (<%= @issues.count %>)</h3>
   <br>
 
   <div id="failures" class="list">
-    <% @failures.each do |failure| %>
-        <% if failure.job.present? %>
-            <% job = failure.job %>
-            <%= link_to failure.job, class: "job-link tooltip-info",
-                        "data-html" => true,
-                        "data-placement" => "right",
-                        "data-title" => render('jobs/well_tooltip', job: job, show_summary_data: true) do %>
-                <div class="">
-                  <span><b><%= failure.job.job_template.name %></b></span>
-
-                  <div class="job-failure-item">- <%= failure.failure_master_template.text %></div>
-                  <div class="inline push-right-small"><%= !failure.reference.blank? ? "(" + failure.reference + ")" : "" %></div>
-                </div>
-                <p><%= time_ago_in_words(failure.created_at) %> ago</p>
-
-            <% end %>
+    <% @issues.each do |issue| %>
+        <% if issue.present? && issue.job.present? %>
+            <%= render "issues/issue", issue: issue, show_job: true %>
         <% end %>
     <% end %>
   </div>

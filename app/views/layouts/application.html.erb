@@ -52,8 +52,10 @@
         <div class='curtain-content'>
           <div>
             <h1>Loading</h1>
+
             <div class='inline-block push-right-small'>
-              <div class="inline-block ajax-loading search-loading push-right-small"><b class='white-text'>Please wait...</b></div>
+              <div class="inline-block ajax-loading search-loading push-right-small">
+                <b class='white-text'>Please wait...</b></div>
             </div>
           </div>
           <br><br><br>
@@ -100,6 +102,7 @@
 
 <% if signed_in? %>
     <script type="text/javascript">
+
         function showWorkingCurtain() {
             $('#working').removeClass('hidden');
             $('body').animate({scrollTop: 0 }, 'fast');
@@ -120,7 +123,7 @@
         (function ($) {
             $(document).ready(function () {
 
-                $('.show-working-curtain').live("click", function() {
+                $('.show-working-curtain').live("click", function () {
                     showWorkingCurtain();
                 });
 
