@@ -32,3 +32,13 @@
     </div>
 
 <% end %>
+
+
+<script type='text/javascript'>
+    setInterval(function() {
+        $.ajax('/conversations/' + $('#messages').attr("data-id") + "?check_new=true", {
+            type: 'get',
+            dataType: 'script'
+        });
+    }, 1000 * 30);
+</script>

@@ -35,5 +35,10 @@
     </div>
     <p class="message-preview-text">"<%= conversation.messages.last.text[0..40] %>..."</p>
 
+
+    <% if @new_alerts.select { |a| a.target == conversation }.any? %>
+        <div class='inline-block pull-right new-message-dot' style='border-radius: 50px; width: 7px; height: 7px; background: #f8d306;'></div>
+    <% end %>
   </div>
+
 </a>

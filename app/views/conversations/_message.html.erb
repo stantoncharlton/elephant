@@ -8,6 +8,7 @@
 
     <p class="inline pull-right message-date tooltip-info"
        data-placement="bottom"
+       id="message_date_<%= message.id %>"
        data-title="<%= message.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
       <%= time_ago_in_words(message.created_at) %> ago
     </p>

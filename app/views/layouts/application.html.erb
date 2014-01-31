@@ -138,6 +138,14 @@
                     }
                 }, 1000 * 60 * 10); // 1000 * 60 * 120
 
+                setInterval(function () {
+                        $.ajax({
+                            url: "/conversations",
+                            type: "GET",
+                            dataType: "script"
+                        });
+                }, 1000 * 60 * 2);
+
                 var isMobile = {
                     Android: function () {
                         return navigator.userAgent.match(/Android/i);

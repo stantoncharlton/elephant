@@ -1,6 +1,11 @@
+
+$('.form[data-form=new_message]').show();
+$('.form-loading[data-form=new_message]').addClass('hidden');
+
 $('#conversation_messages_list').append("<%= j render 'conversations/message', conversation: @conversation, message: @message %>");
 
 $('#conversation_reply_box').val('');
+$('#conversation_reply_box').focus();
 
 $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
 

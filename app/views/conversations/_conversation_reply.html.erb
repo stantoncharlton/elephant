@@ -1,19 +1,26 @@
 <div class="well">
-  <%= form_for(conversation, remote: true) do |f| %>
+  <div class='form' data-form="new_message">
+    <%= form_for(conversation, remote: true) do |f| %>
 
-      <%= f.text_area :message_text,
-                      id: "conversation_reply_box",
-                      class: "tooltip-info message-reply-box ",
-                      "data-placement" => "top",
-                      "data-title" => "Message text",
-                      placeholder: I18n.t("conversations.reply_prompt") %>
+        <%= f.text_area :message_text,
+                        id: "conversation_reply_box",
+                        class: "tooltip-info message-reply-box submit-enter",
+                        "data-placement" => "top",
+                        "data-title" => "Message text",
+                        placeholder: I18n.t("conversations.reply_prompt") %>
 
-      <div class="pull-right">
-        <%= f.submit I18n.t("conversations.reply"), class: "bluebtn btnsmall tooltip-info",
-                     "data-title" => "Send reply message to conversation" %>
-      </div>
+        <div class="pull-right">
+          <%= f.submit I18n.t("conversations.reply"), class: "bluebtn btnsmall tooltip-info form-loading-on-click",
+                       "data-form" => "new_message",
+                       "data-title" => "Send reply message to conversation" %>
+        </div>
 
-  <% end %>
+    <% end %>
+  </div>
   <br>
+
+  <div class="form-loading hidden" data-form="new_message">
+    <%= render 'layouts/inline_loading', title: "Sending..." %>
+  </div>
 
 </div>

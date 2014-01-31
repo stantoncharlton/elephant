@@ -176,11 +176,10 @@
               <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
 
               <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
-              <% if new_messages > 0 %>
-                  <div class="messages-icon-alert">
-                    <p><%= new_messages %></p>
-                  </div>
-              <% end %>
+              <div id="new_messages" class="messages-icon-alert <%= new_messages == 0 ? "hidden" : "" %>">
+                <p id="new_messages_count"><%= new_messages %></p>
+              </div>
+
             </div>
 
 

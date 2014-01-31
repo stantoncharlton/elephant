@@ -1,16 +1,52 @@
+<% if params[:check_new].present? && params[:check_new] == "true" %>
+
+    <% @conversation.messages.each do |m| %>
+    var date = $('#message_date_<%= m.id %>');
+    date.text('<%= time_ago_in_words(m.created_at) %> ago');
+    date.css('color', '#afafaf');
+    <% end %>
+
+    <% if @new_alerts.any? %>
+    <% messages = @conversation.messages.where("messages.user_id != ?", current_user.id).last(@new_alerts.count) %>
+    <% messages.each do |message| %>
+    $('#conversation_messages_list').append("<%= j render 'conversations/message', conversation: @conversation, message: message %>");
+    $('#message_date_<%= message.id %>').css('color', '#ffc208');
+    <% end %>
+    <% end %>
+
+
+
+    $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+
+<% else %>
+
+
 $('#messages').replaceWith("<%= j render 'conversations/conversation_full', conversation: @conversation %>");
 
-$('.conversation-link').each(function(index) {
+$('.conversation-link').each(function (index) {
     $(this).find('div:first').removeClass('message-selected');
 });
 $('#conversation_<%= @conversation.id %> div:first').addClass('message-selected');
-
-if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
-$('.tooltip-info').tooltip();
-$('.activity-user-link').tooltip();
-}
 
 
 $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
 
 $("html, body").animate({ scrollTop: 0 }, "slow");
+
+<% if !signed_in_admin? && current_user.present? %>
+<% new_messages = Alert.cached_find_new_messages(current_user.id) %>
+<% if new_messages > 0 %>
+if($('#new_messages').length > 0) {
+    $('#new_messages').removeClass('hidden');
+    $('#new_messages_count').text("<%= new_messages %>");
+}
+<% else %>
+$('#new_messages').addClass('hidden');
+<% end %>
+<% end %>
+<% end %>
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+    $('.activity-user-link').tooltip();
+}

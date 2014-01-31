@@ -32,8 +32,6 @@ class Alert < ActiveRecord::Base
     FAILURE_ADDED = 9
 
 
-
-
     def self.add(user, alert_type, target, created_by, job = nil)
         return false if user.nil? or user.company.nil? or alert_type.blank? or target.blank?
 

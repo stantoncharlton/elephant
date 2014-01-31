@@ -5,10 +5,14 @@ class ConversationsController < ApplicationController
     def index
         @conversations = current_user.conversations.order("updated_at DESC").paginate(page: params[:page], limit: 8)
 
-        if !@conversations.empty? && current_user.alerts
-            new_alerts = current_user.alerts.select { |a| a.target == @conversations.first }
-            if !new_alerts.empty?
-                new_alerts.first.destroy
+        if request.format == "html"
+            if !@conversations.empty? && current_user.alerts
+                @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE }
+                @new_alerts.each do |a|
+                    if @conversations.first == a.target
+                        a.destroy
+                    end
+                end
             end
         end
 
@@ -17,6 +21,14 @@ class ConversationsController < ApplicationController
     def show
         @conversation = Conversation.find_by_id(params[:id])
         not_found unless @conversation.present? && @conversation.company == current_user.company
+
+        if current_user.alerts
+            @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE && a.target == @conversation }
+            @new_alerts.each do |a|
+                a.destroy
+            end
+        end
+
     end
 
     def new
@@ -89,6 +101,10 @@ class ConversationsController < ApplicationController
         end
 
         if all_deleted
+            alerts = Alert.where("alerts.alert_type = ?", Alert::NEW_MESSAGE).where("alerts.target_id = ?", @conversation.id)
+            alerts.each do |a|
+                a.destroy
+            end
             @conversation.destroy
         end
         redirect_to conversations_path
