@@ -47,7 +47,7 @@
 <% if !current_user.role.limit_to_assigned_jobs? %>
     <% options = [] %>
     <% options << ["All Jobs", 0] %>
-    <% if !current_user.role.no_assigned_jobs? %>
+    <% if !current_user.role.no_assigned_jobs? && current_user.jobs.any? %>
         <% options << ["Only My Jobs", 1] %>
     <% end %>
     <% options << ["Pre-Job", 2] %>

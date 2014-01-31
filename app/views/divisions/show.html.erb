@@ -17,7 +17,7 @@
     </div>
     <br>
 
-    <% if current_user.role.no_assigned_jobs? %>
+    <% if !current_user.role.limit_to_assigned_jobs? %>
         <div class="">
           <%= render 'jobs/index_parts/segments', division: @division %>
         </div>

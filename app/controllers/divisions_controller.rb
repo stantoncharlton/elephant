@@ -40,9 +40,11 @@ class DivisionsController < ApplicationController
             @jobs = @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).reorder('').order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
         else
             @jobs = UserRole.limit_jobs_scope current_user, @division.jobs
-            @jobs = @jobs.includes(job_template: {product_line: {segment: :division}}).where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)).
+            @jobs = @jobs.includes(job_template: {product_line: {segment: :division}}).reorder('').where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)).
             order("jobs.created_at DESC")
         end
+
+
     end
 
     def new
