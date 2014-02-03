@@ -187,6 +187,13 @@
 
 
 
+     def color
+         if !self.name.blank?
+             Digest::MD5.hexdigest(self.name)[0..5]
+         else
+             'd3d3d3'
+         end
+     end
 
 
 

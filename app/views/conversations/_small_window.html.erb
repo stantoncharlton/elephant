@@ -1,0 +1,8 @@
+<div>
+  <div style="float: left; margin-top: 20px; width: 50px;">
+    <%= render "conversations/conversation_list", conversations: conversations %>
+  </div>
+
+  <% conversation = conversations.first %>
+  <%= render 'conversations/conversation_full2', conversation: conversation %>
+</div>

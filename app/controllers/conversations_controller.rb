@@ -5,17 +5,14 @@ class ConversationsController < ApplicationController
     def index
         @conversations = current_user.conversations.order("updated_at DESC").paginate(page: params[:page], limit: 8)
 
-        if request.format == "html"
-            if !@conversations.empty? && current_user.alerts
-                @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE }
-                @new_alerts.each do |a|
-                    if @conversations.first == a.target
-                        a.destroy
-                    end
+        if !@conversations.empty? && current_user.alerts
+            @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE }
+            @new_alerts.each do |a|
+                if @conversations.first == a.target
+                    a.destroy
                 end
             end
         end
-
     end
 
     def show
@@ -120,12 +117,18 @@ class ConversationsController < ApplicationController
             @conversation = Conversation.find_by_id(params[:id])
             not_found unless @conversation.company == current_user.company
 
+            @last_message = @conversation.messages.last
+
             @conversation.touch
 
             @message = @conversation.send_message(current_user, message_text)
 
             @conversation.conversation_memberships.each do |m|
                 m.update_attribute(:deleted, false)
+                Pusher["channel_#{m.user_id}"].trigger('new_message', {
+                        conversation_id: @conversation.id,
+                        user_id: m.user_id
+                })
             end
         end
         #current_user.delay.send_new_message_email(@message)

@@ -19,7 +19,7 @@ class JobTimesController < ApplicationController
             @job = Job.find_by_id(params[:job])
             not_found unless @job.company == current_user.company
 
-            @start_date = @job.start_date
+            @start_date = Time.now
             if @page != 0
                 @start_date = @start_date + (@page * 10.days)
             end

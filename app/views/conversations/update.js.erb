@@ -1,9 +1,14 @@
-
 $('.form[data-form=new_message]').show();
 $('.form-loading[data-form=new_message]').addClass('hidden');
 
-$('#conversation_messages_list').append("<%= j render 'conversations/message', conversation: @conversation, message: @message %>");
+<% if params[:small_window].present? %>
+$('#conversation_messages_list').append("<%= j render 'conversations/message2', conversation: @conversation, message: @message, last_message: @last_message %>");
+$('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+$('#conversation_reply_box').val('');
+$('#conversation_reply_box').focus();
 
+<% else %>
+$('#conversation_messages_list').append("<%= j render 'conversations/message', conversation: @conversation, message: @message %>");
 $('#conversation_reply_box').val('');
 $('#conversation_reply_box').focus();
 
@@ -14,15 +19,16 @@ var conversation = $('#conversation_<%= @conversation.id.to_s %>').remove();
 $("#conversations_list").prepend(conversation);
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
-$('.tooltip-info').tooltip();
-$('.activity-user-link').tooltip();
+    $('.tooltip-info').tooltip();
+    $('.activity-user-link').tooltip();
 }
 
-$('.conversation-link').click(function() {
+$('.conversation-link').click(function () {
     $.ajax({
-        url:"/conversations/" + $(this).attr("id").replace("conversation_", ""),
-        type:"GET",
-        dataType:"script"
+        url: "/conversations/" + $(this).attr("id").replace("conversation_", ""),
+        type: "GET",
+        dataType: "script"
     });
 });
+<% end %>
 

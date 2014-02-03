@@ -1,0 +1,33 @@
+<div>
+
+  <% @conversations.each_with_index do |conversation, index| %>
+      <a href="#" class='conversation-link2' id="conversation_<%= conversation.id %>">
+        <div class="message-normal <%= index == 0 ? "message-active" : "" %>">
+          <% if conversation.participants.count > 2 %>
+              <div class="member-icon align-top pull-left" style="margin-right: 10px;">
+                <p>
+                  <%= conversation.participants.count - 1 %>
+                </p>
+              </div>
+          <% else %>
+              <% person = conversation.participants.select { |user| user != current_user }.first %>
+              <div class="member-icon align-top" style="margin-right: 5px; background: <%= "#" + person.color %>;">
+                <p>
+                  <% names = person.present? ? person.name.split : [] %>
+                  <% if names.any? %>
+                      <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                  <% else %>
+                      -
+                  <% end %>
+                </p>
+              </div>
+          <% end %>
+
+          <% if @new_alerts.select { |a| a.target == conversation }.any? %>
+              <div class='inline-block pull-right new-message-dot' style='border-radius: 50px; width: 7px; height: 7px; background: #f8d306;'></div>
+          <% end %>
+        </div>
+      </a>
+  <% end %>
+
+</div>

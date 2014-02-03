@@ -35,4 +35,10 @@ ElephantWebApp::Application.configure do
     # Expands the lines which load the assets
     config.assets.debug = true
 
+
+    require 'pusher'
+    Pusher.app_id = '64968'
+    Pusher.key = '9f7a931d636464d8a7c3'
+    Pusher.secret = '3fec435fe627749641b7'
+
 end

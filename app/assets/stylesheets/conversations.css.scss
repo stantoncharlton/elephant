@@ -135,3 +135,19 @@
 .single-recipient {
   font-size: 15px;
 }
+
+.message-normal {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: -18px;
+  padding: 5px;
+  padding-left: 10px;
+  width: 40px !important;
+  height: 35px !important;
+}
+
+.message-active {
+  background: #FFFFFF;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}

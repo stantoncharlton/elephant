@@ -15,6 +15,8 @@ ElephantWebApp::Application.routes.draw do
     match '/privacy', to: 'static_pages#privacy'
     match '/copyright', to: 'static_pages#copyright'
 
+    match '/pusher/auth', to: 'pusher#auth'
+
     resources :users, only: [:index, :show, :new, :create, :destroy, :edit, :update]
 
     resources :user_roles, only: [:index, :show, :new, :create, :destroy, :edit, :update]

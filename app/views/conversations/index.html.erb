@@ -33,12 +33,15 @@
 
 <% end %>
 
-
-<script type='text/javascript'>
-    setInterval(function() {
-        $.ajax('/conversations/' + $('#messages').attr("data-id") + "?check_new=true", {
-            type: 'get',
-            dataType: 'script'
-        });
-    }, 1000 * 30);
+<script type="text/javascript">
+    var pusher = new Pusher('9f7a931d636464d8a7c3');
+    var channel = pusher.subscribe('chat_<%= current_user.company.id %>');
+    channel.bind('new_message', function(data) {
+        if(data.user_id == "<%= current_user.id %>") {
+            $.ajax('/conversations/' + $('#messages').attr("data-id") + "?check_new=true", {
+                type: 'get',
+                dataType: 'script'
+            });
+        }
+    });
 </script>

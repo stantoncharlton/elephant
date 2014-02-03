@@ -7,6 +7,7 @@
   <%= javascript_include_tag "application" %>
 
   <% if signed_in? || cookies[:access_code].present? %>
+      <script src="http://js.pusher.com/2.1/pusher.min.js" type="text/javascript"></script>
       <% if Rails.env.dev? %>
           <script src='assets/javascript/mapbox.js'></script>
           <link href='assets/stylesheets/mapbox.css' rel='stylesheet'/>
@@ -46,6 +47,34 @@
       <%= render 'layouts/footer' %>
 
       <div id="logged_out" class="hidden">
+      </div>
+
+      <div id="messages_window" class="hidden" style="position: fixed; left: 0; top: 60px; width: 250px; height: 120px;">
+        <div style="position: relative; width: 100%; height: 100%;">
+          <div style="position: absolute; background: #000000; opacity: 0.91; width: 100%; height: 100%; border-radius: 6px;"></div>
+          <div style="position: absolute; padding: 18px;">
+            <h3 class='' style="color: #ffc208;">Messages</h3>
+
+            <div id="messages_content">
+
+            </div>
+            <div id="messages_loading">
+              <br><br>
+
+              <div class="inline-block ajax-loading search-loading">
+                <b class='white-text'>Loading...</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="message_window" class="hidden" style="position: fixed; left: 0; top: 60px; width: 400px; height: 80px;">
+        <div style="position: relative; width: 100%; height: 100%;">
+          <div style="position: absolute; background: #000000; opacity: 0.7; width: 100%; height: 100%; border-radius: 6px;"></div>
+          <div id="message_window_content" style="position: absolute; padding: 18px;">
+          </div>
+        </div>
       </div>
 
       <div id="working" class="curtain hidden">
@@ -103,6 +132,35 @@
 <% if signed_in? %>
     <script type="text/javascript">
 
+        var pusher = new Pusher('9f7a931d636464d8a7c3', { authTransport: 'jsonp' });
+        var channel = pusher.subscribe('channel_<%= current_user.id %>');
+        channel.bind('pusher:subscription_succeeded', function () {
+        });
+        channel.bind('new_message', function (data) {
+            $.ajax('/conversations/' + data.conversation_id + "?check_new=true", {
+                type: 'get',
+                dataType: 'script'
+            });
+        });
+        var presenceChannel = pusher.subscribe('presence-<%= current_user.company_id %>');
+        presenceChannel.bind('pusher:subscription_succeeded', function () {
+            var me = presenceChannel.members.me;
+            var userId = me.id;
+            var userInfo = me.info;
+        });
+        presenceChannel.bind('pusher:subscription_error', function () {
+        });
+        presenceChannel.bind('pusher:member_added', function (member) {
+            // for example:
+            //add_member(member.id, member.info);
+            alert(member.info);
+        });
+        presenceChannel.bind('pusher:member_removed', function (member) {
+            // for example:
+            //remove_member(member.id, member.info);
+            alert(member.info);
+        });
+
         function showWorkingCurtain() {
             $('#working').removeClass('hidden');
             $('body').animate({scrollTop: 0 }, 'fast');
@@ -139,11 +197,11 @@
                 }, 1000 * 60 * 10); // 1000 * 60 * 120
 
                 setInterval(function () {
-                        $.ajax({
-                            url: "/conversations",
-                            type: "GET",
-                            dataType: "script"
-                        });
+                    $.ajax({
+                        url: "/conversations",
+                        type: "GET",
+                        dataType: "script"
+                    });
                 }, 1000 * 60 * 2);
 
                 var isMobile = {

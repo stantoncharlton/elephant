@@ -1,9 +1,48 @@
 <% if !signed_in_admin? && current_user.present? %>
 <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
 <% if new_messages > 0 %>
-if($('#new_messages').length > 0) {
+if ($('#new_messages').length > 0) {
     $('#new_messages').removeClass('hidden');
     $('#new_messages_count').text("<%= new_messages %>");
 }
+<% else %>
+$('#new_messages').addClass('hidden');
 <% end %>
+<% end %>
+
+<% if !params.has_key?(:open_only) || params[:open_only] == "false" %>
+if (!$('#messages_window').hasClass('hidden')) {
+    $('#messages_loading').addClass('hidden');
+    $('#messages_window').css('width', '400px').css('height', '500px');
+    $('#messages_window').css('left', $('#messages_icon_div').position().left - 80);
+    if ($('#messages_content:has(*)').length <= 0) {
+        $('#messages_content').append("<%= j render 'conversations/small_window', conversations: @conversations %>");
+    }
+    $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+
+    $('#messages_content').find(".submit-enter").keypress(function (e) {
+        if (e.which === 13) {
+            $(this).blur();
+            return $(this).closest("form").find("input[type=submit]").trigger('click');
+        }
+    });
+
+
+    $('.conversation-link2').click(function () {
+        $('.conversation-link2').each(function () {
+            if ($(this).find('div:first').hasClass('message-active')) {
+                $(this).find('div:first').removeClass('message-active');
+                return $(this).find('.new-message-dot').remove();
+            }
+        });
+        $(this).find('div:first').addClass('message-active');
+        $('#small_conversation').addClass('hidden');
+        $('#small_conversation_loading').removeClass('hidden');
+        return $.ajax('/conversations/' + $(this).attr("id").replace("conversation_", "") + "?small_window=true", {
+            type: 'get',
+            dataType: 'script'
+        });
+    });
+
+}
 <% end %>

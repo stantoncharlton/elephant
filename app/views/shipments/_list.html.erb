@@ -116,9 +116,9 @@
                     <% end %>
                   </div>
                   &nbsp;
-                  <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link tooltip-info" %></b>
+                  <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
                   &nbsp;&nbsp;&nbsp;
-                  <i class="icon-chevron-right"></i>
+                  <i class="icon-chevron-right align-top"></i>
                   &nbsp;&nbsp;&nbsp;
                   <div class='inline-block align-top push-up-small'>
                     <% if  shipment.accepted_by.present? %>
@@ -126,11 +126,11 @@
                     <% end %>
                   </div>
                   &nbsp;
-                  <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link tooltip-info" %></b>
+                  <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.to_name %></b>
                 </div>
 
                 <% if editable %>
-                    <a id="edit_shipment" class="inline-block push-right empty-link" href="#"><i class="icon-edit"></i>&nbsp;edit</a>
+                    <a id="edit_shipment" class="inline-block push-right empty-link align-top" href="#"><i class="icon-edit"></i>&nbsp;edit</a>
                 <% end %>
               </div>
           <% end %>
@@ -171,7 +171,7 @@
                     </div>
                     &nbsp;
                     <div class='inline-block align-top push-down'>
-                      <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link tooltip-info" %></b>
+                      <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
                     </div>
                 <% end %>
 

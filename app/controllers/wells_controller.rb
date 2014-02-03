@@ -82,6 +82,10 @@ class WellsController < ApplicationController
                     @well.update_attribute(:bottom_hole_location, params[:value])
                 when "datum"
                     @well.update_attribute(:datum, params[:value])
+                when "rig_id"
+                    @rig = Rig.find_by_id(params[:value])
+                    @well.rig = @rig
+                    @well.save
             end
         else
             field_id = params[:well][:field_id]

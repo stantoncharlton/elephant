@@ -1,0 +1,63 @@
+<div id="message_full" class='pull-left'>
+  <div id="small_conversation_loading" class="hidden" style="margin-top: 0px; margin-left: 80px; width: 310px; margin-top: 20px;">
+    <div class="loading center ">
+      <span class="ajax-loading search-loading"><b class='white-text'>Loading Conversation...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <div id="small_conversation" style="width: 310px; margin-top: 20px;">
+    <div style='height: 20px; color: #FFFFFF; height: 20px; border-width: 0px; border-bottom-width: 1px; border-style: solid; padding-bottom: 8px; border-color: #b7b7b7;'>
+      <% conversation.participants.each_with_index do |user, index| %>
+          <% if user == current_user %>
+              <b>You</b>
+          <% else %>
+              <%= link_to user.name, user, class: "activity-user-link white-text" %>
+          <% end %>
+
+          <% if index + 1 < conversation.participants.count %>
+              ,&nbsp;
+          <% end %>
+      <% end %>
+    </div>
+    <% @last_message = nil %>
+    <div id="conversation_messages_list" style=" height: 350px; overflow-y: scroll; ">
+      <% conversation.messages.last(40).each do |message| %>
+          <%= render 'conversations/message2', conversation: conversation, message: message, last_message: @last_message %>
+          <% @last_message = message %>
+      <% end %>
+    </div>
+
+    <div style="margin-top: 5px;">
+      <div>
+        <div class='form' data-form="new_message">
+          <%= form_for conversation, method: :put, remote: true do |f| %>
+
+              <%= hidden_field_tag "small_window", "", value: true %>
+
+              <%= f.text_area :message_text,
+                              id: "conversation_reply_box",
+                              class: "tooltip-info submit-enter",
+                              style: "width: 300px; height: 40px; border-radius: 6px; font-weight: bold;",
+                              "data-placement" => "top",
+                              "data-title" => "Message text",
+                              placeholder: I18n.t("conversations.reply_prompt") %>
+
+              <%= f.submit I18n.t("conversations.reply"),
+                           class: "bluebtn btnsmall hidden tooltip-info form-loading-on-click",
+                           "data-form" => "new_message",
+                           "data-title" => "Send reply message to conversation" %>
+
+
+          <% end %>
+        </div>
+
+        <div class="form-loading hidden" data-form="new_message">
+          <div class="loading center hidden">
+            <span class="ajax-loading search-loading"><b class='white-text'>Sending...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

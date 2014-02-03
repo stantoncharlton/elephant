@@ -3,7 +3,7 @@
 
   <div id="job_time_content">
     <% job_memberships = job.job_memberships.where("job_role_id != :creator AND job_role_id = :field", creator: JobMembership::CREATOR, field: JobMembership::FIELD) %>
-    <% if job.start_date.present? && job_memberships.any? %>
+    <% if job_memberships.any? %>
         <div class="timesheet">
           <div class="name">
             <div id="job_time_loader" class="pull-left push-down hidden inline">
@@ -19,10 +19,10 @@
             <% end %>
           </div>
           <% 11.times do |i| %>
-              <div class="day-header  <%= (@start_date + (i - 2).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
-                <%= (@start_date + (i - 2).days).strftime("%a") %>
+              <div class="day-header  <%= (@start_date + (i - 3).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
+                <%= (@start_date + (i - 3).days).strftime("%a") %>
                 <br>
-                <%= (@start_date + (i - 2).days).day %>
+                <%= (@start_date + (i - 3).days).day %>
               </div>
           <% end %>
 
@@ -73,12 +73,6 @@
           <p class="inline push-right">Press again after work day to confirm work <span class="good-text">█</span></p>
         </div>
 
-    <% elsif job.start_date.nil? %>
-        <br><br>
-
-        <p class="center">
-          <b class="blue-text help-text">Set job start date to show scheduling</b>
-        </p>
     <% elsif job_memberships.empty? %>
         <br><br>
 

@@ -1,0 +1,34 @@
+<% if last_message.present? && last_message.user == message.user && (message.created_at - last_message.created_at) < 10.minutes %>
+    <div class="small-message" style="">
+      <p class="white-text"><%= raw message.text.gsub(/\n/, '<br />') %></p>
+    </div>
+<% else %>
+    <div class="small-message" style="">
+      <div>
+
+        <b class="inline" style="color: #23d0f5 !important;">
+          <%= message.user.name %>
+        </b>
+
+        <% if Date.today != message.created_at.to_date %>
+        <p class="inline pull-right message-date tooltip-info"
+           style='font-size: 10px; color: #8e8e8e;'
+           data-placement="bottom"
+           id="message_date_<%= message.id %>"
+           data-title="<%= message.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+          <%= time_ago_in_words(message.created_at) %> ago
+        </p>
+        <% else %>
+            <p class="inline pull-right message-date tooltip-info"
+               style='font-size: 10px; color: #8e8e8e;'
+               data-placement="bottom"
+               id="message_date_<%= message.id %>"
+               data-title="<%= message.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+              <%= message.created_at.in_time_zone(Time.zone).strftime("%l:%M %p") %>
+            </p>
+        <% end %>
+      </div>
+
+      <p class="white-text"><%= raw message.text.gsub(/\n/, '<br />') %></p>
+    </div>
+<% end %>

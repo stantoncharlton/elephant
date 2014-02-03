@@ -1,25 +1,53 @@
 <% if params[:check_new].present? && params[:check_new] == "true" %>
 
-    <% @conversation.messages.each do |m| %>
-    var date = $('#message_date_<%= m.id %>');
-    date.text('<%= time_ago_in_words(m.created_at) %> ago');
-    date.css('color', '#afafaf');
+    if($('#conversation_messages_list').length > 0) {
+        <% if @new_alerts.any? %>
+            <% messages = @conversation.messages.where("messages.user_id != ?", current_user.id).last(@new_alerts.count) %>
+            <% last_message = @conversation.messages.last(@new_alerts.count + 1).first %>
+            <% messages.each do |message| %>
+                $('#conversation_messages_list').append("<%= j render 'conversations/message2', conversation: @conversation, message: message, last_message: last_message %>");
+                <% last_message = message %>
+            <% end %>
+        <% end %>
+
+        $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+    }
+
+    <% last_message = @conversation.messages.last %>
+    <% if last_message.user.present? && last_message.user != current_user %>
+        if($('#messages_window').hasClass('hidden')) {
+            var message_window = $('#message_window');
+            var window_content = $('#message_window_content');
+            //message_window.css('opacity', '0.0');
+            message_window.fadeIn("fast");
+
+            message_window.removeClass('hidden');
+            message_window.css('width', '300px').css('height', '80px');
+            message_window.css('left', $('#messages_icon_div').position().left - 80);
+
+            window_content.find('*').remove();
+            window_content.append("<div><%= j render 'conversations/message2', conversation: @conversation, message: last_message, last_message: nil %></div>");
+            window_content.find('#message_date_<%= last_message.id %>').remove();
+            setTimeout(function() {
+                message_window.fadeOut("slow");
+            }, 2000);
+        }
     <% end %>
 
-    <% if @new_alerts.any? %>
-    <% messages = @conversation.messages.where("messages.user_id != ?", current_user.id).last(@new_alerts.count) %>
-    <% messages.each do |message| %>
-    $('#conversation_messages_list').append("<%= j render 'conversations/message', conversation: @conversation, message: message %>");
-    $('#message_date_<%= message.id %>').css('color', '#ffc208');
-    <% end %>
-    <% end %>
 
+<% elsif params[:small_window].present? %>
 
+$('#message_full').replaceWith("<%= j render 'conversations/conversation_full2', conversation: @conversation %>");
+$('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
 
-    $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000);
+$('#messages_content').find(".submit-enter").keypress(function(e) {
+    if (e.which === 13) {
+        $(this).blur();
+        return $(this).closest("form").find("input[type=submit]").trigger('click');
+    }
+});
 
 <% else %>
-
 
 $('#messages').replaceWith("<%= j render 'conversations/conversation_full', conversation: @conversation %>");
 
@@ -33,17 +61,19 @@ $('#conversation_messages_list').scrollTop($('#conversation_messages_list').heig
 
 $("html, body").animate({ scrollTop: 0 }, "slow");
 
+
+<% end %>
+
 <% if !signed_in_admin? && current_user.present? %>
-<% new_messages = Alert.cached_find_new_messages(current_user.id) %>
-<% if new_messages > 0 %>
-if($('#new_messages').length > 0) {
-    $('#new_messages').removeClass('hidden');
-    $('#new_messages_count').text("<%= new_messages %>");
-}
-<% else %>
-$('#new_messages').addClass('hidden');
-<% end %>
-<% end %>
+    <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
+    <% if new_messages > 0 || @new_alerts.any? %>
+        if($('#new_messages').length > 0) {
+            $('#new_messages').removeClass('hidden');
+            $('#new_messages_count').text("<%= new_messages > 0 ? new_messages : @new_alerts.count %>");
+        }
+    <% else %>
+        $('#new_messages').addClass('hidden');
+    <% end %>
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

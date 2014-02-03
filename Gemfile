@@ -34,6 +34,7 @@ gem 'rollbar'
 gem 'acts_as_tenant'
 
 gem 'rollout'
+gem 'pusher'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

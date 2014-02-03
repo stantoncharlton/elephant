@@ -678,6 +678,16 @@
   color: #3fb0f7;
 }
 
+.shipment-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: none;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 300px;
+}
+
+
 .job-progress-bar {
   width: 300px !important;
 }

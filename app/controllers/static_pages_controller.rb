@@ -1,10 +1,10 @@
 class StaticPagesController < ApplicationController
     before_filter :signed_in_user, only: [:help, :terms_of_use, :tutorial]
 
-    skip_before_filter :verify_traffic, only: [:home, :features, :about, :sales, :terms_of_use]
+    skip_before_filter :verify_traffic, only: [:home, :features, :about, :sales, :terms_of_use, :terms, :privacy, :copyright]
     skip_before_filter :accept_terms_of_use, only: [:terms_of_use]
-    skip_before_filter :session_expiry, only: [:home, :features, :about, :sales]
-    skip_before_filter :update_session_expiration, only: [:home, :features, :about, :sales]
+    skip_before_filter :session_expiry, only: [:home, :features, :about, :sales, :terms, :privacy, :copyright]
+    skip_before_filter :update_session_expiration, only: [:home, :features, :about, :sales, :terms, :privacy, :copyright]
 
     def home
         respond_to do |format|
