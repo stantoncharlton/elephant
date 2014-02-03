@@ -1,0 +1,7 @@
+var asset = $('#asset_type_<%= @part.id %>');
+asset.find('.asset-list').find('*').remove();
+asset.find('.asset-list').append('<%= j render 'parts/asset_list', part: @part %>');
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    asset.find('.tooltip-info').tooltip();
+}

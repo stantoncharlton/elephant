@@ -9,10 +9,12 @@
 
     <div class='well'>
 
-      <%= link_to "New Warehouse", new_warehouse_path(district: @district),
-                  class: "bluebtn tooltip-info pull-right",
-                  "data-placement" => "left",
-                  "data-title" => "Create new warehouse" %>
+      <% if current_user.role.add_remove_inventory? %>
+          <%= link_to "New Warehouse", new_warehouse_path(district: @district),
+                      class: "bluebtn tooltip-info pull-right",
+                      "data-placement" => "left",
+                      "data-title" => "Create new warehouse" %>
+      <% end %>
 
 
       <h1 class="donut-text inline"><%= @district.warehouses.count %></h1>
@@ -36,6 +38,7 @@
                 </p>
 
                 <br>
+
                 <h3 class='inline-block blue-text push-right-small'><%= warehouse.parts.count %></h3>&nbsp;<b>assets</b>
 
             <% end %>
@@ -49,7 +52,7 @@
                 </div>
 
             <% else %>
-            <p class='help-text'>No assets in this warehouse...</p>
+                <p class='help-text'>No assets in this warehouse...</p>
             <% end %>
             <hr>
 

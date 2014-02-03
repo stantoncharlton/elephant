@@ -54,29 +54,31 @@
 <div class="page_header">
   <h1>Inventory</h1>
 
-  <% if @district.present? %>
-      <div class="btn-group inline pull-right push-right-small">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Advanced Actions
-        </a>
-        <ul class="dropdown-menu">
-          <% if !@district.nil? %>
-              <li>
-                <%= link_to "Create New Warehouse", new_warehouse_path(district: @district),
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Create new warehouse" %>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <%= link_to "Create New Master Asset", new_part_path(template: true, district: @district),
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "bottom",
-                            "data-title" => "Create new asset type" %>
-              </li>
-          <% end %>
-        </ul>
-      </div>
+  <% if current_user.role.add_remove_inventory? %>
+      <% if @district.present? %>
+          <div class="btn-group inline pull-right push-right-small">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              Advanced Actions
+            </a>
+            <ul class="dropdown-menu">
+              <% if !@district.nil? %>
+                  <li>
+                    <%= link_to "Create New Warehouse", new_warehouse_path(district: @district),
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Create new warehouse" %>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <%= link_to "Create New Asset Type", new_part_path(template: true, district: @district),
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "bottom",
+                                "data-title" => "Create new asset type" %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
   <% end %>
 
 

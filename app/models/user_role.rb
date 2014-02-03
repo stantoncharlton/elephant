@@ -295,6 +295,10 @@ class UserRole < ActiveRecord::Base
         self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_WAREHOUSE_SPECIALIST || self.role_id == ROLE_OPERATIONS_COORDINATOR || self.district_read?
     end
 
+    def add_remove_inventory?
+        self.role_id == ROLE_INVENTORY_MANAGER || self.role_id == ROLE_DISTRICT_MANAGER || self.global_edit?
+    end
+
     def self.limit_jobs_scope(user, jobs)
         if user.role.limit_to_assigned_jobs?
             return jobs.where("jobs.id IN (SELECT job_id FROM job_memberships where user_id = :user_id)", user_id: user.id)

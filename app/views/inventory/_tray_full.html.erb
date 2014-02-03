@@ -11,7 +11,7 @@
 
       <div class="btn-group inline pull-right push-right-small">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Export
+          Advanced Actions
         </a>
         <ul class="dropdown-menu">
           <li>
@@ -21,8 +21,17 @@
                         "data-placement" => "left",
                         "data-title" => "Export data as Microsoft Excel file." %>
           </li>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Expand All Assets", "#",
+                        id: "expand_all_assets",
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Expand all asset types to show assets." %>
+          </li>
         </ul>
       </div>
+
 
       <br><br>
     </div>
@@ -32,10 +41,12 @@
 
     <div class='well'>
 
-      <%= link_to "New Asset Type", new_part_path(template: true, district: @district),
-                  class: "bluebtn tooltip-info pull-right",
-                  "data-placement" => "bottom",
-                  "data-title" => "Create new asset type" %>
+      <% if current_user.role.add_remove_inventory? %>
+          <%= link_to "New Asset Type", new_part_path(template: true, district: @district),
+                      class: "bluebtn tooltip-info pull-right",
+                      "data-placement" => "bottom",
+                      "data-title" => "Create new asset type" %>
+      <% end %>
 
       <h1 class="donut-text inline"><%= @parts.count %></h1>
 
@@ -64,7 +75,11 @@
 
     <div id="parts" class="list">
       <% master_parts.each do |master_part| %>
-          <div class="">
+          <div id="asset_type_<%= master_part.id %>" class="asset-type">
+
+            <% if params[:show_all].nil? || params[:show_all] == "false" %>
+                <%= link_to "list assets", part_path(master_part, show_inline: true), remote: true, class: "activity-user-link pull-right align-top push-down asset-load-full-list" %>
+            <% end %>
 
             <%= link_to master_part, class: "job-link" do %>
                 <div class="member-icon ">
@@ -85,15 +100,13 @@
             <% end %>
 
 
-            <% if master_part.parts.any? %>
-                <div class="content">
-                  <% master_part.parts.each_with_index do |p, i| %>
-                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: @condensed, show_name: false %>
-                  <% end %>
-                </div>
+            <div class='asset-list'>
+              <% if params[:show_all].present? && params[:show_all] == "true" %>
+                  <%= render 'parts/asset_list', part: master_part %>
+              <% end %>
+            </div>
 
-                <hr>
-            <% end %>
+
           </div>
       <% end %>
     </div>
@@ -101,3 +114,24 @@
 
   </div>
 </div>
+
+<script type='text/javascript'>
+    $('.asset-load-full-list').click(function () {
+        $(this).hide();
+        $(this).closest('.asset-type').find('.asset-list').append("<span class='ajax-loading search-loading push-right'><b>Loading assets...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+    });
+
+    $('#expand_all_assets').click(function () {
+        $('.asset-type').each(function () {
+            $(this).find('.asset-load-full-list').remove();
+            $(this).find('.asset-list').append("<span class='ajax-loading search-loading push-right'><b>Loading assets...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+
+            $.ajax({
+                url:"/parts/" + $(this).prop("id").replace("asset_type_", "") + "?show_inline=true",
+                type:"GET",
+                dataType:"script"
+            });
+        });
+        return false;
+    });
+</script>

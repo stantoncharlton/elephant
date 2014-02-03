@@ -59,12 +59,12 @@ class PartsController < ApplicationController
             @part = Part.find(params[:id])
             not_found unless @part.present? && @part.company == current_user.company
 
-            if params[:show_decommissioned] == "true"
-                @showing_decommissioned = true
-                @parts = @part.parts.paginate(page: params[:page], limit: 100)
-            else
+            if params[:show_decommissioned].present? && params[:show_decommissioned] == "false"
                 @showing_decommissioned = false
                 @parts = @part.parts.where("parts.status != ?", Part::DECOMMISSIONED).paginate(page: params[:page], limit: 100)
+            else
+                @showing_decommissioned = true
+                @parts = @part.parts.paginate(page: params[:page], limit: 100)
             end
 
             respond_to do |format|
@@ -73,6 +73,10 @@ class PartsController < ApplicationController
                 }
                 format.js {
 
+                    if params[:show_inline].present? && params[:show_inline] == "true"
+                        render 'parts/load_inline'
+                        return
+                    end
                 }
                 format.xlsx {
                     excel = parts_to_excel @part.parts

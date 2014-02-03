@@ -9,10 +9,12 @@
 
     <div class='well'>
 
-      <%= link_to "New Supplier", new_supplier_path(district: @district),
-                  class: "bluebtn tooltip-info pull-right",
-                  "data-placement" => "left",
-                  "data-title" => "Create new supplier" %>
+      <% if current_user.role.add_remove_inventory? %>
+          <%= link_to "New Supplier", new_supplier_path(district: @district),
+                      class: "bluebtn tooltip-info pull-right",
+                      "data-placement" => "left",
+                      "data-title" => "Create new supplier" %>
+      <% end %>
 
       <h1 class="donut-text inline"><%= @district.suppliers.count %></h1>
 
@@ -38,7 +40,9 @@
                 <% shipping_out = PartMembership.joins(:shipment).where("part_memberships.shipment_id IS NOT NULL").where("part_memberships.job_id IS NULL").where("part_memberships.supplier_id = ?", supplier.id).where("shipments.from_type = ?", Supplier.name).where("part_memberships.received IS FALSE").count %>
                 <% shipping_in = PartMembership.joins(:shipment).where("part_memberships.shipment_id IS NOT NULL").where("part_memberships.supplier_id = ?", supplier.id).where("shipments.to_type = ?", Supplier.name).where("part_memberships.received IS FALSE").count %>
                 <h3 class='inline-block blue-text push-right-small'><%= assets_out %></h3>&nbsp;<b>rentals</b>
+
                 <h3 class='inline-block blue-text push-right-small'><%= shipping_out %></h3>&nbsp;<b>outbound</b>
+
                 <h3 class='inline-block blue-text push-right-small'><%= shipping_in %></h3>&nbsp;<b>inbound</b>
 
             <% end %>

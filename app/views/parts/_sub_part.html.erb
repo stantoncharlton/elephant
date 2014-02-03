@@ -36,7 +36,7 @@
                                  - <%= part.current_job.field.name %> | <%= part.current_job.well.name %>
                   </span>
         <% else %>
-            <span class="warning-text"><%= part.status_string %></span>
+            <span class="warning-text tooltip-info" data-title="<%= part.status_string %>"><%= part.status_string.gsub("<br>", "").gsub("[from]", "").gsub("[to]", "") %></span>
         <% end %>
 
       </p>

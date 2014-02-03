@@ -1,0 +1,8 @@
+<% if part.parts.any? %>
+    <div class="content">
+      <% part.parts.each_with_index do |p, i| %>
+          <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: true, condensed: true, show_name: false %>
+      <% end %>
+    </div>
+    <hr>
+<% end %>

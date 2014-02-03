@@ -46,22 +46,24 @@
         </a>
         <ul class="dropdown-menu">
 
-          <li>
-            <%= link_to "Rename Asset", "#",
-                        id: "rename_part_link",
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Rename asset." %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= link_to "Change Material Number", "#",
-                        id: "change_material_number_part_link",
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Change material number of asset and all sub assets." %>
-          </li>
-          <li class="divider"></li>
+          <% if current_user.role.add_remove_inventory? %>
+              <li>
+                <%= link_to "Rename Asset", "#",
+                            id: "rename_part_link",
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Rename asset." %>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Change Material Number", "#",
+                            id: "change_material_number_part_link",
+                            class: "dropdown-menu-link tooltip-info",
+                            "data-placement" => "left",
+                            "data-title" => "Change material number of asset and all sub assets." %>
+              </li>
+              <li class="divider"></li>
+          <% end %>
           <% if @part.template? %>
               <li>
                 <%= link_to "Export as Excel", part_path(part: @part, format: "xlsx"),
@@ -70,23 +72,25 @@
                             "data-placement" => "left",
                             "data-title" => "Export data as Microsoft Excel file." %>
               </li>
-              <li class="divider"></li>
           <% end %>
-          <li>
-            <% if @part.parts.count == 0 %>
-                <%= link_to "Delete Asset", @part, method: :delete,
-                            data: {confirm: "Delete Asset"},
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Permanently delete asset." %>
-            <% else %>
-                <%= link_to "Delete Asset", "#",
-                            id: "no_delete_asset",
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Permanently delete asset." %>
-            <% end %>
-          </li>
+          <% if current_user.role.add_remove_inventory? %>
+              <li class="divider"></li>
+              <li>
+                <% if @part.parts.count == 0 %>
+                    <%= link_to "Delete Asset", @part, method: :delete,
+                                data: {confirm: "Delete Asset"},
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Permanently delete asset." %>
+                <% else %>
+                    <%= link_to "Delete Asset", "#",
+                                id: "no_delete_asset",
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Permanently delete asset." %>
+                <% end %>
+              </li>
+          <% end %>
 
 
         </ul>
@@ -110,37 +114,43 @@
           Advanced Actions
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <%= link_to "Change Serial Number", "#",
-                        id: "change_serial_number_part_link",
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Change serial number of asset." %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <% if @part.status == Part::DECOMMISSIONED %>
-                <%= link_to "Recommission Asset", part_path(@part, recommission: true),
-                            method: :put,
+          <% if current_user.role.add_remove_inventory? %>
+              <li>
+                <%= link_to "Change Serial Number", "#",
+                            id: "change_serial_number_part_link",
                             class: "dropdown-menu-link tooltip-info",
                             "data-placement" => "left",
-                            "data-title" => "Recommission asset from decommissioned state" %>
-            <% else %>
-                <%= link_to "Decommission Asset", part_path(@part, decommission: true),
-                            method: :put,
+                            "data-title" => "Change serial number of asset." %>
+              </li>
+              <li class="divider"></li>
+          <% end %>
+          <% if current_user.role.add_remove_inventory? %>
+              <li>
+                <% if @part.status == Part::DECOMMISSIONED %>
+                    <%= link_to "Recommission Asset", part_path(@part, recommission: true),
+                                method: :put,
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Recommission asset from decommissioned state" %>
+                <% else %>
+                    <%= link_to "Decommission Asset", part_path(@part, decommission: true),
+                                method: :put,
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Decommission asset from use for reason of broken, old, etc" %>
+                <% end %>
+              </li>
+          <% end %>
+          <% if current_user.role.add_remove_inventory? %>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Delete Asset", @part, method: :delete,
+                            data: {confirm: "Delete Asset"},
                             class: "dropdown-menu-link tooltip-info",
                             "data-placement" => "left",
-                            "data-title" => "Decommission asset from use for reason of broken, old, etc" %>
-            <% end %>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <%= link_to "Delete Asset", @part, method: :delete,
-                        data: {confirm: "Delete Asset"},
-                        class: "dropdown-menu-link tooltip-info",
-                        "data-placement" => "left",
-                        "data-title" => "Permanently delete asset." %>
-          </li>
+                            "data-title" => "Permanently delete asset." %>
+              </li>
+          <% end %>
 
           <% if @part.warehouse.present? %>
               <% warehouses = current_user.role.limit_to_assigned_jobs? ? current_user.warehouses : @part.warehouse.district.warehouses %>
@@ -184,7 +194,7 @@
 <div class="well">
   <div class="pull-right">
     <span class="help-text">Material Number:</span> <span id="material_number"><%= @part.material_number %></span>
-    <% if @part.template? %>
+    <% if @part.template? && current_user.role.add_remove_inventory? %>
         <br><br>
         <%= link_to "+ Add Asset", "#",
                     class: "bluebtn page_header_button tooltip-info",
