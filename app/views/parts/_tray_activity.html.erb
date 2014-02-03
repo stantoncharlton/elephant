@@ -1,0 +1,74 @@
+<div>
+  <div class='content'>
+    <div class='page_header'>
+      <h2 class="inline">Activity</h2>
+    </div>
+
+    <% activities = AssetActivity.where(:part_id => @part.id) %>
+
+    <% if activities.empty? %>
+        <br>
+        <p class='help-text'>No Asset activity...</p>
+    <% end %>
+
+    <div id="job_activities" class="list">
+      <% activities.each do |activity| %>
+
+          <div class="activity">
+            <div class="activity-avatar-box-small">
+              <% names = activity.user.present? ? activity.user.name.split : activity.user_name.split %>
+              <div class="inline-block">
+                <div class="member-icon-large <%= @job_membership.present? ? @job_membership.icon_css_style : "" %> tooltip-info">
+                  <p>
+                    <% if names.any? %>
+                        <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                    <% else %>
+                        -
+                    <% end %>
+                  </p>
+
+                  <div class="member-icon-image member-icon-image-user"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-content">
+
+              <div class="activity-user-link-div">
+                <% if activity.user.present? %>
+                    <% if @job_membership.present? %>
+                        <%= render 'jobs/user', job_membership: @job_membership, include_icon: false %>
+                    <% else %>
+                        <%= render 'activities/user', user: activity.user %>
+                    <% end %>
+                <% else %>
+                    <p><b><%= activity.user_name %></b></p>
+                <% end %>
+              </div>
+
+              <p class="activity-date tooltip-info"
+                 data-placement="bottom"
+                 data-title="<%= activity.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+                <%= time_ago_in_words(activity.created_at) %> ago
+              </p>
+
+              <div class="">
+                <p class="activity-message"><b><%= activity.message %></b></p>
+                <% if activity.activity_type == AssetActivity::ADDED_TO_JOB || activity.activity_type == AssetActivity::DELETED_FROM_JOB || activity.activity_type == AssetActivity::RECEIVED_AT_JOB %>
+                    <%= render "jobs/job_progress_link", job: activity.target %>
+                <% end %>
+                <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT || activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>
+                    <%= render "shipments/shipment", shipment: activity.target, editable: activity.target.status != Shipment::COMPLETE, show_assets: activity.target.status != Shipment::COMPLETE %>
+                <% end %>
+                <% if activity.activity_type == AssetActivity::MOVED_TO_WAREHOUSE || activity.activity_type == AssetActivity::RECEIVED_AT_WAREHOUSE %>
+                    <p class='blue-text'><b><%= activity.target.name %></b></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+
+
+  </div>
+</div>

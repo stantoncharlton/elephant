@@ -356,8 +356,15 @@
 
       <li class="push-right-small">
         <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="failures"
+           data-tray="asset_failures"
            data-placement="bottom" data-title="Failures">Failures</a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="asset_activity"
+           data-id="<%= @part.id %>"
+           data-placement="bottom" data-title="Activity">Activity</a>
       </li>
 
     </ul>
@@ -366,6 +373,14 @@
     <%= render 'parts/tray_full_history', part: @part %>
     <%= render 'parts/tray_maintenance', part: @part %>
     <%= render 'parts/tray_failures', part: @part %>
+
+    <div class="job-tray custom-data-closed" data-tray="asset_activity">
+      <div id="asset_activity_loading" class="loading center">
+        <br><br>
+        <span class="ajax-loading search-loading"><b>Loading Activity...</b></span>
+        <br>
+      </div>
+    </div>
 
 <% end %>
 

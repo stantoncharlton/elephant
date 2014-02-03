@@ -145,6 +145,11 @@ $ ->
     if $(this).attr('data-tray') == "rigs"
       if $('#overview_rigs').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=rigs", type: 'get', dataType: 'script'
+
+    if $(this).attr('data-tray') == "asset_activity"
+      $('#asset_activity_loading').removeClass 'hidden'
+      $('#asset_activity_loading').find('.loading').removeClass 'hidden'
+      $.ajax '/parts/' + $(this).attr('data-id') + "?section=asset_activity", type: 'get', dataType: 'script'
     return false
 
   $('.remote-tray-toggle').click ->
@@ -231,7 +236,8 @@ $ ->
 
 
   $('.job-update-field').live "change", ->
-    $.ajax '/jobs/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
+    if $(this).val().length > 0
+      $.ajax '/jobs/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
 
   $('#confirm-assets').live "click", ->
     div = $(this).closest('div')

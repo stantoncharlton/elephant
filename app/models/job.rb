@@ -566,6 +566,14 @@ class Job < ActiveRecord::Base
         jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).includes(:job_memberships).includes(well: :rig)
     end
 
+    def name
+        if well.rig.present?
+            "#{self.well.rig.name} #{self.field.name} | #{self.well.name}"
+        else
+            "#{self.field.name} | #{self.well.name}"
+        end
+    end
+
     def self.cached_find(id)
         Rails.cache.fetch([name, id], expires_in: 10.minutes) { find(id) }
     end

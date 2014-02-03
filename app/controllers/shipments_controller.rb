@@ -110,6 +110,7 @@ class ShipmentsController < ApplicationController
                                 pm.update_attribute(:shipping, true)
                                 if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
                                     part_membership.part.asset_shipping @shipment
+                                    AssetActivity.delay.add(current_user, AssetActivity::ADDED_TO_SHIPMENT, part_membership.part, @shipment)
                                 end
                                 if @shipment.from_type == Supplier.name
                                     part_membership.supplier = @shipment.from
@@ -138,6 +139,7 @@ class ShipmentsController < ApplicationController
                 end
                 if pm.part_type == PartMembership::INVENTORY && pm.part.present?
                     pm.part.removed false
+                    AssetActivity.delay.add(current_user, AssetActivity::DELETED_FROM_SHIPMENT, pm.part, @shipment)
                 end
             end
         end

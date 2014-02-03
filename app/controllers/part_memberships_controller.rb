@@ -68,10 +68,13 @@ class PartMembershipsController < ApplicationController
         if @part_membership.save
             if @part_membership.job.present?
                 if @part_membership.part.present?
+                    AssetActivity.delay.add(current_user, AssetActivity::ADDED_TO_JOB, @part_membership.part, @part_membership.job)
                     Activity.delay.add(current_user, Activity::ASSET_ADDED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
                 else
                     Activity.delay.add(current_user, Activity::ASSET_ADDED, nil, @part_membership.serial_number, @part_membership.job)
                 end
+            elsif @part_membership.shipment.present?
+                AssetActivity.delay.add(current_user, AssetActivity::ADDED_TO_SHIPMENT, @part_membership.part, @part_membership.shipment)
             end
         end
     end
@@ -99,11 +102,13 @@ class PartMembershipsController < ApplicationController
                 if @part_membership.job.present?
                     if @part_membership.part.present?
                         @part_membership.part.removed true
+                        AssetActivity.delay.add(current_user, AssetActivity::DELETED_FROM_JOB, @part_membership.part, @part_membership.job)
                         Activity.delay.add(current_user, Activity::ASSET_REMOVED, @part_membership.part, @part_membership.part.serial_number, @part_membership.job)
                     else
                         Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
                     end
                 elsif @part_membership.shipment.present? && @part_membership.part.present?
+                    AssetActivity.delay.add(current_user, AssetActivity::DELETED_FROM_SHIPMENT, @part_membership.part, @part_membership.shipment)
                     @part_membership.part.removed false
                 end
             end

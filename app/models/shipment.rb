@@ -55,6 +55,7 @@ class Shipment < ActiveRecord::Base
                                 part_membership.part.status = Part::ON_JOB
                                 part_membership.part.current_job = shipment.to
                                 part_membership.part.save
+                                AssetActivity.delay.add(user, AssetActivity::RECEIVED_AT_JOB, part_membership.part, shipment.to)
                             end
                         when Warehouse.name
                             if pm.part_type == PartMembership::INVENTORY && pm.part.present?
@@ -62,6 +63,7 @@ class Shipment < ActiveRecord::Base
                                 pm.part.current_job = nil
                                 pm.part.warehouse = shipment.to
                                 pm.part.save
+                                AssetActivity.delay.add(user, AssetActivity::RECEIVED_AT_WAREHOUSE, pm.part, shipment.to)
                             end
                         when Supplier.name
                             if pm.part_type == PartMembership::INVENTORY && pm.part.present?

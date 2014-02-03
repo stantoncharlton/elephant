@@ -119,6 +119,7 @@ class PartsController < ApplicationController
         else
             @part.district = District.find_by_id(district_id)
             @part.template = true
+            AssetActivity.delay.add(current_user, AssetActivity::CREATED, @part, @part)
         end
 
         respond_to do |format|
@@ -147,13 +148,18 @@ class PartsController < ApplicationController
             if params[:field].present? && params[:value].present?
                 case params[:field]
                     when "warehouse_id"
-                        @part.update_attribute(:warehouse_id, Warehouse.find_by_id(params[:value]).id)
+                        @warehouse = Warehouse.find_by_id(params[:value])
+                        if @warehouse.present?
+                            @part.update_attribute(:warehouse_id, @warehouse.id)
+                            AssetActivity.delay.add(current_user, AssetActivity::MOVED_TO_WAREHOUSE, @part, @warehouse)
+                        end
                         render :nothing => true, :status => 200
                     when "receive_asset"
                         @warehouse = Warehouse.find_by_id(params[:value])
                         @part.warehouse = @warehouse
                         @part.status = Part::AVAILABLE
                         @part.save
+                        AssetActivity.delay.add(current_user, AssetActivity::RECEIVED_AT_WAREHOUSE, @part, @warehouse)
                 end
             end
         elsif params[:transfer] == "true"
