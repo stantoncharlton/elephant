@@ -45,7 +45,7 @@ class ConversationsController < ApplicationController
 
         message_recipients = params[:conversation][:message_recipients]
         params[:conversation].delete(:message_recipients)
-        puts message_recipients
+
 
         @recipients = message_recipients.split(",")
         @recipients.delete_if { |r| r == current_user.id.to_s }

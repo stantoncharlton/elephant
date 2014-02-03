@@ -4,5 +4,7 @@
   </div>
 
   <% conversation = conversations.first %>
-  <%= render 'conversations/conversation_full2', conversation: conversation %>
+  <% if conversation.present? %>
+      <%= render 'conversations/conversation_full2', conversation: conversation %>
+  <% end %>
 </div>
