@@ -127,6 +127,7 @@ class DrillingLog < ActiveRecord::Base
                 end
 
                 length_change = entry.depth - last_entry.depth
+                length_change = [length_change, 0.0].max
                 time = [((entry.entry_at - last_time) / 60 / 60).to_f, 0.0].max
 
                 entry.course_length = length_change
