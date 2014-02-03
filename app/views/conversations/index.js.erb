@@ -28,6 +28,13 @@ if (!$('#messages_window').hasClass('hidden')) {
     });
 
 
+    $('#message_recipients_tokens').tokenInput('/users.json', {
+        theme: 'facebook',
+        hintText: "Type a person's name...",
+        prePopulate: $('#message_recipients_tokens').data('pre')
+    });
+
+
     $('.conversation-link2').click(function () {
         $('.conversation-link2').each(function () {
             if ($(this).find('div:first').hasClass('message-active')) {

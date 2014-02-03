@@ -59,3 +59,9 @@ jQuery ->
       if $('#messages_icon_div').is(':hover')
         $('#messages_window').removeClass('hidden')
     , 100
+
+  $('#new_conversation_link').live "click", ->
+    $(this).addClass 'hidden'
+    $('#messages_full_window').addClass 'hidden'
+    $('#new_message').removeClass 'hidden'
+    return false
