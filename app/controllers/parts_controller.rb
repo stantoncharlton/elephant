@@ -149,7 +149,7 @@ class PartsController < ApplicationController
                 case params[:field]
                     when "warehouse_id"
                         @warehouse = Warehouse.find_by_id(params[:value])
-                        if @warehouse.present?
+                        if @warehouse.present? && @warehouse != @part.warehouse
                             @part.update_attribute(:warehouse_id, @warehouse.id)
                             AssetActivity.delay.add(current_user, AssetActivity::MOVED_TO_WAREHOUSE, @part, @warehouse)
                         end
@@ -248,26 +248,28 @@ class PartsController < ApplicationController
 
             flash[:success] = "Asset Recommissioned"
             redirect_to @part
-        elsif params[:part][:name].present?
-            @part_update = true
-            @part.update_attribute(:name, params[:part][:name])
-        elsif params[:part][:material_number].present?
-            @part_update = true
-            @material_number_update = true
-            Part.transaction do
-                @part.parts.each do |p|
-                    p.update_attribute(:material_number, params[:part][:material_number])
+        elsif params[:part].present?
+            if params[:part][:name].present?
+                @part_update = true
+                @part.update_attribute(:name, params[:part][:name])
+            elsif params[:part][:material_number].present?
+                @part_update = true
+                @material_number_update = true
+                Part.transaction do
+                    @part.parts.each do |p|
+                        p.update_attribute(:material_number, params[:part][:material_number])
+                    end
+                    @part.update_attribute(:material_number, params[:part][:material_number])
                 end
-                @part.update_attribute(:material_number, params[:part][:material_number])
-            end
-        elsif params[:part][:serial_number].present?
-            @part_update = true
-            @serial_number_update = true
-            Part.transaction do
-                @part.parts.each do |p|
-                    p.update_attribute(:serial_number, params[:part][:serial_number])
+            elsif params[:part][:serial_number].present?
+                @part_update = true
+                @serial_number_update = true
+                Part.transaction do
+                    @part.parts.each do |p|
+                        p.update_attribute(:serial_number, params[:part][:serial_number])
+                    end
+                    @part.update_attribute(:serial_number, params[:part][:serial_number])
                 end
-                @part.update_attribute(:serial_number, params[:part][:serial_number])
             end
         end
     end

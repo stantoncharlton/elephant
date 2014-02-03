@@ -55,6 +55,14 @@ class ShipmentsController < ApplicationController
                     when "receive_shipment"
                         @shipment = Shipment.find_by_id(params[:value])
                         @shipment.receive_shipment current_user
+
+                        begin
+                            path = URI(request.referer).path
+                            if path.starts_with?("/parts/")
+                                @part = Part.find_by_id(path.gsub("/parts/", ''))
+                            end
+                        rescue
+                        end
                 end
             else
 

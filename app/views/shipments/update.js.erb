@@ -56,3 +56,10 @@ $('.shipment_checkbox').change(function() {
         $(this).next().css('opacity', '0.3');
     }
 });
+
+<% if @shipment.status == Shipment::COMPLETE && @shipment.to_type == Warehouse.name && @part.present? %>
+if($('.part-status').length > 0) {
+    $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
+    $('.part-status').find('.custom-select-ajax').customSelect();
+}
+<% end %>
