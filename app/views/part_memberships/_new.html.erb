@@ -15,11 +15,13 @@
 
         <div class='push-down'>
           <ul class="nav nav-pills selection-nav">
-            <li class='active'>
-              <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
-            </li>
-            <li class="push-right-small">
-              <a href="#" class='change-asset-type blue-text' data-type="rental">Rental</a>
+            <% if allow_inventory %>
+                <li class='active'>
+                  <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
+                </li>
+            <% end %>
+            <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
+              <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="rental">Rental</a>
             </li>
             <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
               Dumb Iron</a>
@@ -102,3 +104,9 @@
   </div>
   <hr>
 </div>
+
+<% if !allow_inventory %>
+<script type='text/javascript'>
+     $('#rental_tab').trigger('click');
+</script>
+<% end %>

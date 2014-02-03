@@ -29,7 +29,7 @@
 
 <div id="add_assets" class="hidden">
   <% if !job.closed %>
-      <%= render 'part_memberships/new', shipment: nil %>
+      <%= render 'part_memberships/new', shipment: nil, allow_inventory: current_user.role.show_inventory? %>
   <% end %>
 </div>
 

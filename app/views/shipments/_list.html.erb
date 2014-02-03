@@ -36,7 +36,7 @@
   </div>
 
   <% if editable && shipment.from_editable %>
-      <%= render 'part_memberships/new', shipment: shipment %>
+      <%= render 'part_memberships/new', shipment: shipment, allow_inventory: true %>
   <% else %>
       <br>
   <% end %>
