@@ -156,8 +156,9 @@
     <script type="text/javascript">
 
         var pusher = new Pusher('9f7a931d636464d8a7c3', { authTransport: 'jsonp' });
-        var channel = pusher.subscribe('channel_<%= current_user.id %>');
+        var channel = pusher.subscribe('private-channel_<%= current_user.id %>');
         channel.bind('pusher:subscription_succeeded', function () {
+            alert('hello');
         });
         channel.bind('new_message', function (data) {
             $.ajax('/conversations/' + data.conversation_id + "?check_new=true", {
@@ -167,6 +168,7 @@
         });
         var presenceChannel = pusher.subscribe('presence-<%= current_user.company_id %>');
         presenceChannel.bind('pusher:subscription_succeeded', function () {
+            alert('hello2');
             var me = presenceChannel.members.me;
             var userId = me.id;
             var userInfo = me.info;
