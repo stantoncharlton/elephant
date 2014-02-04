@@ -8,33 +8,40 @@ class JobsController < ApplicationController
 
         respond_to do |format|
             format.html {
-                @all_jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
+                @jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
                 #if !current_user.role.limit_to_assigned_jobs? && !current_user.role.no_assigned_jobs? && current_user.product_line.present?
                 #    @all_jobs = @all_jobs.joins(:job_template).where("job_templates.product_line_id = ?", current_user.product_line_id)
                 #end
-                @jobs = @all_jobs
 
                 if !@is_paged
-                    @jobs = @all_jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
+                    if current_user.role.limit_to_assigned_jobs?
+                        @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
+                    else
+                        @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50)")
+                    end
+                else
+                    @jobs = Job.include_models(@jobs).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
                 end
 
-                @jobs = Job.include_models(@jobs).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
             }
             format.js {
                 if !params[:search].blank?
                     @jobs = Job.search(current_user, params, current_user.company).results
                 else
-                    @all_jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
+                    @jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
                     #if !current_user.role.limit_to_assigned_jobs? && !current_user.role.no_assigned_jobs? && current_user.product_line.present?
                     #    @all_jobs = @all_jobs.joins(:job_template).where("job_templates.product_line_id = ?", current_user.product_line_id)
                     #end
-                    @jobs = @all_jobs
 
                     if !@is_paged
-                        @jobs = @all_jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
+                        if current_user.role.limit_to_assigned_jobs?
+                            @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
+                        else
+                            @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50)")
+                        end
+                    else
+                        @jobs = Job.include_models(@jobs).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
                     end
-
-                    @jobs = Job.include_models(@jobs).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
                 end
             }
             format.xml {

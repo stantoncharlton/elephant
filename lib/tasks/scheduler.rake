@@ -47,27 +47,3 @@ task :inactive_job_email => :environment do
         end
     end
 end
-
-task :assets_not_received_email => :environment do
-    Part.all.each do |part|
-        if part.status == Part::ON_JOB && part.current_job.present? &&
-                part.current_job.status == Job::COMPLETE &&
-                part.current_job.close_date > 10.days.ago && part.current_job.close_date < 11.days.ago
-
-            job = part.current_job
-            creator = job.get_role(JobMembership::CREATOR)
-            shop = job.get_role(JobMembership::SHOP)
-            coordinator = job.get_role(JobMembership::COORDINATOR)
-
-            if shop.present?
-                JobProcessMailer.asset_not_received(shop, job, part).deliver
-            end
-            if coordinator.present?
-                JobProcessMailer.asset_not_received(coordinator, job, part).deliver
-            end
-            if creator.present? && coordinator.nil? && coordinator != creator
-                JobProcessMailer.asset_not_received(creator, job, part).deliver
-            end
-        end
-    end
-end
