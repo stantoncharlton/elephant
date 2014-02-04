@@ -1,3 +1,15 @@
+<% if !signed_in_admin? && current_user.present? %>
+    <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
+    <% if new_messages > 0 || @new_alerts.any? %>
+        if($('#new_messages').length > 0) {
+            $('#new_messages').removeClass('hidden');
+            $('#new_messages_count').text("<%= new_messages > 0 ? new_messages : @new_alerts.count %>");
+        }
+    <% else %>
+        $('#new_messages').addClass('hidden');
+    <% end %>
+<% end %>
+
 <% if params[:check_new].present? && params[:check_new] == "true" %>
 
     if($('#conversation_messages_list').length > 0) {
@@ -32,6 +44,11 @@
                 message_window.fadeOut("slow");
             }, 2000);
         }
+
+        if($('#new_messages').length > 0) {
+            $('#new_messages').removeClass('hidden');
+            $('#new_messages_count').text("<%= new_messages > 0 ? new_messages : @new_alerts.count %>");
+        }
     <% end %>
 
 
@@ -62,18 +79,6 @@ $('#conversation_messages_list').scrollTop($('#conversation_messages_list').heig
 $("html, body").animate({ scrollTop: 0 }, "slow");
 
 
-<% end %>
-
-<% if !signed_in_admin? && current_user.present? %>
-    <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
-    <% if new_messages > 0 || @new_alerts.any? %>
-        if($('#new_messages').length > 0) {
-            $('#new_messages').removeClass('hidden');
-            $('#new_messages_count').text("<%= new_messages > 0 ? new_messages : @new_alerts.count %>");
-        }
-    <% else %>
-        $('#new_messages').addClass('hidden');
-    <% end %>
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

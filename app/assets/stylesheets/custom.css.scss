@@ -381,16 +381,14 @@ p {
 }
 
 .alerts-icon-container {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  display: block;
+  position: relative;
   width: 45px;
   height: 58px;
-  margin-left: 232px;
+
+  margin-left: 65px;
 
   @media screen and (max-width: 1050px) {
-    margin-left: 195px;
+    left: 60px;
   }
 }
 

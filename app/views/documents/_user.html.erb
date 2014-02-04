@@ -26,8 +26,8 @@
         <%= render 'users/icon', user: document.user %>
     <% end %>
 <% elsif !document.user_name.blank? %>
-    <div class="member-icon">
-      <%= names = document.user_name.split(" ") %>
+    <div class="member-icon tooltip-info" data-title="<%= document.user_name %>">
+      <% names = document.user_name.split(" ") %>
       <p>
         <% if names.any? %>
             <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

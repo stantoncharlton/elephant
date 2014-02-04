@@ -46,6 +46,10 @@ class JobNotesController < ApplicationController
                 if @job_note.issue.nil?
                     @job_note.delay.create_job_note self.current_user
                 end
+
+                if @job_note.note_type == JobNote::ASSET_REQUEST
+                    @job_note.delay.send_asset_request_alerts current_user
+                end
             end
         end
     end

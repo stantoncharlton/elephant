@@ -12,10 +12,10 @@
         </div>
         <span class="status-good"><%= part.status_string %></span>
     <% elsif part.status == Part::ON_JOB %>
-        <span class=""><%= part.status_string %></span>
-                <span class="push-right-small">
-                            (<%= render 'activities/job_description', job: part.current_job, inside_job: false %>)
-        </span>
+        <span class=""><h3 style='font-size: 15px;'>Asset <%= part.status_string %></h3></span>
+        <br>
+
+        <%= render 'parts/part_run', job: part.current_job, index: 0 %>
     <% elsif part.status == Part::SHIPPING %>
         <span class="warning-text"><b>Shipping</b></span>
 
@@ -118,7 +118,7 @@
         <span class="warning-text"><%= part.status_string %></span>
     <% end %>
 
-    <% if part.status != Part::IN_REDRESS && part.status != Part::SHIPPING %>
+    <% if part.status == Part::AVAILABLE %>
         <div>
           <br><br>
 

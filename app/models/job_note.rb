@@ -60,4 +60,14 @@ class JobNote < ActiveRecord::Base
        !self.issue.blank?
     end
 
+    def send_asset_request_alerts user
+         if self.job.present?
+             self.job.job_memberships.each do |jm|
+                 if jm.job_role_id == JobMembership::COORDINATOR || jm.job_role_id == JobMembership::TOOL_COORDINATOR
+                     Alert.add(jm.user, Alert::ASSET_REQUEST, self, user, self.job)
+                 end
+             end
+         end
+    end
+
 end

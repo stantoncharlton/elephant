@@ -16,13 +16,18 @@ class ConversationsController < ApplicationController
     end
 
     def show
+        puts request.referrer
+        puts '..................'
         @conversation = Conversation.find_by_id(params[:id])
         not_found unless @conversation.present? && @conversation.company == current_user.company
 
-        if current_user.alerts
+        mark_seen = params[:seen].nil? || params[:seen] == 'true'
+        if current_user.alerts.any?
             @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE && a.target == @conversation }
-            @new_alerts.each do |a|
-                a.destroy
+            if mark_seen
+                @new_alerts.each do |a|
+                    a.destroy
+                end
             end
         end
 
@@ -125,10 +130,13 @@ class ConversationsController < ApplicationController
 
             @conversation.conversation_memberships.each do |m|
                 m.update_attribute(:deleted, false)
-                Pusher["channel_#{m.user_id}"].trigger('new_message', {
-                        conversation_id: @conversation.id,
-                        user_id: m.user_id
-                })
+                if m.user != current_user
+                    puts "pusher ............."
+                    Pusher["channel_#{m.user_id}"].trigger('new_message', {
+                            conversation_id: @conversation.id,
+                            user_id: m.user_id
+                    })
+                end
             end
         end
         #current_user.delay.send_new_message_email(@message)

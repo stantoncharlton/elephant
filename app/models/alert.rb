@@ -30,6 +30,7 @@ class Alert < ActiveRecord::Base
     JOB_CLOSED = 7
     JOB_WARNING = 8
     FAILURE_ADDED = 9
+    ASSET_REQUEST = 10
 
 
     def self.add(user, alert_type, target, created_by, job = nil)

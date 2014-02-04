@@ -155,7 +155,10 @@
         <% if signed_in_admin? %>
             <%= render 'layouts/admin_tab' %>
         <% elsif signed_in? %>
-            <div class="inline">
+
+
+
+            <div class="inline-block">
               <%= render 'layouts/user_tab' %>
 
               <div class="alerts-icon-container">
@@ -166,7 +169,6 @@
                     </div>
                 <% end %>
               </div>
-
             </div>
 
 
@@ -193,6 +195,7 @@
             <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
                         "data-placement" => "bottom",
                         "data-title" => "Create complex searches for jobs based on data criteria" %>
+
         <% end %>
 
       </nav>

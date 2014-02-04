@@ -11,7 +11,6 @@ $('#new_messages').addClass('hidden');
 <% end %>
 
 <% if !params.has_key?(:open_only) || params[:open_only] == "false" %>
-if (!$('#messages_window').hasClass('hidden')) {
     $('#messages_loading').addClass('hidden');
     $('#messages_window').css('width', '400px').css('height', '500px');
     $('#messages_window').css('left', $('#messages_icon_div').position().left - 80);
@@ -51,5 +50,4 @@ if (!$('#messages_window').hasClass('hidden')) {
         });
     });
 
-}
 <% end %>
