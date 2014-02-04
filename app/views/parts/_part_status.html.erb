@@ -122,7 +122,7 @@
         <div>
           <br><br>
 
-          <%= link_to "Start Asset Maintenance", part_path(part, receive: true, part_page: true), method: :put,
+          <%= link_to "Start Asset Maintenance", part_path(part, start_redress: true, part_page: true), method: :put,
                       remote: true,
                       class: "bluebtn green tooltip-info form-loading-on-click",
                       "data-form" => "update-part-status",

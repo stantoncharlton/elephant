@@ -162,6 +162,14 @@ class PartsController < ApplicationController
                         AssetActivity.delay.add(current_user, AssetActivity::RECEIVED_AT_WAREHOUSE, @part, @warehouse)
                 end
             end
+        elsif params[:start_redress] == "true"
+            @part.status = Part::IN_REDRESS
+            @part_redress = PartRedress.receive(@part.company, @part, current_user)
+            @part.save
+            if !params[:part_page].present?
+                @part_update = true
+                @inline_part_update = true
+            end
         elsif params[:transfer] == "true"
             @part.status = Part::AVAILABLE
             @part_redress = PartRedress.transfer(@part.company, @part.current_job, @part, current_user)
