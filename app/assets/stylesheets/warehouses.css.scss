@@ -56,3 +56,16 @@
     text-decoration: none;
   }
 }
+
+.part-box-shipping {
+  &:active, &:link, &:visited {
+    color: #FFFFFF;
+    background: #f2c641;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #FFFFFF;
+    background: #e6b215;
+    text-decoration: none;
+  }
+}

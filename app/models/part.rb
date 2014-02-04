@@ -229,7 +229,7 @@ class Part < ActiveRecord::Base
             when IN_REDRESS
                 return "part-box-maintenance"
             when SHIPPING
-                return "part-box-maintenance"
+                return "part-box-shipping"
             when DECOMMISSIONED
                 return ""
         end
