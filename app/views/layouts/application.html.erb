@@ -31,9 +31,10 @@
     <%= render 'layouts/header' %>
 
     <div id="wrong_browser_alert" class="hidden">
-      <div class="alert alert-error2">
-        <b>For security reasons, Google Chrome is the only supported web browser. Please use Google Chrome.</b>
-        <%= link_to "Download Google Chrome", "http://www.google.com/chrome/", class: "activity-user-link red pull-right", :target => "_blank" %>
+      <div class="alert alert-error2 align-top">
+        <%= image_tag "error_white.png", class: "inline-block align-top" %>&nbsp;&nbsp;
+        <div class='inline-block align-top push-up'><b>Sorry, we don't support Internet Explorer 9 or lower. Please upgrade or install Firefox or Google Chrome.</b></div>
+        <%= link_to "Download Google Chrome", "http://www.google.com/chrome/", class: "activity-user-link red pull-right push-down-small", :target => "_blank" %>
       </div>
     </div>
 
@@ -244,8 +245,8 @@
                 if (isMobile.any()) {
                     // Mobile - take any browser
                 } else {
-                    var ie = $.browser.ielt9;
-                    if (ie) {
+                    //var ie = $.browser.ielt9;
+                    if (jQuery.browser.msie == true && jQuery.browser.version < 10.0) {
                         $('#wrong_browser_alert').removeClass('hidden');
                     }
                 }

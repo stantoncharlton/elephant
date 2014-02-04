@@ -221,6 +221,11 @@ class SurveysController < ApplicationController
                 survey_point.save
                 survey_point
             end
+
+            @actual_survey = Survey.joins(document: :job).where(:plan => false).where("jobs.well_id = ?", @survey.document.job.well_id).first
+            if @actual_survey.present? && @actual_survey.no_well_plan
+                @actual_survey.update_attribute(:no_well_plan, false)
+            end
         end
 
         if @survey.errors.any?
