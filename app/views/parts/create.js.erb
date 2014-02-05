@@ -11,7 +11,12 @@ $('#alert').modal({show:true});
 $('#new_part_fields').addClass('hidden');
 $('#new_part_link').removeClass('hidden');
 
-$('#parts').prepend($("<%= j render 'parts/sub_part', part: @part, index: @part.master_part.parts.count + 1 %>"));
+if($('.remote-tray-toggle[data-tray=grid]').parent().hasClass('active')) {
+    $('#parts').prepend($("<%= j render 'parts/sub_part2', part: @part, index: @part.master_part.parts.count + 1, condensed: true, show_name: false %>"));
+}
+else {
+    $('#parts').prepend($("<%= j render 'parts/sub_part', part: @part, index: @part.master_part.parts.count + 1 %>"));
+}
 
 
 $('.part-count').text('<%= @part.master_part.parts.count %>');
