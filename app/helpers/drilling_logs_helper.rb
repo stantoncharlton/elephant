@@ -322,7 +322,7 @@ module DrillingLogsHelper
         if hours <= 24
             r.add_field "DATE", Date.today.strftime("%B %d, %Y")
         else
-            r.add_field "DATE", "#{entries.first.strftime("%B %d, %Y")} - #{entries.last.strftime("%B %d, %Y")}"
+            r.add_field "DATE", "#{entries.first.created_at.strftime("%B %d, %Y")} - #{entries.last.created_at.strftime("%B %d, %Y")}"
         end
 
         r.add_field "START", entries.first.measured_depth
