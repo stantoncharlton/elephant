@@ -78,6 +78,7 @@ class DrillingLogEntry < ActiveRecord::Base
     belongs_to :bha
 
     attr_accessor :last_entry
+    attr_accessor :next_entry
 
     # In-hole
     DRILLING = 1

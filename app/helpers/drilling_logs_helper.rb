@@ -230,26 +230,47 @@ module DrillingLogsHelper
 
         last_entry = entries.first
         index = 0
+        to_add = []
         entries.each_with_index do |entry, i|
             entry.last_entry = last_entry
+            if entries.length > i + 1
+                entry.next_entry = entries[i + 1]
+            end
             last_entry = entry
         end
 
-        last_entry = entries.first
+        index = 0
         r.add_table("TABLE", entries, :header => false) do |t|
-            t.add_column("TIME") do |entry|
-                "#{entry.entry_at.strftime("%H:%M %p")}"
+
+            if false
+                t.add_column("TIME") { |entry| "#{entry.entry_at.strftime("%a %d")}" }
+                t.add_column("SPAN") { " " }
+                t.add_column("DEPTH") { " " }
+                t.add_column("DELTA") { " " }
+                t.add_column("ACTIVITY") { " " }
+                t.add_column("COMMENT") { " " }
+                t.add_column("BHA") { " " }
+            else
+                t.add_column("TIME") do |entry|
+                    if entry.next_entry.present? && entry.next_entry.entry_at.day != entry.entry_at.day
+                        "#{entry.entry_at.strftime("%H:%M %p")}\r\n\r\n\r\n\r\n#{entry.entry_at.strftime("%a %d")}\r\n"
+                    else
+                        "#{entry.entry_at.strftime("%H:%M %p")}"
+                    end
+                end
+                t.add_column("SPAN") do |entry|
+                    "#{((entry.entry_at - entry.last_entry.entry_at) / 60 / 60).round(2)} hrs"
+                end
+                t.add_column("DEPTH") { |entry| "#{number_with_delimiter(entry.depth, :delimiter => ',')}" }
+                t.add_column("DELTA") do |entry|
+                    "(#{entry.depth - entry.last_entry.depth})"
+                end
+                t.add_column("ACTIVITY") { |entry| "#{DrillingLogEntry.activity_code_string(entry.activity_code)}" }
+                t.add_column("COMMENT") { |entry| "#{entry.comment}" }
+                t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name : ''}" }
             end
-            t.add_column("SPAN") do |entry|
-                "#{((entry.entry_at - entry.last_entry.entry_at) / 60 / 60).round(2)} hrs"
-            end
-            t.add_column("DEPTH") { |entry| "#{number_with_delimiter(entry.depth, :delimiter => ',')}" }
-            t.add_column("DELTA") do |entry|
-                "(#{entry.depth - entry.last_entry.depth})"
-            end
-            t.add_column("ACTIVITY") { |entry| "#{DrillingLogEntry.activity_code_string(entry.activity_code)}" }
-            t.add_column("COMMENT") { |entry| "#{entry.comment}" }
-            t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name : ''}" }
+
+            index = index + 1
         end
     end
 
@@ -311,7 +332,7 @@ module DrillingLogsHelper
         r.add_field "ADDRESS_1", "12491 North Freeway Suite 400"
         r.add_field "ADDRESS_2", "Houston, TX 77060"
         r.add_field "TODAY", Date.today.strftime("%B %d, %Y")
-        r.add_field "NAME", "Ralph Clarke"
+        r.add_field "NAME", "Scott Millard"
         r.add_field "TITLE", "VP MWD Operations"
         r.add_field "COMPANY", "Premier Directional Drilling, LLC"
         r.add_field "CLIENT", job.client.name
@@ -333,7 +354,7 @@ module DrillingLogsHelper
         r.add_field "ADDRESS_1", "12491 North Freeway Suite 400"
         r.add_field "ADDRESS_2", "Houston, TX 77060"
         r.add_field "TODAY", Date.today.strftime("%B %d, %Y")
-        r.add_field "NAME", "Ralph Clarke"
+        r.add_field "NAME", "Scott Millard"
         r.add_field "TITLE", "VP MWD Operations"
         r.add_field "COMPANY", "Premier Directional Drilling, LLC"
         r.add_field "CLIENT", job.client.name
