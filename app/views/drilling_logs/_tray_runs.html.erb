@@ -83,6 +83,11 @@
                 <div class='help-text'><%= attribute_name.humanize %></div>
                 <% end %>
             <% end %>
+
+            <div class='grid-line'></div>
+
+            <div class='help-text'>Assets</div>
+
           </div>
 
         <% runs.each_with_index do |run, index| %>
@@ -106,9 +111,10 @@
 
                 <div><%= first_entry.entry_at.strftime("%m/%d %l:%M %p") %></div>
                 <div><%= last_entry.entry_at.strftime("%m/%d %l:%M %p") %></div>
+                <% bha = last_entry.bha %>
                 <div class='push-down-small' style='height: 40px;'>
-                  <h3 class='blue-text'><%= last_entry.bha.name %></h3>
-                  <p class='blue-text'><%= last_entry.bha.description %></p>
+                  <h3 class='blue-text'><%= bha.present? ? bha.name  : '-' %></h3>
+                  <p class='blue-text'><%= bha.present? ? bha.description : '-' %></p>
                 </div>
 
                 <div style='height: 40px;'>
@@ -164,6 +170,32 @@
                         <div><%= log.ranges[attribute_name + "_min"] %> - <%= log.ranges[attribute_name + "_max"] %></div>
                     <% end %>
                 <% end %>
+
+                <% if bha.present? %>
+                    <div class='grid-line'></div>
+
+                    <% items = bha.bha_items.select { |item| item.tool.present? } %>
+                    <div style='height: <%= items.count * 55 %>px;'>
+                      <% items.each do |item| %>
+                          <div style='height: 50px; width: 100px; margin-bottom: 5px;'>
+                            <%= render 'part_memberships/part_membership_small', part_membership: item.tool, allow_remove: false %>
+                          </div>
+                      <% end %>
+                    </div>
+
+                    <% if bha.tool_string.present? %>
+
+                        <% items = bha.tool_string.bha_items.select { |item| item.tool.present? } %>
+                        <div style='height: <%= items.count * 55 %>px;'>
+                          <% items.each do |item| %>
+                              <div style='height: 50px; width: 150px; margin-bottom: 5px;'>
+                                <%= render 'part_memberships/part_membership_small', part_membership: item.tool, allow_remove: false %>
+                              </div>
+                          <% end %>
+                        </div>
+                    <% end %>
+                <% end %>
+
               </div>
 
 

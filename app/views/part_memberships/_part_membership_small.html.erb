@@ -1,0 +1,47 @@
+<div id="part_membership_<%= part_membership.id %>"
+     class="inline-block align-top part-membership"
+     data-shipping="<%= part_membership.shipping? ? "true" : "false" %>">
+  <% if current_user.role.access_to_inventory? %>
+      <%= link_to part_membership.part.present? ? part_membership.part : part_membership.job.present? ? job_path(part_membership.job, anchor: 'tools_assets') : jobs_path,
+                  target: "_blank",
+                  class: "part-box2 popover " + (part_membership.part_type == PartMembership::ACCESSORY ? "part-box-accessory" : "") + ' ' + (@make_green.present? && @make_green ? 'green' : ''),
+                  style: "height: 30px; width: 130px;",
+                  "data-html" => "true",
+                  "data-title" => (part_membership.part.present? ? part_membership.part.master_part.name : part_membership.name),
+                  "data-content" => render('part_memberships/part_hover', part_membership: part_membership, allow_remove: allow_remove),
+                  "data-toggle" => "popover",
+                  "data-placement" => "bottom",
+                  "data-trigger" => "hover" do %>
+          <div class='bar' style="background: <%= '#' + part_membership.color %>;"></div>
+          <% if part_membership.part_type == PartMembership::RENTAL %>
+              <div class='rental'>R</div>
+          <% end %>
+          <% if part_membership.part_type == PartMembership::ACCESSORY %>
+              <div class='accessory'>DI</div>
+          <% end %>
+          <div class=' name' style='margin-left: 5px;'><%= part_membership.part.present? ? part_membership.part.master_part.name : part_membership.name %></div>
+          <div class='' style='margin-left: 5px; margin-top: -5px;'><%= part_membership.serial_number %></div>
+      <% end %>
+  <% else %>
+      <%= div_for part_membership,
+                  class: "part-box2 popover " + (part_membership.part_type == PartMembership::ACCESSORY ? "part-box-accessory" : ""),
+                  style: "height: 30px; width: 130px;",
+                  "data-html" => "true",
+                  "data-title" => (part_membership.part.present? ? part_membership.part.master_part.name : part_membership.name),
+                  "data-content" => render('part_memberships/part_hover', part_membership: part_membership, allow_remove: allow_remove),
+                  "data-toggle" => "popover",
+                  "data-placement" => "bottom",
+                  "data-trigger" => "hover" do %>
+          <div class='bar' style="background: <%= '#' + part_membership.color %>;"></div>
+          <% if part_membership.part_type == PartMembership::RENTAL %>
+              <div class='rental'>R</div>
+          <% end %>
+          <% if part_membership.part_type == PartMembership::ACCESSORY %>
+              <div class='accessory'>DI</div>
+          <% end %>
+          <div class='name' style='margin-left: 5px;'><%= part_membership.part.present? ? part_membership.part.master_part.name : part_membership.name %></div>
+          <div class='' style='margin-left: 5px; margin-top: -5px;'><%= part_membership.serial_number %></div>
+      <% end %>
+  <% end %>
+</div>
+
