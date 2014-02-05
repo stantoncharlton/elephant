@@ -101,6 +101,8 @@ removeOldContent('<%= params[:section] %>');
     });
 <% elsif params[:section] == "survey" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_survey', drilling_log: @drilling_log %>");
+    $('.custom-select').customSelect();
+    $('.date-picker').datepicker();
 <% else %>
     report = $(".report[data-report='<%= @report_name %>']");
     if(report.length > 0) {

@@ -14,13 +14,20 @@
                              "data-placement" => "bottom",
                              "data-title" => "Gyro Company Name" %>
 
+          <p class='inline help-text'>Date</p>
           <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
                  name="gyro_date"
-                 class="job-field-value-editable input-small datepicker tooltip-info"
+                 class="job-field-value-editable input-small date-picker tooltip-info"
                  data-placement="bottom"
                  data-title="Date gyro survey was taken">
 
-          <p class='inline help-text'>Survey Date</p>
+
+
+          <%= select_tag "north_type",
+                         options_for_select([["Grid North", Survey::GRID], ["True North", Survey::TRUE], ["Magnetic North", Survey::MAGNETIC]], Survey::GRID),
+                         class: "custom-select push-right tooltip-info align-top",
+                         "data-title" => "North Type",
+                         placeholder: "North Type" %>
 
         </div>
         <br>
@@ -35,6 +42,15 @@
           <%= text_field_tag "mda", "", placeholder: "Magnetic Dip Angle", class: "txtfield small tooltip-info",
                              "data-placement" => "bottom",
                              "data-title" => "Magnetic Dip Angle" %>
+
+          <div class='survey-tie-in-label'>Corr</div>
+          <%= text_field_tag "total_correction", "",
+                           placeholder: "Total Correction",
+                           class: "txtfield small tooltip-info align-top",
+                           "data-placement" => "bottom",
+                           "data-title" => "Total Correction" %>
+
+
         </div>
         <br>
 

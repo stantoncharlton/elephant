@@ -28,6 +28,25 @@
                            class: "txtfield extra-small tooltip-info ",
                            "data-placement" => "bottom",
                            "data-title" => "Magnetic Dip Angle" %>
+
+          <div class='survey-tie-in-label' style="width: 80px;">Correction</div>
+          <%= text_field_tag "total_correction",  "", value: survey_point.survey.total_correction,
+                             placeholder: "Total Correction",
+                           class: "txtfield extra-small tooltip-info align-top",
+                           "data-placement" => "bottom",
+                           "data-title" => "Total Correction" %>
+
+
+          <br>
+
+
+          <div class='survey-tie-in-label push-down'>North</div>
+          <%= select_tag "north_type",
+                         options_for_select([["Grid North", Survey::GRID], ["True North", Survey::TRUE], ["Magnetic North", Survey::MAGNETIC]], survey_point.survey.north_type),
+                         class: "custom-select custom-select-ajax tooltip-info align-top",
+                         "data-title" => "North Type",
+                         placeholder: "North Type" %>
+
         </div>
         <% end %>
 
@@ -41,8 +60,6 @@
           <%= f.text_field :inclination, placeholder: "Inclination", class: "txtfield extra-small tooltip-info",
                            "data-placement" => "bottom",
                            "data-title" => "Inclination" %>
-
-          <br>
 
           <div class='survey-tie-in-label'>Azi</div>
           <%= f.text_field :azimuth, placeholder: "Azimuth", class: "txtfield extra-small tooltip-info",
@@ -65,8 +82,6 @@
                                class: "txtfield extra-small tooltip-info",
                                "data-placement" => "bottom",
                                "data-title" => "Vertical Section" %>
-
-              <br>
 
               <div class='survey-tie-in-label'>DLS</div>
               <%= f.text_field :dog_leg_severity,
@@ -116,7 +131,6 @@
 
           <% end %>
 
-          <br>
           <% if !survey_point.tie_on? %>
               <div class='survey-tie-in-label'>Grav</div>
               <%= f.text_field :gravity_total,

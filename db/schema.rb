@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140203183546) do
+ActiveRecord::Schema.define(:version => 20140205001429) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -942,6 +942,8 @@ ActiveRecord::Schema.define(:version => 20140203183546) do
     t.string   "gyro_company"
     t.datetime "gyro_date"
     t.boolean  "no_well_plan",             :default => false
+    t.decimal  "total_correction"
+    t.integer  "grid_type",                :default => 1
   end
 
   add_index "surveys", ["company_id"], :name => "index_surveys_on_company_id"

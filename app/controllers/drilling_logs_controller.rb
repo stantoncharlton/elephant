@@ -93,6 +93,10 @@ class DrillingLogsController < ApplicationController
                 report_exists = true
             when "survey"
                 report_exists = true
+            when "railroad"
+                report_exists = true
+            when "railroad_certification"
+                report_exists = true
         end
 
         if report_exists
@@ -147,6 +151,16 @@ class DrillingLogsController < ApplicationController
                         @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
                         calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth)
                         fill_survey @drilling_log.job, calculated_points_survey, r
+                    when "railroad"
+                        @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
+                        calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth)
+                        fill_railroad @drilling_log.job, @active_well_plan, calculated_points_survey, r
+                    when "railroad_certification"
+                        @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
+                        calculated_points_survey = @survey.calculated_points(@active_well_plan.vertical_section_azimuth)
+                        fill_railroad_certification @drilling_log.job, @drilling_log, @active_well_plan, @survey, calculated_points_survey, r
                 end
             end
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"

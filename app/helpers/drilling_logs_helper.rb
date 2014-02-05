@@ -31,13 +31,15 @@ module DrillingLogsHelper
         last_index = 0
         depth = 0.0
         bha.bha_items.each_with_index do |bha_item, index|
-            depth = depth + (bha_item.tool.length || 0)
-            r.add_field "A#{index + 1}", "#{bha_item.tool.name}"
-            r.add_field "ID#{index + 1}", "#{bha_item.tool.inner_diameter}"
-            r.add_field "OD#{index + 1}", "#{bha_item.tool.outer_diameter}"
-            r.add_field "L#{index + 1}", "#{bha_item.tool.length}"
-            r.add_field "LT#{index + 1}", "#{depth.round(2)}"
-            r.add_field "TC#{index + 1}", "#{bha_item.up >= 0 ? BhaItem.connection_string(bha_item.up) : "-"}"
+            if bha_item.tool.present?
+                depth = depth + (bha_item.tool.length || 0)
+                r.add_field "A#{index + 1}", "#{bha_item.tool.name}"
+                r.add_field "ID#{index + 1}", "#{bha_item.tool.inner_diameter}"
+                r.add_field "OD#{index + 1}", "#{bha_item.tool.outer_diameter}"
+                r.add_field "L#{index + 1}", "#{bha_item.tool.length}"
+                r.add_field "LT#{index + 1}", "#{depth.round(2)}"
+                r.add_field "TC#{index + 1}", "#{bha_item.up >= 0 ? BhaItem.connection_string(bha_item.up) : "-"}"
+            end
             last_index = index
         end
 
@@ -304,6 +306,77 @@ module DrillingLogsHelper
         end
     end
 
+
+    def fill_railroad job, well_plan, entries, r
+        r.add_field "ADDRESS_1", "12491 North Freeway Suite 400"
+        r.add_field "ADDRESS_2", "Houston, TX 77060"
+        r.add_field "TODAY", Date.today.strftime("%B %d, %Y")
+        r.add_field "NAME", "Ralph Clarke"
+        r.add_field "TITLE", "VP MWD Operations"
+        r.add_field "COMPANY", "Premier Directional Drilling, LLC"
+        r.add_field "CLIENT", job.client.name
+
+        r.add_field "WELL_NAME", job.well.name
+
+        hours = (entries.last.created_at - entries.first.created_at).to_f / 60.0 / 60.0
+        if hours <= 24
+            r.add_field "DATE", Date.today.strftime("%B %d, %Y")
+        else
+            r.add_field "DATE", "#{entries.first.strftime("%B %d, %Y")} - #{entries.last.strftime("%B %d, %Y")}"
+        end
+
+        r.add_field "START", entries.first.measured_depth
+        r.add_field "END", entries.last.measured_depth
+    end
+
+    def fill_railroad_certification job, drilling_log, well_plan, survey, entries, r
+        r.add_field "ADDRESS_1", "12491 North Freeway Suite 400"
+        r.add_field "ADDRESS_2", "Houston, TX 77060"
+        r.add_field "TODAY", Date.today.strftime("%B %d, %Y")
+        r.add_field "NAME", "Ralph Clarke"
+        r.add_field "TITLE", "VP MWD Operations"
+        r.add_field "COMPANY", "Premier Directional Drilling, LLC"
+        r.add_field "CLIENT", job.client.name
+        r.add_field "OP_NO", "676020"
+
+        r.add_field "NAMES", "-"
+
+        r.add_field "JOB_NUMBER", job.job_number.present? ? job.job_number : '-'
+        r.add_field "API_NUMBER", job.api_number.present? ? job.api_number : '-'
+        r.add_field "WELL_NAME", job.well.name
+        r.add_field "COUNTY", "#{job.field.county}, #{job.field.state.name}"
+
+        if survey.present?
+            type = drilling_log.drilling_log_entries.where("drilling_log_entries.mwd_type IS NOT NULL").last
+            r.add_field "JOB_TYPE", type.present? && type.mwd_type == 1 ? "Electromagnetic" : "Pulse"
+            r.add_field "VS_AZIMUTH", "#{well_plan.present? ? well_plan.vertical_section_azimuth : '-'}"
+            r.add_field "CORRECTION", "#{survey.total_correction}"
+            r.add_field "NORTH_TYPE", survey.north_type == Survey::GRID ? "GRID" : (survey.north_type == Survey::TRUE ? "TRUE" : "MAGNETIC")
+
+            tie_in = entries.first
+            r.add_field "TIE_IN_MD", "#{tie_in.measured_depth}"
+            r.add_field "TIE_IN_TVD", "#{tie_in.true_vertical_depth}"
+            r.add_field "TIE_IN_INC", "#{tie_in.inclination}"
+            r.add_field "TIE_IN_AZI", "#{tie_in.azimuth}"
+            r.add_field "TIE_IN_NS", "#{tie_in.north_south}"
+            r.add_field "TIE_IN_EW", "#{tie_in.east_west}"
+
+            first = entries[1]
+            r.add_field "D1", "#{first.measured_depth}"
+            r.add_field "INC1", "#{first.inclination}"
+            r.add_field "AZI1", "#{first.azimuth}"
+
+            last = entries.last
+            r.add_field "D2", "#{last.measured_depth}"
+            r.add_field "INC2", "#{last.inclination}"
+            r.add_field "AZI2", "#{last.azimuth}"
+
+            bha = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id IS NOT NULL").last
+            r.add_field "D3", "#{last.measured_depth + (bha.present? && bha.bha.present? && bha.bha.bit_to_sensor.present? ? bha.bha.bit_to_sensor : 0.0)}"
+            r.add_field "INC3", "#{last.inclination}"
+            r.add_field "AZI3", "#{last.azimuth}"
+        end
+    end
 
     def drilling_log_to_excel drilling_log
         p = Axlsx::Package.new

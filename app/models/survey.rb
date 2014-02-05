@@ -8,7 +8,9 @@ class Survey < ActiveRecord::Base
                     :gyro_date,
                     :magnetic_field_strength,
                     :magnetic_dip_angle,
-                    :gravity_total
+                    :gravity_total,
+                    :total_correction,
+                    :grid_type
 
     belongs_to :company
     belongs_to :document

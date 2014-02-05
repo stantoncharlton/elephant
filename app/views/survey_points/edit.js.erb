@@ -1,6 +1,8 @@
 $('#modal_popup').find('.modal-content').append('<%= j render 'survey_points/edit', survey_point: @survey_point %>');
 $('#modal_popup').css('visibility', 'visible');
 $('#modal_popup').find('.loading').addClass('hidden');
+$('#modal_popup').find('.modal-popup').css('max-width', '900px').css('width', '900px');
+$('#modal_popup').find('.custom-select').customSelect();
 
 
 $('.range-validator').live("keyup", function() {

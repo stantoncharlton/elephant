@@ -1,6 +1,6 @@
 <% if !signed_in_admin? && current_user.present? %>
     <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
-    <% if new_messages > 0 || @new_alerts.any? %>
+    <% if new_messages > 0 || (@new_alerts.present? && @new_alerts.any?) %>
         if($('#new_messages').length > 0) {
             $('#new_messages').removeClass('hidden');
             $('#new_messages_count').text("<%= new_messages > 0 ? new_messages : @new_alerts.count %>");

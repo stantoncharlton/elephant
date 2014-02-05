@@ -36,6 +36,8 @@ class SurveyPointsController < ApplicationController
                     @survey.magnetic_field_strength = params[:mfs].to_f
                     @survey.magnetic_dip_angle = params[:mda].to_f
                     @survey.gravity_total = 1.0
+                    @survey.total_correction = params[:total_correction].to_f
+                    @survey.north_type = params[:north_type].to_i
                     @survey.save
 
                     @survey_point.course_length = 0.0
@@ -96,6 +98,8 @@ class SurveyPointsController < ApplicationController
                 @survey_point.magnetic_dip_angle.present?
             @survey_point.survey.magnetic_field_strength = @survey_point.magnetic_field_strength
             @survey_point.survey.magnetic_dip_angle = @survey_point.magnetic_dip_angle
+            @survey_point.survey.total_correction = params[:total_correction].to_f
+            @survey_point.survey.north_type =  params[:north_type].to_i
             @survey_point.survey.save
         end
     end

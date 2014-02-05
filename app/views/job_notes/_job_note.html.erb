@@ -54,7 +54,7 @@
       <% if job_note.user.present? %>
           <%= render 'activities/user', user: job_note.user %>
       <% else %>
-          <%= job_note.user_name %>
+          <p class='inline-block'><b><%= job_note.user_name %></b></p>
       <% end %>
 
       <% if job_note.assign_to.present? %>

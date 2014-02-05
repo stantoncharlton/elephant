@@ -95,7 +95,9 @@
             <%= render 'surveys/survey_entry' %>
         <% end %>
 
-        <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+        <% if !@survey.survey_points.empty? %>
+            <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+        <% end %>
     <% end %>
 
     <script type='text/javascript'>

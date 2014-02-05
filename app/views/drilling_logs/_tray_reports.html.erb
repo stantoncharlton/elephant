@@ -227,6 +227,85 @@
     </div>
 
 
-    <%= link_to "Download", "#", id: "report_download", class: "", style: "opacity: 0.0;" %>
+
+
+    <div class='report' data-report="railroad">
+      <div class='pull-right'>
+
+        <div class="inline-block generating-report hidden">
+          <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
+          <div class="inline-block progress progress-info progress-striped active push-down">
+            <div class="bar" style="width: 400px;"></div>
+          </div>
+        </div>
+
+        <div class='generate-report-div inline-block'>
+          <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
+              <%= hidden_field_tag "report", "", value: true %>
+              <%= hidden_field_tag "report_name", "", value: "railroad" %>
+
+              <%= f.submit "Generate",
+                           class: "bluebtn btnsmall gray generate-report align-top" %>
+          <% end %>
+        </div>
+
+
+        <%= link_to "Download", "#",
+                    class: "bluebtn btnsmall green download-report align-top hidden" %>
+
+      </div>
+
+      <h3 class='inline-block push-down'>Railroad Commission Letter</h3>
+
+      <br> <br>
+      <hr class=''>
+    </div>
+
+    <div class='report' data-report="railroad_certification">
+      <div class='pull-right'>
+
+        <div class="inline-block generating-report hidden">
+          <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
+          <div class="inline-block progress progress-info progress-striped active push-down">
+            <div class="bar" style="width: 400px;"></div>
+          </div>
+        </div>
+
+        <div class='generate-report-div inline-block'>
+          <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
+              <%= hidden_field_tag "report", "", value: true %>
+              <%= hidden_field_tag "report_name", "", value: "railroad_certification" %>
+
+              <% jobs_sql = @drilling_log.job.well.jobs.includes(:documents).select(:id).to_sql %>
+              <% documents = Document.where("documents.category = ?", Document::POST_JOB).where("documents.url IS NOT NULL").where("documents.job_id IN (#{jobs_sql})").order("name ASC") %>
+              <% filter_options = [] %>
+              <% filter_options << ["Select Final Survey...", 0] %>
+              <% documents.each_with_index do |document, index| %>
+                  <% filter_options << ["#{document.name}", document.id] %>
+              <% end %>
+
+              <%= select_tag "type",
+                             options_for_select(filter_options, nil),
+                             class: "custom-select custom-select-ajax align-top report-type" %>
+
+              <%= f.submit "Generate",
+                           class: "bluebtn btnsmall gray generate-report align-top" %>
+          <% end %>
+        </div>
+
+
+        <%= link_to "Download", "#",
+                    class: "bluebtn btnsmall green download-report align-top hidden" %>
+
+      </div>
+
+      <h3 class='inline-block push-down'>Railroad Commission Certification</h3>
+
+      <br> <br>
+      <hr class=''>
+    </div>
+
   </div>
 </div>

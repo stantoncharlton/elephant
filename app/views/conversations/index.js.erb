@@ -38,16 +38,17 @@ $('#new_messages').addClass('hidden');
         $('.conversation-link2').each(function () {
             if ($(this).find('div:first').hasClass('message-active')) {
                 $(this).find('div:first').removeClass('message-active');
-                return $(this).find('.new-message-dot').remove();
+                $(this).find('.new-message-dot').remove();
             }
         });
         $(this).find('div:first').addClass('message-active');
         $('#small_conversation').addClass('hidden');
         $('#small_conversation_loading').removeClass('hidden');
-        return $.ajax('/conversations/' + $(this).attr("id").replace("conversation_", "") + "?small_window=true", {
+        $.ajax('/conversations/' + $(this).attr("id").replace("conversation_", "") + "?small_window=true", {
             type: 'get',
             dataType: 'script'
         });
+        return false;
     });
 
 <% end %>
