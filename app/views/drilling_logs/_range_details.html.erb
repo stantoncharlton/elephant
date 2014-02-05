@@ -134,75 +134,75 @@
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>WOB</div>
-    <div class='run-detail'><%= "#{log.ranges["wob_min"]} - #{log.ranges["wob_max"]}" %>&nbsp;<span class='help-text'>lbs</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["wob_min"], max: log.ranges["wob_max"] %>&nbsp;<span class='help-text'>lbs</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Flow</div>
-    <div class='run-detail'><%= "#{log.ranges["flow_min"]} - #{log.ranges["flow_max"]}" %>&nbsp;<span class='help-text'>g/m</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["flow_min"], max: log.ranges["flow_max"] %>&nbsp;<span class='help-text'>g/m</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>TFO</div>
-    <div class='run-detail'><%= "#{log.ranges["tfo_min"]} - #{log.ranges["tfo_min"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["tfo_min"], max: log.ranges["tfo_max"] %></div>
   </div>
 </div>
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>SPP</div>
-    <div class='run-detail'><%= "#{log.ranges["spp_min"]} - #{log.ranges["spp_max"]}" %>&nbsp;<span class='help-text'>psi</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["spp_min"], max: log.ranges["spp_max"] %>&nbsp;<span class='help-text'>psi</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Rotary RPM</div>
-    <div class='run-detail'><%= "#{log.ranges["rotary_rpm_min"]} - #{log.ranges["rotary_rpm_max"]}" %>&nbsp;<span class='help-text'>rpm</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["rotary_rpm_min"], max: log.ranges["rotary_rpm_max"] %>&nbsp;<span class='help-text'>rpm</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Motor RPM</div>
-    <div class='run-detail'><%= "#{log.ranges["motor_rpm_min"]} - #{log.ranges["motor_rpm_min"]}" %>&nbsp;<span class='help-text'>rpm</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["motor_rpm_min"], max: log.ranges["motor_rpm_max"] %>&nbsp;<span class='help-text'>rpm</span>
     </div>
   </div>
 </div>
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Rotate Weight</div>
-    <div class='run-detail'><%= "#{log.ranges["rotary_weight_min"]} - #{log.ranges["rotary_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["rotary_weight_min"], max: log.ranges["rotary_weight_max"] %>&nbsp;<span class='help-text'>lbs</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>P/U Weight</div>
-    <div class='run-detail'><%= "#{log.ranges["pu_weight_min"]} - #{log.ranges["pu_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["pu_weight_min"], max: log.ranges["pu_weight_max"] %>&nbsp;<span class='help-text'>lbs</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>S/O Weight</div>
-    <div class='run-detail'><%= "#{log.ranges["so_weight_min"]} - #{log.ranges["so_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["so_weight_min"], max: log.ranges["so_weight_max"] %>&nbsp;<span class='help-text'>lbs</span>
     </div>
   </div>
 </div>
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Torque</div>
-    <div class='run-detail'><%= "#{log.ranges["torque_min"]} - #{log.ranges["torque_max"]}" %>&nbsp;<span class='help-text'>lbs/in2</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["torque_min"], max: log.ranges["torque_max"] %>&nbsp;<span class='help-text'>lbs/in2</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Avg Diff Pressure</div>
-    <div class='run-detail'><%= "#{log.ranges["diff_pressure_min"]} - #{log.ranges["diff_pressure_max"]}" %>&nbsp;<span class='help-text'>psi</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["diff_pressure_min"], max: log.ranges["diff_pressure_max"] %>&nbsp;<span class='help-text'>psi</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Stall Pressure</div>
-    <div class='run-detail'><%= "#{log.ranges["stall_min"]} - #{log.ranges["stall_max"]}" %>&nbsp;<span class='help-text'>psi</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["stall_min"], max: log.ranges["stall_max"] %>&nbsp;<span class='help-text'>psi</span>
     </div>
   </div>
 </div>
@@ -217,48 +217,48 @@
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Mud Weight</div>
-    <div class='run-detail'><%= "#{log.ranges["mud_weight_min"]} - #{log.ranges["mud_weight_max"]}" %>&nbsp;<span class='help-text'>lbs</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["mud_weight_min"], max: log.ranges["mud_weight_max"] %>&nbsp;<span class='help-text'>lbs</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Viscosity</div>
-    <div class='run-detail'><%= "#{log.ranges["viscosity_min"]} - #{log.ranges["viscosity_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["viscosity_min"], max: log.ranges["viscosity_max"] %></div>
   </div>
 </div>
 
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Chlorides</div>
-    <div class='run-detail'><%= "#{log.ranges["chlorides_min"]} - #{log.ranges["chlorides_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["chlorides_min"], max: log.ranges["chlorides_max"] %></div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>YP</div>
-    <div class='run-detail'><%= "#{log.ranges["yp_min"]} - #{log.ranges["yp_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["yp_min"], max: log.ranges["yp_max"] %></div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>PV</div>
-    <div class='run-detail'><%= "#{log.ranges["pv_min"]} - #{log.ranges["pv_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["pv_min"], max: log.ranges["pv_max"] %></div>
   </div>
 </div>
 
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>PH</div>
-    <div class='run-detail'><%= "#{log.ranges["ph_min"]} - #{log.ranges["ph_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["ph_min"], max: log.ranges["ph_max"] %></div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>BH Temp</div>
-    <div class='run-detail'><%= "#{log.ranges["bh_temp_min"]} - #{log.ranges["bh_temp_max"]}" %>&nbsp;<span class='help-text'>f</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["bh_temp_min"], max: log.ranges["bh_temp_max"] %>&nbsp;<span class='help-text'>f</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>FL Temp</div>
-    <div class='run-detail'><%= "#{log.ranges["fl_temp_min"]} - #{log.ranges["fl_temp_max"]}" %>&nbsp;<span class='help-text'>f</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["fl_temp_min"], max: log.ranges["fl_temp_max"] %>&nbsp;<span class='help-text'>f</span>
     </div>
   </div>
 </div>
@@ -266,29 +266,29 @@
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Gas %</div>
-    <div class='run-detail'><%= "#{log.ranges["gas_min"]} - #{log.ranges["gas_min"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["gas_min"], max: log.ranges["gas_max"] %></div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Sand %</div>
-    <div class='run-detail'><%= "#{log.ranges["sand_min"]} - #{log.ranges["sand_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["sand_min"], max: log.ranges["sand_max"] %></div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Solids %</div>
-    <div class='run-detail'><%= "#{log.ranges["solids_min"]} - #{log.ranges["solids_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["solids_min"], max: log.ranges["solids_max"] %></div>
   </div>
 </div>
 
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Oil %</div>
-    <div class='run-detail'><%= "#{log.ranges["oil_min"]} - #{log.ranges["oil_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["oil_min"], max: log.ranges["oil_max"] %></div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Water Loss</div>
-    <div class='run-detail'><%= "#{log.ranges["water_loss_min"]} - #{log.ranges["water_loss_max"]}" %></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["water_loss_min"], max: log.ranges["water_loss_max"] %></div>
   </div>
 
 </div>
@@ -307,7 +307,7 @@
     <div>
       <div class='inline-block'>
         <div class='run-detail help-text'>Hertz</div>
-        <div class='run-detail'><%= "#{log.ranges["em_hertz_min"]} - #{log.ranges["em_hertz_max"]}" %>&nbsp;<span class='help-text'>hz</span>
+        <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["em_hertz_min"], max: log.ranges["em_hertz_max"] %>&nbsp;<span class='help-text'>hz</span>
         </div>
       </div>
 
@@ -318,7 +318,7 @@
 
       <div class='inline-block'>
         <div class='run-detail help-text'>Amps</div>
-        <div class='run-detail'><%= "#{log.ranges["em_amps_min"]} - #{log.ranges["em_amps_max"]}" %>&nbsp;<span class='help-text'>A</span>
+        <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["em_amps_min"], max: log.ranges["em_amps_max"] %>&nbsp;<span class='help-text'>A</span>
         </div>
       </div>
     </div>
@@ -343,26 +343,26 @@
     <div>
       <div class='inline-block'>
         <div class='run-detail help-text'>Pulse Width</div>
-        <div class='run-detail'><%= "#{log.ranges["pulse_width_min"]} - #{log.ranges["pulse_width_max"]}" %></span>
+        <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["pulse_width_min"], max: log.ranges["pulse_width_max"] %></span>
         </div>
       </div>
 
       <div class='inline-block'>
         <div class='run-detail help-text'>Pulse Height</div>
-        <div class='run-detail'><%= "#{log.ranges["pulse_height_min"]} - #{log.ranges["pulse_height_max"]}" %></span>
+        <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["pulse_height_min"], max: log.ranges["pulse_height_max"] %></span>
         </div>
       </div>
       <br>
 
       <div class='inline-block'>
         <div class='run-detail help-text'>Poppet</div>
-        <div class='run-detail'><%= "#{log.ranges["poppet_min"]} - #{log.ranges["poppet_max"]}" %></span>
+        <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["poppet_min"], max: log.ranges["poppet_max"] %></span>
         </div>
       </div>
 
       <div class='inline-block'>
         <div class='run-detail help-text'>Orifice</div>
-        <div class='run-detail'><%= "#{log.ranges["orifice_min"]} - #{log.ranges["orifice_max"]}" %></span>
+        <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["orifice_min"], max: log.ranges["orifice_max"] %></span>
         </div>
       </div>
     </div>
@@ -372,13 +372,13 @@
 <div>
   <div class='inline-block'>
     <div class='run-detail help-text'>Bat 1 Amps</div>
-    <div class='run-detail'><%= "#{log.ranges["battery_1_amps_min"]} - #{log.ranges["battery_1_amps_max"]}" %>&nbsp;<span class='help-text'>Ah</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_1_amps_max"], max: log.ranges["battery_1_amps_min"] %>&nbsp;<span class='help-text'>Ah</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Bat 1 AHR</div>
-    <div class='run-detail'><%= "#{entries.last.battery_1_ahr}" %>&nbsp;<span class='help-text'>Ah</span></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_1_ahr_max"], max: log.ranges["battery_1_ahr_min"] %>&nbsp;<span class='help-text'>Ah</span></div>
   </div>
 
 </div>
@@ -386,13 +386,13 @@
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Bat 2 Amps</div>
-    <div class='run-detail'><%= "#{log.ranges["battery_2_amps_min"]} - #{log.ranges["battery_2_amps_max"]}" %>&nbsp;<span class='help-text'>Ah</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_2_amps_max"], max: log.ranges["battery_2_amps_min"] %>&nbsp;<span class='help-text'>Ah</span>
     </div>
   </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Bat 2 AHR</div>
-    <div class='run-detail'><%= "#{entries.last.battery_2_ahr}" %>&nbsp;<span class='help-text'>Ah</span></div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_2_ahr_max"], max: log.ranges["battery_2_ahr_min"] %>&nbsp;<span class='help-text'>Ah</span></div>
   </div>
 
 </div>
@@ -400,7 +400,7 @@
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Battery Volts</div>
-    <div class='run-detail'><%= "#{log.ranges["battery_volts_min"]} - #{log.ranges["battery_volts_max"]}" %>&nbsp;<span class='help-text'>volts</span>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_volts_min"], max: log.ranges["battery_volts_max"] %>&nbsp;<span class='help-text'>volts</span>
     </div>
   </div>
 </div>
