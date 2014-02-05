@@ -67,6 +67,7 @@ class DrillingLogsController < ApplicationController
                 if params[:report].present? && params[:report] == "true" && params[:report_name].present?
                     create_report
                 end
+
             }
             format.xlsx {
                 excel = drilling_log_to_excel @drilling_log

@@ -26,9 +26,9 @@
                         $this.change();
                         var selectBoxWidth = parseInt($this.outerWidth()) - (parseInt(customSelectSpan.outerWidth()) - parseInt(customSelectSpan.width()) );
                         customSelectSpan.css({display:'inline-block'});
-                        customSelectInnerSpan.css({width:selectBoxWidth, display:'inline-block'});
+                        customSelectInnerSpan.css({width: selectBoxWidth, display:'inline-block'});
                         var selectBoxHeight = customSelectSpan.outerHeight();
-                        $this.css({'-webkit-appearance':'menulist-button',width:customSelectSpan.outerWidth(),position:'absolute', opacity:0,height:selectBoxHeight,fontSize:customSelectSpan.css('font-size')});
+                        $this.css({'-webkit-appearance':'menulist-button',position:'absolute', opacity:0, width: customSelectSpan.outerWidth(), 'min-width': customSelectSpan.outerWidth(),  height:selectBoxHeight,fontSize:customSelectSpan.css('font-size')});
                     }).change(function(){
                             var currentSelected = $this.find(':selected');
                             var html = currentSelected.html() || '&nbsp;';
