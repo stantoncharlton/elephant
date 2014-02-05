@@ -338,6 +338,7 @@ module DrillingLogsHelper
         r.add_field "COMPANY", "Premier Directional Drilling, LLC"
         r.add_field "CLIENT", job.client.name
         r.add_field "OP_NO", "676020"
+        r.add_field "DATE", Date.today.strftime("%B %d, %Y")
 
         r.add_field "NAMES", "-"
 
@@ -365,11 +366,13 @@ module DrillingLogsHelper
             r.add_field "D1", "#{first.measured_depth}"
             r.add_field "INC1", "#{first.inclination}"
             r.add_field "AZI1", "#{first.azimuth}"
+            r.add_field "DATE1", "#{first.created_at.strftime("%d/%m/%Y")}"
 
             last = entries.last
             r.add_field "D2", "#{last.measured_depth}"
             r.add_field "INC2", "#{last.inclination}"
             r.add_field "AZI2", "#{last.azimuth}"
+            r.add_field "DATE2", "#{last.created_at.strftime("%d/%m/%Y")}"
 
             bha = drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id IS NOT NULL").last
             r.add_field "D3", "#{last.measured_depth + (bha.present? && bha.bha.present? && bha.bha.bit_to_sensor.present? ? bha.bha.bit_to_sensor : 0.0)}"
