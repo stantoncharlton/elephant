@@ -17,6 +17,14 @@
         <h3 class="inline-block">Runs</h3>
       </div>
 
+      <% if runs.count > 5 %>
+          <div class='pull-right'>
+              <p style='margin-top: 30px;'>
+                Scroll For More Runs
+                <i class="icon-arrow-right"></i>
+              </p>
+          </div>
+      <% end %>
     </div>
 
 
@@ -25,8 +33,8 @@
     <% survey_points = survey.present? && well_plan.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : nil %>
 
     <% if runs.any? %>
-        <div>
-          <div class='run-grid' style="width: 150px; float: left; display: block;">
+        <div style='white-space:nowrap; overflow-x: auto; overflow-y: hidden;'>
+          <div class='run-grid align-top' style="width: 150px;  display: inline-block;">
             <div class='help-text' style='height: 60px;'>Run #</div>
             <div class='grid-line'></div>
 
@@ -98,7 +106,7 @@
 
               <% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where("issues.failure_at >= :start AND issues.failure_at <= :end", start: first_entry.entry_at, end: last_entry.entry_at) %>
 
-              <div class='run-grid' style="width: 150px; float: left; display: block;">
+              <div class='run-grid align-top' style="width: 150px;  display: inline-block;">
                 <div style='height: 60px;'><h1 class='blue-text' style="text-align: left;"><%= index + 1 %></h1></div>
                 <div class='grid-line'></div>
 

@@ -26,6 +26,7 @@ gem 'roo'
 gem 'odf-report'
 gem 'memcachier'
 gem 'redis'
+gem 'twilio-ruby'
 
 gem "unicorn"
 gem 'dalli'
