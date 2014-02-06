@@ -3,7 +3,7 @@
     <h1 class='inline-block'>Activity Details</h1>
 
     <div class='push-right-small'>
-    <%= @drilling_log_entry.entry_at.strftime("%d/%m/%Y") %>
+      <%= @drilling_log_entry.entry_at.strftime("%d/%m/%Y") %>
     </div>
 
     <div class='inline-block pull-right'>
@@ -37,6 +37,10 @@
   </div>
 
   <div class='job-tray content custom-data-closed' data-tray="bha">
-    <%= render "bhas/bha_view", bha: @drilling_log_entry.bha %>
+    <% if @drilling_log_entry.bha.present? %>
+        <%= render "bhas/bha_view", bha: @drilling_log_entry.bha %>
+    <% else %>
+        <p class='help-text'>No BHA for this entry...</p>
+    <% end %>
   </div>
 </div>
