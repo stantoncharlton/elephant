@@ -85,6 +85,40 @@ popup.find("#edit_shipment").click(function () {
     $("#from_to_links").addClass("hidden");
 });
 
+$('#shipment_from_select').change(function() {
+    var current_value = $(this).find('option:selected').val();
+    $('#from_warehouses').addClass('hidden');
+    $('#from_suppliers').addClass('hidden');
+    $('#from_jobs').addClass('hidden');
+    if(current_value == "Warehouse") {
+        $('#from_warehouses').removeClass('hidden');
+    }
+    else if (current_value == "Supplier") {
+        $('#from_suppliers').removeClass('hidden');
+    }
+    else {
+        $('#from_jobs').removeClass('hidden');
+    }
+    return false;
+});
+
+$('#shipment_to_select').change(function() {
+    var current_value = $(this).find('option:selected').val();
+    $('#to_warehouses').addClass('hidden');
+    $('#to_suppliers').addClass('hidden');
+    $('#to_jobs').addClass('hidden');
+    if(current_value == "Warehouse") {
+        $('#to_warehouses').removeClass('hidden');
+    }
+    else if (current_value == "Supplier") {
+        $('#to_suppliers').removeClass('hidden');
+    }
+    else {
+        $('#to_jobs').removeClass('hidden');
+    }
+    return false;
+});
+
 $('#deselect_all').click(function() {
     $('.shipment_checkbox').each(function() {
         $(this).prop('checked', false);
