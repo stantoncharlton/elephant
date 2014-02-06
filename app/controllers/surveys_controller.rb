@@ -222,11 +222,12 @@ class SurveysController < ApplicationController
                 survey_point
             end
 
-            @actual_survey = Survey.joins(document: :job).where(:plan => false).where("jobs.well_id = ?", @survey.document.job.well_id).first
-            if @actual_survey.present? && @actual_survey.no_well_plan
-                @actual_survey.no_well_plan = false
-                @actual_survey.save
-            end
+        end
+
+        @actual_survey = Survey.joins(document: :job).where(:plan => false).where("jobs.well_id = ?", @survey.document.job.well_id).first
+        if @actual_survey.present? && @actual_survey.no_well_plan
+            @actual_survey.no_well_plan = false
+            @actual_survey.save
         end
 
         if @survey.errors.any?
