@@ -3,7 +3,7 @@
 <% if !document.template? %>
     <% last_entry = document.document_type == Document::JOB_LOG ? JobLog.where(:company_id => current_user.company_id).where(:document_id => document.id).last : nil %>
     <% drilling_log_sql = DrillingLog.where(:company_id => current_user.company_id).where(:document_id => document.id).select(:id).to_sql %>
-    <% last_drilling_entry = document.document_type == Document::DRILLING_LOG ? DrillingLogEntry.where("drilling_log_entries.drilling_log_id IN (#{drilling_log_sql})").last : nil %>
+    <% last_drilling_entry = document.document_type == Document::DRILLING_LOG ? DrillingLogEntry.where("drilling_log_entries.drilling_log_id IN (#{drilling_log_sql})").order("drilling_log_entries.created_at DESC").limit(1).first : nil %>
     <% bha = document.document_type == Document::BOTTOM_HOLE_ASSEMBLY ? Bha.includes(document: {job: :well}).where(:company_id => current_user.company_id).where("wells.id = ?", document.job.well_id).order("bhas.updated_at DESC").limit(1).first : nil %>
     <% if  document.document_type == Document::SURVEY %>
         <% survey = Survey.includes(document: {job: :well}).where(:company_id => current_user.company_id).where(:plan => false).where("wells.id = ?", document.job.well_id).limit(1).first %>
@@ -145,7 +145,7 @@
         <% elsif document.document_type == Document::SURVEY %>
             <% if survey.present? && survey.survey_points.any? %>
                 <p class="push-down">
-                  <%= survey.survey_points.order("created_at DESC").first.updated_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  <%= survey.survey_points.last.updated_at.strftime("%m/%d/%Y %l:%M %p") %>
                 </p>
             <% else %>
                 <p class="warning-text tooltip-info push-down"

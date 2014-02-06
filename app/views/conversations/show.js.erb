@@ -13,7 +13,7 @@
 <% if params[:check_new].present? && params[:check_new] == "true" %>
 
     if($('#conversation_messages_list').length > 0) {
-        <% if @new_alerts.any? %>
+        <% if @new_alerts.present? && @new_alerts.any? %>
             <% messages = @conversation.messages.where("messages.user_id != ?", current_user.id).last(@new_alerts.count) %>
             <% last_message = @conversation.messages.last(@new_alerts.count + 1).first %>
             <% messages.each do |message| %>

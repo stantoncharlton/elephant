@@ -193,7 +193,7 @@ class DrillingLogEntriesController < ApplicationController
             end
 
             entries = @drilling_log.drilling_log_entries.to_a
-            entries <<  @drilling_log_entry
+            entries << @drilling_log_entry
             entries = entries.sort_by { |e| e.entry_at }
             @prior_entry = nil
             entries.each do |dl|
@@ -205,24 +205,25 @@ class DrillingLogEntriesController < ApplicationController
             end
 
 
+            if @prior_entry.present?
+                course_length = @drilling_log_entry.depth - @prior_entry.depth
+                hours = (@drilling_log_entry.entry_at - @prior_entry.entry_at) / 60 / 60
+                rop = course_length / hours
 
-            course_length = @drilling_log_entry.depth - @prior_entry.depth
-            hours = (@drilling_log_entry.entry_at - @prior_entry.entry_at) / 60 / 60
-            rop = course_length / hours
+                if (@drilling_log_entry.activity_code == DrillingLogEntry::DRILLING || @drilling_log_entry.activity_code == DrillingLogEntry::SLIDING) && (@drilling_log_entry.depth - @drilling_log.max_depth) < 0
+                    @drilling_log_entry.errors.add(:depth, "can't be a negative value based on the last entry. Rotating or sliding activities must be deeper than the last greatest depth. Depth change from last activity: #{course_length} ft.")
+                    return
+                end
 
-            if (@drilling_log_entry.activity_code == DrillingLogEntry::DRILLING || @drilling_log_entry.activity_code == DrillingLogEntry::SLIDING) && (@drilling_log_entry.depth - @drilling_log.max_depth) < 0
-                @drilling_log_entry.errors.add(:depth, "can't be a negative value based on the last entry. Rotating or sliding activities must be deeper than the last greatest depth. Depth change from last activity: #{course_length} ft.")
-                return
-            end
+                if (@drilling_log_entry.activity_code == DrillingLogEntry::DRILLING || @drilling_log_entry.activity_code == DrillingLogEntry::SLIDING) && rop > 2000
+                    @drilling_log_entry.errors.add(:depth, "can't jump to a value this deep within the specific time period. Maybe there a problem with the depth or time.<br><br>Time difference is #{hours.round(2)} hrs and ROP is #{rop.round(2)} ft/hr based on new depth of #{@drilling_log_entry.depth } ft")
+                    return
+                end
 
-            if (@drilling_log_entry.activity_code == DrillingLogEntry::DRILLING || @drilling_log_entry.activity_code == DrillingLogEntry::SLIDING) &&  rop > 2000
-                @drilling_log_entry.errors.add(:depth, "can't jump to a value this deep within the specific time period. Maybe there a problem with the depth or time.<br><br>Time difference is #{hours.round(2)} hrs and ROP is #{rop.round(2)} ft/hr based on new depth of #{@drilling_log_entry.depth } ft")
-                return
-            end
-
-            if (@drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION || @drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION_SURVEY) && course_length != 0
-                @drilling_log_entry.errors.add(:depth, "change must be equal to zero for connections. The depth should be equal to the last depth of activity.")
-                return
+                if (@drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION || @drilling_log_entry.activity_code == DrillingLogEntry::CONNECTION_SURVEY) && course_length != 0
+                    @drilling_log_entry.errors.add(:depth, "change must be equal to zero for connections. The depth should be equal to the last depth of activity.")
+                    return
+                end
             end
 
             if @drilling_log_entry.save

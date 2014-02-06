@@ -161,13 +161,13 @@
             <div class="inline-block">
               <%= render 'layouts/user_tab' %>
 
-              <div class="alerts-icon-container">
+              <div class="alerts-icon-container" style="margin-top: -60px;">
                 <% new_alerts = Alert.cached_find_new_alerts(current_user.id) %>
                 <% if new_alerts > 0 %>
-                    <div class="messages-icon-alert">
+                    <div class="messages-icon-alert" style="top: 10px;">
                       <p><%= new_alerts %></p>
                     </div>
-                <% end %>
+                    <% end %>
               </div>
             </div>
 
