@@ -1,0 +1,56 @@
+<div class="remote-tray" data-tray="notes">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading notes..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+
+    <div class="">
+
+      <div class='page_header'>
+        <h2>Description/Notes</h2>
+      </div>
+
+      <div class="field">
+        <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
+            <div class="new-product-line">
+              <div class="form" data-form="new-note-form">
+                <%= f.hidden_field :issue_id, value: @issue.id %>
+
+                <p><b>Add new note</b></p>
+
+                <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
+                                class: "txtfield job-notes-text tooltip-info", autofocus: false,
+                                id: "new_note_id",
+                                "data-placement" => "bottom",
+                                "data-title" => "Note/Action text" %>
+
+                <%= f.submit "Add note", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
+                             "data-form" => "new-note-form",
+                             "data-placement" => "bottom",
+                             "data-title" => "Add new note/action" %>
+
+
+                <br><br>
+              </div>
+
+              <div class="form-loading hidden" data-form="new-note-form">
+                <%= render 'layouts/inline_loading', title: "Creating note..." %>
+                <br><br>
+              </div>
+
+            </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="job_notes">
+      <% @issue.job_notes.includes(comments: :user).each do |job_note| %>
+          <%= render 'job_notes/job_note', job_note: job_note %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

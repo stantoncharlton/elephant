@@ -79,6 +79,7 @@ class DrillingLogEntry < ActiveRecord::Base
 
     attr_accessor :last_entry
     attr_accessor :next_entry
+    attr_accessor :run_number
 
     # In-hole
     DRILLING = 1

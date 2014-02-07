@@ -1,9 +1,12 @@
+<% if failure.failure_master_template.present? %>
+    <% failure = failure.failure_master_template %>
+<% end %>
 <%= link_to failure, class: " failure-link tooltip-info",
             "data-placement" => "right",
             "data-title" => "Click to view failures" do %>
     <div class="chart-problem">
       <div class="chart-problem-name">
-        <%= failure.present? ? failure.failure_master_template.text : "-" %>
+        <%= failure.present? ? failure.text : "-" %>
         <p class="inline job-failure-item">&nbsp;<%= failure_count %></p>
       </div>
       <div class="chart-problem-bar">

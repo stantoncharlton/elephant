@@ -256,16 +256,36 @@ class DrillingLog < ActiveRecord::Base
         previous = nil
         closest = nil
         past = nil
+        run_number = 1
+        pooh = false
+        last_bha = nil
+
         if entries.any?
             entries.each do |entry|
+                if entry.activity_code == DrillingLogEntry::POOH
+                    pooh = true
+                    last_bha = entry.bha
+                end
+
+                if pooh &&
+                        (entry.bha != last_bha ||
+                                entry.activity_code == DrillingLogEntry::CHANGE_BHA ||
+                                entry.activity_code == DrillingLogEntry::TIH)
+                    pooh = false
+                    run_number += 1
+                end
+
+                entry.run_number = run_number
+
                 if entry.entry_at >= (date - window) && entry.entry_at <= (date + window)
                     surrounding_entries << entry
                     if entry.entry_at < date
                         previous = entry
                     end
-                    # Run before closest
+                    # Run after closest
                     if past.nil? && closest.present?
                         past = entry
+                        return [surrounding_entries, [previous, closest, past]]
                     end
                     if closest.nil? && entry.entry_at >= date
                         closest = entry

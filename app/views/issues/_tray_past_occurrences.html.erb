@@ -1,0 +1,21 @@
+<div class="remote-tray" data-tray="past_occurrences">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading past occurrences..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+
+    <div class='page_header'>
+      <h2 class="inline">Past Occurrences</h2>
+    </div>
+
+    <% if @issue.failure.present? %>
+        <%= render 'issues/history', failure: @issue.failure %>
+    <% else %>
+        <p class='help-text'>Failure type must be set to view past occurences...</p>
+    <% end %>
+
+  </div>
+</div>

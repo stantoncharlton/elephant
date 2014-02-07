@@ -1,7 +1,16 @@
-<%= link_to issue, class: "job-status job-link tooltip-info",
-            target: "_blank",
-            "data-placement" => "left",
-            "data-title" => "Click to open failure" do %>
+<% if current_user.role.limit_to_assigned_jobs? %>
+        <a href="<%= edit_issue_path(issue).to_s %>"
+           class="job-status job-link tooltip-info show-modal-button"
+           data-remote="true"
+           data-placement="left"
+           data-title="Click to open failure">
+<% else %>
+    <a href="/issues/<%= issue.id %>"
+        class="job-status job-link tooltip-info"
+                target="_blank"
+                data-placement="left"
+                data-title="Click to open failure">
+<% end %>
 
     <div>
 
@@ -33,6 +42,7 @@
     <% if !show_job && issue.job_notes.any? %>
         <div class='push-down-small'>
           <i class="icon-comment"></i>
+
           <div class='inline-block push-right-small'><%= issue.job_notes.first.text %></div>
         </div>
     <% end %>
@@ -50,5 +60,21 @@
 
     <% if show_job %>
         <%= render 'jobs/job_progress', job: issue.job, show_summary_data: true, job_name: false %>
+    <% else %>
+        <% drilling_log = issue.job.drilling_log %>
+        <% if drilling_log.present? %>
+            <% surrounding = drilling_log.get_surrounding_entries(issue.failure_at, 2.hours) %>
+            <% if drilling_log.present? && surrounding[1].any? && surrounding[1].first.present? %>
+                <% bha = surrounding[1].first.bha %>
+
+                <% if bha.present? %>
+                    <b class='blue-text'>BHA</b> <%= bha.name %> <%= bha.description.present? ? " - #{bha.description}" : '' %>
+                    <br>
+                <% end %>
+                <% if !surrounding[1].first.run_number.blank? %>
+                    <b class='blue-text'>Run</b>&nbsp;&nbsp;<%= surrounding[1].first.run_number %>
+                <% end %>
+            <% end %>
+        <% end %>
     <% end %>
-<% end %>
+    </a>

@@ -1,0 +1,29 @@
+<div class="remote-tray" data-tray="bha">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading current BHA..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+
+    <% drilling_log = @issue.job.drilling_log %>
+    <% if drilling_log.present? %>
+        <% @surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, 2.hours) %>
+    <% end %>
+
+    <div class='page_header'>
+      <h2 class="inline">Current BHA</h2>
+    </div>
+
+    <% if drilling_log.present? && @surrounding[1].any? && @surrounding[1].first.bha.present? %>
+        <% bha = @surrounding[1].first.bha %>
+
+        <%= render "bhas/bha_view", bha: bha %>
+
+    <% else %>
+        <p class='help-text'>No current BHA available...</p>
+    <% end %>
+
+  </div>
+</div>

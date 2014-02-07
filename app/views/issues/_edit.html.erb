@@ -1,0 +1,46 @@
+<div class="page_header">
+  <h1>Edit Incident</h1>
+</div>
+
+<div class="form" data-form="edit_incident">
+  <%= form_for issue, remote: true do |f| %>
+
+      <%= hidden_field_tag "update_object", "true" %>
+
+      <div class="inline-block date-fields">
+        <input type="text" value="<%= issue.failure_at.strftime("%m/%d/%Y") %>"
+               name="date"
+               id="entry_date"
+               class="job-field-value-editable input-small datepicker">
+
+
+        <div class="inline-block">
+          <span class="add-on push-right-small"><i class="icon-time"></i></span>
+          <input name="entry_time" type="text"
+                 value="<%= issue.failure_at.strftime("%k:%M") %>"
+                 class="job-field-value-editable input-small tooltip-info"
+                 placeholder="24 hr time"
+                 data-title="24 hour time">
+
+        </div>
+      </div>
+
+      <div class='push-down'>
+        <b class='blue-text'>Add Note to Failure</b>
+      </div>
+      <%= text_area_tag "description", "",
+                        style: "width: 556px !important;",
+                        placeholder: "Description, Notes, or Reason",
+                        "data-form" => "edit_incident",
+                        class: "txtfield job-notes-text custom-select-long push-down-small" %>
+
+      <div class="content actions">
+        <%= f.submit "Update Incident", class: "bluebtn pull-right form-loading-on-click" %>
+      </div>
+  <% end %>
+</div>
+
+<div class="form-loading center hidden" data-form="edit_incident">
+  <%= render 'layouts/inline_loading', title: "Saving incident..." %>
+  <br><br>
+</div>

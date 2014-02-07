@@ -12,6 +12,12 @@
                        class: "inline-block custom-select-long custom-select custom-select-ajax" %>
       <% end %>
 
+
+      <div class='alert'>
+        Approximate <b class='orange-text'>date</b> and <b class='orange-text'>time</b> of failure. This is important as
+        it helps infer the exact running conditions at the time of failure.
+      </div>
+
       <div class="inline-block date-fields">
         <input type="text" value="<%= Date.today.strftime("%m/%d/%Y") %>"
                name="date"
@@ -43,9 +49,13 @@
           </div>
       <% end %>
 
+      <div class='push-down'>
+        <b class='blue-text'>Description of failure</b>
+      </div>
       <%= text_area_tag "description", "",
-                        placeholder: "Description of Failure...",
-                        class: "txtfield job-notes-text custom-select-long" %>
+                        style: "width: 556px !important;",
+                        placeholder: "Description, Notes, or Reason",
+                        class: "txtfield job-notes-text custom-select-long push-down-small" %>
 
       <div class="content actions">
         <%= f.submit "Add Failure", class: "bluebtn pull-right form-loading-on-click",

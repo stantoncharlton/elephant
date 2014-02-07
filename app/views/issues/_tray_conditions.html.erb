@@ -1,0 +1,51 @@
+<div class="remote-tray" data-tray="conditions">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading running conditions..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+
+    <% drilling_log = @issue.job.drilling_log %>
+    <% if drilling_log.present? %>
+        <% @surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, 2.hours) %>
+    <% end %>
+
+    <div class='page_header'>
+      <% if drilling_log.present? %>
+          <%= link_to "View Full Drilling Report", drilling_log, class: "btn btn-default pull-right" %>
+      <% end %>
+      <h2 class="inline">Running Conditions</h2>
+    </div>
+
+    <% if drilling_log.present? %>
+        <% if @surrounding[0].any? %>
+
+            <h3 class='blue-text'>Activities</h3>
+            <br>
+            <% @surrounding[1].each do |entry| %>
+                <% if !entry.nil? %>
+                    <%= render 'drilling_log_entries/drilling_log_entry', entry: entry, editable: false %>
+                <% end %>
+            <% end %>
+            <br>
+
+            <% well_plan = @issue.job.well_plan %>
+            <% survey = @issue.job.survey %>
+            <% survey_points = survey.present? && well_plan.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : nil %>
+            <div>
+              <h3 class='inline-block blue-text'>Parameters</h3><b class='help-text push-right-small'>4 hour window</b>
+            </div>
+            <br>
+            <%= render 'drilling_logs/range_details', entries: @surrounding[0], survey_points: survey_points %>
+        <% else %>
+            <p class='help-text'>No running conditions are available...</p>
+        <% end %>
+    <% else %>
+        <p class='help-text'>No running conditions are available...</p>
+    <% end %>
+
+
+  </div>
+</div>

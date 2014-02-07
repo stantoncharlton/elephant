@@ -1,0 +1,34 @@
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
+if(!tray.hasClass('custom-data-closed')) {
+    function removeOldContent(section) {
+        $('.remote-tray').each(function() {
+            if($(this).hasClass('custom-data-closed')) {
+                $(this).find('.tray-content').remove();
+                $(this).find('.tray-content').removeClass('content-loaded');
+            }
+        });
+    }
+
+    removeOldContent('<%= params[:section] %>');
+
+    <% if params[:section] == "notes" %>
+    tray.replaceWith("<%= j render 'issues/tray_notes', issue: @issue %>");
+    <% elsif params[:section] == "conditions" %>
+    tray.replaceWith("<%= j render 'issues/tray_conditions', issue: @issue %>");
+    <% elsif params[:section] == "bha" %>
+    tray.replaceWith("<%= j render 'issues/tray_bha', issue: @issue %>");
+    <% elsif params[:section] == "past_occurrences" %>
+    tray.replaceWith("<%= j render 'issues/tray_past_occurrences', issue: @issue %>");
+    <% end %>
+
+    if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+        $('.tooltip-info').tooltip();
+    }
+
+    $('.custom-select-ajax').each(function() {
+        span_tag = $(this).next('span');
+        if($(this).prop("tagName").toLowerCase() == 'select' && span_tag.length <= 0 && !span_tag.hasClass('customSelect')) {
+            $(this).customSelect();
+        }
+    });
+}

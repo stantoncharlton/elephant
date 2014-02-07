@@ -1,3 +1,14 @@
+<% if @update_object %>
+$('#modal_popup').css('visibility', 'hidden');
+$('#modal_popup').find(".modal-content").children().remove();
+$('#modal_popup').height(0);
+
+if($('#incident_failure_date').length > 0) {
+  $('#incident_failure_date').text("<%= @issue.failure_at.strftime("%a %m/%d/%Y") %>");
+  $('#incident_failure_time').text("<%= @issue.failure_at.strftime("%l:%M %p") %>");
+}
+<% else %>
+
 $('.issue-closing-loading').addClass('hidden');
 
 
@@ -17,3 +28,5 @@ $('.status-closed').removeClass("hidden");
 $('.close-case-link').removeClass('hidden');
 <% end %>
 
+
+<% end %>

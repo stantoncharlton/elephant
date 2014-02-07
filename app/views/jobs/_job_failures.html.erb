@@ -1,15 +1,16 @@
+<% issues = job.issues.includes(:job_notes).includes(failure: :failure_master_template) %>
 <div class="page_header">
   <h1>Failures</h1>
 </div>
 
 
-<% if !job.issues.any? %>
+<% if !issues.any? %>
     <p class='center help-text'>
       No failures...
     </p>
 <% end %>
 <div id="failures_list">
-  <% job.issues.each do |issue| %>
+  <% issues.each do |issue| %>
       <%= render 'issues/issue', issue: issue, show_job: false %>
   <% end %>
 </div>

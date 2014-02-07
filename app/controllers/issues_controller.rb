@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
-    before_filter :signed_in_user, only: [:create]
-    before_filter :signed_in_user_not_field, only: [:index, :show, :update]
+    before_filter :signed_in_user, only: [:create, :edit, :update]
+    before_filter :signed_in_user_not_field, only: [:index, :show, :destroy]
 
     def index
         @issues = Issue.where(:company_id => current_user.company).order("issues.status ASC, issues.created_at DESC")
@@ -13,7 +13,7 @@ class IssuesController < ApplicationController
 
     def show
         @issue = Issue.find_by_id(params[:id])
-        not_found unless @issue.present? && @issue.company == current_user.company
+        not_found unless @issue.present?
     end
 
     def create
@@ -90,9 +90,16 @@ class IssuesController < ApplicationController
         render 'failures/update_list'
     end
 
+    def edit
+        @issue = Issue.find_by_id(params[:id])
+        not_found unless @issue.present?
+    end
+
     def update
         @issue = Issue.find_by_id(params[:id])
-        not_found unless @issue.company == current_user.company
+        not_found unless @issue.present?
+
+        @update_object = false
 
         if params[:update_field].present? && params[:update_field] == "true" &&
                 params[:field].present? && params[:value].present?
@@ -134,7 +141,29 @@ class IssuesController < ApplicationController
             else
                 @issue.errors.add(:failure_id, " type needs to be set")
             end
+        elsif params[:update_object].present? && params[:update_object] == "true"
+            @update_object = true
+            date = Date.strptime("#{params[:date]}", '%m/%d/%Y')
+            @issue.failure_at = Time.zone.parse("#{date.year}-#{date.month}-#{date.day} #{params[:entry_time]}")
+            @issue.save
+
+            if params[:description] && !params[:description].blank?
+                @note = JobNote.new
+                @note.user = current_user
+                @note.user_name = current_user.name
+                @note.note_type = JobNote::NOTE
+                @note.text = params[:description]
+                @note.company = current_user.company
+                @note.issue = @issue
+                @note.save
+            end
         end
+    end
+
+    def destroy
+        @issue = Issue.find_by_id(params[:id])
+        @issue.destroy
+        redirect_to issues_path
     end
 
 end
