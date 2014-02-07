@@ -18,7 +18,17 @@
           <br>
       <% end %>
 
-      <div class="">
+      <% job_types = [] %>
+      <% @old_job.job_template.product_line.job_templates.each do |jt| %>
+        <% job_types << [jt.name, jt.id] %>
+      <% end %>
+
+      <%= select_tag "job_type",
+                     options_for_select(job_types, @old_job.job_template.id),
+                     style: "width: 350px !important",
+                     class: "custom-select custom-select-ajax align-top report-type" %>
+
+      <div class="push-down">
         <%= hidden_field_tag "old_job", "", name: "old_job", value: @old_job.id %>
 
         <%= text_field_tag "well_name", "", placeholder: "Well Name",

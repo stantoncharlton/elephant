@@ -3,6 +3,8 @@ $('#modal_popup').find('.modal-content').append("<%= j render 'jobs/rig_skid' %>
 $('#modal_popup').css('visibility', 'visible');
 $('#modal_popup').find('.loading').addClass('hidden');
 
+$('#modal_popup').find('.custom-select').customSelect();
+
 $('#well_name_id').keyup(function() {
     <% job = Job.find_by_id(params[:job]) %>
     $.ajax({

@@ -179,6 +179,12 @@ class JobsController < ApplicationController
                 @old_job = Job.find_by_id(params[:old_job])
                 @job.client = @old_job.client
                 @job.job_template = @old_job.job_template
+
+                if params[:job_type].present? && !params[:job_type].blank?
+                    @job_template = JobTemplate.find_by_id(params[:job_type])
+                    @job.job_template = @job_template
+                end
+
                 @job.district = @old_job.district
                 @job.field = @old_job.field
 
