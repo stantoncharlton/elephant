@@ -9,7 +9,7 @@ popup.find('.custom-select').customSelect();
 popup.find('.tooltip-info').tooltip();
 
 
-$('.popover').popover({  delay: { show: 100, hide: 200 } });
+$('.popover').popover({  delay: { show: 500, hide: 200 } });
 
 
 setTimeout(function () {
@@ -75,7 +75,7 @@ popup.find(".modal-popup-close").click(function () {
 
     if ($("#shipment_<%= @shipment.id %>").length > 0) {
         $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @editable, show_assets: true %>");
-        $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 200 } });
+        $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 500, hide: 200 } });
     }
 });
 

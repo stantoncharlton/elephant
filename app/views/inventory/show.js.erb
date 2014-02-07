@@ -25,7 +25,7 @@ if(!tray.hasClass('custom-data-closed')) {
     tray.replaceWith("<%= j render 'inventory/tray_maintenance', parts: @parts %>");
     <% elsif params[:section] == "shipping" %>
     tray.replaceWith("<%= j render 'inventory/tray_shipping', parts: @parts %>");
-    $('.popover').popover({  delay: { show: 100, hide: 200 } });
+    $('.popover').popover({  delay: { show: 500, hide: 200 } });
     $('.receive-shipment-button').live("click", function() {
         $(this).remove();
     });

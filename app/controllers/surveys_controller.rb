@@ -1,5 +1,7 @@
 class SurveysController < ApplicationController
 
+    include SurveysHelper
+
     def index
         if params[:document].present?
             @document = Document.find_by_id(params[:document])
@@ -31,11 +33,20 @@ class SurveysController < ApplicationController
         @survey = Survey.find(params[:id])
         not_found unless @survey.present?
 
-        if !@survey.plan? && !@survey.document.nil?
-            @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
-            render 'surveys/show_entry'
-        else
-            render 'surveys/show'
+        respond_to do |format|
+            format.xlsx {
+                @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
+                excel = survey_to_excel @active_well_plan, @survey
+                send_data excel.to_stream.read, :filename => "Survey (#{@survey.document.job.name}).xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
+            format.all {
+                if !@survey.plan? && !@survey.document.nil?
+                    @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
+                    render 'surveys/show_entry'
+                else
+                    render 'surveys/show'
+                end
+            }
         end
     end
 

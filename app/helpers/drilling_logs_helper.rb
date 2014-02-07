@@ -430,21 +430,34 @@ module DrillingLogsHelper
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
 
 
-                sheet.add_row ['Date', 'Time', 'Depth', 'BHA #', 'Activity', 'Comments', 'WOB', 'GPM', 'RPM', 'TFO'], :style => column_name_cell
+                columns = ['Date', 'Time', 'Depth', 'BHA #', 'Activity', 'Comments']
+                DrillingLogEntry.attribute_names.each do |attribute_name|
+                    if attribute_name != "id" && attribute_name != "company_id" && attribute_name != "document_id" && attribute_name != "job_id" && attribute_name != "user_id" && attribute_name != "user_name" && attribute_name != "entry_at" && attribute_name != "created_at" && attribute_name != "updated_at" && attribute_name != "activity_code" && attribute_name != "depth" && attribute_name != "comment" && attribute_name != "bha_id" && attribute_name != "usage_hours" && attribute_name != "drilling_log_id"
+                        columns << attribute_name.humanize
+                    end
+                end
+                sheet.add_row columns, :style => column_name_cell
 
                 drilling_log.drilling_log_entries.includes(:bha).each_with_index do |dl, index|
                     cell = index % 2 == 0 ? cell1 : cell2
                     bold = index % 2 == 0 ? cell1_bold : cell2_bold
                     date = index % 2 == 0 ? date1 : date2
-                    sheet.add_row [dl.entry_at.strftime("%Y-%m-%d"), dl.entry_at.strftime("%k:%M"), dl.depth, dl.bha.present? ? dl.bha.name : '', get_activity_code_string(dl.activity_code), dl.comment, dl.wob, dl.flow, dl.rotary_rpm, dl.tfo], :style => [date, bold, bold, cell, bold, cell, cell, cell, cell, cell]
+
+                    values = [dl.entry_at.strftime("%Y-%m-%d"), dl.entry_at.strftime("%k:%M"), dl.depth, dl.bha.present? ? dl.bha.name : '', get_activity_code_string(dl.activity_code), dl.comment]
+                    DrillingLogEntry.attribute_names.each do |attribute_name|
+                        if attribute_name != "id" && attribute_name != "company_id" && attribute_name != "document_id" && attribute_name != "job_id" && attribute_name != "user_id" && attribute_name != "user_name" && attribute_name != "entry_at" && attribute_name != "created_at" && attribute_name != "updated_at" && attribute_name != "activity_code" && attribute_name != "depth" && attribute_name != "comment" && attribute_name != "bha_id" && attribute_name != "usage_hours" && attribute_name != "drilling_log_id"
+                            values << dl[attribute_name]
+                        end
+                    end
+                    sheet.add_row values, :style => [date, bold, bold, cell, bold, cell]
                 end
 
-                sheet.column_widths 15, 10, 10, 8, 30, 45, 7, 7, 7, 7
+                sheet.column_widths 15, 10, 10, 8, 30, 45, 7
 
-                sheet.merge_cells("A1:J1")
-                sheet.merge_cells("A2:J2")
-                sheet.merge_cells("A3:J3")
-                sheet.merge_cells("A4:J4")
+                sheet.merge_cells("A1:F1")
+                sheet.merge_cells("A2:F2")
+                sheet.merge_cells("A3:F3")
+                sheet.merge_cells("A4:F4")
 
             end
         end

@@ -9,7 +9,7 @@ if ($('#map').length > 0) {
 
 if($("#shipment_<%= @shipment.id %>").length > 0) {
     $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: true, show_assets: true %>");
-    $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 100, hide: 200 } });
+    $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 500, hide: 200 } });
 }
 
 if($('#no_outbound_shipments').length > 0) {

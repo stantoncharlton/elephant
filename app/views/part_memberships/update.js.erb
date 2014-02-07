@@ -13,6 +13,6 @@ $('#alert').modal({show:true});
         $('#modal_popup2').height(0);
 
         $('div[id=part_membership_<%= @part_membership.id %>]').replaceWith("<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>");
-        $('div[id=part_membership_<%= @part_membership.id %>]').find('.popover').popover({  delay: { show: 100, hide: 200 } });
+        $('div[id=part_membership_<%= @part_membership.id %>]').find('.popover').popover({  delay: { show: 500, hide: 200 } });
     <% end %>
 <% end %>

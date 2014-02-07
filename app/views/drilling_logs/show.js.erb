@@ -78,7 +78,7 @@ removeOldContent('<%= params[:section] %>');
     tray.replaceWith("<%= j render 'drilling_logs/tray_daily', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling-bha" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_bha', drilling_log: @drilling_log %>");
-    $('.popover').popover({  delay: { show: 100, hide: 200 } });
+    $('.popover').popover({  delay: { show: 500, hide: 200 } });
 <% elsif params[:section] == "drilling-npt" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_npt', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling-reports" %>

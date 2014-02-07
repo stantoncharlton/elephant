@@ -26,7 +26,6 @@
         <p>Please add a well plan before continuing with survey.</p>
 
 
-
         <% document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
         <% if !document.nil? %>
             <br>
@@ -50,11 +49,26 @@
         <% end %>
 
         <div>
+          <div class="btn-group inline pull-right push-right">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              Export
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to "Export as Excel", survey_path(@survey, format: "xlsx"),
+                            target: "_blank",
+                            class: "dropdown-menu-link tooltip-info submit-form",
+                            "data-placement" => "left",
+                            "data-title" => "Export survey as Microsoft Excel file." %>
+              </li>
+            </ul>
+          </div>
+
           <div class='pull-right'>
             <% if @survey.no_well_plan %>
                 <b>Straight Well - No Well Plan</b>
             <% else %>
-                <%= link_to "View Well Plan", @active_well_plan, class: "activity-user-link" %>
+                <%= link_to "View Well Plan", @active_well_plan, class: "btn btn-default align-top push-up-small" %>
             <% end %>
           </div>
           <span><div class='well-plan'></div> Well Plan</span>

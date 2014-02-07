@@ -48,7 +48,7 @@ if($('.modal-backdrop').length > 0) {
     <% if found %>
     $('#part_membership_<%= pm.id %>').replaceWith("<%= j render 'part_memberships/part_membership', part_membership: found, allow_remove: true %>");
     $('#part_membership_<%= found.id %>').parent().css("opacity", "1.0");
-    $('#part_membership_<%= found.id %>').find('.popover').popover({  delay: { show: 100, hide: 200 } });
+    $('#part_membership_<%= found.id %>').find('.popover').popover({  delay: { show: 500, hide: 200 } });
     <% end %>
 <% end %>
 <% end %>
