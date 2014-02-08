@@ -90,8 +90,9 @@ class SurveysController < ApplicationController
             @survey.plan = true
             @survey.north_type = Survey::GRID
 
-            if @survey.name.blank?
-                @survey.name = @document.name
+            begin
+                @survey.name = File.basename(file_data.original_filename, '.*')
+            rescue
             end
 
             entry_lines = []
@@ -180,6 +181,11 @@ class SurveysController < ApplicationController
                 contents = File.read(file_data.path)
             else
                 logger.error "Bad file_data: #{file_data.class.name}: #{file_data.inspect}"
+            end
+
+            begin
+                @survey.name = File.basename(file_data.original_filename, '.*')
+            rescue
             end
 
             @survey.north_type = Survey::GRID

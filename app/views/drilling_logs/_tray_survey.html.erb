@@ -68,7 +68,9 @@
             <% if @survey.no_well_plan %>
                 <b>Straight Well - No Well Plan</b>
             <% else %>
-                <%= link_to "View Well Plan", @active_well_plan, class: "btn btn-default align-top push-up-small" %>
+                <p class='inline-block help-text align-top'><%= @survey.name %></p>
+
+                <%= link_to "View Well Plan", @active_well_plan, class: "btn btn-default align-top push-up-small push-right-small" %>
             <% end %>
           </div>
           <span><div class='well-plan'></div> Well Plan</span>

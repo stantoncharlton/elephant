@@ -29,11 +29,15 @@
 </div>
 
 <% drilling_log_document = Document.where("documents.job_id = ?", @survey.document.job_id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
-<div class='pull-right'>
-  <%= link_to "View/Add Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-info white-text " %>
-  <%= link_to "Update Well Plan", edit_survey_path(@survey), class: "btn btn-default push-right-small" %>
+<div>
+  <div class='pull-right'>
+    <%= link_to "View/Add Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-info white-text " %>
+    <%= link_to "Update Well Plan", edit_survey_path(@survey), class: "btn btn-default push-right-small" %>
+  </div>
+
+  <p class='help-text'><%= @survey.name %></p>
 </div>
-<br><br>
+<br>
 
 <div id="chartdiv" class='inline-block' style="width: 500px; height: 500px;"></div>
 
