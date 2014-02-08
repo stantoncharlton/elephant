@@ -32,8 +32,10 @@ module SurveysHelper
                 sheet.add_row ['Survey', '', '', '', ''], :style => title_cell
                 sheet.add_row [survey.document.job.name, '', '', '', ''], :style => title_cell2
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
-                sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.vertical_section_azimuth}", '', "", '', ''], :style => title_cell2
-                sheet.add_row ["Mag Field Strength: #{survey.magnetic_field_strength} \t\t\t Mag Dip Angle: #{survey.magnetic_dip_angle} \t\t\t Gravity: #{survey.gravity_total}", '', "", '', ''], :style => title_cell2
+                if calculated_points_survey.any?
+                    sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.vertical_section_azimuth}", '', "", '', ''], :style => title_cell2
+                    sheet.add_row ["Mag Field Strength: #{survey.magnetic_field_strength.round(4)} \t\t\t Mag Dip Angle: #{survey.magnetic_dip_angle.round(4)} \t\t\t Gravity: #{survey.gravity_total.round(4)}", '', "", '', ''], :style => title_cell2
+                end
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
 
 
@@ -62,9 +64,11 @@ module SurveysHelper
                 sheet.merge_cells("A1:L1")
                 sheet.merge_cells("A2:L2")
                 sheet.merge_cells("A3:L3")
-                sheet.merge_cells("A4:L4")
-                sheet.merge_cells("A5:L5")
-                sheet.merge_cells("A6:L6")
+                if calculated_points_survey.any?
+                    sheet.merge_cells("A4:L4")
+                    sheet.merge_cells("A5:L5")
+                    sheet.merge_cells("A6:L6")
+                end
 
             end
         end
