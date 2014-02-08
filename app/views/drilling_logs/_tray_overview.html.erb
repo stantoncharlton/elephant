@@ -104,11 +104,11 @@
     </div>
 
     <div class="chart-block tooltip-info"
-         data-title="Failures/Feet">
-      <div class="chart-title">Failure Rate</div>
+         data-title="Non-Productive Time (excluding Stand-By Out-hole)">
+      <div class="chart-title">NPT</div>
       <div class="donut-chart-div job-donut-chart-div">
-        <div class="donut-text chart-text-red"><%= drilling_log.nil? || drilling_log.total_drilled.nil? || drilling_log.total_drilled == 0 ? "-" : (issues.count.to_f / drilling_log.total_drilled.to_f * 1000.0).round(1) %></div>
-        <div class="percentage chart-text-red">failure/1k ft</div>
+        <div class="donut-text chart-text-red"><%= drilling_log.nil? ? "-" : drilling_log.npt.round(1) %></div>
+        <div class="percentage chart-text-red">hours</div>
       </div>
     </div>
 

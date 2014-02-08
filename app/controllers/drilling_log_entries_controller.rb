@@ -210,7 +210,7 @@ class DrillingLogEntriesController < ApplicationController
                 hours = (@drilling_log_entry.entry_at - @prior_entry.entry_at) / 60 / 60
                 rop = course_length / hours
 
-                if (@drilling_log_entry.activity_code == DrillingLogEntry::DRILLING || @drilling_log_entry.activity_code == DrillingLogEntry::SLIDING) && (@drilling_log_entry.depth - @drilling_log.max_depth) < 0
+                if (@drilling_log_entry.activity_code == DrillingLogEntry::DRILLING || @drilling_log_entry.activity_code == DrillingLogEntry::SLIDING) && course_length < 0
                     @drilling_log_entry.errors.add(:depth, "can't be a negative value based on the last entry. Rotating or sliding activities must be deeper than the last greatest depth. Depth change from last activity: #{course_length} ft.")
                     return
                 end

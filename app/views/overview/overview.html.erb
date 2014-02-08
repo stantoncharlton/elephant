@@ -7,6 +7,13 @@
 <ul class="nav nav-pills alert alert-nav">
 
   <li class="active">
+    <a href="#jobs" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="jobs"
+       data-placement="bottom" data-title="Jobs overview">Jobs In-Progress
+    </a>
+  </li>
+
+  <li class="push-right-small">
     <a href="#company" class="job-tray-toggle custom-data-toggle tooltip-info"
        data-tray="company"
        data-placement="bottom" data-title="Company general overview">Company
@@ -38,12 +45,7 @@
     </a>
   </li>
 
-  <li class="push-right-small">
-    <a href="#jobs" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="jobs"
-       data-placement="bottom" data-title="Jobs overview">Running Jobs
-    </a>
-  </li>
+
 </ul>
 
 
@@ -61,7 +63,7 @@
 
 <div id="overview_trays">
 
-  <div class="job-tray" data-tray="company">
+  <div class="job-tray custom-data-closed" data-tray="company">
     <div id="overview_company">
       <br><br>
 
@@ -121,7 +123,7 @@
     </div>
   </div>
 
-  <div class="job-tray custom-data-closed" data-tray="jobs">
+  <div class="job-tray" data-tray="jobs">
     <div id="overview_jobs">
       <br><br>
 
@@ -140,7 +142,7 @@
             setTimeout(function () {
 
                 $.ajax({
-                    url: "/overview" + "?section=company",
+                    url: "/overview" + "?section=jobs",
                     type: "GET",
                     dataType: "script"
                 });

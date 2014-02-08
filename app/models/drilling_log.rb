@@ -19,7 +19,8 @@ class DrillingLog < ActiveRecord::Base
                     :slide_rop,
                     :total_drilled,
                     :max_depth,
-                    :td_depth
+                    :td_depth,
+                    :npt
 
     acts_as_tenant(:company)
 
@@ -62,6 +63,7 @@ class DrillingLog < ActiveRecord::Base
             self.drilling_rop = drilling_log.drilling_rop
             self.drilling_time = drilling_log.drilling_time
             self.total_circulation_time = drilling_log.total_circulation_time
+            self.npt = drilling_log.npt
 
             if self.td_depth.blank? || self.td_depth == 0.0
                 if self.document.present? && self.document.job.present?
@@ -102,6 +104,7 @@ class DrillingLog < ActiveRecord::Base
             drilling_log.ream_hours = 0.0
             drilling_log.circulation_hours = 0.0
             drilling_log.max_depth = 0.0
+            drilling_log.npt = 0.0
 
             drilling_log.ranges = {}
 
@@ -129,6 +132,12 @@ class DrillingLog < ActiveRecord::Base
                 length_change = entry.depth - last_entry.depth
                 length_change = [length_change, 0.0].max
                 time = [((entry.entry_at - last_time) / 60 / 60).to_f, 0.0].max
+
+                if entry.activity_code != DrillingLogEntry::STANDBY_OUTHOLE &&
+                        entry.activity_code != DrillingLogEntry::DRILLING &&
+                        entry.activity_code != DrillingLogEntry::SLIDING
+                    drilling_log.npt += time
+                end
 
                 entry.course_length = length_change
                 entry.hours = time

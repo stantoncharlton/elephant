@@ -63,11 +63,11 @@ $ ->
   $('#show_hide_overview_filters').click ->
     if $(this).attr('data-showing') == "basic"
       $(this).attr('data-showing', 'advanced')
-      $(this).text("Show Less")
+      $(this).text("Hide")
       $('#overview_filters').removeClass 'hidden'
     else
       $(this).attr('data-showing', 'basic')
-      $(this).text("Show More")
+      $(this).text("Show")
       $('#overview_filters').addClass 'hidden'
     return false
 

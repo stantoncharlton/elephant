@@ -1,25 +1,20 @@
 task :daily_activity_email => :environment do
     Time.zone = "Central Time (US & Canada)"
     User.all.each do |user|
-    #user = User.find(85)
-        if false
-            if !user.admin? && user.send_daily_activity
-
-                activities = Activity.activities_for_user_today(user)
-                if !activities.nil? and activities.any?
-                    UserMailer.daily_activity(user, activities).deliver
-                end
-            end
-        end
+        #user = User.find(85)
 
         if !user.admin? && user.send_daily_activity
 
             jobs = !user.role.limit_to_assigned_jobs? ? user.company.jobs.reorder('') : user.jobs
             #jobs = user.role.no_assigned_jobs? ? user.company.jobs.reorder('') : user.jobs
-            jobs = jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)",  status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)).
+            jobs = jobs.includes(dynamic_fields: :dynamic_field_template).includes(:job_memberships, :field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)).
                     order("jobs.created_at DESC")
             if jobs.any?
-                UserMailer.daily_activity_report(user, jobs).deliver
+                begin
+                    UserMailer.daily_activity_report(user, jobs).deliver
+                rescue
+                    UserMailer.daily_activity_report(user, jobs).deliver
+                end
             end
         end
     end

@@ -1,7 +1,8 @@
 <div id="overview_failures" data-loaded='true'>
   <%= render 'issues/statistics', jobs_sql: @jobs_sql %>
 
-  <% all_issues = Issue.where("issues.job_id IN (#{@jobs_sql})").count %>
+  <% issues = Issue.where("issues.job_id IN (#{@jobs_sql})") %>
+  <% all_issues = issues.count %>
   <% tool_failures = Issue.where("issues.part_id IS NOT NULL").where("issues.job_id IN (#{@jobs_sql})").count %>
   <% human_failures = Issue.where("issues.responsible_by_id IS NOT NULL").where("issues.job_id IN (#{@jobs_sql})").count %>
 
@@ -51,7 +52,24 @@
 
   </div>
 
-  <%= link_to "View all/open issues", issues_path, class: "btn btn-info white-text" %>
+
+  <div>
+
+    <h3 class='inline-block'>New Failures</h3>
+
+
+    <%= link_to "View all/open issues", issues_path, class: "btn btn-info white-text push-right align-top" %>
+
+  </div>
+  <br>
+
+  <div id="failures" class="list">
+    <% issues.where(:status => Issue::OPEN).take(10).each do |issue| %>
+        <% if issue.present? && issue.job.present? %>
+            <%= render "issues/issue", issue: issue, show_job: true %>
+        <% end %>
+    <% end %>
+  </div>
 
 </div>
 
