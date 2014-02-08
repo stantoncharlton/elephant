@@ -12,7 +12,11 @@ class Part < ActiveRecord::Base
                     :total_uses,
                     :location,
                     :below_rotary,
-                    :above_rotary
+                    :above_rotary,
+                    :manufacturer,
+                    :category,
+                    :max_hours,
+                    :weight
 
     acts_as_tenant(:company)
 

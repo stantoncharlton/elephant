@@ -1,5 +1,5 @@
 <div class="page_header">
-  <h1>New Asset</h1>
+  <h1>New Asset Type</h1>
   <h3>District - <%= @district.name %></h3>
 </div>
 
@@ -8,7 +8,7 @@
   <%= form_for(@part) do |f| %>
       <%= render 'fields', f: f %>
 
-      <%= f.submit "Create New Asset",
+      <%= f.submit "Create New Asset Type",
                    class: "bluebtn pull-right tooltip-info  form-loading-on-click",
                    "data-form" => "new_part",
                    "data-title" => "Create and save new asset" %>

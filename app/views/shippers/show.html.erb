@@ -1,10 +1,10 @@
-<% provide(:title, "Supplier - " + @shipper.name) %>
+<% provide(:title, "Supplier - " + @supplier.name) %>
 
 <div class="page_header">
-  <h1><%= @shipper.name %></h1>
+  <h1><%= @supplier.name %></h1>
 
   <h2>
-    Shipper
+    Supplier
   </h2>
 
   <div class="btn-group inline pull-right push-right-small">
@@ -13,7 +13,7 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-        <%= link_to "Edit Supplier", edit_shipper_path(@shipper),
+        <%= link_to "Edit Supplier", edit_supplier_path(@supplier),
                     class: "dropdown-menu-link tooltip-info",
                     "data-placement" => "left",
                     "data-title" => "Edit supplier" %>
@@ -23,7 +23,7 @@
 
   <br>
   <div class='help-text'>
-    <%= "#{@shipper.city} #{@shipper.state}" %>
+    <%= "#{@supplier.city} #{@supplier.state}" %>
   </div>
 
 

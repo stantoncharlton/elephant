@@ -23,9 +23,6 @@
             <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
               <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="rental">Rental</a>
             </li>
-            <li class='push-right-small'><a href="#" class='change-asset-type blue-text' data-type="accessory">
-              Dumb Iron</a>
-            </li>
           </ul>
         </div>
 
@@ -55,21 +52,6 @@
 
         </div>
 
-        <div class='inline-block asset-type-form align-top hidden' data-type="accessory">
-          <%= text_field_tag "accessory_name", "",
-                             placeholder: "Asset Name",
-                             class: "txtfield asset-input  tooltip-info align-top",
-                             "data-placement" => "bottom",
-                             "data-title" => "Asset Name" %>
-
-          <div class='inline-block help-text push-down'>Optional</div>
-          <%= text_field_tag "accessory_serial_number", "",
-                             placeholder: "Serial Number",
-                             class: "txtfield asset-input2 push-right-small  tooltip-info align-top",
-                             "data-placement" => "bottom",
-                             "data-title" => "Serial Number" %>
-
-        </div>
 
         <div class='inline-block push-right-small id-od-box'>
           <%= text_field_tag "id", "",

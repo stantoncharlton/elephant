@@ -37,8 +37,8 @@ ElephantWebApp::Application.configure do
 
 
     require 'pusher'
-    Pusher.app_id = '64968'
-    Pusher.key = '9f7a931d636464d8a7c3'
-    Pusher.secret = '3fec435fe627749641b7'
+    Pusher.app_id = '64967'
+    Pusher.key = '4473ee4fa1db6d852a46'
+    Pusher.secret = '371605bacec3e7fee347'
 
 end

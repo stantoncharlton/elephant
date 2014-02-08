@@ -1,14 +1,5 @@
-<% provide(:title, "Update user") %>
-
-<% if @user.admin? %>
-    <div class="alert">
-         This is an admin user account
-    </div>
-<% end %>
-
-
 <div class="page_header">
-  <h1>Update user</h1>
+  <h1>Update Asset Type</h1>
 
   <div class="btn-group inline pull-right">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -17,11 +8,11 @@
     <ul class="dropdown-menu">
 
       <li>
-        <%= link_to "Delete User", @user, method: :delete,
-                    data: {confirm: "Delete User " + @user.name + "?"},
+        <%= link_to "Delete Asset Type", @part, method: :delete,
+                    data: {confirm: "Delete Asset Type?"},
                     class: "dropdown-menu-link tooltip-info",
                     "data-placement" => "left",
-                    "data-title" => "Permanently delete user. Jobs and data created will still exist however." %>
+                    "data-title" => "Permanently asset type. Warning, this can't be undone." %>
       </li>
 
 
@@ -29,12 +20,17 @@
   </div>
 </div>
 
+
 <div class="form">
-<%= form_for(@user) do |f| %>
-    <%= render 'fields', f: f %>
-    <%= f.submit "Save User", class: "bluebtn pull-right tooltip-info form-loading-on-click",
-                 "data-title" => "Save user and return to list of all users"%>
-<% end %>
+  <%= form_for @part do |f| %>
+
+      <%= render "fields", f: f %>
+
+      <div class="actions">
+        <%= f.submit "Save asset type", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                     "data-title" => "Save shipper"%>
+      </div>
+  <% end %>
 </div>
 
-<%= render "layouts/inline_loading", title: "Saving user, please wait" %>
+<%= render "layouts/inline_loading", title: "Saving asset type, please wait..." %>

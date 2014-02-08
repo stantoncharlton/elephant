@@ -100,7 +100,7 @@ ElephantWebApp::Application.routes.draw do
 
     # Inventory
     resources :inventory, only: [:index, :show]
-    resources :parts, only: [:index, :show, :new, :create, :update, :destroy]
+    resources :parts, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     resources :warehouses, only: [:show, :new, :create, :edit, :update, :destroy]
     resources :suppliers, only: [:show, :new, :create, :edit, :update, :destroy]
     resources :warehouse_memberships, only: [:new, :edit, :update, :create, :destroy]
@@ -125,5 +125,6 @@ ElephantWebApp::Application.routes.draw do
     resources :rig_memberships, only: [:new, :create, :destroy]
 
     resources :shipments, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+    resources :shippers, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 end
 

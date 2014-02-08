@@ -11,7 +11,7 @@
     <% shipments = Shipment.where(:district_id => @district.id).order("status ASC, created_at DESC") %>
 
     <div class='well'>
-      <h1 class="donut-text inline"><%= shipments.count %></h1>
+      <h1 class="donut-text inline"><%= shipments.where("shipments.status != ?", Shipment::COMPLETE).count %></h1>
 
       <div class='inline-block push-down push-right-small'>
         <h3 class="inline-block">Shipments</h3>
@@ -24,8 +24,9 @@
       </div>
     </div>
 
+    <% paginated_shipments = shipments.paginate(page: params[:page], limit: 20) %>
     <div id="shipments_list" class="list">
-      <% shipments.each do |shipment| %>
+      <% paginated_shipments.each do |shipment| %>
           <%= render 'shipments/shipment', shipment: shipment, editable: shipment.status != Shipment::COMPLETE, show_assets: shipment.status != Shipment::COMPLETE %>
           <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT && shipment.to.present? && (shipment.to_type == Warehouse.name || shipment.to_type == Supplier.name) %>
               <%= link_to "Receive Shipment", shipment_path(shipment, update_field: true, field: "receive_shipment", value: shipment.id),
@@ -36,6 +37,17 @@
       <% end %>
     </div>
 
+    <%= will_paginate paginated_shipments %>
+
+    <script type='text/javascript'>
+        $(function () {
+            $('.pagination a').live("click", function () {
+                $('.pagination').html('Page is loading...');
+                $.get(this.href, null, null, 'script');
+                return false;
+            });
+        });
+    </script>
   </div>
 
 </div>

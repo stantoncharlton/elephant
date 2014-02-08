@@ -1,9 +1,9 @@
 <div class="page_header">
-  <h1>New Shipper</h1>
+  <h1>New Supplier</h1>
 </div>
 
 <div class="form">
-  <%= form_for @shipper do |f| %>
+  <%= form_for @supplier do |f| %>
 
       <%= f.hidden_field :district, value: @district.id %>
       <%= render "fields", f: f %>
@@ -16,5 +16,5 @@
   <% end %>
 </div>
 
-<%= render "layouts/inline_loading", title: "Creating shipper, please wait..." %>
+<%= render "layouts/inline_loading", title: "Creating supplier, please wait..." %>
 

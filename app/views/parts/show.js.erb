@@ -5,7 +5,7 @@ $('.part-name-div').removeClass('hidden');
 <% if @part.present? %>
 $('#part_name').val('<%= @part.name %>').trigger('focusout');
 <% else %>
-$('#part_name').val('').trigger('focusout');
+//$('#part_name').val('').trigger('focusout');
 <% end %>
 
 tray = $(".remote-tray[data-tray='<%= params[:section] %>']");

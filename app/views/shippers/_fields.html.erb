@@ -1,0 +1,58 @@
+<%= render 'shared/error_messages', object: f.object %>
+
+<div class="well">
+  <div class="content">
+    <div class="">
+      <b class='list-item-column4'>Name</b>
+      <%= f.text_field :name, placeholder: "Warehouse Name",
+                       class: "txtfield tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Warehouse Name" %>
+    </div>
+
+    <hr>
+
+    <div class="">
+
+      <%= f.text_field :address_line_1, placeholder: "Address",
+                       class: "txtfield long tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Address" %>
+
+      <%= f.text_field :address_line_2, placeholder: "Address Line 2",
+                       class: "txtfield long tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Address Line 2" %>
+    </div>
+
+    <div class="">
+      <%= f.text_field :city, placeholder: "City",
+                       class: "txtfield small long tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "City" %>
+
+      <%= f.text_field :state, placeholder: "State",
+                       class: "txtfield small tooltip-info push-right-small",
+                       "data-placement" => "bottom",
+                       "data-title" => "State" %>
+
+      <%= f.text_field :postal_code, placeholder: "Postal Code",
+                       class: "txtfield small tooltip-info push-right-small",
+                       "data-placement" => "bottom",
+                       "data-title" => "Postal Code" %>
+    </div>
+
+    <div class="">
+      <%= f.text_field :phone_number, placeholder: "Phone Number",
+                       class: "txtfield small tooltip-info",
+                       "data-placement" => "bottom",
+                       "data-title" => "Phone Number" %>
+
+      <%= f.text_field :email, placeholder: "Email",
+                       class: "txtfield small tooltip-info push-right-small",
+                       "data-placement" => "bottom",
+                       "data-title" => "Email" %>
+    </div>
+  </div>
+</div>
+

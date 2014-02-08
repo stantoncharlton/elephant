@@ -21,7 +21,7 @@
 
     <%= f.hidden_field :district_id, id: "warehouse_id", value: @district.id %>
 
-    <div class="part-name-div well hidden">
+    <div class="part-name-div well <%= @part.new_record? ? "hidden" : "" %>">
 
       <div>
         <b class="field-title">Asset Name / Description</b>
@@ -34,6 +34,29 @@
         <% else %>
             <b><%= @part.name %></b>
         <% end %>
+
+        <hr>
+
+        <div class='inline-block' style="width: 160px;"><b class="">Manufacturer</b></div>
+        <%= f.text_field :manufacturer, placeholder: "Manufacturer", class: "txtfield small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Asset Manufacturer" %>
+
+        <div class='inline-block push-right' style="width: 130px;"><b class="">Category</b></div>
+        <%= f.text_field :category, placeholder: "Category for Grouping...", class: "txtfield small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Asset Category" %>
+
+        <br>
+          <div class='inline-block' style="width: 160px;"><b class="">Max Usage Hours</b></div>
+        <%= f.text_field :max_hours, placeholder: "Max Usage Hours", class: "txtfield small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Max Usage Hours" %>
+        <div class='inline-block push-right' style="width: 130px;"><b class="">Weight</b></div>
+        <%= f.text_field :weight, placeholder: "Asset Weight", class: "txtfield small tooltip-info",
+                         "data-placement" => "bottom",
+                         "data-title" => "Weight" %>
+
 
       </div>
 

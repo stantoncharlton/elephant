@@ -47,22 +47,15 @@
         <ul class="dropdown-menu">
 
           <% if current_user.role.add_remove_inventory? %>
-              <li>
-                <%= link_to "Rename Asset", "#",
-                            id: "rename_part_link",
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Rename asset." %>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <%= link_to "Change Material Number", "#",
-                            id: "change_material_number_part_link",
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Change material number of asset and all sub assets." %>
-              </li>
-              <li class="divider"></li>
+              <% if @part.template? %>
+                  <li>
+                    <%= link_to "Edit Asset Type", edit_part_path(@part),
+                                class: "dropdown-menu-link tooltip-info",
+                                "data-placement" => "left",
+                                "data-title" => "Edit asset type" %>
+                  </li>
+                  <li class="divider"></li>
+              <% end %>
           <% end %>
           <% if @part.template? %>
               <li>

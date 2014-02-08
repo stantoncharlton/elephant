@@ -125,7 +125,9 @@ class Well < ActiveRecord::Base
         Sunspot.search(Well) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
-            with(:field_id, field.id)
+            if field.present?
+                with(:field_id, field.id)
+            end
             order_by :name_sort
             paginate :page => options[:page], :per_page => 20
         end
@@ -139,7 +141,7 @@ class Well < ActiveRecord::Base
         location_decimal false
     end
 
-private
+    private
     def location_decimal(first)
         if !self.location.blank?
             begin

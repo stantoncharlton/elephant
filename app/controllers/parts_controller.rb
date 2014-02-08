@@ -1,6 +1,6 @@
 class PartsController < ApplicationController
     before_filter :signed_in_user, only: [:index]
-    before_filter :signed_in_user_inventory, only: [:show, :new, :create, :update, :destroy]
+    before_filter :signed_in_user_inventory, only: [:show, :new, :create, :edit, :update, :destroy]
     set_tab :inventory
 
     include InventoryHelper
@@ -54,7 +54,7 @@ class PartsController < ApplicationController
 
     def show
         if params[:material_number].present?
-            @part = Part.where("parts.company_id = :company_id AND parts.template IS TRUE AND parts.material_number = :material_number", company_id: current_user.company_id, material_number: params[:material_number]).limit(1).first
+            @part = Part.where("parts.template IS TRUE AND parts.material_number = :material_number", company_id: current_user.company_id, material_number: params[:material_number]).limit(1).first
         else
             @part = Part.find(params[:id])
             not_found unless @part.present? && @part.company == current_user.company
@@ -138,8 +138,15 @@ class PartsController < ApplicationController
         end
     end
 
+    def edit
+        @part = Part.find_by_id(params[:id])
+        not_found unless @part.present? && current_user.role.add_remove_inventory?
+
+        @district = @part.district
+    end
+
     def update
-        @part = Part.find(params[:id])
+        @part = Part.find_by_id(params[:id])
 
         @part_update = false
         @inline_part_update = false
@@ -257,18 +264,34 @@ class PartsController < ApplicationController
             flash[:success] = "Asset Recommissioned"
             redirect_to @part
         elsif params[:part].present?
-            if params[:part][:name].present?
-                @part_update = true
-                @part.update_attribute(:name, params[:part][:name])
-            elsif params[:part][:material_number].present?
-                @part_update = true
-                @material_number_update = true
+            if params[:part][:material_number].present?
+
+                params[:part].delete(:district_id)
+
+                material_number = params[:part][:material_number]
+                params[:part].delete(:material_number)
+
+
                 Part.transaction do
-                    @part.parts.each do |p|
-                        p.update_attribute(:material_number, params[:part][:material_number])
+                    if @part.update_attribute(:name, params[:part][:name])
+                        @part.update_attribute(:manufacturer, params[:part][:manufacturer])
+                        @part.update_attribute(:category, params[:part][:category])
+                        @part.update_attribute(:weight, params[:part][:weight])
+                        @part.update_attribute(:max_hours, params[:part][:max_hours].to_f)
+                        if material_number != @part.material_number
+                            @part.update_attribute(:material_number, material_number)
+                            @part.parts.each do |p|
+                                p.update_attribute(:material_number, @part.material_number)
+                            end
+                        end
                     end
-                    @part.update_attribute(:material_number, params[:part][:material_number])
+                    if @part.errors.any?
+                        flash[:error] = @part.errors.full_messages.join(', ').html_safe
+                    else
+                        flash[:success] = "Asset type updated"
+                    end
                 end
+                redirect_to @part
             elsif params[:part][:serial_number].present?
                 @part_update = true
                 @serial_number_update = true

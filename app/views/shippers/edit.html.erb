@@ -1,5 +1,5 @@
 <div class="page_header">
-  <h1>Update Supplier</h1>
+  <h1>Update Shipper</h1>
 
   <div class="btn-group inline pull-right">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -8,7 +8,7 @@
     <ul class="dropdown-menu">
 
       <li>
-        <%= link_to "Delete Supplier", @warehouse, method: :delete,
+        <%= link_to "Delete Supplier", @shipper, method: :delete,
                     data: {confirm: "Delete supplier?"},
                     class: "dropdown-menu-link tooltip-info",
                     "data-placement" => "left",
@@ -22,15 +22,15 @@
 
 
 <div class="form">
-<%= form_for @supplier do |f| %>
+<%= form_for @shipper do |f| %>
 
     <%= render "fields", f: f %>
 
     <div class="actions">
-      <%= f.submit "Save supplier", class: "bluebtn pull-right tooltip-info form-loading-on-click",
-                   "data-title" => "Save warehouse"%>
+      <%= f.submit "Save shipper", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                   "data-title" => "Save shipper"%>
     </div>
 <% end %>
 </div>
 
-<%= render "layouts/inline_loading", title: "Saving supplier, please wait..." %>
+<%= render "layouts/inline_loading", title: "Saving shipper, please wait..." %>
