@@ -7,7 +7,7 @@
 
   .day-header {
     display: inline-block;
-    width: 60px;
+    width: 45px;
     height: 25px;
     padding: 0px;
     margin: 0px;
@@ -17,7 +17,7 @@
 
   .day {
     display: inline-block;
-    width: 60px;
+    width: 45px;
     height: 20px;
     padding: 0px;
     margin: 0px;
@@ -25,7 +25,8 @@
 
   .day-button {
     display: inline-block;
-    width: 60px !important;
+    width: 45px !important;
+    min-width: 0px;
     height: 36px !important;
     padding: 0px !important;
 

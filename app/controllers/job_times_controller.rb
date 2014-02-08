@@ -23,7 +23,28 @@ class JobTimesController < ApplicationController
             if @page != 0
                 @start_date = @start_date + (@page * 10.days)
             end
+        else
+            if params[:district].present?
+                @district = District.find_by_id(params[:district])
+            elsif current_user.district.present?
+                @district = current_user.district
+            elsif current_user.company.districts.where(:master => true).count == 1
+                @district = current_user.company.districts.where(:master => true).first.districts.first
+            else
+                @district = nil
+            end
 
+            not_found unless @district.present?
+
+            @page = (params[:page] || "1").to_i
+            @adjusted_today_date = Time.now
+
+            @start_date = Time.now.beginning_of_week
+            if @start_date.strftime("%U").to_i % 2 != 0
+                @start_date = @start_date - 1.week
+            else
+                @start_date = @start_date - 3.weeks
+            end
         end
     end
 

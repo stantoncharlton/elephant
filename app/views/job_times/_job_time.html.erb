@@ -18,7 +18,7 @@
                 <i class="icon-chevron-left"></i>
             <% end %>
           </div>
-          <% 11.times do |i| %>
+          <% 14.times do |i| %>
               <div class="day-header  <%= (@start_date + (i - 3).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
                 <%= (@start_date + (i - 3).days).strftime("%a") %>
                 <br>
@@ -54,23 +54,24 @@
         <br><br>
 
         <div class="pull-right">
-          <h3 class="list-item-column2">Total Scheduled</h3>
+          <h3 class="list-item-column2 align-top">Total Scheduled</h3>
 
-          <h3 class="light-blue-text inline total-scheduled">0</h3>
+          <h3 class="light-blue-text inline total-scheduled align-top push-down-small">0</h3>
           <br>
 
-          <h3 class="list-item-column2">Total Worked</h3>
+          <h3 class="list-item-column2 align-top">Total Worked</h3>
 
-          <h3 class="inline total-worked">0</h3>
+          <h3 class="inline total-worked align-top push-down-small">0</h3>
         </div>
 
 
-        <br><br><br><br>
+        <br><br><br><br><br>
 
-        <div class="">
-          <p class="inline">Press once to schedule <span class="blue">█</span></p>
-
-          <p class="inline push-right">Press again after work day to confirm work <span class="good-text">█</span></p>
+        <div class="alert">
+          <b class='orange-text'>Schedule work before job start date, and confirm after completion of shift.</b>
+          <br>
+          <p class="inline-block">Press once to schedule</p>&nbsp;&nbsp;<div class='inline-block' style='width: 10px; height: 10px; background: #01a6fb'></div>
+          <p class="inline-block push-right">Press again after work day to confirm work</p>&nbsp;&nbsp;<div class='inline-block' style='width: 10px; height: 10px; background: #1edf30'></div>
         </div>
 
     <% elsif job_memberships.empty? %>

@@ -1,0 +1,62 @@
+<div class="page_header">
+  <h1>Billing</h1>
+  <br>
+  <b class='orange-text'><%= @start_date.strftime("%a %m/%d") %> - <%= (@start_date + 14.days).strftime("%a %m/%d") %>
+    (2 weeks)</b>
+</div>
+
+
+<div>
+  <div class="timesheet">
+    <div class="name">
+      <div id="job_time_loader" class="pull-left push-down hidden inline">
+        <div class="">
+          <span class="ajax-loading search-loading"><b>Loading..</b></span>
+        </div>
+      </div>
+
+      <%= link_to job_times_path(district: @district.id, page: @page - 1),
+                  remote: true,
+                  class: "bold pull-right push-down activity-user-link start-job-time-loader" do %>
+          <i class="icon-chevron-left"></i>
+      <% end %>
+    </div>
+    <% 14.times do |i| %>
+        <div class="day-header  <%= (@start_date + (i).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
+          <%= (@start_date + (i).days).strftime("%a") %>
+          <br>
+          <%= (@start_date + (i).days).day %>
+        </div>
+    <% end %>
+
+    <%= link_to job_times_path(district: @district.id, page: @page + 1),
+                remote: true,
+                class: "bold activity-user-link start-job-time-loader" do %>
+        <i class="icon-chevron-right"></i>
+    <% end %>
+  </div>
+
+  <hr>
+
+  <% users = User.where(:district_id => @district.id).where("users.role_id >= 30 AND users.role_id < 40") %>
+  <% users.each do |user| %>
+      <% user.jobs.where("jobs.status < 50").each do |job| %>
+          <% @job_times = JobTime.where(:user_id => user.id).where(:job_id => job.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @start_date, end_date: @start_date + 14.days) %>
+          <%= render 'job_times/timesheet_line', user: user, job: job, start_date: @start_date, job_membership: job.get_membership_role(user) %>
+      <% end %>
+  <% end %>
+
+  <br><br>
+
+  <div class="pull-right">
+    <h3 class="list-item-column2 align-top">Total Scheduled</h3>
+
+    <h3 class="light-blue-text inline total-scheduled align-top push-down-small">0</h3>
+    <br>
+
+    <h3 class="list-item-column2 align-top">Total Worked</h3>
+
+    <h3 class="inline total-worked align-top push-down-small">0</h3>
+  </div>
+
+</div>

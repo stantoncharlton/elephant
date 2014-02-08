@@ -1,24 +1,20 @@
 <br>
 <div class="timesheet user-timesheet">
-  <% if user.present? %>
-      <div class="name"><%= render 'jobs/user', job_membership: job_membership, include_icon: true %></div>
-  <% else %>
-      <div class="name"><%= job_membership.user_name %></div>
-  <% end %>
+  <div class="name"><%= render 'users/user_icon', user: user, use_link: true, use_name: true %></div>
 
 
+  <% job_times = JobTime.where(:user_id => user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @start_date, end_date: @start_date + 14.days) %>
   <div class="timesheet-line-view <%= user.nil? ? "disabled-user-line" : "" %>">
     <% 14.times do |i| %>
-        <div class="day tooltip-info" data-title="<%= (start_date + (i - 3).days).strftime("%a %d") %>">
-          <% job_time = @job_times.find { |jt| jt.user_id == job_membership.user_id && jt.time_for.strftime("%d-%m-%Y") == (start_date + (i - 2).days).strftime("%d-%m-%Y") } %>
+        <% job_time = job_times.find { |jt| jt.user_id == user.id && jt.time_for.strftime("%d-%m-%Y") == (start_date + (i).days).strftime("%d-%m-%Y") } %>
+        <div class="day tooltip-info" data-title="<%= job_time.present? ? job_time.job.name : 'Not on job' %>">
           <input type='submit' value='<%= job_time.present? ? (job_time.hours == job_time.hours.to_i ? job_time.hours.to_i : job_time.hours) : current_user.company.minimum_work_day %>'
                  data-type='<%= job_time.present? ? job_time.status_string : "none" %>'
-                 data-job="<%= job.id %>"
-                 data-day="<%= (start_date + (i - 2).days).strftime("%d-%m-%Y") %>"
-                 data-user="<%= job_membership.user_id %>"
+                 data-job="<%= job_time.present? ? job_time.job_id : nil %>"
+                 data-day="<%= (start_date + (i).days).strftime("%d-%m-%Y") %>"
+                 data-user="<%= user.id %>"
                  class="bluebtn day-button day-button-schedule popover-control <%= job_time.present? ? (job_time.status == JobTime::SCHEDULED ? "light-blue" : "green") : "gray" %>"
                  data-html="true"
-                 data-content="<%= render 'job_times/timesheet_timepicker', user: user, job: job, date: (start_date + (i - 2).days), job_membership: job_membership %>"
                  data-toggle="popover"
                  data-placement="bottom"
                  data-trigger="manual"
@@ -27,8 +23,13 @@
     <% end %>
   </div>
 
-  <% total_scheduled_time = @job_times.select { |jt| jt.user_id == job_membership.user_id }.map(&:hours).reduce(:+) || 0 %>
-  <% total_work_time = @job_times.select { |jt| jt.user_id == job_membership.user_id && jt.status == JobTime::WORKED }.map(&:hours).reduce(:+) || 0 %>
+  <% if false %>
+      data-content="<%= render 'job_times/timesheet_timepicker', user: user, job: job_time.present? ? job_time.job : nil, date: (start_date + (i).days) %>"
+
+<% end %>
+
+  <% total_scheduled_time = job_times.select { |jt| jt.user_id == user.id }.map(&:hours).reduce(:+) || 0 %>
+  <% total_work_time = job_times.select { |jt| jt.user_id == user.id && jt.status == JobTime::WORKED }.map(&:hours).reduce(:+) || 0 %>
 
   <div class="push-down-small pull-right">
     <b class="inline user-total-time-scheduled push-down hidden" data-hours="<%= total_scheduled_time %>"><%= total_scheduled_time %></b>
