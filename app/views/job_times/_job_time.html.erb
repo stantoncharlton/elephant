@@ -39,7 +39,7 @@
         <b>Day</b>
         <% job_memberships.each do |job_membership| %>
             <% if job_membership.shift_type == JobMembership::SHIFT_DAY %>
-                <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership %>
+                <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership, show_job: false %>
             <% end %>
         <% end %>
 
@@ -47,7 +47,7 @@
         <b>Night</b>
         <% job_memberships.each do |job_membership| %>
             <% if job_membership.shift_type == JobMembership::SHIFT_NIGHT %>
-                <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership %>
+                <%= render 'job_times/timesheet_line', job: job, user: job_membership.user, start_date: @start_date, job_membership: job_membership, show_job: false %>
             <% end %>
         <% end %>
 

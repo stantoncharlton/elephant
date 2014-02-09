@@ -1,0 +1,8 @@
+<% user.jobs.includes(:job_times).where("jobs.status < 50").each do |job| %>
+    <% @job_times = job.job_times.to_a %>
+    <% @job_times = @job_times.select { |jt| jt.user_id = user.id } %>
+    <% jt = job.get_membership_role(user) %>
+    <% if jt.present? %>
+        <%= render 'job_times/timesheet_line2', user: user, job: job, start_date: @start_date, job_membership: jt %>
+    <% end %>
+<% end %>

@@ -38,25 +38,67 @@
 
   <hr>
 
-  <% users = User.where(:district_id => @district.id).where("users.role_id >= 30 AND users.role_id < 40") %>
-  <% users.each do |user| %>
-      <% user.jobs.where("jobs.status < 50").each do |job| %>
-          <% @job_times = JobTime.where(:user_id => user.id).where(:job_id => job.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @start_date, end_date: @start_date + 14.days) %>
-          <%= render 'job_times/timesheet_line', user: user, job: job, start_date: @start_date, job_membership: job.get_membership_role(user) %>
+  <% if !current_user.role.limit_to_assigned_jobs? && !params[:edit_user].present? %>
+
+
+      <% @all_hours = 0.0 %>
+      <% users = User.includes(:job_times).where(:district_id => @district.id) %>
+      <% users.each_with_index do |user, index| %>
+          <div style="<%= index % 2 != 0 ? "background: #f8f4d9;" : '' %> padding-bottom: 8px; padding-right: 3px; padding-left: 3px;">
+            <div class='pull-right' style='margin-right: -30px; margin-top: 18px; opacity: 0.5;'>
+              <a class="inline-block empty-link align-top" href="/job_times?edit_user=<%= user.id %>"><i class="icon-edit"></i></a>
+            </div>
+            <%= render 'job_times/timesheet_line2', user: user, start_date: @start_date %>
+          </div>
       <% end %>
+
+      <br><br>
+
+      <div class="pull-right">
+        <h3 class="list-item-column2 align-top">Total Worked</h3>
+
+        <h1 class="inline-block align-top push-down-small"><%= @all_hours %></h1>
+      </div>
+
+
+  <% else %>
+
+      <% user = current_user %>
+      <% if params[:edit_user].present? %>
+          <% user = User.find_by_id(params[:edit_user]) %>
+          <div class="name"><%= render 'users/user_icon', user: user, use_link: true, use_name: true %></div>
+      <% end %>
+
+
+      <% jobs = user.jobs.includes(:job_times).where("jobs.status < 50") %>
+
+      <% jobs.each do |job| %>
+          <% @job_times = job.job_times.where(:user_id => user.id).where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: @start_date, end_date: @start_date + 14.days) %>
+          <% job_membership = job.get_membership_role(user) %>
+          <% if job_membership.present? %>
+              <%= render 'job_times/timesheet_line', job: job, user: user, start_date: @start_date, job_membership: job_membership, show_job: true %>
+          <% end %>
+      <% end %>
+
+      <br><br>
+
+      <div class="pull-right">
+        <h3 class="list-item-column2 align-top">Total Scheduled</h3>
+
+        <h3 class="light-blue-text inline total-scheduled align-top push-down-small">0</h3>
+        <br>
+
+        <h3 class="list-item-column2 align-top">Total Worked</h3>
+
+        <h3 class="inline total-worked align-top push-down-small">0</h3>
+
+        <% if params[:edit_user].present? %>
+            <br><br>
+            <%= link_to "Back to full list", :back, class: "bluebtn btnsmall gray" %>
+        <% end %>
+      </div>
+
+
   <% end %>
-
-  <br><br>
-
-  <div class="pull-right">
-    <h3 class="list-item-column2 align-top">Total Scheduled</h3>
-
-    <h3 class="light-blue-text inline total-scheduled align-top push-down-small">0</h3>
-    <br>
-
-    <h3 class="list-item-column2 align-top">Total Worked</h3>
-
-    <h3 class="inline total-worked align-top push-down-small">0</h3>
-  </div>
 
 </div>

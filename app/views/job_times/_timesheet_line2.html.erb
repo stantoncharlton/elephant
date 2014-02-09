@@ -1,0 +1,33 @@
+<br>
+<div class="timesheet user-timesheet">
+  <% job_times = user.job_times.where("job_times.time_for > :start_date AND job_times.time_for < :end_date", start_date: start_date, end_date: start_date + 14.days).to_a %>
+
+  <div class="name"><%= render 'users/user_icon', user: user, use_link: true, use_name: true %></div>
+
+
+  <% total_hours = 0.0 %>
+  <div class="timesheet-line-view <%= user.nil? ? "disabled-user-line" : "" %>">
+    <% 14.times do |i| %>
+        <div class="day tooltip-info" data-title="<%= (start_date + (i).days).strftime("%a %d") %>">
+          <% found = job_times.select { |jt| jt.time_for.strftime("%d-%m-%Y") == (start_date + (i).days).strftime("%d-%m-%Y") } %>
+          <p class='center'>
+            <% if found.any? %>
+                <% hours = found.map(&:hours).reduce(:+) %>
+                <b class='blue-text'><%= hours == hours.to_i ? hours.to_i : hours  %></b>
+                <% total_hours += hours %>
+            <% else %>
+                -
+            <% end %>
+          </p>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="pull-right align-top">
+    <b class="inline"><%= total_hours %></b>
+  </div>
+
+  <% @all_hours += total_hours %>
+
+</div>
+

@@ -1,9 +1,21 @@
 <br>
 <div class="timesheet user-timesheet">
-  <% if user.present? %>
-      <div class="name"><%= render 'jobs/user', job_membership: job_membership, include_icon: true %></div>
+  <% if show_job %>
+      <div class='name'>
+        <a href="jobs/<%= job_membership.job.id %>" class='inline-block activity-user-link tooltip-info'
+           target="_blank"
+           data-html="true"
+           data-placement="right"
+           data-title="<%= render('jobs/well_tooltip', job: job_membership.job, show_summary_data: true) %>">
+          <%= job_membership.job.well.name %>
+        </a>
+      </div>
   <% else %>
-      <div class="name"><%= job_membership.user_name %></div>
+      <% if user.present? %>
+          <div class="name"><%= render 'jobs/user', job_membership: job_membership, include_icon: true %></div>
+      <% else %>
+          <div class="name"><%= job_membership.user_name %></div>
+      <% end %>
   <% end %>
 
 

@@ -68,6 +68,8 @@
 
     has_many :issues, foreign_key: "responsible_by_id", order: "failure_at DESC"
 
+    has_many :job_times
+
 
     searchable do
         text :district_name, :as => :code_textp do
