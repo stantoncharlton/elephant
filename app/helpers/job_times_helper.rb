@@ -36,7 +36,7 @@ module JobTimesHelper
                 columns << "Total"
                 sheet.add_row columns, :style => column_name_cell
 
-                users = User.includes(:job_times).where(:district_id => @district.id).where("users.role_id >= 30 AND users.role_id < 40")
+                users = User.includes(:job_times).where(:district_id => @district.id).where("users.role_id = 30 OR users.role_id = 31 OR users.role_id = 35 OR users.role_id = 36").order("users.name ASC")
                 users.each_with_index do |user, index|
 
                     cell = index % 2 == 0 ? cell1 : cell2

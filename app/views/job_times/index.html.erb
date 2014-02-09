@@ -1,21 +1,23 @@
 <div class="page_header">
 
-  <div class="btn-group inline pull-right push-right">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Export
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <%= link_to "Export as Excel", job_times_path(district: @district.id, format: "xlsx"),
-                    target: "_blank",
-                    class: "dropdown-menu-link tooltip-info submit-form",
-                    "data-placement" => "left",
-                    "data-title" => "Export as Microsoft Excel file." %>
-      </li>
-    </ul>
-  </div>
+  <% if !current_user.role.limit_to_assigned_jobs? && !params[:edit_user].present? %>
+      <div class="btn-group inline pull-right push-right">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Export
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Export as Excel", job_times_path(district: @district.id, format: "xlsx"),
+                        target: "_blank",
+                        class: "dropdown-menu-link tooltip-info submit-form",
+                        "data-placement" => "left",
+                        "data-title" => "Export as Microsoft Excel file." %>
+          </li>
+        </ul>
+      </div>
+  <% end %>
 
-  <h1>Billing</h1>
+  <h1>Timesheet</h1>
   <br>
   <b class='orange-text'><%= @start_date.strftime("%A %B %d") %>
     - <%= (@start_date + 14.days).strftime("%A %B %d") %></b>
@@ -59,7 +61,7 @@
 
 
       <% @all_hours = 0.0 %>
-      <% users = User.includes(:job_times).where(:district_id => @district.id).where("users.role_id >= 30 AND users.role_id < 40") %>
+      <% users = User.includes(:job_times).where(:district_id => @district.id).where("users.role_id = 30 OR users.role_id = 31 OR users.role_id = 35 OR users.role_id = 36").order("users.name ASC") %>
       <% users.each_with_index do |user, index| %>
           <div style="<%= index % 2 != 0 ? "background: #f8f4d9;" : '' %> padding-bottom: 8px; padding-right: 3px; padding-left: 3px;">
             <div class='pull-right' style='margin-right: -30px; margin-top: 18px; opacity: 0.5;'>

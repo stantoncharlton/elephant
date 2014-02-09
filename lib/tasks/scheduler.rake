@@ -20,6 +20,22 @@ task :daily_activity_email => :environment do
     end
 end
 
+task :timesheet_email => :environment do
+    Time.zone = "Central Time (US & Canada)"
+
+    start_date = Time.now.beginning_of_week
+    if start_date.strftime("%U").to_i % 2 != 0
+        start_date = start_date - 1.week
+    else
+        start_date = start_date - 3.weeks
+    end
+
+    users = User.includes(:job_times).where("users.role_id = 30 OR users.role_id = 31 OR users.role_id = 35 OR users.role_id = 36").order("users.name ASC")
+    users.each_with_index do |user, index|
+          UserMailer.timesheet_report(user, start_date).deliver
+    end
+end
+
 task :inactive_job_email => :environment do
     Job.all.each do |job|
         if job.status != Job::COMPLETE && job.recent_activity(1.month.ago).count == 0

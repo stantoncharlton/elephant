@@ -65,4 +65,10 @@ class UserMailer < ActionMailer::Base
              :subject => "New Notice Added on: #{@job.field.name} | #{@job.well.name} | #{@job.job_template.name}")
     end
 
+    def timesheet_report(user, start_date)
+        @user = user
+        @start_date = start_date
+        mail(:to => user.company.test_company ? "test-emails@elephant-cloud.com" : user.email,
+             :subject => "Elephant Timesheet Review")
+    end
 end
