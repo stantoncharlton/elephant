@@ -105,6 +105,8 @@
                 <% if !signed_in_admin? %>
                     <li><%= link_to "Daily Recap", history_index_path(recap: true) %></li>
                     <li class="divider"></li>
+                    <li><%= link_to "Timesheet", job_times_path %></li>
+                    <li class="divider"></li>
                 <% end %>
                 <li><%= link_to "Settings", edit_setting_path(current_user) %></li>
                 <li class="divider"></li>
