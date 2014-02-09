@@ -1,5 +1,6 @@
 <div id="job_time" data-job="<%= job.id %>">
 
+  <% @start_date = @start_date - 3.days %>
 
   <div id="job_time_content">
     <% job_memberships = job.job_memberships.where("job_role_id != :creator AND job_role_id = :field", creator: JobMembership::CREATOR, field: JobMembership::FIELD) %>
@@ -19,10 +20,10 @@
             <% end %>
           </div>
           <% 14.times do |i| %>
-              <div class="day-header  <%= (@start_date + (i - 3).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
-                <%= (@start_date + (i - 3).days).strftime("%a") %>
+              <div class="day-header  <%= (@start_date + (i).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
+                <%= (@start_date + (i).days).strftime("%a") %>
                 <br>
-                <%= (@start_date + (i - 3).days).day %>
+                <%= (@start_date + (i).days).day %>
               </div>
           <% end %>
 

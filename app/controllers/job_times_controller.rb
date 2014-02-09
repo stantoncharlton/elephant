@@ -1,6 +1,7 @@
 class JobTimesController < ApplicationController
     before_filter :signed_in_user, only: [:index, :update]
 
+    include JobTimesHelper
 
     def index
 
@@ -36,7 +37,7 @@ class JobTimesController < ApplicationController
 
             not_found unless @district.present?
 
-            @page = (params[:page] || "1").to_i
+            @page = (params[:page] || "0").to_i
             @adjusted_today_date = Time.now
 
             @start_date = Time.now.beginning_of_week
@@ -44,6 +45,19 @@ class JobTimesController < ApplicationController
                 @start_date = @start_date - 1.week
             else
                 @start_date = @start_date - 3.weeks
+            end
+
+            if @page != 0
+                @start_date = @start_date + (@page * 14.days)
+            end
+
+            respond_to do |format|
+                format.xlsx {
+                    excel = job_times_to_excel @start_date
+                    send_data excel.to_stream.read, :filename => "Timesheet (#{@start_date.strftime("%m-%d")} #{(@start_date + 14.days).strftime("%m-%d")}).xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+                }
+                format.all {
+                }
             end
         end
     end

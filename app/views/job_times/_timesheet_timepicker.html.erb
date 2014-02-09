@@ -1,6 +1,7 @@
 <div class='timesheet'
      data-day='<%= date.strftime("%d-%m-%Y") %>'
-     data-user='<%= job_membership.user_id %>'>
+     data-user='<%= job_membership.user_id %>'
+     data-job='<%= job_membership.job_id %>'>
   <a class='delete-button-small time-close-button'>x</a>
   <div class='center'>
     <input type='submit' class='bluebtn day-button gray time-decrease-button' data-unit='<%= current_user.company.work_day_type == Company::HOURLY_WORK_DAY ? '1' : '0.5' %>' value='▼'>

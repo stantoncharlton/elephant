@@ -21,9 +21,15 @@
     <% if (@active_well_plan.nil? || @active_well_plan.survey_points.empty?) && !@survey.no_well_plan %>
         <br>
 
-        <h3>No Well Plan</h3>
+        <div class='alert'>
+          <h3 class='orange-text push-down'>No Well Plan, Please Update</h3>
+          <br>
 
-        <p>Please add a well plan before continuing with survey.</p>
+          <p>If you are drilling a straight well, there is no need for a well plan.</p>
+
+          <p>If you don't currently have a well plan, please upload at a later time, and continue with 'No well plan'
+            for now.</p>
+        </div>
 
 
         <% document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
@@ -32,12 +38,11 @@
             <%= link_to "Update " + document.name, "/surveys?document=" + document.id.to_s, class: "bluebtn" %>
         <% end %>
 
-        <br><br>
-        or
-        <br><br>
-        <%= link_to "Straight Well - No Well Plan", job_path(@drilling_log.document.job, update_field: true, field: "no_well_plan", value: true),
-                    :method => :put,
-                    class: "bluebtn gray" %>
+        <div class='inline-block push-right-small'>
+          <%= link_to "Straight Well/No Well Plan", job_path(@drilling_log.document.job, update_field: true, field: "no_well_plan", value: true),
+                      :method => :put,
+                      class: "bluebtn gray" %>
+        </div>
     <% else %>
 
         <% calculated_points = @survey.no_well_plan ? [] : @active_well_plan.survey_points %>
@@ -66,14 +71,18 @@
 
           <div class='pull-right'>
             <% if @survey.no_well_plan %>
-                <b>Straight Well - No Well Plan</b>
+                <b>No Well Plan</b>
+                <% document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
+                <%= link_to "Add", "/surveys?document=" + document.id.to_s, class: "btn btn-default align-top push-right-small" %>
             <% else %>
                 <p class='inline-block help-text align-top'><%= @survey.name %></p>
 
                 <%= link_to "View Well Plan", @active_well_plan, class: "btn btn-default align-top push-up-small push-right-small" %>
             <% end %>
           </div>
-          <span><div class='well-plan'></div> Well Plan</span>
+          <% if @active_well_plan.present? %>
+              <span><div class='well-plan'></div> Well Plan</span>
+          <% end %>
           <span class='push-right-small'><div class='active-survey'></div> Survey</span>
         </div>
         <hr>

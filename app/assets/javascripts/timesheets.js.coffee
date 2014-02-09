@@ -55,7 +55,7 @@ $ ->
 
   $('.time-close-button').live "click", ->
     popup = $(this).closest('.timesheet')
-    main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + ']')
+    main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + '][data-job=' + popup.attr('data-job') + ']')
     job = main_button.attr('data-job')
     user = main_button.attr('data-user')
     date = main_button.attr('data-day')
@@ -85,7 +85,7 @@ $ ->
 
   $('.time-confirm-button').live "click", ->
     popup = $(this).closest('.timesheet')
-    main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + ']')
+    main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + '][data-job=' + popup.attr('data-job') + ']')
     job = main_button.attr('data-job')
     user = main_button.attr('data-user')
     date = main_button.attr('data-day')
