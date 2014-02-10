@@ -46,7 +46,7 @@ module UploadHelper
         end
 
         def key
-            @key ||= "#{UserObserver.current_user.company_id}/#{SecureRandom.hex}/${filename}"
+            @key ||= "#{UserObserver.current_user.company.test_company ? 'test/' : '' }#{UserObserver.current_user.company_id}/#{SecureRandom.hex}/${filename}"
         end
 
         def url
