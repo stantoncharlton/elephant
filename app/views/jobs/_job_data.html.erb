@@ -217,180 +217,213 @@
     </div>
 
     <div class="content">
-      <div class="">
+    <div class="">
 
-        <% if in_form && @job.well.present? && !@job.well.location.blank? %>
-            <%= link_to "http://maps.google.com/?q=" + @job.well.location.to_s,
-                        class: "activity-user-link pull-right",
-                        "data-placement" => "bottom",
-                        "data-title" => "Click to open map of well location. Lat/long: " + @job.well.location.to_s,
-                        target: "_blank" do %>
-                <%= image_tag "map_icon.png", class: "job-status-avatar" %>
-                Map on Google
+      <% if in_form && @job.well.present? && !@job.well.location.blank? %>
+          <%= link_to "http://maps.google.com/?q=" + @job.well.location.to_s,
+                      class: "activity-user-link pull-right",
+                      "data-placement" => "bottom",
+                      "data-title" => "Click to open map of well location. Lat/long: " + @job.well.location.to_s,
+                      target: "_blank" do %>
+              <%= image_tag "map_icon.png", class: "job-status-avatar" %>
+              Map on Google
+          <% end %>
+      <% end %>
+
+      <% if in_form %>
+          <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-title3 inline job-type-description-target",
+                      "data-placement" => "bottom",
+                      "data-html" => true,
+                      "data-title" => "<div>Product Line <b>" + job.job_template.product_line.name + "</b></div>" %>
+      <% else %>
+          <h2 class="job-title3 inline"><%= job.job_template.product_line.name %></h2>
+      <% end %>
+
+
+      <p class="inline "> - </p>
+
+      <% if in_form %>
+          <%= link_to job.job_template.name, job.job_template, class: "job-title3 inline job-type-description-target",
+                      "data-placement" => "bottom",
+                      "data-html" => true,
+                      "data-title" => "<div>Job System <b>" + job.job_template.name + "</b>, Click to view all jobs</div>" %>
+      <% else %>
+          <h2 class="job-title3 inline"><%= job.job_template.name %></h2>
+      <% end %>
+
+      <% if false %>
+          <% if !in_form && job.job_template.primary_tools.where(:template => true).any? %>
+              <div class="inline pull-right">
+                <% job.job_template.primary_tools.where(:template => true).each do |primary_tool| %>
+                    <span class="label"><%= primary_tool.tool.name %></span>
+                <% end %>
+              </div>
+          <% end %>
+      <% end %>
+      <br>
+      <br>
+
+    </div>
+
+
+    <div>
+
+      <p class="job-field-title-div help-text">
+        <%= t ".status" %>
+      </p>
+
+      <div class='inline-block' style="width: 0px;">
+        <div class="btn-group inline-block align-top" style="margin-left: 150px; margin-top: -5px;">
+          <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+            &nbsp;
+          </a>
+          <ul class="dropdown-menu">
+            <% if job.status != Job::PRE_JOB %>
+                <li>
+                  <%= link_to "Change to Pre-Job",
+                              job_path(job, update_field: true, field: "begin_pre_job", value: true), :method => :put,
+                              class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                </li>
             <% end %>
-        <% end %>
-
-        <% if in_form %>
-            <%= link_to job.job_template.product_line.name, job.job_template.product_line, class: "job-title3 inline job-type-description-target",
-                        "data-placement" => "bottom",
-                        "data-html" => true,
-                        "data-title" => "<div>Product Line <b>" + job.job_template.product_line.name + "</b></div>" %>
-        <% else %>
-            <h2 class="job-title3 inline"><%= job.job_template.product_line.name %></h2>
-        <% end %>
-
-
-        <p class="inline "> - </p>
-
-        <% if in_form %>
-            <%= link_to job.job_template.name, job.job_template, class: "job-title3 inline job-type-description-target",
-                        "data-placement" => "bottom",
-                        "data-html" => true,
-                        "data-title" => "<div>Job System <b>" + job.job_template.name + "</b>, Click to view all jobs</div>" %>
-        <% else %>
-            <h2 class="job-title3 inline"><%= job.job_template.name %></h2>
-        <% end %>
-
-        <% if false %>
-            <% if !in_form && job.job_template.primary_tools.where(:template => true).any? %>
-                <div class="inline pull-right">
-                  <% job.job_template.primary_tools.where(:template => true).each do |primary_tool| %>
-                      <span class="label"><%= primary_tool.tool.name %></span>
-                  <% end %>
-                </div>
+            <% if job.status != Job::ON_JOB %>
+                <li>
+                  <%= link_to "Change to In-Progress",
+                              job_path(job, update_field: true, field: "begin_on_job", value: true), :method => :put,
+                              class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                </li>
             <% end %>
+            <% if job.status != Job::POST_JOB %>
+                <li>
+                  <%= link_to "Change to Post-Job",
+                              job_path(job, update_field: true, field: "begin_post_job", value: true), :method => :put,
+                              class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="inline-block job-field-value push-down-small">
+        <% if job.status == Job::COMPLETE %>
+            <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Complete</span>
+        <% elsif job.status == Job::ON_JOB %>
+            <span class="label label-warning" style="padding: 4px; padding-left: 10px; padding-right: 10px;">In Progress</span>
+        <% elsif job.status == Job::PRE_JOB %>
+            <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
+        <% elsif job.status == Job::POST_JOB %>
+            <span class="label label-success current-job-status"><%= job.status_string %></span>
+        <% else %>
+            <p class="current-job-status"><b><%= job.status_string %></b></p>
         <% end %>
-        <br>
-        <br>
 
       </div>
 
 
-      <div>
-        <p class="job-field-title-div help-text"><%= t ".status" %></p>
+      <div class='inline-block align-top'>
+        <p class="job-field-title-div help-text">Rig</p>
 
-        <div class="inline-block job-field-value push-down-small">
-          <% if job.status == Job::COMPLETE %>
-              <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Complete</span>
-          <% elsif job.status == Job::ON_JOB %>
-              <span class="label label-warning" style="padding: 4px; padding-left: 10px; padding-right: 10px;">In Progress</span>
-          <% elsif job.status == Job::PRE_JOB %>
-              <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
-          <% elsif job.status == Job::POST_JOB %>
-              <span class="label label-success current-job-status"><%= job.status_string %></span>
+        <div class="job-field-value push-down-small">
+          <% if in_form && job.well.rig.present? %>
+              <%= link_to job.well.rig.name, job.well.rig, class: "activity-user-link inline-block" %>
+          <% elsif in_form %>
+              <div class="inline-block align-top">
+                <%= hidden_field_tag "rig_id", "" %>
+                <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
+                                   placeholder: "Type rig name...",
+                                   :autocomplete => 'off',
+                                   "data-id" => job.well.id.to_s,
+                                   id: "rig_name2", class: "txtfield small tooltip-info align-top",
+                                   "data-placement" => "top",
+                                   "data-title" => "Rig Name, select from drop down based on search results" %>
+
+
+              </div>
+
+              <script type='text/javascript'>
+                  var focusevent, last_selected_item, rig_focused;
+
+                  last_selected_item = null;
+
+                  focusevent = function (event, ui) {
+                      var selected_item;
+                      if (last_selected_item !== null) {
+                          $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+                      }
+                      selected_item = $('.item_' + ui.item.id);
+                      selected_item.addClass('ui-state-hover');
+                      return last_selected_item = ui.item;
+                  };
+
+                  $('#rig_name2').autocomplete({
+                      source: $('#rig_name2').data('autocomplete-source'),
+                      focus: focusevent,
+                      select: function (event, ui) {
+                          if (ui.item.id > 0) {
+                              $("#rig_name2").val(ui.item.label);
+                              $.ajax('/wells/' + $("#rig_name2").attr("data-id") + '?update_field=true&field=rig_id&value=' + ui.item.id, {
+                                  type: 'put',
+                                  dataType: 'script'
+                              });
+                              return $("#rig_id2").val(ui.item.id);
+                          }
+                      }
+                  });
+
+                  $('#rig_name2').data("autocomplete")._renderItem = function (ul, item) {
+                      return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                              "<a><div>" + (item.id > 0 ? "<img src='/assets/rig_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>Rig</p></div></div></a>").appendTo(ul)
+                  }
+
+
+              </script>
           <% else %>
-              <p class="current-job-status"><b><%= job.status_string %></b></p>
+              <p class="inline-block">-</p>
           <% end %>
-
-
         </div>
+      </div>
+    </div>
 
+    <div class="">
+      <p class="job-field-title-div help-text"><%= t ".start_date" %></p>
 
-        <div class='inline-block align-top'>
-          <p class="job-field-title-div help-text">Rig</p>
-
-          <div class="job-field-value push-down-small">
-            <% if in_form && job.well.rig.present? %>
-                <%= link_to job.well.rig.name, job.well.rig, class: "activity-user-link inline-block" %>
-            <% elsif in_form %>
-                <div class="inline-block align-top">
-                  <%= hidden_field_tag "rig_id", "" %>
-                  <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
-                                     placeholder: "Type rig name...",
-                                     :autocomplete => 'off',
-                                     "data-id" => job.well.id.to_s,
-                                     id: "rig_name2", class: "txtfield small tooltip-info align-top",
-                                     "data-placement" => "top",
-                                     "data-title" => "Rig Name, select from drop down based on search results" %>
-
-
-                </div>
-
-                <script type='text/javascript'>
-                    var focusevent, last_selected_item, rig_focused;
-
-                    last_selected_item = null;
-
-                    focusevent = function(event, ui) {
-                        var selected_item;
-                        if (last_selected_item !== null) {
-                            $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
-                        }
-                        selected_item = $('.item_' + ui.item.id);
-                        selected_item.addClass('ui-state-hover');
-                        return last_selected_item = ui.item;
-                    };
-
-                    $('#rig_name2').autocomplete({
-                        source: $('#rig_name2').data('autocomplete-source'),
-                        focus: focusevent,
-                        select: function(event, ui) {
-                            if (ui.item.id > 0) {
-                                $("#rig_name2").val(ui.item.label);
-                                $.ajax('/wells/' + $("#rig_name2").attr("data-id") + '?update_field=true&field=rig_id&value=' + ui.item.id, {
-                                    type: 'put',
-                                    dataType: 'script'
-                                });
-                                return $("#rig_id2").val(ui.item.id);
-                            }
-                        }
-                    });
-
-                    $('#rig_name2').data("autocomplete")._renderItem = function (ul, item) {
-                        return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                                "<a><div>" + (item.id > 0 ? "<img src='/assets/rig_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>Rig</p></div></div></a>").appendTo(ul)
-                    }
-
-
-                </script>
-            <% else %>
-                <p class="inline-block">-</p>
-            <% end %>
+      <% if form_editable %>
+          <div class="job-field-div">
+            <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
+                   id="job_start_date_<%= job.id.to_s %>"
+                   class="job-field-value-editable job-start-date">
           </div>
-        </div>
-      </div>
+      <% else %>
+          <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
+      <% end %>
 
-      <div class="">
-        <p class="job-field-title-div help-text"><%= t ".start_date" %></p>
 
-        <% if form_editable %>
-            <div class="job-field-div">
-              <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
-                     id="job_start_date_<%= job.id.to_s %>"
-                     class="job-field-value-editable job-start-date">
-            </div>
-        <% else %>
-            <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
+      <div class="inline">
+        <% if false %>
+            <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
+                <p class="job-field-title-div help-text">Close Date</p>
+
+                <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
+            <% else %>
+                <p class="job-field-title-div help-text"><%= t ".created_date" %></p>
+
+                <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
+            <% end %>
         <% end %>
 
+        <p class="job-field-title-div help-text">Job #</p>
 
-        <div class="inline">
-          <% if false %>
-              <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
-                  <p class="job-field-title-div help-text">Close Date</p>
+        <p class="job-field-value"><b><%= job.job_number %></b></p>
 
-                  <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
-              <% else %>
-                  <p class="job-field-title-div help-text"><%= t ".created_date" %></p>
-
-                  <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
-              <% end %>
-          <% end %>
-
-          <p class="job-field-title-div help-text">Job #</p>
-
-          <p class="job-field-value"><b><%= job.job_number %></b></p>
-
-        </div>
-
-        <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
-            <div class="inline">
-              <p class="job-field-title-div help-text">Close Date</p>
-
-              <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
-            </div>
-        <% end %>
       </div>
+
+      <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
+          <div class="inline">
+            <p class="job-field-title-div help-text">Close Date</p>
+
+            <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
+          </div>
+      <% end %>
+    </div>
 
 
     </div>

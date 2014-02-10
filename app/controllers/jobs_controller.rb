@@ -341,13 +341,24 @@ class JobsController < ApplicationController
             case params[:field]
                 when "inventory_notes"
                     @job.update_attribute(:inventory_notes, params[:value])
-                when "begin_job"
+                when "begin_pre_job"
+                    @job.update_attribute(:status, Job::PRE_JOB)
+                    if request.format == "html"
+                        redirect_to @job
+                    end
+                when "begin_on_job"
                     @job.update_attribute(:status, Job::ON_JOB)
                     Activity.add(current_user, Activity::BEGIN_ON_JOB, @job, nil, @job)
                     @job.delay.begin_on_job
+                    if request.format == "html"
+                        redirect_to @job
+                    end
                 when "begin_post_job"
                     @job.update_attribute(:status, Job::POST_JOB)
                     Activity.add(current_user, Activity::BEGIN_POST_JOB, @job, nil, @job)
+                    if request.format == "html"
+                        redirect_to @job
+                    end
                 when "close_job"
                     @job.update_attribute(:status, Job::COMPLETE)
                     Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
