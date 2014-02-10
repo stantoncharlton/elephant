@@ -121,7 +121,14 @@
             </li>
 
 
-            <li><%= link_to "Help", help_path %></li>
+            <li>
+              <a href="javascript:void(0);" onclick="olark('api.box.expand')"
+                 class='tooltip-info' data-title="Click for Live support" data-place="bottom"
+                 style='width: 40px; font-size: 10px; height: 37px; background: #a35454; vertical-align: top; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff;'>
+                Live<br>Support
+              </a>
+              <!-- <%= link_to "Help", help_path %> -->
+            </li>
         <% else %>
 
 
