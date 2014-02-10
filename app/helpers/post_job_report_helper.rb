@@ -45,13 +45,13 @@ def convert(document)
         begin
 
             if document.document_type == Document::JOB_LOG
-                document.url = "docs/#{SecureRandom.hex}/#{document.name}.xlsx"
+                document.url = "#{document.company_id}/#{SecureRandom.hex}/#{document.name}.xlsx"
                 excel = logs_to_excel(JobLog.where(:document_id => document.id).order("entry_at ASC"), document)
                 s3 = AWS::S3.new
                 s3.buckets['elephant-docs'].objects[document.url].write(excel.to_stream)
                 document.save
             elsif document.document_type == Document::CUSTOM_DATA
-                document.url = "docs/#{SecureRandom.hex}/#{document.name}.xlsx"
+                document.url = "#{document.company_id}/#{SecureRandom.hex}/#{document.name}.xlsx"
                 excel = custom_data_to_excel(document.job)
                 s3 = AWS::S3.new
                 s3.buckets['elephant-docs'].objects[document.url].write(excel.to_stream)
@@ -90,7 +90,7 @@ def merge(job, documents)
     document = job.post_job_report_document
     if !document.nil?
         filename = document.name
-        path = "docs/#{SecureRandom.hex}"
+        path = "#{document.company_id}/#{SecureRandom.hex}"
 
         document_names = documents.map { |d| convert(d) }
         document_names = document_names.select { |name| !name.blank? }

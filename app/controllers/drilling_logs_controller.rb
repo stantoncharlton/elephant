@@ -167,7 +167,7 @@ class DrillingLogsController < ApplicationController
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
             report.generate(file)
 
-            url = "docs/#{SecureRandom.hex}/#{@report_name}.odt"
+            url = "tmp/#{Time.zone.now.month}/#{@drilling_log.company_id}/#{SecureRandom.hex}/#{@report_name}.odt"
             s3 = AWS::S3.new
             s3.buckets['elephant-docs'].objects[url].write(File.read(file))
 
