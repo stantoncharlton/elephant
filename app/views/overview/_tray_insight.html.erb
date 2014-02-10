@@ -1,7 +1,7 @@
 <% @issues = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= ?", 4.weeks.ago).order("issues.created_at DESC").paginate(page: params[:page], limit: 30) %>
 
-<% @failures_current_year = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= '#{ Time.now.year }/1/1'").select("date_trunc('month', issues.created_at) as DATE").group("date_trunc('month', issues.created_at)").count("issues.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
-<% @failures_last_year = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= '1/1/#{ Time.now.year - 1 }' AND issues.created_at <= '12/31/#{ Time.now.year - 1 }'").select("date_trunc('month', issues.created_at) as DATE").group("date_trunc('month', issues.created_at)").count("issues.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @failures_current_year = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= '#{ Time.zone.now.year }/1/1'").select("date_trunc('month', issues.created_at) as DATE").group("date_trunc('month', issues.created_at)").count("issues.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @failures_last_year = Issue.where("issues.job_id IS NOT NULL").where("issues.created_at >= '1/1/#{ Time.zone.now.year - 1 }' AND issues.created_at <= '12/31/#{ Time.now.year - 1 }'").select("date_trunc('month', issues.created_at) as DATE").group("date_trunc('month', issues.created_at)").count("issues.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 
 <div id="overview_insight" data-loaded='true'>

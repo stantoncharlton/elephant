@@ -1,4 +1,4 @@
-<% issues = Issue.includes(:failure).where(:company_id => current_user.company_id).where("failures.failure_master_template_id = ?", (failure.failure_master_template.present? ? failure.failure_master_template_id : failure.id) ).where("issues.failure_at >= '#{ Time.now.year }/1/1'").order("issues.failure_at DESC") %>
+<% issues = Issue.includes(:failure).where(:company_id => current_user.company_id).where("failures.failure_master_template_id = ?", (failure.failure_master_template.present? ? failure.failure_master_template_id : failure.id) ).where("issues.failure_at >= '#{ Time.zone.now.year }/1/1'").order("issues.failure_at DESC") %>
 <% failures_current_year = issues.reorder('').select("date_trunc('month', issues.failure_at) as DATE").group("date_trunc('month', issues.failure_at)").count("issues.failure_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 <div class="content">

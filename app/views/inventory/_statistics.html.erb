@@ -4,7 +4,7 @@
   <% parts_count = parts.count %>
   <% average_redress = PartRedress.includes(:job).where("part_redresses.part_id IN (#{parts.select(:id).to_sql})").average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %>
 
-  <% part_memberships = PartMembership.where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= ?", Time.now - 1.year).select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+  <% part_memberships = PartMembership.where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= ?", Time.zone.now - 1.year).select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 
 

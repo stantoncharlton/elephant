@@ -32,7 +32,7 @@ class JobLogsController < ApplicationController
         @job_log.user_name = current_user.name
 
         if override_date.nil?
-            @job_log.entry_at = Time.now
+            @job_log.entry_at = Time.zone.now
         else
             @job_log.entry_at = override_date
         end

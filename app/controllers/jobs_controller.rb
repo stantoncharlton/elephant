@@ -15,7 +15,7 @@ class JobsController < ApplicationController
 
                 if !@is_paged
                     if current_user.role.limit_to_assigned_jobs?
-                        @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
+                        @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.zone.now - 5.days))
                     else
                         @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50)")
                     end

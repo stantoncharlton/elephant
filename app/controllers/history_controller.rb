@@ -7,7 +7,7 @@ class HistoryController < ApplicationController
     def index
         if params[:recap] && params[:recap] == "true"
             @jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
-            @jobs = Job.include_models(@jobs).where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)",  status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)).
+            @jobs = Job.include_models(@jobs).where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)",  status_closed: Job::COMPLETE, close_date: (Time.zone.now - 5.days)).
                     order("jobs.created_at DESC")
 
             render 'recap'

@@ -41,7 +41,7 @@
         </div>
 
         <% if @page != 1 %>
-            <%= link_to "back to " + Time.now.strftime("%B"), alerts_path(calendar: true, page: 1), class: "start-loader activity-user-link pull-left", remote: true %>
+            <%= link_to "back to " + Time.zone.now.strftime("%B"), alerts_path(calendar: true, page: 1), class: "start-loader activity-user-link pull-left", remote: true %>
         <% end %>
     <% else %>
         <%= link_to "show full calendar", alerts_path(calendar: true), class: "start-loader activity-user-link pull-right", remote: true %>

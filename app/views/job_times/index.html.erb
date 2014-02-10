@@ -36,10 +36,18 @@
         </div>
       </div>
 
-      <%= link_to job_times_path(district: @district.id, page: @page - 1),
-                  class: "bold pull-right push-down activity-user-link" do %>
-          <i class="icon-chevron-left"></i>
+      <% if params[:edit_user].present? %>
+          <%= link_to job_times_path(district: @district.id, edit_user: params[:edit_user], page: @page - 1),
+                      class: "bold pull-right push-down activity-user-link" do %>
+              <i class="icon-chevron-left"></i>
+          <% end %>
+      <% else %>
+          <%= link_to job_times_path(district: @district.id, page: @page - 1),
+                      class: "bold pull-right push-down activity-user-link" do %>
+              <i class="icon-chevron-left"></i>
+          <% end %>
       <% end %>
+
     </div>
     <% 14.times do |i| %>
         <div class="day-header  <%= (@start_date + (i).days).to_date == Time.zone.now.to_date ? "orange-text" : "" %>">
@@ -49,9 +57,17 @@
         </div>
     <% end %>
 
-    <%= link_to job_times_path(district: @district.id, page: @page + 1),
-                class: "bold activity-user-link" do %>
-        <i class="icon-chevron-right"></i>
+
+    <% if params[:edit_user].present? %>
+        <%= link_to job_times_path(district: @district.id, edit_user: params[:edit_user], page: @page + 1),
+                    class: "bold activity-user-link" do %>
+            <i class="icon-chevron-right"></i>
+        <% end %>
+    <% else %>
+        <%= link_to job_times_path(district: @district.id, page: @page + 1),
+                    class: "bold activity-user-link" do %>
+            <i class="icon-chevron-right"></i>
+        <% end %>
     <% end %>
   </div>
 
@@ -113,7 +129,7 @@
 
         <% if params[:edit_user].present? %>
             <br><br>
-            <%= link_to "Back to full list", :back, class: "bluebtn btnsmall gray" %>
+            <%= link_to "Back to full list", job_times_path, class: "bluebtn btnsmall gray" %>
         <% end %>
       </div>
 

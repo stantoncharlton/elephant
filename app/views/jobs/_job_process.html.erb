@@ -1,4 +1,4 @@
-<% if job.status == Job::PRE_JOB && job.start_date.present? && job.start_date > Time.now && job.active %>
+<% if job.status == Job::PRE_JOB && job.start_date.present? && job.start_date > Time.zone.now && job.active %>
     <div class="alert">
       Job starts in <%= pluralize((job.start_date.to_date - Date.today).round(), "day") %>
     </div>

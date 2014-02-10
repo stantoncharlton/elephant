@@ -114,7 +114,7 @@ class DrillingLogsController < ApplicationController
                             end
                         end
 
-                        fill_drilling_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now
+                        fill_drilling_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now
                     when "run_report"
                         index = params[:type].to_i
                         if index > 0
@@ -124,7 +124,7 @@ class DrillingLogsController < ApplicationController
                             entries = @drilling_log.drilling_log_entries
                         end
 
-                        fill_run_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now, index
+                        fill_run_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, index
                     when "bha_report"
                         bha_id = params[:type].to_i
                         if bha_id > 0
@@ -135,7 +135,7 @@ class DrillingLogsController < ApplicationController
                             bha = entries.last.bha
                         end
 
-                        fill_bha_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now, bha, 1
+                        fill_bha_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, bha, 1
                     when "daily_activity"
                         type = params[:type].to_i
                         entries = @drilling_log.drilling_log_entries.includes(:bha).to_a
@@ -146,7 +146,7 @@ class DrillingLogsController < ApplicationController
                             end
                         end
 
-                        fill_log @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.now, entries.any? ? entries.last.entry_at : Time.now
+                        fill_log @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now
                     when "survey"
                         @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
                         @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first

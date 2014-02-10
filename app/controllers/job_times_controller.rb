@@ -7,7 +7,7 @@ class JobTimesController < ApplicationController
 
         if params[:user].present?
             @page = (params[:page] || "1").to_i
-            @adjusted_today_date = Time.now
+            @adjusted_today_date = Time.zone.now
             @adjusted_today_date = @adjusted_today_date + (@page - 1).months
             @start_date = @adjusted_today_date.beginning_of_month.beginning_of_week - 1.days
 
@@ -20,7 +20,7 @@ class JobTimesController < ApplicationController
             @job = Job.find_by_id(params[:job])
             not_found unless @job.company == current_user.company
 
-            @start_date = Time.now
+            @start_date = Time.zone.now
             if @page != 0
                 @start_date = @start_date + (@page * 10.days)
             end
@@ -38,9 +38,9 @@ class JobTimesController < ApplicationController
             not_found unless @district.present?
 
             @page = (params[:page] || "0").to_i
-            @adjusted_today_date = Time.now
+            @adjusted_today_date = Time.zone.now
 
-            @start_date = Time.now.beginning_of_week
+            @start_date = Time.zone.now.beginning_of_week
             if @start_date.strftime("%U").to_i % 2 != 0
                 @start_date = @start_date - 1.week
             else
