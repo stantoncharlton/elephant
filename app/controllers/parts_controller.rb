@@ -37,14 +37,14 @@ class PartsController < ApplicationController
 
                 if @parts.empty?
                     @parts << Part.new
-                    render json: @parts.map { |part| {:value => "No asset found or available...", :name => "", :id => -1, :district_serial_number => -1, :warehouse => ""} }
+                    render json: @parts.map { |part| {:value => "No asset found or available...", :name => "", :id => -1, :district_serial_number => -1, :warehouse => "", :status => "Try another search term..."} }
                     return
                 end
 
                 if params[:q].present?
-                    render json: @parts.map { |part| {:name => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number, :serial_number => part.serial_number, material_number: part.material_number, warehouse: part.warehouse.present? ? part.warehouse.name : '-'} }
+                    render json: @parts.map { |part| {:name => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number, :serial_number => part.serial_number, material_number: part.material_number, warehouse: part.warehouse.present? ? part.warehouse.name : '-', status: part.master_part.present? ? part.status_string : part.parts.count.to_s + ' assets'} }
                 else
-                    render json: @parts.map { |part| {:label => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number, :serial_number => part.serial_number, material_number: part.material_number, warehouse: part.warehouse.present? ? part.warehouse.name : '-'} }
+                    render json: @parts.map { |part| {:label => part.master_part.present? ? part.master_part.name : part.name, :id => part.id, :district_serial_number => part.district_serial_number, :serial_number => part.serial_number, material_number: part.material_number, warehouse: part.warehouse.present? ? part.warehouse.name : '-', status: part.master_part.present? ? part.status_string : part.parts.count.to_s + ' assets'} }
                 end
             }
         end
