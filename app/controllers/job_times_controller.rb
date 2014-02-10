@@ -44,7 +44,7 @@ class JobTimesController < ApplicationController
             if @start_date.strftime("%U").to_i % 2 != 0
                 @start_date = @start_date - 1.week
             else
-                @start_date = @start_date - 3.weeks
+                @start_date = @start_date - 2.weeks
             end
 
             if @page != 0
