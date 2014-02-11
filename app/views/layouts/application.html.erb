@@ -235,7 +235,7 @@
         });
         var presenceChannel = pusher.subscribe('presence-<%= current_user.company_id %>');
         presenceChannel.bind('pusher:subscription_succeeded', function () {
-            alert('hello');
+
 
             var me = presenceChannel.members.me;
             var userId = me.id;

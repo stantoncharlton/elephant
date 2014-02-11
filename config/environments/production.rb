@@ -82,9 +82,6 @@ ElephantWebApp::Application.configure do
         Rack::Utils.key_space_limit = 262144 # 4 times the default size
     end
 
-    require 'pusher'
-    Pusher.app_id = '64967'
-    Pusher.key = '4473ee4fa1db6d852a46'
-    Pusher.secret = '371605bacec3e7fee347'
+
 
 end

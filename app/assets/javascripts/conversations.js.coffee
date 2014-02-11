@@ -7,6 +7,9 @@ jQuery ->
     prePopulate: $('#message_recipients_tokens').data('pre'),
     #"<li><a><div class='job-user'><strong>" + item.value + " </strong><div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div></div></a></li>"
 
+  $('.messages-icon-link').click ->
+    return false
+
   $('.conversation-link').click ->
     $('.conversation-link').each ->
       if $(this).find('div:first').hasClass 'message-selected'
@@ -53,7 +56,7 @@ jQuery ->
 
   $('#messages_window').live "mouseout",  ->
     setTimeout ->
-      if !$('#messages_window').is(':hover')
+      if !$('#messages_window').is(':hover') && !$('ul.ui-autocomplete').is(':hover')
         $('html').css('overflow', 'auto')
         $('#messages_window').addClass('hidden')
       if $('#messages_icon_div').is(':hover')
@@ -64,4 +67,10 @@ jQuery ->
     $(this).addClass 'hidden'
     $('#messages_full_window').addClass 'hidden'
     $('#new_message').removeClass 'hidden'
+    return false
+
+  $('#close_new_message').live "click", ->
+    $('#new_conversation_link').removeClass 'hidden'
+    $('#messages_full_window').removeClass 'hidden'
+    $('#new_message').addClass 'hidden'
     return false

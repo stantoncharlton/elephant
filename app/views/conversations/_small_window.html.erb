@@ -1,7 +1,8 @@
 <div style="position: relative;">
   <div  style='left: 340px; top: -26px; position: absolute;'>
-    <%= link_to new_conversation_path,
+    <%= link_to "#",
                 class: "btn btn-default white-text",
+                id: "new_conversation_link",
                 style: "background: #23d0f5; border-radius: 100px; padding: 5px; width: 20px; border-width: 0px;" do %>
         <i class="icon-plus icon-white"></i>
     <% end %>
@@ -24,35 +25,44 @@
       <%= form_for Conversation.new, remote: true do |f| %>
 
 
-          <div class="new-message-div">
+          <div class="new-message-div" style='margin-top: -15px;'>
             <br><br>
             <div class=" tooltip-info"
                  data-placement="left"
                  style="max-width: 360px !important; z-index: 1000000000000;"
                  data-title="Type names of people to add to message. Multiple recipients can be added.">
-              <b class="inline white-text">Recipients</b>
-              <% @recipients = [] %>
-              <%= f.text_field :message_recipients,
-                               class: "txtfield inline",
-                               autofocus: true, id: "message_recipients_tokens",
-                               "data-pre" => @recipients.map(&:attributes).to_json %>
+
+
+              <div class='push-down'>
+              <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
+              <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                                 placeholder: "Type Recipient name...",
+                                 id: "recipient_filter",
+                                 class: "inline txtfield small custom-data-input tooltip-info",
+                                 "data-placement" => "top",
+                                 "data-title" => "Type Recipient name..." %>
+                </div>
+
+              <div id="message_recipients" style='margin-top: 5px; margin-bottom: 0px; max-height: 70px; overflow-y: auto;'></div>
             </div>
 
             <br>
 
 
             <%= f.text_area :message_text, class: "new-message-body tooltip-info",
-                            style: "width: 360px;",
+                            style: "width: 340px; height: 190px; padding: 10px; font-size: 14px; font-family: gothammediumregular;",
                             placeholder: "Message text...",
                             "data-placement" => "left",
                             "data-title" => "Message text" %>
 
-            <div class="content actions" style="margin-right: 40px;">
+            <div class="content actions" style="margin-right: 0px; margin-top: 10px;">
               <%= f.submit "Send Message", class: "bluebtn pull-right tooltip-info form-loading-on-click align-top",
                            "data-title" => "Send message to recipients",
                            "data-form" => "new_message" %>
 
-              <%= link_to "Cancel", :back, class: "activity-user-link white-text pull-right  push-left-small tooltip-info align-top",
+              <%= link_to "Cancel", "#",
+                          id: "close_new_message",
+                          class: "activity-user-link white-text pull-right  push-left-small tooltip-info align-top push-down",
                           "data-title" => "Cancel new message and go back" %>
             </div>
           </div>
@@ -61,8 +71,10 @@
     </div>
 
     <div class="form-loading center hidden" data-form="new_message">
-      <span class="ajax-loading search-loading"><b>Sending message...</b></span>
+      <br><br><br>
+      <span class="ajax-loading search-loading white-text"><b>Sending message...</b></span>
     </div>
 
   </div>
 </div>
+

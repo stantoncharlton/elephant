@@ -35,6 +35,10 @@ class ApplicationController < ActionController::Base
         @session_time_left = (expire_time - Time.now).to_i
 
         unless @session_time_left > 0
+            if URI(request.url).path == 'pusher/auth'
+                render :text => "Forbidden", :status => '403'
+                return
+            end
             sign_out
             deny_access
         end
@@ -48,7 +52,7 @@ class ApplicationController < ActionController::Base
 
 
     def set_current_user_for_observer
-        UserObserver.current_user = current_user
+            UserObserver.current_user = current_user
     end
 
 

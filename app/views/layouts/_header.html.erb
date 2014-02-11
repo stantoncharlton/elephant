@@ -185,7 +185,7 @@
                  id="messages_icon_div"
                  data-placement="bottom"
                  data-title="Messages and conversations">
-              <%= link_to "Messages", conversations_path, class: "messages-icon-link" %>
+              <%= link_to "Messages", "#", class: "messages-icon-link" %>
 
               <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
               <div id="new_messages" class="messages-icon-alert <%= new_messages == 0 ? "hidden" : "" %>">

@@ -1,0 +1,21 @@
+<% if @conversation.new_record? %>
+
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Problem Sending Message", message: @conversation.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show:true});
+
+$('.form[data-form=new_message]').show();
+$('.form-loading[data-form=new_message]').hide();
+
+<% else %>
+
+$('#message_content').addClass('hidden');
+$('#messages_content').find('*').remove();
+$('#message_loading').removeClass('hidden');
+
+$.ajax('/conversations/', {
+    type: 'get',
+    dataType: 'script'
+});
+
+<% end %>

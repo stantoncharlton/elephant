@@ -16,8 +16,6 @@ class ConversationsController < ApplicationController
     end
 
     def show
-        puts request.referrer
-        puts '..................'
         @conversation = Conversation.find_by_id(params[:id])
         not_found unless @conversation.present? && @conversation.company == current_user.company
 
@@ -48,43 +46,98 @@ class ConversationsController < ApplicationController
 
         @conversation = Conversation.new()
 
-        message_recipients = params[:conversation][:message_recipients]
-        params[:conversation].delete(:message_recipients)
+        if params[:conversation][:message_recipients].present?
+            message_recipients = params[:conversation][:message_recipients]
+            params[:conversation].delete(:message_recipients)
 
+            @recipients = message_recipients.split(",")
+            @recipients.delete_if { |r| r == current_user.id.to_s }
+        end
 
-        @recipients = message_recipients.split(",")
-        @recipients.delete_if { |r| r == current_user.id.to_s }
+        @recipients = []
+        params.each do |k, v|
+            if k.starts_with?("recipient")
+                if v != current_user.id
+                    @recipients << v
+                end
+            end
+        end
+
         if @recipients.empty?
+            @conversation.errors.add(:conversation, "Can't send message to yourself.")
             flash[:error] = "Can't send message to yourself."
-            render 'new'
+            if request.format == 'html'
+                render 'new'
+            end
             return
         end
 
         message_text = params[:conversation][:message_text]
         params[:conversation].delete(:message_text)
-        puts message_text
 
-        if message_recipients.blank? || message_text.blank?
-            flash[:error] = "Message must have at least 1 recipient and text."
-            render 'new'
+        if message_text.blank?
+            @conversation.errors.add(:conversation, "Message must have text.")
+            flash[:error] = "Message must have text."
+            if request.format == 'html'
+                render 'new'
+            end
+            return
         end
 
-
-        #@conversation.set_test_values(message_recipients, message_text)
+        new_conversation = true
         @conversation.company = current_user.company
+
+        recipient = User.find_by_id(@recipients.first)
+        if recipient.present?
+            conversations = Conversation.includes(:conversation_memberships).where("conversations.id IN (#{current_user.conversations.select("conversations.id").to_sql})").where("conversation_memberships.user_id = ?", recipient.id)
+            if conversations.any?
+                puts '................'
+                if @recipients.count == 1 && conversations.count == 1 && conversations.first.conversation_memberships.count == 2
+                    @conversation = conversations.first
+                    new_conversation = false
+                else
+                    conversations.each do |c|
+                        users = c.participants.to_a
+                        puts 'c' + users.count.to_s
+                        if users.count == @recipients.count + 1
+                            all_match = true
+                            @recipients.each do |r|
+                                all_match = users.select { |u| u.id == r.to_i }.any?
+                                puts all_match
+                                puts r
+                            end
+                            if all_match
+                                puts 'match'
+                                @conversation = c
+                                new_conversation = false
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
 
         Conversation.transaction do
 
             if @conversation.save
 
-                @conversation.add_recipients(current_user, @recipients, current_user.company)
+                if new_conversation
+                    @conversation.add_recipients(current_user, @recipients, current_user.company)
+                else
+                    @conversation.touch
+                end
                 @conversation.send_message(current_user, message_text)
 
-                flash[:success] = "Message sent."
-                redirect_to conversations_path
+                if request.format == 'html'
+                    flash[:success] = "Message sent."
+                    redirect_to conversations_path
+                end
             else
-                flash[:error] = @conversation.errors.full_messages.to_sentence
-                render 'new'
+                if request.format == 'html'
+                    flash[:error] = @conversation.errors.full_messages.to_sentence
+                    render 'new'
+                end
             end
         end
     end
@@ -131,7 +184,6 @@ class ConversationsController < ApplicationController
             @conversation.conversation_memberships.each do |m|
                 m.update_attribute(:deleted, false)
                 if m.user != current_user
-                    puts "pusher ............."
                     Pusher["channel_#{m.user_id}"].trigger('new_message', {
                             conversation_id: @conversation.id,
                             user_id: m.user_id

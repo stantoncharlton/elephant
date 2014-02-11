@@ -26,12 +26,44 @@ $('#new_messages').addClass('hidden');
         }
     });
 
-
-    $('#message_recipients_tokens').tokenInput('/users.json', {
-        theme: 'facebook',
-        hintText: "Type a person's name...",
-        prePopulate: $('#message_recipients_tokens').data('pre')
+    $('.remove-recipient').live("click", function() {
+       $(this).closest('.recipient').remove();
+        return false;
     });
+
+    var focusevent, last_selected_item;
+
+    last_selected_item = null;
+
+    focusevent = function(event, ui) {
+        var selected_item;
+        if (last_selected_item !== null) {
+            $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+        }
+        selected_item = $('.item_' + ui.item.id);
+        selected_item.addClass('ui-state-hover');
+        return last_selected_item = ui.item;
+    };
+
+    $('#recipient_filter').autocomplete({
+        source: $('#person_filter').data('autocomplete-source'),
+        focus: focusevent,
+        select: function(event, ui) {
+            $("#recipient_filter").val('');
+            $('#message_recipients').append("<div class='inline-block recipient' style='margin-bottom: 10px; margin-right: 10px; border-radius: 5px; background: #f5bf1c; color: #000000; padding: 4px; padding-left: 6px; padding-right: 6px;  '><input name='recipient_" + ui.item.id + "' type='hidden' value=" + ui.item.id + "><b>" + ui.item.label + "</b><a class='empty-link inline-block push-right-small remove-recipient' style='width: 20px; height: 20px; cursor: hand; text-align: center;'>x</a></div>");
+            $('#message_recipients').scrollTop(10000);
+            return false;
+        }
+    });
+
+    $('#recipient_filter').data("autocomplete")._renderItem = function (ul, item) {
+        return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                "<a>" + (item.id > 0 ? "<div><img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
+    }
+
+    setTimeout(function() {
+        $('#recipient_filter').focusin();
+    }, 50);
 
 
     $('.conversation-link2').click(function () {

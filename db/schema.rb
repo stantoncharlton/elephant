@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140208152322) do
+ActiveRecord::Schema.define(:version => 20140210210753) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -72,6 +72,37 @@ ActiveRecord::Schema.define(:version => 20140208152322) do
 
   add_index "asset_activities", ["company_id"], :name => "index_asset_activities_on_company_id"
   add_index "asset_activities", ["part_id"], :name => "index_asset_activities_on_part_id"
+
+  create_table "asset_list_entries", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "asset_list_id"
+    t.integer  "user_id"
+    t.integer  "quantity"
+    t.string   "description"
+    t.decimal  "inner_diameter"
+    t.decimal  "outer_diameter"
+    t.decimal  "length"
+    t.integer  "up"
+    t.integer  "down"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "asset_list_entries", ["asset_list_id"], :name => "index_asset_list_entries_on_asset_list_id"
+  add_index "asset_list_entries", ["company_id"], :name => "index_asset_list_entries_on_company_id"
+
+  create_table "asset_lists", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "document_id"
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.string   "comment"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "asset_lists", ["company_id"], :name => "index_asset_lists_on_company_id"
+  add_index "asset_lists", ["job_id"], :name => "index_asset_lists_on_job_id"
 
   create_table "bha_items", :force => true do |t|
     t.integer  "company_id"

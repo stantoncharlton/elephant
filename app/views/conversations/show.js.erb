@@ -13,12 +13,33 @@
 <% if params[:check_new].present? && params[:check_new] == "true" %>
 
     if($('#conversation_messages_list').length > 0) {
-        <% if @new_alerts.present? && @new_alerts.any? %>
-            <% messages = @conversation.messages.where("messages.user_id != ?", current_user.id).last(@new_alerts.count) %>
-            <% last_message = @conversation.messages.last(@new_alerts.count + 1).first %>
-            <% messages.each do |message| %>
-                $('#conversation_messages_list').append("<%= j render 'conversations/message2', conversation: @conversation, message: message, last_message: last_message %>");
-                <% last_message = message %>
+
+        <% if @new_alerts.any? %>
+            <% @same_conversation = true %>
+            if($('.message-active').closest('.conversation-link2').attr('id').replace('conversation_', '') == '<% @conversation.id.to_s %>') {
+                <% @same_conversation = false %>
+            }
+            <% @new_alerts.each do |a| %>
+                <% if a.target != @conversation %>
+                    <% @same_conversation = false %>
+                <% end %>
+            <% end %>
+            <% if @new_alerts.present? && @same_conversation %>
+                <% messages = @conversation.messages.where("messages.user_id != ?", current_user.id).last(@new_alerts.count) %>
+                <% last_message = @conversation.messages.last(@new_alerts.count + 1).first %>
+                <% messages.each do |message| %>
+                    $('#conversation_messages_list').append("<%= j render 'conversations/message2', conversation: @conversation, message: message, last_message: last_message %>");
+                    <% last_message = message %>
+                <% end %>
+            <% elsif !@same_conversation %>
+                $('#message_content').addClass('hidden');
+                $('#messages_content').find('*').remove();
+                $('#message_loading').removeClass('hidden');
+
+                $.ajax('/conversations/', {
+                    type: 'get',
+                    dataType: 'script'
+                });
             <% end %>
         <% end %>
 
