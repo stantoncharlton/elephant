@@ -39,6 +39,13 @@
   </li>
 
   <li class="push-right-small">
+    <a href="#npt" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+       data-tray="npt"
+       data-placement="bottom" data-title="NPT overview">NPT</a>
+  </li>
+
+
+  <li class="push-right-small">
     <a href="#insight" class="job-tray-toggle custom-data-toggle tooltip-info"
        data-tray="insight"
        data-placement="bottom" data-title="Insight overview">Insight
@@ -141,15 +148,20 @@
 
     (function ($) {
         $(document).ready(function () {
-            setTimeout(function () {
 
-                $.ajax({
-                    url: "/overview" + "?section=jobs",
-                    type: "GET",
-                    dataType: "script"
-                });
-
-            }, 1);
+            if (document.location.hash == '') {
+                tray = $(".job-tray[data-tray='jobs']");
+                tray.find('.content').hide();
+                tray.find('.remote-loading').removeClass('hidden');
+                tray.find('.loading').removeClass('hidden');
+                setTimeout(function () {
+                    $.ajax({
+                        url: "/overview?section=jobs",
+                        type: "GET",
+                        dataType: "script"
+                    });
+                }, 1);
+            }
 
 
             $('#person_filter').data("autocomplete")._renderItem = function (ul, item) {

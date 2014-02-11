@@ -91,23 +91,18 @@ class ConversationsController < ApplicationController
         if recipient.present?
             conversations = Conversation.includes(:conversation_memberships).where("conversations.id IN (#{current_user.conversations.select("conversations.id").to_sql})").where("conversation_memberships.user_id = ?", recipient.id)
             if conversations.any?
-                puts '................'
                 if @recipients.count == 1 && conversations.count == 1 && conversations.first.conversation_memberships.count == 2
                     @conversation = conversations.first
                     new_conversation = false
                 else
                     conversations.each do |c|
                         users = c.participants.to_a
-                        puts 'c' + users.count.to_s
                         if users.count == @recipients.count + 1
                             all_match = true
                             @recipients.each do |r|
                                 all_match = users.select { |u| u.id == r.to_i }.any?
-                                puts all_match
-                                puts r
                             end
                             if all_match
-                                puts 'match'
                                 @conversation = c
                                 new_conversation = false
                                 break

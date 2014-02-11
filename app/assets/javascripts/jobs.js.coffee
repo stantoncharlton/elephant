@@ -100,7 +100,10 @@ $ ->
     $(this).closest('li').addClass 'active'
     tray = $(this).attr('data-tray')
     $(".job-tray[data-tray=" + tray + "]").removeClass 'custom-data-closed'
-    document.location.hash = tray;
+    #document.location.hash = tray;
+    if history
+      history.replaceState({}, "", '#' + tray)
+
     if $('.job-main-div').length > 0
       $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
     return false
@@ -136,6 +139,9 @@ $ ->
     if $(this).attr('data-tray') == "insight"
       if $('#overview_insight').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=insight", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "company"
+      if $('#overview_company').attr('data-loaded') != "true"
+        $.ajax '/overview/' + "?section=company", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "drilling"
       if $('#overview_drilling').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=drilling", type: 'get', dataType: 'script'
@@ -164,7 +170,9 @@ $ ->
     if tray_name.length > 0 && controller.length > 0 && id.length > 0
       tray = $(".remote-tray[data-tray=" + tray_name + "]")
       tray.removeClass 'custom-data-closed'
-      document.location.hash = tray_name
+      #document.location.hash = tray_name
+      if history
+        history.replaceState({}, "", '#' + tray_name)
 
       if tray.find('.tray-content').hasClass 'content-loaded'
         tray.find('.tray-content').show()

@@ -30,7 +30,9 @@ $ ->
       header.removeClass "header-expanded"
       content.css "display", "none"
 
-    document.location.hash = "location_" + $(this).closest('.div-expand-root').attr 'id'
+    #document.location.hash = "location_" + $(this).closest('.div-expand-root').attr 'id'
+    if history
+      history.replaceState({}, "", '#' + "location_" + $(this).closest('.div-expand-root').attr 'id')
 
     return false
 
