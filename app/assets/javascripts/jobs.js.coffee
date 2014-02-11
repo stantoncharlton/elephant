@@ -148,6 +148,9 @@ $ ->
     if $(this).attr('data-tray') == "jobs"
       if $('#overview_jobs').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=jobs", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "overview_npt"
+      if $('#overview_npt').attr('data-loaded') != "true"
+        $.ajax '/overview/' + "?section=overview_npt", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "rigs"
       if $('#overview_rigs').attr('data-loaded') != "true"
         $.ajax '/overview/' + "?section=rigs", type: 'get', dataType: 'script'

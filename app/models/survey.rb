@@ -39,6 +39,10 @@ class Survey < ActiveRecord::Base
     end
 
     def self.calculate_point point, last_point, target_vs
+
+        if target_vs.nil?
+            target_vs = 0.0
+        end
         rc = 1.0
         rf = 1.0
 
