@@ -59,10 +59,14 @@
                     <%= render "jobs/job_progress_link", job: activity.target %>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT %>
-                    <%= render "shipments/shipment", shipment: activity.target, editable: activity.target.status != Shipment::COMPLETE, show_assets: activity.target.status != Shipment::COMPLETE %>
+                    <% if activity.target.present? %>
+                        <%= render "shipments/shipment", shipment: activity.target, editable: activity.target.status != Shipment::COMPLETE, show_assets: activity.target.status != Shipment::COMPLETE %>
+                    <% else %>
+                        <b>Added to shipment</b>&nbsp;<%= activity.metadata %>
+                    <% end %>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>
-                    <b>Deleted from shipment</b>
+                    <b>Deleted from shipment</b>&nbsp;<%= activity.metadata %>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::MOVED_TO_WAREHOUSE || activity.activity_type == AssetActivity::RECEIVED_AT_WAREHOUSE %>
                     <p class='blue-text'><b><%= activity.target.name %></b></p>
