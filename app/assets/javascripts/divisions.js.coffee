@@ -31,7 +31,7 @@ $ ->
       content.css "display", "none"
 
     #document.location.hash = "location_" + $(this).closest('.div-expand-root').attr 'id'
-    if history
+    if window.history && window.history.pushState
       history.replaceState({}, "", '#' + "location_" + $(this).closest('.div-expand-root').attr 'id')
 
     return false

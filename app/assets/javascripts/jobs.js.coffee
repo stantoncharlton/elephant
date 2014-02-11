@@ -101,7 +101,7 @@ $ ->
     tray = $(this).attr('data-tray')
     $(".job-tray[data-tray=" + tray + "]").removeClass 'custom-data-closed'
     #document.location.hash = tray;
-    if history
+    if window.history && window.history.pushState
       history.replaceState({}, "", '#' + tray)
 
     if $('.job-main-div').length > 0
@@ -171,7 +171,7 @@ $ ->
       tray = $(".remote-tray[data-tray=" + tray_name + "]")
       tray.removeClass 'custom-data-closed'
       #document.location.hash = tray_name
-      if history
+      if window.history && window.history.pushState
         history.replaceState({}, "", '#' + tray_name)
 
       if tray.find('.tray-content').hasClass 'content-loaded'
