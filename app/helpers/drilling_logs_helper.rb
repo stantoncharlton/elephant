@@ -368,7 +368,7 @@ module DrillingLogsHelper
         r.add_field "WELL_NAME", job.well.name
         r.add_field "COUNTY", "#{job.field.county}, #{job.field.state.name}"
 
-        if survey.present?
+        if survey.present? && entries.present? && entries.any?
             type = drilling_log.drilling_log_entries.where("drilling_log_entries.mwd_type IS NOT NULL").last
             r.add_field "JOB_TYPE", type.present? && type.mwd_type == 1 ? "Electromagnetic" : "Pulse"
             r.add_field "VS_AZIMUTH", "#{well_plan.present? ? well_plan.vertical_section_azimuth : '-'}"
