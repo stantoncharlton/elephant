@@ -223,8 +223,8 @@
 <% if signed_in? %>
     <script type="text/javascript">
 
-        var pusher = new Pusher('9f7a931d636464d8a7c3', { authTransport: 'jsonp' });
-        var channel = pusher.subscribe('channel_<%= current_user.id %>');
+        var pusher = new Pusher('9f7a931d636464d8a7c3', {  });
+        var channel = pusher.subscribe('private-channel_<%= current_user.id %>');
         channel.bind('pusher:subscription_succeeded', function () {
         });
         channel.bind('new_message', function (data) {
@@ -246,12 +246,12 @@
         presenceChannel.bind('pusher:member_added', function (member) {
             // for example:
             //add_member(member.id, member.info);
-            alert(member.info);
+            //alert(member.info);
         });
         presenceChannel.bind('pusher:member_removed', function (member) {
             // for example:
             //remove_member(member.id, member.info);
-            alert(member.info);
+            //alert(member.info);
         });
 
         function showWorkingCurtain() {

@@ -16,7 +16,7 @@
       <h2 class="inline">Current BHA</h2>
     </div>
 
-    <% if drilling_log.present? && @surrounding[1].any? && @surrounding[1].first.bha.present? %>
+    <% if drilling_log.present? && @surrounding[1].any? && @surrounding[1].first.present? &&  @surrounding[1].first.bha.present? %>
         <% bha = @surrounding[1].first.bha %>
 
         <%= render "bhas/bha_view", bha: bha %>
