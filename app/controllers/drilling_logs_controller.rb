@@ -160,8 +160,10 @@ class DrillingLogsController < ApplicationController
                     when "railroad_certification"
                         @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
                         @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
-                        calculated_points_survey = @survey.calculated_points(@active_well_plan.present? && @survey.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0.0)
-                        fill_railroad_certification @drilling_log.job, @drilling_log, @active_well_plan, @survey, calculated_points_survey, r
+                        if @survey.present?
+                            calculated_points_survey = @survey.calculated_points(@active_well_plan.present? && @survey.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0.0)
+                            fill_railroad_certification @drilling_log.job, @drilling_log, @active_well_plan, @survey, calculated_points_survey, r
+                        end
                 end
             end
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
