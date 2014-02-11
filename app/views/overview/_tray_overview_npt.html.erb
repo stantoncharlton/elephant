@@ -7,7 +7,7 @@
        data-title="Current Month NPT hours">
     <div class="chart-title">Current Month NPT</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= @npt_current_year[Time.now.month] %></div>
+      <div class="donut-text "><%= (@npt_current_year[Time.now.month] || 0.0).round(1) %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>
@@ -16,7 +16,7 @@
        data-title="Past Month NPT hours">
     <div class="chart-title">Past Month NPT</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= @npt_current_year[Time.now.month - 12] || "0.0" %></div>
+      <div class="donut-text "><%= (@npt_current_year[Time.now.month - 12] || 0.0).round(1) %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>
