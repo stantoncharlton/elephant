@@ -56,7 +56,8 @@ jQuery ->
 
   $('#messages_window').live "mouseout",  ->
     setTimeout ->
-      if !$('#messages_window').is(':hover') && !$('ul.ui-autocomplete').is(':hover')
+      on_autocomplete = $('#new_message').is(':visible') && $('ul.ui-autocomplete').is(':hover')
+      if !$('#messages_window').is(':hover') && !on_autocomplete
         $('html').css('overflow', 'auto')
         $('#messages_window').addClass('hidden')
       if $('#messages_icon_div').is(':hover')

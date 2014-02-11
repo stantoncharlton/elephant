@@ -8,6 +8,7 @@
 
     <% if activities.empty? %>
         <br>
+
         <p class='help-text'>No Asset activity...</p>
     <% end %>
 
@@ -57,8 +58,11 @@
                 <% if activity.activity_type == AssetActivity::ADDED_TO_JOB || activity.activity_type == AssetActivity::DELETED_FROM_JOB || activity.activity_type == AssetActivity::RECEIVED_AT_JOB %>
                     <%= render "jobs/job_progress_link", job: activity.target %>
                 <% end %>
-                <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT || activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>
+                <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT %>
                     <%= render "shipments/shipment", shipment: activity.target, editable: activity.target.status != Shipment::COMPLETE, show_assets: activity.target.status != Shipment::COMPLETE %>
+                <% end %>
+                <% if activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>
+                    <b>Deleted from shipment</b>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::MOVED_TO_WAREHOUSE || activity.activity_type == AssetActivity::RECEIVED_AT_WAREHOUSE %>
                     <p class='blue-text'><b><%= activity.target.name %></b></p>

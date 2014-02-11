@@ -1,11 +1,13 @@
 <div style="position: relative;">
-  <div  style='left: 340px; top: -26px; position: absolute;'>
+  <div style='left: 340px; top: -26px; position: absolute;'>
     <%= link_to "#",
-                class: "btn btn-default white-text",
+                class: "inline-block btn btn-default white-text",
                 id: "new_conversation_link",
                 style: "background: #23d0f5; border-radius: 100px; padding: 5px; width: 20px; border-width: 0px;" do %>
         <i class="icon-plus icon-white"></i>
     <% end %>
+
+
   </div>
 
 
@@ -27,6 +29,7 @@
 
           <div class="new-message-div" style='margin-top: -15px;'>
             <br><br>
+
             <div class=" tooltip-info"
                  data-placement="left"
                  style="max-width: 360px !important; z-index: 1000000000000;"
@@ -34,14 +37,14 @@
 
 
               <div class='push-down'>
-              <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
-              <%= text_field_tag "", "", data: {autocomplete_source: users_path},
-                                 placeholder: "Type Recipient name...",
-                                 id: "recipient_filter",
-                                 class: "inline txtfield small custom-data-input tooltip-info",
-                                 "data-placement" => "top",
-                                 "data-title" => "Type Recipient name..." %>
-                </div>
+                <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar" %>
+                <%= text_field_tag "", "", data: {autocomplete_source: users_path},
+                                   placeholder: "Type Recipient name...",
+                                   id: "recipient_filter",
+                                   class: "inline txtfield small custom-data-input tooltip-info",
+                                   "data-placement" => "top",
+                                   "data-title" => "Type Recipient name..." %>
+              </div>
 
               <div id="message_recipients" style='margin-top: 5px; margin-bottom: 0px; max-height: 70px; overflow-y: auto;'></div>
             </div>

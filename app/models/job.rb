@@ -99,6 +99,13 @@ class Job < ActiveRecord::Base
             client.name
         end
 
+        text :job_number, :as => :code_textp do
+            job_number
+        end
+        text :api_number, :as => :code_textp do
+            api_number
+        end
+
         text :dynamic_fields_value do
             dynamic_fields.map { |df| df.value }
         end

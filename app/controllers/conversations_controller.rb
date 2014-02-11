@@ -179,7 +179,7 @@ class ConversationsController < ApplicationController
             @conversation.conversation_memberships.each do |m|
                 m.update_attribute(:deleted, false)
                 if m.user != current_user
-                    Pusher["channel_#{m.user_id}"].trigger('new_message', {
+                    Pusher["private-channel_#{m.user_id}"].trigger('new_message', {
                             conversation_id: @conversation.id,
                             user_id: m.user_id
                     })

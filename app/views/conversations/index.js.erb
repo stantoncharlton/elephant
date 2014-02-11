@@ -26,11 +26,6 @@ $('#new_messages').addClass('hidden');
         }
     });
 
-    $('.remove-recipient').live("click", function() {
-       $(this).closest('.recipient').remove();
-        return false;
-    });
-
     var focusevent, last_selected_item;
 
     last_selected_item = null;
@@ -46,7 +41,7 @@ $('#new_messages').addClass('hidden');
     };
 
     $('#recipient_filter').autocomplete({
-        source: $('#person_filter').data('autocomplete-source'),
+        source: $('#recipient_filter').data('autocomplete-source'),
         focus: focusevent,
         select: function(event, ui) {
             $("#recipient_filter").val('');
@@ -61,9 +56,10 @@ $('#new_messages').addClass('hidden');
                 "<a>" + (item.id > 0 ? "<div><img src='/assets/user_avatar_extrasmall.png' class='job-member-avatar pull-left'></div>" : "") + "<div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.position_title + "</p><p class='job-user-district'>" + item.district + "</p></div>" : "") + "</div></a>").appendTo(ul)
     }
 
-    setTimeout(function() {
-        $('#recipient_filter').focusin();
-    }, 50);
+    $('.remove-recipient').live("click", function() {
+        $(this).closest('.recipient').remove();
+        return false;
+    });
 
 
     $('.conversation-link2').click(function () {
