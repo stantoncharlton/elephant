@@ -329,12 +329,13 @@ module DrillingLogsHelper
 
 
     def fill_railroad job, well_plan, entries, r
-        r.add_field "ADDRESS_1", "12491 North Freeway Suite 400"
-        r.add_field "ADDRESS_2", "Houston, TX 77060"
+        company = job.company
+        r.add_field "ADDRESS_1", company.address_line_1 + ' ' + company.address_line_2
+        r.add_field "ADDRESS_2", "#{company.city}, #{company.state} #{company.postal_code}"
         r.add_field "TODAY", Date.today.strftime("%B %d, %Y")
-        r.add_field "NAME", "Scott Millard"
-        r.add_field "TITLE", "VP MWD Operations"
-        r.add_field "COMPANY", "Premier Directional Drilling, LLC"
+        r.add_field "NAME", company.railroad_signer
+        r.add_field "TITLE", company.railroad_signer_title
+        r.add_field "COMPANY", company.name
         r.add_field "CLIENT", job.client.name
 
         r.add_field "WELL_NAME", job.well.name
@@ -351,17 +352,37 @@ module DrillingLogsHelper
     end
 
     def fill_railroad_certification job, drilling_log, well_plan, survey, entries, r
-        r.add_field "ADDRESS_1", "12491 North Freeway Suite 400"
-        r.add_field "ADDRESS_2", "Houston, TX 77060"
+        company = drilling_log.company
+        r.add_field "ADDRESS_1", company.address_line_1 + ' ' + company.address_line_2
+        r.add_field "ADDRESS_2", "#{company.city}, #{company.state} #{company.postal_code}"
         r.add_field "TODAY", Date.today.strftime("%B %d, %Y")
-        r.add_field "NAME", "Scott Millard"
-        r.add_field "TITLE", "VP MWD Operations"
-        r.add_field "COMPANY", "Premier Directional Drilling, LLC"
+        r.add_field "NAME", company.railroad_signer
+        r.add_field "TITLE", company.railroad_signer_title
+        r.add_field "COMPANY", company.name
         r.add_field "CLIENT", job.client.name
-        r.add_field "OP_NO", "676020"
+        r.add_field "OP_NO", company.operator_number
         r.add_field "DATE", Date.today.strftime("%B %d, %Y")
 
-        r.add_field "NAMES", "-"
+        image_path = "#{Rails.root}/tmp/#{company.id}.png"
+        if !File.exist?(image_path)
+            s3 = AWS::S3.new
+            File.open(image_path, 'wb') do |f|
+                f.write(s3.buckets["elephant-public"].objects["images/#{company.id}.png"].read)
+            end
+        end
+        r.add_image "LOGO", image_path
+
+        if job.present?
+            jobs_sql = Survey.includes(document: :job).where("jobs.well_id = ?", job.well_id).select("jobs.id").to_sql
+            users = JobMembership.includes(:job, :user).where("job_memberships.job_id IN (#{jobs_sql})").where("job_memberships.job_role_id = ?", JobMembership::FIELD)
+            if users.any?
+                r.add_field "NAMES", users.collect { |jm| jm.user.name }.to_sentence
+            else
+                r.add_field "NAMES", "-"
+            end
+        else
+            r.add_field "NAMES", "-"
+        end
 
         r.add_field "JOB_NUMBER", job.job_number.present? ? job.job_number : '-'
         r.add_field "API_NUMBER", job.api_number.present? ? job.api_number : '-'

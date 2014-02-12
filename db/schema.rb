@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140210210753) do
+ActiveRecord::Schema.define(:version => 20140212165229) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -167,14 +167,17 @@ ActiveRecord::Schema.define(:version => 20140210210753) do
     t.integer  "admin_id"
     t.string   "logo"
     t.string   "logo_large"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.string   "vpn_range"
-    t.boolean  "test_company",     :default => false
-    t.boolean  "inventory_active", :default => true
+    t.boolean  "test_company",          :default => false
+    t.boolean  "inventory_active",      :default => true
     t.string   "city"
-    t.integer  "minimum_work_day", :default => 8
-    t.integer  "work_day_type",    :default => 1
+    t.integer  "minimum_work_day",      :default => 8
+    t.integer  "work_day_type",         :default => 1
+    t.string   "operator_number"
+    t.string   "railroad_signer"
+    t.string   "railroad_signer_title"
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true

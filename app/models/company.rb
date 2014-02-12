@@ -15,7 +15,11 @@ class Company < ActiveRecord::Base
                     :test_company,
                     :inventory_active,
                     :minimum_work_day,
-                    :work_day_type
+                    :work_day_type,
+
+                    :operator_number,
+                    :railroad_signer,
+                    :railroad_signer_title
 
     after_commit :flush_cache
 
