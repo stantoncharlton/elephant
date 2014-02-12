@@ -338,6 +338,15 @@ module DrillingLogsHelper
         r.add_field "COMPANY", company.name
         r.add_field "CLIENT", job.client.name
 
+        image_path = "#{Rails.root}/tmp/#{company.id}.png"
+        if !File.exist?(image_path)
+            s3 = AWS::S3.new
+            File.open(image_path, 'wb') do |f|
+                f.write(s3.buckets["elephant-public"].objects["images/#{company.id}.png"].read)
+            end
+        end
+        r.add_image "LOGO", image_path
+
         r.add_field "WELL_NAME", job.well.name
 
         hours = (entries.last.created_at - entries.first.created_at).to_f / 60.0 / 60.0
