@@ -11,7 +11,9 @@ class PartMembership < ActiveRecord::Base
                     :optional,
                     :inner_diameter,
                     :outer_diameter,
-                    :length
+                    :length,
+                    :up,
+                    :down
 
 
     require 'digest/md5'

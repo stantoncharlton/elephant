@@ -17,15 +17,21 @@ class BhaItem < ActiveRecord::Base
     belongs_to :tool, class_name: "PartMembership"
 
 
-    def self.add(bha, tool, up, down, asset_type, ordering)
+    BIT = 1
+    MOTOR = 2
+    STABILIZER = 3
+    UBHO_SUB = 4
+    DRILL_COLLAR = 5
+
+    def self.add(bha, tool, id, od, length, up, down, asset_type, ordering)
 
         bha_item = BhaItem.new
         bha_item.bha = bha
         bha_item.company = bha.company
         bha_item.tool = tool
-        #bha_item.inner_diameter = id
-        #bha_item.outer_diameter = od
-        #bha_item.length = length
+        bha_item.inner_diameter = id
+        bha_item.outer_diameter = od
+        bha_item.length = length
         bha_item.ordering = ordering
         bha_item.up = up
         bha_item.down = down
@@ -127,9 +133,11 @@ class BhaItem < ActiveRecord::Base
     def self.type_options
         options = []
         options << ["Type...", -1]
-        options << ["Bit - PDC", 1]
-        options << ["Bit - ", 2]
-        options << ["MWD", 3]
+        options << ["Bit", BhaItem::BIT]
+        options << ["Motor", BhaItem::MOTOR]
+        options << ["Stabilizer", BhaItem::STABILIZER]
+        options << ["UBHO Sub", BhaItem::UBHO_SUB]
+        options << ["Drill Collar", BhaItem::DRILL_COLLAR]
     end
 
 end

@@ -31,7 +31,8 @@ module DrillingLogsHelper
 
         last_index = 0
         depth = 0.0
-        bha.bha_items.each_with_index do |bha_item, index|
+        items = bha.bha_items.to_a
+        items.each_with_index do |bha_item, index|
             if bha_item.tool.present?
                 depth = depth + (bha_item.tool.length || 0)
                 r.add_field "A#{index + 1}", "#{bha_item.tool.name}"
@@ -54,13 +55,62 @@ module DrillingLogsHelper
             r.add_field "TC#{last_index + 1}", ""
         end
 
-        gold_fill = Magick::GradientFill.new(0, 0, 0, 0, "#FFFFFF", "#FFFFFF")
+        white_fill = Magick::GradientFill.new(0, 0, 0, 0, "#FFFFFF", "#FFFFFF")
         # 1.38, 7.94
-        dst = Magick::Image.new(1.38 * 150, 7.94 * 150, gold_fill)
-        src = Magick::Image.read("app/assets/images/bha/bit.png")[0]
-        result = dst.composite(src, Magick::NorthGravity, Magick::OverCompositeOp)
+        dst = Magick::Image.new(1.38 * 150, 7.94 * 150, white_fill)
+
+        top = 20
+        height = 0
+        items.reverse.each_with_index do |bha_item, index|
+
+            if bha_item.up.present? && bha_item.up > 0 && bha_item.up <= 10
+                src = Magick::Image.read("app/assets/images/bha/pin_up.png")[0]
+                height = 16
+                dst = dst.composite(src, Magick::NorthGravity, 0, top, Magick::OverCompositeOp)
+                top += height
+            end
+
+            src = Magick::Image.read("app/assets/images/bha/other.png")[0]
+            height = 83
+
+            case bha_item.asset_type
+                when BhaItem::BIT
+                    src = Magick::Image.read("app/assets/images/bha/bit.png")[0]
+                    height = 45
+                when BhaItem::MOTOR
+                    src = Magick::Image.read("app/assets/images/bha/motor.png")[0]
+                    height = 269
+                when BhaItem::STABILIZER
+                    src = Magick::Image.read("app/assets/images/bha/stabilizer.png")[0]
+                    height = 74
+                when BhaItem::UBHO_SUB
+                when BhaItem::DRILL_COLLAR
+                    src = Magick::Image.read("app/assets/images/bha/drill_collar.png")[0]
+                    height = 159
+                else
+                    src = Magick::Image.read("app/assets/images/bha/other.png")[0]
+                    height = 83
+            end
+
+            dst = dst.composite(src, Magick::NorthGravity, 0, top, Magick::OverCompositeOp)
+            top += height
+
+            #text = Magick::Draw.new
+            #dst.annotate(text, 0,0,0, top, bha_item.tool.name) do
+            #    text.gravity = Magick::NorthEastGravity
+            #    self.pointsize = 12
+            #end
+
+            if bha_item.down.present? && bha_item.down > 0 && bha_item.down <= 10
+                src = Magick::Image.read("app/assets/images/bha/pin_down.png")[0]
+                height = 16
+                dst = dst.composite(src, Magick::NorthGravity, 0, top, Magick::OverCompositeOp)
+                top += height
+            end
+        end
+
         file_path = "#{Rails.root}/tmp/bha.png"
-        result.write(file_path)
+        dst.write(file_path)
         r.add_image "BHA", file_path
     end
 

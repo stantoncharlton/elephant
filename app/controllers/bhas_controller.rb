@@ -97,14 +97,14 @@ class BhasController < ApplicationController
                             tool = PartMembership.find_by_id(k)
                             not_found unless tool.company == current_user.company
 
-                            #id = BigDecimal.new(params[k + '_id'])
-                            #od = BigDecimal.new(params[k + '_od'])
-                            #length = BigDecimal.new(params[k + '_length'])
+                            id = BigDecimal.new(params[k + '_id'])
+                            od = BigDecimal.new(params[k + '_od'])
+                            length = BigDecimal.new(params[k + '_length'])
                             up = params[k + '_up']
                             asset_type = params[k + '_asset_type']
-                            #down = params[k + '_down']
+                            down = params[k + '_down']
 
-                            BhaItem.add(@bha, tool, up, nil, asset_type, index)
+                            BhaItem.add(@bha, tool, id, od, length, up, down, asset_type, index)
                             index = index + 1
                         end
                     end
@@ -160,14 +160,14 @@ class BhasController < ApplicationController
                             tool = PartMembership.find_by_id(k)
                             not_found unless tool.company == current_user.company
 
-                            #id = BigDecimal.new(params[k + '_id'])
-                            #od = BigDecimal.new(params[k + '_od'])
-                            #length = BigDecimal.new(params[k + '_length'])
+                            id = BigDecimal.new(params[k + '_id'])
+                            od = BigDecimal.new(params[k + '_od'])
+                            length = BigDecimal.new(params[k + '_length'])
                             up = params[k + '_up']
                             asset_type = params[k + '_asset_type']
-                            #down = params[k + '_down']
+                            down = params[k + '_down']
 
-                            BhaItem.add(@bha, tool, up, nil, asset_type, index)
+                            BhaItem.add(@bha, tool, id, od, length, up, down, asset_type, index)
                             index = index + 1
                         end
                     end
