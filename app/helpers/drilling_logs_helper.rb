@@ -34,11 +34,11 @@ module DrillingLogsHelper
         items = bha.bha_items.to_a
         items.each_with_index do |bha_item, index|
             if bha_item.tool.present?
-                depth = depth + (bha_item.tool.length || 0)
+                depth = depth + (bha_item.length || 0)
                 r.add_field "A#{index + 1}", "#{bha_item.tool.name}"
-                r.add_field "ID#{index + 1}", "#{bha_item.tool.inner_diameter}"
-                r.add_field "OD#{index + 1}", "#{bha_item.tool.outer_diameter}"
-                r.add_field "L#{index + 1}", "#{bha_item.tool.length}"
+                r.add_field "ID#{index + 1}", "#{bha_item.inner_diameter}"
+                r.add_field "OD#{index + 1}", "#{bha_item.outer_diameter}"
+                r.add_field "L#{index + 1}", "#{bha_item.length}"
                 r.add_field "LT#{index + 1}", "#{depth.round(2)}"
                 r.add_field "TC#{index + 1}", "#{bha_item.up >= 0 ? BhaItem.connection_string(bha_item.up) : "-"}"
             end
