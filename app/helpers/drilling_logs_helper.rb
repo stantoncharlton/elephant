@@ -2,6 +2,7 @@ module DrillingLogsHelper
 
     include ActionView::Helpers::NumberHelper
 
+
     def fill_run_report job, entries, r, start_time, end_time, run_number
         fill_drilling_report job, entries, r, start_time, end_time
 
@@ -52,6 +53,15 @@ module DrillingLogsHelper
             r.add_field "LT#{last_index + 1}", ""
             r.add_field "TC#{last_index + 1}", ""
         end
+
+        gold_fill = Magick::GradientFill.new(0, 0, 0, 0, "#FFFFFF", "#FFFFFF")
+        # 1.38, 7.94
+        dst = Magick::Image.new(1.38 * 150, 7.94 * 150, gold_fill)
+        src = Magick::Image.read("app/assets/images/bha/bit.png")[0]
+        result = dst.composite(src, Magick::NorthGravity, Magick::OverCompositeOp)
+        file_path = "#{Rails.root}/tmp/bha.png"
+        result.write(file_path)
+        r.add_image "BHA", file_path
     end
 
     def fill_drilling_report job, entries, r, start_time, end_time
