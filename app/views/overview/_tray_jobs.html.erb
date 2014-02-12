@@ -13,7 +13,7 @@
                 <% max_depth = drilling_log.max_depth.present? ? drilling_log.max_depth : 0 %>
                 <% td_depth = drilling_log.td_depth.present? ? drilling_log.td_depth : 0 %>
                 <% @jobs << [job.id, max_depth, td_depth, problem ? "#fa381e" : (td_depth == 0 || max_depth == 0 ? "#d7e9fa" : "#115ea3")] %>
-                <div class="chart-block tooltip-info" style="margin-bottom: 35px;"
+                <div class="chart-block tooltip-info" style="margin-bottom: 15px; margin-right: 23px;"
                      data-placement="top"
                      data-html="true"
                      data-title="<%= render 'jobs/well_tooltip', job: job, show_summary_data: false %>">
@@ -26,7 +26,7 @@
                     <div id="rig_chart_<%= job.id %>" class="donut-chart "></div>
                     <div class="donut-inner-circle <%= problem ? "inner-circle-red" : "" %>"></div>
                     <div class="donut-text" style="font-size: 18px; color: <%= problem ? "#fa381e" : "#115ea3" %>; text-shadow: 1px 2px 2px #FFFFFF;"><%= drilling_log.nil? || drilling_log.max_depth.nil? ? "0" : number_with_delimiter(drilling_log.max_depth.to_i, :delimiter => ',') %></div>
-                    <div class="percentage-circle"><%= drilling_log.nil? || drilling_log.td_depth.nil? ? "0" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
+                    <div class="percentage-circle"><%= drilling_log.nil? || drilling_log.td_depth.nil? ? "" : number_with_delimiter(drilling_log.td_depth.to_i, :delimiter => ',') %>
 
                     </div>
                     <div style="color: #7aa8d0; position: absolute; bottom: 5px; right: 0px;"><%= drilling_log.drilling_rop.present? ? drilling_log.drilling_rop.round(1) : 0.0 %>

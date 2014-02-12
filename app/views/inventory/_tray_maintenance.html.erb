@@ -11,6 +11,7 @@
     <% parts = @parts.where(:status => Part::IN_REDRESS) %>
 
     <% parts_grouped = part_redresses.group_by { |pr| pr.received_at.to_date } %>
+    <% parts_grouped = parts_grouped.sort_by { |g| g[0] } %>
 
     <div class='well'>
       <h1 class="donut-text inline"><%= parts.count %></h1>
