@@ -129,10 +129,10 @@ module DrillingLogsHelper
             r.add_field "TIME", "#{start_time.strftime('%m/%d/%Y')} - #{end_time.strftime('%m/%d/%Y')} (#{(hours / 24.0).round(0).to_i} days)"
         end
 
-        r.add_field "T1", drilling_log.rop.nil? ? "-" : drilling_log.rop.round(1)
+        r.add_field "T1", drilling_log.drilling_rop.nil? ? "-" : drilling_log.drilling_rop.round(1)
         r.add_field "T2", drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',')
         r.add_field "T3", drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1)
-        r.add_field "T4", drilling_log.total_circulation_time.nil? ? "-" : drilling_log.total_circulation_time.round(1)
+        r.add_field "T4", drilling_log.npt.nil? ? "-" : drilling_log.npt.round(1)
         r.add_field "T5", issues.count
         r.add_field "T6", "#{number_with_delimiter(drilling_log.start_depth.to_i, :delimiter => ',')} - #{number_with_delimiter(drilling_log.end_depth.to_i, :delimiter => ',')}"
 
