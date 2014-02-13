@@ -272,6 +272,9 @@ class JobsController < ApplicationController
                     end
 
                     @old_job.transfer_assets @job, current_user
+
+                    @old_job.update_attribute(:status, Job::POST_JOB)
+                    Activity.add(current_user, Activity::BEGIN_POST_JOB, @old_job, nil, @old_job)
                 end
 
                 Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)
