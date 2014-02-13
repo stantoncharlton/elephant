@@ -409,12 +409,15 @@ class JobsController < ApplicationController
         not_found unless !@job.nil?
         not_found unless @job.company == current_user.company
         not_found unless @job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit?
-        @job.destroy
 
-        #Activity.add(self.current_user, Activity::PRODUCT_LINE_DESTROYED, @product_line, @product_line.name)
+        if @job.part_memberships.any? && @job.part_memberships.where("part_memberships.shipping IS FALSE").any?
+            flash[:error] = "All assets must be shipped to another job or back to warehouse in order to delete this job."
+            redirect_to @job
+        else
 
-        flash[:success] = 'Job deleted.'
-
-        redirect_to jobs_path
+            @job.destroy
+            flash[:success] = 'Job deleted.'
+            redirect_to jobs_path
+        end
     end
 end
