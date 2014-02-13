@@ -1,80 +1,107 @@
 <% if current_user.role.limit_to_assigned_jobs? %>
-        <a href="<%= edit_issue_path(issue).to_s %>"
-           class="job-status job-link tooltip-info show-modal-button"
-           data-remote="true"
-           data-placement="left"
-           data-title="Click to open failure">
+    <a href="<%= edit_issue_path(issue).to_s %>"
+       class="job-status job-link tooltip-info show-modal-button"
+       data-remote="true"
+       data-placement="left"
+       data-title="Click to open failure">
 <% else %>
     <a href="/issues/<%= issue.id %>"
-        class="job-status job-link tooltip-info"
-                target="_blank"
-                data-placement="left"
-                data-title="Click to open failure">
+       class="job-status job-link tooltip-info"
+       target="_blank"
+       data-placement="left"
+       data-title="Click to open failure">
 <% end %>
 
-    <div>
+<div>
 
-      <% if issue.job.status != Job::COMPLETE %>
-          <span class="pull-right"><%= time_ago_in_words(issue.failure_at) %> ago</span>
-      <% else %>
-          <span class="pull-right"><%= issue.failure_at.strftime("%a %m/%d/%Y") %></span>
-      <% end %>
+  <% if issue.job.status != Job::COMPLETE %>
+      <span class="pull-right"><%= time_ago_in_words(issue.failure_at) %> ago</span>
+  <% else %>
+      <span class="pull-right"><%= issue.failure_at.strftime("%a %m/%d/%Y") %></span>
+  <% end %>
 
-      <div>
-        <% if issue.status == Issue::OPEN %>
-            <span class="label label-success">OPEN</span>
-        <% elsif issue.status == Issue::CLOSED %>
-            <span class="label label-important">CLOSED</span>
-        <% end %>
+  <div>
+    <% if issue.status == Issue::OPEN %>
+        <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">OPEN</span>
+    <% elsif issue.status == Issue::CLOSED %>
+        <span class="label label-important" style="padding: 4px; padding-left: 10px; padding-right: 10px;">CLOSED</span>
+    <% end %>
+  </div>
+
+  <% if issue.failure.present? %>
+      <div class='warning-text'>
+        <%= issue.failure.failure_master_template.text %>
       </div>
-
-      <% if issue.failure.present? %>
-          <div class=''>
-            <%= issue.failure.failure_master_template.text %>
-          </div>
-      <% else %>
-          <div class='warning-text'>Unknown Failure</div>
-      <% end %>
+  <% else %>
+      <div class='warning-text'>Unknown Failure</div>
+  <% end %>
 
 
+</div>
+
+<% if !show_job && issue.job_notes.any? %>
+    <div class='push-down-small'>
+      <i class="icon-comment"></i>
+      <% job_note = issue.job_notes.first %>
+
+      <% names = job_note.user.present? ? job_note.user.name.split : [] %>
+      <div class="member-icon align-top" style='width: 22px; height: 22px;'>
+        <p style='font-size: 10px; margin-top: 3px;'>
+          <% if names.any? %>
+              <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+          <% else %>
+              -
+          <% end %>
+        </p>
+      </div>
+      &nbsp;
+
+      <div class='inline'><%= job_note.text %></div>
     </div>
+<% end %>
 
-    <% if !show_job && issue.job_notes.any? %>
-        <div class='push-down-small'>
-          <i class="icon-comment"></i>
+<br>
+<%= render 'issues/part', issue: issue, no_link: true %>
 
-          <div class='inline-block push-right-small'><%= issue.job_notes.first.text %></div>
+<% if !current_user.role.limit_to_assigned_jobs? && issue.responsible_by.present? %>
+    <div class='push-down'>
+      <%= render 'users/user_icon', user: issue.responsible_by, use_link: false, use_name: true %>
+      <p class='inline-block help-text'> - Responsible Personnel</p>
+      <br><br>
+    </div>
+<% end %>
+
+<% if show_job %>
+    <% job = issue.job %>
+    <div class='' style="padding-bottom: 0px; margin-bottom: 0px; margin-top: 0px;">
+      <div class="">
+        <div class="inline-block light-blue-text align-top">
+          <b><%= job.well.rig.present? ? job.well.rig.name : '-' %></b>
         </div>
-    <% end %>
+        &nbsp;
 
-    <br>
-    <%= render 'issues/part', issue: issue, no_link: true %>
+        <h2 class="job-title job-title4 inline"><%= job.field.name %></h2>
 
-    <% if !current_user.role.limit_to_assigned_jobs? && issue.responsible_by.present? %>
-        <div class='push-down'>
-          <%= render 'users/user_icon', user: issue.responsible_by, use_link: false, use_name: true %>
-          <p class='inline-block help-text'> - Responsible Personnel</p>
-          <br><br>
-        </div>
-    <% end %>
+        <p class="job-title-divider2">|</p>
 
-    <% if show_job %>
-        <%= render 'jobs/job_progress', job: issue.job, show_summary_data: true, job_name: false %>
-    <% else %>
-        <% drilling_log = issue.job.drilling_log %>
-        <% if drilling_log.present? %>
-            <% surrounding = drilling_log.get_surrounding_entries(issue.failure_at, 2.hours) %>
-            <% if drilling_log.present? && surrounding[1].any? && surrounding[1].first.present? %>
-                <% bha = surrounding[1].first.bha %>
+        <h2 class="job-title job-title4 inline"><%= job.well.name %></h2>
+      </div>
+    </div>
+<% else %>
+    <% drilling_log = issue.job.drilling_log %>
+    <% if drilling_log.present? %>
+        <% surrounding = drilling_log.get_surrounding_entries(issue.failure_at, 2.hours) %>
+        <% if drilling_log.present? && surrounding[1].any? && surrounding[1].first.present? %>
+            <% bha = surrounding[1].first.bha %>
 
-                <% if bha.present? %>
-                    <b class='blue-text'>BHA</b> <%= bha.name %> <%= bha.description.present? ? " - #{bha.description}" : '' %>
-                    <br>
-                <% end %>
-                <% if !surrounding[1].first.run_number.blank? %>
-                    <b class='blue-text'>Run</b>&nbsp;&nbsp;<%= surrounding[1].first.run_number %>
-                <% end %>
+            <% if bha.present? %>
+                <b class='blue-text'>BHA</b> <%= bha.name %> <%= bha.description.present? ? " - #{bha.description}" : '' %>
+                <br>
+            <% end %>
+            <% if !surrounding[1].first.run_number.blank? %>
+                <b class='blue-text'>Run</b>&nbsp;&nbsp;<%= surrounding[1].first.run_number %>
             <% end %>
         <% end %>
     <% end %>
-    </a>
+<% end %>
+</a>

@@ -7,11 +7,18 @@
 
   <div class="content tray-content content-loaded">
 
-    <div class="">
+    <div class='page_header'>
+      <h2>Description/Notes</h2>
+    </div>
 
-      <div class='page_header'>
-        <h2>Description/Notes</h2>
-      </div>
+    <div id="job_notes">
+      <% @issue.job_notes.includes(comments: :user).each do |job_note| %>
+          <%= render 'job_notes/job_note', job_note: job_note %>
+      <% end %>
+    </div>
+
+
+    <div class="">
 
       <div class="field">
         <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
@@ -22,6 +29,7 @@
                 <p><b>Add new note</b></p>
 
                 <%= f.text_area :text, placeholder: I18n.t("jobs.show.new_note_prompt"),
+                                style: "width: 870px;",
                                 class: "txtfield job-notes-text tooltip-info", autofocus: false,
                                 id: "new_note_id",
                                 "data-placement" => "bottom",
@@ -44,12 +52,6 @@
             </div>
         <% end %>
       </div>
-    </div>
-
-    <div id="job_notes">
-      <% @issue.job_notes.includes(comments: :user).each do |job_note| %>
-          <%= render 'job_notes/job_note', job_note: job_note %>
-      <% end %>
     </div>
 
   </div>

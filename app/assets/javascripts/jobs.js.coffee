@@ -169,8 +169,10 @@ $ ->
     tray_name = $(this).attr('data-tray')
     controller = $(this).attr('data-tray-controller')
     id = $(this).attr('data-id')
+    if id == null
+      id = 0
 
-    if tray_name.length > 0 && controller.length > 0 && id.length > 0
+    if tray_name.length > 0 && controller.length > 0
       tray = $(".remote-tray[data-tray=" + tray_name + "]")
       tray.removeClass 'custom-data-closed'
       #document.location.hash = tray_name
@@ -186,7 +188,10 @@ $ ->
         tray.find('.remote-loading').removeClass 'hidden'
         tray.find('.loading').removeClass 'hidden'
 
-        $.ajax '/' + controller + '/' + id + "?section=" + tray_name, type: 'get', dataType: 'script'
+        if id > 0
+          $.ajax '/' + controller + '/' + id + "?section=" + tray_name, type: 'get', dataType: 'script'
+        else
+          $.ajax '/' + controller + "?section=" + tray_name, type: 'get', dataType: 'script'
 
     return false
 

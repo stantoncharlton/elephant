@@ -1,58 +1,44 @@
-<div class='job-tray custom-data-closed' data-tray="all_issues">
+<div class="remote-tray" data-tray="all_issues">
 
-  <div class='content'>
-    <div class='page_header'>
-      <h1 class="inline">All Incidents</h1>
-      <span class="help-text push-right-small">(<%= 0 %>)</span>
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading all issues..." %>
+  </div>
+
+  <div class="content tray-content content-loaded">
+
+    <div class='content'>
+      <div class='page_header'>
+        <h1 class="inline">All Incidents</h1>
+        <span class="help-text push-right-small">(<%= 0 %>)</span>
+      </div>
+
+
+      <% paginated_issues = @issues.paginate(page: params[:page], limit: 20) %>
+      <div id='list' class='' style="margin-right: -20px;margin-left: -20px;">
+        <% if !paginated_issues.any? %>
+            <p class='center help-text'>
+              No incidents...
+            </p>
+        <% end %>
+        <% paginated_issues.each do |issue| %>
+            <%= render 'issues/issue2', issue: issue %>
+        <% end %>
+      </div>
+
+      <%= will_paginate paginated_issues %>
+
+      <script type='text/javascript'>
+          $(function () {
+              $('.pagination a').live("click", function () {
+                  $('.pagination').html('Page is loading...');
+                  $.get(this.href, null, null, 'script');
+                  $('#list').animate({scrollTop : 0 }, 'fast');
+                  return false;
+              });
+          });
+      </script>
+
     </div>
-
-
-    <div class='' style="margin-right: -20px;margin-left: -20px;">
-      <% if !@issues.any? %>
-          <p class='center help-text'>
-            No incidents...
-          </p>
-      <% end %>
-      <% @issues.each do |issue| %>
-          <%= link_to issue, class: "job-status job-link tooltip-info",
-                      "data-placement" => "left",
-                      "data-title" => "Click to open job" do %>
-
-              <div>
-
-                <span class="pull-right"><%= time_ago_in_words(issue.created_at) %> ago</span>
-
-                <div>
-                  <% if issue.status == Issue::OPEN %>
-                      <span class="label label-success">OPEN</span>
-                  <% elsif issue.status == Issue::CLOSED %>
-                      <span class="label label-important">CLOSED</span>
-                  <% end %>
-                </div>
-
-                <% if issue.failure.present? %>
-                    <div>
-                      <%= issue.failure.failure_master_template.text %>
-                    </div>
-                <% end %>
-
-                <% if issue.job_notes.any? %>
-                    <div class='push-down-small'>
-                      <i class="icon-comment"></i>
-                      <div class='inline-block push-right-small'><%= issue.job_notes.first.text %></div>
-                    </div>
-                <% end %>
-
-
-              </div>
-
-              <%= render 'jobs/job_progress', job: issue.job, show_summary_data: true, job_name: false %>
-
-          <% end %>
-      <% end %>
-    </div>
-
-    <%= will_paginate @issues %>
-
   </div>
 </div>

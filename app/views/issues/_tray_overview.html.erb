@@ -1,121 +1,131 @@
-<div class='job-tray' data-tray="overview">
+<div class="remote-tray" data-tray="overview">
 
-  <div class='content'>
-    <div class='page_header'>
-      <h1 class="inline">Overview</h1>
-    </div>
-
-
-    <%= render 'issues/statistics', jobs_sql: nil %>
-
-
-    <% all_issues = Issue.all.count %>
-    <% tool_failures = Issue.where("issues.part_id IS NOT NULL").count %>
-    <% human_failures = Issue.where("issues.responsible_by_id IS NOT NULL").count %>
-
-    <br><br><br>
-
-    <div>
-      <div class="chart-block tooltip-info align-top"
-           data-title="Open Incidents">
-        <div class="chart-title">Open Incidents</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text chart-text-red"><%= Issue.where(:status => Issue::OPEN).count %></div>
-          <div class="percentage chart-text-red">incidents</div>
-        </div>
-      </div>
-
-      <div class="chart-block tooltip-info align-top"
-           data-title="Open issues">
-        <div class="chart-title">All Incidents</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text"><%= all_issues %></div>
-          <div class="percentage">incidents</div>
-        </div>
-      </div>
-
-
-      <div class="chart-block tooltip-info"
-           data-title="Total failures caused by tool failure">
-        <div class="chart-title">Tool Failures</div>
-        <div class="donut-chart-div">
-          <div id="tool_failures_chart" class="donut-chart "></div>
-          <div class="donut-inner-circle"></div>
-          <div class="donut-text"><%= all_issues > 0 ? (tool_failures.to_f / all_issues.to_f * 100.0).round(0) : 0.0 %></div>
-          <div class="percentage-circle">%</div>
-        </div>
-      </div>
-
-      <div class="chart-block tooltip-info"
-           data-title="Total failures caused by tool failure">
-        <div class="chart-title">Human Failures</div>
-        <div class="donut-chart-div">
-          <div id="human_failures_chart" class="donut-chart "></div>
-          <div class="donut-inner-circle"></div>
-          <div class="donut-text"><%= all_issues > 0 ? (human_failures.to_f / all_issues.to_f * 100.0).round(0) : 0.0 %></div>
-          <div class="percentage-circle">%</div>
-        </div>
-      </div>
-
-    </div>
-
-
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
   </div>
+
+  <div class=" tray-content content-loaded">
+
+    <div class='content'>
+      <div class='page_header'>
+        <h1 class="inline">Overview</h1>
+      </div>
+
+
+      <%= render 'issues/statistics', jobs_sql: nil %>
+
+
+      <% all_issues = Issue.all.count %>
+      <% tool_failures = Issue.where("issues.part_id IS NOT NULL").count %>
+      <% human_failures = Issue.where("issues.responsible_by_id IS NOT NULL").count %>
+
+      <br><br><br>
+
+      <div>
+        <div class="chart-block tooltip-info align-top"
+             data-title="Open Incidents">
+          <div class="chart-title">Open Incidents</div>
+          <div class="donut-chart-div job-donut-chart-div">
+            <div class="donut-text chart-text-red"><%= Issue.where(:status => Issue::OPEN).count %></div>
+            <div class="percentage chart-text-red">incidents</div>
+          </div>
+        </div>
+
+        <div class="chart-block tooltip-info align-top"
+             data-title="Open issues">
+          <div class="chart-title">All Incidents</div>
+          <div class="donut-chart-div job-donut-chart-div">
+            <div class="donut-text"><%= all_issues %></div>
+            <div class="percentage">incidents</div>
+          </div>
+        </div>
+
+
+        <div class="chart-block tooltip-info"
+             data-title="Total failures caused by tool failure">
+          <div class="chart-title">Tool Failures</div>
+          <div class="donut-chart-div">
+            <div id="tool_failures_chart" class="donut-chart "></div>
+            <div class="donut-inner-circle"></div>
+            <div class="donut-text"><%= all_issues > 0 ? (tool_failures.to_f / all_issues.to_f * 100.0).round(0) : 0.0 %></div>
+            <div class="percentage-circle">%</div>
+          </div>
+        </div>
+
+        <div class="chart-block tooltip-info"
+             data-title="Total failures caused by tool failure">
+          <div class="chart-title">Human Failures</div>
+          <div class="donut-chart-div">
+            <div id="human_failures_chart" class="donut-chart "></div>
+            <div class="donut-inner-circle"></div>
+            <div class="donut-text"><%= all_issues > 0 ? (human_failures.to_f / all_issues.to_f * 100.0).round(0) : 0.0 %></div>
+            <div class="percentage-circle">%</div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <script>
+
+      var plot3 = $.jqplot('tool_failures_chart', [
+          [
+              ['a', <%= tool_failures %>],
+              ['b', <%= all_issues - tool_failures %>]
+          ]
+      ], {
+          animate: true,
+          animateReplot: true,
+          background: "#FFFFFF",
+          seriesColors: [ "#458fd2", "#FFFFFF"],
+          seriesDefaults: {
+              textColor: " #00ff0000",
+              shadow: false,
+              renderer: $.jqplot.DonutRenderer,
+              rendererOptions: {
+                  animation: {
+                      show: true,
+                      speed: 2500
+                  },
+                  padding: 0,
+                  innerDiameter: 95,
+                  sliceMargin: 0,
+                  startAngle: -90,
+                  showDataLabels: true,
+                  dataLabels: 'value'
+              }
+          }
+      });
+
+      plot3 = $.jqplot('human_failures_chart', [
+          [
+              ['a', <%= human_failures %>],
+              ['b', <%= all_issues - human_failures %>]
+          ]
+      ], {
+          animate: true,
+          background: "#FFFFFF",
+          seriesColors: [ "#458fd2", "#FFFFFF"],
+          seriesDefaults: {
+              textColor: " #00ff0000",
+              shadow: false,
+              renderer: $.jqplot.DonutRenderer,
+              rendererOptions: {
+                  padding: 0,
+                  innerDiameter: 95,
+                  sliceMargin: 0,
+                  startAngle: -90,
+                  showDataLabels: true,
+                  dataLabels: 'value'
+              }
+          }
+      });
+
+  </script>
+
 </div>
-
-<script>
-
-    var plot3 = $.jqplot('tool_failures_chart', [
-        [
-            ['a', <%= tool_failures %>],
-            ['b', <%= all_issues - tool_failures %>]
-        ]
-    ], {
-        animate: true,
-        animateReplot: true,
-        background: "#FFFFFF",
-        seriesColors: [ "#458fd2", "#FFFFFF"],
-        seriesDefaults: {
-            textColor: " #00ff0000",
-            shadow: false,
-            renderer: $.jqplot.DonutRenderer,
-            rendererOptions: {
-                animation: {
-                    show: true,
-                    speed: 2500
-                },
-                padding: 0,
-                innerDiameter: 95,
-                sliceMargin: 0,
-                startAngle: -90,
-                showDataLabels: true,
-                dataLabels: 'value'
-            }
-        }
-    });
-
-    plot3 = $.jqplot('human_failures_chart', [
-        [
-            ['a', <%= human_failures %>],
-            ['b', <%= all_issues - human_failures %>]
-        ]
-    ], {
-        animate: true,
-        background: "#FFFFFF",
-        seriesColors: [ "#458fd2", "#FFFFFF"],
-        seriesDefaults: {
-            textColor: " #00ff0000",
-            shadow: false,
-            renderer: $.jqplot.DonutRenderer,
-            rendererOptions: {
-                padding: 0,
-                innerDiameter: 95,
-                sliceMargin: 0,
-                startAngle: -90,
-                showDataLabels: true,
-                dataLabels: 'value'
-            }
-        }
-    });
-
-</script>
+</div>

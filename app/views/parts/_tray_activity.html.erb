@@ -33,7 +33,7 @@
               </div>
             </div>
 
-            <div class="activity-content">
+            <div class="activity-content2">
 
               <div class="activity-user-link-div">
                 <% if activity.user.present? %>
@@ -47,7 +47,7 @@
                 <% end %>
               </div>
 
-              <p class="activity-date tooltip-info"
+              <p class="activity-date tooltip-info pull-right"
                  data-placement="bottom"
                  data-title="<%= activity.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
                 <%= time_ago_in_words(activity.created_at) %> ago
@@ -56,8 +56,8 @@
               <div class="">
                 <p class="activity-message"><b><%= activity.message %></b></p>
                 <% if activity.activity_type == AssetActivity::ADDED_TO_JOB || activity.activity_type == AssetActivity::DELETED_FROM_JOB || activity.activity_type == AssetActivity::RECEIVED_AT_JOB %>
-                    <div style=''>
-                      <%= render "jobs/job_progress_link", job: activity.target %>
+                    <div style='margin-top: 5px; margin-bottom: 5px;'>
+                      <%= render "jobs/job_single_link", job: activity.target %>
                     </div>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT || activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>

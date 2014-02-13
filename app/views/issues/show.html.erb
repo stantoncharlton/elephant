@@ -96,17 +96,24 @@
   <% end %>
 
   <div>
-    <div class="content">
+    <div class="content" id="documents_issue">
       <% @issue.documents.each do |document| %>
           <%= render 'documents/document', document: document, editable: false, can_upload: true %>
       <% end %>
     </div>
+    <%= link_to "Add Document", new_document_path(modal: true, issue: @issue.id),
+                remote: true,
+                class: "add-custom-document tooltip-info show-modal-button",
+                "data-placement" => "left",
+                "data-title" => "Add new document" %>
+    <span class='help-text'>(failure report, etc)</span>
   </div>
+  <hr>
 
   <% if @issue.status == Issue::OPEN && !limit_access %>
       <div>
         <div class="push-right-small">
-          <%= link_to "CLOSE Issue Case", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
+          <%= link_to "CLOSE Incident Case", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
           <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
         </div>
       </div>

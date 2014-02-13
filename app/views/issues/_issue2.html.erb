@@ -1,0 +1,62 @@
+<%= link_to issue, class: "job-status job-link",
+            "data-placement" => "left",
+            "data-title" => "Click to open job" do %>
+
+    <div>
+
+      <span class="pull-right"><%= time_ago_in_words(issue.created_at) %> ago</span>
+
+      <div>
+        <% if issue.status == Issue::OPEN %>
+            <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">OPEN</span>
+        <% elsif issue.status == Issue::CLOSED %>
+            <span class="label label-important" style="padding: 4px; padding-left: 10px; padding-right: 10px;">CLOSED</span>
+        <% end %>
+      </div>
+
+      <% if issue.failure.present? %>
+          <div>
+            <%= issue.failure.failure_master_template.text %>
+          </div>
+      <% end %>
+
+      <% if issue.job_notes.any? %>
+          <div class='push-down-small'  style='max-height: 40px; text-overflow: ellipsis; overflow-y: hidden; vertical-align: top;'>
+            <i class="icon-comment"></i>
+
+            <% job_note = issue.job_notes.first %>
+            <% names = job_note.user.present? ? job_note.user.name.split : [] %>
+            <div class="member-icon align-top" style='width: 22px; height: 22px;'>
+              <p style='font-size: 10px; margin-top: 3px;'>
+                <% if names.any? %>
+                    <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                <% else %>
+                    -
+                <% end %>
+              </p>
+            </div>
+            &nbsp;
+            <div class='inline'><%= job_note.text %></div>
+          </div>
+      <% end %>
+
+
+    </div>
+
+    <% job = issue.job %>
+    <div class='' style="padding-bottom: 0px; margin-bottom: 8px; margin-top: 8px;">
+      <div class="">
+        <div class="inline-block light-blue-text align-top">
+          <b><%= job.well.rig.present? ? job.well.rig.name : '-' %></b>
+        </div>
+        &nbsp;
+
+        <h2 class="job-title job-title4 inline" style='font-size: 14px;'><%= job.field.name %></h2>
+
+        <p class="job-title-divider2" style='font-size: 14px;'>|</p>
+
+        <h2 class="job-title job-title4 inline" style='font-size: 14px;'><%= job.well.name %></h2>
+      </div>
+    </div>
+
+<% end %>

@@ -16,6 +16,11 @@
             <%= f.hidden_field :owner_type, value: "PartRedress" %>
             <%= f.hidden_field :category, value: Document::PART_REDRESS %>
         <% end %>
+        <% if issue_id.present? %>
+            <%= f.hidden_field :owner_id, value: issue_id %>
+            <%= f.hidden_field :owner_type, value: "Issue" %>
+            <%= f.hidden_field :category, value: Document::ISSUES %>
+        <% end %>
 
         <div class="well">
           <b>New Document Name</b><br><br>

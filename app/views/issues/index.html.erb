@@ -8,34 +8,70 @@
 <div>
   <ul class="nav nav-pills alert alert-nav">
     <li class="active">
-      <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
+      <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
          data-tray="overview"
+         data-tray-controller="issues"
          data-placement="bottom" data-title="Overview">Overview
       </a>
     </li>
     <li class="">
-      <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+      <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
          data-tray="open_issues"
+         data-tray-controller="issues"
          data-placement="bottom" data-title="Open Incidents">Open Incidents</a>
     </li>
     <li class="">
-      <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+      <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
          data-tray="all_issues"
+         data-tray-controller="issues"
          data-placement="bottom" data-title="All Incidents">All Incidents</a>
     </li>
     <li class="push-right-small">
-      <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+      <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
          data-tray="failure_types"
+         data-tray-controller="issues"
          data-placement="bottom" data-title="Failures Types">Failure Types</a>
     </li>
   </ul>
 </div>
 
-<%= render 'issues/tray_overview' %>
+<div class="remote-tray" data-tray="overview">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
+  </div>
+</div>
 
-<%= render 'issues/tray_open_issues' %>
+<div class="remote-tray custom-data-closed" data-tray="open_issues">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading open issues..." %>
+  </div>
+</div>
 
-<%= render 'issues/tray_all_issues' %>
+<div class="remote-tray custom-data-closed" data-tray="all_issues">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading all issues..." %>
+  </div>
+</div>
 
-<%= render 'issues/tray_failure_types' %>
+<div class="remote-tray custom-data-closed" data-tray="failure_types">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading failure types..." %>
+  </div>
+</div>
 
+
+<script type='text/javascript'>
+    if (document.location.hash == '') {
+        tray = $(".remote-tray[data-tray='overview']");
+        tray.find('.content').hide();
+        tray.find('.remote-loading').removeClass('hidden');
+        tray.find('.loading').removeClass('hidden');
+        setTimeout(function () {
+            $.ajax({
+                url: "/issues?section=overview",
+                type: "GET",
+                dataType: "script"
+            });
+        }, 1);
+    }
+</script>

@@ -4,15 +4,21 @@
         <div class='pull-right'>
 
           <% if shipment.status != Shipment::COMPLETE %>
-              <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
+              <p class='inline-block push-right help-text'><%= time_ago_in_words(shipment.created_at) %> ago</p>
           <% else %>
-              <span><%= shipment.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></span>
+              <p class='inline-block push-right help-text'><%= shipment.created_at.strftime("%a %m/%d/%Y %l:%M %p") %></p>
           <% end %>
 
 
         </div>
         <div>
-          <b><%= shipment.from_name %></b>&nbsp;&nbsp;&nbsp;<i class="icon-chevron-right"></i>&nbsp;&nbsp;&nbsp;<b><%= shipment.to_name %></b>
+          <b><%= shipment.from_name %></b>
+          &nbsp;&nbsp;&nbsp;
+          <i class="icon-chevron-right"></i>
+          &nbsp;&nbsp;&nbsp;
+          <div class='inline-block'>
+            <b><%= shipment.to_name %></b>
+          </div>
         </div>
 
         <div>

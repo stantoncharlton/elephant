@@ -8,7 +8,7 @@ class IssuesController < ApplicationController
             @issues = @issues.includes(:job).where("jobs.district_id IN (SELECT id FROM districts where master_district_id = :district_id)", district_id: current_user.district.master_district_id)
         end
 
-        @issues = @issues.paginate(page: params[:page], limit: 20)
+
     end
 
     def show
@@ -70,16 +70,16 @@ class IssuesController < ApplicationController
                 @note.save
             end
 
-            document = Document.new
-            document.name = "Issue Report"
-            document.category = Document::ISSUES
-            document.document_type = Document::DOCUMENT
-            document.read_only = false
-            document.ordering = 0
-            document.template = false
-            document.owner = @issue
-            document.company = current_user.company
-            document.save
+            #document = Document.new
+            #document.name = "Issue Report"
+            #document.category = Document::ISSUES
+            #document.document_type = Document::DOCUMENT
+            #document.read_only = false
+            #document.ordering = 0
+            #document.template = false
+            #document.owner = @issue
+            #document.company = current_user.company
+            #document.save
 
             @issue.delay.update_failure_count
             Activity.delay.add(current_user, Activity::ISSUE_OPENED, @issue, nil, @issue.job)
