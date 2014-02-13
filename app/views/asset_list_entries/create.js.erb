@@ -1,0 +1,22 @@
+$('.form[data-form=new_asset_list_entry]').show();
+$('.form-loading[data-form=new_asset_list_entry]').addClass('hidden');
+
+<% if @asset_list_entry.new_record?  || @asset_list_entry.errors.any?  %>
+$('#alert').remove();
+$('body').append("<%= j render 'layouts/modal_error', title: "Failed to add entry", message: @asset_list_entry.errors.full_messages.join(', ').html_safe %>");
+$('#alert').modal({show: true});
+
+<% else %>
+
+if ($('.no-entries').length > 0) {
+    $('.no-entries').remove();
+}
+
+$("#list").append("<%= j render 'asset_list_entries/asset_list_entry', asset_list_entry: @asset_list_entry, index: @asset_list_entry.asset_list.asset_list_entries.count - 1 %>");
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.activity-user-link').tooltip();
+    $('.tooltip-info').tooltip();
+}
+
+<% end %>

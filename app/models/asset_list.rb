@@ -14,6 +14,6 @@ class AssetList < ActiveRecord::Base
     belongs_to :company
     belongs_to :user
 
-    has_many :asset_list_entries
+    has_many :asset_list_entries, order: "created_at ASC"
 
 end

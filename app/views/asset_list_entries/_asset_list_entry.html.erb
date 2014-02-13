@@ -1,0 +1,54 @@
+<div id="asset_list_entry_<%= asset_list_entry.id %>" style="<%= index % 2 != 0 ? 'background: #e7f9fa;' : '' %>">
+
+  <% if true %>
+      <div class="btn-group inline-block align-top pull-right push-down-small" style='margin-right: 5px;'>
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+        </a>
+        <ul class="dropdown-menu">
+          <% if false %>
+              <li>
+                <%= link_to "Edit", edit_asset_list_entry_path(asset_list_entry), remote: true, class: "dropdown-menu-link show-modal-button" %>
+              </li>
+              <li class="divider"></li>
+          <% end %>
+          <li>
+            <%= link_to "Remove", asset_list_entry, method: :delete, remote: true,
+                        data: {confirm: "Remove?"}, class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Remove" %>
+          </li>
+        </ul>
+      </div>
+  <% end %>
+
+  <div style="margin-left: 15px;  max-height: 30px;">
+    <p class="list-item-column list-item-column-short blue-text">
+      <b style='margin: 0px; padding: 0px; text-align: left; line-height: 12px; font-size: 22px; font-family: gothamlightregular;'><%= asset_list_entry.quantity %></b>
+    </p>
+
+    <p class="list-item-column list-item-column-long blue-text">
+      <b><%= asset_list_entry.description %></b>
+    </p>
+
+    <p class="list-item-column list-item-column-count">
+      <b><%= asset_list_entry.inner_diameter %></b>
+    </p>
+
+    <p class="list-item-column list-item-column-count">
+      <%= asset_list_entry.outer_diameter %>
+    </p>
+
+    <p class="list-item-column list-item-column-count">
+      <%= asset_list_entry.length %>
+    </p>
+
+    <p class="list-item-column list-item-column-short push-right">
+      <b><%= BhaItem.connection_string asset_list_entry.up %></b>
+    </p>
+
+    <p class="list-item-column list-item-column-short">
+      <%= BhaItem.connection_string asset_list_entry.down %>
+    </p>
+
+  </div>
+</div>

@@ -7,6 +7,16 @@
       Advanced Actions
     </a>
     <ul class="dropdown-menu">
+      <% if @issue.failure_id.present? %>
+          <li>
+            <%= link_to "Edit Failure", "#",
+                        id: "edit_failure",
+                        class: "dropdown-menu-link tooltip-info",
+                        "data-placement" => "left",
+                        "data-title" => "Edit Failure Type, Asset, and Personnel" %>
+          </li>
+          <li class="divider"></li>
+      <% end %>
       <li>
         <%= link_to "Edit Time", edit_issue_path(issue: @issue), remote: true,
                     class: "dropdown-menu-link tooltip-info show-modal-button",
@@ -62,36 +72,54 @@
   <% if !limit_access %>
       <div>
 
-        <%= select_tag "failure_id", options_for_select(@issue.job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }, @issue.failure_id),
-                       prompt: "Select a Failure...",
-                       class: "inline-block custom-select-long custom-select custom-select-ajax issue-update-field",
-                       "data-id" => @issue.id,
-                       "data-field" => "failure_id" %>
+        <% found_pm = @issue.job.part_memberships.where("part_memberships.part_id = ?", @issue.part_id).first %>
 
-        <div class=''>
-
-          <% found_pm = @issue.job.part_memberships.where("part_memberships.part_id = ?", @issue.part_id).first %>
-          <% options = @issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] } %>
-          <% options << ["No Responsible Asset", 0] %>
-          <%= select_tag "part_membership_id", options_for_select(options, found_pm.present? ? found_pm.id : nil),
-                         prompt: "(Optional) Select asset...",
-                         class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
+        <div id="edit_failure_fields" class="<%= @issue.failure_id.present? ? "hidden" : "" %>">
+          <%= select_tag "failure_id", options_for_select(@issue.job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }, @issue.failure_id),
+                         prompt: "Select a Failure...",
+                         class: "inline-block custom-select-long custom-select custom-select-ajax issue-update-field",
                          "data-id" => @issue.id,
-                         "data-field" => "part_membership_id" %>
+                         "data-field" => "failure_id" %>
 
-          <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }, @issue.responsible_by_id),
-                         prompt: "(Optional) Responsible personnel...",
-                         class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
-                         "data-id" => @issue.id,
-                         "data-field" => "responsible_by_id" %>
+          <div class=''>
+
+
+            <% options = @issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] } %>
+            <% options << ["No Responsible Asset", 0] %>
+            <%= select_tag "part_membership_id", options_for_select(options, found_pm.present? ? found_pm.id : nil),
+                           prompt: "(Optional) Select asset...",
+                           class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
+                           "data-id" => @issue.id,
+                           "data-field" => "part_membership_id" %>
+
+            <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }, @issue.responsible_by_id),
+                           prompt: "(Optional) Responsible personnel...",
+                           class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
+                           "data-id" => @issue.id,
+                           "data-field" => "responsible_by_id" %>
+
+          </div>
         </div>
-      </div>
-  <% end %>
 
-  <% if !limit_access && @issue.responsible_by.present? %>
-      <div class='push-down'>
-        <%= render 'users/icon', user: @issue.responsible_by %><%= render 'activities/user', user: @issue.responsible_by %>
-        <p class='inline-block help-text'> - Responsible Personnel</p>
+        <div id="show_failure_values" class="<%= @issue.failure_id.present? ? "" : "hidden" %>">
+
+          <% if @issue.failure_id.present? %>
+              <h3><%= @issue.failure.failure_master_template.text %></h3>
+
+              <br>
+              <% if found_pm.present? && found_pm.part.present? %>
+                  <div class='inline-block'>
+                    <%= render 'part_memberships/part_membership', part_membership: found_pm, allow_remove: false %>
+                  </div>
+              <% end %>
+
+              <% if  @issue.responsible_by_id.present? %>
+                  <div class='inline-block push-right'>
+                    <%= render 'users/icon', user: @issue.responsible_by %><%= render 'activities/user', user: @issue.responsible_by %>
+                  </div>
+              <% end %>
+          <% end %>
+        </div>
       </div>
   <% end %>
 
@@ -214,4 +242,10 @@
             });
         }, 1);
     }
+
+    $('#edit_failure').click(function () {
+        $(this).hide();
+        $('#edit_failure_fields').removeClass('hidden');
+        $('#show_failure_values').addClass('hidden');
+    });
 </script>

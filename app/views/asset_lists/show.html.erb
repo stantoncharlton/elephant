@@ -19,75 +19,73 @@
   </div>
 
   <div class='pull-right'>
-    <%= render 'jobs/job_multi_link', job: @asset_list.job %>
+    <%= render 'jobs/job_single_link', job: @asset_list.job %>
   </div>
 </div>
 
 
+<% if false %>
 
-<div class="well">
-  <%= form_for AssetListEntry.new, remote: true do |f| %>
-      <div class="form" data-form="new-job-log">
-        <b>Add New Asset</b>
-        <% if false %>
-            <%= f.hidden_field :document_id, value: @document.id %>
-        <% end %>
-
-        <%= f.text_area :description, placeholder: "Enter comment/description of entry",
-                        class: "txtfield job-notes-text tooltip-info full-width submit-enter",
-                        autofocus: true,
-                        id: "new_job_log_id",
-                        "data-placement" => "bottom",
-                        "data-title" => "Comment/description text of entry" %>
-
-
-        <%= f.submit "+ Add Asset", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
-                     "data-form" => "new-job-log",
-                     "data-placement" => "bottom",
-                     "data-title" => "Add new note/action" %>
-
-        <br><br>
-
-
-      </div>
-
-      <div class="form-loading hidden" data-form="new-job-log">
-        <%= render 'layouts/inline_loading', title: "Creating entry..." %>
-        <br><br>
-      </div>
-
-  <% end %>
-</div>
-
-<%= text_area_tag "comment", "", placeholder: "Enter general comments",
-                class: "txtfield job-notes-text tooltip-info full-width submit-enter",
-                autofocus: true,
-                id: "new_job_log_id",
-                "data-placement" => "bottom",
-                "data-title" => "Comment/description text of entry" %>
+    <%= text_area_tag "comment", "", placeholder: "General list comments...",
+                      class: "txtfield job-notes-text tooltip-info full-width issue-update-field",
+                      style: "width: 920px !important; height: 20px;",
+                      "data-id" => @asset_list.id,
+                      "data-field" => "comment",
+                      "data-placement" => "bottom",
+                      "data-title" => "General list comments..." %>
+<% end %>
 
 
 <div>
   <div class="push-right-small">
-    <p class="help-text list-item-column-count">
-        Quantity
+    <p class="help-text list-item-column list-item-column-short">
+      Quantity
     </p>
 
-    <p class="help-text list-item-column long-column-text">
+    <p class="help-text list-item-column list-item-column-long">
       Description
     </p>
 
-    <hr>
+    <p class="help-text list-item-column list-item-column-count">
+      ID
+    </p>
+
+    <p class="help-text list-item-column list-item-column-count">
+      OD
+    </p>
+
+    <p class="help-text list-item-column list-item-column-count">
+      Length
+    </p>
+
+    <p class="help-text list-item-column list-item-column-short push-right">
+      Up
+    </p>
+
+    <p class="help-text list-item-column list-item-column-short">
+      Down
+    </p>
+
   </div>
+  <hr>
+
 
   <div class="" id="list">
     <% if @asset_list.asset_list_entries.any? %>
+        <% @asset_list.asset_list_entries.each_with_index do |asset_list_entry, index| %>
+            <%= render 'asset_list_entries/asset_list_entry', asset_list_entry: asset_list_entry, index: index %>
+        <% end %>
     <% end %>
   </div>
 
   <% if @asset_list.asset_list_entries.empty? %>
-      <p class="center help-text no-job-log-entries"><br>No asset entries...</p>
+      <p class="center help-text no-entries"><br>No asset entries...</p>
   <% end %>
+
+
+  <br><br>
+
+  <%= render 'asset_lists/new' %>
 
 </div>
 

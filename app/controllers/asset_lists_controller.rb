@@ -1,5 +1,5 @@
 class AssetListsController < ApplicationController
-    before_filter :signed_in_user, only: [:index, :show]
+    before_filter :signed_in_user, only: [:index, :show, :update]
 
     def index
         if params[:document].present?
@@ -35,6 +35,21 @@ class AssetListsController < ApplicationController
                 excel = drilling_log_to_excel @drilling_log
                 send_data excel.to_stream.read, :filename => "Daily Activity.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }
+        end
+
+    end
+
+    def update
+
+        @asset_list = AssetList.find_by_id(params[:id])
+        not_found unless @asset_list.present?
+
+        if params[:update_field].present? && params[:update_field] == "true" &&
+                params[:field].present? && params[:value].present?
+            case params[:field]
+                when "comment"
+                    @asset_list.update_attribute(:comment, params[:value])
+            end
         end
 
     end

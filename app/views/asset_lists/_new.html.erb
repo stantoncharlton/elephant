@@ -1,0 +1,81 @@
+<div class="">
+  <hr>
+  <%= form_for AssetListEntry.new, remote: true do |f| %>
+      <div class="form" data-form="new_asset_list_entry">
+        <b>Add New Asset</b>
+        <br><br>
+            <%= f.hidden_field :asset_list_id, value: @asset_list.id %>
+
+        <div style='margin-bottom: 5px; font-size: 10px;'>
+          <b class='blue-text'>Quantity &nbsp;&nbsp; Description</b>
+        </div>
+        <%= f.text_field :quantity, value: 1, placeholder: "Quantity",
+                         class: "txtfield tooltip-info align-top",
+                         style: "width: 35px !important; min-width: 0px;",
+                         "data-placement" => "bottom",
+                         "data-title" => "Quantity of asset" %>
+
+        <%= f.text_field :description, placeholder: "Description of asset",
+                         class: "txtfield tooltip-info align-top",
+                         style: "width: 320px !important; min-width: 0px;",
+                         "data-placement" => "bottom",
+                         "data-title" => "Description of asset" %>
+
+
+        <div class='inline-block  id-od-box align-top'>
+          <p class='inline-block' style='font-size: 9px; vertical-align: top; margin-left:3px;'>ID</p>
+          <%= f.text_field :inner_diameter,
+                             placeholder: "ID",
+                             class: "txtfield bha-value id-od tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "ID (Inner Diameter) of Asset" %>
+          <p class='inline-block' style='font-size: 9px; vertical-align: top;'>OD</p>
+          <%= f.text_field :outer_diameter,
+                             placeholder: "OD",
+                             class: "txtfield bha-value id-od tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "OD (Outer Diameter) of Asset" %>
+          <%= f.text_field :length,
+                             placeholder: "Length",
+                             class: "txtfield bha-value id-od tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Length of Asset" %>
+        </div>
+
+        <div class="inline-block push-right-small tooltip-info" data-title="Upward connection">
+          <b><i class="icon-arrow-up"></i></b>
+          <%= f.select :up, options_for_select(BhaItem.options),
+                       {},
+                         class: "custom-select-ajax bha-value2 align-top push-up",
+                         placeholder: "Up" %>
+        </div>
+
+        <div class="inline-block push-right-small push-down tooltip-info" data-title="Downward connection">
+          <b><i class="icon-arrow-down"></i></b>
+          <%= f.select :down,  options_for_select(BhaItem.options),
+                       {},
+                         class: "custom-select-ajax bha-value2 align-top push-up",
+                         placeholder: "Down" %>
+        </div>
+
+
+        <%= f.submit "+ Add Asset", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
+                     "data-form" => "new_asset_list_entry",
+                     "data-placement" => "bottom",
+                     "data-title" => "Add new note/action" %>
+
+        <br><br>
+      </div>
+
+      <div class="form-loading hidden" data-form="new_asset_list_entry">
+        <br><br>
+        <%= render 'layouts/inline_loading', title: "Creating entry..." %>
+        <br><br>
+      </div>
+
+  <% end %>
+</div>
+
+<script type='text/javascript'>
+  $('.custom-select-ajax').customSelect();
+</script>
