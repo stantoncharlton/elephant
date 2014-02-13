@@ -1,0 +1,42 @@
+<% issues = Issue.includes(:failure).where("failures.id = ?", failure).where("issues.accountable IS TRUE").where("issues.failure_at >= ?", Date.today - 1.year).order("issues.failure_at DESC") %>
+<% failures_current_year = issues.reorder('').select("date_trunc('month', issues.failure_at) as DATE").group("date_trunc('month', issues.failure_at)").count("issues.failure_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+
+<div class="">
+
+  <div class="chart-block tooltip-info"
+       data-title="Total assets in district inventory">
+    <div class="chart-title">Failure Rate <p class='inline help-text'>(MTBF)</p></div>
+    <div class="donut-chart-div">
+      <% failure_count = issues.count() %>
+      <% if failure_count > 0 %>
+          <div class="donut-text "><%= (((issues.first.failure_at - issues.last.failure_at).to_f / (24 * 60 * 60).to_f) / failure_count.to_f).round(1) %></div>
+      <% else %>
+          <div class="donut-text ">-</div>
+      <% end %>
+      <div class="percentage ">days/failure</div>
+    </div>
+  </div>
+
+  <div class="pull-right">
+    <canvas id="canvas_issues" height="230" width="660"></canvas>
+  </div>
+
+</div>
+
+
+
+<script>
+    var lineChartData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                data: <%= raw (1..12).map { |month| (failures_current_year && failures_current_year[month]) || 0 }.to_json.html_safe %>
+            }
+        ]
+    }
+    var myLine = new Chart(document.getElementById("canvas_issues").getContext("2d")).Line(lineChartData);
+</script>

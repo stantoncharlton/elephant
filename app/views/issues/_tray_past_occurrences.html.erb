@@ -12,6 +12,9 @@
     </div>
 
     <% if @issue.failure.present? %>
+        <%= render 'issues/statistics_failure_type', failure: @issue.failure %>
+
+        <br><br>
         <%= render 'issues/history', failure: @issue.failure %>
     <% else %>
         <p class='help-text'>Failure type must be set to view past occurences...</p>
