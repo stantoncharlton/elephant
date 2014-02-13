@@ -545,14 +545,34 @@ class Job < ActiveRecord::Base
         end
     end
 
-    def transfer_assets job
+    def transfer_assets job, user
         PartMembership.transaction do
-            self.part_memberships.each do |p|
-                if !p.shipping
-                    @part_membership = p.duplicate
-                    @part_membership.job = job
-                    @part_membership.save
+            shipment = Shipment.new
+            shipment.company = self.company
+            shipment.district = self.district
+            shipment.user = user
+            shipment.from = self
+            shipment.from_name = self.name
+            shipment.to = job
+            shipment.to_name = job.name
+
+            if shipment.save
+                self.part_memberships.each do |p|
+                    if !p.shipping
+                        p.update_attribute(:shipping, true)
+                        part_membership = p.duplicate
+                        part_membership.job_part_membership = p
+                        part_membership.job = nil
+                        part_membership.shipment = shipment
+                        part_membership.shipping = true
+                        part_membership.save
+                        if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+                            AssetActivity.delay.add(user, AssetActivity::ADDED_TO_SHIPMENT, part_membership.part, part_membership.shipment)
+                        end
+                    end
                 end
+
+                shipment.receive_shipment user
             end
         end
     end
@@ -575,7 +595,7 @@ class Job < ActiveRecord::Base
 
     def name
         if well.rig.present?
-            "#{self.well.rig.name} #{self.field.name} | #{self.well.name}"
+            "#{self.well.rig.name} - #{self.field.name} | #{self.well.name}"
         else
             "#{self.field.name} | #{self.well.name}"
         end

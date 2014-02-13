@@ -271,7 +271,7 @@ class JobsController < ApplicationController
                         end
                     end
 
-                    @old_job.transfer_assets @job
+                    @old_job.transfer_assets @job, current_user
                 end
 
                 Activity.add(self.current_user, Activity::JOB_CREATED, @job, nil, @job)

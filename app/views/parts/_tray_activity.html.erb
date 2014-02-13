@@ -4,7 +4,7 @@
       <h2 class="inline">Activity</h2>
     </div>
 
-    <% activities = AssetActivity.where(:part_id => @part.id) %>
+    <% activities = AssetActivity.where(:part_id => @part.id).order("created_at DESC") %>
 
     <% if activities.empty? %>
         <br>
@@ -56,7 +56,9 @@
               <div class="">
                 <p class="activity-message"><b><%= activity.message %></b></p>
                 <% if activity.activity_type == AssetActivity::ADDED_TO_JOB || activity.activity_type == AssetActivity::DELETED_FROM_JOB || activity.activity_type == AssetActivity::RECEIVED_AT_JOB %>
-                    <%= render "jobs/job_progress_link", job: activity.target %>
+                    <div style=''>
+                      <%= render "jobs/job_progress_link", job: activity.target %>
+                    </div>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT || activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>
                     <% if activity.target.present? %>

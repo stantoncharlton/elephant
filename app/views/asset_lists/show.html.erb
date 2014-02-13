@@ -1,0 +1,94 @@
+<% provide(:title, @asset_list.document.name) %>
+
+<div class="page_header">
+  <h1 id="part_name"><%= @asset_list.document.name %></h1>
+
+  <div class="push-right btn-group inline pull-right push-down">
+    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      Advanced Actions
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <%= link_to "Export as Excel", asset_list_path(@asset_list, format: "xlsx"),
+                    target: "_blank",
+                    class: "dropdown-menu-link tooltip-info submit-form",
+                    "data-placement" => "left",
+                    "data-title" => "Export log as Microsoft Excel file." %>
+      </li>
+    </ul>
+  </div>
+
+  <div class='pull-right'>
+    <%= render 'jobs/job_multi_link', job: @asset_list.job %>
+  </div>
+</div>
+
+
+
+<div class="well">
+  <%= form_for AssetListEntry.new, remote: true do |f| %>
+      <div class="form" data-form="new-job-log">
+        <b>Add New Asset</b>
+        <% if false %>
+            <%= f.hidden_field :document_id, value: @document.id %>
+        <% end %>
+
+        <%= f.text_area :description, placeholder: "Enter comment/description of entry",
+                        class: "txtfield job-notes-text tooltip-info full-width submit-enter",
+                        autofocus: true,
+                        id: "new_job_log_id",
+                        "data-placement" => "bottom",
+                        "data-title" => "Comment/description text of entry" %>
+
+
+        <%= f.submit "+ Add Asset", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
+                     "data-form" => "new-job-log",
+                     "data-placement" => "bottom",
+                     "data-title" => "Add new note/action" %>
+
+        <br><br>
+
+
+      </div>
+
+      <div class="form-loading hidden" data-form="new-job-log">
+        <%= render 'layouts/inline_loading', title: "Creating entry..." %>
+        <br><br>
+      </div>
+
+  <% end %>
+</div>
+
+<%= text_area_tag "comment", "", placeholder: "Enter general comments",
+                class: "txtfield job-notes-text tooltip-info full-width submit-enter",
+                autofocus: true,
+                id: "new_job_log_id",
+                "data-placement" => "bottom",
+                "data-title" => "Comment/description text of entry" %>
+
+
+<div>
+  <div class="push-right-small">
+    <p class="help-text list-item-column-count">
+        Quantity
+    </p>
+
+    <p class="help-text list-item-column long-column-text">
+      Description
+    </p>
+
+    <hr>
+  </div>
+
+  <div class="" id="list">
+    <% if @asset_list.asset_list_entries.any? %>
+    <% end %>
+  </div>
+
+  <% if @asset_list.asset_list_entries.empty? %>
+      <p class="center help-text no-job-log-entries"><br>No asset entries...</p>
+  <% end %>
+
+</div>
+
+

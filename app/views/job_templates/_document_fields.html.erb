@@ -12,6 +12,7 @@
 
       <%= f.select :document_type, options_for_select([["Document", Document::DOCUMENT],
                                                        ["Protected Document", Document::PROTECTED_DOCUMENT],
+                                                       ["Asset List", Document::ASSET_LIST],
                                                        ["Job Log", Document::JOB_LOG],
                                                        ["Bottom Hole Assembly", Document::BOTTOM_HOLE_ASSEMBLY],
                                                        ["Drilling Log", Document::DRILLING_LOG],

@@ -42,6 +42,7 @@ class Document < ActiveRecord::Base
     BOTTOM_HOLE_ASSEMBLY = 5
     SURVEY = 6
     WELL_PLAN = 7
+    ASSET_LIST = 8
 
     NOTICES = "Notices"
     PRE_JOB = "Pre-Job"
@@ -79,6 +80,8 @@ class Document < ActiveRecord::Base
                 "Well Plan"
             when Document::SURVEY
                 "Survey"
+            when Document::ASSET_LIST
+                "Asset List"
         end
     end
 
@@ -218,6 +221,10 @@ class Document < ActiveRecord::Base
             return true if self.job.nil?
             survey = Survey.joins(document: {job: :well }).where(:plan => false).where("wells.id = ?", self.job.well_id).limit(1).first
             return survey.nil? || survey.survey_points.count == 0
+        elsif self.document_type == ASSET_LIST
+            return true if self.job.nil?
+            asset_list = AssetList.where("asset_lists.job_id = ?", self.job_id).first
+            return asset_list.nil? || asset_list.asset_list_entries.count == 0
         end
 
         return true

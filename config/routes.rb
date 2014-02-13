@@ -126,5 +126,8 @@ ElephantWebApp::Application.routes.draw do
 
     resources :shipments, only: [:index, :show, :new, :create, :edit, :update, :destroy]
     resources :shippers, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+
+    resources :asset_lists, only: [:index, :show]
+    resources :asset_list_entries, only: [:show, :new, :create, :edit, :update, :destroy]
 end
 
