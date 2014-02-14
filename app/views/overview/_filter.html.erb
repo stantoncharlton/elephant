@@ -1,5 +1,6 @@
 <div class="content">
 <div>
+
   <div class="pull-right overview-options">
     <%= link_to "Clear", overview_path, class: "inline activity-user-link clear-filter-link" %>
   </div>
@@ -9,6 +10,14 @@
   <a id="show_hide_overview_filters" class="activity-user-link push-right-small" href="#" data-showing="basic">
     <%= @filters_open == "open" ? "Hide" : "Show Filters" %>
   </a>
+
+  <div class='inline-block align-top pull-right' style='margin-top: -10px; margin-right: 20px;'>
+    <% options = [["All Time", "all"], ["Last 30 Days", "30"], ["Last 60 Days", "60"], ["Last 90 Days", "90"], ["30-60 Days", "previous 30"], ["Last 12 months", "year"]] %>
+    <%= select_tag "time", options_for_select(options, "all"),
+                   class: "custom-select align-top overview-time-filters",
+                   style: "" %>
+  </div>
+
 </div>
 
 
@@ -52,6 +61,8 @@
 
   <div>
     <%= hidden_field_tag "", "", name: "time", id: "time_filter_id" %>
+
+    <% if false %>
     <ul class="nav nav-pills">
 
       <li>
@@ -97,10 +108,10 @@
            data-title="Jobs performed in the last 12 months">Last 12 months</a>
       </li>
     </ul>
+    <% end %>
 
   </div>
 
-  <hr>
 
   <div>
     <%= hidden_field_tag "", "", name: "rating", id: "rating_filter_id" %>

@@ -85,6 +85,8 @@ class OverviewController < ApplicationController
                 @end_date = 30.days.ago
             when "60"
                 @start_date = 60.days.ago
+            when "90"
+                @start_date = 90.days.ago
             when "year"
                 @start_date = 1.year.ago
         end

@@ -71,6 +71,9 @@ $ ->
       $('#overview_filters').addClass 'hidden'
     return false
 
+  $('.overview-time-filters').change ->
+    $("#time_filter_id").val($(this).find('option:selected').val())
+    update_filter()
 
   $('.overview-time-filter').click ->
     $('.overview-time-filter').each ->
