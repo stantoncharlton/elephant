@@ -31,8 +31,12 @@ class ShipmentsController < ApplicationController
         @shipment.to_name = ""
         @shipment.company = current_user.company
         @shipment.user = current_user
-        @shipment.status = Shipment::AWAITING_SHIPMENT
+        @shipment.status = Shipment::CREATING
         @shipment.save
+
+        if request.format == "html"
+            redirect_to @shipment
+        end
     end
 
     def edit

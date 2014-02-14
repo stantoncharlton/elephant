@@ -19,12 +19,12 @@
 
       <div class='pull-right'>
         <%= link_to "New Shipment", shipments_path(district: @district),
-                    remote: true, method: :post,
-                    class: "bluebtn show-modal-button" %>
+                    method: :post,
+                    class: "bluebtn" %>
       </div>
     </div>
 
-    <% paginated_shipments = shipments.paginate(page: params[:page], limit: 20) %>
+    <% paginated_shipments = shipments.where("shipments.status > 0").paginate(page: params[:page], limit: 20) %>
     <div id="shipments_list" class="list">
       <% paginated_shipments.each do |shipment| %>
           <%= render 'shipments/shipment', shipment: shipment, editable: shipment.status != Shipment::COMPLETE, show_assets: shipment.status != Shipment::COMPLETE %>

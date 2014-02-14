@@ -23,6 +23,7 @@ class Shipment < ActiveRecord::Base
     has_many :part_memberships, order: "name ASC", :conditions => "part_memberships.job_id IS NULL", :dependent => :destroy
     has_many :job_notes
 
+    CREATING = 0
     AWAITING_SHIPMENT = 1
     IN_TRANSIT = 2
     COMPLETE = 3

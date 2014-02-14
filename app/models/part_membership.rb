@@ -13,7 +13,9 @@ class PartMembership < ActiveRecord::Base
                     :outer_diameter,
                     :length,
                     :up,
-                    :down
+                    :down,
+                    :from_name,
+                    :to_name
 
 
     require 'digest/md5'
@@ -35,6 +37,9 @@ class PartMembership < ActiveRecord::Base
     belongs_to :company
     belongs_to :shipment
     belongs_to :job_part_membership, class_name: "PartMembership"
+
+    belongs_to :from, :polymorphic => true
+    belongs_to :to, :polymorphic => true
 
     INVENTORY = 1
     RENTAL = 2
