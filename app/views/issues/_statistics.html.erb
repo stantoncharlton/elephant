@@ -3,6 +3,7 @@
 <% else %>
     <% issues = Issue.includes(:job).includes(:failure).where("issues.accountable IS TRUE").where("issues.job_id IN (#{jobs_sql})").where("issues.failure_at >= ?", Date.today - 1.year).order("issues.failure_at DESC") %>
 <% end %>
+<% circulating_hours = DrillingLog.sum("drilling_logs.total_circulation_time") %>
 <% failures_current_year = issues.reorder('').select("date_trunc('month', issues.failure_at) as DATE").group("date_trunc('month', issues.failure_at)").count("issues.failure_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 <div class="">
@@ -13,11 +14,11 @@
     <div class="donut-chart-div">
       <% failure_count = issues.count() %>
       <% if failure_count > 0 %>
-          <div class="donut-text "><%= (((issues.first.failure_at - issues.last.failure_at).to_f / (24 * 60 * 60).to_f) / failure_count.to_f).round(1) %></div>
+          <div class="donut-text "><%= (circulating_hours / failure_count.to_f).round(1) %></div>
       <% else %>
           <div class="donut-text ">-</div>
       <% end %>
-      <div class="percentage ">days/failure</div>
+      <div class="percentage ">1k hours/failure</div>
     </div>
   </div>
 

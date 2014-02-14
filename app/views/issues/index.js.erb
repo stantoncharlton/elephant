@@ -19,6 +19,8 @@ if(!tray.hasClass('custom-data-closed')) {
     tray.replaceWith("<%= j render 'issues/tray_all_issues', issues: @issues %>");
     <% elsif params[:section] == "failure_types" %>
     tray.replaceWith("<%= j render 'issues/tray_failure_types', issues: @issues %>");
+    <% elsif params[:section] == "explore" %>
+    tray.replaceWith("<%= j render 'issues/tray_explore', issues: @issues %>");
     <% end %>
 
     if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

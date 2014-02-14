@@ -32,6 +32,14 @@
          data-tray-controller="issues"
          data-placement="bottom" data-title="Failures Types">Failure Types</a>
     </li>
+    <% if false %>
+    <li class="push-right-small">
+      <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="explore"
+         data-tray-controller="issues"
+         data-placement="bottom" data-title="Failures Types">Explore</a>
+    </li>
+    <% end %>
   </ul>
 </div>
 
@@ -56,6 +64,12 @@
 <div class="remote-tray custom-data-closed" data-tray="failure_types">
   <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading failure types..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="explore">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading explore..." %>
   </div>
 </div>
 
