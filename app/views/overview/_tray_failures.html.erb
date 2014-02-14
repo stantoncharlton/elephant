@@ -64,7 +64,7 @@
   <br>
 
   <div id="failures" class="list">
-    <% issues.where(:status => Issue::OPEN).take(10).each do |issue| %>
+    <% issues.where(:status => Issue::OPEN).order("issues.created_at DESC").take(10).each do |issue| %>
         <% if issue.present? && issue.job.present? %>
             <%= render "issues/issue", issue: issue, show_job: true %>
         <% end %>

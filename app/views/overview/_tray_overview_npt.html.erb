@@ -5,18 +5,10 @@
 <div>
   <div class="chart-block tooltip-info"
        data-title="Current Month NPT hours">
-    <div class="chart-title">Current Month NPT</div>
+    <div class="chart-title">Avg NPT</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= (@npt_current_year[Time.now.month] || 0.0).round(1) %></div>
-      <div class="percentage ">hours</div>
-    </div>
-  </div>
-
-  <div class="chart-block tooltip-info"
-       data-title="Past Month NPT hours">
-    <div class="chart-title">Past Month NPT</div>
-    <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= (@npt_current_year[Time.now.month - 12] || 0.0).round(1) %></div>
+      <% average_npt = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").average("drilling_logs.npt") %>
+      <div class="donut-text "><%= average_npt.present? ? average_npt.round(1) : '-' %></div>
       <div class="percentage ">hours</div>
     </div>
   </div>

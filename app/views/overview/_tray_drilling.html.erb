@@ -25,26 +25,29 @@
        data-title="Total number of active rigs">
     <div class="chart-title">Avg Drilling ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= @rops_current_year.present? && @rops_current_year.length > 0 ? (total_rop.to_f / @rops_current_year.length).round(1) : 0.0 %></div>
+      <% drilling_rop = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").average("drilling_logs.drilling_rop") %>
+      <div class="donut-text "><%= drilling_rop.present? ? drilling_rop.round(1) : '-' %></div>
       <div class="percentage ">ft/hr</div>
     </div>
   </div>
 
   <div class="chart-block tooltip-info"
        data-title="Total number of active rigs">
-    <div class="chart-title">Feet/Failure</div>
+    <div class="chart-title">Avg Rotating ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= total_feet > 0 ? number_with_delimiter((total_feet.to_f / accountable_issues).to_i, :delimiter => ',') : 0.0 %></div>
-      <div class="percentage ">f/ft</div>
+      <% rotate_rop = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").average("drilling_logs.rotate_rop") %>
+      <div class="donut-text "><%= rotate_rop.present? ? rotate_rop.round(1) : '-' %></div>
+      <div class="percentage ">ft/hr</div>
     </div>
   </div>
 
   <div class="chart-block tooltip-info"
        data-title="Total number of active rigs">
-    <div class="chart-title">Failure/1k Feet</div>
+    <div class="chart-title">Avg Sliding ROP</div>
     <div class="donut-chart-div job-donut-chart-div">
-      <div class="donut-text "><%= total_feet > 0 ? (accountable_issues / (total_feet.to_f / 1000.0)).round(3) : 0.0 %></div>
-      <div class="percentage ">f/ft</div>
+      <% slide_rop = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").average("drilling_logs.slide_rop") %>
+      <div class="donut-text "><%= slide_rop.present? ? slide_rop.round(1) : '-' %></div>
+      <div class="percentage ">fr/hr</div>
     </div>
   </div>
 
