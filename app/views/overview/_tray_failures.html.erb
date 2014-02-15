@@ -53,6 +53,17 @@
   </div>
 
 
+  <hr>
+
+  <div id="company_failures">
+    <div class="center">
+      <span class="ajax-loading search-loading  center"><b>Loading Job Success Rate...</b></span>
+    </div>
+  </div>
+
+  <hr>
+
+
   <div>
 
     <h3 class='inline-block'>New Failures</h3>
@@ -128,4 +139,20 @@
         }
     });
 
+
+    setTimeout(function () {
+
+        $.ajax({
+            url: "/overview" + "?section=company_failures" +
+                    "&division_id=" + $("#division_filter_id").val() +
+                    "&user_id=" + $("#person_filter_id").val() +
+                    "&district_id=" + $("#district_filter_id").val() +
+                    "&time=" + $("#time_filter_id").val() +
+                    "&rating=" + $("#rating_filter_id").val() +
+                    "&failure_level=" + $("#failure_filter_id").val(),
+            type: "GET",
+            dataType: "script"
+        });
+
+    }, 1);
 </script>

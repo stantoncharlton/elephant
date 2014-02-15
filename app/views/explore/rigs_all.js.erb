@@ -1,0 +1,92 @@
+$('#explore_loading').addClass('hidden');
+$('#main_chart').removeClass('hidden');
+
+<% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
+
+graphs = [];
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "",
+    "fillColors": "#3caaf0",
+    "lineColor": "#3caaf0",
+    "fillAlphas": 0.3,
+    "lineAlpha": 0.5,
+    "type": "column",
+    "title": "Average ROP",
+    "valueField": "avg_rop"
+});
+
+graphs.push({
+    "valueAxis": "v2",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b> hours</span>",
+    "bullet": "square",
+    "dashLengthField": "dashLengthLine",
+    "lineThickness": 3,
+    "bulletSize": 10,
+    "bulletBorderAlpha": 1,
+    "bulletColor": "#ff0000",
+    "useLineColorForBulletBorder": true,
+    "bulletBorderThickness": 3,
+    "fillAlphas": 0,
+    "lineAlpha": 0.5,
+    "color": "#ff0000",
+    "title": "NPT hours/circulation hours",
+    "valueField": "npt"
+});
+
+
+<% @rig_names.each do |rn| %>
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>ROP: <b>[[value]]</b> ft/hr</span>",
+    "bullet": "round",
+    "dashLengthField": "dashLengthLine",
+    "lineThickness": 3,
+    "bulletSize": 7,
+    "bulletBorderAlpha": 1,
+    "bulletColor": "#FFFFFF",
+    "useLineColorForBulletBorder": true,
+    "bulletBorderThickness": 3,
+    "fillAlphas": 0,
+    "lineAlpha": 0.2,
+    "title": "<%= sanitize(rn[:rig_name]) %>",
+    "color": "#FFFFFF",
+    "valueField": "<%= rn[:rig_name] %>"
+});
+<% end %>
+
+var chart = AmCharts.makeChart("main_chart", {
+    "type": "serial",
+    "theme": "light",
+    "dataProvider": <%= Rig.get_rig_rops(1).to_json.html_safe %>,
+    "valueAxes": [
+        {
+            "id":"v1",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0,
+            "position": "left",
+            "title": "ROP"
+        },
+        {
+            "id":"v2",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0,
+            "position": "right",
+            "title": "NPT"
+        }
+    ],
+    "graphs": graphs,
+    "categoryField": "month",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+        "gridAlpha": 0,
+        "position": "left"
+    }
+});
+
+
+
+
+
+

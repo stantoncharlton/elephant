@@ -1,0 +1,42 @@
+<div style="padding: 15px;">
+  <div>
+    <div class='filter-label blue-text' style='font-family: gothamlightregular; font-size: 20px; text-transform: uppercase;'>
+      <b>Explore</b></div>
+    <p>Choose filters to explore different data facets</p>
+  </div>
+
+  <br>
+
+  <div class='filter-label'>Chart Type</div>
+  <div>
+    <%= select_tag "chart_type", options_for_select([["Performance", 1]]),
+                   "data-field" => "chart_type",
+                   class: "custom-select custom-select-explore explore-value" %>
+  </div>
+
+  <div class='filter-label'>Compare</div>
+  <div>
+    <%= select_tag "compare", options_for_select([["Rigs", 1]]),
+                   "data-field" => "compare",
+                   class: "custom-select custom-select-explore explore-value" %>
+  </div>
+
+  <div class='filter-label'>Options</div>
+  <div>
+    <% options = [["All Rigs", 0]] %>
+    <% @rig_names.each do |rn| %>
+        <% options << [rn[:rig_name], rn[:rig_id]] %>
+    <% end %>
+    <%= select_tag "option", options_for_select(options),
+                   "data-field" => "option",
+                   class: "custom-select custom-select-explore explore-value" %>
+  </div>
+
+  <div class='filter-label'>Time Range</div>
+  <div>
+    <%= select_tag "time_range", options_for_select([["Last 12 Months", 1]]),
+                   "data-field" => "time_range",
+                   class: "custom-select custom-select-explore explore-value" %>
+  </div>
+</div>
+

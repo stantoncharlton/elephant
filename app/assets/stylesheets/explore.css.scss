@@ -1,0 +1,20 @@
+.custom-select-explore {
+  height: 20px;
+  padding-left: 10px !important;
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: normal;
+  background: transparent url(image_path('drop_down_arrow.png')) no-repeat 95% 50% !important;
+  width: 200px !important;
+  overflow: hidden;
+  text-wrap: none;
+
+  p {
+    color: #0057a6;
+  }
+}
+
+.filter-label {
+  font-size: 12px;
+  font-family: "gothambookregular";
+}

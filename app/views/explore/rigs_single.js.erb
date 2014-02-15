@@ -1,0 +1,94 @@
+$('#explore_loading').addClass('hidden');
+$('#main_chart').removeClass('hidden');
+
+graphs = [];
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b> ft/hr</span>",
+    "fillAlphas": 0.3,
+    "lineAlpha": 0.5,
+    "type": "column",
+    "title": "Avg Rotate ROP",
+    "valueField": "rotate_rop"
+});
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b> ft/hr</span>",
+    "fillAlphas": 0.3,
+    "lineAlpha": 0.5,
+    "type": "column",
+    "title": "Avg Slide ROP",
+    "valueField": "slide_rop"
+});
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b> ft/hr</span>",
+    "bullet": "round",
+    "dashLengthField": "dashLengthLine",
+    "lineThickness": 3,
+    "bulletSize": 7,
+    "bulletBorderAlpha": 1,
+    "bulletColor": "#FFFFFF",
+    "useLineColorForBulletBorder": true,
+    "bulletBorderThickness": 3,
+    "fillAlphas": 0,
+    "lineAlpha": 0.2,
+    "title": "Avg Drilling ROP",
+    "color": "#FFFFFF",
+    "valueField": "rop"
+});
+
+graphs.push({
+    "valueAxis": "v2",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b> hours</span>",
+    "bullet": "square",
+    "dashLengthField": "dashLengthLine",
+    "lineThickness": 3,
+    "bulletSize": 10,
+    "bulletBorderAlpha": 1,
+    "bulletColor": "#ff0000",
+    "useLineColorForBulletBorder": true,
+    "bulletBorderThickness": 3,
+    "fillAlphas": 0,
+    "lineAlpha": 0.5,
+    "color": "#ff0000",
+    "title": "NPT hours/circulation hours",
+    "valueField": "npt"
+});
+
+
+var chart = AmCharts.makeChart("main_chart", {
+    "type": "serial",
+    "theme": "light",
+    "dataProvider": <%= Rig.get_rig_rop(@rig.id, 1).to_json.html_safe %>,
+    "valueAxes": [
+        {
+            "id":"v1",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0,
+            "position": "left",
+            "title": "ROP"
+        },
+        {
+            "id":"v2",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0,
+            "position": "right",
+            "title": "NPT"
+        }
+    ],
+    "graphs": graphs,
+    "categoryField": "month",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+        "gridAlpha": 0,
+        "position": "left"
+    }
+});
+
+
+
+
+
+

@@ -16,6 +16,7 @@
           <script src='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
           <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet'/>
       <% end %>
+
   <% end %>
 
 
@@ -44,7 +45,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="<%= request.path == explore_path ? "" : "container" %>">
 
       <% flash.each do |key, value| %>
           <div class="alert alert-<%= key %>"><%= value %></div>

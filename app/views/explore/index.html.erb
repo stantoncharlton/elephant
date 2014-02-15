@@ -1,0 +1,39 @@
+<% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
+
+<div style='margin: 0px; top: 60px; bottom: 120px; padding: 0px; height: calc(100% - 60px); width: 100%; background: #e7f9fa; position: absolute; '>
+
+  <div style="width: 250px; min-height: 100%; background: #f7f7f7; float: left;">
+       <%= render 'explore/filter' %>
+  </div>
+
+  <div id="main_chart" style="height: 100%; background: #e7f9fa;"></div>
+
+
+  <div id='explore_loading' style='position: absolute; top: 40%; left: 50%; right: auto;'>
+    <%= image_tag "blue_logo_small.png" %>
+    <br>
+    <span class="ajax-loading search-loading push-right-small"><b>Loading Chart...</b></span>
+  </div>
+
+</div>
+
+<script type='text/javascript'>
+    $('html, body').css({
+        'overflow': 'hidden',
+        'height': '100%'
+    });
+</script>
+
+
+<script type='text/javascript'>
+
+
+  //function handleClick(event)
+  //{
+  //    alert(event.item.category + ": " + event.item.values.value);
+  //}
+  //chart.addListener("clickGraphItem", handleClick);
+
+
+
+</script>
