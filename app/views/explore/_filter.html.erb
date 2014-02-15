@@ -11,13 +11,15 @@
   <div>
     <%= select_tag "chart_type", options_for_select([["Performance", 1]]),
                    "data-field" => "chart_type",
+                   "data-active" => "true",
                    class: "custom-select custom-select-explore explore-value" %>
   </div>
 
   <div class='filter-label'>Compare</div>
   <div>
-    <%= select_tag "compare", options_for_select([["Rigs", 1]]),
+    <%= select_tag "compare", options_for_select([["Rigs", 1], ["Counties", 2]]),
                    "data-field" => "compare",
+                   "data-active" => "true",
                    class: "custom-select custom-select-explore explore-value" %>
   </div>
 
@@ -27,16 +29,33 @@
     <% @rig_names.each do |rn| %>
         <% options << [rn[:rig_name], rn[:rig_id]] %>
     <% end %>
-    <%= select_tag "option", options_for_select(options),
-                   "data-field" => "option",
-                   class: "custom-select custom-select-explore explore-value" %>
+    <div>
+      <%= select_tag "option", options_for_select(options),
+                     "data-field" => "option",
+                     "data-compare" => "1",
+                     "data-active" => "true",
+                     class: "custom-select custom-select-explore explore-value" %>
+    </div>
+
+    <% options = [["All Counties", 0]] %>
+    <% counties = Field.joins(:state).where("fields.county != ''").select("DISTINCT concat(fields.county, ', ', states.name) as county_name") %>
+    <% counties.each do |c| %>
+        <% options << [c[:county_name], c[:county_name]] %>
+    <% end %>
+    <div class='hidden'>
+      <%= select_tag "option", options_for_select(options),
+                     "data-field" => "option",
+                     "data-compare" => "2",
+                     "data-active" => "false",
+                     class: "custom-select custom-select-explore explore-value" %>
+    </div>
   </div>
 
   <div class='filter-label'>Time Range</div>
   <div>
     <%= select_tag "time_range", options_for_select([["Last 12 Months", 1]]),
                    "data-field" => "time_range",
+                   "data-active" => "true",
                    class: "custom-select custom-select-explore explore-value" %>
   </div>
 </div>
-

@@ -40,7 +40,7 @@ graphs.push({
 
 graphs.push({
     "valueAxis": "v2",
-    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b> hours</span>",
+    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b>%</span>",
     "bullet": "square",
     "dashLengthField": "dashLengthLine",
     "lineThickness": 3,
@@ -52,7 +52,7 @@ graphs.push({
     "fillAlphas": 0,
     "lineAlpha": 0.5,
     "color": "#ff0000",
-    "title": "NPT hours/circulation hours",
+    "title": "NPT",
     "valueField": "npt"
 });
 
@@ -67,14 +67,15 @@ var chart = AmCharts.makeChart("main_chart", {
             "axisAlpha": 0.3,
             "gridAlpha": 0,
             "position": "left",
-            "title": "ROP"
+            "title": "ROP",
+            "maximum": "250"
         },
         {
             "id":"v2",
             "axisAlpha": 0.3,
             "gridAlpha": 0,
             "position": "right",
-            "title": "NPT"
+            "title": "NPT %"
         }
     ],
     "graphs": graphs,

@@ -42,7 +42,7 @@ class Rig < ActiveRecord::Base
 
     def self.get_rig_rop rig_id, time_range
         months = []
-        result = DrillingLog.joins(job: {well: :rig}).where("rigs.id = ?", rig_id).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, coalesce(drilling_logs.rotate_rop, 0) AS rotate_rop, coalesce(drilling_logs.slide_rop, 0) AS slide_rop, drilling_logs.updated_at as date, drilling_logs.npt as npt, drilling_logs.total_circulation_time as total_circulation, rigs.name as rig_name, jobs.failures_count as failures")
+        result = DrillingLog.joins(job: {well: :rig}).where("rigs.id = ?", rig_id).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, coalesce(drilling_logs.rotate_rop, 0) AS rotate_rop, coalesce(drilling_logs.slide_rop, 0) AS slide_rop, drilling_logs.updated_at as date, drilling_logs.npt as npt, drilling_logs.total_time as total_time, rigs.name as rig_name, jobs.failures_count as failures")
         result = result.group_by { |d| Date.strptime(d.date, '%Y-%m-%d').month }
 
         12.times do |m|
@@ -58,20 +58,20 @@ class Rig < ActiveRecord::Base
                 slide = 0
                 failures = 0
                 npt = 0
-                total_circulation = 0
+                total_time = 0
                 group[1].each do |dl|
                     rop += dl[:rop]
                     rotate += dl[:rotate_rop]
                     slide += dl[:slide_rop]
                     npt += dl[:npt]
-                    total_circulation += dl[:total_circulation].to_f
+                    total_time += dl[:total_time].to_f
                     failures += dl[:failures].to_i
                 end
 
                 hash[:rop] = (rop / count.to_f).round(1)
                 hash[:rotate_rop] = (rotate / count.to_f).round(1)
                 hash[:slide_rop] = (slide / count.to_f).round(1)
-                hash[:npt] = (npt / total_circulation.to_f * 1000.0).round(1)
+                hash[:npt] = (npt / total_time.to_f * 100).round(1)
                 hash[:failures] = failures
             end
         end
@@ -81,7 +81,7 @@ class Rig < ActiveRecord::Base
 
     def self.get_rig_rops time_range
         months = []
-        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, drilling_logs.updated_at as date, wells.rig_id as rig_id, drilling_logs.npt as npt, coalesce(drilling_logs.total_circulation_time, 0) as total_circulation, rigs.name as rig_name, coalesce(jobs.failures_count, 0) as failures")
+        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, drilling_logs.updated_at as date, wells.rig_id as rig_id, drilling_logs.npt as npt, coalesce(drilling_logs.total_time, 0) as total_time, rigs.name as rig_name, coalesce(jobs.failures_count, 0) as failures")
         result = result.group_by { |d| Date.strptime(d.date, '%Y-%m-%d').month }
 
         12.times do |m|
@@ -95,16 +95,16 @@ class Rig < ActiveRecord::Base
             avg_rop = 0
             failures = 0
             npt = 0
-            total_circulation = 0
+            total_time = 0
             group[1].each do |dl|
                 avg_rop += dl[:rop]
                 npt += dl[:npt]
-                total_circulation += dl[:total_circulation].to_f
+                total_time += dl[:total_time].to_f
                 failures += dl[:failures].to_i
             end
             if group[1].any?
                 hash[:avg_rop] = (avg_rop.to_f / group[1].length.to_f).round(1)
-                hash[:npt] = (npt / total_circulation.to_f * 1000.0).round(1)
+                hash[:npt] = (npt / total_time.to_f * 100).round(1)
                 hash[:failures] = failures
             end
 

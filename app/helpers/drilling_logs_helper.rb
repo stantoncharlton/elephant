@@ -76,13 +76,13 @@ module DrillingLogsHelper
             case bha_item.asset_type
                 when BhaItem::BIT
                     src = Magick::Image.read("app/assets/images/bha/bit.png")[0]
-                    height = 45
+                    height = 58
                 when BhaItem::MOTOR
                     src = Magick::Image.read("app/assets/images/bha/motor.png")[0]
-                    height = 269
+                    height = 204
                 when BhaItem::STABILIZER
                     src = Magick::Image.read("app/assets/images/bha/stabilizer.png")[0]
-                    height = 74
+                    height = 115
                 when BhaItem::UBHO_SUB
                 when BhaItem::DRILL_COLLAR
                     src = Magick::Image.read("app/assets/images/bha/drill_collar.png")[0]

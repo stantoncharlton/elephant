@@ -22,6 +22,22 @@ class BhaItem < ActiveRecord::Base
     STABILIZER = 3
     UBHO_SUB = 4
     DRILL_COLLAR = 5
+    BULL_NOSE = 6
+    DRILL_PIPE = 7
+    FLOAT_SUB = 8
+    HWDP = 9
+    CROSS_OVER = 10
+    HOLE_OPENER = 11
+    FLEX_JOINT = 12
+    JARS = 13
+    MILLS = 14
+    ROTAERY_STEERABLE = 15
+    ROLLER_REAMER = 15
+    OTHER = 20
+
+    BATTERY = 50
+    GAMMA = 51
+    PULSER = 52
 
     def self.add(bha, tool, id, od, length, up, down, asset_type, ordering)
 
@@ -138,6 +154,19 @@ class BhaItem < ActiveRecord::Base
         options << ["Stabilizer", BhaItem::STABILIZER]
         options << ["UBHO Sub", BhaItem::UBHO_SUB]
         options << ["Drill Collar", BhaItem::DRILL_COLLAR]
+        options << ["Bull Nose", BhaItem::BULL_NOSE]
+        options << ["Drill Pipe", BhaItem::DRILL_PIPE]
+        options << ["Float Sub", BhaItem::FLOAT_SUB]
+        options << ["HWDP", BhaItem::HWDP]
+        options << ["X-Over", BhaItem::CROSS_OVER]
+        options << ["Hole Opener", BhaItem::HOLE_OPENER]
+        options << ["Flex Joint", BhaItem::FLEX_JOINT]
+        options << ["Jars", BhaItem::JARS]
+        options << ["Mill", BhaItem::MILLS]
+        options << ["Rotary Steerable", BhaItem::ROTAERY_STEERABLE]
+        options << ["Roller Reamer", BhaItem::ROLLER_REAMER]
+        options << ["Other", BhaItem::OTHER]
+
     end
 
 end

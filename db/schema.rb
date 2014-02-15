@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140214030314) do
+ActiveRecord::Schema.define(:version => 20140215162802) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -425,6 +425,7 @@ ActiveRecord::Schema.define(:version => 20140214030314) do
     t.decimal  "td_depth",               :default => 0.0
     t.decimal  "drilling_rop",           :default => 0.0
     t.decimal  "npt",                    :default => 0.0
+    t.decimal  "total_time"
   end
 
   add_index "drilling_logs", ["company_id"], :name => "index_drilling_logs_on_company_id"
