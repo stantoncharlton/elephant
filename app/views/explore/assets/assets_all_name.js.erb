@@ -1,12 +1,10 @@
 $('#explore_loading').addClass('hidden');
 $('#main_chart').removeClass('hidden');
 
-<% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
-
 graphs = [];
 graphs.push({
     "valueAxis": "v1",
-    "balloonText": "",
+    "balloonText": "[[asset_name]]<br><b>[[title]]</b><br><span style='font-size:14px'><b>[[value]]</b> ft/hr</span>",
     "fillColors": "#3caaf0",
     "lineColor": "#3caaf0",
     "fillAlphas": 0.3,
@@ -18,7 +16,7 @@ graphs.push({
 
 graphs.push({
     "valueAxis": "v2",
-    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b>%</span>",
+    "balloonText": "[[asset_name]]<br><b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b>%</span>",
     "bullet": "square",
     "dashLengthField": "dashLengthLine",
     "lineThickness": 3,
@@ -35,30 +33,10 @@ graphs.push({
 });
 
 
-<% @rig_names.each do |rn| %>
-graphs.push({
-    "valueAxis": "v1",
-    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>ROP: <b>[[value]]</b> ft/hr</span>",
-    "bullet": "round",
-    "dashLengthField": "dashLengthLine",
-    "lineThickness": 3,
-    "bulletSize": 7,
-    "bulletBorderAlpha": 1,
-    "bulletColor": "#FFFFFF",
-    "useLineColorForBulletBorder": true,
-    "bulletBorderThickness": 3,
-    "fillAlphas": 0,
-    "lineAlpha": 0.2,
-    "title": "<%= sanitize(rn[:rig_name]) %>",
-    "color": "#FFFFFF",
-    "valueField": "<%= rn[:rig_name] %>"
-});
-<% end %>
-
 var chart = AmCharts.makeChart("main_chart", {
     "type": "serial",
     "theme": "light",
-    "dataProvider": <%= Rig.get_rig_rops(1).to_json.html_safe %>,
+    "dataProvider": <%= get_all_assets_rops(@time_range, @option.to_i).to_json.html_safe %>,
     "valueAxes": [
         {
             "id":"v1",
@@ -77,12 +55,13 @@ var chart = AmCharts.makeChart("main_chart", {
         }
     ],
     "graphs": graphs,
-    "categoryField": "month",
+    "categoryField": "asset_name",
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
         "gridAlpha": 0,
-        "position": "left"
+        "position": "bottom",
+        "labelRotation": "35"
     }
 });
 

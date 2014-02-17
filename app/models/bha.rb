@@ -21,6 +21,7 @@ class Bha < ActiveRecord::Base
     belongs_to :company
     belongs_to :document
     belongs_to :job
+    belongs_to :drilling_log_entry
 
     has_many :bha_items, :dependent => :destroy, order: "ordering ASC"
 

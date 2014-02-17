@@ -1,16 +1,7 @@
-<div class='add-new-asset content'>
+<div class='add-new-asset'>
   <% if !shipment.present? %>
       <h3>Add New Asset</h3>
   <% end %>
-
-  <% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
-  <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-  <% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-  <% if !shipment.from_editable %>
-      <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
-  <% end %>
-  <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
-
 
   <div class='form' data-form="new-asset-form">
     <%= form_for PartMembership.new, remote: true do |f| %>
@@ -80,76 +71,10 @@
                              "data-title" => "Length of Asset" %>
         </div>
 
-        <% if shipment.present? %>
-            <br><br>
-            <div>
-
-              <div class='inline-block'>
-                <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
-                             {}, style: "width: 100px !important;",
-                             id: "shipment_from_select",
-                             class: "custom-select" %>
-
-
-                <div id="from_warehouses" class='inline-block'>
-                  <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
-                                 placeholder: "Select from..",
-                                 class: "custom-select" %>
-                </div>
-
-                <div id="from_suppliers" class='inline-block hidden'>
-                  <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
-                                 placeholder: "Select from..",
-                                 class: "custom-select" %>
-                </div>
-
-                <div id="from_jobs" class='inline-block hidden'>
-                  <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
-                                 class: "custom-select",
-                                 placeholder: "Select from.." %>
-                </div>
-              </div>
-
-              &nbsp;
-              <div class='inline-block align-top push-down'>
-                <i class="icon-chevron-right"></i>
-              </div>
-              &nbsp;
-
-              <div class='inline-block'>
-                <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
-                             {}, style: "width: 100px !important;",
-                             id: "shipment_to_select",
-                             class: "custom-select" %>
-
-                <div id="to_warehouses" class='inline-block hidden'>
-                  <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
-                                 placeholder: "Select to..",
-                                 class: "custom-select" %>
-                </div>
-
-                <div id="to_suppliers" class='inline-block hidden'>
-                  <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
-                                 placeholder: "Select to..",
-                                 class: "custom-select" %>
-                </div>
-
-                <div id="to_jobs" class='inline-block'>
-                  <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
-                                 class: "custom-select",
-                                 placeholder: "Select to.." %>
-                </div>
-              </div>
-            </div>
-        <% end %>
-
-        <br>
-        <%= f.submit "+ Add to Shipment", class: "bluebtn btnsmall inline-block pull-right  tooltip-info form-loading-on-click",
+        <%= f.submit "+ Add", class: "bluebtn btnsmall inline-block pull-right  tooltip-info form-loading-on-click",
                      "data-form" => "new-asset-form",
                      "data-placement" => "bottom",
                      "data-title" => "Add new asset" %>
-
-        <br><br>
 
 
     <% end %>

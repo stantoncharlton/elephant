@@ -1,4 +1,4 @@
- class User < ActiveRecord::Base
+class User < ActiveRecord::Base
     attr_accessible :email,
                     :name,
                     :time_zone,
@@ -105,7 +105,7 @@
     end
 
     def new_alerts
-        self.alerts.includes(:company, :created_by, :user, :target).includes(job: { job_template: { primary_tools: :tool } }).where("alert_type != 3 AND expiration is NULL")
+        self.alerts.includes(:company, :created_by, :user, :target).includes(job: {job_template: {primary_tools: :tool}}).where("alert_type != 3 AND expiration is NULL")
     end
 
     def self.from_company(company)
@@ -188,15 +188,25 @@
     end
 
 
+    def color
+        if !self.name.blank?
+            Digest::MD5.hexdigest(self.name)[0..5]
+        else
+            'd3d3d3'
+        end
+    end
 
-     def color
-         if !self.name.blank?
-             Digest::MD5.hexdigest(self.name)[0..5]
-         else
-             'd3d3d3'
-         end
-     end
-
+    def jobs_list
+        if !self.role.limit_to_assigned_jobs?
+            if self.product_line.present?
+                self.company.jobs.joins(:job_template).where("job_templates.product_line_id = ?", self.product_line_id).reorder('')
+            else
+                self.company.jobs.reorder('')
+            end
+        else
+            self.jobs
+        end
+    end
 
 
     private
@@ -214,7 +224,6 @@
             self.remember_token = SecureRandom.urlsafe_base64
         end
     end
-
 
 
 end

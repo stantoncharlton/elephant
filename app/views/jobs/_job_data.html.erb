@@ -86,15 +86,17 @@
                   <ul class="dropdown-menu">
 
                     <% job.well.jobs.each_with_index do |j, index| %>
-                        <li>
-                          <%= link_to j.job_template.name, j,
-                                      class: "dropdown-menu-link tooltip-info",
-                                      "data-placement" => "right",
-                                      "data-html" => "true",
-                                      "data-title" => render('jobs/well_tooltip', job: j, show_summary_data: false) %>
-                        </li>
-                        <% if index < jobs_count - 1 %>
-                            <li class="divider"></li>
+                        <% if j != job %>
+                            <li>
+                              <%= link_to j.job_template.name, j,
+                                          class: "dropdown-menu-link tooltip-info",
+                                          "data-placement" => "right",
+                                          "data-html" => "true",
+                                          "data-title" => render('jobs/well_tooltip', job: j, show_summary_data: false) %>
+                            </li>
+                            <% if index < jobs_count - 1 %>
+                                <li class="divider"></li>
+                            <% end %>
                         <% end %>
                     <% end %>
                   </ul>
@@ -311,7 +313,7 @@
         <% elsif job.status == Job::PRE_JOB %>
             <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
         <% elsif job.status == Job::POST_JOB %>
-            <span class="label label-success"  style="padding: 4px; padding-left: 10px; padding-right: 10px;"><%= job.status_string %></span>
+            <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;"><%= job.status_string %></span>
         <% else %>
             <p class="current-job-status"><b><%= job.status_string %></b></p>
         <% end %>

@@ -1,6 +1,6 @@
 <%= tabs_tag :builder => ApplicationHelper::MenuTabBuilder, open_tabs: {class: "admin_tab"} do |tab| %>
     <% if current_user.role.global_read? %>
-        <%= tab.explore "Explore", explore_path %>
+        <%= tab.insight "Insight", insight_path %>
     <% else %>
         <%= tab.alerts "Agenda", alerts_path %>
     <% end %>

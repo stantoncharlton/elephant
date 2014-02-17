@@ -1,0 +1,246 @@
+<div class='add-new-asset'>
+
+  <% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
+  <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+  <% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+  <% if !shipment.from_editable %>
+      <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
+  <% end %>
+  <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
+
+
+  <div class='form' data-form="new-asset-form">
+    <%= form_for PartMembership.new, remote: true do |f| %>
+
+        <%= f.hidden_field :shipment_id, value: shipment.id %>
+        <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
+
+        <div class='push-down'>
+          <ul class="nav nav-pills selection-nav">
+            <% if allow_inventory %>
+                <li class='active'>
+                  <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
+                </li>
+            <% end %>
+            <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
+              <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="rental">Rental</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class='inline-block asset-type-form align-top' data-type="inventory">
+          <%= f.hidden_field :part_id %>
+          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: shipment.present? ? shipment.district_id : @job.district.id, show_master: false)},
+                             placeholder: "Find by Serial #, Material #, or Name",
+                             class: "txtfield search-query tooltip-info part-search txtfield-long align-top",
+                             id: "part_search",
+                             "data-placement" => "bottom",
+                             "data-title" => "Asset Serial #, Material #, or Name" %>
+
+        </div>
+
+        <div class='inline-block asset-type-form align-top hidden' data-type="rental">
+          <%= text_field_tag "rental_manufacturer", "",
+                             placeholder: "Manufacturer",
+                             class: "txtfield asset-input  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Manufacturer Name" %>
+
+          <%= text_field_tag "rental_name", "",
+                             placeholder: "Asset Name",
+                             class: "txtfield asset-input  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Asset Name" %>
+
+          <%= text_field_tag "rental_serial_number", "",
+                             placeholder: "Serial Number",
+                             class: "txtfield asset-input  tooltip-info align-top",
+                             "data-placement" => "bottom",
+                             "data-title" => "Serial Number" %>
+
+        </div>
+
+        <br>
+
+        <div class='push-down'>
+          <div class='inline-block id-od-box'>
+            <p class='inline-block' style='font-size: 9px; vertical-align: top; margin-left:3px;'>ID</p>
+            <%= text_field_tag "id", "",
+                               placeholder: "ID",
+                               class: "txtfield bha-value id-od tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "ID (Inner Diameter) of Asset" %>
+            <p class='inline-block' style='font-size: 9px; vertical-align: top;'>OD</p>
+            <%= text_field_tag "od", "",
+                               placeholder: "OD",
+                               class: "txtfield bha-value id-od tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "OD (Outer Diameter) of Asset" %>
+            <%= text_field_tag "length", "",
+                               placeholder: "Length",
+                               class: "txtfield bha-value id-od tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "Length of Asset" %>
+          </div>
+
+          <div class="inline-block push-right-small tooltip-info" data-title="Upward connection">
+            <b><i class="icon-arrow-up"></i></b>
+            <%= select_tag "up", options_for_select(BhaItem.options),
+                           class: "custom-select-ajax bha-value2 align-top push-up",
+                           placeholder: "Up" %>
+          </div>
+
+          <div class="inline-block push-right-small push-down tooltip-info" data-title="Downward connection">
+            <b><i class="icon-arrow-down"></i></b>
+            <%= select_tag "down", options_for_select(BhaItem.options),
+                           class: "custom-select-ajax bha-value2 align-top push-up",
+                           placeholder: "Down" %>
+          </div>
+        </div>
+
+        <br><br>
+
+        <%= f.submit "+ Add to Shipment", class: "bluebtn btnsmall inline-block pull-right  tooltip-info form-loading-on-click",
+                     "data-form" => "new-asset-form",
+                     "data-placement" => "bottom",
+                     "data-title" => "Add new asset" %>
+
+        <div>
+
+          <div class='inline-block'>
+            <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
+                         {}, style: "width: 100px !important;",
+                         id: "shipment_from_select",
+                         class: "custom-select" %>
+
+
+            <div id="from_warehouses" class='inline-block'>
+              <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
+                             placeholder: "Select from..",
+                             class: "custom-select" %>
+            </div>
+
+            <div id="from_suppliers" class='inline-block hidden'>
+              <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
+                             placeholder: "Select from..",
+                             class: "custom-select" %>
+            </div>
+
+            <div id="from_jobs" class='inline-block hidden'>
+              <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
+                             class: "custom-select",
+                             placeholder: "Select from.." %>
+            </div>
+          </div>
+
+          &nbsp;
+          <div class='inline-block align-top push-down'>
+            <i class="icon-chevron-right"></i>
+          </div>
+          &nbsp;
+
+          <div class='inline-block'>
+            <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
+                         {}, style: "width: 100px !important;",
+                         id: "shipment_to_select",
+                         class: "custom-select" %>
+
+            <div id="to_warehouses" class='inline-block hidden'>
+              <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
+                             placeholder: "Select to..",
+                             class: "custom-select" %>
+            </div>
+
+            <div id="to_suppliers" class='inline-block hidden'>
+              <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
+                             placeholder: "Select to..",
+                             class: "custom-select" %>
+            </div>
+
+            <div id="to_jobs" class='inline-block'>
+              <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
+                             class: "custom-select",
+                             placeholder: "Select to.." %>
+            </div>
+          </div>
+        </div>
+
+
+    <% end %>
+  </div>
+
+  <div class="form-loading hidden" data-form="new-asset-form">
+    <%= render 'layouts/inline_loading', title: "Adding asset..." %>
+    <br><br>
+  </div>
+  <hr>
+</div>
+
+<% if !allow_inventory %>
+    <script type='text/javascript'>
+        $('#rental_tab').trigger('click');
+    </script>
+<% end %>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+
+            var focusevent, last_selected_item, part_focused,
+                    _this = this;
+
+            last_selected_item = null;
+
+            focusevent = function (event, ui) {
+                var selected_item;
+                if (last_selected_item !== null) {
+                    $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+                }
+                selected_item = $('.item_' + ui.item.id);
+                selected_item.addClass('ui-state-hover');
+                return last_selected_item = ui.item;
+            };
+
+            $('.part-search').each(function (index, element) {
+                return $(element).autocomplete({
+                    source: $(element).data('autocomplete-source'),
+                    focus: focusevent,
+                    select: function (event, ui) {
+                        if (ui.item.id > 0) {
+                            $('#part_membership_part_id').val(ui.item.id);
+                            setTimeout(function () {
+                                $('#part_search').val(ui.item.label + ' (Serial #' + ui.item.serial_number + ')');
+                            }, 1);
+                        }
+                    }
+                });
+            });
+
+            part_focused = false;
+
+            $('.part-search').focusin(function () {
+                part_focused = true;
+                $(this).removeClass('ui-autocomplete-bad');
+                $(this).addClass('ui-autocomplete-typing');
+                return $(this).val('').trigger('keydown');
+            });
+
+            $('.part-search').focusout(function () {
+                if (part_focused) {
+                    $(this).addClass('ui-autocomplete-bad');
+                    if ($(this).val() === '') {
+                        return $(this).removeClass('ui-autocomplete-typing');
+                    }
+                }
+            });
+
+
+            $('.part-search').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<p class='job-user-district pull-right help-text'>" + item.material_number + "</p>" : "") + (item.id > 0 ? "<div>" + (item.serial_number != null ? ("<p class='job-user-title'><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b>" + (item.district_serial_number != '' ? " / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b>" : "") + "</p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "</div>" : "") + "</div><div style='margin: 0px;" + (item.id == -1 ? '' : "margin-left: 31px; margin-top: -5px;") + "'>" + item.status + "</div></div></a>").appendTo(ul)
+            }
+
+
+        });
+    }(jQuery));
+</script>

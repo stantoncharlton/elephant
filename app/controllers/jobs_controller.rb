@@ -8,10 +8,7 @@ class JobsController < ApplicationController
 
         respond_to do |format|
             format.html {
-                @jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
-                #if !current_user.role.limit_to_assigned_jobs? && !current_user.role.no_assigned_jobs? && current_user.product_line.present?
-                #    @all_jobs = @all_jobs.joins(:job_template).where("job_templates.product_line_id = ?", current_user.product_line_id)
-                #end
+                @jobs = current_user.jobs_list
 
                 if !@is_paged
                     if current_user.role.limit_to_assigned_jobs?
@@ -28,10 +25,7 @@ class JobsController < ApplicationController
                 if !params[:search].blank?
                     @jobs = Job.search(current_user, params, current_user.company).results
                 else
-                    @jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs
-                    #if !current_user.role.limit_to_assigned_jobs? && !current_user.role.no_assigned_jobs? && current_user.product_line.present?
-                    #    @all_jobs = @all_jobs.joins(:job_template).where("job_templates.product_line_id = ?", current_user.product_line_id)
-                    #end
+                    @jobs = current_user.jobs_list
 
                     if !@is_paged
                         if current_user.role.limit_to_assigned_jobs?

@@ -2,10 +2,21 @@ $('#explore_loading').addClass('hidden');
 $('#main_chart').removeClass('hidden');
 
 graphs = [];
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "[[rig_name]]<br><b>[[title]]</b><br><span style='font-size:14px'><b>[[value]]</b> ft/hr</span>",
+    "fillColors": "#3caaf0",
+    "lineColor": "#3caaf0",
+    "fillAlphas": 0.3,
+    "lineAlpha": 0.5,
+    "type": "column",
+    "title": "Average ROP",
+    "valueField": "avg_rop"
+});
 
 graphs.push({
     "valueAxis": "v2",
-    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b>%</span>",
+    "balloonText": "[[rig_name]]<br><b>[[title]]</b><br><span style='font-size:14px'> <b>[[value]]</b>%</span>",
     "bullet": "square",
     "dashLengthField": "dashLengthLine",
     "lineThickness": 3,
@@ -22,19 +33,10 @@ graphs.push({
 });
 
 
-graphs.push({
-    "valueAxis": "v1",
-    "balloonText": "<b>[[county]]</b><br><span style='font-size:14px'>ROP: <b>[[value]]</b> ft/hr</span>",
-    "fillAlphas": 0.3,
-    "lineAlpha": 0.5,
-    "type": "column",
-    "valueField": "rop"
-});
-
 var chart = AmCharts.makeChart("main_chart", {
     "type": "serial",
     "theme": "light",
-    "dataProvider": <%= get_all_counties_rops(1).to_json.html_safe %>,
+    "dataProvider": <%= get_all_rigs_rops(@time_range).to_json.html_safe %>,
     "valueAxes": [
         {
             "id":"v1",
@@ -42,6 +44,7 @@ var chart = AmCharts.makeChart("main_chart", {
             "gridAlpha": 0,
             "position": "left",
             "title": "ROP"
+
         },
         {
             "id":"v2",
@@ -52,12 +55,13 @@ var chart = AmCharts.makeChart("main_chart", {
         }
     ],
     "graphs": graphs,
-    "categoryField": "county",
+    "categoryField": "rig_name",
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
         "gridAlpha": 0,
-        "position": "left"
+        "position": "bottom",
+        "labelRotation": "35"
     }
 });
 

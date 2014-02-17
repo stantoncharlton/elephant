@@ -1,9 +1,11 @@
 <div id="overview_jobs" data-loaded='true' class=''>
   <div class=''>
-    <% jobs = !current_user.role.limit_to_assigned_jobs? ? current_user.company.jobs.reorder('') : current_user.jobs %>
+    <% jobs = current_user.jobs_list %>
     <% jobs = jobs.where("jobs.status = ?", Job::ON_JOB) %>
+    <% jobs_array = jobs.to_a %>
+    <% jobs_array = jobs_array.uniq { |j| "#{j.well.rig.present? ? j.well.rig.name : j.well.name}" }.sort_by { |j| "#{j.well.rig.present? ? j.well.rig.name : j.well.name}" }  %>
     <% @jobs = [] %>
-    <% jobs.each do |job| %>
+    <% jobs_array.each do |job| %>
         <% drilling_log = job.drilling_log %>
         <% if drilling_log.present? %>
             <%= link_to job, class: "empty-link" do %>

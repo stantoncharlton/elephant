@@ -5,143 +5,132 @@
 
 
 <div>
-<div class="form" data-form="new_shipment">
+  <div class="form" data-form="new_shipment">
 
-<div class="page_header">
-  <h1 class='inline-block'>Shipment</h1>
-  <% if shipment.status == Shipment::IN_TRANSIT %>
-      <h3 class='inline-block warning-text'>In Transit</h3>
-  <% elsif shipment.status == Shipment::AWAITING_SHIPMENT %>
-      <h3 class='inline-block warning-text'>Not Yet Shipped</h3>
-  <% elsif shipment.status == Shipment::CREATING %>
-      <h3 class='inline-block warning-text'>Not Yet Shipped</h3>
-  <% else %>
-      <h3 class='inline-block good-text'>Completed</h3>
-  <% end %>
-  <b class='push-right-small help-text'>
-    created
-    <% if shipment.status != Shipment::COMPLETE %>
-        <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
-    <% else %>
-        <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
-    <% end %>
-  </b>
-</div>
-
-<% if editable && shipment.from_editable %>
-    <%= render 'part_memberships/new', shipment: shipment, allow_inventory: true %>
-<% else %>
-    <br>
-<% end %>
-
-
-<%= form_for shipment, remote: true do |f| %>
-
-    <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
-        <div class="job-shipment-list">
-          <% shipment_assets = shipment.part_memberships.to_a %>
-          <% shipment.from.part_memberships.each do |pm| %>
-              <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
-              <% if found || !pm.shipping %>
-                  <div class='inline-block'>
-                    <% if shipment_assets.any? %>
-                        <%= check_box_tag "pm_#{pm.id}", "true",
-                                          (found ? true : false),
-                                          name: "[pm][pm_#{pm.id}]",
-                                          class: "shipment_checkbox" %>
-                    <% else %>
-                        <%= check_box_tag "pm_#{pm.id}", "true",
-                                          true,
-                                          name: "[pm][pm_#{pm.id}]",
-                                          class: "shipment_checkbox" %>
-                    <% end %>
-                    <div class='inline-block align-top' style="<%= found || shipment_assets.empty? ? "" : "opacity: 0.3;" %>">
-                      <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
-                    </div>
-                  </div>
-              <% end %>
-          <% end %>
-        </div>
-    <% else %>
-        <div id="asset_list" class="">
-          <% shipment.part_memberships.each do |pm| %>
-              <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
-          <% end %>
-        </div>
-
-        <% if !shipment.part_memberships.any? %>
-            <div id="no_assets" class='push-down center'>
-              <br><br>
-              <span class='help-text'>No assets added...</span>
-              <br><br>
-            </div>
-        <% end %>
-    <% end %>
-
-
-    <hr>
-
-
-    <div class="content">
-
-      <% if shipment.status != Shipment::COMPLETE %>
-
-          <div class='pull-right'>
-            <%= link_to "Cancel", shipment_path(shipment), method: :put,
-                         class: "bluebtn gray form-loading-on-click",
-                         style: "margin-right: 15px;",
-                         "data-form" => "new_shipment" %>
-
-            <%= link_to "Save", shipment_path(shipment), method: :put,
-                         class: "bluebtn form-loading-on-click",
-                         style: "margin-right: 15px;",
-                         "data-form" => "new_shipment" %>
-
-            <%= link_to "Send Shipment", shipment_path(shipment), method: :put,
-                         class: "bluebtn green  form-loading-on-click",
-                         "data-form" => "new_shipment" %>
-          </div>
+    <div class="page_header">
+      <h1 class='inline-block'>Shipment</h1>
+      <% if shipment.status == Shipment::IN_TRANSIT %>
+          <h3 class='inline-block warning-text'>In Transit</h3>
+      <% elsif shipment.status == Shipment::AWAITING_SHIPMENT %>
+          <h3 class='inline-block warning-text'>Not Yet Shipped</h3>
+      <% elsif shipment.status == Shipment::CREATING %>
+          <h3 class='inline-block warning-text'>Not Yet Shipped</h3>
+      <% else %>
+          <h3 class='inline-block good-text'>Completed</h3>
       <% end %>
+      <b class='push-right-small help-text'>
+        created
+        <% if shipment.status != Shipment::COMPLETE %>
+            <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
+        <% else %>
+            <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
+        <% end %>
+      </b>
+    </div>
 
-      <div style="margin-left: -10px;">
-        <% if shipment.from.present? && shipment.to.present? %>
-            <div id="from_to_links" class='inline-block from_to_show align-top' style="margin-top: 10px;">
-              <div class='inline-block'>
-                <div class='inline-block align-top push-up-small'>
-                  <% if  shipment.user.present? %>
-                      <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
-                  <% end %>
-                </div>
-                &nbsp;
-                <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
-                &nbsp;&nbsp;&nbsp;
-                <i class="icon-chevron-right align-top"></i>
-                &nbsp;&nbsp;&nbsp;
-                <div class='inline-block align-top push-up-small'>
-                  <% if  shipment.accepted_by.present? %>
-                      <%= render 'users/user_icon', user: shipment.accepted_by, use_name: false, use_link: true %>
-                  <% end %>
-                </div>
-                &nbsp;
-                <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.to_name %></b>
-              </div>
+    <% if editable && shipment.from_editable %>
+        <%= render 'part_memberships/new_shipment', shipment: shipment, allow_inventory: true %>
+    <% else %>
+        <br>
+    <% end %>
 
-              <% if editable %>
-                  <a id="edit_shipment" class="inline-block push-right empty-link align-top" href="#"><i class="icon-edit"></i>&nbsp;edit</a>
+
+    <%= form_for shipment, remote: true do |f| %>
+
+        <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
+            <div class="job-shipment-list">
+              <% shipment_assets = shipment.part_memberships.to_a %>
+              <% shipment.from.part_memberships.each do |pm| %>
+                  <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
+                  <% if found || !pm.shipping %>
+                      <div class='inline-block'>
+                        <% if shipment_assets.any? %>
+                            <%= check_box_tag "pm_#{pm.id}", "true",
+                                              (found ? true : false),
+                                              name: "[pm][pm_#{pm.id}]",
+                                              class: "shipment_checkbox" %>
+                        <% else %>
+                            <%= check_box_tag "pm_#{pm.id}", "true",
+                                              true,
+                                              name: "[pm][pm_#{pm.id}]",
+                                              class: "shipment_checkbox" %>
+                        <% end %>
+                        <div class='inline-block align-top' style="<%= found || shipment_assets.empty? ? "" : "opacity: 0.3;" %>">
+                          <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
+                        </div>
+                      </div>
+                  <% end %>
               <% end %>
             </div>
+        <% else %>
+            <div id="asset_list" class="">
+              <% shipment.part_memberships.each do |pm| %>
+                  <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
+              <% end %>
+            </div>
+
+            <% if !shipment.part_memberships.any? %>
+                <div id="no_assets" class='push-down center'>
+                  <br><br>
+                  <span class='help-text'>No assets added...</span>
+                  <br><br>
+                </div>
+            <% end %>
         <% end %>
 
-      </div>
 
-    </div>
-<% end %>
+        <hr>
 
+
+        <div class="content">
+
+          <% if shipment.status != Shipment::COMPLETE %>
+
+              <div class='pull-right'>
+                <%= link_to "Cancel", shipment_path(shipment), method: :put,
+                            class: "bluebtn gray form-loading-on-click",
+                            style: "margin-right: 15px;",
+                            "data-form" => "new_shipment" %>
+
+                <%= link_to "Save", shipment_path(shipment), method: :put,
+                            class: "bluebtn form-loading-on-click",
+                            style: "margin-right: 15px;",
+                            "data-form" => "new_shipment" %>
+
+                <%= link_to "Send Shipment", shipment_path(shipment), method: :put,
+                            class: "bluebtn green  form-loading-on-click",
+                            "data-form" => "new_shipment" %>
+              </div>
+          <% end %>
+
+          <div style="margin-left: -10px;">
+            <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+
+            <div class='inline-block align-top push-down'>
+              <b>Shipper</b>
+            </div>
+            &nbsp;
+            <div class='inline-block'>
+              <%= select_tag "shipper_id", options_for_select(shippers),
+                             placeholder: "Shipper",
+                             class: "custom-select" %>
+            </div>
+
+          </div>
+
+        </div>
+    <% end %>
+
+  </div>
+
+  <div class="form-loading hidden" data-form="new_shipment">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Saving shipment..." %>
+    <br><br>
+  </div>
 </div>
 
-<div class="form-loading hidden" data-form="new_shipment">
-  <br><br>
-  <%= render 'layouts/inline_loading', title: "Saving shipment..." %>
-  <br><br>
-</div>
-</div>
+
+<script type='text/javascript'>
+    $('.custom-select-ajax').customSelect();
+</script>

@@ -31,6 +31,7 @@ class District < ActiveRecord::Base
     has_many :parts, :conditions => { :template => false }
     has_many :warehouses
     has_many :suppliers
+    has_many :shippers
 
 
     searchable do

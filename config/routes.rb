@@ -8,7 +8,7 @@ ElephantWebApp::Application.routes.draw do
     match '/about', to: 'static_pages#about'
     match '/sales', to: 'static_pages#sales'
     match '/overview', to: 'overview#overview', :via => :get
-    match '/explore', to: 'explore#index', :via => :get
+    match '/insight', to: 'explore#index', :via => :get
     match '/overview', to: 'overview#filter_overview', :via => :post
     match '/terms_of_use', to: 'static_pages#terms_of_use'
     match '/tutorial', to: 'static_pages#tutorial'

@@ -41,6 +41,8 @@ class PartMembership < ActiveRecord::Base
     belongs_to :from, :polymorphic => true
     belongs_to :to, :polymorphic => true
 
+    belongs_to :bha_item
+
     INVENTORY = 1
     RENTAL = 2
     ACCESSORY = 3

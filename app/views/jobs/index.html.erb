@@ -22,7 +22,7 @@
 <% if !@is_paged %>
     <% if !current_user.role.limit_to_assigned_jobs? %>
         <div class="well">
-          <%= render 'jobs/index_parts/jobs_count', jobs: current_user.company.jobs %>
+          <%= render 'jobs/index_parts/jobs_count', jobs: @jobs %>
         </div>
     <% end %>
 <% end %>

@@ -1,23 +1,15 @@
 <div style="padding: 15px;">
   <div>
     <div class='filter-label blue-text' style='font-family: gothamlightregular; font-size: 20px; text-transform: uppercase;'>
-      <b>Explore</b></div>
+      <b>Insight</b></div>
     <p>Choose filters to explore different data facets</p>
   </div>
 
   <br>
 
-  <div class='filter-label'>Chart Type</div>
-  <div>
-    <%= select_tag "chart_type", options_for_select([["Performance", 1]]),
-                   "data-field" => "chart_type",
-                   "data-active" => "true",
-                   class: "custom-select custom-select-explore explore-value" %>
-  </div>
-
   <div class='filter-label'>Compare</div>
   <div>
-    <%= select_tag "compare", options_for_select([["Rigs", 1], ["Counties", 2]]),
+    <%= select_tag "compare", options_for_select([["Rigs", 1], ["Assets", 3], ["Counties", 2]]),
                    "data-field" => "compare",
                    "data-active" => "true",
                    class: "custom-select custom-select-explore explore-value" %>
@@ -49,11 +41,28 @@
                      "data-active" => "false",
                      class: "custom-select custom-select-explore explore-value" %>
     </div>
+
+    <% options = [["All Assets", 0], ["Bits", 1], ["Motors", 2]] %>
+    <div class='hidden'>
+      <%= select_tag "option", options_for_select(options),
+                     "data-field" => "option",
+                     "data-compare" => "3",
+                     "data-active" => "false",
+                     class: "custom-select custom-select-explore explore-value" %>
+    </div>
+  </div>
+
+  <div class='filter-label'>Chart Type</div>
+  <div>
+    <%= select_tag "chart_type", options_for_select([["Performance", 1]]),
+                   "data-field" => "chart_type",
+                   "data-active" => "true",
+                   class: "custom-select custom-select-explore explore-value" %>
   </div>
 
   <div class='filter-label'>Time Range</div>
   <div>
-    <%= select_tag "time_range", options_for_select([["Last 12 Months", 1]]),
+    <%= select_tag "time_range", options_for_select([["Last Quarter", 2], ["Last 12 Months", 1]]),
                    "data-field" => "time_range",
                    "data-active" => "true",
                    class: "custom-select custom-select-explore explore-value" %>
