@@ -1,0 +1,12 @@
+<div id="shipper_<%= shipper.id %>">
+  <%= link_to edit_shipper_path(shipper), class: "job-link " do %>
+      <div class='pull-right help-text push-down-small'>
+        <%= "#{shipper.city} #{shipper.state}" %>
+      </div>
+      <p class="list-item-header-text inline">
+        <b><%= shipper.name %></b>
+      </p>
+  <% end %>
+</div>
+
+<hr>

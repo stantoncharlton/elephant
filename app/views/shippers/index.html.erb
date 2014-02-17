@@ -1,0 +1,18 @@
+<div class="page_header">
+  <h1>Shippers</h1>
+
+  <%= link_to "New Shipper", new_shipper_path(district: @district), class: "bluebtn page_header_button tooltip-info",
+              "data-placement" => "bottom",
+              "data-title" => "Create new shipper" %>
+</div>
+
+<% if @shippers.any? %>
+    <div id="list" class="list">
+      <% @shippers.each do |shipper| %>
+          <%= render 'shippers/shipper', shipper: shipper %>
+      <% end %>
+    </div>
+<% else %>
+    <br>
+    <span class='help-text'>No shippers configured, please add from above...</span>
+<% end %>

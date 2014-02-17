@@ -6,9 +6,9 @@ class NoteActivityReport < ActiveRecord::Base
     acts_as_tenant(:company)
 
     validates_presence_of :company
-    validates :future, length: {maximum: 500}
-    validates :past, length: {maximum: 500}
-    validates :present, length: {maximum: 500}
+    validates :future, length: {maximum: 255}
+    validates :past, length: {maximum: 255}
+    validates :present, length: {maximum: 255}
 
     belongs_to :company
     belongs_to :job

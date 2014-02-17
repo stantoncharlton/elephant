@@ -9,6 +9,7 @@
 
     <% parts = @parts.where(:status => Part::SHIPPING) %>
     <% shipments = Shipment.where(:district_id => @district.id).order("status ASC, created_at DESC") %>
+    <% shippers = Shipper.where(:district_id => @district.id).order("name ASC") %>
 
     <div class='well'>
       <h1 class="donut-text inline"><%= shipments.where("shipments.status != ?", Shipment::COMPLETE).count %></h1>
@@ -17,10 +18,17 @@
         <h3 class="inline-block">Shipments</h3>
       </div>
 
-      <div class='pull-right'>
+      <div class='pull-right push-right'>
         <%= link_to "New Shipment", shipments_path(district: @district),
                     method: :post,
                     class: "bluebtn" %>
+      </div>
+
+      <div class='pull-right align-top' style='margin-top: 15px;'>
+        <%= link_to shippers_path(district: @district.id), class: "activity-user-link" do %>
+            View Shippers
+            (<%= shippers.count %>)
+        <% end %>
       </div>
     </div>
 

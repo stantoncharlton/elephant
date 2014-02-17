@@ -377,12 +377,19 @@ class JobsController < ApplicationController
         else
             if params["start_date"].present?
                 start = @job.start_date
-                @job.update_attribute(:start_date, Date.strptime(params["start_date"], '%m/%d/%Y').to_time_in_current_zone)
+                date = Date.today
+                begin
+                    date = Date.strptime(params["start_date"], '%m/%d/%Y')
+                rescue
+                    date = Date.strptime(params["start_date"], '%m-%d-%Y')
+                end
+
+                @job.update_attribute(:start_date, date.to_time_in_current_zone)
                 Activity.add(self.current_user, Activity::START_DATE, @job, @job.start_date, @job)
 
                 if start.present? && start != @job.start_date
                     change = @job.start_date - start
-                    job_times = JobTime.where(:company_id => @job.company_id).where(:job_id => @job.id)
+                    job_times = JobTime.where(:job_id => @job.id)
                     if job_times.any?
                         @job_times_changed = true
                         @update_calendar = true
