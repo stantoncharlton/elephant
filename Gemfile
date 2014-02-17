@@ -36,7 +36,7 @@ gem 'acts_as_tenant'
 
 gem 'rollout'
 gem 'pusher'
-gem 'rmagick'
+gem 'rmagick', :require => 'RMagick'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
