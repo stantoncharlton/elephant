@@ -58,6 +58,15 @@
                              "data-placement" => "bottom",
                              "data-title" => "Serial Number" %>
 
+
+          <div class="inline-block push-right-small tooltip-info" data-title="Tool Type">
+            <%= image_tag "tool.png", class: "inline-block push-down-small" %>
+            <%= select_tag "asset_type",
+                           options_for_select(BhaItem.type_options),
+                           class: "custom-select-ajax bha-value2 align-top",
+                           placeholder: "Type" %>
+          </div>
+
         </div>
 
         <br>
