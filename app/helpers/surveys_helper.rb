@@ -24,8 +24,8 @@ module SurveysHelper
             setup = {:fit_to_width => 1, :orientation => :portrait, :paper_width => "21cm", :paper_height => "29.7cm"}
             options = {:grid_lines => true, :headings => true, :horizontal_centered => true}
 
-            calculated_points = survey.no_well_plan ? [] : well_plan.survey_points
-            calculated_points_survey = survey.calculated_points(survey.no_well_plan ? 0 : well_plan.vertical_section_azimuth)
+            calculated_points = survey.no_well_plan || well_plan.nil? ? [] : well_plan.survey_points
+            calculated_points_survey = survey.calculated_points(survey.no_well_plan || well_plan.nil? ? 0 : well_plan.vertical_section_azimuth)
 
 
             wb.add_worksheet(:name => "Survey", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|
@@ -33,7 +33,7 @@ module SurveysHelper
                 sheet.add_row [survey.document.job.name, '', '', '', ''], :style => title_cell2
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
                 if calculated_points_survey.any?
-                    sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.vertical_section_azimuth.present? ? well_plan.vertical_section_azimuth : '-'}", '', "", '', ''], :style => title_cell2
+                    sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.present? && well_plan.vertical_section_azimuth.present? ? well_plan.vertical_section_azimuth : '-'}", '', "", '', ''], :style => title_cell2
                     sheet.add_row ["Mag Field Strength: #{survey.magnetic_field_strength.present? ? survey.magnetic_field_strength.round(4) : 0.0} \t\t\t Mag Dip Angle: #{survey.magnetic_dip_angle.present? ? survey.magnetic_dip_angle.round(4) : 0.0} \t\t\t Gravity: #{survey.gravity_total.present? ? survey.gravity_total.round(4) : 0.0}", '', "", '', ''], :style => title_cell2
                 end
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
