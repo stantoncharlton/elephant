@@ -14,6 +14,12 @@ class PartMembershipsController < ApplicationController
             params[:part_membership].delete(:shipment_id)
         end
 
+        from_type = params[:part_membership][:from_type]
+        params[:part_membership].delete(:from_type)
+
+        to_type = params[:part_membership][:to_type]
+        params[:part_membership].delete(:to_type)
+
         part_id = params[:part_membership][:part_id]
         params[:part_membership].delete(:part_id)
 
@@ -34,6 +40,30 @@ class PartMembershipsController < ApplicationController
                 @part_membership.part_type = PartMembership::ACCESSORY
                 @part_membership.name = params["accessory_name"]
                 @part_membership.serial_number = params["accessory_serial_number"]
+        end
+
+        case from_type
+            when Warehouse.name
+                @part_membership.from = Warehouse.find_by_id(params[:from_id_warehouse])
+                @part_membership.from_name = @part_membership.from.present? ? @part_membership.from.name : ""
+            when Supplier.name
+                @part_membership.from = Supplier.find_by_id(params[:from_id_supplier])
+                @part_membership.from_name = @part_membership.from.present? ? @part_membership.from.name : ""
+            when Job.name
+                @part_membership.from = Job.find_by_id(params[:from_id_job])
+                @part_membership.from_name = @part_membership.from.present? ? (@part_membership.from.well.rig.present? ? @part_membership.from.well.rig.name + " - " : "") + @part_membership.from.field.name + " | " + @part_membership.from.well.name : ""
+        end
+
+        case to_type
+            when Warehouse.name
+                @part_membership.to = Warehouse.find_by_id(params[:to_id_warehouse])
+                @part_membership.to_name = @part_membership.to.present? ? @part_membership.to.name : ""
+            when Supplier.name
+                @part_membership.to = Supplier.find_by_id(params[:to_id_supplier])
+                @part_membership.to_name = @part_membership.to.present? ? @part_membership.to.name : ""
+            when Job.name
+                @part_membership.to = Job.find_by_id(params[:to_id_job])
+                @part_membership.to_name = @part_membership.to.present? ? (@part_membership.to.well.rig.present? ? @part_membership.to.well.rig.name + " - " : "") + @part_membership.to.field.name + " | " + @part_membership.to.well.name : ""
         end
 
         @part_membership.inner_diameter = BigDecimal(params[:id])

@@ -131,6 +131,8 @@ ElephantWebApp::Application.routes.draw do
     resources :asset_lists, only: [:index, :show]
     resources :asset_list_entries, only: [:show, :new, :create, :edit, :update, :destroy]
 
+    resources :job_costs, only: [:show, :new, :create, :edit, :update, :destroy]
+
 
 end
 

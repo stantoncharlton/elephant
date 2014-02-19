@@ -1,0 +1,29 @@
+<div id="asset_list" class="regenerate">
+  <% from = nil %>
+  <% to = nil %>
+  <% pms = shipment.part_memberships.to_a.sort_by { |pm| "#{pm.from_id} #{pm.to_id}" } %>
+  <% pms.each do |pm| %>
+      <% if from != pm.from || to != pm.to %>
+          <div>
+            <hr>
+            <%= render 'shipments/path', part_membership: pm, use_link: true %>
+            <br>
+          </div>
+
+      <% end %>
+      <div class='inline-block'>
+        <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
+      </div>
+      <% from = pm.from %>
+      <% to = pm.to %>
+  <% end %>
+
+  <% if !shipment.part_memberships.any? %>
+      <hr>
+      <div id="no_assets" class='push-down center'>
+        <br><br>
+        <span class='help-text'>No assets added...</span>
+        <br><br>
+      </div>
+  <% end %>
+</div>

@@ -33,8 +33,8 @@ module SurveysHelper
                 sheet.add_row [survey.document.job.name, '', '', '', ''], :style => title_cell2
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
                 if calculated_points_survey.any?
-                    sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.vertical_section_azimuth}", '', "", '', ''], :style => title_cell2
-                    sheet.add_row ["Mag Field Strength: #{survey.magnetic_field_strength.round(4)} \t\t\t Mag Dip Angle: #{survey.magnetic_dip_angle.round(4)} \t\t\t Gravity: #{survey.gravity_total.round(4)}", '', "", '', ''], :style => title_cell2
+                    sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.vertical_section_azimuth.present? ? well_plan.vertical_section_azimuth : '-'}", '', "", '', ''], :style => title_cell2
+                    sheet.add_row ["Mag Field Strength: #{survey.magnetic_field_strength.present? ? survey.magnetic_field_strength.round(4) : 0.0} \t\t\t Mag Dip Angle: #{survey.magnetic_dip_angle.present? ? survey.magnetic_dip_angle.round(4) : 0.0} \t\t\t Gravity: #{survey.gravity_total.present? ? survey.gravity_total.round(4) : 0.0}", '', "", '', ''], :style => title_cell2
                 end
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
 

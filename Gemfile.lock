@@ -129,6 +129,7 @@ GEM
     libwebsocket (0.1.7.1)
       addressable
       websocket
+    link_url (0.0.5)
     listen (0.7.1)
     lumberjack (1.0.2)
     mail (2.4.4)
@@ -300,6 +301,7 @@ DEPENDENCIES
   guard-spork (= 0.3.2)
   jquery-fileupload-rails
   jquery-rails
+  link_url
   mail (= 2.4.4)
   memcachier
   newrelic_rpm

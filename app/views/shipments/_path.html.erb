@@ -1,0 +1,15 @@
+<div class='inline-block'>
+  <% if use_link %>
+      <b><%= link_to part_membership.from_name, part_membership.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => part_membership.from_name %></b>
+  <% else %>
+      <b><%= part_membership.from_name %></b>
+  <% end %>
+  &nbsp;&nbsp;&nbsp;
+  <i class="icon-chevron-right align-top"></i>
+  &nbsp;&nbsp;&nbsp;
+  <% if use_link %>
+      <b><%= link_to part_membership.to_name, part_membership.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => part_membership.to_name %></b>
+  <% else %>
+      <b><%= part_membership.to_name %></b>
+  <% end %>
+</div>

@@ -119,6 +119,14 @@ $ ->
       $('.failures_loading').removeClass 'hidden'
       $('.failures_loading').find('.loading').removeClass 'hidden'
       $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=job_failures", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "cost"
+      $('.cost_loading').removeClass 'hidden'
+      $('.cost_loading').find('.loading').removeClass 'hidden'
+      $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=cost", type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "reports"
+      $('.reports_loading').removeClass 'hidden'
+      $('.reports_loading').find('.loading').removeClass 'hidden'
+      $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=reports", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "notes"
       $('.notes-loading').removeClass 'hidden'
       $('.notes-loading').find('.loading').removeClass 'hidden'

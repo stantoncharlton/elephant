@@ -32,10 +32,10 @@
       </div>
     </div>
 
-    <% paginated_shipments = shipments.where("shipments.status > 0").paginate(page: params[:page], limit: 20) %>
+    <% paginated_shipments = shipments.paginate(page: params[:page], limit: 20) %>
     <div id="shipments_list" class="list">
       <% paginated_shipments.each do |shipment| %>
-          <%= render 'shipments/shipment', shipment: shipment, editable: shipment.status != Shipment::COMPLETE, show_assets: shipment.status != Shipment::COMPLETE %>
+          <%= render 'shipments/shipment', shipment: shipment, editable: shipment.status != Shipment::COMPLETE, show_assets: shipment.status != Shipment::COMPLETE, in_job: false %>
           <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT && shipment.to.present? && (shipment.to_type == Warehouse.name || shipment.to_type == Supplier.name) %>
               <%= link_to "Receive Shipment", shipment_path(shipment, update_field: true, field: "receive_shipment", value: shipment.id),
                           remote: true, :method => :put,

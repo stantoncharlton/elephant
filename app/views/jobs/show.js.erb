@@ -117,6 +117,29 @@
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();
+<% elsif params[:section] == "cost" %>
+    $('#cost_loading').after('<%= j render 'jobs/tray_cost', job: @job, job_editable: @job_editable %>');
+    $('#cost_loading').remove();
+    $('.date-picker').datepicker();
+<% elsif params[:section] == "reports" %>
+    $('#reports_loading').after('<%= j render 'jobs/tray_reports', job: @job, job_editable: @job_editable %>');
+    $('#reports_loading').remove();
+
+    $('.generate-report').each(function() {
+        $(this).click(function() {
+            report = $(this).closest('.report');
+            report.find('.generating-report').removeClass('hidden');
+            $(this).addClass('hidden');
+            $(this).closest('.generate-report-div').addClass('hidden');
+        });
+    });
+
+
+    $('.report-type').change(function() {
+        report = $(this).closest('.report');
+        report.find('.generate-report').removeClass('hidden');
+        report.find('.download-report').addClass('hidden');
+    });
 <% elsif params[:section] == "job_failures" %>
     if($('#failures_loading').length > 0) {
         $('#failures_loading').after('<%= j render 'jobs/job_failures', job: @job %>');
@@ -155,5 +178,10 @@ if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").match
     $('.tooltip-info').tooltip();
 }
 
-$('.custom-select-ajax').customSelect();
+$('.custom-select-ajax').each(function() {
+    span_tag = $(this).next('span');
+    if($(this).prop("tagName").toLowerCase() == 'select' && span_tag.length <= 0 && !span_tag.hasClass('customSelect')) {
+        $(this).customSelect();
+    }
+});
 

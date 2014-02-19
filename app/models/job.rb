@@ -8,7 +8,9 @@ class Job < ActiveRecord::Base
                     :api_number,
                     :inventory_notes,
                     :inventory_confirmed,
-                    :failures_count
+                    :failures_count,
+                    :total_cost,
+                    :proposed_cost
 
     include PostJobReportHelper
     acts_as_xlsx
@@ -52,6 +54,7 @@ class Job < ActiveRecord::Base
     has_many :part_memberships, order: "name ASC", dependent: :destroy, foreign_key: "job_id"
 
     has_many :job_times, dependent: :destroy
+    has_many :job_costs, dependent: :destroy, order: "job_costs.charge_at ASC"
 
     has_many :inbound_shipments, order: "created_at DESC", class_name: "Shipment", foreign_key: "to_id"
     has_many :outbound_shipments, order: "created_at DESC", class_name: "Shipment", foreign_key: "from_id"

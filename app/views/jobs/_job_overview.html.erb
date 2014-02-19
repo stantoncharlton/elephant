@@ -18,13 +18,15 @@
           <%= link_to "BHAs", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-bha"), class: "btn btn-default" %>
           <%= link_to "Daily Activity", drilling_logs_path(document: drilling_log_document.id, :anchor => "log"), class: "btn btn-default" %>
           <%= link_to "Survey", drilling_logs_path(document: drilling_log_document.id, :anchor => "survey"), class: "btn btn-default" %>
-          <%= link_to "Reports", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-reports"), class: "btn btn-default" %>
+          <% if false %>
+              <%= link_to "Reports", drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-reports"), class: "btn btn-default" %>
+          <% end %>
         </div>
       </div>
 
       <hr>
 
-<% end %>
+  <% end %>
 
 
 
@@ -59,6 +61,14 @@
                       "data-placement" => "bottom",
                       "data-title" => "Add failure to job" %>
         </div>
+      </div>
+    </div>
+
+    <div class="chart-block tooltip-info align-top pull-right"
+         data-title="Total Job Cost">
+      <div class="chart-title">Total Cost</div>
+      <div class="donut-chart-div job-donut-chart-div">
+        <div class="donut-text chart-text" id='total_job_cost'><%= number_to_currency(job.total_cost, :unit => "$") %></div>
       </div>
     </div>
 

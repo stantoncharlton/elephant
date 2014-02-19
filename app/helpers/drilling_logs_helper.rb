@@ -142,8 +142,9 @@ module DrillingLogsHelper
         runs = DrillingLog.new.get_runs(entries)
         r.add_field "T8", runs.count
 
-        r.add_field "C1", "-"
-        r.add_field "C2", "-"
+        range_cost = job.job_costs.where("job_costs.charge_at >= :start_time AND job_costs.charge_at <= :end_time", start_time: start_time, end_time: end_time).map { |jc| jc.price * jc.quantity }.reduce(:+)
+        r.add_field "C1", range_cost.nil? ? '-' : number_to_currency(range_cost, :unit => "$")
+        r.add_field "C2", number_to_currency(job.total_cost, :unit => "$")
 
 
         r.add_field "R1", drilling_log.rotary_footage_pct.nil? ? "-" : (drilling_log.rotary_footage_pct * 100).round(1)
@@ -398,14 +399,16 @@ module DrillingLogsHelper
         r.add_field "COMPANY", company.name
         r.add_field "CLIENT", job.client.name
 
-        image_path = "#{Rails.root}/tmp/#{company.id}.png"
-        if !File.exist?(image_path)
-            s3 = AWS::S3.new
-            File.open(image_path, 'wb') do |f|
-                f.write(s3.buckets["elephant-public"].objects["images/#{company.id}.png"].read)
+        if !job.company.test_company
+            image_path = "#{Rails.root}/tmp/#{company.id}.png"
+            if !File.exist?(image_path)
+                s3 = AWS::S3.new
+                File.open(image_path, 'wb') do |f|
+                    f.write(s3.buckets["elephant-public"].objects["images/#{company.id}.png"].read)
+                end
             end
+            r.add_image "LOGO", image_path
         end
-        r.add_image "LOGO", image_path
 
         r.add_field "WELL_NAME", job.well.name
 
@@ -432,14 +435,16 @@ module DrillingLogsHelper
         r.add_field "OP_NO", company.operator_number
         r.add_field "DATE", Date.today.strftime("%B %d, %Y")
 
-        image_path = "#{Rails.root}/tmp/#{company.id}.png"
-        if !File.exist?(image_path)
-            s3 = AWS::S3.new
-            File.open(image_path, 'wb') do |f|
-                f.write(s3.buckets["elephant-public"].objects["images/#{company.id}.png"].read)
+        if !job.company.test_company
+            image_path = "#{Rails.root}/tmp/#{company.id}.png"
+            if !File.exist?(image_path)
+                s3 = AWS::S3.new
+                File.open(image_path, 'wb') do |f|
+                    f.write(s3.buckets["elephant-public"].objects["images/#{company.id}.png"].read)
+                end
             end
+            r.add_image "LOGO", image_path
         end
-        r.add_image "LOGO", image_path
 
         if job.present?
             jobs_sql = Survey.includes(document: :job).where("jobs.well_id = ?", job.well_id).select("jobs.id").to_sql

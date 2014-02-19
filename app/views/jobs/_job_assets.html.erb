@@ -101,7 +101,7 @@
 </div>
 <% if job.inbound_shipments.any? %>
     <% job.inbound_shipments.each do |shipment| %>
-        <%= render 'shipments/shipment', shipment: shipment, editable: false, show_assets: shipment.status != Shipment::COMPLETE %>
+        <%= render 'shipments/shipment', shipment: shipment, editable: false, show_assets: shipment.status != Shipment::COMPLETE, in_job: true %>
         <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
             <%= link_to "Receive Shipment", job_path(job, update_field: true, field: "receive_shipment", value: shipment.id),
                         remote: true, :method => :put,
@@ -127,7 +127,7 @@
 <div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
   <% if job.outbound_shipments.any? %>
       <% job.outbound_shipments.each do |shipment| %>
-          <%= render 'shipments/shipment', shipment: shipment, editable: true, show_assets: shipment.status != Shipment::COMPLETE %>
+          <%= render 'shipments/shipment', shipment: shipment, editable: true, show_assets: shipment.status != Shipment::COMPLETE, in_job: true %>
       <% end %>
   <% else %>
       <p id="no_outbound_shipments" class='help-text push-down'>No outbound shipments...</p>

@@ -74,7 +74,7 @@ popup.find(".modal-popup-close").click(function () {
     $(this).unbind('click');
 
     if ($("#shipment_<%= @shipment.id %>").length > 0) {
-        $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @editable, show_assets: true %>");
+        $("#shipment_<%= @shipment.id %>").replaceWith("<%= j render 'shipments/shipment', shipment: @shipment, editable: @editable, show_assets: true, in_job: true %>");
         $("#shipment_<%= @shipment.id %>").find('.popover').popover({  delay: { show: 500, hide: 200 } });
     }
 });

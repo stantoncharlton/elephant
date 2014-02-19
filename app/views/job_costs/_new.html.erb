@@ -1,0 +1,77 @@
+<div class="">
+  <%= form_for JobCost.new, remote: true do |f| %>
+      <div class="form" data-form="new_cost">
+        <b>Add Charge</b>
+        <br><br>
+            <%= f.hidden_field :job_id, value: @job.id %>
+
+
+
+        <div style='margin-bottom: 5px; font-size: 10px;'>
+          <div class='inline-block' style="width: 125px">
+            <b class='blue-text'>Date</b>
+          </div>
+          <div class='inline-block' style="width: 87px">
+            <b class='blue-text'>Type</b>
+          </div>
+          <div class='inline-block' style="width: 64px">
+            <b class='blue-text'>Quantity</b>
+          </div>
+          <div class='inline-block' style="width: 324px">
+            <b class='blue-text'>Description</b>
+          </div>
+          <div class='inline-block' style="width: 100px">
+            <b class='blue-text'>Price</b>
+          </div>
+        </div>
+
+        <%= f.text_field :charge_at, value: Time.now.in_time_zone.to_date.strftime("%m/%d/%Y"),
+                         class: "txtfield tooltip-info align-top date-picker",
+                         style: "min-width: 0px; width: 95px; font-size: 13px;",
+                         "data-placement" => "bottom",
+                         "data-title" => "Date of charge" %>
+
+        <div class="inline-block">
+          <%= f.select :charge_type, options_for_select([["Day", JobCost::DAY], ["Job", JobCost::JOB], ["Hour", JobCost::HOUR], ["Item", JobCost::ITEM]]),
+                       {},
+                       style: "max-width: 60px; margin-right: 10px;",
+                       class: "custom-select custom-select-ajax align-top",
+                       placeholder: "Up" %>
+        </div>
+
+        <%= f.text_field :quantity, value: 1, placeholder: "Quantity",
+                         class: "txtfield tooltip-info align-top",
+                         style: "width: 35px !important; min-width: 0px;",
+                         "data-placement" => "bottom",
+                         "data-title" => "Quantity of asset" %>
+
+        <%= f.text_field :description, placeholder: "Description of asset",
+                         class: "txtfield tooltip-info align-top",
+                         style: "width: 300px !important; min-width: 0px;",
+                         "data-placement" => "bottom",
+                         "data-title" => "Description of asset" %>
+
+        <%= f.text_field :price, placeholder: "$0.00",
+                         value: nil,
+                         class: "txtfield tooltip-info align-top",
+                         style: "width: 100px !important; min-width: 0px;",
+                         "data-placement" => "bottom",
+                         "data-title" => "Price" %>
+
+
+        <%= f.submit "Add Charge", class: "bluebtn btnsmall inline-block tooltip-info form-loading-on-click",
+                     style: "margin: 0px;",
+                     "data-form" => "new_cost",
+                     "data-placement" => "bottom",
+                     "data-title" => "Add new note/action" %>
+
+      </div>
+
+      <div class="form-loading hidden" data-form="new_cost">
+        <br><br>
+        <%= render 'layouts/inline_loading', title: "Adding cost..." %>
+        <br><br>
+      </div>
+
+  <% end %>
+</div>

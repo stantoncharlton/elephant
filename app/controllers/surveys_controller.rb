@@ -97,6 +97,12 @@ class SurveysController < ApplicationController
 
             entry_lines = []
 
+            if contents.blank?
+                flash[:error] = "Bad file, please select a different file and try again."
+                render 'edit'
+                return
+            end
+
             if !contents.blank?
                 if true #Compass File
                     lines = contents.split("\r\n")
@@ -191,6 +197,12 @@ class SurveysController < ApplicationController
             @survey.north_type = Survey::GRID
 
             entry_lines = []
+
+            if contents.blank?
+                flash[:error] = "Bad file, please select a different file and try again."
+                render 'edit'
+                return
+            end
 
             if true #Compass File
                 lines = contents.split("\r\n")

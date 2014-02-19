@@ -27,6 +27,7 @@ gem 'odf-report'
 gem 'memcachier'
 gem 'redis'
 gem 'twilio-ruby'
+gem 'link_url'
 
 gem "unicorn"
 gem 'dalli'

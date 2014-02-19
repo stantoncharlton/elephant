@@ -20,6 +20,8 @@ class Shipment < ActiveRecord::Base
     belongs_to :from, :polymorphic => true
     belongs_to :to, :polymorphic => true
 
+    belongs_to :shipper
+
     has_many :part_memberships, order: "name ASC", :conditions => "part_memberships.job_id IS NULL", :dependent => :destroy
     has_many :job_notes
 

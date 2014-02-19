@@ -1,5 +1,5 @@
 <div id="shipment_<%= shipment.id %>">
-  <%= link_to edit_shipment_path(shipment, editable: editable), remote: true, class: "job-link  show-modal-button" do %>
+  <%= link_to (in_job ? edit_shipment_path(shipment, editable: editable) : shipment), remote: in_job, class: "job-link " + (in_job ? "show-modal-button" : "") do %>
       <div style="margin-top: 10px; margin-bottom: 10px;">
         <div class='pull-right'>
 
@@ -12,19 +12,34 @@
 
         </div>
         <div>
-          <b><%= shipment.from_name %></b>
-          &nbsp;&nbsp;&nbsp;
-          <i class="icon-chevron-right"></i>
-          &nbsp;&nbsp;&nbsp;
-          <div class='inline-block'>
-            <b><%= shipment.to_name %></b>
-          </div>
+          <% from = nil %>
+          <% to = nil %>
+          <% pms = shipment.part_memberships.to_a.sort_by { |pm| "#{pm.from_id} #{pm.to_id}" } %>
+          <% pms.each do |pm| %>
+              <% if from != pm.from || to != pm.to %>
+                  <div>
+                    <%= render 'shipments/path', part_membership: pm, use_link: false %>
+                  </div>
+              <% end %>
+              <% from = pm.from %>
+              <% to = pm.to %>
+          <% end %>
+
+          <% if from.nil? %>
+              <b><%= shipment.from_name %></b>
+              &nbsp;&nbsp;&nbsp;
+              <i class="icon-chevron-right"></i>
+              &nbsp;&nbsp;&nbsp;
+              <div class='inline-block'>
+                <b><%= shipment.to_name %></b>
+              </div>
+          <% end %>
         </div>
 
         <div>
           <% if shipment.status == Shipment::IN_TRANSIT %>
               <b class='warning-text'>In Transit</b>
-          <% elsif shipment.status == Shipment::AWAITING_SHIPMENT %>
+          <% elsif shipment.status == Shipment::CREATING %>
               <b class='warning-text'>Not Yet Shipped</b>
           <% else %>
               <b class='good-text'>Completed</b>
@@ -33,6 +48,8 @@
 
 
           <h3 class='inline-block blue-text push-right-small'><%= shipment.part_memberships.count %></h3>&nbsp;<span class='help-text'><%= "asset".pluralize(shipment.part_memberships.count) %></span>
+
+          <span class='help-text push-right-small'><%= shipment.shipper.present? ? shipment.shipper.name : '' %></span>
         </div>
       </div>
   <% end %>

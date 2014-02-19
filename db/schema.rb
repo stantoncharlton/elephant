@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140215162802) do
+ActiveRecord::Schema.define(:version => 20140219144620) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -533,6 +533,22 @@ ActiveRecord::Schema.define(:version => 20140215162802) do
   add_index "issues", ["failure_id"], :name => "index_issues_on_failure_id"
   add_index "issues", ["job_id"], :name => "index_issues_on_job_id"
 
+  create_table "job_costs", :force => true do |t|
+    t.integer  "company_id"
+    t.integer  "job_id"
+    t.integer  "user_id"
+    t.decimal  "quantity",    :default => 0.0
+    t.string   "description"
+    t.integer  "charge_type"
+    t.decimal  "price",       :default => 0.0
+    t.datetime "charge_at"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
+
+  add_index "job_costs", ["company_id"], :name => "index_job_costs_on_company_id"
+  add_index "job_costs", ["job_id"], :name => "index_job_costs_on_job_id"
+
   create_table "job_logs", :force => true do |t|
     t.integer  "company_id"
     t.integer  "document_id"
@@ -650,6 +666,8 @@ ActiveRecord::Schema.define(:version => 20140215162802) do
     t.string   "inventory_notes",       :limit => 500
     t.boolean  "inventory_confirmed",                  :default => false
     t.string   "api_number"
+    t.decimal  "total_cost",                           :default => 0.0
+    t.decimal  "proposed_cost",                        :default => 0.0
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"
@@ -913,6 +931,7 @@ ActiveRecord::Schema.define(:version => 20140215162802) do
     t.string   "from_name"
     t.string   "to_name"
     t.boolean  "from_editable"
+    t.integer  "shipper_id"
   end
 
   add_index "shipments", ["company_id"], :name => "index_shipments_on_company_id"

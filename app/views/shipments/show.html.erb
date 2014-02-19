@@ -35,7 +35,7 @@
     <% end %>
 
 
-    <%= form_for shipment, remote: true do |f| %>
+    <%= form_for shipment do |f| %>
 
         <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
             <div class="job-shipment-list">
@@ -63,19 +63,7 @@
               <% end %>
             </div>
         <% else %>
-            <div id="asset_list" class="">
-              <% shipment.part_memberships.each do |pm| %>
-                  <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
-              <% end %>
-            </div>
-
-            <% if !shipment.part_memberships.any? %>
-                <div id="no_assets" class='push-down center'>
-                  <br><br>
-                  <span class='help-text'>No assets added...</span>
-                  <br><br>
-                </div>
-            <% end %>
+            <%= render 'shipments/grouped_list', shipment: shipment, editable: editable %>
         <% end %>
 
 
@@ -92,12 +80,12 @@
                             style: "margin-right: 15px;",
                             "data-form" => "new_shipment" %>
 
-                <%= link_to "Save", shipment_path(shipment), method: :put,
+                <%= f.submit "Save",
                             class: "bluebtn form-loading-on-click",
                             style: "margin-right: 15px;",
                             "data-form" => "new_shipment" %>
 
-                <%= link_to "Send Shipment", shipment_path(shipment), method: :put,
+                <%= f.submit "Send Shipment",
                             class: "bluebtn green  form-loading-on-click",
                             "data-form" => "new_shipment" %>
               </div>
@@ -111,7 +99,7 @@
             </div>
             &nbsp;
             <div class='inline-block'>
-              <%= select_tag "shipper_id", options_for_select(shippers),
+              <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
                              placeholder: "Shipper",
                              class: "custom-select" %>
             </div>

@@ -53,6 +53,8 @@ class ShipmentsController < ApplicationController
                 return
             end
 
+            @shipment.shipper = Shipper.find_by_id(params[:shipper_id])
+
             if params[:update_field].present? && params[:update_field] == "true" &&
                     params[:field].present? && params[:value].present?
                 case params[:field]
@@ -132,10 +134,14 @@ class ShipmentsController < ApplicationController
                     end
                 end
 
-                @shipment.status = Shipment::IN_TRANSIT
+                #@shipment.status = Shipment::IN_TRANSIT
                 @shipment.save
 
                 @shipment = Shipment.find_by_id(@shipment.id)
+
+                if request.format == "html"
+                    redirect_to inventory_path(@shipment.district, anchor: "shipping")
+                end
             end
         end
     end

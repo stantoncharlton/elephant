@@ -23,6 +23,7 @@
 <div id="job_<%= @job.id %>" class="job-main-div">
   <div class="">
     <br>
+
     <ul class="nav nav-pills alert alert-nav">
 
       <li class="<%= (params["new"].present? && params["new"] == "true") ? "" : "active" %>">
@@ -61,19 +62,34 @@
       </li>
 
       <li class="">
-        <a href="#activity" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="activity"
-           data-placement="bottom" data-title="All Job Activity">Job Activity</a>
+        <a href="#cost" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="cost"
+           data-placement="bottom" data-title="Job Cost">Cost</a>
       </li>
+
+      <li class="">
+        <a href="#reports" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="reports"
+           data-placement="bottom" data-title="Reports">Reports</a>
+      </li>
+
 
       <li class="">
         <a href="#time" class="job-tray-toggle custom-data-toggle tooltip-info"
            data-tray="time"
-           data-placement="bottom" data-title="Time/Scheduling">Time Sheet</a>
+           data-placement="bottom" data-title="Time/Scheduling">Timesheet</a>
       </li>
 
+      <li class="">
+        <a href="#activity" class="job-tray-toggle custom-data-toggle tooltip-info"
+           style='padding: 10px;'
+           data-tray="activity"
+           data-placement="bottom" data-title="All Job History"><i class="icon-time"></i></a>
+      </li>
 
     </ul>
+
+
 
     <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
 
@@ -112,7 +128,7 @@
 
           <div class="loading center">
             <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Reports/Notes...</b></span>
+            <span class="ajax-loading search-loading"><b>Loading Daily Notes...</b></span>
             <br>
           </div>
         </div>
@@ -127,6 +143,34 @@
           <div class="loading center">
             <br><br>
             <span class="ajax-loading search-loading"><b>Loading Failures...</b></span>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-tray custom-data-closed" data-tray="cost">
+      <div id="cost_loading">
+        <div class="remote-loading">
+          <br><br>
+
+          <div class="loading center">
+            <br><br>
+            <span class="ajax-loading search-loading"><b>Loading Cost...</b></span>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-tray custom-data-closed" data-tray="reports">
+      <div id="reports_loading">
+        <div class="remote-loading">
+          <br><br>
+
+          <div class="loading center">
+            <br><br>
+            <span class="ajax-loading search-loading"><b>Loading Reports...</b></span>
             <br>
           </div>
         </div>
