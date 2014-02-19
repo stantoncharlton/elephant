@@ -194,62 +194,62 @@ module DrillingLogsHelper
         r.add_field "V6", "#{drilling_log.ream_hours.present? ? drilling_log.ream_hours.round(1) : 0.0} hrs"
 
         r.add_field "P7", "WOB"
-        r.add_field "V7", "#{drilling_log.ranges["wob_min"]} - #{drilling_log.ranges["wob_max"]} lbs"
+        r.add_field "V7", range_span(drilling_log.ranges["wob_min"], drilling_log.ranges["wob_max"]) + " lbs"
         r.add_field "P8", "Rotate Weight"
-        r.add_field "V8", "#{drilling_log.ranges["rotary_weight_min"]} - #{drilling_log.ranges["rotary_weight_max"]} lbs"
+        r.add_field "V8", range_span(drilling_log.ranges["rotary_weight_min"], drilling_log.ranges["rotary_weight_max"]) + " lbs"
         r.add_field "P9", "P/U Weight"
-        r.add_field "V9", "#{drilling_log.ranges["pu_weight_min"]} - #{drilling_log.ranges["pu_weight_max"]} lbs"
+        r.add_field "V9", range_span(drilling_log.ranges["pu_weight_min"], drilling_log.ranges["pu_weight_max"]) + " lbs"
         r.add_field "P10", "S/O Weight"
-        r.add_field "V10", "#{drilling_log.ranges["so_weight_min"]} - #{drilling_log.ranges["so_weight_max"]} lbs"
+        r.add_field "V10", range_span(drilling_log.ranges["so_weight_min"], drilling_log.ranges["so_weight_max"]) + " lbs"
         r.add_field "P11", "SPP"
-        r.add_field "V11", "#{drilling_log.ranges["spp_min"]} - #{drilling_log.ranges["spp_max"]} psi"
+        r.add_field "V11", range_span(drilling_log.ranges["spp_min"], drilling_log.ranges["spp_max"]) + " psi"
         r.add_field "P12", "Flow Rate"
-        r.add_field "V12", "#{drilling_log.ranges["flow_min"]} - #{drilling_log.ranges["flow_max"]} g/m"
+        r.add_field "V12", range_span(drilling_log.ranges["flow_min"], drilling_log.ranges["flow_max"]) + " g/m"
 
         r.add_field "P13", "Rotary RPM"
-        r.add_field "V13", "#{drilling_log.ranges["rotary_rpm_min"]} - #{drilling_log.ranges["rotary_rpm_max"]} rpm"
+        r.add_field "V13", range_span(drilling_log.ranges["rotary_rpm_min"], drilling_log.ranges["rotary_rpm_max"]) + " rpm"
         r.add_field "P14", "Motor RPM"
-        r.add_field "V14", "#{drilling_log.ranges["motor_rpm_min"]} - #{drilling_log.ranges["motor_rpm_max"]} rpm"
+        r.add_field "V14", range_span(drilling_log.ranges["motor_rpm_min"], drilling_log.ranges["motor_rpm_max"]) + " rpm"
         r.add_field "P15", "Torque"
-        r.add_field "V15", "#{drilling_log.ranges["torque_min"]} - #{drilling_log.ranges["torque_max"]}"
+        r.add_field "V15", range_span(drilling_log.ranges["torque_min"], drilling_log.ranges["torque_max"])
         r.add_field "P16", "Avg Diff Pressure"
-        r.add_field "V16", "#{drilling_log.ranges["diff_pressure_min"]} - #{drilling_log.ranges["diff_pressure_max"]} psi"
+        r.add_field "V16", range_span(drilling_log.ranges["diff_pressure_min"], drilling_log.ranges["diff_pressure_max"]) + " psi"
         r.add_field "P17", "Stall Pressure"
-        r.add_field "V17", "#{drilling_log.ranges["stall_min"]} - #{drilling_log.ranges["stall_max"]} psi"
+        r.add_field "V17", range_span(drilling_log.ranges["stall_min"], drilling_log.ranges["stall_max"]) + " psi"
         r.add_field "P18", ""
         r.add_field "V18", ""
 
         r.add_field "H2", "Mud Parameters"
         r.add_field "PP1", "Mud Type"
-        r.add_field "VV1", "#{drilling_log.ranges["mud_type_min"]} - #{drilling_log.ranges["mud_type_max"]}"
+        r.add_field "VV1", DrillingLogEntry.get_mud_value_string(drilling_log.ranges["mud_type_max"])
         r.add_field "PP2", "Mud Weight"
-        r.add_field "VV2", "#{drilling_log.ranges["mud_weight_min"]} - #{drilling_log.ranges["mud_weight_max"]} lbs"
+        r.add_field "VV2", range_span(drilling_log.ranges["mud_weight_min"], drilling_log.ranges["mud_weight_max"]) + " lbs"
         r.add_field "PP3", "Viscosity"
-        r.add_field "VV3", "#{drilling_log.ranges["viscosity_min"]} - #{drilling_log.ranges["viscosity_max"]}"
+        r.add_field "VV3", range_span(drilling_log.ranges["viscosity_min"], drilling_log.ranges["viscosity_max"])
         r.add_field "PP4", "Chlorides"
-        r.add_field "VV4", "#{drilling_log.ranges["chlorides_min"]} - #{drilling_log.ranges["chlorides_max"]}"
+        r.add_field "VV4", range_span(drilling_log.ranges["chlorides_min"], drilling_log.ranges["chlorides_max"])
         r.add_field "PP5", "Water Loss"
-        r.add_field "VV5", "#{drilling_log.ranges["water_loss_min"]} - #{drilling_log.ranges["water_loss_max"]}"
+        r.add_field "VV5", range_span(drilling_log.ranges["water_loss_min"], drilling_log.ranges["water_loss_max"])
 
         r.add_field "PP6", "YP"
-        r.add_field "VV6", "#{drilling_log.ranges["yp_min"]} - #{drilling_log.ranges["yp_max"]}"
+        r.add_field "VV6", range_span(drilling_log.ranges["yp_min"], drilling_log.ranges["yp_max"])
         r.add_field "PP7", "PV"
-        r.add_field "VV7", "#{drilling_log.ranges["pv_min"]} - #{drilling_log.ranges["pv_max"]}"
+        r.add_field "VV7", range_span(drilling_log.ranges["pv_min"] ,drilling_log.ranges["pv_max"])
         r.add_field "PP8", "PH"
-        r.add_field "VV8", "#{drilling_log.ranges["ph_min"]} - #{drilling_log.ranges["ph_max"]}"
+        r.add_field "VV8", range_span(drilling_log.ranges["ph_min"], drilling_log.ranges["ph_max"])
         r.add_field "PP9", "BH Temp"
-        r.add_field "VV9", "#{drilling_log.ranges["bh_temp_min"]} - #{drilling_log.ranges["bh_temp_max"]}"
+        r.add_field "VV9", range_span(drilling_log.ranges["bh_temp_min"], drilling_log.ranges["bh_temp_max"])
         r.add_field "PP10", "Flow Line Temp"
-        r.add_field "VV10", "#{drilling_log.ranges["fl_temp_min"]} - #{drilling_log.ranges["fl_temp_max"]}"
+        r.add_field "VV10", range_span(drilling_log.ranges["fl_temp_min"], drilling_log.ranges["fl_temp_max"])
 
         r.add_field "PP11", "Gas %"
-        r.add_field "VV11", "#{drilling_log.ranges["gas_min"]} - #{drilling_log.ranges["gas_max"]}"
+        r.add_field "VV11", range_span(drilling_log.ranges["gas_min"], drilling_log.ranges["gas_max"])
         r.add_field "PP12", "Sand %"
-        r.add_field "VV12", "#{drilling_log.ranges["sand_min"]} - #{drilling_log.ranges["sand_max"]}"
+        r.add_field "VV12", range_span(drilling_log.ranges["sand_min"], drilling_log.ranges["sand_max"])
         r.add_field "PP13", "Solids %"
-        r.add_field "VV13", "#{drilling_log.ranges["solids_min"]} - #{drilling_log.ranges["solids_max"]}"
+        r.add_field "VV13", range_span(drilling_log.ranges["solids_min"], drilling_log.ranges["solids_max"])
         r.add_field "PP14", "Oil %"
-        r.add_field "VV14", "#{drilling_log.ranges["oil_min"]} - #{drilling_log.ranges["oil_max"]}"
+        r.add_field "VV14", range_span(drilling_log.ranges["oil_min"], drilling_log.ranges["oil_max"])
         r.add_field "PP15", ""
         r.add_field "VV15", ""
 
@@ -269,11 +269,11 @@ module DrillingLogsHelper
 
         r.add_field "H4", "MWD"
         r.add_field "PPP7", "Battery 1 Amps"
-        r.add_field "VVV7", "#{drilling_log.ranges["battery_1_amps_min"]} - #{drilling_log.ranges["battery_1_amps_max"]} amps"
+        r.add_field "VVV7", range_span(drilling_log.ranges["battery_1_amps_max"], drilling_log.ranges["battery_1_amps_min"]) + " amps"
         r.add_field "PPP8", "Battery 2 Amps"
-        r.add_field "VVV8", "#{drilling_log.ranges["battery_2_amps_min"]} - #{drilling_log.ranges["battery_2_amps_max"]} amps"
+        r.add_field "VVV8", range_span(drilling_log.ranges["battery_2_amps_max"], drilling_log.ranges["battery_2_amps_min"]) + " amps"
         r.add_field "PPP9", "Battery Volts"
-        r.add_field "VVV9", "#{drilling_log.ranges["battery_volts_min"]} - #{drilling_log.ranges["battery_volts_max"]} volts"
+        r.add_field "VVV9", range_span(drilling_log.ranges["battery_volts_min"], drilling_log.ranges["battery_volts_max"]) + " volts"
     end
 
 
@@ -335,6 +335,13 @@ module DrillingLogsHelper
         end
     end
 
+    def range_span min, max
+        if min != max
+            "#{min} - #{max}"
+        else
+            "#{min}"
+        end
+    end
 
     def fill_survey job, entries, r
         r.add_field "JOB_NAME", job.field.name + ' - ' + job.well.name

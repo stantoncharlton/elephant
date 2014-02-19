@@ -1,4 +1,5 @@
 <div id="shipment_<%= shipment.id %>">
+  <% in_job = true %>
   <%= link_to (in_job ? edit_shipment_path(shipment, editable: editable) : shipment), remote: in_job, class: "job-link " + (in_job ? "show-modal-button" : "") do %>
       <div style="margin-top: 10px; margin-bottom: 10px;">
         <div class='pull-right'>

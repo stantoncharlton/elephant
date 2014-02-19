@@ -18,11 +18,20 @@
         <h3 class="inline-block">Shipments</h3>
       </div>
 
-      <div class='pull-right push-right'>
-        <%= link_to "New Shipment", shipments_path(district: @district),
-                    method: :post,
-                    class: "bluebtn" %>
-      </div>
+      <% if true %>
+          <div class='pull-right push-right'>
+            <%= link_to "New Shipment", shipments_path(district: @district),
+                        remote: true, method: :post,
+                        class: "bluebtn show-modal-button" %>
+          </div>
+      <% end %>
+      <% if false %>
+          <div class='pull-right push-right'>
+            <%= link_to "New Shipment", shipments_path(district: @district),
+                        method: :post,
+                        class: "bluebtn" %>
+          </div>
+      <% end %>
 
       <div class='pull-right align-top' style='margin-top: 15px;'>
         <%= link_to shippers_path(district: @district.id), class: "activity-user-link" do %>

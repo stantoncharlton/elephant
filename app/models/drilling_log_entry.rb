@@ -349,4 +349,15 @@ class DrillingLogEntry < ActiveRecord::Base
         end
     end
 
+    def self.get_mwd_type_string value
+        case value
+            when 1
+                "EM"
+            when 2
+                "Pulse"
+            else
+                "-"
+        end
+    end
+
 end

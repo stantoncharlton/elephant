@@ -31,6 +31,7 @@ class ShipmentsController < ApplicationController
         @shipment.to_name = ""
         @shipment.company = current_user.company
         @shipment.user = current_user
+        ## Remove
         @shipment.status = Shipment::CREATING
         @shipment.save
 
@@ -134,7 +135,7 @@ class ShipmentsController < ApplicationController
                     end
                 end
 
-                #@shipment.status = Shipment::IN_TRANSIT
+                @shipment.status = Shipment::IN_TRANSIT
                 @shipment.save
 
                 @shipment = Shipment.find_by_id(@shipment.id)
