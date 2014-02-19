@@ -2,7 +2,7 @@
   <div class='inline-block'>Today</div>
   &nbsp;
   <% today = @job.job_costs.where("date_trunc('day', job_costs.charge_at) = ?", Date.today.strftime('%Y-%m-%d')).map { |jc| jc.price * jc.quantity }.reduce(:+) %>
-  <h3 class='inline-block'><%= number_to_currency(today, :unit => "$") %></h3>
+  <h3 class='inline-block'><%= today.nil? ? '$0.00' : number_to_currency(today, :unit => "$") %></h3>
 
   <div class='inline-block push-right'>Total</div>
   &nbsp;
