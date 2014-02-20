@@ -62,7 +62,7 @@
                 <% end %>
                 <% if activity.activity_type == AssetActivity::ADDED_TO_SHIPMENT || activity.activity_type == AssetActivity::DELETED_FROM_SHIPMENT %>
                     <% if activity.target.present? %>
-                        <%= render "shipments/shipment", shipment: activity.target, editable: activity.target.status != Shipment::COMPLETE, show_assets: activity.target.status != Shipment::COMPLETE %>
+                        <%= render "shipments/shipment", shipment: activity.target, editable: activity.target.status != Shipment::COMPLETE, show_assets: activity.target.status != Shipment::COMPLETE, in_job: true %>
                     <% end %>
                 <% end %>
                 <% if activity.activity_type == AssetActivity::MOVED_TO_WAREHOUSE || activity.activity_type == AssetActivity::RECEIVED_AT_WAREHOUSE %>

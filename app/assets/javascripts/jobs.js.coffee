@@ -106,7 +106,7 @@ $ ->
 
     if $('.job-main-div').length > 0
       $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
-    return false
+    event.preventDefault()
 
   $('.job-tray-toggle').click ->
     if $(this).attr('data-tray') == "activity"
@@ -167,7 +167,7 @@ $ ->
       $('#asset_activity_loading').removeClass 'hidden'
       $('#asset_activity_loading').find('.loading').removeClass 'hidden'
       $.ajax '/parts/' + $(this).attr('data-id') + "?section=asset_activity", type: 'get', dataType: 'script'
-    return false
+    event.preventDefault()
 
   $('.remote-tray-toggle').click ->
     $('.remote-tray-toggle').closest('li').removeClass 'active'
@@ -201,7 +201,7 @@ $ ->
         else
           $.ajax '/' + controller + "?section=" + tray_name, type: 'get', dataType: 'script'
 
-    return false
+    event.preventDefault()
 
   if document.location.hash != ''
     if $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").length != 0
@@ -294,3 +294,11 @@ $ ->
       $('.job-link').each ->
         if $(this).attr('data-status') != '7'
           $(this).hide()
+
+
+
+  $('.loading-jobs').live 'click',  ->
+    $('#jobs').addClass 'hidden'
+    $('#jobs_loading').removeClass 'hidden'
+    $('#jobs_loading').find('.loading').removeClass 'hidden'
+    event.preventDefault()

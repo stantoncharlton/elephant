@@ -82,7 +82,7 @@ group :production do
 end
 
 
-#gem 'rack-mini-profiler'
+gem 'rack-mini-profiler'
 
 
 

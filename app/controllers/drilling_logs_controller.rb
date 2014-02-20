@@ -43,6 +43,7 @@ class DrillingLogsController < ApplicationController
                     @drilling_log = DrillingLog.new
                     @drilling_log.company = current_user.company
                     @drilling_log.job = @document.job
+                    @drilling_log.well = @document.job.well
                     @drilling_log.document = @document
                     @drilling_log.save
                     redirect_to @drilling_log

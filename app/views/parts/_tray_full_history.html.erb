@@ -42,7 +42,7 @@
                     <div class='inline-block align-top'>
                       <%= item.created_at.strftime("%m/%d/%Y") %>
                     </div>
-                    <%= render 'shipments/shipment', shipment: item, editable: item.status != Shipment::COMPLETE, show_assets: false %>
+                    <%= render 'shipments/shipment', shipment: item, editable: item.status != Shipment::COMPLETE, show_assets: false, in_job: true %>
 
                   </div>
               <% end %>

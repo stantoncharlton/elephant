@@ -11,9 +11,12 @@
     <% end %>
   </div>
 
+
+  <% if false %>
   <% if @is_paged %>
-      <%= will_paginate %>
-  <% else %>
+          <%= will_paginate @jobs %>
+
+<% else %>
       <br><br><br>
       <% if @jobs.empty? %>
           <% if !current_user.role.no_assigned_jobs? %>
@@ -26,5 +29,6 @@
             <%= link_to "View all jobs, active and complete", jobs_path(:page => "1"), class: "activity-user-link" %>
           </div>
       <% end %>
+  <% end %>
   <% end %>
 </div>

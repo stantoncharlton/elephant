@@ -1,4 +1,24 @@
-$("#jobs_search input").removeClass("ajax-loading");
-<% if @jobs.present? %>
-$("#jobs_list").replaceWith("<%= j render 'jobs/index_list' %>");
+<% if false %>
+    $("#jobs_search input").removeClass("ajax-loading");
+    <% if @jobs.present? %>
+    $("#jobs_list").replaceWith("<%= j render 'jobs/index_list' %>");
+    <% end %>
 <% end %>
+
+<% if params[:section] == "my_jobs" %>
+<% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
+<% elsif params[:section] == "pre_job" %>
+<% @jobs = @jobs.where("jobs.status = ?", Job::PRE_JOB) %>
+<% elsif params[:section] == "in_progress" %>
+<% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
+<% elsif params[:section] == "post_job" %>
+<% @jobs = @jobs.where("jobs.status = ?", Job::POST_JOB) %>
+<% elsif params[:section] == "complete" %>
+<% @jobs = @jobs.where("jobs.status = ?", Job::COMPLETE) %>
+<% end %>
+
+$('#jobs').removeClass("hidden");
+$('#jobs_loading').addClass("hidden");
+$('#jobs').find('*').remove();
+$('#jobs').append("<%= j render 'jobs/index_filter' %>");
+
