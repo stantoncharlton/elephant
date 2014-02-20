@@ -224,7 +224,7 @@
 <% if signed_in? %>
     <script type="text/javascript">
 
-        var pusher = new Pusher('9f7a931d636464d8a7c3', {  });
+        var pusher = new Pusher('<%= Pusher.key %>', {  });
         var channel = pusher.subscribe('private-channel_<%= current_user.id %>');
         channel.bind('pusher:subscription_succeeded', function () {
         });
@@ -346,7 +346,7 @@
 <% if signed_in? %>
     <script type="text/javascript">
         olark('api.visitor.updateEmailAddress', {emailAddress: '<%= current_user.email %>'});
-        olark('api.visitor.updateFullName', {fullName: '<%= current_user.name %>'});
+        olark('api.visitor.updateFullName', {fullName: '<%= current_user.name %> (<%= current_user.company.name %>)'});
         olark('api.visitor.updatePhoneNumber', {phoneNumber: '<%= current_user.phone_number %>'});
     </script>
 <% end %>
