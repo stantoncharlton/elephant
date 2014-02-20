@@ -13,7 +13,7 @@
 <div class="chart-block">
   <div class="chart-title">Closed in Last 5 Days</div>
   <div class="donut-chart-div job-donut-chart-div">
-    <div class="donut-text"><%= jobs.reorder('').where(:status => Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).count() %></div>
+    <div class="donut-text"><%= jobs.reorder('').where("jobs.status = ?", Job::COMPLETE).where("jobs.close_date > ?", 5.days.ago).count() %></div>
     <div class="percentage "></div>
   </div>
 </div>
