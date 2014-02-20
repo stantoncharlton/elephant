@@ -9,7 +9,7 @@ class JobsController < ApplicationController
         respond_to do |format|
             format.html {
                 @jobs = current_user.jobs_list
-                @jobs = Job.include_models(@jobs)
+                @jobs = Job.include_models(@jobs).includes(well: :drilling_log)
 
                 #if !@is_paged
                 #    if current_user.role.limit_to_assigned_jobs?
@@ -27,16 +27,7 @@ class JobsController < ApplicationController
                     @jobs = Job.search(current_user, params, current_user.company).results
                 else
                     @jobs = current_user.jobs_list
-
-                    if !@is_paged
-                        if current_user.role.limit_to_assigned_jobs?
-                            @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days))
-                        else
-                            @jobs = @jobs.where("(jobs.status >= 1 AND jobs.status < 50)")
-                        end
-                    else
-                        @jobs = Job.include_models(@jobs).order("jobs.created_at DESC").paginate(page: params[:page], limit: 20)
-                    end
+                    @jobs = Job.include_models(@jobs).includes(well: :drilling_log)
                 end
             }
             format.xml {

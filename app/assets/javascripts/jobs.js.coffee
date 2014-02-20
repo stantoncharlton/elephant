@@ -133,6 +133,16 @@ $ ->
       $.ajax '/jobs/' + $('.job-main-div').attr("id").replace("job_", "") + "?section=notes", type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "time"
       $.ajax '/job_times/?job=' + $('.job-main-div').attr("id").replace("job_", ""), type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "my_jobs"
+      $.ajax '/jobs/?section=my_jobs', type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "pre_job"
+      $.ajax '/jobs/?section=pre_job', type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "post_job"
+      $.ajax '/jobs/?section=post_job', type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "in_progress"
+      $.ajax '/jobs/?section=in_progress', type: 'get', dataType: 'script'
+    if $(this).attr('data-tray') == "complete"
+      $.ajax '/jobs/?section=complete', type: 'get', dataType: 'script'
     if $(this).attr('data-tray') == "documents_data"
       $('.documents_loading').removeClass 'hidden'
       $('.documents_loading').find('.loading').removeClass 'hidden'

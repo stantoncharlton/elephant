@@ -199,7 +199,7 @@ class User < ActiveRecord::Base
     def jobs_list
         if !self.role.limit_to_assigned_jobs?
             if self.product_line.present?
-                self.company.jobs.joins(:job_template).where("job_templates.product_line_id = ?", self.product_line_id).reorder('')
+                self.company.jobs.includes(:job_template).where("job_templates.product_line_id = ?", self.product_line_id).reorder('')
             else
                 self.company.jobs.reorder('')
             end

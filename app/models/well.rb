@@ -39,6 +39,8 @@ class Well < ActiveRecord::Base
     validates :max_deviation, numericality: true, allow_nil: true
     validates :bottom_deviation, numericality: true, allow_nil: true
 
+    has_one :drilling_log
+
     def measured_depth=(num)
         num.gsub!(',', '') if num.is_a?(String)
         self[:measured_depth] = num.to_f.round(3)

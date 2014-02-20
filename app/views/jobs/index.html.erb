@@ -20,61 +20,81 @@
 </div>
 
 <% any_member_jobs = current_user.jobs.any? %>
-<ul class="nav nav-pills alert alert-nav">
-  <% if any_member_jobs %>
-      <li class="active">
-        <a href="#my_jobs" class="remote-tray-toggle custom-data-toggle loading-jobs"
+<% if !current_user.role.limit_to_assigned_jobs? %>
+    <ul class="nav nav-pills alert alert-nav">
+      <% if any_member_jobs %>
+          <li class="active">
+            <a href="#my_jobs" class="job-tray-toggle custom-data-toggle loading-jobs"
+               data-tray-controller="jobs"
+               data-tray="my_jobs">Member Of</a>
+          </li>
+      <% end %>
+
+      <li>
+        <a href="#pre_job" class="job-tray-toggle custom-data-toggle loading-jobs"
            data-tray-controller="jobs"
-           data-tray="my_jobs">Member Of</a>
+           data-tray="pre_job">
+          <div style='display:inline-block; width: 10px; height: 10px; background: #3a87ad;'></div>
+          Pre-Job</a>
       </li>
-  <% end %>
-
-  <li>
-    <a href="#pre_job" class="remote-tray-toggle custom-data-toggle loading-jobs"
-       data-tray-controller="jobs"
-       data-tray="pre_job">
-      <div style='display:inline-block; width: 10px; height: 10px; background: #3a87ad;'></div>
-      Pre-Job</a>
-  </li>
 
 
-  <li class="<%= any_member_jobs ? '' : 'active' %>">
-    <a href="#in_progress" class="remote-tray-toggle custom-data-toggle loading-jobs"
-       data-tray-controller="jobs"
-       data-tray="in_progress">
-      <div style='display:inline-block; width: 10px; height: 10px; background: #f89406;'></div>
-      In-Progress</a>
-  </li>
+      <li class="<%= any_member_jobs ? '' : 'active' %>">
+        <a href="#in_progress" class="job-tray-toggle custom-data-toggle loading-jobs"
+           data-tray-controller="jobs"
+           data-tray="in_progress">
+          <div style='display:inline-block; width: 10px; height: 10px; background: #f89406;'></div>
+          In-Progress</a>
+      </li>
 
-  <li class="">
-    <a href="#post_job" class="remote-tray-toggle custom-data-toggle loading-jobs"
-       data-tray-controller="jobs"
-       data-tray="post_job">
-      <div style='display:inline-block; width: 10px; height: 10px; background: #468847;'></div>
-      Post-Job</a>
-  </li>
+      <li class="">
+        <a href="#post_job" class="job-tray-toggle custom-data-toggle loading-jobs"
+           data-tray-controller="jobs"
+           data-tray="post_job">
+          <div style='display:inline-block; width: 10px; height: 10px; background: #468847;'></div>
+          Post-Job</a>
+      </li>
 
-  <li class="">
-    <a href="#complete" class="remote-tray-toggle custom-data-toggle loading-jobs"
-       data-tray-controller="jobs"
-       data-tray="complete">Complete</a>
-  </li>
+      <li class="">
+        <a href="#complete" class="job-tray-toggle custom-data-toggle loading-jobs"
+           data-tray-controller="jobs"
+           data-tray="complete">Complete</a>
+      </li>
 
-</ul>
+    </ul>
+<% end %>
 
 
 <div id="jobs">
-  <% if any_member_jobs %>
+  <% if current_user.role.limit_to_assigned_jobs? %>
       <% @jobs = current_user.jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)) %>
-      <%= render 'jobs/index_filter' %>
-  <% else %>
-      <% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
-      <%= render 'jobs/index_filter' %>
+      <%= render 'jobs/index_filter', show_stats: false, show_map: true %>
   <% end %>
 </div>
 
-<div id="jobs_loading" class="hidden">
-  <%= render 'layouts/inline_loading', title: "Loading jobs..." %>
+<div id="jobs_loading" class="center hidden">
+  <br>
+  <br>
+  <span class="ajax-loading search-loading"><b>Loading Jobs...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  <br>
 </div>
 
+<script type="text/javascript">
+    <% if !current_user.role.limit_to_assigned_jobs? %>
+    $('#jobs_loading').removeClass('hidden');
+    if (document.location.hash == '') {
+        setTimeout(function () {
+            $.ajax({
+                <% if any_member_jobs %>
+                url: "/jobs?section=my_jobs",
+                <% else %>
+                url: "/jobs?section=in_progress",
+                <% end %>
+                type: "GET",
+                dataType: "script"
+            });
+        }, 1);
+    }
+    <% end %>
+</script>
 

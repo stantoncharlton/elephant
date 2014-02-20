@@ -6,7 +6,7 @@
 <% end %>
 
 <% if params[:section] == "my_jobs" %>
-<% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
+<% @jobs = current_user.jobs %>
 <% elsif params[:section] == "pre_job" %>
 <% @jobs = @jobs.where("jobs.status = ?", Job::PRE_JOB) %>
 <% elsif params[:section] == "in_progress" %>
@@ -20,5 +20,5 @@
 $('#jobs').removeClass("hidden");
 $('#jobs_loading').addClass("hidden");
 $('#jobs').find('*').remove();
-$('#jobs').append("<%= j render 'jobs/index_filter' %>");
+$('#jobs').append("<%= j render 'jobs/index_filter', show_stats: params[:section] != "complete", show_map: params[:section] != "complete" %>");
 
