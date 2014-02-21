@@ -36,10 +36,25 @@ class PartMembershipsController < ApplicationController
                 @part_membership.part_type = PartMembership::RENTAL
                 @part_membership.name = params["rental_name"]
                 @part_membership.serial_number = params["rental_serial_number"]
+                @part_membership.asset_type = params["rental_asset_type"]
+
+                part = Part.new
+                part.company = current_user.company
+                part.template = false
+                part.rental = true
+                part.district = District.find_by_id(params["rental_district_id"])
+                part.asset_type = @part_membership.asset_type
+                part.manufacturer = params["rental_manufacturer"]
+                part.name = params["rental_name"]
+                part.serial_number = params["rental_serial_number"]
+                part.save
+                @part_membership.part = part
+
             when 'accessory'
-                @part_membership.part_type = PartMembership::ACCESSORY
+                @part_membership.part_type = PartMembership::SALEABLE
                 @part_membership.name = params["accessory_name"]
                 @part_membership.serial_number = params["accessory_serial_number"]
+                @part_membership.asset_type = params["accessory_asset_type"]
         end
 
         case from_type
@@ -49,6 +64,10 @@ class PartMembershipsController < ApplicationController
             when Supplier.name
                 @part_membership.from = Supplier.find_by_id(params[:from_id_supplier])
                 @part_membership.from_name = @part_membership.from.present? ? @part_membership.from.name : ""
+                if @part_membership.part.present? && @part_membership.part.rental
+                    @part_membership.part.supplier = @part_membership.from
+                    @part_membership.part.save
+                end
             when Job.name
                 @part_membership.from = Job.find_by_id(params[:from_id_job])
                 @part_membership.from_name = @part_membership.from.present? ? (@part_membership.from.well.rig.present? ? @part_membership.from.well.rig.name + " - " : "") + @part_membership.from.field.name + " | " + @part_membership.from.well.name : ""
@@ -69,6 +88,9 @@ class PartMembershipsController < ApplicationController
         @part_membership.inner_diameter = BigDecimal(params[:id])
         @part_membership.outer_diameter = BigDecimal(params[:od])
         @part_membership.length = BigDecimal(params[:length])
+        @part_membership.up = params[:up].to_i
+        @part_membership.down = params[:down].to_i
+
 
         if !job_id.blank?
             @part_membership.job = Job.find_by_id(job_id)
@@ -76,7 +98,7 @@ class PartMembershipsController < ApplicationController
         else
             @part_membership.shipment = Shipment.find_by_id(shipment_id)
             if @part_membership.shipment.present? && @part_membership.shipment.from_type == Supplier.name
-                @part_membership.supplier = @part_membership.shipment.from
+                @part_membership.part.supplier = @part_membership.shipment.from
             end
         end
 
@@ -88,6 +110,16 @@ class PartMembershipsController < ApplicationController
             @part_membership.material_number = @part_membership.part.material_number
             @part_membership.serial_number = @part_membership.part.serial_number
 
+            # For Inventory parts
+            if @part_membership.job.present?
+                @part_membership.part.asset_on_job @part_membership.job
+            elsif @part_membership.shipment.present?
+                @part_membership.part.asset_shipping @part_membership.shipment
+            end
+        end
+
+        # For Rental parts
+        if @part_membership.part.present? && @part_membership.part_type == PartMembership::RENTAL
             if @part_membership.job.present?
                 @part_membership.part.asset_on_job @part_membership.job
             elsif @part_membership.shipment.present?
@@ -138,8 +170,12 @@ class PartMembershipsController < ApplicationController
                         Activity.delay.add(current_user, Activity::ASSET_REMOVED, nil, @part_membership.serial_number, @part_membership.job)
                     end
                 elsif @part_membership.shipment.present? && @part_membership.part.present?
-                    AssetActivity.delay.add(current_user, AssetActivity::DELETED_FROM_SHIPMENT, @part_membership.part, @part_membership.shipment)
-                    @part_membership.part.removed false
+                    if @part_membership.part.rental
+                        @part_membership.part.destroy
+                    else
+                        AssetActivity.delay.add(current_user, AssetActivity::DELETED_FROM_SHIPMENT, @part_membership.part, @part_membership.shipment)
+                        @part_membership.part.removed false
+                    end
                 end
             end
         end

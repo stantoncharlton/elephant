@@ -15,7 +15,8 @@ class PartMembership < ActiveRecord::Base
                     :up,
                     :down,
                     :from_name,
-                    :to_name
+                    :to_name,
+                    :asset_type
 
 
     require 'digest/md5'
@@ -46,6 +47,7 @@ class PartMembership < ActiveRecord::Base
     INVENTORY = 1
     RENTAL = 2
     ACCESSORY = 3
+    SALEABLE = 4
 
     def part_present_and_job
         !job_id.blank? && !self.part_id.blank?

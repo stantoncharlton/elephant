@@ -116,7 +116,7 @@ $('#shipment_to_select').change(function() {
     else if (current_value == "Supplier") {
         $('#to_suppliers').removeClass('hidden');
     }
-    else {
+    else if (current_value == "Job")  {
         $('#to_jobs').removeClass('hidden');
     }
     return false;

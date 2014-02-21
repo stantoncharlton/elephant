@@ -62,7 +62,7 @@
 
   <% job.inbound_shipments.each do |shipment| %>
       <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
-          <% shipment.part_memberships.includes(:part, :shipment, :job).order('name ASC').each do |pm| %>
+          <% shipment.part_memberships.where("part_memberships.to_id = ?", job.id).includes(:part, :shipment, :job).order('name ASC').each do |pm| %>
               <div class='inline-block align-top' style="opacity: 0.35;">
                 <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
               </div>

@@ -70,10 +70,10 @@
       <analyzer type="index">
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
-        <filter class="solr.NGramFilterFactory" minGramSize="2" maxGramSize="15"/>
+        <filter class="solr.NGramFilterFactory" minGramSize="0" maxGramSize="15"/>
         <filter class="solr.ISOLatin1AccentFilterFactory"/>
         <filter class="solr.TrimFilterFactory" />
-        <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="15"/>
+        <filter class="solr.EdgeNGramFilterFactory" minGramSize="0" maxGramSize="15"/>
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>

@@ -1,5 +1,5 @@
 <div id="shipment_<%= shipment.id %>">
-  <% in_job = true %>
+  <% part_memberships = shipment.part_memberships.to_a.sort_by { |pm| "#{pm.from_id} #{pm.to_id}" } %>
   <%= link_to (in_job ? edit_shipment_path(shipment, editable: editable) : shipment), remote: in_job, class: "job-link " + (in_job ? "show-modal-button" : "") do %>
       <div style="margin-top: 10px; margin-bottom: 10px;">
         <div class='pull-right'>
@@ -13,28 +13,14 @@
 
         </div>
         <div>
-          <% from = nil %>
-          <% to = nil %>
-          <% pms = shipment.part_memberships.to_a.sort_by { |pm| "#{pm.from_id} #{pm.to_id}" } %>
-          <% pms.each do |pm| %>
-              <% if from != pm.from || to != pm.to %>
-                  <div>
-                    <%= render 'shipments/path', part_membership: pm, use_link: false %>
-                  </div>
-              <% end %>
-              <% from = pm.from %>
-              <% to = pm.to %>
-          <% end %>
 
-          <% if from.nil? %>
-              <b><%= shipment.from_name %></b>
-              &nbsp;&nbsp;&nbsp;
-              <i class="icon-chevron-right"></i>
-              &nbsp;&nbsp;&nbsp;
-              <div class='inline-block'>
-                <b><%= shipment.to_name %></b>
-              </div>
-          <% end %>
+          <b><%= shipment.from_name %></b>
+          &nbsp;&nbsp;&nbsp;
+          <i class="icon-chevron-right"></i>
+          &nbsp;&nbsp;&nbsp;
+          <div class='inline-block'>
+            <b><%= shipment.to_name %></b>
+          </div>
         </div>
 
         <div>
@@ -48,7 +34,7 @@
 
 
 
-          <h3 class='inline-block blue-text push-right-small'><%= shipment.part_memberships.count %></h3>&nbsp;<span class='help-text'><%= "asset".pluralize(shipment.part_memberships.count) %></span>
+          <h3 class='inline-block blue-text push-right-small'><%= part_memberships.count %></h3>&nbsp;<span class='help-text'><%= "asset".pluralize(part_memberships.count) %></span>
 
           <span class='help-text push-right-small'><%= shipment.shipper.present? ? shipment.shipper.name : '' %></span>
         </div>
@@ -57,7 +43,7 @@
 
   <% if show_assets %>
       <div class='' style="margin-left: 10px;">
-        <% shipment.part_memberships.includes(:part, :shipment, :job).each do |pm| %>
+        <% part_memberships.each do |pm| %>
             <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
         <% end %>
       </div>

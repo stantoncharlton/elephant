@@ -21,8 +21,8 @@
 
         <% if part.current_shipment.present? %>
         <br>
-            <%= render 'shipments/shipment', shipment: part.current_shipment, editable: false, show_assets: true %>
-            <% if part.current_shipment.accepted_at.nil? && part.current_shipment.status == Shipment::IN_TRANSIT && part.current_shipment.to.present? && (part.current_shipment.to_type == Warehouse.name || part.current_shipment.to_type == Supplier.name) %>
+            <%= render 'shipments/shipment', shipment: part.current_shipment, editable: false, show_assets: true, in_job: true %>
+            <% if part.current_shipment.accepted_at.nil? && part.current_shipment.status == Shipment::IN_TRANSIT && (part.current_shipment.part_memberships.where("part_memberships.to_type != ?", Job.name).any?) %>
                 <%= link_to "Receive Shipment", shipment_path(part.current_shipment, update_field: true, field: "receive_shipment", value: part.current_shipment.id),
                             remote: true, :method => :put,
                             class: "bluebtn btnsmall green push-down receive-shipment-button" %>

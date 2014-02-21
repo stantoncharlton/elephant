@@ -1,36 +1,46 @@
 <div>
   <% if part_membership.part_type == PartMembership::RENTAL %>
-      <b class='warning-text'>RENTAL</b>
+      <b class='blue-text'>RENTAL
+        <% if part_membership.part.present? && part_membership.part.supplier.present? %>
+            - <%= part_membership.part.supplier.name %>
+        <% end %>
+      </b>
   <% end %>
-  <% if part_membership.part_type == PartMembership::ACCESSORY %>
-      <b class=''>DUMB IRON</b>
+  <% if part_membership.part_type == PartMembership::SALEABLE %>
+      <b class='blue-text'>SALEABLE</b>
   <% end %>
-
-  <% if !part_membership.serial_number.blank? %>
-      <p><span class='inline-block list-item-column-short'>Serial #</span><b><%= part_membership.serial_number %></b>
-      </p>
-  <% end %>
-  <% if !part_membership.material_number.blank? %>
-      <p>
-        <span class='inline-block list-item-column-short'>Material #</span><b><%= part_membership.material_number %></b>
-      </p>
+  <% if part_membership.part_type == PartMembership::INVENTORY %>
+      <b class='blue-text'>INVENTORY</b>
   <% end %>
 
-  <p>
-    <span class='inline-block list-item-column-short'>ID</span><b><%= part_membership.inner_diameter.present? ? part_membership.inner_diameter : '-' %></b>
+  <p style='font-size: 11px; font-family: gothambookregular;'>
+    <% if part_membership.part.present? && !part_membership.part.manufacturer.blank? %>
+        <span class='inline-block help-text'>Manufacturer</span>&nbsp;&nbsp;<b><%= part_membership.part.manufacturer %></b>
+        <br>
+    <% end %>
+    <% if !part_membership.serial_number.blank? %>
+        <span class='inline-block help-text'>Serial</span>&nbsp;&nbsp;<b class='blue-text' style='font-family: gothamboldregular; font-size: 12px;'><%= part_membership.serial_number %></b>
+    <% end %>
+    <% if !part_membership.material_number.blank? %>
+        <span class='inline-block help-text push-right-small'>Material</span>&nbsp;&nbsp;<b><%= part_membership.material_number %></b>
+    <% end %>
   </p>
 
-  <p>
-    <span class='inline-block list-item-column-short'>OD</span><b><%= part_membership.outer_diameter.present? ? part_membership.outer_diameter : '-' %></b>
+  <p style='font-size: 11px; font-family: gothambookregular;'>
+    <span class='inline-block help-text'>ID</span>&nbsp;&nbsp;<b><%= part_membership.inner_diameter.present? ? part_membership.inner_diameter : '-' %></b>
+    <span class='inline-block help-text push-right-small'>OD</span>&nbsp;&nbsp;<b><%= part_membership.outer_diameter.present? ? part_membership.outer_diameter : '-' %></b>
+    <span class='inline-block help-text push-right-small'>Length</span>&nbsp;&nbsp;<b><%= part_membership.length.present? ? part_membership.length : '-' %></b>
   </p>
 
-  <p>
-    <span class='inline-block list-item-column-short'>Length</span><b><%= part_membership.length.present? ? part_membership.length : '-' %></b>
-  </p>
+  <% if (part_membership.part_type == PartMembership::INVENTORY || part_membership.part_type == PartMembership::RENTAL) && part_membership.part.present? %>
+      <div>
+        <b class='' style='font-size: 11px;'><%= part_membership.part.status_string %></b>
+      </div>
+  <% end %>
 
   <div class='push-down-small'>
     <% if part_membership.present? %>
-        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button2'>Change
+        <a href='/part_memberships/<%= part_membership.id %>/edit' data-remote='true' class='inline-block activity-user-link align-top show-modal-button2' style='font-size: 12px; font-family: gothammediumregular; color: gray;'>Change
           Attributes</a>
         <% if (part_membership.shipment.present? || (part_membership.job.present? && !part_membership.job.closed)) && allow_remove %>
             |
@@ -44,6 +54,7 @@
                data-confirm='Remove <%= part_membership.name %> from Shipment?'
                rel='nofollow'
                class='activity-user-link tooltip-info align-top'
+               style='font-size: 12px; font-family: gothammediumregular; color: gray;'
                data-placement='bottom'
                data-title='Remove from Shipment'>Remove</a>
         <% else %>
@@ -53,48 +64,12 @@
                data-confirm='Remove <%= part_membership.name %> from Job? This will cause it to be removed from any BHA it currently resides on.'
                rel='nofollow'
                class='activity-user-link tooltip-info align-top'
+               style='font-size: 12px; font-family: gothammediumregular; color: gray;'
                data-placement='bottom'
                data-title='Remove from Job'>Remove</a>
         <% end %>
     <% end %>
 
-    <% if false %>
-        <% if part_membership.present? && part_membership.part.present? && (part_membership.part.status == Part::ON_JOB || part_membership.part.status == Part::SHIPPING) && part_membership.present? && part_membership.part.present? && part_membership.part.current_job == part_membership.job %>
-            <div>
-              <% if !part_membership.shipping? %>
-                  <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=true' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='btn btn-danger white-text part-working'>Ship
-                    To Shop</a>
-              <% else %>
-                  <b class='warning-text'>Shipping to Shop</b>&nbsp;
-                  <a href='/part_memberships/<%= part_membership.id %>?shipping=true&value=false' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='activity-user-link part-working'>undo</a>
-              <% end %>
-            </div>
-        <% end %>
-    <% end %>
   </div>
 
-  <% if false %>
-      <% if current_user.role.access_to_inventory? && part_membership.present? && part_membership.part.present? && part_membership.part.status == Part::SHIPPING %>
-          <div class='btn-group inline-block'>
-            <a class='btn btn-danger white-text tooltip-info  align-top' data-toggle='dropdown' href='#' data-placement='top' data-title='Receive Asset at Warehouse'>
-              Receive at Warehouse
-            </a>
-            <ul class='dropdown-menu' style='top: auto;bottom: 100%;'>
-              <% warehouses = part_membership.part.district.warehouses %>
-              <% if warehouses.any? %>
-                  <% warehouses.each do |w| %>
-                      <li>
-                        <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=<%= w.id %>' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'><%= w.name %></a>
-                      </li>
-                  <% end %>
-              <% else %>
-                  <li>
-                    <a href='/part_memberships/<%= part_membership.id %>?receiving=true&value=0' data-remote='true' data-method='put' data-id='<%= part_membership.id %>' class='dropdown-menu-link part-working'>Receive
-                      Asset</a>
-                  </li>
-              <% end %>
-            </ul>
-          </div>
-      <% end %>
-  <% end %>
 </div>

@@ -3,6 +3,7 @@
 <% editable = @shipment.status != Shipment::COMPLETE %>
 
 
+<% shipment_assets = shipment.part_memberships.to_a %>
 
 <div>
   <div class="form" data-form="new_shipment">
@@ -29,17 +30,29 @@
     </div>
 
     <% if editable && shipment.from_editable %>
-        <%= render 'part_memberships/new_shipment', shipment: shipment, allow_inventory: true %>
+        <div id="shipment_new" class="<%= shipment_assets.any? ? "hidden" : "" %>">
+          <%= render 'part_memberships/new_shipment', shipment: shipment, allow_inventory: true %>
+        </div>
+        <% if shipment_assets.any? %>
+            <a id='show_shipment_add' href='#' class='bluebtn'>Add Asset</a>
+        <% end %>
     <% else %>
-        <br>
     <% end %>
 
 
     <%= form_for shipment do |f| %>
 
-        <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
+        <% if !shipment.from_editable %>
+            <div class='inline-block align-top push-down'>
+              <% if  shipment.user.present? %>
+                  <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
+                  <%= render 'activities/user', user: shipment.user %>
+              <% end %>
+            </div>
+        <% end %>
+
+        <% if false && !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
             <div class="job-shipment-list">
-              <% shipment_assets = shipment.part_memberships.to_a %>
               <% shipment.from.part_memberships.each do |pm| %>
                   <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
                   <% if found || !pm.shipping %>
@@ -74,35 +87,52 @@
 
           <% if shipment.status != Shipment::COMPLETE %>
 
+              <%= hidden_field_tag "commit", "" %>
+
               <div class='pull-right'>
-                <%= link_to "Cancel", shipment_path(shipment), method: :put,
+                <%= link_to "Delete", shipment,
+                            method: :delete,
+                            data: {confirm: "Permanently Delete Shipment?"},
                             class: "bluebtn gray form-loading-on-click",
                             style: "margin-right: 15px;",
                             "data-form" => "new_shipment" %>
 
                 <%= f.submit "Save",
-                            class: "bluebtn form-loading-on-click",
-                            style: "margin-right: 15px;",
-                            "data-form" => "new_shipment" %>
+                             "data-commit" => "save",
+                             class: "bluebtn set-commit form-loading-on-click",
+                             style: "margin-right: 15px;",
+                             "data-form" => "new_shipment" %>
 
-                <%= f.submit "Send Shipment",
-                            class: "bluebtn green  form-loading-on-click",
-                            "data-form" => "new_shipment" %>
+                <% if shipment.status == Shipment::IN_TRANSIT && shipment_assets.select { |pm| pm.to_type != Job.name }.any? %>
+                    <%= f.submit "Receive Shipment",
+                                 "data-commit" => "receive",
+                                 class: "bluebtn green set-commit form-loading-on-click",
+                                 "data-form" => "new_shipment" %>
+                <% end %>
+                <% if shipment.status != Shipment::IN_TRANSIT %>
+                    <%= f.submit "Send Shipment",
+                                 "data-commit" => "send",
+                                 class: "bluebtn green set-commit form-loading-on-click",
+                                 "data-form" => "new_shipment" %>
+                <% end %>
               </div>
           <% end %>
 
           <div style="margin-left: -10px;">
-            <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-
             <div class='inline-block align-top push-down'>
               <b>Shipper</b>
             </div>
             &nbsp;
-            <div class='inline-block'>
-              <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
-                             placeholder: "Shipper",
-                             class: "custom-select" %>
-            </div>
+            <% if shipment.from_editable && ship.status != Shipment::COMPLETE %>
+                <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+                <div class='inline-block'>
+                  <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
+                                 placeholder: "Shipper",
+                                 class: "custom-select" %>
+                </div>
+            <% else %>
+                <div class='inline-block align-top push-down'><%= shipment.shipper.present? ? shipment.shipper.name : '-' %></div>
+            <% end %>
 
           </div>
 
@@ -119,6 +149,47 @@
 </div>
 
 
+
+<div id="modal_popup2" class="modal-popup-background">
+  <div class="modal-popup modal-popup-fixed">
+    <%= link_to "close", "#", class: "delete-button modal-popup-close", id: "close_modal2" %>
+    <div class="modal-content">
+    </div>
+    <%= render "layouts/inline_loading", title: "Loading..." %>
+  </div>
+</div>
+
 <script type='text/javascript'>
     $('.custom-select-ajax').customSelect();
+
+    $('#show_shipment_add').click(function () {
+        $(this).addClass('hidden');
+        $('#shipment_new').removeClass("hidden");
+    });
+    $('.set-commit').click(function () {
+        $('#commit').val($(this).attr('data-commit'));
+    });
+
+</script>
+
+<script type='text/javascript'>
+    (function ($) {
+        $(document).ready(function () {
+            var oldHide = $.fn.popover.Constructor.prototype.hide;
+
+            $.fn.popover.Constructor.prototype.hide = function () {
+                if (this.options.trigger === "hover" && this.tip().is(":hover")) {
+                    var that = this;
+                    // try again after what would have been the delay
+                    setTimeout(function () {
+                        return that.hide.call(that, arguments);
+                    }, that.options.delay.hide);
+                    return;
+                }
+                oldHide.call(this, arguments);
+            };
+
+            $('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
+        });
+    }(jQuery));
 </script>

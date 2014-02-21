@@ -238,7 +238,7 @@ class DrillingLog < ActiveRecord::Base
             last_bha = nil
 
             entries.each do |entry|
-                if entry.activity_code == DrillingLogEntry::POOH
+                if entry.activity_code == DrillingLogEntry::POOH || entry.activity_code == DrillingLogEntry::LD_DP
                     pooh = true
                     last_bha = entry.bha
                 end
@@ -277,7 +277,7 @@ class DrillingLog < ActiveRecord::Base
 
         if entries.any?
             entries.each do |entry|
-                if entry.activity_code == DrillingLogEntry::POOH
+                if entry.activity_code == DrillingLogEntry::POOH || entry.activity_code == DrillingLogEntry::LD_DP
                     pooh = true
                     last_bha = entry.bha
                 end

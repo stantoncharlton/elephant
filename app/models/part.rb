@@ -16,17 +16,19 @@ class Part < ActiveRecord::Base
                     :manufacturer,
                     :category,
                     :max_hours,
-                    :weight
+                    :weight,
+                    :asset_type,
+                    :rental
 
     acts_as_tenant(:company)
 
     validates_presence_of :company
-    validates_presence_of :material_number
+    validates_presence_of :material_number, :if => :not_rental
     validates_uniqueness_of :material_number, :case_sensitive => false, scope: [:company_id, :district_id], :if => :template
-    validates_uniqueness_of :serial_number, :case_sensitive => false, scope: :company_id, :if => :not_template
-    validates_presence_of :serial_number, :if => :not_template
-    validates_presence_of :name, :if => :template
-    validates_presence_of :master_part, :if => :not_template
+    validates_uniqueness_of :serial_number, :case_sensitive => false, scope: :company_id, :if => :not_template_not_rental
+    validates_presence_of :serial_number, :if => :not_template_or_rental
+    validates_presence_of :name, :if => :template_or_rental
+    validates_presence_of :master_part, :if => :not_template_not_rental
 
 
     belongs_to :company
@@ -36,6 +38,7 @@ class Part < ActiveRecord::Base
     belongs_to :master_part, class_name: "Part"
     belongs_to :primary_tool
     belongs_to :warehouse
+    belongs_to :supplier
 
     has_many :parts, foreign_key: "master_part_id", order: "serial_number ASC"
 
@@ -86,6 +89,22 @@ class Part < ActiveRecord::Base
 
     def not_template
         !self.template?
+    end
+
+    def not_rental
+        !self.rental
+    end
+
+    def template_or_rental
+        self.template || self.rental
+    end
+
+    def not_template_not_rental
+        !self.template && !self.rental
+    end
+
+    def not_template_or_rental
+        !self.template || self.rental
     end
 
     def self.from_company(company)

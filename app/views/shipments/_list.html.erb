@@ -1,216 +1,229 @@
 <div style="margin-top: -40px;">
 <div class="form" data-form="new_shipment">
 
-  <div class="page_header">
-    <% if !new && editable %>
-        <%= link_to "Delete Shipment", shipment,
-                    method: :delete, remote: true,
-                    data: {confirm: "Permanently Delete Shipment?"},
-                    class: "activity-user-link push-right-small pull-right form-loading-on-click",
-                    "data-form" => "new_shipment" %>
-    <% end %>
-    <% if !shipment.from_editable && shipment.status != Shipment::COMPLETE %>
-        <%= link_to "Deselect All", "#",
-                    id: "deselect_all",
-                    class: "activity-user-link pull-right" %>
-        <%= link_to "Select All", "#",
-                    id: "select_all",
-                    class: "activity-user-link pull-right hidden" %>
-    <% end %>
-    <h1 class='inline-block'>Shipment</h1>
-    <% if shipment.status == Shipment::IN_TRANSIT %>
-        <h3 class='inline-block warning-text'>In Transit</h3>
-    <% elsif shipment.status == Shipment::AWAITING_SHIPMENT %>
-        <h3 class='inline-block warning-text'>Not Yet Shipped</h3>
-    <% else %>
-        <h3 class='inline-block good-text'>Completed</h3>
-    <% end %>
-    <b class='push-right-small help-text'>
-      created
-      <% if shipment.status != Shipment::COMPLETE %>
-          <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
-      <% else %>
-          <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
-      <% end %>
-    </b>
-  </div>
-
-  <% if editable && shipment.from_editable %>
-      <%= render 'part_memberships/new', shipment: shipment, allow_inventory: true %>
-  <% else %>
-      <br>
+<div class="page_header">
+  <% if !new && editable %>
+      <%= link_to "Delete Shipment", shipment,
+                  method: :delete, remote: true,
+                  data: {confirm: "Permanently Delete Shipment?"},
+                  class: "activity-user-link push-right-small pull-right form-loading-on-click",
+                  "data-form" => "new_shipment" %>
   <% end %>
+  <% if !shipment.from_editable && shipment.status != Shipment::COMPLETE %>
+      <%= link_to "Deselect All", "#",
+                  id: "deselect_all",
+                  class: "activity-user-link pull-right" %>
+      <%= link_to "Select All", "#",
+                  id: "select_all",
+                  class: "activity-user-link pull-right hidden" %>
+  <% end %>
+  <h1 class='inline-block'>Shipment</h1>
+  <% if shipment.status == Shipment::IN_TRANSIT %>
+      <h3 class='inline-block warning-text'>In Transit</h3>
+  <% elsif shipment.status == Shipment::CREATING %>
+      <h3 class='inline-block warning-text'>Not Yet Shipped</h3>
+  <% else %>
+      <h3 class='inline-block good-text'>Completed</h3>
+  <% end %>
+  <b class='push-right-small help-text'>
+    created
+    <% if shipment.status != Shipment::COMPLETE %>
+        <span><%= time_ago_in_words(shipment.created_at) %> ago</span>
+    <% else %>
+        <span><%= shipment.created_at.strftime("%a %m/%d/%Y") %></span>
+    <% end %>
+  </b>
+</div>
+
+<% if editable && shipment.from_editable %>
+    <%= render 'part_memberships/new', shipment: shipment, allow_inventory: true %>
+<% else %>
+    <br>
+<% end %>
 
 
-  <%= form_for shipment, remote: true do |f| %>
+<%= form_for shipment, remote: true do |f| %>
 
-      <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
-          <div class="job-shipment-list">
-            <% shipment_assets = shipment.part_memberships.to_a %>
-            <% shipment.from.part_memberships.each do |pm| %>
-                <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
-                <% if found || !pm.shipping %>
-                    <div class='inline-block'>
-                      <% if shipment_assets.any? %>
-                          <%= check_box_tag "pm_#{pm.id}", "true",
-                                            (found ? true : false),
-                                            name: "[pm][pm_#{pm.id}]",
-                                            class: "shipment_checkbox" %>
-                      <% else %>
-                          <%= check_box_tag "pm_#{pm.id}", "true",
-                                            true,
-                                            name: "[pm][pm_#{pm.id}]",
-                                            class: "shipment_checkbox" %>
-                      <% end %>
-                      <div class='inline-block align-top' style="<%= found || shipment_assets.empty? ? "" : "opacity: 0.3;" %>">
-                        <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
-                      </div>
+    <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
+        <div class="job-shipment-list">
+          <% shipment_assets = shipment.part_memberships.to_a %>
+          <% shipment.from.part_memberships.each do |pm| %>
+              <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
+              <% if found || !pm.shipping %>
+                  <div class='inline-block'>
+                    <% if shipment_assets.any? %>
+                        <%= check_box_tag "pm_#{pm.id}", "true",
+                                          (found ? true : false),
+                                          name: "[pm][pm_#{pm.id}]",
+                                          class: "shipment_checkbox" %>
+                    <% else %>
+                        <%= check_box_tag "pm_#{pm.id}", "true",
+                                          true,
+                                          name: "[pm][pm_#{pm.id}]",
+                                          class: "shipment_checkbox" %>
+                    <% end %>
+                    <div class='inline-block align-top' style="<%= found || shipment_assets.empty? ? "" : "opacity: 0.3;" %>">
+                      <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
                     </div>
-                <% end %>
-            <% end %>
-          </div>
-      <% else %>
-          <div id="asset_list" class="job-shipment-list">
-            <% shipment.part_memberships.each do |pm| %>
-                <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
-            <% end %>
-          </div>
-
-          <% if !shipment.part_memberships.any? %>
-              <div id="no_assets" class='push-down center'>
-                <br><br>
-                <span class='help-text'>No assets added...</span>
-                <br><br>
-              </div>
+                  </div>
+              <% end %>
           <% end %>
+        </div>
+    <% else %>
+        <div id="asset_list" class="job-shipment-list">
+          <% shipment.part_memberships.each do |pm| %>
+              <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: editable %>
+          <% end %>
+        </div>
+
+        <% if !shipment.part_memberships.any? %>
+            <div id="no_assets" class='push-down center'>
+              <br><br>
+              <span class='help-text'>No assets added...</span>
+              <br><br>
+            </div>
+        <% end %>
+    <% end %>
+
+
+    <hr>
+
+
+    <div class="content">
+
+      <% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
+      <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+      <% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+      <% if !shipment.from_editable %>
+          <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
+      <% end %>
+      <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
+
+
+      <% if shipment.status != Shipment::COMPLETE %>
+          <%= f.submit "Send",
+                       class: "bluebtn green push-right-small pull-right form-loading-on-click save-button",
+                       "data-form" => "new_shipment" %>
       <% end %>
 
+      <div style="margin-left: -10px;">
+        <% if shipment.from.present? && shipment.to.present? %>
+            <div id="from_to_links" class='inline-block from_to_show align-top' style="margin-top: 10px;">
+              <div class='inline-block'>
+                <div class='inline-block align-top push-up-small'>
+                  <% if  shipment.user.present? %>
+                      <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
+                  <% end %>
+                </div>
+                &nbsp;
+                <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
+                &nbsp;&nbsp;&nbsp;
+                <i class="icon-chevron-right align-top"></i>
+                &nbsp;&nbsp;&nbsp;
+                <div class='inline-block align-top push-up-small'>
+                  <% if  shipment.accepted_by.present? %>
+                      <%= render 'users/user_icon', user: shipment.accepted_by, use_name: false, use_link: true %>
+                  <% end %>
+                </div>
+                &nbsp;
+                <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.to_name %></b>
+              </div>
 
-      <hr>
-
-
-      <div class="content">
-
-        <% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
-        <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-        <% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-        <% if !shipment.from_editable %>
-            <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
+              <% if editable %>
+                  <a id="edit_shipment" class="inline-block push-right empty-link align-top" href="#"><i class="icon-edit"></i>&nbsp;edit</a>
+              <% end %>
+            </div>
         <% end %>
-        <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
+
+        <% if editable %>
+            <div id="from_to_edit" class="<%= shipment.from.present? && shipment.to.present? ? "hidden" : "" %>">
+              <% if shipment.from_editable %>
+
+                  <div class='inline-block'>
+                    <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
+                                 {}, style: "width: 100px !important;",
+                                 id: "shipment_from_select",
+                                 class: "custom-select" %>
 
 
-        <% if shipment.status != Shipment::COMPLETE %>
-            <%= f.submit "Save",
-                         class: "bluebtn push-right-small pull-right form-loading-on-click save-button",
-                         "data-form" => "new_shipment" %>
-        <% end %>
+                    <div id="from_warehouses" class='inline-block'>
+                      <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
+                                     placeholder: "Select from..",
+                                     class: "custom-select" %>
+                    </div>
 
-        <div style="margin-left: -10px;">
-          <% if shipment.from.present? && shipment.to.present? %>
-              <div id="from_to_links" class='inline-block from_to_show align-top' style="margin-top: 10px;">
-                <div class='inline-block'>
-                  <div class='inline-block align-top push-up-small'>
+                    <div id="from_suppliers" class='inline-block hidden'>
+                      <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
+                                     placeholder: "Select from..",
+                                     class: "custom-select" %>
+                    </div>
+
+                    <div id="from_jobs" class='inline-block hidden'>
+                      <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
+                                     class: "custom-select",
+                                     placeholder: "Select from.." %>
+                    </div>
+                  </div>
+              <% else %>
+                  <div class='inline-block align-top push-down'>
                     <% if  shipment.user.present? %>
                         <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
                     <% end %>
                   </div>
                   &nbsp;
-                  <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
-                  &nbsp;&nbsp;&nbsp;
-                  <i class="icon-chevron-right align-top"></i>
-                  &nbsp;&nbsp;&nbsp;
-                  <div class='inline-block align-top push-up-small'>
-                    <% if  shipment.accepted_by.present? %>
-                        <%= render 'users/user_icon', user: shipment.accepted_by, use_name: false, use_link: true %>
-                    <% end %>
+                  <div class='inline-block align-top push-down'>
+                    <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
                   </div>
-                  &nbsp;
-                  <b><%= link_to shipment.to_name, shipment.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.to_name %></b>
-                </div>
+              <% end %>
 
-                <% if editable %>
-                    <a id="edit_shipment" class="inline-block push-right empty-link align-top" href="#"><i class="icon-edit"></i>&nbsp;edit</a>
-                <% end %>
+              &nbsp;
+              <div class='inline-block align-top push-down'>
+                <i class="icon-chevron-right"></i>
               </div>
-          <% end %>
-          <% if editable %>
-              <div id="from_to_edit" class="<%= shipment.from.present? && shipment.to.present? ? "hidden" : "" %>">
-                <% if shipment.from_editable %>
-
-                    <div class='inline-block'>
-                      <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
-                                   {}, style: "width: 100px !important;",
-                                   id: "shipment_from_select",
-                                   class: "custom-select" %>
+              &nbsp;
 
 
-                      <div id="from_warehouses" class='inline-block'>
-                        <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
-                                       placeholder: "Select from..",
-                                       class: "custom-select" %>
-                      </div>
+              <div class='inline-block'>
+                <%= f.select :to_type, options_for_select([["Home", "Home"], ["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : "Home"),
+                             {}, style: "width: 100px !important;",
+                             id: "shipment_to_select",
+                             class: "custom-select" %>
 
-                      <div id="from_suppliers" class='inline-block hidden'>
-                        <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
-                                       placeholder: "Select from..",
-                                       class: "custom-select" %>
-                      </div>
-
-                      <div id="from_jobs" class='inline-block hidden'>
-                        <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
-                                       class: "custom-select",
-                                       placeholder: "Select from.." %>
-                      </div>
-                    </div>
-                <% else %>
-                    <div class='inline-block align-top push-down-small'>
-                      <% if  shipment.user.present? %>
-                          <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
-                      <% end %>
-                    </div>
-                    &nbsp;
-                    <div class='inline-block align-top push-down'>
-                      <b><%= link_to shipment.from_name, shipment.from, class: "activity-user-link shipment-name tooltip-info", "data-title" => shipment.from_name %></b>
-                    </div>
-                <% end %>
-
-                &nbsp;
-                <div class='inline-block align-top push-down'>
-                  <i class="icon-chevron-right"></i>
+                <div id="to_warehouses" class='inline-block hidden'>
+                  <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
+                                 placeholder: "Select to..",
+                                 class: "custom-select" %>
                 </div>
-                &nbsp;
 
-                <div class='inline-block'>
-                  <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
-                               {}, style: "width: 100px !important;",
-                               id: "shipment_to_select",
-                               class: "custom-select" %>
+                <div id="to_suppliers" class='inline-block hidden'>
+                  <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
+                                 placeholder: "Select to..",
+                                 class: "custom-select" %>
+                </div>
 
-                  <div id="to_warehouses" class='inline-block hidden'>
-                    <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
-                                   placeholder: "Select to..",
-                                   class: "custom-select" %>
-                  </div>
-
-                  <div id="to_suppliers" class='inline-block hidden'>
-                    <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
-                                   placeholder: "Select to..",
-                                   class: "custom-select" %>
-                  </div>
-
-                  <div id="to_jobs" class='inline-block'>
-                    <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
-                                   class: "custom-select",
-                                   placeholder: "Select to.." %>
-                  </div>
+                <div id="to_jobs" class='inline-block hidden'>
+                  <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
+                                 class: "custom-select",
+                                 placeholder: "Select to.." %>
                 </div>
               </div>
-          <% end %>
+            </div>
+        <% end %>
+
+        <div class='pull-left' style="margin-left: 310px; margin-bottom: -10px;">
+          <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+          <div class='inline-block'>
+            <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
+                           placeholder: "Shipper",
+                           class: "custom-select" %>
+          </div>
+          <p class='inline-block help-text align-top push-down'>&nbsp;&nbsp;shipper</p>
+
         </div>
-
       </div>
-  <% end %>
+
+    </div>
+<% end %>
 
 </div>
 

@@ -144,31 +144,6 @@
                             "data-title" => "Permanently delete asset." %>
               </li>
           <% end %>
-
-          <% if @part.warehouse.present? %>
-              <% warehouses = current_user.role.limit_to_assigned_jobs? ? current_user.warehouses : @part.warehouse.district.warehouses %>
-              <% if warehouses.count > 1 %>
-                  <li class="divider"></li>
-                  <li>
-                    <div>
-                      <b class='blue-text push-right-small'>Transfer To</b>
-                    </div>
-                  </li>
-                  <% warehouses.each do |warehouse| %>
-                      <% if warehouse != @part.warehouse %>
-                          <li>
-                            <%= link_to warehouse.name, part_path(@part, transfer_warehouse: true, warehouse: warehouse),
-                                        method: :put,
-                                        class: "dropdown-menu-link tooltip-info",
-                                        "data-placement" => "left",
-                                        "data-title" => "Transfer to warehouse." %>
-                          </li>
-                      <% end %>
-                  <% end %>
-              <% end %>
-          <% end %>
-
-
         </ul>
       </div>
 
@@ -406,6 +381,28 @@
                 return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
                         "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<p class='job-user-district pull-right help-text'>" + item.material_number + "</p>" : "") + (item.id > 0 ? "<div>" + (item.serial_number != null ? ("<p class='job-user-title'><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b>" + (item.district_serial_number != '' ? " / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b>" : "") + "</p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "</div>" : "") + "</div><div style='margin: 0px;" + (item.id == -1 ? '' : "margin-left: 31px; margin-top: -5px;") + "'>" + item.status + "</div></div></a>").appendTo(ul)
             }
+        });
+    }(jQuery));
+</script>
+
+<script type='text/javascript'>
+    (function ($) {
+        $(document).ready(function () {
+            var oldHide = $.fn.popover.Constructor.prototype.hide;
+
+            $.fn.popover.Constructor.prototype.hide = function () {
+                if (this.options.trigger === "hover" && this.tip().is(":hover")) {
+                    var that = this;
+                    // try again after what would have been the delay
+                    setTimeout(function () {
+                        return that.hide.call(that, arguments);
+                    }, that.options.delay.hide);
+                    return;
+                }
+                oldHide.call(this, arguments);
+            };
+
+            $('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
         });
     }(jQuery));
 </script>

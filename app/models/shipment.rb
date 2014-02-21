@@ -41,43 +41,41 @@ class Shipment < ActiveRecord::Base
             shipment.accepted_by = user
             shipment.accepted_at = Time.zone.now
 
-            if shipment.to.present?
-                shipment.part_memberships.each do |pm|
+            shipment.part_memberships.each do |pm|
 
-                    pm.update_attribute(:received, true)
+                pm.update_attribute(:received, true)
 
-                    case shipment.to_type
-                        when Job.name
-                            part_membership = pm.duplicate
-                            part_membership.job = shipment.to
-                            part_membership.job_part_membership = pm
-                            part_membership.shipment = shipment
-                            part_membership.save
+                case pm.to_type
+                    when Job.name
+                        part_membership = pm.duplicate
+                        part_membership.job = pm.to
+                        part_membership.job_part_membership = pm
+                        part_membership.shipment = shipment
+                        part_membership.save
 
-                            if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
-                                part_membership.part.status = Part::ON_JOB
-                                part_membership.part.current_job = shipment.to
-                                part_membership.part.save
-                                AssetActivity.delay.add(user, AssetActivity::RECEIVED_AT_JOB, part_membership.part, shipment.to)
-                            end
-                        when Warehouse.name
-                            if pm.part_type == PartMembership::INVENTORY && pm.part.present?
-                                pm.part.status = Part::AVAILABLE
-                                pm.part.current_job = nil
-                                pm.part.warehouse = shipment.to
-                                pm.part.save
-                                AssetActivity.delay.add(user, AssetActivity::RECEIVED_AT_WAREHOUSE, pm.part, shipment.to)
-                            end
-                        when Supplier.name
-                            if pm.part_type == PartMembership::INVENTORY && pm.part.present?
-                                pm.part.status = Part::AVAILABLE
-                                pm.part.current_job = nil
-                                pm.part.save
-                            end
-                    end
-
-
+                        if part_membership.part.present?
+                            part_membership.part.status = Part::ON_JOB
+                            part_membership.part.current_job = pm.to
+                            part_membership.part.save
+                            AssetActivity.delay.add(user, AssetActivity::RECEIVED_AT_JOB, part_membership.part, pm.to)
+                        end
+                    when Warehouse.name
+                        if pm.part.present?
+                            pm.part.status = Part::AVAILABLE
+                            pm.part.current_job = nil
+                            pm.part.warehouse = pm.to
+                            pm.part.save
+                            AssetActivity.delay.add(user, AssetActivity::RECEIVED_AT_WAREHOUSE, pm.part, pm.to)
+                        end
+                    when Supplier.name
+                        if pm.part.present?
+                            pm.part.status = Part::AVAILABLE
+                            pm.part.current_job = nil
+                            pm.part.save
+                        end
                 end
+
+
             end
 
             shipment.save

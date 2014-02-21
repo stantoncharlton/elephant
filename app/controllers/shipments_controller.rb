@@ -72,43 +72,15 @@ class ShipmentsController < ApplicationController
                         end
                 end
             else
-
-                if params[:shipment].present?
-                    from_type = params[:shipment][:from_type]
-                    to_type = params[:shipment][:to_type]
-
-                    case from_type
-                        when Warehouse.name
-                            @shipment.from = Warehouse.find_by_id(params[:from_id_warehouse])
-                            @shipment.from_name = @shipment.from.present? ? @shipment.from.name : ""
-                        when Supplier.name
-                            @shipment.from = Supplier.find_by_id(params[:from_id_supplier])
-                            @shipment.from_name = @shipment.from.present? ? @shipment.from.name : ""
-                        when Job.name
-                            @shipment.from = Job.find_by_id(params[:from_id_job])
-                            @shipment.from_name = @shipment.from.present? ? (@shipment.from.well.rig.present? ? @shipment.from.well.rig.name + " - " : "") + @shipment.from.field.name + " | " + @shipment.from.well.name : ""
-                    end
-
-                    case to_type
-                        when Warehouse.name
-                            @shipment.to = Warehouse.find_by_id(params[:to_id_warehouse])
-                            @shipment.to_name = @shipment.to.present? ? @shipment.to.name : ""
-                        when Supplier.name
-                            @shipment.to = Supplier.find_by_id(params[:to_id_supplier])
-                            @shipment.to_name = @shipment.to.present? ? @shipment.to.name : ""
-                        when Job.name
-                            @shipment.to = Job.find_by_id(params[:to_id_job])
-                            @shipment.to_name = @shipment.to.present? ? (@shipment.to.well.rig.present? ? @shipment.to.well.rig.name + " - " : "") + @shipment.to.field.name + " | " + @shipment.to.well.name : ""
-                    end
-                end
+                part_memberships = @shipment.part_memberships
 
                 if !@shipment.from_editable
-                    @shipment.part_memberships.each do |pm|
+                    part_memberships.each do |pm|
                         if pm.job_part_membership.present?
                             pm.job_part_membership.update_attribute(:shipping, false)
                         end
                         pm.destroy
-                        if pm.part_type == PartMembership::INVENTORY && pm.part.present?
+                        if pm.part.present?
                             pm.part.removed false
                         end
                     end
@@ -123,7 +95,7 @@ class ShipmentsController < ApplicationController
                                 part_membership.shipment = @shipment
                                 part_membership.save
                                 pm.update_attribute(:shipping, true)
-                                if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+                                if part_membership.part.present?
                                     part_membership.part.asset_shipping @shipment
                                     AssetActivity.delay.add(current_user, AssetActivity::ADDED_TO_SHIPMENT, part_membership.part, @shipment)
                                 end
@@ -135,10 +107,107 @@ class ShipmentsController < ApplicationController
                     end
                 end
 
-                @shipment.status = Shipment::IN_TRANSIT
+                @shipment = Shipment.find_by_id(@shipment.id)
+                part_memberships = @shipment.part_memberships
+
+                if params[:shipment].present?
+                    from_type = params[:shipment][:from_type]
+                    to_type = params[:shipment][:to_type]
+
+                    inbound_part_memberships = []
+                    if from_type == Job.name || @shipment.from.present?
+                        job = params[:from_id_job].present? ? Job.find_by_id(params[:from_id_job]) : @shipment.from
+                        inbound_part_memberships = job.inbound_shipments_part_memberships.to_a
+                    end
+
+                    part_memberships.each do |pm|
+                        if @shipment.from.present?
+                            pm.from = @shipment.from
+                            pm.from_name = @shipment.from_name
+                        end
+                        case from_type
+                            when Warehouse.name
+                                pm.from = Warehouse.find_by_id(params[:from_id_warehouse])
+                                pm.from_name = pm.from.present? ? pm.from.name : ""
+                            when Supplier.name
+                                pm.from = Supplier.find_by_id(params[:from_id_supplier])
+                                pm.from_name = pm.from.present? ? pm.from.name : ""
+                            when Job.name
+                                pm.from = Job.find_by_id(params[:from_id_job])
+                                pm.from_name = pm.from.present? ? (pm.from.well.rig.present? ? pm.from.well.rig.name + " - " : "") + pm.from.field.name + " | " + pm.from.well.name : ""
+                        end
+
+                        case to_type
+                            when Warehouse.name
+                                pm.to = Warehouse.find_by_id(params[:to_id_warehouse])
+                                pm.to_name = pm.to.present? ? pm.to.name : ""
+                            when Supplier.name
+                                pm.to = Supplier.find_by_id(params[:to_id_supplier])
+                                pm.to_name = pm.to.present? ? pm.to.name : ""
+                            when Job.name
+                                pm.to = Job.find_by_id(params[:to_id_job])
+                                pm.to_name = pm.to.present? ? (pm.to.well.rig.present? ? pm.to.well.rig.name + " - " : "") + pm.to.field.name + " | " + pm.to.well.name : ""
+                            when "Home"
+                                if pm.part.present? && (pm.part.supplier.present? || pm.part.warehouse.present?)
+                                    if pm.part.supplier.present?
+                                        pm.to = pm.part.supplier
+                                        pm.to_name = pm.part.supplier.name
+                                    else
+                                        pm.to = pm.part.warehouse
+                                        pm.to_name = pm.part.warehouse.name
+                                    end
+                                else
+                                    found = inbound_part_memberships.find { |p| p.serial_number == pm.serial_number }
+                                    if found.present?
+                                        pm.to = found.from
+                                        pm.to_name = found.from_name
+                                    elsif pm.part.present?
+                                        if pm.part.rental
+                                            pm.to = @shipment.district.suppliers.first
+                                            pm.to_name = pm.to.name
+                                        else
+                                            pm.to = @shipment.district.warehouses.first
+                                            pm.to_name = pm.to.name
+                                        end
+                                    else
+                                        pm.to = @shipment.district.suppliers.first
+                                        pm.to_name = pm.to.name
+                                    end
+                                end
+                        end
+                        pm.save
+                    end
+
+                    @shipment.status = Shipment::IN_TRANSIT
+                end
+
+                from_name = part_memberships.map { |pm| pm.from_name }.select { |name| !name.blank? }.uniq.join(", ")
+                if from_name.blank?
+                    from_name = '(Not Set)'
+                end
+                to_name = part_memberships.map { |pm| pm.to_name }.select { |name| !name.blank? }.uniq.join(", ")
+                if to_name.blank?
+                    to_name = '(Not Set)'
+                end
+                @shipment.from_name = from_name
+                @shipment.to_name = to_name
+                if part_memberships.any?
+                    @shipment.to = part_memberships.first.to
+                end
+
+                if params[:commit] == 'send'
+                    flash[:success] = "Shipment sent"
+                    @shipment.status = Shipment::IN_TRANSIT
+                elsif params[:commit] == 'receive'
+                    flash[:success] = "Shipment received"
+                    @shipment.status = Shipment::COMPLETE
+                end
                 @shipment.save
 
                 @shipment = Shipment.find_by_id(@shipment.id)
+                if params[:commit] == 'receive'
+                    @shipment.receive_shipment(current_user)
+                end
 
                 if request.format == "html"
                     redirect_to inventory_path(@shipment.district, anchor: "shipping")
@@ -156,11 +225,15 @@ class ShipmentsController < ApplicationController
                 if pm.job_part_membership.present?
                     pm.job_part_membership.update_attribute(:shipping, false)
                 end
-                if pm.part_type == PartMembership::INVENTORY && pm.part.present?
+                if pm.part.present?
                     pm.part.removed false
                     AssetActivity.delay.add(current_user, AssetActivity::DELETED_FROM_SHIPMENT, pm.part, @shipment)
                 end
             end
+        end
+
+        if request.format == "html"
+            redirect_to inventory_path(@shipment.district, anchor: "shipping")
         end
     end
 

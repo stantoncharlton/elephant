@@ -94,7 +94,7 @@ $ ->
     $.ajax '/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_unit_", "") + '?unit=' + $(this).val(), type: 'put', dataType: 'script'
 
 
-  $('.job-tray-toggle').click ->
+  $('.job-tray-toggle').click (event) ->
     $('.job-tray-toggle').closest('li').removeClass 'active'
     $('.job-tray').addClass 'custom-data-closed'
     $(this).closest('li').addClass 'active'
@@ -104,11 +104,11 @@ $ ->
     if window.history && window.history.pushState
       history.replaceState({}, "", '#' + tray)
 
-    if $('.job-main-div').length > 0
-      $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
+    #if $('.job-main-div').length > 0
+    #  $('body').animate({scrollTop : $('.job-main-div').position().top - 70 }, 'fast')
     event.preventDefault()
 
-  $('.job-tray-toggle').click ->
+  $('.job-tray-toggle').click (event) ->
     if $(this).attr('data-tray') == "activity"
       $('#activity_list').hide()
       $('.activity-loading').removeClass 'hidden'
@@ -179,7 +179,7 @@ $ ->
       $.ajax '/parts/' + $(this).attr('data-id') + "?section=asset_activity", type: 'get', dataType: 'script'
     event.preventDefault()
 
-  $('.remote-tray-toggle').click ->
+  $('.remote-tray-toggle').click (event) ->
     $('.remote-tray-toggle').closest('li').removeClass 'active'
     $('.remote-tray').addClass 'custom-data-closed'
     $(this).closest('li').addClass 'active'
@@ -307,7 +307,7 @@ $ ->
 
 
 
-  $('.loading-jobs').live 'click',  ->
+  $('.loading-jobs').live 'click', (event)  ->
     $('#jobs').addClass 'hidden'
     $('#jobs_loading').removeClass 'hidden'
     $('#jobs_loading').find('.loading').removeClass 'hidden'

@@ -56,8 +56,10 @@ class Job < ActiveRecord::Base
     has_many :job_times, dependent: :destroy
     has_many :job_costs, dependent: :destroy, order: "job_costs.charge_at ASC"
 
-    has_many :inbound_shipments, order: "created_at DESC", class_name: "Shipment", foreign_key: "to_id"
-    has_many :outbound_shipments, order: "created_at DESC", class_name: "Shipment", foreign_key: "from_id"
+    has_many :inbound_shipments_part_memberships, order: "created_at DESC", class_name: "PartMembership", foreign_key: "to_id"
+    has_many :inbound_shipments, through: :inbound_shipments_part_memberships, source: :shipment, uniq: true
+    has_many :outbound_shipments_part_memberships, order: "created_at DESC", class_name: "PartMembership", foreign_key: "from_id"
+    has_many :outbound_shipments, through: :outbound_shipments_part_memberships, source: :shipment, uniq: true
 
     ACTIVE = 1
 

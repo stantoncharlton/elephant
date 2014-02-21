@@ -25,6 +25,9 @@
             <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
               <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="rental">Rental</a>
             </li>
+            <li class="push-right-small">
+              <a href="#" id="accessory_tab" class='change-asset-type blue-text' data-type="accessory">Saleable</a>
+            </li>
           </ul>
         </div>
 
@@ -58,19 +61,47 @@
                              "data-placement" => "bottom",
                              "data-title" => "Serial Number" %>
 
-        </div>
+          <%= hidden_field_tag "rental_district_id", shipment.present? ? shipment.district_id : @job.district.id %>
 
-        <br>
-
-        <div class='push-down'>
           <div class="inline-block tooltip-info align-top push-down-small"
                data-title="Tool Type">
             <%= image_tag "tool.png", class: "inline-block push-down-small" %>
-            <%= select_tag "asset_type",
+            <%= select_tag "rental_asset_type",
                            options_for_select(BhaItem.type_options),
                            class: "custom-select-ajax bha-value2 align-top",
                            placeholder: "Type" %>
           </div>
+
+        </div>
+
+
+      <div class='inline-block asset-type-form align-top hidden' data-type="accessory">
+        <%= text_field_tag "accessory_name", "",
+                           placeholder: "Asset Name",
+                           class: "txtfield asset-input  tooltip-info align-top",
+                           "data-placement" => "bottom",
+                           "data-title" => "Asset Name" %>
+
+        <%= text_field_tag "accessory_serial_number", "",
+                           placeholder: "Serial Number",
+                           class: "txtfield asset-input  tooltip-info align-top",
+                           "data-placement" => "bottom",
+                           "data-title" => "Serial Number" %>
+
+        <div class="inline-block tooltip-info align-top push-down-small"
+             data-title="Tool Type">
+          <%= image_tag "tool.png", class: "inline-block push-down-small" %>
+          <%= select_tag "accessory_asset_type",
+                         options_for_select(BhaItem.type_options),
+                         class: "custom-select-ajax bha-value2 align-top",
+                         placeholder: "Type" %>
+        </div>
+
+      </div>
+
+        <br>
+
+        <div class='push-down'>
 
           <div class='inline-block id-od-box'>
             <p class='inline-block' style='font-size: 9px; vertical-align: top; margin-left:3px;'>ID</p>

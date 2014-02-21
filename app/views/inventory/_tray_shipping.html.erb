@@ -8,7 +8,7 @@
   <div class="content tray-content content-loaded">
 
     <% parts = @parts.where(:status => Part::SHIPPING) %>
-    <% shipments = Shipment.where(:district_id => @district.id).order("status ASC, created_at DESC") %>
+    <% shipments = Shipment.includes(part_memberships: { part: :master_part }).includes(part_memberships: :shipment).where(:district_id => @district.id).order("status ASC, created_at DESC") %>
     <% shippers = Shipper.where(:district_id => @district.id).order("name ASC") %>
 
     <div class='well'>
@@ -18,14 +18,14 @@
         <h3 class="inline-block">Shipments</h3>
       </div>
 
-      <% if true %>
+      <% if false %>
           <div class='pull-right push-right'>
             <%= link_to "New Shipment", shipments_path(district: @district),
                         remote: true, method: :post,
                         class: "bluebtn show-modal-button" %>
           </div>
       <% end %>
-      <% if false %>
+      <% if true %>
           <div class='pull-right push-right'>
             <%= link_to "New Shipment", shipments_path(district: @district),
                         method: :post,
@@ -44,8 +44,8 @@
     <% paginated_shipments = shipments.paginate(page: params[:page], limit: 20) %>
     <div id="shipments_list" class="list">
       <% paginated_shipments.each do |shipment| %>
-          <%= render 'shipments/shipment', shipment: shipment, editable: shipment.status != Shipment::COMPLETE, show_assets: shipment.status != Shipment::COMPLETE, in_job: false %>
-          <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT && shipment.to.present? && (shipment.to_type == Warehouse.name || shipment.to_type == Supplier.name) %>
+          <%= render 'shipments/shipment', shipment: shipment, editable: shipment.status != Shipment::COMPLETE, show_assets: false, in_job: false %>
+          <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT && (shipment.part_memberships.where("part_memberships.to_type != ?", Job.name).any?) %>
               <%= link_to "Receive Shipment", shipment_path(shipment, update_field: true, field: "receive_shipment", value: shipment.id),
                           remote: true, :method => :put,
                           class: "bluebtn btnsmall green push-down receive-shipment-button" %>

@@ -12,10 +12,12 @@ $('#alert').css('z-index', '10000');
 if($('#asset_list').hasClass('regenerate')) {
     <% if @part_membership.shipment.present? %>
     $('#asset_list').replaceWith('<%= j render 'shipments/grouped_list', shipment: @part_membership.shipment, editable: @part_membership.shipment.status != Shipment::COMPLETE %>');
+    $('#asset_list').$('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
     <% end %>
 }
 else {
     $('#asset_list').append('<%= j render 'part_memberships/part_membership', part_membership: @part_membership, allow_remove: true %>');
+    $('#part_membership_<%= @part_membership.id %>').find('.popover').popover({  delay: { show: 500, hide: 200 } });
 }
 
 $('#part_search').val('').removeClass('ui-autocomplete-bad').focus();
@@ -30,7 +32,7 @@ $('#id').val('');
 $('#od').val('');
 $('#length').val('');
 
-$('#part_membership_<%= @part_membership.id %>').find('.popover').popover({  delay: { show: 500, hide: 200 } });
+
 
 
 $('#no_assets').addClass('hidden');
