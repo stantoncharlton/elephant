@@ -31,9 +31,29 @@
 
 
 <div class="page_header">
-  <h1 id="part_name"><%= @part.master_part.present? ? @part.master_part.name : @part.name %></h1>
+  <h1 id="part_name">
+    <% if @part.master_part.present? %>
+        <%= @part.master_part.name %>
+        <b style='font-size: 14px;'><%= @part.master_part.manufacturer %></b>
+    <% else %>
+        <%= @part.name %>
+        <b style='font-size: 14px;'><%= @part.manufacturer %></b>
+    <% end %>
+  </h1>
 
   <h3 class="inline">&nbsp;Asset</h3>
+
+  <% if @part.rental %>
+      <div class='inline-block push-right-small'>
+        <div class='inline-block push-down'>
+            <span class="label" style="background: #11bddc; padding: 4px; padding-left: 10px; padding-right: 10px; font-size: 13px;">RENTAL
+              <% if @part.supplier.present? %>
+                - <%= @part.supplier.name %>
+              <% end %>
+            </span>
+        </div>
+      </div>
+  <% end %>
 
   <% if @part.template? %>
       <h2 class="paginated-count">Assets:
@@ -102,52 +122,56 @@
   <% else %>
 
 
-      <div class="btn-group inline pull-right push-right-small">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-          Advanced Actions
-        </a>
-        <ul class="dropdown-menu">
-          <% if current_user.role.add_remove_inventory? %>
-              <li>
-                <%= link_to "Change Serial Number", "#",
-                            id: "change_serial_number_part_link",
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Change serial number of asset." %>
-              </li>
-              <li class="divider"></li>
-          <% end %>
-          <% if current_user.role.add_remove_inventory? %>
-              <li>
-                <% if @part.status == Part::DECOMMISSIONED %>
-                    <%= link_to "Recommission Asset", part_path(@part, recommission: true),
-                                method: :put,
+      <% if !@part.rental %>
+          <div class="btn-group inline pull-right push-right-small">
+            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+              Advanced Actions
+            </a>
+            <ul class="dropdown-menu">
+              <% if current_user.role.add_remove_inventory? %>
+                  <li>
+                    <%= link_to "Change Serial Number", "#",
+                                id: "change_serial_number_part_link",
                                 class: "dropdown-menu-link tooltip-info",
                                 "data-placement" => "left",
-                                "data-title" => "Recommission asset from decommissioned state" %>
-                <% else %>
-                    <%= link_to "Decommission Asset", part_path(@part, decommission: true),
-                                method: :put,
+                                "data-title" => "Change serial number of asset." %>
+                  </li>
+                  <li class="divider"></li>
+              <% end %>
+              <% if current_user.role.add_remove_inventory? %>
+                  <li>
+                    <% if @part.status == Part::DECOMMISSIONED %>
+                        <%= link_to "Recommission Asset", part_path(@part, recommission: true),
+                                    method: :put,
+                                    class: "dropdown-menu-link tooltip-info",
+                                    "data-placement" => "left",
+                                    "data-title" => "Recommission asset from decommissioned state" %>
+                    <% else %>
+                        <%= link_to "Decommission Asset", part_path(@part, decommission: true),
+                                    method: :put,
+                                    class: "dropdown-menu-link tooltip-info",
+                                    "data-placement" => "left",
+                                    "data-title" => "Decommission asset from use for reason of broken, old, etc" %>
+                    <% end %>
+                  </li>
+              <% end %>
+              <% if current_user.role.add_remove_inventory? %>
+                  <li class="divider"></li>
+                  <li>
+                    <%= link_to "Delete Asset", @part, method: :delete,
+                                data: {confirm: "Delete Asset"},
                                 class: "dropdown-menu-link tooltip-info",
                                 "data-placement" => "left",
-                                "data-title" => "Decommission asset from use for reason of broken, old, etc" %>
-                <% end %>
-              </li>
-          <% end %>
-          <% if current_user.role.add_remove_inventory? %>
-              <li class="divider"></li>
-              <li>
-                <%= link_to "Delete Asset", @part, method: :delete,
-                            data: {confirm: "Delete Asset"},
-                            class: "dropdown-menu-link tooltip-info",
-                            "data-placement" => "left",
-                            "data-title" => "Permanently delete asset." %>
-              </li>
-          <% end %>
-        </ul>
-      </div>
+                                "data-title" => "Permanently delete asset." %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
 
-      <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")", @part.master_part, class: "activity-user-link pull-right" %>
+      <% if !@part.rental %>
+          <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")", @part.master_part, class: "activity-user-link pull-right" %>
+      <% end %>
 
 
       <div id="serial_number_part_fields" class="hidden push-down">
@@ -228,21 +252,23 @@
         </div>
       </div>
 
-      <div class="chart-block">
-        <div class="chart-title">Maximum Usage</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text part-on-hand">-</div>
-          <div class="percentage ">hours</div>
-        </div>
-      </div>
+      <% if !@part.rental %>
+          <div class="chart-block">
+            <div class="chart-title">Maximum Usage</div>
+            <div class="donut-chart-div job-donut-chart-div">
+              <div class="donut-text part-on-hand">-</div>
+              <div class="percentage ">hours</div>
+            </div>
+          </div>
 
-      <div class="chart-block">
-        <div class="chart-title">Avg Redress</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.serial_number = ?", @part.serial_number).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
-          <div class="percentage ">days</div>
-        </div>
-      </div>
+          <div class="chart-block">
+            <div class="chart-title">Avg Redress</div>
+            <div class="donut-chart-div job-donut-chart-div">
+              <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.serial_number = ?", @part.serial_number).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
+              <div class="percentage ">days</div>
+            </div>
+          </div>
+      <% end %>
 
 
       <hr>

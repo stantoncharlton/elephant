@@ -1,16 +1,20 @@
 <div class="part-status" data-id="<%= part.id %>">
   <div class="form" data-form="update-part-status">
     <% if part.status == Part::AVAILABLE %>
-        <div class='pull-right'>
-          <div class='inline-block align-top push-down'><b>Warehouse</b></div>
-          <%= select_tag "warehouse_id", options_for_select(part.district.warehouses.collect { |w| [w.name, w.id] }, part.warehouse_id),
-                         prompt: "Select warehouse...",
-                         class: "inline-block custom-select custom-select-ajax inline-block update-field push-right-small",
-                         "data-id" => part.id,
-                         "data-controller" => "parts",
-                         "data-field" => "warehouse_id" %>
-        </div>
-        <span class="status-good"><%= part.status_string %></span>
+        <% if part.rental %>
+            <span class="status-good"><%= "Returned to Supplier" %></span>
+        <% else %>
+            <div class='pull-right'>
+              <div class='inline-block align-top push-down'><b>Warehouse</b></div>
+              <%= select_tag "warehouse_id", options_for_select(part.district.warehouses.collect { |w| [w.name, w.id] }, part.warehouse_id),
+                             prompt: "Select warehouse...",
+                             class: "inline-block custom-select custom-select-ajax inline-block update-field push-right-small",
+                             "data-id" => part.id,
+                             "data-controller" => "parts",
+                             "data-field" => "warehouse_id" %>
+            </div>
+            <span class="status-good"><%= part.status_string %></span>
+        <% end %>
     <% elsif part.status == Part::ON_JOB %>
         <span class=""><h3 style='font-size: 15px;'>Asset <%= part.status_string %></h3></span>
         <br>
@@ -20,7 +24,7 @@
         <span class="warning-text"><b>Shipping</b></span>
 
         <% if part.current_shipment.present? %>
-        <br>
+            <br>
             <%= render 'shipments/shipment', shipment: part.current_shipment, editable: false, show_assets: true, in_job: true %>
             <% if part.current_shipment.accepted_at.nil? && part.current_shipment.status == Shipment::IN_TRANSIT && (part.current_shipment.part_memberships.where("part_memberships.to_type != ?", Job.name).any?) %>
                 <%= link_to "Receive Shipment", shipment_path(part.current_shipment, update_field: true, field: "receive_shipment", value: part.current_shipment.id),
@@ -118,7 +122,7 @@
         <span class="warning-text"><%= part.status_string %></span>
     <% end %>
 
-    <% if part.status == Part::AVAILABLE %>
+    <% if part.status == Part::AVAILABLE && !part.rental %>
         <div>
           <br><br>
 
