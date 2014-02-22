@@ -39,6 +39,7 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.2)
+    awesome_print (1.2.0)
     aws-sdk (1.8.0)
       httparty (~> 0.7)
       json (~> 1.4)
@@ -285,6 +286,7 @@ DEPENDENCIES
   acts_as_tenant
   acts_as_xlsx
   annotate (= 2.5.0)
+  awesome_print
   aws-sdk
   bcrypt-ruby (= 3.0.1)
   bootstrap-datepicker-rails

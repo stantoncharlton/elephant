@@ -83,6 +83,7 @@ end
 
 
 gem 'rack-mini-profiler'
+gem 'awesome_print', :require => 'ap'
 
 
 

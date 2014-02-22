@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222001054) do
+ActiveRecord::Schema.define(:version => 20140222153037) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(:version => 20140222001054) do
     t.string   "operator_number"
     t.string   "railroad_signer"
     t.string   "railroad_signer_title"
+    t.integer  "payroll_schedule",      :default => 1
   end
 
   add_index "companies", ["name"], :name => "index_companies_on_name", :unique => true

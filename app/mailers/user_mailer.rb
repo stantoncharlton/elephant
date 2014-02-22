@@ -71,4 +71,11 @@ class UserMailer < ActionMailer::Base
         mail(:to => user.company.test_company ? "test-emails@elephant-cloud.com" : user.email,
              :subject => "Elephant Timesheet Review")
     end
+
+    def timesheet_report_ready(user, start_date)
+        @user = user
+        @start_date = start_date
+        mail(:to => user.company.test_company ? "test-emails@elephant-cloud.com" : user.email,
+             :subject => "Elephant Timesheets Review")
+    end
 end

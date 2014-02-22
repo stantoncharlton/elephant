@@ -23,16 +23,38 @@ end
 task :timesheet_email => :environment do
     Time.zone = "Central Time (US & Canada)"
 
-    start_date = Time.now.beginning_of_week
-    if start_date.strftime("%U").to_i % 2 != 0
-        start_date = start_date - 1.week
-    else
-        start_date = start_date - 3.weeks
-    end
+    Company.find_each do |company|
+        start_date = Time.now.beginning_of_week
+        if start_date.wday == 0
+            week = start_date.strftime("%U").to_i
+            if company.payroll_schedule == Company::PAYROLL_BIMONTHLY_EVEN && week % 2 != 0
+                if week % 2 != 0
+                    start_date = start_date - 1.week
+                else
+                    start_date = start_date - 3.weeks
+                end
 
-    users = User.includes(:job_times).where("users.role_id = 30 OR users.role_id = 31 OR users.role_id = 35 OR users.role_id = 36").order("users.name ASC")
-    users.each_with_index do |user, index|
-        UserMailer.timesheet_report(user, start_date).deliver
+                users = User.includes(:job_times).where("users.role_id = 30 OR users.role_id = 31 OR users.role_id = 35 OR users.role_id = 36").order("users.name ASC")
+                users.each_with_index do |user, index|
+                    UserMailer.timesheet_report(user, start_date).deliver
+                end
+            end
+        elsif start_date.wday == 1
+            week = start_date.strftime("%U").to_i
+            if company.payroll_schedule == Company::PAYROLL_BIMONTHLY_EVEN && week % 2 == 0
+                if week % 2 != 0
+                    start_date = start_date - 1.week
+                else
+                    start_date = start_date - 3.weeks
+                end
+
+                users_sql = JobMembership.includes(:user).joins(:job).where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 14.days)).where("job_memberships.job_role_id = ?", JobMembership::COORDINATOR).select("DISTINCT (job_memberships.user_id)").to_sql
+                users = User.where("users.id IN (#{users_sql})")
+                users.each do |user|
+                    UserMailer.timesheet_report_ready(user, start_date).deliver
+                end
+            end
+        end
     end
 end
 

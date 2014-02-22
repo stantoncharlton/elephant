@@ -16,7 +16,7 @@ class Company < ActiveRecord::Base
                     :inventory_active,
                     :minimum_work_day,
                     :work_day_type,
-
+                    :payroll_schedule,
                     :operator_number,
                     :railroad_signer,
                     :railroad_signer_title
@@ -56,6 +56,8 @@ class Company < ActiveRecord::Base
 
     HOURLY_WORK_DAY = 1
     DAILY_WORK_DAY = 2
+
+    PAYROLL_BIMONTHLY_EVEN = 1
 
     def active_jobs
         self.jobs.where("jobs.status >= 1 AND jobs.status < 50")
