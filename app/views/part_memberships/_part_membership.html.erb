@@ -11,6 +11,12 @@
                   "data-placement" => "bottom",
                   "data-trigger" => "hover" do %>
           <div class='bar' style="background: <%= '#' + part_membership.color %>;"></div>
+          <% if part_membership.part_type == PartMembership::RENTAL %>
+              <div class='rental'>R</div>
+          <% end %>
+          <% if part_membership.part_type == PartMembership::SALEABLE %>
+              <div class='accessory'>S</div>
+          <% end %>
           <div class='center name'><%= part_membership.part.present? && part_membership.part.master_part.present? ? part_membership.part.master_part.name : part_membership.name %></div>
           <div class='center'><%= part_membership.serial_number %></div>
       <% end %>
@@ -24,6 +30,12 @@
                   "data-placement" => "bottom",
                   "data-trigger" => "hover" do %>
           <div class='bar' style="background: <%= '#' + part_membership.color %>;"></div>
+          <% if part_membership.part_type == PartMembership::RENTAL %>
+              <div class='rental'>R</div>
+          <% end %>
+          <% if part_membership.part_type == PartMembership::SALEABLE %>
+              <div class='accessory'>S</div>
+          <% end %>
           <div class='center name'><%= part_membership.part.present? && part_membership.part.master_part.present? ? part_membership.part.master_part.name : part_membership.name %></div>
           <div class='center'><%= part_membership.serial_number %></div>
       <% end %>
