@@ -334,7 +334,7 @@ module DrillingLogsHelper
                 end
                 t.add_column("ACTIVITY") { |entry| "#{DrillingLogEntry.activity_code_string(entry.activity_code)}" }
                 t.add_column("COMMENT") { |entry| "#{entry.comment}" }
-                t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name.split[" "].first : ''}" }
+                t.add_column("BHA") { |entry| "#{entry.bha.present? ? entry.bha.name.split[" "][0].to_s : ''}" }
             end
 
             index = index + 1
