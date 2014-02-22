@@ -330,6 +330,8 @@ class DrillingLog < ActiveRecord::Base
     def create_report report_name, type, report_id
         report_exists = false
         @report_name = report_name
+        @drilling_log = self
+
         case @report_name
             when "drilling_report"
                 report_exists = true

@@ -25,10 +25,10 @@ class ShipmentsController < ApplicationController
             @shipment.from_name = @shipment.from.present? ? (@shipment.from.well.rig.present? ? @shipment.from.well.rig.name + " - " : "") + @shipment.from.field.name + " | " + @shipment.from.well.name : ""
             @shipment.from_editable = false
         else
-            @shipment.from_name = ""
+            @shipment.from_name = '(Not Set)'
             @shipment.from_editable = true
         end
-        @shipment.to_name = ""
+        @shipment.to_name = '(Not Set)'
         @shipment.company = current_user.company
         @shipment.user = current_user
         ## Remove

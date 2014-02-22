@@ -133,7 +133,7 @@ ElephantWebApp::Application.routes.draw do
 
     resources :job_costs, only: [:show, :new, :create, :edit, :update, :destroy]
 
-    match '/report_status', to: 'reports#status', :via => :get
+    match '/report_status/:id', to: 'reports#status', :via => :get
 
 end
 

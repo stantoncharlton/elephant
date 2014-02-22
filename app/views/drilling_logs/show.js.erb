@@ -104,28 +104,38 @@ removeOldContent('<%= params[:section] %>');
     $('.custom-select').customSelect();
     $('.date-picker').datepicker();
 <% else %>
+    (function ($) {
     report = $(".report[data-report='<%= @report_name %>']");
     if(report.length > 0) {
-        setTimeout(function() {
-            report_generation = report.find('.generating-report');
-            report_generation.attr("data-report", @report_id);
-            $.ajax('/report_status/<%= @report_id %>', {
+        report_generation = report.find('.generating-report');
+        report_generation.attr("data-report", "<%= @report_id %>");
+        check = function(report_id) {
+            $.ajax('/report_status/' + report_id, {
                 type: 'get',
-                dataType: 'script',
+                dataType: 'json',
                 success: function(data) {
-                    if(data["id"] == report_generation.attr("data-report")) {
-                    report.find('.generating-report').addClass('hidden');
-                    report.find('.generate-report-div').removeClass('hidden');
-                    download_link = report.find('.download-report');
-                    download_link.attr('href', "<%= sanitize(@full_url) %>");
-                    download_link.removeClass('hidden');
+                    report_generation = $('.generating-report[data-report=' + data["id"] + ']');
+                    report = report_generation.closest('.report');
+                    if(data["url"] != "") {
+                        report_generation.addClass('hidden');
+                        report.find('.generate-report-div').removeClass('hidden');
+                        download_link = report.find('.download-report');
+                        download_link.attr('href', data["url"]);
+                        download_link.removeClass('hidden');
+                    }
+                    else {
+                        setTimeout(function() {
+                            check(report_id);
+                        }, 1000 * 8);
                     }
                 }
             });
-        }, 1000 * 10);
-
-
+        }
+        setTimeout(function() {
+          check("<%= @report_id %>");
+        }, 1000 * 8);
     }
+    }(jQuery));
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

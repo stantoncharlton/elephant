@@ -66,7 +66,8 @@ class DrillingLogsController < ApplicationController
             }
             format.js {
                 if params[:report].present? && params[:report] == "true" && params[:report_name].present?
-                    @report_id = SecureRandom.urlsafe_base64
+                    @report_name = params[:report_name]
+                    @report_id = SecureRandom.urlsafe_base64.html_safe
                     $redis.set(@report_id, '')
                     $redis.expire @report_id, 60 * 60 * 5
                     @drilling_log.delay.create_report(params[:report_name], params[:type], @report_id)
