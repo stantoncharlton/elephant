@@ -106,11 +106,25 @@ removeOldContent('<%= params[:section] %>');
 <% else %>
     report = $(".report[data-report='<%= @report_name %>']");
     if(report.length > 0) {
-        report.find('.generating-report').addClass('hidden');
-        report.find('.generate-report-div').removeClass('hidden');
-        download_link = report.find('.download-report');
-        download_link.attr('href', "<%= sanitize(@full_url) %>");
-        download_link.removeClass('hidden');
+        setTimeout(function() {
+            report_generation = report.find('.generating-report');
+            report_generation.attr("data-report", @report_id);
+            $.ajax('/report_status/<%= @report_id %>', {
+                type: 'get',
+                dataType: 'script',
+                success: function(data) {
+                    if(data["id"] == report_generation.attr("data-report")) {
+                    report.find('.generating-report').addClass('hidden');
+                    report.find('.generate-report-div').removeClass('hidden');
+                    download_link = report.find('.download-report');
+                    download_link.attr('href', "<%= sanitize(@full_url) %>");
+                    download_link.removeClass('hidden');
+                    }
+                }
+            });
+        }, 1000 * 10);
+
+
     }
 <% end %>
 

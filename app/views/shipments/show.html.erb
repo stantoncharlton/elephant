@@ -123,7 +123,7 @@
               <b>Shipper</b>
             </div>
             &nbsp;
-            <% if shipment.from_editable && ship.status != Shipment::COMPLETE %>
+            <% if shipment.from_editable && shipment.status != Shipment::COMPLETE %>
                 <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
                 <div class='inline-block'>
                   <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
