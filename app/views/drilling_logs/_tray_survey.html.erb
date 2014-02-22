@@ -96,7 +96,7 @@
                 <% end %>
 
                 <%= link_to "View Well Plan", @active_well_plan, class: "btn btn-default align-top push-up-small push-right-small" %>
-                <%= link_to "New Side Track", new_survey_path(new_side_track: true, drilling_log: @drilling_log.id), class: "btn btn-default align-top push-up-small push-right-small" %>
+                <%= link_to "New Sidetrack", new_survey_path(new_side_track: true, drilling_log: @drilling_log.id), class: "btn btn-default align-top push-up-small push-right-small" %>
             <% end %>
           </div>
           <% if @active_well_plan.present? %>
@@ -135,8 +135,24 @@
         </div>
         <hr>
 
+        <% omitted = calculated_points_survey.count - 15 %>
+        <% if !@complete_survey && omitted > 0 %>
+            <div id="short_survey" class='center' style='font-family: gothambookregular;'>
+              <b class='warning-text'><%= omitted %></b> surveys
+              omitted...&nbsp;&nbsp; <%= link_to "Load All", @survey, remote: true, class: "activity-user-link", id: "load_full_survey" %>
+              <br>
+              <br>
+            </div>
+            <div id="loading_survey" class='center hidden' style='font-family: gothambookregular;'>
+              <span class='ajax-loading'>
+                Loading...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+              <br>
+              <br>
+            </div>
+        <% end %>
 
-        <%= render 'surveys/survey_list', points: calculated_points_survey %>
+        <%= render 'surveys/survey_list', points: calculated_points_survey.last(15) %>
 
         <br><br>
 
@@ -162,6 +178,11 @@
             });
         }, 1000 * 60 * 5);
         <% end %>
+
+        $('#load_full_survey').click(function () {
+            $('#short_survey').addClass('hidden');
+            $('#loading_survey').removeClass('hidden');
+        });
     </script>
 
   </div>

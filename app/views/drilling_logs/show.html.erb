@@ -89,12 +89,21 @@
        data-tray="survey">Survey</a>
   </li>
 
+  <% if false %>
   <li class="">
     <a href="#drilling-reports" class="remote-tray-toggle custom-data-toggle"
        data-id="<%= @drilling_log.id %>"
        data-tray-controller="drilling_logs"
-       data-tray="drilling-reports">Reports</a>
+       data-tray="drilling-reports">Projection</a>
   </li>
+
+  <li class="">
+    <a href="#drilling-reports" class="remote-tray-toggle custom-data-toggle"
+       data-id="<%= @drilling_log.id %>"
+       data-tray-controller="drilling_logs"
+       data-tray="drilling-reports">Proximity</a>
+  </li>
+  <% end %>
 </ul>
 
 

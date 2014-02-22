@@ -39,6 +39,9 @@ class SurveysController < ApplicationController
                 excel = survey_to_excel @active_well_plan, @survey
                 send_data excel.to_stream.read, :filename => "Survey (#{@survey.document.job.name}).xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }
+            format.js {
+
+            }
             format.all {
                 if !@survey.plan? && !@survey.document.nil?
                     @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first

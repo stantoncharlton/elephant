@@ -33,7 +33,15 @@
             <div>
             <%= render 'drilling_logs/overview', drilling_log: log, drilling_log_entries: date[1], show_drilled: true %>
             </div>
+            <div>
+              <p class='push-right-small' style='font-family: gothambookregular;'>
+                <% start = log.ranges["battery_1_amps_max"].to_f + log.ranges["battery_2_amps_max"].to_f %>
+                <% final = log.ranges["battery_1_amps_min"].to_f + log.ranges["battery_2_amps_min"].to_f %>
+              Battery Usage <b class='blue-text'><%= (final - start).round(1) %></b> amps
+              </p>
+            </div>
             <br><br>
+
         <% end %>
     <% else %>
         <p class='help-text'>No drilling log entries...</p>
