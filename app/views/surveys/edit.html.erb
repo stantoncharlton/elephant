@@ -11,6 +11,18 @@
         <p>Select the Compass <b>.txt</b> well plan file for upload...</p>
       </div>
 
+      <% @surveys = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @survey.document.job.well_id).order("surveys.created_at ASC") %>
+      <% if @surveys.count > 1 %>
+      <div>
+        <p class='help-text'>Track which will use this well plan...</p>
+
+        <%= select_tag "track_id", options_for_select(@surveys.collect { |s| ["Track " + s.name, s.id] }, @surveys.last.present? ? @surveys.last.id : nil),
+                    class: "custom-select align-top" %>
+
+        <br><br>
+      </div>
+      <% end %>
+
       <div style="position:relative;">
         <a class='btn btn-info' href='javascript:;'>
           Choose File...

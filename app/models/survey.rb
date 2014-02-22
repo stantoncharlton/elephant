@@ -19,6 +19,8 @@ class Survey < ActiveRecord::Base
 
     has_many :survey_points, :dependent => :destroy, :order => "survey_points.measured_depth ASC"
 
+    belongs_to :well_plan_for_survey, class_name: "Survey"
+
     TRUE = 1
     MAGNETIC = 2
     GRID = 3

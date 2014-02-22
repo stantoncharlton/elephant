@@ -51,19 +51,29 @@ class SurveysController < ApplicationController
     end
 
     def new
-        @survey = Survey.new
-        @survey_points = ''
-        @import_tie_on = true
-        @plan = true
-
-        if params[:document_id].present?
-            @document = Document.find_by_id(params[:document_id])
-        end
-
-        if params["modal"].present? && params["modal"] == "true"
-            render 'surveys/new_modal'
+        if params[:new_side_track].present? && params[:new_side_track] == "true"
+            @drilling_log = DrillingLog.find_by_id(params[:drilling_log])
+            last_survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).last
+            @survey = Survey.new(name: (last_survey.name.to_i + 1).to_s, plan: false)
+            @survey.company = current_user.company
+            @survey.document = last_survey.document
+            @survey.save
+            redirect_to drilling_log_path(@drilling_log, anchor: "survey", survey: @survey.id)
         else
-            render 'surveys/new'
+            @survey = Survey.new
+            @survey_points = ''
+            @import_tie_on = true
+            @plan = true
+
+            if params[:document_id].present?
+                @document = Document.find_by_id(params[:document_id])
+            end
+
+            if params["modal"].present? && params["modal"] == "true"
+                render 'surveys/new_modal'
+            else
+                render 'surveys/new'
+            end
         end
     end
 
@@ -178,6 +188,16 @@ class SurveysController < ApplicationController
         @survey = Survey.find(params[:id])
         @plan = true
 
+        @surveys = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @survey.document.job.well_id).order("surveys.created_at ASC")
+        if @surveys.count > 1
+            old_survey = @survey
+            @survey = Survey.new
+            @survey.company = current_user.company
+            @survey.document = old_survey.document
+            @survey.plan = true
+            @survey.north_type = Survey::GRID
+        end
+
         SurveyPoint.transaction do
 
             file_data = params[:file_source]
@@ -195,6 +215,7 @@ class SurveysController < ApplicationController
             end
 
             @survey.north_type = Survey::GRID
+            @survey.well_plan_for_survey = Survey.find_by_id(params[:track_id])
 
             entry_lines = []
 

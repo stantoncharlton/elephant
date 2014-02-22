@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140221013052) do
+ActiveRecord::Schema.define(:version => 20140222001054) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -1033,6 +1033,7 @@ ActiveRecord::Schema.define(:version => 20140221013052) do
     t.boolean  "no_well_plan",             :default => false
     t.decimal  "total_correction"
     t.integer  "grid_type",                :default => 1
+    t.integer  "well_plan_for_survey_id"
   end
 
   add_index "surveys", ["company_id"], :name => "index_surveys_on_company_id"
