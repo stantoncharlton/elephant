@@ -32,7 +32,7 @@ task :timesheet_email => :environment do
 
     users = User.includes(:job_times).where("users.role_id = 30 OR users.role_id = 31 OR users.role_id = 35 OR users.role_id = 36").order("users.name ASC")
     users.each_with_index do |user, index|
-          UserMailer.timesheet_report(user, start_date).deliver
+        UserMailer.timesheet_report(user, start_date).deliver
     end
 end
 
@@ -55,6 +55,35 @@ task :inactive_job_email => :environment do
                     JobProcessMailer.job_inactive(creator, job).deliver
                 end
             end
+        end
+    end
+end
+
+
+task :new_message_alert => :environment do
+    Time.zone = "Central Time (US & Canada)"
+
+    twilio_sid = "ACb8d3e553fce250437a90365ab774283f"
+    twilio_token = "2881efb95b96996487560a1e2ead7351"
+
+    @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
+
+    Alert.where("alerts.alert_type = ?", Alert::NEW_MESSAGE).find_each do |alert|
+        begin
+            if alert.user.present? && !alert.user.phone_number.blank?
+                if alert.created_at >= 10.minutes.ago && alert.created_at <= 20.minutes.ago
+                    conversation = alert.target
+                    message = conversation.messages.last
+                    if message.user != alert.user
+                        @twilio_client.account.sms.messages.create(
+                                :from => "+18175000360",
+                                :to => (alert.user.company.test_company? ? "+1-512-507-0072" : alert.user.phone_number),
+                                :body => "#{message.user.name} sent you a message on Elephant. '#{message.text.length > 100 ? message.text[0..100] + '...' : message.text}'"
+                        )
+                    end
+                end
+            end
+        rescue
         end
     end
 end

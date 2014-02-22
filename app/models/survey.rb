@@ -33,7 +33,10 @@ class Survey < ActiveRecord::Base
         target_vs = vertical_section_azimuth
 
         survey_points.each do |point|
-            point = Survey.calculate_point point, last_point, target_vs
+            begin
+                point = Survey.calculate_point point, last_point, target_vs
+            rescue
+            end
             last_point = point
         end
 
