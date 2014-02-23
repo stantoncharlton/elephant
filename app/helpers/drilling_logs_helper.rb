@@ -425,15 +425,21 @@ module DrillingLogsHelper
 
         r.add_field "WELL_NAME", job.well.name
 
-        hours = (entries.last.created_at - entries.first.created_at).to_f / 60.0 / 60.0
-        if hours <= 24
-            r.add_field "DATE", Date.today.strftime("%B %d, %Y")
-        else
-            r.add_field "DATE", "#{entries.first.created_at.strftime("%B %d, %Y")} - #{entries.last.created_at.strftime("%B %d, %Y")}"
-        end
+        if entries.present? && entries.any?
+            hours = (entries.last.created_at - entries.first.created_at).to_f / 60.0 / 60.0
+            if hours <= 24
+                r.add_field "DATE", Date.today.strftime("%B %d, %Y")
+            else
+                r.add_field "DATE", "#{entries.first.created_at.strftime("%B %d, %Y")} - #{entries.last.created_at.strftime("%B %d, %Y")}"
+            end
 
-        r.add_field "START", entries.first.measured_depth
-        r.add_field "END", entries.last.measured_depth
+            r.add_field "START", entries.first.measured_depth
+            r.add_field "END", entries.last.measured_depth
+        else
+            r.add_field "DATE", Date.today.strftime("%B %d, %Y")
+            r.add_field "START", 0
+            r.add_field "END", 0
+        end
     end
 
     def fill_railroad_certification job, drilling_log, well_plan, survey, entries, r
