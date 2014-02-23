@@ -7,17 +7,21 @@
       <div>
 
         <b class="inline" style="color: #23d0f5 !important;">
-          <%= message.user.name %>
+          <% if message.user.present? %>
+              <%= message.user.name %>
+          <% else %>
+            Elephant User
+          <% end %>
         </b>
 
         <% if Date.today != message.created_at.to_date %>
-        <p class="inline pull-right message-date tooltip-info"
-           style='font-size: 10px; color: #8e8e8e;'
-           data-placement="bottom"
-           id="message_date_<%= message.id %>"
-           data-title="<%= message.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
-          <%= time_ago_in_words(message.created_at) %> ago
-        </p>
+            <p class="inline pull-right message-date tooltip-info"
+               style='font-size: 10px; color: #8e8e8e;'
+               data-placement="bottom"
+               id="message_date_<%= message.id %>"
+               data-title="<%= message.created_at.strftime("%a %m/%d/%Y %l:%M %p") %>">
+              <%= time_ago_in_words(message.created_at) %> ago
+            </p>
         <% else %>
             <p class="inline pull-right message-date tooltip-info"
                style='font-size: 10px; color: #8e8e8e;'
