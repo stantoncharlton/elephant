@@ -1,5 +1,24 @@
-
 $('#modal_popup').find('.modal-content').find('*').remove();
 $('#modal_popup').find('.modal-content').append("<%= j render 'survey_projections/projections', survey: @survey %>");
 $('#modal_popup').css('visibility', 'visible');
 $('#modal_popup').find('.loading').addClass('hidden');
+
+$('#projections_loading').find('.loading').removeClass('hidden');
+
+$('.change-projection').click(function () {
+    $('#projection_type').val($(this).attr('data-type'));
+    $('#md').text("-");
+    $('#inc').text("-");
+    $('#azi').text("-");
+    $('#tvd').text("-");
+    $('#dls').text("-");
+    if ($(this).attr('data-type') == "bit") {
+        $('#projections_result').addClass('hidden');
+        $('#projections_loading').removeClass('hidden');
+        $('#projections_result').closest("form").trigger("submit");
+    }
+    else {
+        $('#projections_result').removeClass('hidden');
+        $('#projections_loading').addClass('hidden');
+    }
+});

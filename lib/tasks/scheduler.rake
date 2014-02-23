@@ -90,19 +90,17 @@ task :new_message_alert => :environment do
 
     @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
 
-    Alert.where("alerts.alert_type = ?", Alert::NEW_MESSAGE).find_each do |alert|
+    Alert.where("alerts.alert_type = :message_type AND alerts.created_at <= :start AND alerts.created_at >= :end", message_type: Alert::NEW_MESSAGE, start: Time.zone.now - 10.minutes, end: Time.zone.now - 20.minutes).find_each do |alert|
         begin
             if alert.user.present? && !alert.user.phone_number.blank?
-                if alert.created_at >= 10.minutes.ago && alert.created_at <= 20.minutes.ago
-                    conversation = alert.target
-                    message = conversation.messages.last
-                    if message.user != alert.user
-                        @twilio_client.account.sms.messages.create(
-                                :from => "+18175000360",
-                                :to => (alert.user.company.test_company? ? "+1-512-507-0072" : alert.user.phone_number),
-                                :body => "#{message.user.name} sent you a message on Elephant. '#{message.text.length > 100 ? message.text[0..100] + '...' : message.text}'"
-                        )
-                    end
+                conversation = alert.target
+                message = conversation.messages.last
+                if message.user != alert.user
+                    @twilio_client.account.sms.messages.create(
+                            :from => "+18175000360",
+                            :to => (alert.user.company.test_company? ? "+1-512-507-0072" : alert.user.phone_number),
+                            :body => "#{message.user.name} sent you a message on Elephant. '#{message.text.length > 100 ? message.text[0..100] + '...' : message.text}' View at www.elephant-cloud.com."
+                    )
                 end
             end
         rescue

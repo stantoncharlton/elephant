@@ -135,7 +135,7 @@ ElephantWebApp::Application.routes.draw do
 
     match '/report_status/:id', to: 'reports#status', :via => :get
 
-    resources :survey_projections, only: [:new]
+    resources :survey_projections, only: [:new, :create]
 
 end
 
