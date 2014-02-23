@@ -11,16 +11,18 @@
               </div>
           <% else %>
               <% person = conversation.participants.select { |user| user != current_user }.first %>
-              <div class="member-icon align-top" style="margin-right: 5px; background: <%= "#" + person.color %>;">
-                <p>
-                  <% names = person.present? ? person.name.split : [] %>
-                  <% if names.any? %>
-                      <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
-                  <% else %>
-                      -
-                  <% end %>
-                </p>
-              </div>
+              <% if person.present? %>
+                  <div class="member-icon align-top" style="margin-right: 5px; background: <%= "#" + person.color %>;">
+                    <p>
+                      <% names = person.present? ? person.name.split : [] %>
+                      <% if names.any? %>
+                          <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                      <% else %>
+                          -
+                      <% end %>
+                    </p>
+                  </div>
+              <% end %>
           <% end %>
 
           <% if @new_alerts.select { |a| a.target == conversation }.any? %>

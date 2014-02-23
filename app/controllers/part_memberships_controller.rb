@@ -42,7 +42,13 @@ class PartMembershipsController < ApplicationController
                 part.company = current_user.company
                 part.template = false
                 part.rental = true
-                part.district = District.find_by_id(params["rental_district_id"])
+                if params["rental_district_id"].present?
+                    part.district = District.find_by_id(params["rental_district_id"])
+                elsif !shipment_id.blank?
+                    part.district = Shipment.find_by_id(shipment_id).district
+                elsif !job_id.blank?
+                    part.district = Job.find_by_id(job_id).district
+                end
                 part.asset_type = @part_membership.asset_type
                 part.manufacturer = params["rental_manufacturer"]
                 part.name = params["rental_name"]
