@@ -154,7 +154,15 @@
 
         <%= render 'surveys/survey_list', points: calculated_points_survey.last(15) %>
 
-        <br><br>
+        <br>
+
+        <% if false %>
+            <div class='center'>
+              <%= link_to "New Projection", new_survey_projection_path(survey: @survey), remote: true, class: "btn btn-default align-top show-modal-button" %>
+            </div>
+        <% end %>
+
+        <br>
 
         <% if @survey.survey_points.empty? %>
             <div id="survey_entry" class="hidden">

@@ -33,10 +33,7 @@ class Survey < ActiveRecord::Base
         target_vs = vertical_section_azimuth
 
         survey_points.each do |point|
-            begin
-                point = Survey.calculate_point point, last_point, target_vs
-            rescue
-            end
+            point = Survey.calculate_point point, last_point, target_vs
             last_point = point
         end
 
@@ -73,12 +70,19 @@ class Survey < ActiveRecord::Base
         else
             if point.inclination - last_point.inclination != 0 || point.azimuth - last_point.azimuth != 0
                 beta = Math::cos((point.inclination - last_point.inclination) * (pi/180)) - (Math::sin(last_point.inclination*(pi/180)) * Math::sin(point.inclination*(pi/180)) * (1-Math::cos((point.azimuth - last_point.azimuth)*(pi/180))))
+                puts "beta " + beta.to_s
                 beta = Math::acos(beta)
+                puts "beta " + beta.to_s
                 rf = (2 / beta) * Math::tan(beta / 2)
+                if rf.nan?
+                    rf = 1.0
+                end
                 #rc = (point.measured_depth - last_point.measured_depth) * (Math::sin(point.inclination*(Math::PI/180)) - Math::sin(last_point.inclination*(Math::PI/180)) ) / ((point.inclination - last_point.inclination)*(Math::PI/180))
             end
 
+            puts "rf " + rf.to_s
             md_change = point.measured_depth - last_point.measured_depth
+            puts "md_change " + md_change.to_s
             ns_change = (md_change)/2 * ((Math::sin(last_point.inclination*(pi/180)) * Math::cos(last_point.azimuth*(pi/180))) + (Math::sin(point.inclination*(pi/180)) * Math::cos(point.azimuth*(pi/180)))) * rf
             ew_change = (md_change)/2 * ((Math::sin(last_point.inclination*(pi/180)) * Math::sin(last_point.azimuth*(pi/180))) + (Math::sin(point.inclination*(pi/180)) * Math::sin(point.azimuth*(pi/180)))) * rf
             v_change = (md_change)/2 * (Math::cos(last_point.inclination*(pi/180)) + Math::cos(point.inclination*(pi/180))) * rf

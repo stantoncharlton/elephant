@@ -8,7 +8,8 @@ class Bha < ActiveRecord::Base
                     :bit_tfa,
                     :bit_size,
                     :below_rotary,
-                    :above_rotary
+                    :above_rotary,
+                    :total_circulation
 
     acts_as_tenant(:company)
 
@@ -37,15 +38,17 @@ class Bha < ActiveRecord::Base
 
         self.below_rotary = log.below_rotary
         self.above_rotary = log.above_rotary
+        self.total_circulation = log.total_circulation_time
         self.save
 
         self.bha_items.each do |bha_item|
             part_membership = bha_item.tool
-            if part_membership.present? && part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+            if part_membership.present? && part_membership.part.present?
                 part = part_membership.part
-                bha_query = Bha.joins(bha_items: {tool: :part}).where("parts.id = ?", part.id).select("sum(coalesce(bhas.below_rotary, 0)) as total_below_rotary, sum(coalesce(bhas.above_rotary, 0)) as total_above_rotary").first
+                bha_query = Bha.joins(bha_items: {tool: :part}).where("parts.id = ?", part.id).select("sum(coalesce(bhas.below_rotary, 0)) as total_below_rotary, sum(coalesce(bhas.above_rotary, 0)) as total_above_rotary, sum(coalesce(bhas.total_circulation, 0)) as total_circulation").first
                 part.below_rotary = BigDecimal.new(bha_query[:total_below_rotary])
                 part.above_rotary = BigDecimal.new(bha_query[:total_above_rotary])
+                part.total_circulation = BigDecimal.new(bha_query[:total_circulation])
                 part.save
             end
         end

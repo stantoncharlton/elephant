@@ -1,0 +1,102 @@
+<div>
+  <div class='page_header' style='margin-top: -20px;'>
+    <h3>Projections</h3>
+  </div>
+
+  <% @drilling_log = @survey.document.job.drilling_log %>
+
+  <% @well_plans = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
+  <% if @survey.present? %>
+      <% @active_well_plan = @well_plans.where("surveys.well_plan_for_survey_id = ?", @survey.id).last %>
+  <% end %>
+  <% if @active_well_plan.nil? %>
+      <% @active_well_plan = @well_plans.last %>
+  <% end %>
+
+  <% calculated_points = @survey.no_well_plan ? [] : @active_well_plan.survey_points %>
+  <% calculated_points_survey = @survey.calculated_points(@survey.no_well_plan ? 0 : @active_well_plan.vertical_section_azimuth) %>
+
+  <% last_point = calculated_points_survey.last %>
+
+
+
+  <div class='push-down'>
+    <ul class="nav nav-pills selection-nav">
+      <li class='active'>
+        <a href="#" class='change-asset-type' data-type="path">Path</a>
+      </li>
+      <li class="push-right-small">
+        <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="bit">Bit-to-Sensor</a>
+      </li>
+      <li class="push-right-small">
+        <a href="#" id="accessory_tab" class='change-asset-type blue-text' data-type="md">MD</a>
+      </li>
+      <li class="push-right-small">
+        <a href="#" id="accessory_tab" class='change-asset-type blue-text' data-type="tvd">TVD</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class='inline-block asset-type-form align-top' data-type="path">
+    <div style='margin-left: 15px; font-family: gothambookregular;'>
+      <div>
+        <div class='inline-block list-item-column-short'>MD</div>
+        <div class='inline-block blue-text' style='font-family: gothamboldregular;'><b><%= number_with_delimiter(last_point.measured_depth.round(2), :delimiter => ',') %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>Inc</div>
+        <div class='inline-block blue-text'><b><%= last_point.inclination.round(2) %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>Azi</div>
+        <div class='inline-block blue-text'><b><%= last_point.azimuth.round(2) %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>TVD</div>
+        <div class='inline-block blue-text'><b><%= number_with_delimiter(last_point.true_vertical_depth.round(2), :delimiter => ',') %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>DLS</div>
+        <div class='inline-block blue-text'><b><%= last_point.dog_leg_severity.round(2) %></b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class='inline-block asset-type-form align-top hidden' data-type="bit">
+    <% bha = @drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id IS NOT NULL").last %>
+    <% md = last_point.measured_depth + (bha.present? && bha.bha.present? && bha.bha.bit_to_sensor.present? ? bha.bha.bit_to_sensor : 0.0) %>
+
+    <div style='margin-left: 15px; font-family: gothambookregular;'>
+      <div>
+        <div class='inline-block list-item-column-short'>MD</div>
+        <div class='inline-block blue-text' style='font-family: gothamboldregular;'><b><%= number_with_delimiter(md.round(2), :delimiter => ',') %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>Inc</div>
+        <div class='inline-block blue-text'><b><%= last_point.inclination.round(2) %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>Azi</div>
+        <div class='inline-block blue-text'><b><%= last_point.azimuth.round(2) %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>TVD</div>
+        <div class='inline-block blue-text'><b><%= number_with_delimiter(last_point.true_vertical_depth.round(2), :delimiter => ',') %></b></div>
+      </div>
+      <div>
+        <div class='inline-block list-item-column-short'>DLS</div>
+        <div class='inline-block blue-text'><b><%= last_point.dog_leg_severity.round(2) %></b></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class='inline-block asset-type-form align-top hidden' data-type="md">
+
+  </div>
+
+  <div class='inline-block asset-type-form align-top hidden' data-type="tvd">
+
+  </div>
+
+</div>

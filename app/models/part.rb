@@ -12,6 +12,7 @@ class Part < ActiveRecord::Base
                     :total_uses,
                     :location,
                     :below_rotary,
+                    :total_circulation,
                     :above_rotary,
                     :manufacturer,
                     :category,

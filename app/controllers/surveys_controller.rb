@@ -1,4 +1,5 @@
 class SurveysController < ApplicationController
+    before_filter :signed_in_user, only: [:index, :show, :new, :create, :edit, :update]
 
     include SurveysHelper
 

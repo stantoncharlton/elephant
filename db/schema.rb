@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222153037) do
+ActiveRecord::Schema.define(:version => 20140222233042) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -127,8 +127,8 @@ ActiveRecord::Schema.define(:version => 20140222153037) do
     t.integer  "job_id"
     t.integer  "document_id"
     t.string   "name"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.string   "description"
     t.decimal  "below_rotary"
     t.decimal  "above_rotary"
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20140222153037) do
     t.decimal  "bit_tfa"
     t.decimal  "bit_size"
     t.integer  "master_bha_id"
+    t.decimal  "total_circulation", :default => 0.0
   end
 
   add_index "bhas", ["company_id"], :name => "index_bhas_on_company_id"
@@ -824,6 +825,7 @@ ActiveRecord::Schema.define(:version => 20140222153037) do
     t.boolean  "rental",                               :default => false
     t.integer  "asset_type",                           :default => 0
     t.integer  "supplier_id"
+    t.decimal  "total_circulation",                    :default => 0.0
   end
 
   add_index "parts", ["company_id"], :name => "index_parts_on_company_id"
