@@ -8,7 +8,7 @@ class ConversationsController < ApplicationController
         if !@conversations.empty? && current_user.alerts
             @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE }
             @new_alerts.each do |a|
-                if @conversations.first == a.target
+                if @conversations.first == a.target && !params[:check_new].present?
                     a.destroy
                 end
             end
@@ -22,7 +22,7 @@ class ConversationsController < ApplicationController
         mark_seen = params[:seen].nil? || params[:seen] == 'true'
         if current_user.alerts.any?
             @new_alerts = current_user.alerts.select { |a| a.alert_type == Alert::NEW_MESSAGE && a.target == @conversation }
-            if mark_seen
+            if mark_seen && !params[:check_new].present?
                 @new_alerts.each do |a|
                     a.destroy
                 end

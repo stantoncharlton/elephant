@@ -56,7 +56,7 @@
             <b>Add</b>
           </div>
           <%= text_field_tag "current_add", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "Add MD" %>
         </div>
@@ -65,7 +65,7 @@
             <b>Dogleg</b>
           </div>
           <%= text_field_tag "current_dog_leg", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "Dogleg" %>
         </div>
@@ -74,7 +74,7 @@
             <b>Tool Face</b>
           </div>
           <%= text_field_tag "current_tool_face", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "TFO" %>
         </div>
@@ -91,7 +91,7 @@
             <b>Inclination</b>
           </div>
           <%= text_field_tag "target_inc", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "Inclination" %>
         </div>
@@ -100,7 +100,7 @@
             <b>Azimuth</b>
           </div>
           <%= text_field_tag "target_azi", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "Azimuth" %>
         </div>
@@ -109,7 +109,7 @@
             <b>TVD</b>
           </div>
           <%= text_field_tag "target_tvd", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "TVD" %>
         </div>
@@ -120,11 +120,9 @@
 
       <div class='inline-block asset-type-form align-top hidden' data-type="bit"
            style='font-family: gothambookregular; font-size: 12px;'>
-        <% bha = @drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id IS NOT NULL").last %>
-
         Bit to Sensor &nbsp;&nbsp;
         <b class='orange-text' style='font-family: gothamboldregular;'>
-          <%= (bha.present? && bha.bha.present? && bha.bha.bit_to_sensor.present? ? bha.bha.bit_to_sensor : 0.0) %>
+          <%= @bit_to_sensor %>
         </b>
       </div>
 
@@ -136,16 +134,17 @@
             <b>Add</b>
           </div>
           <%= text_field_tag "md_add", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "Add MD" %>
         </div>
+        <span class='help-text'>or</span>
         <div>
           <div class='inline-block' style='width: 85px;'>
             <b>Target</b>
           </div>
           <%= text_field_tag "md_target", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
                              placeholder: "Target MD" %>
         </div>
@@ -162,18 +161,19 @@
             <b>Add</b>
           </div>
           <%= text_field_tag "tvd_add", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
-                             placeholder: "Add MD" %>
+                             placeholder: "Add TVD" %>
         </div>
+        <span class='help-text'>or</span>
         <div>
           <div class='inline-block' style='width: 85px;'>
             <b>Target</b>
           </div>
           <%= text_field_tag "tvd_target", "",
-                             class: "job-field-value-editable",
+                             class: "job-field-value-editable projection-value",
                              style: 'width: 80px;',
-                             placeholder: "Target MD" %>
+                             placeholder: "Target TVD" %>
         </div>
 
         <%= submit_tag "Update", remote: true, class: "btn btn-default push-down", style: "margin-left: 113px;" %>
@@ -181,30 +181,46 @@
 
       <div class='pull-right alert' style='margin-left: 15px; font-family: gothambookregular; width: 280px; padding-left: 30px; padding-bottom: 20px; padding-top: 13px;'>
         <div id="projections_result">
-          <div style='font-family: gothamboldregular;'>
+          <div class='inline-block' style='font-family: gothamboldregular; width: 130px;'>
+            <b class='orange-text'>Name</b>
+          </div>
+          <div class='inline-block' style='font-family: gothamboldregular; width: 100px;'>
             <b class='orange-text'>Result</b>
           </div>
+          <div class='inline-block' style='font-size: 10px;'>
+            <span class='orange-text'>Change</span>
+          </div>
           <div class='push-down'>
-            <div class='inline-block' style='width: 170px;'>M. Depth</div>
-            <div class='inline-block blue-text' style='font-family: gothamboldregular;'>
+            <div class='inline-block' style='width: 130px;'>M. Depth</div>
+            <div class='inline-block blue-text' style='font-family: gothamboldregular; width: 100px;'>
               <b id="md">-</b></div>
+            <div id="md_delta" class='inline-block help-text'></div>
+          </div>
+          <div class=''>
+            <div class='inline-block' style='width: 130px;'>&nbsp;&nbsp;with Bit</div>
+            <div class='inline-block blue-text' style='font-family: gothamboldregular; width: 100px;'>
+              <b id="md_bit">-</b></div>
           </div>
           <div>
-            <div class='inline-block' style='width: 170px;'>Inclination</div>
-            <div class='inline-block blue-text'><b id="inc">-</b></div>
-          </div>
-          <div>
-            <div class='inline-block' style='width: 170px;'>Azimuth</div>
-            <div class='inline-block blue-text'><b id="azi">-</b></div>
-          </div>
-          <div>
-            <div class='inline-block' style='width: 170px;'>TVD</div>
-            <div class='inline-block blue-text'>
+            <div class='inline-block' style='width: 130px;'>TVD</div>
+            <div class='inline-block blue-text' style='width: 100px;'>
               <b id="tvd">-</b></div>
+            <div id="tvd_delta" class='inline-block help-text'></div>
+          </div>
+          <div class=' hidden'>
+            <div class='inline-block' style='width: 130px;'>Inclination</div>
+            <div class='inline-block blue-text' style='width: 100px;'><b id="inc">-</b></div>
+            <div id="inc_delta" class='inline-block help-text'></div>
+          </div>
+          <div class='push-down'>
+            <div class='inline-block' style='width: 130px;'>Tool Face</div>
+            <div class='inline-block blue-text' style='width: 100px;'><b id="azi">-</b></div>
+            <div id="azi_delta" class='inline-block help-text'></div>
           </div>
           <div>
-            <div class='inline-block' style='width: 170px;'>Dogleg Severity</div>
-            <div class='inline-block blue-text'><b id="dls">-</b></div>
+            <div class='inline-block' style='width: 130px;'>Dogleg Severity</div>
+            <div class='inline-block blue-text' style='width: 100px;'><b id="dls">-</b></div>
+            <div id="dls_delta" class='inline-block help-text'></div>
           </div>
         </div>
         <div id="projections_loading" class='hidden'>

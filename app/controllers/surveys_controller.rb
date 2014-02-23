@@ -166,6 +166,12 @@ class SurveysController < ApplicationController
                         drilling_log.update_attribute(:td_depth, @survey.survey_points.last.measured_depth)
                     end
                 end
+
+                @actual_survey = Survey.includes(document: :job).where(:plan => false).where("jobs.well_id = ?", @survey.document.job.well_id).first
+                if @actual_survey.present? && @actual_survey.no_well_plan
+                    @actual_survey.no_well_plan = false
+                    @actual_survey.save
+                end
             end
 
             if @survey.errors.any?

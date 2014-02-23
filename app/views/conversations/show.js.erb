@@ -36,7 +36,7 @@
                 $('#messages_content').find('*').remove();
                 $('#message_loading').removeClass('hidden');
 
-                $.ajax('/conversations/', {
+                $.ajax('/conversations/?check_new=true', {
                     type: 'get',
                     dataType: 'script'
                 });

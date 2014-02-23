@@ -124,7 +124,7 @@
         <% if activity.activity_type == Activity::ASSET_ADDED %>
             <% if activity.target.present? %>
                 <p class="activity-message"><b>Asset</b></p>
-                <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link", target: "_blank" %>
+                <%= link_to activity.target.master_part.present? ? activity.target.master_part.name : activity.target.name, activity.target, class: "activity-user-link", target: "_blank" %>
                 <p class="activity-message">added to job</p>
                 <br>
 
