@@ -263,4 +263,22 @@ class Part < ActiveRecord::Base
                 return ""
         end
     end
+
+    def color
+        if !self.name.blank?
+            Digest::MD5.hexdigest(self.name)[0..5]
+        elsif self.master_part.present?
+            Digest::MD5.hexdigest(self.master_part.name)[0..5]
+        else
+            '666666'
+        end
+    end
+
+    def name_string
+        if self.master_part.present?
+            self.master_part.name
+        else
+            self.name
+        end
+    end
 end

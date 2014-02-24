@@ -39,7 +39,7 @@
                 <% assets_out = Part.where(:rental => true).where("parts.supplier_id = ?", supplier.id).where(:status => Part::ON_JOB).count %>
                 <% shipping_out = Part.where(:rental => true).where("parts.supplier_id = ?", supplier.id).where(:status => Part::SHIPPING).count %>
                 <% shipping_in = Part.joins(:jobs).where(:rental => true).where("parts.supplier_id = ?", supplier.id).having("count(jobs.id) > 0").where(:status => Part::SHIPPING).count %>
-                <h3 class='inline-block blue-text push-right-small'><%= assets_out %></h3>&nbsp;<b>rentals</b>
+                <h3 class='inline-block blue-text push-right-small'><%= assets_out %></h3>&nbsp;<b>on-site</b>
 
                 <h3 class='inline-block blue-text push-right-small'><%= shipping_out %></h3>&nbsp;<b>outbound</b>
 

@@ -19,10 +19,10 @@ class WarehousesController < ApplicationController
 
         respond_to do |format|
             format.html {
-                @parts = Part.includes(:parts).where(:warehouse_id => @warehouse.id).where(:template => false).order("parts.name ASC").paginate(page: params[:page], limit: 100)
+                @parts = Part.includes(:parts).where(:warehouse_id => @warehouse.id).where(:template => false).where("parts.status = :available OR parts.status = :maintenance", available: Part::AVAILABLE, maintenance: Part::IN_REDRESS).order("parts.name ASC").paginate(page: params[:page], limit: 100)
             }
             format.xlsx {
-                @parts = Part.includes(:parts).where(:warehouse_id => @warehouse.id).where(:template => false).order("parts.name ASC")
+                @parts = Part.includes(:parts).where(:warehouse_id => @warehouse.id).where(:template => false).where("parts.status = :available OR parts.status = :maintenance", available: Part::AVAILABLE, maintenance: Part::IN_REDRESS).order("parts.name ASC")
                 excel = parts_to_excel @parts
                 send_data excel.to_stream.read, :filename => "Inventory List.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }

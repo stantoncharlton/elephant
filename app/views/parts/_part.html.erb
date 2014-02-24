@@ -1,10 +1,31 @@
-<li class="field">
+<div id="part_<%= part.id %>"
+     class="inline-block align-top part">
+  <% if current_user.role.access_to_inventory? %>
+      <%= link_to part,
+                  class: "part-box2 tooltip-info ",
+                  "data-html" => "true",
+                  "data-title" => part.name_string,
+                  "data-placement" => "bottom" do %>
+          <div class='bar' style="background: <%= '#' + part.color %>;"></div>
+          <% if part.rental == PartMembership::RENTAL %>
+              <div class='rental'>R</div>
+          <% end %>
+          <div class='center name'><%= part.name_string %></div>
+          <div class='center'><%= part.serial_number %></div>
+      <% end %>
+  <% else %>
+      <%= div_for part,
+                  class: "part-box2 tooltip-info ",
+                  "data-html" => "true",
+                  "data-title" => part.name_string,
+                  "data-placement" => "bottom" do %>
+          <div class='bar' style="background: <%= '#' + part.color %>;"></div>
+          <% if part.rental == PartMembership::RENTAL %>
+              <div class='rental'>R</div>
+          <% end %>
+          <div class='center name'><%= part.name_string %></div>
+          <div class='center'><%= part.serial_number %></div>
+      <% end %>
+  <% end %>
+</div>
 
-  <p class="list-item-header-text list-item-column list-item-column-long">
-    <%= part.master_part.name %>
-  </p>
-
-  <p class="list-item-text list-item-column2">
-  </p>
-
-</li>

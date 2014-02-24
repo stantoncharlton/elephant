@@ -44,15 +44,17 @@
             <% end %>
 
 
-            <% if warehouse.parts.any? %>
-                <div class="content">
-                  <% warehouse.parts.each_with_index do |p, i| %>
-                      <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: false, condensed: @condensed, show_name: true %>
-                  <% end %>
-                </div>
+            <% if false %>
+                <% if warehouse.parts.any? %>
+                    <div class="content">
+                      <% warehouse.parts.each_with_index do |p, i| %>
+                          <%= render 'parts/sub_part2', part: p, index: i, show_warehouse: false, condensed: @condensed, show_name: true %>
+                      <% end %>
+                    </div>
 
-            <% else %>
-                <p class='help-text'>No assets in this warehouse...</p>
+                <% else %>
+                    <p class='help-text'>No assets in this warehouse...</p>
+                <% end %>
             <% end %>
             <hr>
 

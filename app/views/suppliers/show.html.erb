@@ -28,56 +28,70 @@
   </div>
 
 
+</div>
 
+<div>
   <% assets_out = Part.where(:rental => true).where("parts.supplier_id = ?", @supplier.id).where(:status => Part::ON_JOB) %>
   <% shipping_out = Part.where(:rental => true).where("parts.supplier_id = ?", @supplier.id).where(:status => Part::SHIPPING) %>
-  <% shipping_in = Part.joins(:jobs).where(:rental => true).where("parts.supplier_id = ?", @supplier.id).having("count(jobs.id) > 0").where(:status => Part::SHIPPING) %>
+  <% shipping_in = Part.joins(:jobs).where(:rental => true).where("parts.supplier_id = ?", @supplier.id).having("count(jobs.id) > 0").where(:status => Part::SHIPPING).group('parts.id') %>
 
   <div class='page_header'>
-    <h1>Current</h1>
+    <h3 class='blue-text' style='font-family: gothamboldregular;'>Current</h3>
   </div>
-  <h3>Assets On-Site</h3>
+  <h3 style='font-family: gothambookregular;'>Assets On-Site</h3>
   <hr>
   <div>
+    <% if !assets_out.any? %>
+        <p class='help-text'>No assets...</p>
+    <% end %>
     <% assets_out.each_with_index do |part, index| %>
-        <%= render 'parts/sub_part2', part: part, index: index, condensed: true, show_name: true %>
+        <%= render 'parts/part', part: part %>
     <% end %>
   </div>
 
-  <h3>Shipping To-Site</h3>
+  <br><br>
+
+  <h3 class='push-down' style='font-family: gothambookregular;'>Shipping To-Site</h3>
   <hr>
   <div>
+    <% if !shipping_out.any? %>
+        <p class='help-text'>No assets...</p>
+    <% end %>
     <% shipping_out.each_with_index do |part, index| %>
-        <%= render 'parts/sub_part2', part: part, index: index, condensed: true, show_name: true %>
+        <%= render 'parts/part', part: part %>
     <% end %>
   </div>
 
-  <h3>Shipping From-Site</h3>
+  <br><br>
+
+  <h3 class='push-down' style='font-family: gothambookregular;'>Shipping From-Site</h3>
   <hr>
   <div>
+    <% if !shipping_in.any? %>
+        <p class='help-text'>No assets...</p>
+    <% end %>
     <% shipping_in.each_with_index do |part, index| %>
-        <%= render 'parts/sub_part2', part: part, index: index, condensed: true, show_name: true %>
+        <%= render 'parts/part', part: part %>
     <% end %>
   </div>
 
+  <br><br>
 
   <% parts_grouped = Part.where(:rental => true).where(:status => Part::AVAILABLE).where("parts.supplier_id = ?", @supplier.id).group_by { |p| p.created_at.to_date } %>
   <% parts_grouped = parts_grouped.sort_by { |g| g[0] } %>
 
 
-  <div class='page_header'>
-    <h1>Past</h1>
+  <div class='page_header push-down'>
+    <h3 class='blue-text' style='font-family: gothamboldregular;'>Past</h3>
   </div>
   <div id="parts" class="list">
     <% parts_grouped.each_with_index do |part_group, i| %>
-        <h3><%= distance_of_time_in_words(Time.zone.now, part_group[1].first.received_at) %></h3>
+        <h3 style='font-family: gothambookregular;'><%= distance_of_time_in_words(Time.zone.now, part_group[1].first.created_at) %></h3>
         <hr>
         <% part_group[1].each_with_index do |part, index| %>
-            <%= render 'parts/sub_part2', part: part, index: index, condensed: true, show_name: true %>
+            <%= render 'parts/part', part: part %>
         <% end %>
         <br><br>
     <% end %>
   </div>
-
-
 </div>
