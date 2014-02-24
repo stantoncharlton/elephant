@@ -36,9 +36,9 @@
                 </p>
 
                 <br>
-                <% assets_out = PartMembership.where("part_memberships.job_id IS NOT NULL").where("part_memberships.supplier_id = ?", supplier.id).where("part_memberships.received IS FALSE").count %>
-                <% shipping_out = PartMembership.joins(:shipment).where("part_memberships.shipment_id IS NOT NULL").where("part_memberships.job_id IS NULL").where("part_memberships.supplier_id = ?", supplier.id).where("shipments.from_type = ?", Supplier.name).where("part_memberships.received IS FALSE").count %>
-                <% shipping_in = PartMembership.joins(:shipment).where("part_memberships.shipment_id IS NOT NULL").where("part_memberships.supplier_id = ?", supplier.id).where("shipments.to_type = ?", Supplier.name).where("part_memberships.received IS FALSE").count %>
+                <% assets_out = Part.where(:rental => true).where("parts.supplier_id = ?", supplier.id).where(:status => Part::ON_JOB).count %>
+                <% shipping_out = Part.where(:rental => true).where("parts.supplier_id = ?", supplier.id).where(:status => Part::SHIPPING).count %>
+                <% shipping_in = Part.joins(:jobs).where(:rental => true).where("parts.supplier_id = ?", supplier.id).having("count(jobs.id) > 0").where(:status => Part::SHIPPING).count %>
                 <h3 class='inline-block blue-text push-right-small'><%= assets_out %></h3>&nbsp;<b>rentals</b>
 
                 <h3 class='inline-block blue-text push-right-small'><%= shipping_out %></h3>&nbsp;<b>outbound</b>
