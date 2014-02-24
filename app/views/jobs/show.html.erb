@@ -2,8 +2,8 @@
 
 <%= render 'jobs/job_header', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 
-<div style='height: 60px;'>
-<div style='position: absolute; left: 0; width: 100%; height: 55px;'>
+<div style='height: 52px;'>
+<div style='position: absolute; left: 0; width: 100%; height: 52px;'>
   <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
 
     <li class="active">
@@ -77,6 +77,56 @@
   </ul>
 </div>
 </div>
+
+
+<% if false %>
+<div style='height: 55px;'>
+<div style='position: absolute; left: 0; width: 100%; height: 55px;'>
+  <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px; background: #69c4f2'>
+    <li class="active">
+      <a href="#drilling-overview" class="remote-tray-toggle custom-data-toggle"
+         data-tray="drilling-overview">Overview</a>
+    </li>
+
+    <li class="">
+      <a href="#drilling-rop" class="remote-tray-toggle custom-data-toggle"
+         data-tray="drilling-rop">ROP</a>
+    </li>
+
+
+    <li class="">
+      <a href="#drilling-runs" class="remote-tray-toggle custom-data-toggle"
+         data-tray="drilling-runs">Runs</a>
+    </li>
+
+    <li class="">
+      <a href="#drilling-daily" class="remote-tray-toggle custom-data-toggle"
+         data-tray="drilling-daily">Days</a>
+    </li>
+
+    <li class="">
+      <a href="#drilling-bha" class="remote-tray-toggle custom-data-toggle"
+         data-tray="drilling-bha">BHAs</a>
+    </li>
+
+    <li class="">
+      <a href="#drilling-npt" class="remote-tray-toggle custom-data-toggle"
+         data-tray="drilling-npt">NPT</a>
+    </li>
+
+    <li class="">
+      <a href="#log" class="remote-tray-toggle custom-data-toggle"
+         data-tray="log">Drilling Activity</a>
+    </li>
+
+    <li class="">
+      <a href="#survey" class="remote-tray-toggle custom-data-toggle"
+         data-tray="survey">Survey</a>
+    </li>
+  </ul>
+</div>
+</div>
+    <% end %>
 
 
 <div id="job_<%= @job.id %>" class="job-main-div">

@@ -32,8 +32,6 @@ class SurveyProjectionsController < ApplicationController
         end
 
         vertical_section = @active_well_plan.present? ? @active_well_plan.vertical_section_azimuth : 0.0
-        puts '..............'
-        puts @active_well_plan.vertical_section_azimuth
 
         calculated_points = @survey.no_well_plan ? [] : @active_well_plan.survey_points
         calculated_points_survey = @survey.calculated_points(@survey.no_well_plan ? 0 : @active_well_plan.vertical_section_azimuth)
