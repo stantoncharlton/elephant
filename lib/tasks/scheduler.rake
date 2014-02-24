@@ -63,8 +63,6 @@ task :inactive_job_email => :environment do
         creator = job.get_role(JobMembership::CREATOR)
         coordinator = job.get_role(JobMembership::COORDINATOR)
 
-        JobProcess.record(creator || coordinator, job, job.company, JobProcess::LOW_ACTIVITY)
-
         if !coordinator.nil?
             JobProcessMailer.job_inactive(coordinator, job).deliver
         end
