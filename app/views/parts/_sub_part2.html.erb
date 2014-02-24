@@ -17,7 +17,7 @@
                           style: "padding-top: 7px; padding-bottom: 12px;",
                           "data-title" => part.status == Part::ON_JOB && part.current_job.present? ? render('jobs/well_tooltip', job: part.current_job, show_summary_data: true) : part.status_string do %>
                   <div class='align-top part-name' style='font-size: 12px;'>
-                    <%= part.master_part.name %>
+                    <%= part.master_part.present? ? part.master_part.name : part.name %>
                   </div>
                   <span class='align-top' style="font-size: 14px; font-family: 'gothamboldregular';">
                     <%= part.serial_number %>
