@@ -81,6 +81,7 @@ class Part < ActiveRecord::Base
             district.present? && district.master_district.present? ? district.master_district_id : nil
         end
         boolean :template
+        boolean :rental
         integer :status
 
         string :name_sort do
@@ -154,6 +155,7 @@ class Part < ActiveRecord::Base
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            with(:rental, false)
             order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
         end
@@ -163,6 +165,7 @@ class Part < ActiveRecord::Base
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
             with(:company_id, company.id)
+            with(:rental, false)
             with(:master_district_id, district_id)
             order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
@@ -182,6 +185,7 @@ class Part < ActiveRecord::Base
                     with(:district_id, district.id)
                 end
             end
+            with(:rental, false)
             order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
         end
@@ -203,6 +207,7 @@ class Part < ActiveRecord::Base
             end
             with(:material_number, material_number)
             with(:template, false)
+            with(:rental, false)
             with(:status, Part::AVAILABLE)
             order_by :name_sort, :desc
             paginate :page => options[:page], :per_page => 20
