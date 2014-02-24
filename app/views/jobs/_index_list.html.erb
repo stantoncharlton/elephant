@@ -1,6 +1,6 @@
 <div id="jobs_list">
   <% jobs = @jobs.paginate(page: params[:page], limit: 30) %>
-  <% jobs_array = jobs.includes(:job_memberships).includes(:client).includes(:job_template).includes(well: :rig).includes(well: :drilling_log).includes(well: { jobs: :job_template }).to_a %>
+  <% jobs_array = jobs.includes(:job_memberships).includes(:client).includes(well: :rig).includes(well: :drilling_log).includes(well: { jobs: :job_template }).to_a %>
   <% jobs_array = jobs_array.uniq { |j| "#{j.field.name} - #{j.well.name}" }.sort_by { |j| "#{j.field.name} - #{j.well.name}" } %>
   <div id="jobs" class="list">
     <% jobs_array.each do |job| %>
