@@ -1,64 +1,46 @@
 <div class="navbar navbar-fixed-top">
 
-  <div class="navbar-inner">
+<div class="navbar-inner">
 
-    <div class="right-menu">
-      <ul class="nav header-v-center">
+<div class="right-menu">
+  <ul class="nav header-v-center">
 
-        <% if signed_in? %>
-            <li id="fat-menu" class="dropdown menu-width">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <b class="caret pull-left"></b>
+    <% if signed_in? %>
+        <li id="fat-menu" class="dropdown menu-width">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <b class="caret pull-left"></b>
 
-                <div class="pull-left">
-                  <p class="user-name"><%= current_user.name %></p>
+            <div class="pull-left">
+              <p class="user-name"><%= current_user.name %></p>
 
-                  <p class="user-title">
-                    <% if current_user.admin? %>
-                        Administrator
-                    <% else %>
-                        <%= current_user.title %>
-                    <% end %>
-                  </p>
-                </div>
-              </a>
-              <ul class="dropdown-menu menu-width2">
-                <% if !signed_in_admin? %>
+              <p class="user-title">
+                <% if current_user.admin? %>
+                    Administrator
+                <% else %>
+                    <%= current_user.title %>
+                <% end %>
+              </p>
+            </div>
+          </a>
+          <ul class="dropdown-menu menu-width2">
+            <% if !signed_in_admin? %>
+                <li>
+                  <%= link_to user_path(current_user), class: "menu-avatar" do %>
+                      <%= image_tag "user_avatar_extrasmall.png" %>
+                      <span>Profile</span>
+                  <% end %>
+                </li>
+                <li class="divider"></li>
+                <% if current_user.district.present? %>
                     <li>
-                      <%= link_to user_path(current_user), class: "menu-avatar" do %>
-                          <%= image_tag "user_avatar_extrasmall.png" %>
-                          <span>Profile</span>
+                      <%= link_to current_user.district, class: "menu-avatar" do %>
+                          <%= image_tag "district_extrasmall.png" %>
+                          <span><%= current_user.district.name %></span>
                       <% end %>
                     </li>
                     <li class="divider"></li>
-                    <% if current_user.district.present? %>
-                        <li>
-                          <%= link_to current_user.district, class: "menu-avatar" do %>
-                              <%= image_tag "district_extrasmall.png" %>
-                              <span><%= current_user.district.name %></span>
-                          <% end %>
-                        </li>
-                        <li class="divider"></li>
 
-                        <% if current_user.role.global_read? || current_user.role.access_to_inventory? %>
-                            <li>
-                              <%= link_to inventory_index_path, class: "menu-avatar" do %>
-                                  <%= image_tag "tool.png", class: "job-status-avatar" %>
-                                  <span class="push-right-small">Inventory</span>
-                              <% end %>
-                            </li>
-                            <li class="divider"></li>
-                        <% end %>
-                    <% elsif current_user.role.global_read? %>
-                        <li>
-                          <%= link_to districts_path, class: "menu-avatar" do %>
-                              <%= image_tag "district_extrasmall.png" %>
-                              <span>Districts</span>
-                          <% end %>
-                        </li>
-
-                        <li class="divider"></li>
-
+                    <% if current_user.role.global_read? || current_user.role.access_to_inventory? %>
                         <li>
                           <%= link_to inventory_index_path, class: "menu-avatar" do %>
                               <%= image_tag "tool.png", class: "job-status-avatar" %>
@@ -67,147 +49,166 @@
                         </li>
                         <li class="divider"></li>
                     <% end %>
-
-                    <% if !current_user.role.limit_to_assigned_jobs? %>
-                        <li>
-                          <%= link_to issues_path, class: "menu-avatar" do %>
-                              <%= image_tag "error_blue.png", class: "job-status-avatar" %>
-                              <span class="push-right-small">Incidents</span>
-                          <% end %>
-                        </li>
-                        <li class="divider"></li>
-                    <% end %>
-                    <% if !current_user.role.limit_to_assigned_jobs? %>
-                        <li>
-                          <%= link_to rigs_path, class: "menu-avatar" do %>
-                              <%= image_tag "rig_extrasmall.png", class: "job-status-avatar" %>
-                              <span class="push-right-small">Rigs</span>
-                          <% end %>
-                        </li>
-                        <li class="divider"></li>
-                    <% end %>
-                <% end %>
-                <% if signed_in_admin? %>
-                    <li><%= link_to "Company Info", edit_company_path(current_user.company) %></li>
-                <% else %>
+                <% elsif current_user.role.global_read? %>
                     <li>
-                      <%= link_to Company.cached_find(current_user.company_id), class: "menu-avatar" do %>
-                          <%= image_tag "user_avatar_client_extrasmall.png" %>
-                          <span>Company Directory</span>
+                      <%= link_to districts_path, class: "menu-avatar" do %>
+                          <%= image_tag "district_extrasmall.png" %>
+                          <span>Districts</span>
                       <% end %>
                     </li>
-                <% end %>
-                <li class="divider"></li>
-                <% if !signed_in_admin? %>
-                    <li><%= link_to "History", history_index_path %></li>
+
+                    <li class="divider"></li>
+
+                    <li>
+                      <%= link_to inventory_index_path, class: "menu-avatar" do %>
+                          <%= image_tag "tool.png", class: "job-status-avatar" %>
+                          <span class="push-right-small">Inventory</span>
+                      <% end %>
+                    </li>
                     <li class="divider"></li>
                 <% end %>
-                <% if !signed_in_admin? %>
-                    <li><%= link_to "Daily Recap", history_index_path(recap: true) %></li>
-                    <li class="divider"></li>
-                    <li><%= link_to "Timesheet", job_times_path %></li>
-                    <li class="divider"></li>
-                <% end %>
-                <li><%= link_to "Settings", edit_setting_path(current_user) %></li>
-                <li class="divider"></li>
-                <% if signed_in_admin? %>
-                    <li><%= link_to "Security", security_path %></li>
+
+                <% if !current_user.role.limit_to_assigned_jobs? %>
+                    <li>
+                      <%= link_to issues_path, class: "menu-avatar" do %>
+                          <%= image_tag "error_blue.png", class: "job-status-avatar" %>
+                          <span class="push-right-small">Incidents</span>
+                      <% end %>
+                    </li>
                     <li class="divider"></li>
                 <% end %>
-                <li>
-                  <%= link_to "Sign out", signout_path, method: "delete" %>
-                </li>
-              </ul>
-            </li>
-
-
-            <li>
-              <a href="javascript:void(0);" onclick="olark('api.box.expand')"
-                 class='tooltip-info' data-title="Click for Live support" data-place="bottom"
-                 style='width: 40px; font-size: 10px; height: 37px; background: #a35454; vertical-align: top; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff;'>
-                Live<br>Support
-              </a>
-              <!-- <%= link_to "Help", help_path %> -->
-            </li>
-        <% else %>
-
-
-
-        <% end %>
-
-      </ul>
-    </div>
-
-    <% if !signed_in? %>
-        <div class='inline-block pull-left push-right-small'>
-          <%= link_to "Elephant", root_path, id: "logo", class: "", alt: "Home of Elephant Oil & Gas Energy Software" %>
-        </div>
-        <% if !request.path.starts_with? "/drilling_log" %>
-            <% if request.path != root_path %>
-                <%= link_to "Email Us Now", "mailto:sales@elephant-cloud.com", class: "login-now-btn push-right bluebtn btnsmall gray pull-left" %>
+                <% if !current_user.role.limit_to_assigned_jobs? %>
+                    <li>
+                      <%= link_to rigs_path, class: "menu-avatar" do %>
+                          <%= image_tag "rig_extrasmall.png", class: "job-status-avatar" %>
+                          <span class="push-right-small">Rigs</span>
+                      <% end %>
+                    </li>
+                    <li class="divider"></li>
+                <% end %>
             <% end %>
-            <div class="non-signed-in-header-right pull-right">
-              <%= render 'layouts/signed_out_tab' %>
-            </div>
-        <% else %>
-            <div class="non-signed-in-header-right pull-right push-down push-right">
-              <h3 class='white-text'>Shared Drilling Overview</h3>
-              <%= link_to "Learn more about Elephant", features_path, class: "user-link light-blue-text" %>
-            </div>
-        <% end %>
+            <% if signed_in_admin? %>
+                <li><%= link_to "Company Info", edit_company_path(current_user.company) %></li>
+            <% else %>
+                <li>
+                  <%= link_to Company.cached_find(current_user.company_id), class: "menu-avatar" do %>
+                      <%= image_tag "user_avatar_client_extrasmall.png" %>
+                      <span>Company Directory</span>
+                  <% end %>
+                </li>
+            <% end %>
+            <li class="divider"></li>
+            <% if !signed_in_admin? %>
+                <li><%= link_to "History", history_index_path %></li>
+                <li class="divider"></li>
+            <% end %>
+            <% if !signed_in_admin? %>
+                <li><%= link_to "Daily Recap", history_index_path(recap: true) %></li>
+                <li class="divider"></li>
+                <li><%= link_to "Timesheet", job_times_path %></li>
+                <li class="divider"></li>
+            <% end %>
+            <li><%= link_to "Settings", edit_setting_path(current_user) %></li>
+            <li class="divider"></li>
+            <% if signed_in_admin? %>
+                <li><%= link_to "Security", security_path %></li>
+                <li class="divider"></li>
+            <% end %>
+            <li>
+              <%= link_to "Sign out", signout_path, method: "delete" %>
+            </li>
+          </ul>
+        </li>
+
+
+        <li>
+          <a href="javascript:void(0);" onclick="olark('api.box.expand')"
+             class='tooltip-info' data-title="Click for Live support" data-place="bottom"
+             style='width: 40px; font-size: 10px; height: 37px; background: #a35454; vertical-align: top; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff;'>
+            Live<br>Support
+          </a>
+          <!-- <%= link_to "Help", help_path %> -->
+        </li>
+    <% else %>
+
+
+
     <% end %>
-    <div class="container container-header">
-      <% if signed_in? %>
-          <%= link_to "Elephant", root_path, id: "logo" %>
-      <% end %>
-      <nav>
-        <% if signed_in_admin? %>
-            <%= render 'layouts/admin_tab' %>
-        <% elsif signed_in? %>
+
+  </ul>
+</div>
+
+<% if !signed_in? %>
+    <div class='inline-block pull-left push-right-small'>
+      <%= link_to "Elephant", root_path, id: "logo", class: "", alt: "Home of Elephant Oil & Gas Energy Software" %>
+    </div>
+    <% if !request.path.starts_with? "/drilling_log" %>
+        <% if request.path != root_path %>
+            <%= link_to "Email Us Now", "mailto:sales@elephant-cloud.com", class: "login-now-btn push-right bluebtn btnsmall gray pull-left" %>
+        <% end %>
+        <div class="non-signed-in-header-right pull-right">
+          <%= render 'layouts/signed_out_tab' %>
+        </div>
+    <% else %>
+        <div class="non-signed-in-header-right pull-right push-down push-right">
+          <h3 class='white-text'>Shared Drilling Overview</h3>
+          <%= link_to "Learn more about Elephant", features_path, class: "user-link light-blue-text" %>
+        </div>
+    <% end %>
+<% end %>
+<div class="container container-header">
+  <% if signed_in? %>
+      <%= link_to "Elephant", root_path, id: "logo" %>
+  <% end %>
+  <nav>
+    <% if signed_in_admin? %>
+        <%= render 'layouts/admin_tab' %>
+    <% elsif signed_in? %>
 
 
+        <div class="inline-block">
+          <%= render 'layouts/user_tab' %>
 
-            <div class="inline-block">
-              <%= render 'layouts/user_tab' %>
-
+          <% if !current_user.role.global_read? %>
               <div class="alerts-icon-container" style="margin-top: -60px;">
                 <% new_alerts = Alert.cached_find_new_alerts(current_user.id) %>
                 <% if new_alerts > 0 %>
                     <div class="messages-icon-alert" style="top: 10px;">
                       <p><%= new_alerts %></p>
                     </div>
-                    <% end %>
+                <% end %>
               </div>
-            </div>
+          <% end %>
+        </div>
 
 
-            <div class="messages-icon-container"
-                 id="messages_icon_div"
-                 data-placement="bottom"
-                 data-title="Messages and conversations">
-              <%= link_to "Messages", "#", class: "messages-icon-link" %>
+        <div class="messages-icon-container"
+             id="messages_icon_div"
+             data-placement="bottom"
+             data-title="Messages and conversations">
+          <%= link_to "Messages", "#", class: "messages-icon-link" %>
 
-              <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
-              <div id="new_messages" class="messages-icon-alert <%= new_messages == 0 ? "hidden" : "" %>">
-                <p id="new_messages_count"><%= new_messages %></p>
-              </div>
+          <% new_messages = Alert.cached_find_new_messages(current_user.id) %>
+          <div id="new_messages" class="messages-icon-alert <%= new_messages == 0 ? "hidden" : "" %>">
+            <p id="new_messages_count"><%= new_messages %></p>
+          </div>
 
-            </div>
+        </div>
 
 
-            <%= form_tag search_index_path, :method => 'get', :id => "global_search_id", class: "inline" do %>
-                <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search tooltip-info",
-                                   "data-placement" => "bottom",
-                                   "data-title" => "Free-form text search, type well name, job name, district, etc..." %>
-            <% end %>
-
-            <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
-                        "data-placement" => "bottom",
-                        "data-title" => "Create complex searches for jobs based on data criteria" %>
-
+        <%= form_tag search_index_path, :method => 'get', :id => "global_search_id", class: "inline" do %>
+            <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "search-query global-search tooltip-info",
+                               "data-placement" => "bottom",
+                               "data-title" => "Free-form text search, type well name, job name, district, etc..." %>
         <% end %>
 
-      </nav>
-    </div>
-  </div>
+        <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
+                    "data-placement" => "bottom",
+                    "data-title" => "Create complex searches for jobs based on data criteria" %>
+
+    <% end %>
+
+  </nav>
+</div>
+</div>
 </div>
