@@ -49,6 +49,7 @@ class Job < ActiveRecord::Base
 
     has_many :issues, order: "failure_at DESC"
     has_many :alerts, dependent: :destroy
+    has_many :activities, dependent: :destroy
 
     has_many :document_shares, order: "created_at DESC"
 
@@ -309,7 +310,7 @@ class Job < ActiveRecord::Base
     end
 
     def recent_activity(recent_date)
-        Activity.activities_for_job(self).includes(:target, :job, :user).where("activities.created_at > ?", (recent_date - 1.day))
+        Activity.activities_for_job(self).includes(:target, :job, :user).where("activities.created_at > ?", recent_date - 1.day)
     end
 
     def other_jobs
