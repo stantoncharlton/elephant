@@ -37,7 +37,7 @@
     </div>
 
 
-    <% groups = @parts.group_by { |part| part.master_part_id } %>
+    <% groups = @parts.where(:rental => false).group_by { |part| part.master_part_id } %>
 
     <div class='well'>
 
