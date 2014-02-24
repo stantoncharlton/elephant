@@ -1,71 +1,88 @@
 <% provide(:title, I18n.t("jobs.index.title")) %>
 
-<div class="page_header">
-
-  <h1><%= t ".title" %></h1>
-
-  <h2>
-    <% if @is_paged %>
-        <%= ((Integer(params[:page]) - 1) * 20) + 1 %>
-        - <%= [((Integer(params[:page]) - 1) * 20) + 20, @jobs.count].min %> of <%= @jobs.count.to_s %>
-    <% else %>
-        1 - <%= @jobs.count %> of <%= @jobs.count %>
+<div style='height: 220px;'>
+  <div class="map-container"
+       style='position:absolute; left: 0; top: 58px; width:100%; height:250px; box-shadow: 0px 1px 3px #979797; background: #5b5b5b;'>
+    <div id='map' class='dark'></div>
+    <% if false %>
+        <div class='corners'>
+          <div class="corner tlcorner"></div>
+          <div class="corner trcorner"></div>
+          <div class="corner brcorner"></div>
+          <div class="corner blcorner"></div>
+        </div>
     <% end %>
-  </h2>
 
-  <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path, class: "bluebtn pull-right tooltip-info",
-              "data-placement" => "bottom",
-              "data-title" => "Create new job" %>
+    <% if false %>
+    <div class='expand-map-box'>
+      <%= link_to "#" do %>
+          <span class='expand-text'>expand</span> <i class="icon-resize-vertical icon-white"></i>&nbsp;
+      <% end %>
+    </div>
+    <% end %>
+  </div>
 
+  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 260px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
+    <%= link_to "+ " + I18n.t("jobs.index.new"), new_job_path, class: "btn btn-default pull-right tooltip-info",
+                style: "margin-right: 20px; margin-top: -3px;",
+                "data-placement" => "bottom",
+                "data-title" => "Create new job" %>
+
+    <h2 class="job-title inline white-text" style="margin-left: 10px;">Jobs</h2>
+  </div>
 </div>
 
 <% any_member_jobs = current_user.jobs.any? %>
 <% if !current_user.role.limit_to_assigned_jobs? %>
-    <ul class="nav nav-pills alert alert-nav">
-      <% if any_member_jobs %>
-          <li class="active">
-            <a href="#my_jobs" class="job-tray-toggle custom-data-toggle loading-jobs"
+    <div style='height: 52px;'>
+      <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
+        <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
+          <% if any_member_jobs %>
+              <li class="active">
+                <a href="#my_jobs" class="job-tray-toggle custom-data-toggle loading-jobs"
+                   data-tray-controller="jobs"
+                   data-tray="my_jobs">Member Of</a>
+              </li>
+          <% end %>
+
+          <li>
+            <a href="#pre_job" class="job-tray-toggle custom-data-toggle loading-jobs"
                data-tray-controller="jobs"
-               data-tray="my_jobs">Member Of</a>
+               data-tray="pre_job">
+              <div style='display:inline-block; width: 10px; height: 10px; background: #3a87ad;'></div>
+              Pre-Job</a>
           </li>
-      <% end %>
-
-      <li>
-        <a href="#pre_job" class="job-tray-toggle custom-data-toggle loading-jobs"
-           data-tray-controller="jobs"
-           data-tray="pre_job">
-          <div style='display:inline-block; width: 10px; height: 10px; background: #3a87ad;'></div>
-          Pre-Job</a>
-      </li>
 
 
-      <li class="<%= any_member_jobs ? '' : 'active' %>">
-        <a href="#in_progress" class="job-tray-toggle custom-data-toggle loading-jobs"
-           data-tray-controller="jobs"
-           data-tray="in_progress">
-          <div style='display:inline-block; width: 10px; height: 10px; background: #f89406;'></div>
-          In-Progress</a>
-      </li>
+          <li class="<%= any_member_jobs ? '' : 'active' %>">
+            <a href="#in_progress" class="job-tray-toggle custom-data-toggle loading-jobs"
+               data-tray-controller="jobs"
+               data-tray="in_progress">
+              <div style='display:inline-block; width: 10px; height: 10px; background: #f89406;'></div>
+              In-Progress</a>
+          </li>
 
-      <li class="">
-        <a href="#post_job" class="job-tray-toggle custom-data-toggle loading-jobs"
-           data-tray-controller="jobs"
-           data-tray="post_job">
-          <div style='display:inline-block; width: 10px; height: 10px; background: #468847;'></div>
-          Post-Job</a>
-      </li>
+          <li class="">
+            <a href="#post_job" class="job-tray-toggle custom-data-toggle loading-jobs"
+               data-tray-controller="jobs"
+               data-tray="post_job">
+              <div style='display:inline-block; width: 10px; height: 10px; background: #468847;'></div>
+              Post-Job</a>
+          </li>
 
-      <li class="">
-        <a href="#complete" class="job-tray-toggle custom-data-toggle loading-jobs"
-           data-tray-controller="jobs"
-           data-tray="complete">Complete</a>
-      </li>
+          <li class="">
+            <a href="#complete" class="job-tray-toggle custom-data-toggle loading-jobs"
+               data-tray-controller="jobs"
+               data-tray="complete">Complete</a>
+          </li>
 
-    </ul>
+        </ul>
+      </div>
+    </div>
 <% end %>
 
 
-<div id="jobs">
+<div id="jobs" style='margin-top: 20px;'>
   <% if current_user.role.limit_to_assigned_jobs? %>
       <% @jobs = current_user.jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)) %>
       <%= render 'jobs/index_filter', show_stats: false, show_map: true %>
@@ -73,6 +90,8 @@
 </div>
 
 <div id="jobs_loading" class="center hidden">
+  <br>
+  <br>
   <br>
   <br>
   <span class="ajax-loading search-loading"><b>Loading Jobs...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>

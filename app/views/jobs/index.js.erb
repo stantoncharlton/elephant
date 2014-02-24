@@ -5,6 +5,8 @@
     <% end %>
 <% end %>
 
+$('#map').replaceWith("<div id='map' class='dark'></div>");
+
 <% if params[:section] == "my_jobs" %>
 <% @jobs = current_user.jobs %>
 <% elsif params[:section] == "pre_job" %>
@@ -20,7 +22,7 @@
 $('#jobs').removeClass("hidden");
 $('#jobs_loading').addClass("hidden");
 $('#jobs').find('*').remove();
-$('#jobs').append("<%= j render 'jobs/index_filter', show_stats: params[:section] != "complete", show_map: params[:section] != "complete" %>");
+$('#jobs').append("<%= j render 'jobs/index_filter', show_stats: params[:section] != "complete", show_map: true %>");
 
 
 $('.tooltip-info').tooltip();
