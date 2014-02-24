@@ -27,10 +27,10 @@
 }
 
 .tool-description {
-  display: inline;
   text-wrap: none;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tool-long-description {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222233042) do
+ActiveRecord::Schema.define(:version => 20140223212028) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -671,6 +671,7 @@ ActiveRecord::Schema.define(:version => 20140222233042) do
     t.string   "api_number"
     t.decimal  "total_cost",                           :default => 0.0
     t.decimal  "proposed_cost",                        :default => 0.0
+    t.boolean  "shared",                               :default => true
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"

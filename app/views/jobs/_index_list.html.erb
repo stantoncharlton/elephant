@@ -1,14 +1,15 @@
 <div id="jobs_list">
   <% jobs = @jobs.paginate(page: params[:page], limit: 30) %>
-  <% jobs_array = jobs.to_a %>
+  <% jobs_array = jobs.includes(:job_memberships).includes(:client).includes(:job_template).includes(well: :rig).includes(well: :drilling_log).includes(well: { jobs: :job_template }).to_a %>
   <% jobs_array = jobs_array.uniq { |j| "#{j.field.name} - #{j.well.name}" }.sort_by { |j| "#{j.field.name} - #{j.well.name}" } %>
   <div id="jobs" class="list">
     <% jobs_array.each do |job| %>
-        <% if job.well.jobs.count > 1 && !current_user.role.limit_to_assigned_jobs? && current_user.product_line.nil? %>
-            <%= render 'wells/well_progress_link', well: job.well %>
+        <% if job.well.jobs.where(:shared => true).count > 1 && !current_user.role.limit_to_assigned_jobs? && current_user.product_line.nil? %>
+            <%= render 'wells/well_progress_link', job: job %>
         <% else %>
             <%= render 'jobs/job_progress_link', job: job %>
         <% end %>
+
     <% end %>
   </div>
 

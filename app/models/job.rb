@@ -10,7 +10,8 @@ class Job < ActiveRecord::Base
                     :inventory_confirmed,
                     :failures_count,
                     :total_cost,
-                    :proposed_cost
+                    :proposed_cost,
+                    :shared
 
     include PostJobReportHelper
     acts_as_xlsx
@@ -427,6 +428,7 @@ class Job < ActiveRecord::Base
         return false if user.nil?
         job_memberships = self.job_memberships.to_a
         return job_memberships.select { |jm| jm.user_id == user.id }.any?
+        #self.job_memberships.where("job_memberships.user_id = ?", user.id).any?
     end
 
     def closed

@@ -22,3 +22,5 @@ $('#jobs_loading').addClass("hidden");
 $('#jobs').find('*').remove();
 $('#jobs').append("<%= j render 'jobs/index_filter', show_stats: params[:section] != "complete", show_map: params[:section] != "complete" %>");
 
+
+$('.tooltip-info').tooltip();

@@ -1,93 +1,111 @@
 <% provide(:title, "Job | " + @job.field.name + " | " + @job.well.name) %>
 
-<%= render 'jobs/duplicate_warning', job: @job %>
-<%= render 'jobs/job_process', job: @job %>
+<%= render 'jobs/job_header', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
 
-<div class="">
-  <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
+<div style='height: 60px;'>
+<div style='position: absolute; left: 0; width: 100%; height: 55px;'>
+  <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
+
+    <li class="active">
+      <a href="#overview" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="overview"
+         data-placement="bottom" data-title="Job Overview">Overview
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#documents_data" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="documents_data"
+         data-placement="bottom" data-title="Custom job data and values">Documents
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#custom_data" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="custom_data"
+         data-placement="bottom" data-title="Custom job data and values"><%= "Job Info" %>
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#tools_assets" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="tools_assets"
+         data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#job_failures" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="job_failures"
+         data-placement="bottom" data-title="List of job failures">Failures
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#notes" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="notes"
+         data-placement="bottom" data-title="Daily Status, Requests, Notes, and Tasks for this job">Daily Notes
+      </a>
+    </li>
+
+    <li class="">
+      <a href="#cost" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="cost"
+         data-placement="bottom" data-title="Job Cost">Cost</a>
+    </li>
+
+    <li class="">
+      <a href="#reports" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="reports"
+         data-placement="bottom" data-title="Reports">Reports</a>
+    </li>
+
+
+    <li class="">
+      <a href="#time" class="job-tray-toggle custom-data-toggle tooltip-info"
+         data-tray="time"
+         data-placement="bottom" data-title="Time/Scheduling">Timesheet</a>
+    </li>
+
+    <li class="">
+      <a href="#activity" class="job-tray-toggle custom-data-toggle tooltip-info"
+         style='padding: 10px;'
+         data-tray="activity"
+         data-placement="bottom" data-title="All Job History"><i class="icon-time"></i></a>
+    </li>
+
+  </ul>
+</div>
 </div>
 
-<%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
-
-<hr>
-
-<div id="job_overview">
-  <div class='center'>
-    <span class="ajax-loading search-loading"><b>Loading overview...</b></span>
-  </div>
-</div>
-
-<br>
-<br>
 
 <div id="job_<%= @job.id %>" class="job-main-div">
   <div class="">
-    <br>
-
-    <ul class="nav nav-pills alert alert-nav">
-
-      <li class="<%= (params["new"].present? && params["new"] == "true") ? "" : "active" %>">
-        <a href="#documents_data" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="documents_data"
-           data-placement="bottom" data-title="Custom job data and values">Documents
-        </a>
-      </li>
-
-      <li class="<%= (params["new"].present? && params["new"] == "true") ? "active" : "" %>">
-        <a href="#custom_data" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="custom_data"
-           data-placement="bottom" data-title="Custom job data and values"><%= "Job Info" %>
-        </a>
-      </li>
-
-      <li class="">
-        <a href="#tools_assets" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="tools_assets"
-           data-placement="bottom" data-title="List of tools used on this job">Tools/Assets
-        </a>
-      </li>
-
-      <li class="">
-        <a href="#job_failures" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="job_failures"
-           data-placement="bottom" data-title="List of job failures">Failures
-        </a>
-      </li>
-
-      <li class="">
-        <a href="#notes" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="notes"
-           data-placement="bottom" data-title="Daily Status, Requests, Notes, and Tasks for this job">Daily Notes
-        </a>
-      </li>
-
-      <li class="">
-        <a href="#cost" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="cost"
-           data-placement="bottom" data-title="Job Cost">Cost</a>
-      </li>
-
-      <li class="">
-        <a href="#reports" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="reports"
-           data-placement="bottom" data-title="Reports">Reports</a>
-      </li>
 
 
-      <li class="">
-        <a href="#time" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="time"
-           data-placement="bottom" data-title="Time/Scheduling">Timesheet</a>
-      </li>
+    <div class="job-tray" data-tray="overview">
 
-      <li class="">
-        <a href="#activity" class="job-tray-toggle custom-data-toggle tooltip-info"
-           style='padding: 10px;'
-           data-tray="activity"
-           data-placement="bottom" data-title="All Job History"><i class="icon-time"></i></a>
-      </li>
+      <div class="page_header">
+        <h1>Job Overview</h1>
+      </div>
 
-    </ul>
+      <%= render 'jobs/duplicate_warning', job: @job %>
+      <%= render 'jobs/job_process', job: @job %>
+
+
+      <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
+
+
+      <%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
+
+      <hr>
+
+      <div id="job_overview">
+        <div class='center'>
+          <span class="ajax-loading search-loading"><b>Loading overview...</b></span>
+        </div>
+      </div>
+    </div>
 
 
 
@@ -109,7 +127,7 @@
       </div>
     </div>
 
-    <div class="job-tray <%= (params["new"].present? && params["new"] == "true") ? "custom-data-closed" : "" %>" data-tray="documents_data">
+    <div class="job-tray custom-data-closed" data-tray="documents_data">
       <div id="documents_loading">
         <div class="remote-loading">
           <br><br>
@@ -237,7 +255,7 @@
                 }
             }
 
-            setTimeout(function(){
+            setTimeout(function () {
 
                 $.ajax({
                     url: "/jobs/" + <%= @job.id.to_s %> +"?section=overview",
@@ -246,6 +264,7 @@
                 });
 
 
+                <% if false %>
                 if (document.location.hash == '') {
                     tray = $(".job-tray[data-tray='documents_data']");
                     tray.find('.content').hide();
@@ -259,6 +278,7 @@
                         });
                     }, 1);
                 }
+                <% end %>
 
                 <% if false %>
 
@@ -318,11 +338,11 @@
 
     var oldHide = $.fn.popover.Constructor.prototype.hide;
 
-    $.fn.popover.Constructor.prototype.hide = function() {
+    $.fn.popover.Constructor.prototype.hide = function () {
         if (this.options.trigger === "hover" && this.tip().is(":hover")) {
             var that = this;
             // try again after what would have been the delay
-            setTimeout(function() {
+            setTimeout(function () {
                 return that.hide.call(that, arguments);
             }, that.options.delay.hide);
             return;
