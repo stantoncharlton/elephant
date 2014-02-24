@@ -12,7 +12,7 @@ class StaticPagesController < ApplicationController
                 if signed_in_admin?
                     redirect_to users_path
                 elsif signed_in?
-                    if current_user.alerts.any?
+                    if current_user.alerts.any? && !current_user.role.no_assigned_jobs?
                         redirect_to alerts_path
                     else
                         redirect_to jobs_path
