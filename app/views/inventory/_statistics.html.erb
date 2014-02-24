@@ -1,10 +1,10 @@
 <div id="inventory_overview">
-  <% in_use_count = parts.where(:status => Part::ON_JOB).count %>
-  <% in_redress_count = parts.where(:status => Part::IN_REDRESS).count %>
-  <% parts_count = parts.count %>
+  <% in_use_count = parts.where(:rental => false).where(:status => Part::ON_JOB).count %>
+  <% in_redress_count = parts.where(:rental => false).where(:status => Part::IN_REDRESS).count %>
+  <% parts_count = parts.where(:rental => false).count %>
   <% average_redress = PartRedress.includes(:job).where("part_redresses.part_id IN (#{parts.select(:id).to_sql})").average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %>
 
-  <% part_memberships = PartMembership.where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= ?", Time.zone.now - 1.year).select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+  <% part_memberships = PartMembership.where("part_memberships.part_type != ?", PartMembership::SALEABLE).where("part_memberships.part_id IS NOT NULL").where("part_memberships.created_at >= ?", Time.zone.now - 1.year).select("date_trunc('month', part_memberships.created_at) as DATE").group("date_trunc('month', part_memberships.created_at)").count("part_memberships.created_at").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 
 
@@ -56,9 +56,10 @@
           <div class="chart-title">Current Rentals</div>
           <div class="donut-chart-div">
             <% if district.present? %>
-                <div class="donut-text "><%= PartMembership.joins(:job).where("jobs.status = ?", Job::ON_JOB).where("part_memberships.part_type = ?", PartMembership::RENTAL).where("part_memberships.job_id IN (select id from jobs where jobs.district_id = #{district.id})").count() %></div>
+
+                <div class="donut-text "><%= Part.where(:rental => true).where(:status => Part::AVAILABLE).where(:district_id => district.id).count() %></div>
             <% else %>
-                <div class="donut-text "><%= PartMembership.joins(:job).where("jobs.status = ?", Job::ON_JOB).where("part_memberships.part_type = ?", PartMembership::RENTAL).count() %></div>
+                <div class="donut-text "><%= Part.where(:rental => true).where(:status => Part::AVAILABLE).count() %></div>
             <% end %>
             <div class="percentage ">assets</div>
           </div>
