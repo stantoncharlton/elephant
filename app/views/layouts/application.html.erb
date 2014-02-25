@@ -48,7 +48,7 @@
     <div class="<%= request.path == insight_path ? "" : "container" %>">
 
       <% flash.each do |key, value| %>
-          <div class="alert alert-<%= key %>"><%= value %></div>
+          <div class="global-alert-div alert alert-<%= key %> center" style='position: absolute; left: 0; top: 58px; width: 100%; z-index: 100;'><%= value %></div>
       <% end %>
 
       <%= yield %>
@@ -276,6 +276,13 @@
 
         (function ($) {
             $(document).ready(function () {
+
+                $('.global-alert-div').each(function() {
+                    alert = $(this);
+                    setTimeout(function() {
+                        alert.fadeOut("slow");
+                    }, 1500);
+                });
 
                 $('.show-working-curtain').live("click", function () {
                     showWorkingCurtain();
