@@ -34,7 +34,7 @@ class BhasController < ApplicationController
             not_found unless old_bha.company == current_user.company
             Bha.transaction do
                 @bha = Bha.new
-                @bhas = Bha.includes(document: {job: :well}).where("wells.id = ?", old_bha.document.job.well_id).order("bhas.name ASC")
+                @bhas = Bha.includes(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("wells.id = ?", old_bha.document.job.well_id).order("bhas.name ASC")
                 @bha.name = (@bhas.last.name.to_i + 1).to_s
                 @bha.company = current_user.company
                 @bha.document = old_bha.document
@@ -46,6 +46,7 @@ class BhasController < ApplicationController
                     new_item.bha = @bha
                     new_item.company = current_user.company
                     new_item.tool = item.tool
+                    new_item.asset_type = item.asset_type
                     new_item.inner_diameter = item.inner_diameter
                     new_item.outer_diameter = item.outer_diameter
                     new_item.length = item.length
@@ -53,6 +54,31 @@ class BhasController < ApplicationController
                     new_item.up = item.up
                     new_item.down = item.down
                     new_item.save
+                end
+
+                if old_bha.tool_string.present?
+                    @bha_mwd = Bha.new
+                    @bha_mwd.master_bha = @bha
+                    @bha_mwd.name = @bha.name + " - Tool String"
+                    @bha_mwd.company = current_user.company
+                    @bha_mwd.document = old_bha.document
+                    @bha_mwd.job = old_bha.job
+                    @bha_mwd.save
+
+                    old_bha.tool_string.bha_items.each do |item|
+                        new_item = BhaItem.new
+                        new_item.bha = @bha_mwd
+                        new_item.company = current_user.company
+                        new_item.tool = item.tool
+                        new_item.asset_type = item.asset_type
+                        new_item.inner_diameter = item.inner_diameter
+                        new_item.outer_diameter = item.outer_diameter
+                        new_item.length = item.length
+                        new_item.ordering = item.ordering
+                        new_item.up = item.up
+                        new_item.down = item.down
+                        new_item.save
+                    end
                 end
 
                 redirect_to edit_bha_path(@bha)
