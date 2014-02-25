@@ -74,14 +74,17 @@
            data-placement="bottom" data-title="All Job History"><i class="icon-time"></i></a>
       </li>
 
+      <% drilling_log_document = Document.where("documents.job_id = ?", @job.id).where("documents.document_type = ?", Document::DRILLING_LOG).first %>
+      <% if drilling_log_document.present? %>
       <div class='inline-block pull-right'>
         <li class="">
-          <a href="<%= drilling_log_path(@job.drilling_log) %>" class=" custom-data-toggle tooltip-info"
+          <a href="<%= drilling_logs_path(document: drilling_log_document.id, :anchor => "drilling-overview") %>" class=" custom-data-toggle tooltip-info"
              style=" background: #f4bb0d; width: 100px; margin-right: -35px;"
              data-placement="bottom" data-title="Drilling Data">Open Drilling
           </a>
         </li>
       </div>
+      <% end %>
     </ul>
   </div>
 </div>
