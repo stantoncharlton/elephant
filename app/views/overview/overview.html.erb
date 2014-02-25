@@ -1,62 +1,62 @@
 <% provide(:title, "Overview") %>
 
-<div class="page_header">
-  <h1>Overview</h1>
+
+<div style='height: 50px;'>
+  <div class="map-container"
+       style='position:absolute; left: 0; top: 58px; width:100%; height:82px;  background: #7c7c7c;'>
+    <div id='map' class='dark'></div>
+  </div>
+
+  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 90px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
+    <h2 class="job-title inline white-text" style="margin-left: 10px;">Overview</h2>
+  </div>
 </div>
 
-<ul class="nav nav-pills alert alert-nav">
+<div style='height: 52px;'>
+  <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
+    <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
 
-  <li class="active">
-    <a href="#jobs" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="jobs"
-       data-placement="bottom" data-title="Jobs overview">Jobs In-Progress
-    </a>
-  </li>
-
-  <li class="push-right-small">
-    <a href="#company" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="company"
-       data-placement="bottom" data-title="Company general overview">Company
-    </a>
-  </li>
-
-  <li class="">
-    <a href="#rigs" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="rigs"
-       data-placement="bottom" data-title="Rigs Overview">Rigs</a>
-  </li>
-
-  <li class="">
-    <a href="#drilling" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="drilling"
-       data-placement="bottom" data-title="Drilling Overview">Drilling</a>
-  </li>
-
-  <li class="push-right-small">
-    <a href="#failures" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="failures"
-       data-placement="bottom" data-title="Failures overview">Failures</a>
-  </li>
-
-  <li class="push-right-small">
-    <a href="#overview_npt" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="overview_npt"
-       data-placement="bottom" data-title="NPT overview">NPT</a>
-  </li>
-
-
-  <% if false %>
-      <li class="push-right-small">
-        <a href="#insight" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="insight"
-           data-placement="bottom" data-title="Insight overview">Insight
+      <li class="active">
+        <a href="#jobs" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="jobs"
+           data-placement="bottom" data-title="Jobs overview">Jobs In-Progress
         </a>
       </li>
 
-  <% end %>
+      <li class="push-right-small">
+        <a href="#company" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="company"
+           data-placement="bottom" data-title="Company general overview">Company
+        </a>
+      </li>
 
+      <li class="">
+        <a href="#rigs" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="rigs"
+           data-placement="bottom" data-title="Rigs Overview">Rigs</a>
+      </li>
 
-</ul>
+      <li class="">
+        <a href="#drilling" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="drilling"
+           data-placement="bottom" data-title="Drilling Overview">Drilling</a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#failures" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="failures"
+           data-placement="bottom" data-title="Failures overview">Failures</a>
+      </li>
+
+      <li class="push-right-small">
+        <a href="#overview_npt" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="overview_npt"
+           data-placement="bottom" data-title="NPT overview">NPT</a>
+      </li>
+
+    </ul>
+  </div>
+</div>
 
 
 <%= render 'overview/filter' %>

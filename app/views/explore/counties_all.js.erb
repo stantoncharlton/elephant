@@ -25,8 +25,8 @@ graphs.push({
 graphs.push({
     "valueAxis": "v1",
     "balloonText": "<b>[[county]]</b><br><span style='font-size:14px'>ROP: <b>[[value]]</b> ft/hr</span>",
-    "fillAlphas": 0.3,
-    "lineAlpha": 0.5,
+    "fillAlphas": 1.0,
+    "lineAlpha": 1.0,
     "type": "column",
     "valueField": "rop"
 });
@@ -41,14 +41,20 @@ var chart = AmCharts.makeChart("main_chart", {
             "axisAlpha": 0.3,
             "gridAlpha": 0,
             "position": "left",
-            "title": "ROP"
+            "title": "ROP",
+            "color": "#fff",
+            "axisColor": "#fff",
+            "titleColor": "#fff"
         },
         {
             "id":"v2",
             "axisAlpha": 0.3,
             "gridAlpha": 0,
             "position": "right",
-            "title": "NPT %"
+            "title": "NPT %",
+            "color": "#fff",
+            "axisColor": "#fff",
+            "titleColor": "#fff"
         }
     ],
     "graphs": graphs,
@@ -57,7 +63,10 @@ var chart = AmCharts.makeChart("main_chart", {
         "gridPosition": "start",
         "axisAlpha": 0,
         "gridAlpha": 0,
-        "position": "left"
+        "position": "left",
+        "color": "#fff",
+        "axisColor": "#fff",
+        "titleColor": "#fff"
     }
 });
 
