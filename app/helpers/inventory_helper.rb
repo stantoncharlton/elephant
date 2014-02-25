@@ -33,7 +33,7 @@ module InventoryHelper
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
 
 
-                sheet.add_row ['Name', 'Material #', 'Serial #', 'Status', 'Run Count'], :style => column_name_cell
+                sheet.add_row ['Name', 'Material #', 'Serial #', 'Status', ''], :style => column_name_cell
 
                 @parts.each_with_index do |p, index|
                     status = p.status_string
@@ -49,10 +49,10 @@ module InventoryHelper
                         cell_status = index % 2 == 0 ? cell1_in_redress : cell2_in_redress
                     end
 
-                    sheet.add_row [p.master_part.present? ? p.master_part.name : p.name, p.material_number, p.serial_number, status.gsub("<br>", ""), p.jobs.count], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell_status, cell1] : [cell2_bold, cell2, cell2, cell_status, cell2], :types => [:string, :string, :string, :string, :integer]
+                    sheet.add_row [p.master_part.present? ? p.master_part.name : p.name, p.material_number, p.serial_number, status.gsub("<br>", ""), ''], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell_status, cell1] : [cell2_bold, cell2, cell2, cell_status, cell2], :types => [:string, :string, :string, :string, :string]
                 end
 
-                sheet.column_widths 20, 15, 20, 55, 12
+                sheet.column_widths 20, 15, 20, 66, 0
 
                 sheet.merge_cells("A1:E1")
                 sheet.merge_cells("A2:E2")

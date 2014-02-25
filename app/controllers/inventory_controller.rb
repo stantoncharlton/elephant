@@ -30,12 +30,14 @@ class InventoryController < ApplicationController
         @condensed = true
 
         if current_user.role.district_read?
-            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.name ASC")
+            @parts = Part.includes(:parts, :master_part).where("parts.rental IS FALSE").where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.material_number ASC")
         elsif current_user.role.limit_to_assigned_jobs?
-            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.name ASC")
+            @parts = Part.includes(:parts, :master_part).where("parts.rental IS FALSE").where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.material_number ASC")
         else
-            @parts = Part.includes(:parts).where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.name ASC")
+            @parts = Part.where("parts.rental IS FALSE").where("parts.district_id = :district_id", district_id: @district.id).where(:template => false).order("parts.material_number ASC")
         end
+
+        @parts = @parts.includes(:parts, :master_part).includes(:warehouse).includes(current_job: {well: :rig}).includes(current_job: :field)
 
         respond_to do |format|
             format.html {
@@ -45,7 +47,7 @@ class InventoryController < ApplicationController
 
             }
             format.xlsx {
-                excel = parts_to_excel @parts.where(:rental => false)
+                excel = parts_to_excel @parts
                 send_data excel.to_stream.read, :filename => "Inventory List.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }
         end
