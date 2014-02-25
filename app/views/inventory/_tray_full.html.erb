@@ -7,6 +7,34 @@
 
   <div class="tray-content content-loaded">
 
+
+    <br>
+
+
+    <% groups = @parts.where(:rental => false).group_by { |part| part.master_part_id } %>
+
+    <div class='well'>
+
+      <% if current_user.role.add_remove_inventory? %>
+          <%= link_to "New Asset Type", new_part_path(template: true, district: @district),
+                      class: "bluebtn tooltip-info pull-right",
+                      "data-placement" => "bottom",
+                      "data-title" => "Create new asset type" %>
+      <% end %>
+
+      <h1 class="donut-text inline"><%= @parts.where(:rental => false).count %></h1>
+
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">Assets</h3>
+      </div>
+
+      <h1 class="donut-text inline push-right"><%= groups.count %></h1>
+
+      <div class='inline-block push-down push-right-small'>
+        <h3 class="inline-block">Types</h3>
+      </div>
+    </div>
+
     <div class="">
 
       <div class="btn-group inline pull-right push-right-small">
@@ -32,33 +60,6 @@
         </ul>
       </div>
 
-
-      <br><br>
-    </div>
-
-
-    <% groups = @parts.where(:rental => false).group_by { |part| part.master_part_id } %>
-
-    <div class='well'>
-
-      <% if current_user.role.add_remove_inventory? %>
-          <%= link_to "New Asset Type", new_part_path(template: true, district: @district),
-                      class: "bluebtn tooltip-info pull-right",
-                      "data-placement" => "bottom",
-                      "data-title" => "Create new asset type" %>
-      <% end %>
-
-      <h1 class="donut-text inline"><%= @parts.where(:rental => false).count %></h1>
-
-      <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Assets</h3>
-      </div>
-
-      <h1 class="donut-text inline push-right"><%= groups.count %></h1>
-
-      <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Types</h3>
-      </div>
     </div>
     <% if false %>
         <%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>

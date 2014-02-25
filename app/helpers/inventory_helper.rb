@@ -49,7 +49,7 @@ module InventoryHelper
                         cell_status = index % 2 == 0 ? cell1_in_redress : cell2_in_redress
                     end
 
-                    sheet.add_row [p.master_part.name, p.material_number, p.serial_number, status, p.jobs.count], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell_status, cell1] : [cell2_bold, cell2, cell2, cell_status, cell2], :types => [:string, :string, :string, :string, :integer]
+                    sheet.add_row [p.master_part.present? ? p.master_part.name : p.name, p.material_number, p.serial_number, status.gsub("<br>", ""), p.jobs.count], :style => index % 2 == 0 ? [cell1_bold, cell1, cell1, cell_status, cell1] : [cell2_bold, cell2, cell2, cell_status, cell2], :types => [:string, :string, :string, :string, :integer]
                 end
 
                 sheet.column_widths 20, 15, 20, 55, 12

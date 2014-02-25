@@ -45,7 +45,7 @@ class InventoryController < ApplicationController
 
             }
             format.xlsx {
-                excel = parts_to_excel @parts
+                excel = parts_to_excel @parts.where(:rental => false)
                 send_data excel.to_stream.read, :filename => "Inventory List.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }
         end
