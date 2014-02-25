@@ -1,5 +1,5 @@
 tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
-if(!tray.hasClass('custom-data-closed')) {
+if(tray != null && !tray.hasClass('custom-data-closed')) {
 function removeOldContent(section) {
     $('.remote-tray').each(function() {
         if($(this).hasClass('custom-data-closed')) {

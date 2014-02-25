@@ -2,6 +2,33 @@ module DrillingLogsHelper
 
     include ActionView::Helpers::NumberHelper
 
+    def fill_incident_report issue, r
+
+        drilling_log = issue.job.drilling_log
+        entries = []
+        if drilling_log.present?
+            @surrounding = drilling_log.get_surrounding_entries(issue.failure_at, nil)
+            entries = @surrounding[0]
+        end
+
+        if entries.any?
+            index = entries.first.run_number
+            bha = entries.first.bha
+            fill_run_report drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, index
+            fill_bha_report drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, bha, index
+        end
+
+        r.add_field "INCIDENT_NAME", "INCIDENT REPORT"
+        r.add_field "INCIDENT_TIME", "#{issue.failure_at.strftime('%m/%d/%Y %H:%M %p')}"
+
+        text = ''
+        issue.job_notes.includes(comments: :user).each do |job_note|
+            text += job_note.text
+            text += "\n\r"
+        end
+
+        r.add_field "INCIDENT_TEXT", text
+    end
 
     def fill_run_report job, entries, r, start_time, end_time, run_number
         fill_drilling_report job, entries, r, start_time, end_time

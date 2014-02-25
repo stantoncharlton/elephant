@@ -25,4 +25,6 @@ $('#jobs').find('*').remove();
 $('#jobs').append("<%= j render 'jobs/index_filter', show_stats: params[:section] != "complete", show_map: true %>");
 
 
-$('.tooltip-info').tooltip();
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+}

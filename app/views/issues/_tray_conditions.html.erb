@@ -9,7 +9,7 @@
 
     <% drilling_log = @issue.job.drilling_log %>
     <% if drilling_log.present? %>
-        <% @surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, 2.hours) %>
+        <% @surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, nil) %>
     <% end %>
 
     <div class='page_header'>
@@ -35,7 +35,7 @@
             <% survey = @issue.job.survey %>
             <% survey_points = survey.present? && well_plan.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : nil %>
             <div>
-              <h3 class='inline-block blue-text'>Parameters</h3><b class='help-text push-right-small'>4 hour window</b>
+              <h3 class='blue-text'>Run <%= "#{@surrounding[0].first.run_number}" %></h3>
             </div>
             <br>
             <%= render 'drilling_logs/range_details', entries: @surrounding[0], survey_points: survey_points %>

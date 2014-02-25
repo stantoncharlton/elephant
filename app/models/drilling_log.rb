@@ -294,15 +294,19 @@ class DrillingLog < ActiveRecord::Base
 
                 entry.run_number = run_number
 
-                if entry.entry_at >= (date - window) && entry.entry_at <= (date + window)
-                    surrounding_entries << entry
+                if window.nil? || (entry.entry_at >= (date - window) && entry.entry_at <= (date + window))
+                    if !window.nil?
+                        surrounding_entries << entry
+                    end
                     if entry.entry_at < date
                         previous = entry
                     end
                     # Run after closest
                     if past.nil? && closest.present?
                         past = entry
-                        return [surrounding_entries, [previous, closest, past]]
+                        if !window.nil?
+                            return [surrounding_entries, [previous, closest, past]]
+                        end
                     end
                     if closest.nil? && entry.entry_at >= date
                         closest = entry
@@ -311,7 +315,12 @@ class DrillingLog < ActiveRecord::Base
             end
         end
 
-        [surrounding_entries, [previous, closest, past]]
+        if window.nil?
+            runs = get_runs(entries)
+            [runs[closest.run_number - 1], [previous, closest, past]]
+        else
+            [surrounding_entries, [previous, closest, past]]
+        end
     end
 
     def start_on_job_phase
@@ -346,6 +355,8 @@ class DrillingLog < ActiveRecord::Base
             when "railroad"
                 report_exists = true
             when "railroad_certification"
+                report_exists = true
+            when "incident_report"
                 report_exists = true
         end
 
@@ -411,6 +422,9 @@ class DrillingLog < ActiveRecord::Base
                         @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
                         calculated_points_survey = @survey.present? ? @survey.calculated_points(@active_well_plan.present? && @survey.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0.0) : []
                         fill_railroad_certification @drilling_log.job, @drilling_log, @active_well_plan, @survey, calculated_points_survey, r
+                    when "incident_report"
+                        index = type.to_i
+                        fill_incident_report Issue.find_by_id(index), r
                 end
             end
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"

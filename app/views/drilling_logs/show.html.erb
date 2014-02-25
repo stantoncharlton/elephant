@@ -73,6 +73,17 @@
 <div style='height: 52px;'>
   <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
     <ul class="nav nav-pills alert alert-nav alert-nav-shrink" style='border-radius: 0px; border-width: 0px;'>
+
+      <div class='inline-block pull-right'>
+        <li class="">
+          <a href="<%= job_path(@drilling_log.job) %>" class=" custom-data-toggle tooltip-info"
+             style=" background: #f4bb0d; width: 100px; margin-right: -35px;"
+             data-tray=""
+             data-placement="bottom" data-title="Job Data">Open Job
+          </a>
+        </li>
+      </div>
+
       <li class="active">
         <a href="#drilling-overview" class="remote-tray-toggle custom-data-toggle"
            data-id="<%= @drilling_log.id %>"
@@ -145,15 +156,6 @@
           </li>
       <% end %>
 
-      <div class='inline-block pull-right'>
-        <li class="">
-          <a href="<%= job_path(@drilling_log.job) %>" class=" custom-data-toggle tooltip-info"
-             style=" background: #f4bb0d; width: 100px; margin-right: -35px;"
-             data-tray=""
-             data-placement="bottom" data-title="Job Data">Open Job
-          </a>
-        </li>
-      </div>
     </ul>
   </div>
 </div>

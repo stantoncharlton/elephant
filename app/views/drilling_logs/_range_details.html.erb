@@ -34,11 +34,6 @@
 
 
 <div>
-  <div class='inline-block'>
-    <div class='run-detail help-text'>Circulation</div>
-    <div class='run-detail'><%= log.circulation_hours.nil? ? '-' : log.circulation_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span>
-    </div>
-  </div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Total Circulation</div>
@@ -51,6 +46,14 @@
     <div class='run-detail'><%= log.ream_hours.nil? ? '-' : log.ream_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span>
     </div>
   </div>
+
+  <% if false %>
+  <div class='inline-block'>
+    <div class='run-detail help-text'>Circulation</div>
+    <div class='run-detail'><%= log.circulation_hours.nil? ? '-' : log.circulation_hours.round(1) %>&nbsp;<span class='help-text'>hrs</span>
+    </div>
+  </div>
+      <% end %>
 </div>
 
 <hr>
