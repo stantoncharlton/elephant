@@ -149,7 +149,7 @@
         <% if activity.activity_type == Activity::ASSET_REMOVED %>
             <% if activity.target.present? %>
                 <p class="activity-message"><b>Asset</b></p>
-                <%= link_to activity.target.master_part.name, activity.target, class: "activity-user-link" %>
+                <%= link_to activity.target.master_part.present? ? activity.target.master_part.name : activity.target.name, activity.target, class: "activity-user-link" %>
                 <p class="activity-message">removed from job</p>
                 <br>
 
