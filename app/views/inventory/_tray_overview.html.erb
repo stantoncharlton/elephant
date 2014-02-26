@@ -80,12 +80,18 @@
     <div>
       <h3>Status</h3>
       <br>
-      <% @parts.select("parts.status").order("parts.status").each do |part| %>
-          <% p = part[:status] %>
-          <div style="display: inline-block; width: 10px; height: 10px; background: <%= p == Part::AVAILABLE ? "#28af35" : (p == Part::ON_JOB ?  "#4db0e3" : (p == Part::IN_REDRESS ? "#f25241" : "#f2c641"))  %>;"></div>
-      <% end %>
+      <div id="part_status">
+        <span class="ajax-loading search-loading"><b>Loading...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      </div>
     </div>
   </div>
 
+
+  <script type="text/javascript">
+      $.ajax('/inventory/' + <%= @district.id %> + "?section=overview_status", {
+          type: 'get',
+          dataType: 'script'
+      });
+  </script>
 
 </div>

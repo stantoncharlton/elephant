@@ -15,7 +15,7 @@ module DrillingLogsHelper
             index = entries.first.run_number
             bha = entries.first.bha
             fill_run_report drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, index
-            fill_bha_report drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, bha, index
+            fill_bha_report drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, bha.present? ? bha : Bha.new, index
         end
 
         r.add_field "INCIDENT_NAME", "INCIDENT REPORT"

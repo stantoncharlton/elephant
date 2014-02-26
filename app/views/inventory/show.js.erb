@@ -35,6 +35,13 @@ if(!tray.hasClass('custom-data-closed')) {
     tray.replaceWith("<%= j render 'inventory/tray_warehouses', parts: @parts %>");
     <% elsif params[:section] == "suppliers" %>
     tray.replaceWith("<%= j render 'inventory/tray_suppliers', parts: @parts %>");
+    <% elsif params[:section] == "overview_status" %>
+        $('#part_status').find('*').remove();
+        <% @parts.reorder('').order("parts.status").each do |part| %>
+            <% p = part[:status] %>
+            $('#part_status').append("<div style='display: inline-block; width: 10px; height: 10px; margin-right: 2px; background: <%= p == Part::AVAILABLE ? "#28af35" : (p == Part::ON_JOB ?  "#4db0e3" : (p == Part::IN_REDRESS ? "#f25241" : "#f2c641"))  %>;'></div>");
+        <% end %>
+
     <% end %>
 
     if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
