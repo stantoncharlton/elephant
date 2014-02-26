@@ -7,7 +7,7 @@
                   "data-title" => part.name_string,
                   "data-placement" => "bottom" do %>
           <div class='bar' style="background: <%= '#' + part.color %>;"></div>
-          <% if part.rental == PartMembership::RENTAL %>
+          <% if part.rental %>
               <div class='rental'>R</div>
           <% end %>
           <div class='center name'><%= part.name_string %></div>
@@ -20,7 +20,7 @@
                   "data-title" => part.name_string,
                   "data-placement" => "bottom" do %>
           <div class='bar' style="background: <%= '#' + part.color %>;"></div>
-          <% if part.rental == PartMembership::RENTAL %>
+          <% if part.rental %>
               <div class='rental'>R</div>
           <% end %>
           <div class='center name'><%= part.name_string %></div>

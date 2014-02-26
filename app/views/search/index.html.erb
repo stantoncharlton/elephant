@@ -79,7 +79,7 @@
       <div>Assets</div>
       <br>
       <% @assets.each do |asset| %>
-          <%= render 'parts/sub_part2', part: asset, index: 0, show_warehouse: true, condensed: true, show_name: true %>
+          <%= render 'parts/part', part: asset %>
       <% end %>
     </div>
     <hr>

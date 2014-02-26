@@ -18,7 +18,10 @@ class SearchController < ApplicationController
                     @districts = District.search(params, current_user.company, false).results.take(3)
                     @fields = Field.search(params, current_user.company).results.take(3)
                     @wells = Well.search(params, current_user.company).results.take(3)
-                    @assets = Part.search_no_district(params, current_user.company).results.take(10)
+                    @assets = Part.search_no_district(params, current_user.company).results.take(10).to_a
+                    Part.search_rentals(params, current_user.company).results.take(5).to_a.each do |p|
+                        @assets << p
+                    end
                     @rigs = Rig.search(params, current_user.company).results.take(10)
                 end
             end

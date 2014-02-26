@@ -161,6 +161,16 @@ class Part < ActiveRecord::Base
         end
     end
 
+    def self.search_rentals(options, company)
+        Sunspot.search(Part) do
+            fulltext options[:search].present? ? options[:search] : options[:term]
+            with(:company_id, company.id)
+            with(:rental, true)
+            order_by :name_sort, :desc
+            paginate :page => options[:page], :per_page => 20
+        end
+    end
+
     def self.search_master_district(options, company, district_id)
         Sunspot.search(Part) do
             fulltext options[:search].present? ? options[:search] : options[:term]
