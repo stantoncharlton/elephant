@@ -63,8 +63,8 @@
                            "data-title" => "Comment/description text of entry" %>
         </div>
 
-        <% @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first %>
-        <% @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first %>
+        <% @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).last %>
+        <% @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).last %>
 
         <div class='alert hidden' id="survey_entry">
           <b>Add New Survey Point</b>
