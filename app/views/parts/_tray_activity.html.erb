@@ -1,7 +1,7 @@
-<div>
-  <div class='content'>
-    <div class='page_header'>
-      <h2 class="inline">Activity</h2>
+<div class='remote-tray' data-tray="asset_activity">
+  <div class="content tray-content content-loaded">
+  <div class='page_header'>
+      <h1 class="inline">Activity</h1>
     </div>
 
     <% activities = AssetActivity.where(:part_id => @part.id).order("created_at DESC") %>

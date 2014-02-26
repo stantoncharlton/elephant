@@ -263,6 +263,20 @@ class PartsController < ApplicationController
 
             flash[:success] = "Asset Recommissioned"
             redirect_to @part
+        elsif params[:add_to_container].present?
+            @add_part = Part.find_by_id(params[:part_id])
+            if @add_part.present? && @add_part.container_id != @part.id
+                @add_part.update_attribute(:container_id, @part.id)
+            else
+                @add_part = nil
+            end
+            render 'parts/container'
+            return
+        elsif params[:remove_from_container].present?
+            @add_part = @part
+            @add_part.update_attribute(:container_id, nil)
+            render 'parts/container'
+            return
         elsif params[:part].present?
             if params[:part][:material_number].present?
 
@@ -278,6 +292,7 @@ class PartsController < ApplicationController
                         @part.update_attribute(:category, params[:part][:category])
                         @part.update_attribute(:weight, params[:part][:weight])
                         @part.update_attribute(:max_hours, params[:part][:max_hours].to_f)
+                        @part.update_attribute(:container, params[:part][:container])
                         if material_number != @part.material_number
                             @part.update_attribute(:material_number, material_number)
                             @part.parts.each do |p|

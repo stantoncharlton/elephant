@@ -1,21 +1,24 @@
-<div class='job-tray custom-data-closed' data-tray="maintenance">
-  <% redresses = PartRedress.where(:part_id => part.id).order("created_at DESC") %>
+<div class='remote-tray' data-tray="maintenance">
+  <div class="tray-content content-loaded">
 
-  <div class='content'>
-    <div class='page_header'>
-      <h2 class="inline">Maintenance Records</h2>
-      <span class="help-text push-right-small">(<%= redresses.count %>)</span>
+    <% redresses = PartRedress.where(:part_id => part.id).order("created_at DESC") %>
+
+    <div class='content'>
+      <div class='page_header'>
+        <h1 class="inline">Maintenance Records</h1>
+        <span class="help-text push-right-small">(<%= redresses.count %>)</span>
+      </div>
+
+
+      <% if !redresses.any? %>
+          <p class='center help-text'>
+            No maintenance records...
+          </p>
+      <% end %>
+      <% redresses.each_with_index do |redress, index| %>
+          <%= render 'parts/maintenance', redress: redress, index: index %>
+      <% end %>
+
     </div>
-
-
-    <% if !redresses.any? %>
-        <p class='center help-text'>
-          No maintenance records...
-        </p>
-    <% end %>
-    <% redresses.each_with_index do |redress, index| %>
-        <%= render 'parts/maintenance', redress: redress, index: index %>
-    <% end %>
-
   </div>
 </div>

@@ -14,9 +14,14 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
     tray.replaceWith("<%= j render 'parts/tray_master_part_grid' %>");
 <% elsif params[:section] == "list" %>
     tray.replaceWith("<%= j render 'parts/tray_master_part_list' %>");
+<% elsif params[:section] == "full_history" %>
+    tray.replaceWith("<%= j render 'parts/tray_full_history', part: @part %>");
+<% elsif params[:section] == "maintenance" %>
+    tray.replaceWith("<%= j render 'parts/tray_maintenance', part: @part %>");
+<% elsif params[:section] == "asset_failures" %>
+    tray.replaceWith("<%= j render 'parts/tray_failures', part: @part %>");
 <% elsif params[:section] == "asset_activity" %>
-    $('#asset_activity_loading').after('<%= j render 'parts/tray_activity', part: @part %>');
-    $('#asset_activity_loading').remove();
+    tray.replaceWith("<%= j render 'parts/tray_activity', part: @part %>");
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

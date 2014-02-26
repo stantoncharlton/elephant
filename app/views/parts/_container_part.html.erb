@@ -1,0 +1,13 @@
+<div id="container_part_<%= part.id %>" class='inline-block container-popover'
+     data-html="true"
+     data-toggle="popover"
+     data-placement="bottom"
+     data-trigger="hover"
+     data-content="<div class='center'><a href='/parts/<%= part.id %>?remove_from_container=true'
+                data-method='put'
+               data-remote='true'
+               rel='nofollow'
+               class='btn btn-danger tooltip-info align-top white-text'
+               data-title='Remove from Container'>Remove</a></div>">
+  <%= render 'parts/part', part: part %>
+</div>

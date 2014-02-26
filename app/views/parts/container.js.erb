@@ -1,0 +1,11 @@
+$('#parts_container').find('.form').show();
+$('#parts_container').find('.form-loading').addClass('hidden');
+
+<% if @add_part.present? %>
+<% if @add_part.container_id.present? %>
+    new_part = $('#parts_container_list').append("<%= j render 'parts/container_part', part: @add_part %>");
+    new_part.find('.container-popover').popover({  delay: { show: 500, hide: 200 } });
+<% else %>
+    $('#parts_container_list').find('#container_part_<%= @add_part.id %>').remove();
+<% end %>
+<% end %>

@@ -1,67 +1,88 @@
 <% provide(:title, 'Asset: ' + sanitize(@part.master_part.present? ? @part.master_part.name : @part.name)) %>
 
-<div class="">
-  <div>
-    <div class='pull-right'>
-      <%= link_to @part.district.name, @part.district, class: "activity-user-link" %>
-    </div>
+<div style='height: 150px;'>
+<div class="map-container"
+     style='position:absolute; left: 0; top: 58px; width:100%; height:182px; background: #7c7c7c;'>
 
-    <b>Assets</b>
-
-    <div class="filter-search-box">
-      <% if @part.district.present? %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @part.district_id)},
-                             placeholder: "Search for asset...",
-                             class: "txtfield search-query tooltip-info part-search",
-                             id: "part_search",
-                             "data-placement" => "left",
-                             "data-title" => "Search in asset..." %>
-      <% else %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path},
-                             placeholder: "Search for asset...",
-                             class: "txtfield search-query tooltip-info part-search",
-                             id: "part_search",
-                             "data-placement" => "left",
-                             "data-title" => "Search in assets..." %>
-      <% end %>
-    </div>
-  </div>
-  <hr>
+  <% if !@part.template %>
+      <div id='map' class='dark'></div>
+  <% end %>
 </div>
 
+<div style='position: absolute; width: 100%; left: 0; right: 0; top: 190px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
 
-<div class="page_header">
-  <h1 id="part_name">
+  <div class='pull-right align-top' style='margin-top: -5px;'>
+
+    <% if current_user.role.global_read? %>
+        <div class="pull-right">
+          <%= link_to @district.present? ? @district.name : '', @district, class: "activity-user-link white-text" %>
+        </div>
+    <% end %>
+
+    <% if false %>
+        <div class='inline-block'>
+          <div class="filter-search-box">
+            <% if @district.present? %>
+                <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: @district.id)},
+                                   placeholder: "Search for asset...",
+                                   class: "txtfield search-query small tooltip-info part-search",
+                                   style: "background: rgba(255, 255, 255, 1.0); width: 120px;",
+                                   id: "part_search",
+                                   "data-placement" => "left",
+                                   "data-title" => "Search in asset..." %>
+            <% else %>
+                <%= text_field_tag "", "", data: {autocomplete_source: parts_path},
+                                   placeholder: "Search for asset...",
+                                   class: "txtfield search-query small tooltip-info part-search",
+                                   style: "background: rgba(255, 255, 255, 1.0); width: 120px;",
+                                   id: "part_search",
+                                   "data-placement" => "left",
+                                   "data-title" => "Search in assets..." %>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+
+  <h2 class="align-top job-title inline white-text" style="margin-left: 10px;">
     <% if @part.master_part.present? %>
         <%= @part.master_part.name %>
-        <b style='font-size: 14px;'><%= @part.master_part.manufacturer %></b>
+        <div class='inline-block align-top'><b style='font-size: 14px;'><%= @part.master_part.manufacturer %></b>
+        </div>
+        - <%= @part.serial_number %>
     <% else %>
         <%= @part.name %>
-        <b style='font-size: 14px;'><%= @part.manufacturer %></b>
+        <div class='inline-block align-top'><b style='font-size: 14px;'><%= @part.manufacturer %></b></div>
+        <% if !@part.serial_number.blank? %>
+            - <%= @part.serial_number %>
+        <% end %>
     <% end %>
-  </h1>
 
-  <h3 class="inline">&nbsp;Asset</h3>
-
-  <% if @part.rental %>
-      <div class='inline-block push-right-small'>
-        <div class='inline-block push-down'>
+    <% if @part.rental %>
+        <div class='align-top inline-block push-right-small'>
+          <div class='inline-block'>
             <span class="label" style="background: #11bddc; padding: 4px; padding-left: 10px; padding-right: 10px; font-size: 13px;">RENTAL
               <% if @part.supplier.present? %>
                 - <%= @part.supplier.name %>
               <% end %>
             </span>
+          </div>
         </div>
-      </div>
-  <% end %>
+    <% end %>
+    <% if @part.master_part.present? && @part.master_part.container %>
+        <div class='align-top inline-block push-right-small push-up-small'>
+          <div class='inline-block'>
+            <span class="label" style="background: #be8bea; padding: 4px; padding-left: 10px; padding-right: 10px; font-size: 13px;">CONTAINER
+            </span>
+          </div>
+        </div>
+    <% end %>
+  </h2>
 
   <% if @part.template? %>
-      <h2 class="paginated-count">Assets:
-        <%= render 'layouts/paged_header', items: @parts %>
-      </h2>
 
-      <div class="btn-group inline pull-right push-right-small">
-        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+      <div class="btn-group inline pull-right push-down-small" style='margin-right: 30px;'>
+        <a class="custom-data-toggle-jobs white-text" data-toggle="dropdown" href="#">
           Advanced Actions
         </a>
         <ul class="dropdown-menu">
@@ -123,8 +144,8 @@
 
 
       <% if !@part.rental %>
-          <div class="btn-group inline pull-right push-right-small">
-            <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          <div class="btn-group inline pull-right push-down-small" style='margin-right: 30px;'>
+            <a class="custom-data-toggle-jobs white-text" data-toggle="dropdown" href="#">
               Advanced Actions
             </a>
             <ul class="dropdown-menu">
@@ -170,7 +191,9 @@
       <% end %>
 
       <% if !@part.rental %>
-          <%= link_to "View Master Asset (" + @part.master_part.parts.count.to_s + ")", @part.master_part, class: "activity-user-link pull-right" %>
+          <%= link_to "Open Master Asset (" + @part.master_part.parts.count.to_s + ")", @part.master_part,
+                      class: "activity-user-link orange-text pull-right push-down-small",
+                      style: "margin-right: 20px;" %>
       <% end %>
 
 
@@ -180,23 +203,109 @@
       </div>
 
   <% end %>
-
+</div>
 </div>
 
-<div class="well">
-  <div class="pull-right">
-    <span class="help-text">Material Number:</span> <span id="material_number"><%= @part.material_number %></span>
-    <% if @part.template? && current_user.role.add_remove_inventory? %>
-        <br><br>
-        <%= link_to "+ Add Asset", "#",
-                    class: "bluebtn page_header_button tooltip-info",
-                    id: "new_part_link",
-                    "data-placement" => "bottom",
-                    "data-title" => "Create new asset under this material number" %>
+
+<div class="">
+  <div>
+    <% if false %>
+        <div class='pull-right'>
+          <%= link_to @part.district.name, @part.district, class: "activity-user-link" %>
+        </div>
     <% end %>
   </div>
+</div>
 
-  <% if @part.template? %>
+
+<% if @part.template? %>
+
+
+    <div style='height: 50px;'>
+      <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
+        <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
+          <li class="active">
+            <a href="#" class="remote-tray-toggle custom-data-toggle"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-tray="grid">Grid</a>
+          </li>
+
+          <li class="">
+            <a href="#" class="remote-tray-toggle custom-data-toggle"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-tray="list">List</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+<% else %>
+
+    <div style='height: 50px;'>
+      <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
+        <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
+
+          <li class="active">
+            <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+               data-tray="overview"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-placement="bottom" data-title="Overview">Overview
+            </a>
+          </li>
+
+          <li class="">
+            <a href="#full_history" class="remote-tray-toggle custom-data-toggle"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-tray="full_history">Full History</a>
+          </li>
+
+          <li class="">
+            <a href="#maintenance" class="remote-tray-toggle custom-data-toggle"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-tray="maintenance">Maintenance Records</a>
+          </li>
+
+          <li class="">
+            <a href="#asset_failures" class="remote-tray-toggle custom-data-toggle"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-tray="asset_failures">Failures</a>
+          </li>
+
+          <li class="">
+            <a href="#asset_activity" class="remote-tray-toggle custom-data-toggle"
+               data-id="<%= @part.id %>"
+               data-tray-controller="parts"
+               data-tray="asset_activity">Activity</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+<% end %>
+
+
+<% if @part.template? %>
+    <div class="well" style='margin-top: 30px;'>
+      <div class="pull-right">
+        <span class="help-text">Material Number:</span> <span id="material_number"><%= @part.material_number %></span>
+        <% if @part.template? && current_user.role.add_remove_inventory? %>
+            <br><br>
+            <%= link_to "+ Add Asset", "#",
+                        class: "bluebtn page_header_button tooltip-info",
+                        id: "new_part_link",
+                        "data-placement" => "bottom",
+                        "data-title" => "Create new asset under this material number" %>
+        <% end %>
+      </div>
+
+
       <div class="chart-block">
         <div class="chart-title">Assets</div>
         <div class="donut-chart-div job-donut-chart-div">
@@ -221,85 +330,14 @@
         </div>
       </div>
 
-  <% else %>
-
-      <div class="inline"><span class="help-text">Serial Number: </span>
-
-        <h3 class="blue-text inline" id="serial_number"><%= @part.serial_number %></h3>
-      </div>
-
-      <div class="inline push-right"><span class="help-text">District Serial Number: </span>
-        <b><%= @part.district_serial_number.blank? ? '-' : @part.district_serial_number %></b>
-      </div>
-
-
-      <hr>
-
-
-      <div class="chart-block">
-        <div class="chart-title">Jobs</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text part-count"><%= @part.jobs.count %></div>
-          <div class="percentage ">runs</div>
-        </div>
-      </div>
-
-      <div class="chart-block">
-        <div class="chart-title">Usage</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text part-on-hand"><%= @part.below_rotary.present? ? @part.below_rotary.round(1) : "0.0" %></div>
-          <div class="percentage ">hours</div>
-        </div>
-      </div>
-
-      <% if !@part.rental %>
-          <div class="chart-block">
-            <div class="chart-title">Maximum Usage</div>
-            <div class="donut-chart-div job-donut-chart-div">
-              <div class="donut-text part-on-hand">-</div>
-              <div class="percentage ">hours</div>
-            </div>
-          </div>
-
-          <div class="chart-block">
-            <div class="chart-title">Avg Redress</div>
-            <div class="donut-chart-div job-donut-chart-div">
-              <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.serial_number = ?", @part.serial_number).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
-              <div class="percentage ">days</div>
-            </div>
-          </div>
-      <% end %>
-
-
-      <hr>
-
-      <%= render 'parts/part_status', part: @part %>
-  <% end %>
-</div>
+    </div>
+<% end %>
 
 <% if @part.template? %>
 
     <div id="new_part_fields" class="alert alert-info hidden push-down">
       <%= render 'parts/sub_part_fields', sub_part: @part %>
     </div>
-
-
-
-    <ul class="nav nav-pills alert alert-nav">
-      <li class="active">
-        <a href="#" class="remote-tray-toggle custom-data-toggle"
-           data-id="<%= @part.id %>"
-           data-tray-controller="parts"
-           data-tray="grid">Grid</a>
-      </li>
-
-      <li class="">
-        <a href="#" class="remote-tray-toggle custom-data-toggle"
-           data-id="<%= @part.id %>"
-           data-tray-controller="parts"
-           data-tray="list">List</a>
-      </li>
-    </ul>
 
     <div class="remote-tray" data-tray="grid">
       <div class="remote-loading">
@@ -333,46 +371,98 @@
 
 <% else %>
 
-    <ul class="nav nav-pills alert alert-nav">
+    <div class='remote-tray' data-tray="overview">
+      <div class='tray-content content-loaded' style='margin-top: 30px;'>
 
-      <li class="active">
-        <a href="#" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="full_history"
-           data-placement="bottom" data-title="Full Run and Maintenance History">Full History
-        </a>
-      </li>
+        <div class="">
+          <div class="pull-right">
+            <span class="help-text">Material Number:</span>
+            <span id="material_number"><%= @part.material_number %></span>
+          </div>
 
-      <li class="">
-        <a href="#" id="custom_data_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="maintenance"
-           data-placement="bottom" data-title="Maintenance Records">Maintenance Records</a>
-      </li>
+          <div class="inline"><span class="help-text">Serial Number: </span>
 
-      <li class="push-right-small">
-        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="asset_failures"
-           data-placement="bottom" data-title="Failures">Failures</a>
-      </li>
+            <h3 class="blue-text inline" id="serial_number"><%= @part.serial_number %></h3>
+          </div>
 
-      <li class="push-right-small">
-        <a href="#" id="job_tools_toggle" class="job-tray-toggle custom-data-toggle tooltip-info"
-           data-tray="asset_activity"
-           data-id="<%= @part.id %>"
-           data-placement="bottom" data-title="Activity">Activity</a>
-      </li>
-
-    </ul>
+          <div class="inline push-right"><span class="help-text">District Serial Number: </span>
+            <b><%= @part.district_serial_number.blank? ? '-' : @part.district_serial_number %></b>
+          </div>
 
 
-    <%= render 'parts/tray_full_history', part: @part %>
-    <%= render 'parts/tray_maintenance', part: @part %>
-    <%= render 'parts/tray_failures', part: @part %>
+          <hr>
 
-    <div class="job-tray custom-data-closed" data-tray="asset_activity">
-      <div id="asset_activity_loading" class="loading center">
+
+          <div class="chart-block">
+            <div class="chart-title">Jobs</div>
+            <div class="donut-chart-div job-donut-chart-div">
+              <div class="donut-text part-count"><%= @part.jobs.count %></div>
+              <div class="percentage ">runs</div>
+            </div>
+          </div>
+
+          <div class="chart-block">
+            <div class="chart-title">Usage</div>
+            <div class="donut-chart-div job-donut-chart-div">
+              <div class="donut-text part-on-hand"><%= @part.below_rotary.present? ? @part.below_rotary.round(1) : "0.0" %></div>
+              <div class="percentage ">hours</div>
+            </div>
+          </div>
+
+          <% if !@part.rental %>
+              <div class="chart-block">
+                <div class="chart-title">Maximum Usage</div>
+                <div class="donut-chart-div job-donut-chart-div">
+                  <div class="donut-text part-on-hand">-</div>
+                  <div class="percentage ">hours</div>
+                </div>
+              </div>
+
+              <div class="chart-block">
+                <div class="chart-title">Avg Redress</div>
+                <div class="donut-chart-div job-donut-chart-div">
+                  <div class="donut-text "><%= PartRedress.includes(:job).includes(:part).where("parts.serial_number = ?", @part.serial_number).average("part_redresses.finished_redress_at - part_redresses.received_at").to_f.round(1) %></div>
+                  <div class="percentage ">days</div>
+                </div>
+              </div>
+          <% end %>
+
+          <hr>
+          <%= render 'parts/part_status', part: @part %>
+        </div>
+
+        <% if @part.master_part.present? && @part.master_part.container %>
+            <%= render 'parts/container', part: @part %>
+        <% end %>
+
+      </div>
+    </div>
+
+    <div class="remote-tray custom-data-closed" data-tray="full_history">
+      <div class="remote-loading">
         <br><br>
-        <span class="ajax-loading search-loading"><b>Loading Activity...</b></span>
-        <br>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading full history..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray custom-data-closed" data-tray="maintenance">
+      <div class="remote-loading">
+        <br><br>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading maintenance records..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray custom-data-closed" data-tray="asset_failures">
+      <div class="remote-loading">
+        <br><br>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading failures..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray custom-data-closed" data-tray="asset_activity">
+      <div class="remote-loading">
+        <br><br>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading full activity..." %>
       </div>
     </div>
 
@@ -431,6 +521,90 @@
             $('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
         });
     }(jQuery));
+</script>
+
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+    map.attributionControl = false;
+    map.scrollWheelZoom.disable();
+
+    var geoJson = [];
+
+    <% coordinates_for_zoom = [] %>
+    <% coordinates_for_lines = [] %>
+
+    <% part = @part %>
+    <% part.jobs.order("created_at DESC").each_with_index do |job, index| %>
+    <% if index < 7 && !job.well.location.blank? %>
+    <% x = job.well.x_location %>
+    <% y = job.well.y_location  %>
+    <% coordinates_for_lines << [x, y] %>
+    <% coordinates_for_zoom << [y, x] %>
+    geoJson.push({
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [<%= x %>, <%= y %>]
+        },
+        "properties": {
+            title: '<%= job.field.name + ' | ' + job.well.name %>',
+            'marker-size': 'medium',
+            'marker-color': '#0058a8',
+            'marker-symbol': '<%= (index + 1).to_s %>',
+            url: '/jobs/' + <%= job.id %>
+            //'marker-symbol': '1'
+        }
+    });
+    <% end %>
+    <% end %>
+
+    map.markerLayer.setGeoJSON(geoJson);
+
+    map.markerLayer.on('click', function (e) {
+        map.panTo(e.layer.getLatLng());
+    });
+    map.markerLayer.on('click', function (e) {
+        e.layer.unbindPopup();
+        window.location = e.layer.feature.properties.url;
+    });
+
+    var bounds = [];
+    <% coordinates_for_zoom.each do |c| %>
+    bounds.push([<%= c[0] %>, <%= c[1] %>]);
+    <% end %>
+    map.fitBounds(bounds);
+    zoom = Math.round(map.getZoom());
+    map.setZoom(zoom - 1);
+    <% if coordinates_for_zoom.count == 1 %>
+    if (zoom > 8) {
+        map.setZoom(8);
+    }
+    <% end %>
+
+    lines = {
+        type: 'Feature',
+        geometry: {
+            type: 'LineString',
+            coordinates: <%= raw coordinates_for_lines.to_json %>
+        },
+        properties: { }
+    };
+
+    L.geoJson(lines, {
+        style: {
+            "color": "#FFFFFF"
+            //"weight": 5,
+            //"opacity": 0.65
+        }
+    }).addTo(map);
+
+    map.markerLayer.on('mouseover', function (e) {
+        e.layer.openPopup();
+    });
+    map.markerLayer.on('mouseout', function (e) {
+        e.layer.closePopup();
+    });
 </script>
 
 

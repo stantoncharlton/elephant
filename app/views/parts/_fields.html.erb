@@ -57,6 +57,17 @@
                          "data-placement" => "bottom",
                          "data-title" => "Weight" %>
 
+        <br>
+
+        <div class='inline-block align-top push-down-small' style="width: 160px;"><b class="">Container</b></div>
+        <div class="inline-block align-top push-down-small">
+          <%= f.check_box :container,
+                            class: "regular-checkbox",
+                            id: "container",
+                            value: @part.container %>
+          <label for="container"></label>
+        </div>
+
 
       </div>
 
@@ -93,6 +104,7 @@
                        "data-placement" => "bottom",
                        "data-title" => "District Serial Number" %>
     </div>
+
 <% end %>
 
 

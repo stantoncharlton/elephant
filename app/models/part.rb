@@ -19,7 +19,8 @@ class Part < ActiveRecord::Base
                     :max_hours,
                     :weight,
                     :asset_type,
-                    :rental
+                    :rental,
+                    :container
 
     acts_as_tenant(:company)
 
@@ -40,6 +41,7 @@ class Part < ActiveRecord::Base
     belongs_to :primary_tool
     belongs_to :warehouse
     belongs_to :supplier
+    belongs_to :container_parent, class_name: "Part", foreign_key: "container_id"
 
     has_many :parts, foreign_key: "master_part_id", order: "serial_number ASC"
 
@@ -47,6 +49,8 @@ class Part < ActiveRecord::Base
     has_many :part_redresses, order: "created_at DESC"
     has_many :jobs, through: :part_memberships, source: :job
     has_many :issues, order: "failure_at DESC"
+
+    has_many :contained_parts, class_name: "Part", foreign_key: "container_id"
 
     AVAILABLE = 1
     ON_JOB = 2
