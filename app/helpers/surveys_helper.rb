@@ -52,7 +52,7 @@ module SurveysHelper
                                    point.vertical_section.round(2),
                                    point.north_south.round(2),
                                    point.east_west.round(2),
-                                   point.dog_leg_severity.round(2),
+                                   point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : 0.0,
                                    point.magnetic_field_strength.present? ? point.magnetic_field_strength.round(4) : '-',
                                    point.magnetic_dip_angle.present? ? point.magnetic_dip_angle.round(4) : '-',
                                    point.gravity_total.present? ? point.gravity_total.round(4) : '-',

@@ -42,6 +42,8 @@ class Activity < ActiveRecord::Base
     START_DATE = 112
     ASSET_ADDED = 113
     ASSET_REMOVED = 114
+    SHIPMENT_RECEIVED = 115
+    SHIPMENT_SENT = 116
 
     JOB_MEMBER_ADDED = 120
 
