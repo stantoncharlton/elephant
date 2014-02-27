@@ -47,7 +47,8 @@
     <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
         <div class="job-shipment-list">
           <% shipment_assets = shipment.part_memberships.to_a %>
-          <% shipment.from.part_memberships.each do |pm| %>
+          <% part_memberships = shipment.from.part_memberships.where(:shipping => false).to_a %>
+          <% part_memberships.each do |pm| %>
               <% found = shipment_assets.select { |s| s.job_part_membership == pm }.any? %>
               <% if found || !pm.shipping %>
                   <div class='inline-block'>
@@ -67,6 +68,13 @@
                     </div>
                   </div>
               <% end %>
+          <% end %>
+          <% if part_memberships.empty? %>
+              <div id="no_assets" class='push-down center'>
+                <br>
+                <span class='help-text'>No assets on job to ship...</span>
+                <br><br>
+              </div>
           <% end %>
         </div>
     <% else %>
@@ -110,7 +118,7 @@
         <% if shipment.from.present? && shipment.to.present? %>
             <div id="from_to_links" class='inline-block from_to_show align-top' style="margin-top: 10px;">
               <div class='inline-block'>
-                <div class='inline-block align-top push-up-small'>
+                <div class='inline-block align-top'>
                   <% if  shipment.user.present? %>
                       <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
                   <% end %>
@@ -120,7 +128,7 @@
                 &nbsp;&nbsp;&nbsp;
                 <i class="icon-chevron-right align-top"></i>
                 &nbsp;&nbsp;&nbsp;
-                <div class='inline-block align-top push-up-small'>
+                <div class='inline-block align-top'>
                   <% if  shipment.accepted_by.present? %>
                       <%= render 'users/user_icon', user: shipment.accepted_by, use_name: false, use_link: true %>
                   <% end %>
@@ -212,12 +220,20 @@
 
         <div class='pull-left' style="margin-left: 310px; margin-bottom: -10px;">
           <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-          <div class='inline-block'>
-            <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
-                           placeholder: "Shipper",
-                           class: "custom-select" %>
-          </div>
-          <p class='inline-block help-text align-top push-down'>&nbsp;&nbsp;shipper</p>
+          <% if shippers.any? %>
+              <% if shipment.status == Shipment::COMPLETE %>
+                  <div class='inline-block align-top'><%= shipment.shipper.present? ? shipment.shipper.name : '' %></div>
+              <% else %>
+
+                  <div class='inline-block'>
+                    <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
+                                   placeholder: "Shipper",
+                                   class: "custom-select" %>
+                  </div>
+                  <p class='inline-block help-text align-top push-down'>&nbsp;&nbsp;shipper</p>
+              <% end %>
+
+          <% end %>
 
         </div>
       </div>
