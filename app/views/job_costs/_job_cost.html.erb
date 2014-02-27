@@ -36,8 +36,10 @@
       <div class='inline-block' style="width: 324px">
         <span class=''><%= job_cost.description %></span>
       </div>
-      <div class='inline-block' style="width: 200px">
+      <div class='inline-block' style="width: 100px">
         <b class='blue-text <%= job_cost.price < 0 ? "warning-test" : "" %>'><%= number_to_currency(job_cost.price, :unit => "$") %></b>
+      </div>
+      <div class='inline-block' style="width: 100px">
         <% if job_cost.quantity.to_f != 1.0 %>
             <p class='inline-block help-text push-right-small'>(<%= number_to_currency(job_cost.price * job_cost.quantity.to_f, :unit => "$") %>)</p>
         <% end %>
