@@ -37,7 +37,8 @@ class DrillingLogsController < ApplicationController
     def index
         if params[:document].present?
             @document = Document.find_by_id(params[:document])
-            @drilling_log = DrillingLog.find_by_document_id(@document.id)
+            not_found unless !@document.nil?
+            @drilling_log = DrillingLog.includes(document: :job).where("jobs.well_id = ?", @document.job.well_id).last
             if @drilling_log.nil?
                 if @document.document_type == Document::DRILLING_LOG
                     @drilling_log = DrillingLog.new

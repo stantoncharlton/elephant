@@ -364,54 +364,6 @@
                 });
 
 
-                <% if false %>
-                if (document.location.hash == '') {
-                    tray = $(".job-tray[data-tray='documents_data']");
-                    tray.find('.content').hide();
-                    tray.find('.remote-loading').removeClass('hidden');
-                    tray.find('.loading').removeClass('hidden');
-                    setTimeout(function () {
-                        $.ajax({
-                            url: "/jobs/<%= @job.id %>?section=documents_data",
-                            type: "GET",
-                            dataType: "script"
-                        });
-                    }, 1);
-                }
-                <% end %>
-
-                <% if false %>
-
-                $.ajax({
-                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=documents",
-                    type: "GET",
-                    dataType: "script"
-                });
-
-                $.ajax({
-                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=tools_assets",
-                    type: "GET",
-                    dataType: "script"
-                });
-
-                $.ajax({
-                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=notes",
-                    type: "GET",
-                    dataType: "script"
-                });
-
-                $.ajax({
-                    url: "/job_times?job=" + <%= @job.id.to_s %>,
-                    type: "GET",
-                    dataType: "script"
-                });
-
-                $.ajax({
-                    url: "/jobs/" + <%= @job.id.to_s %> +"?section=failures",
-                    type: "GET",
-                    dataType: "script"
-                });
-                <% end %>
 
             }, 1);
 
