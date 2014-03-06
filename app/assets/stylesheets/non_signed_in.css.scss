@@ -211,8 +211,10 @@
 
 .login {
   //background: url(image_path('login_box.png')) no-repeat;
-  padding: 40px;
-  width: 513px;
+  padding: 20px;
+  padding-top: 40px;
+  padding-right: 0px;
+  width: 483px;
   height: 514px;
   margin-top: 0px;
 
@@ -334,11 +336,11 @@
 
 .loginright {
   float: right;
-  margin-right: 86px;
+  margin-right: 66px;
 }
 
 .loginrightmargin {
-  margin-right: 86px;
+  margin-right: 66px;
 }
 
 .sign-box-background {
@@ -346,7 +348,7 @@
   //float: right;
   top: 0;
   right: 0;
-  width: 513px;
+  width: 543px;
   height: 100%;
   background: #000000;
   opacity: .5;
@@ -358,7 +360,7 @@
   //float: right;
   top: 0;
   right: 0;
-  margin-right: -85px;
+  margin-right: 0px;
   //margin-left: 50%;
 }
 
