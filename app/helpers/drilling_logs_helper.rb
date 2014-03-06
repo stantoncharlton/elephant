@@ -496,7 +496,7 @@ module DrillingLogsHelper
             jobs_sql = Survey.includes(document: :job).where("jobs.well_id = ?", job.well_id).select("jobs.id").to_sql
             users = JobMembership.includes(:job, :user).where("job_memberships.job_id IN (#{jobs_sql})").where("job_memberships.job_role_id = ?", JobMembership::FIELD)
             if users.any?
-                r.add_field "NAMES", users.collect { |jm| jm.user.name }.to_sentence
+                r.add_field "NAMES", users.collect { |jm| jm.user.present? ? jm.user.name : '' }.to_sentence
             else
                 r.add_field "NAMES", "-"
             end

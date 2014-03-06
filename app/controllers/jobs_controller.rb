@@ -91,6 +91,23 @@ class JobsController < ApplicationController
             @activities = [] #.paginate(page: params[:page], limit: 10)
 
         end
+
+        respond_to do |format|
+            format.html do
+
+            end
+            format.js do
+
+            end
+            #format.pdf do
+            #    render :pdf => "job.pdf",
+            #           javascript_delay: 1000,
+            #           :margin => {:top                => 0.0,
+            #                       :bottom             => 0.0,
+            #                       :left               => 0.0,
+            #                       :right              => 0.0}
+            #end
+        end
     end
 
     def new
