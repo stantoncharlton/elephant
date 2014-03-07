@@ -124,7 +124,7 @@
   height: 100%;
   width: 100%;
 
-  background: #000000 url(image_path('background2.jpg')) no-repeat center center fixed;
+  background: #000000 url(image_path('background.jpg')) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -135,7 +135,7 @@
   height: 100%;
 
   @media only screen and (max-device-width: 768px) {
-    background: #000000 url(image_path('background7-small.jpg')) no-repeat center center fixed;
+    background: #000000 url(image_path('background-small.jpg')) no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
   }
@@ -145,14 +145,14 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: #000000 url(image_path('background2.jpg')) no-repeat center center fixed;
+  background: #000000 url(image_path('background.jpg')) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
 
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background2.jpg')}, sizingMethod='scale');
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background.jpg')}, sizingMethod='scale');
 }
 
 #kenburns {
@@ -214,13 +214,13 @@
   padding: 20px;
   padding-top: 40px;
   padding-right: 0px;
-  width: 483px;
+  width: 363px;
   height: 514px;
   margin-top: 0px;
 
   .help {
     float: right;
-    margin-right: 80px;
+    margin-right: 40px;
     text-align: right;
     font-family: "gothamlightregular" !important;
     color: #FFFFFF;
@@ -284,7 +284,7 @@
 .login .input-controls {
   border-radius: 0px;
   height: 48px;
-  width: 405px;
+  width: 305px;
   padding: 0px 10px 0px 10px;
   background: rgba(255, 255, 255, 1.0);
   margin-top: 10px;
@@ -336,11 +336,11 @@
 
 .loginright {
   float: right;
-  margin-right: 66px;
+  margin-right: 36px;
 }
 
 .loginrightmargin {
-  margin-right: 66px;
+  margin-right: 36px;
 }
 
 .sign-box-background {
@@ -348,7 +348,7 @@
   //float: right;
   top: 0;
   right: 0;
-  width: 543px;
+  width: 403px;
   height: 100%;
   background: #000000;
   opacity: .5;
