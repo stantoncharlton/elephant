@@ -430,17 +430,25 @@ class DrillingLog < ActiveRecord::Base
             file = "#{Rails.root}/tmp/#{SecureRandom.hex}_#{@report_name}.odt"
             report.generate(file)
 
-            url = "tmp/#{Time.zone.now.month}/#{@drilling_log.company_id}/#{SecureRandom.hex}/#{@report_name}.odt"
+            if !Rails.env.production?
+                %x{/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --invisible --convert-to pdf --outdir #{File.dirname(file)} #{file}}
+            else
+                %x{soffice --headless --invisible --convert-to pdf --outdir #{File.dirname(file)} #{file}}
+            end
+            new_file = file[0..-4] + "pdf"
+
+            url = "tmp/#{Time.zone.now.month}/#{@drilling_log.company_id}/#{SecureRandom.hex}/#{@report_name}.pdf"
+            puts url
             s3 = AWS::S3.new
-            s3.buckets['elephant-docs'].objects[url].write(File.read(file))
+            s3.buckets['elephant-docs'].objects[url].write(File.read(new_file))
 
-            Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
-            Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
+            #Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
+            #Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
 
-            oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(url)}"
-            newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf?storage=elephant"
+            #oldFile = "http://api.saaspose.com/v1.0/words/#{File.basename(url)}?format=pdf&storage=elephant&folder=elephant-docs/#{File.dirname(url)}"
+            #newFile = "http://api.saaspose.com/v1.0/storage/file/elephant-docs/#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf?storage=elephant"
 
-            RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
+            #RestClient.put Common::Utils.sign(newFile), open(Common::Utils.sign(oldFile)), {:accept => :json}
 
             pdf = s3.buckets['elephant-docs'].objects["#{File.dirname(url)}/#{File.basename(url, '.*')}.pdf"]
             @full_url = pdf.url_for(:get, {
@@ -448,7 +456,8 @@ class DrillingLog < ActiveRecord::Base
                     response_content_disposition: 'attachment;'
             }).to_s
 
-            File.delete(file) if File.exist?(file)
+            #File.delete(file) if File.exist?(file)
+            #File.delete(new_file) if File.exist?(new_file)
 
             $redis.set(report_id, @full_url)
             #redirect_to full_url

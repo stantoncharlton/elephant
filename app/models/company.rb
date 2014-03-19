@@ -57,7 +57,9 @@ class Company < ActiveRecord::Base
     HOURLY_WORK_DAY = 1
     DAILY_WORK_DAY = 2
 
+    PAYROLL_NONE = 0
     PAYROLL_BIMONTHLY_EVEN = 1
+
 
     def active_jobs
         self.jobs.where("jobs.status >= 1 AND jobs.status < 50")
