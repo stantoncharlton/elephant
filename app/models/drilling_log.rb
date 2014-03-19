@@ -438,7 +438,7 @@ class DrillingLog < ActiveRecord::Base
             new_file = file[0..-4] + "pdf"
 
             url = "tmp/#{Time.zone.now.month}/#{@drilling_log.company_id}/#{SecureRandom.hex}/#{@report_name}.pdf"
-            puts url
+            #puts url
             s3 = AWS::S3.new
             s3.buckets['elephant-docs'].objects[url].write(File.read(new_file))
 
