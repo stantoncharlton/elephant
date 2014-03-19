@@ -456,6 +456,7 @@ class DrillingLog < ActiveRecord::Base
                     response_content_disposition: 'attachment;'
             }).to_s
 
+
             #File.delete(file) if File.exist?(file)
             #File.delete(new_file) if File.exist?(new_file)
 
