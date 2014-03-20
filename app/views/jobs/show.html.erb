@@ -154,7 +154,7 @@
               </div>
               <% jobs.each_with_index do |j| %>
                   <li class='<%= @job.job_template == j.job_template ? "active" : "" %>'>
-                    <%= link_to j, class: "blue-text" do %>
+                    <%= link_to j, class: "blue-text job-tab" do %>
                         <b><%= j.job_template.name %></b>
                     <% end %>
               <% end %>
@@ -341,6 +341,10 @@
     (function ($) {
         $(document).ready(function () {
 
+            $('.job-tab').click(function() {
+                $(this).attr("href", $(this).attr("href") + window.location.hash);
+            });
+
             // Needed in view because otherwise it conflicts with jquery menu. No idea?
             if ($('#new_member_name').length > 0) {
                 $('#new_member_name').data("autocomplete")._renderItem = function (ul, item) {
@@ -475,6 +479,8 @@
         map._onResize();
         return false;
     });
+
+
 </script>
 
 

@@ -3,10 +3,11 @@
     <%= link_to "Elephant", root_path, id: "logo", class: "inline-block push-down-small push-right-small" %>
   </div>
   <div class='curtain-content'>
-    <h1>Please Log In</h1>
+    <%= image_tag "home_logo.png" %>
 
+    <br><br><br>
+    <h1>Please Log In</h1>
     <p>For company security, you have been logged out.</p>
-    <%= image_tag "blue_logo_small.png" %>
     <%= render 'sessions/signin2' %>
   </div>
 </div>
