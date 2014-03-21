@@ -442,6 +442,8 @@ class DrillingLog < ActiveRecord::Base
             s3 = AWS::S3.new
             s3.buckets['elephant-docs'].objects[url].write(File.read(file))
 
+            puts "uploaded"
+
             Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
             Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
 

@@ -175,9 +175,10 @@ module DrillingLogsHelper
         r.add_field "T8", runs.count
 
 
-        range_cost = JobCost.includes(job: :well).where("wells.id = ?", job.well_id).where("job_costs.charge_at >= :start_time AND job_costs.charge_at <= :end_time", start_time: start_time, end_time: end_time).map { |jc| jc.price * jc.quantity }.reduce(:+)
+        range_cost = JobCost.includes(:job).where("jobs.well_id = ?", job.well_id).where("job_costs.charge_at >= :start_time AND job_costs.charge_at <= :end_time", start_time: start_time, end_time: end_time).map { |jc| jc.price * jc.quantity }.reduce(:+)
+        total_cost = job.well.jobs.sum("jobs.total_cost").to_f
         r.add_field "C1", range_cost.nil? ? '-' : number_to_currency(range_cost, :unit => "$")
-        r.add_field "C2", number_to_currency(job.well.jobs.sum(:total_cost), :unit => "$")
+        r.add_field "C2", number_to_currency(total_cost, :unit => "$")
 
 
 
@@ -312,9 +313,6 @@ module DrillingLogsHelper
         else
 
         end
-
-        puts entries.count
-
 
     end
 
