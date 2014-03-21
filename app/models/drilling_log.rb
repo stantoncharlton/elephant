@@ -440,7 +440,7 @@ class DrillingLog < ActiveRecord::Base
             url = "tmp/#{Time.zone.now.month}/#{@drilling_log.company_id}/#{SecureRandom.hex}/#{@report_name}.odt"
             #puts url
             s3 = AWS::S3.new
-            s3.buckets['elephant-docs'].objects[url].write(File.read(new_file))
+            s3.buckets['elephant-docs'].objects[url].write(File.read(file))
 
             Common::Product.setBaseProductUri("http://api.saaspose.com/v1.0")
             Common::SaasposeApp.new(ENV["SAASPOSE_APPSID"], ENV["SAASPOSE_APPKEY"])
