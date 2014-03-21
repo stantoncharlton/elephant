@@ -212,6 +212,11 @@ module DrillingLogsHelper
             r.add_field "BHA2_DESC", ""
             r.add_field "B2_TIME", ""
         end
+        if bhas.count < 1
+            r.add_field "BHA1", ""
+            r.add_field "BHA1_DESC", ""
+            r.add_field "B1_TIME", ""
+        end
 
 
         r.add_field "H1", "Drilling Parameters"
