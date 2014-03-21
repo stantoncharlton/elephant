@@ -142,6 +142,7 @@ module DrillingLogsHelper
     end
 
     def fill_drilling_report job, entries, r, start_time, end_time
+
         drilling_log = DrillingLog.calculate entries
         issues = Issue.includes(job: :well).where("wells.id = ?", job.well_id).where("issues.failure_at >= :start_time AND issues.failure_at <= :end_time", start_time: start_time, end_time: end_time)
 
@@ -149,6 +150,7 @@ module DrillingLogsHelper
         r.add_field "JOB_NUMBER", 'Job # ' + (job.job_number || '-')
         r.add_field "RIG", 'Rig ' + (job.well.rig.present? ? job.well.rig.name : '-')
         r.add_field "CLIENT", job.company.name
+
         hours = (end_time - start_time).to_f / 60.0 / 60.0
         if hours <= 24
             r.add_field "TIME", "#{start_time.strftime('%m/%d/%Y')} (#{hours.ceil.to_i} hours)"
@@ -156,6 +158,8 @@ module DrillingLogsHelper
             days = (hours / 24.0).round(0).to_i
             r.add_field "TIME", "#{start_time.strftime('%m/%d/%Y')} - #{end_time.strftime('%m/%d/%Y')} (#{days} #{"day".pluralize(days)})"
         end
+
+
 
         r.add_field "T1", drilling_log.drilling_rop.nil? ? "-" : drilling_log.drilling_rop.round(1)
         r.add_field "T2", drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',')
@@ -170,9 +174,11 @@ module DrillingLogsHelper
         runs = DrillingLog.new.get_runs(entries)
         r.add_field "T8", runs.count
 
-        range_cost = job.job_costs.where("job_costs.charge_at >= :start_time AND job_costs.charge_at <= :end_time", start_time: start_time, end_time: end_time).map { |jc| jc.price * jc.quantity }.reduce(:+)
+
+        range_cost = JobCost.includes(job: :well).where("wells.id = ?", job.well_id).where("job_costs.charge_at >= :start_time AND job_costs.charge_at <= :end_time", start_time: start_time, end_time: end_time).map { |jc| jc.price * jc.quantity }.reduce(:+)
         r.add_field "C1", range_cost.nil? ? '-' : number_to_currency(range_cost, :unit => "$")
-        r.add_field "C2", number_to_currency(job.total_cost, :unit => "$")
+        r.add_field "C2", number_to_currency(job.well.jobs.sum(:total_cost), :unit => "$")
+
 
 
         r.add_field "R1", drilling_log.rotary_footage_pct.nil? ? "-" : (drilling_log.rotary_footage_pct * 100).round(1)
@@ -306,6 +312,10 @@ module DrillingLogsHelper
         else
 
         end
+
+        puts entries.count
+
+
     end
 
 

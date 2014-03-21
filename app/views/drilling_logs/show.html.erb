@@ -76,7 +76,7 @@
 
       <div class='inline-block pull-right'>
         <li class="">
-          <a href="<%= job_path(@drilling_log.job) %>" class=" custom-data-toggle tooltip-info"
+          <a href="<%= job_path(@return_job || @drilling_log.job) %>" class=" custom-data-toggle tooltip-info"
              style=" background: #f4bb0d; width: 100px; margin-right: -35px;"
              data-tray=""
              data-placement="bottom" data-title="Job Data">Open Job

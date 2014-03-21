@@ -39,6 +39,9 @@ class DrillingLogsController < ApplicationController
             @document = Document.find_by_id(params[:document])
             not_found unless !@document.nil?
             @drilling_log = DrillingLog.includes(document: :job).where("jobs.well_id = ?", @document.job.well_id).last
+
+            cookies[:return_job] = params[:return_job]
+
             if @drilling_log.nil?
                 if @document.document_type == Document::DRILLING_LOG
                     @drilling_log = DrillingLog.new
@@ -60,10 +63,18 @@ class DrillingLogsController < ApplicationController
         not_found unless @drilling_log.present?
         @bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC")
 
-
         respond_to do |format|
             format.html {
-
+                @return_job = Job.find_by_id(cookies[:return_job])
+                if @return_job.present?
+                    job_ids = @drilling_log.well.jobs.select(:id).to_a
+                    if job_ids.find { |j| j.id == @return_job.id }.nil?
+                        @return_job = nil
+                    end
+                end
+                if @return_job.nil?
+                    @return_job = @drilling_log.job
+                end
             }
             format.js {
                 if params[:report].present? && params[:report] == "true" && params[:report_name].present?
@@ -82,7 +93,6 @@ class DrillingLogsController < ApplicationController
         end
 
     end
-
 
 
 end

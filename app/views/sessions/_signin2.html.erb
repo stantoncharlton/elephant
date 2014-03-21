@@ -9,19 +9,19 @@
 
   <% end %>
 
-  <div class="form">
+  <div class="form" style="margin-left: 65px;">
     <%= form_for(:session, url: sessions_path, autocomplete: "on", remote: true) do |f| %>
 
         <%= f.text_field :email, placeholder: "Type Email",
                          value: params[:email],
                          class: "input-controls tooltip-info",
-                         style: "width: 200px;",
+                         style: "width: 300px;",
                          "data-placement" => "bottom",
                          "data-title" => "Email address" %>
 
         <%= f.password_field :password, placeholder: "Type Password",
                              class: "input-controls tooltip-info",
-                             style: "width: 200px;",
+                             style: "width: 300px;",
                              "data-placement" => "bottom",
                              "data-title" => "Password" %>
 

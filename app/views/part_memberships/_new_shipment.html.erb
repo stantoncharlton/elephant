@@ -6,7 +6,7 @@
   <% if !shipment.from_editable %>
       <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
   <% end %>
-  <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
+  <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name + " - #{w.job_template.name}", w.id] }.sort_by { |k| k[0] } %>
 
 
   <div class='form' data-form="new-asset-form">
