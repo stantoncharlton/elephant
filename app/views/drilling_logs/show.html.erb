@@ -141,20 +141,12 @@
            data-tray="survey">Survey</a>
       </li>
 
-      <% if false %>
-          <li class="">
-            <a href="#drilling-reports" class="remote-tray-toggle custom-data-toggle"
-               data-id="<%= @drilling_log.id %>"
-               data-tray-controller="drilling_logs"
-               data-tray="drilling-reports">Projection</a>
-          </li>
-
-          <li class="">
-            <a href="#drilling-reports" class="remote-tray-toggle custom-data-toggle"
-               data-tray-controller="drilling_logs"
-               data-tray="drilling-reports">Proximity</a>
-          </li>
-      <% end %>
+      <li class="">
+        <a href="#logs" class="remote-tray-toggle custom-data-toggle"
+           data-id="<%= @drilling_log.id %>"
+           data-tray-controller="drilling_logs"
+           data-tray="logs">Logs</a>
+      </li>
 
     </ul>
   </div>
@@ -171,6 +163,12 @@
 <div class="remote-tray custom-data-closed" data-tray="drilling-rop">
   <div class="remote-loading">
     <%= render 'layouts/inline_loading', title: "Please wait, loading ROP Analysis..." %>
+  </div>
+</div>
+
+<div class="remote-tray custom-data-closed" data-tray="logs">
+  <div class="remote-loading">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading Logs..." %>
   </div>
 </div>
 

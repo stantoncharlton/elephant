@@ -1,0 +1,89 @@
+<div class="remote-tray" data-tray="overview">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
+  </div>
+
+  <div class=' tray-content content-loaded'>
+
+
+    <div class="section-header" style="margin-top: 15px;">
+      <h1>Job Overview</h1>
+    </div>
+
+
+    <%= render 'jobs/duplicate_warning', job: @job %>
+    <%= render 'jobs/job_process', job: @job %>
+
+
+    <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
+
+
+    <%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
+
+    <hr>
+
+    <div class="">
+
+      <div id="failure_warnings">
+      </div>
+
+
+      <div class="chart-block tooltip-info align-top"
+           data-title="Total Job Cost">
+        <div class="chart-title">Total Cost</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text" id='total_job_cost'><%= number_to_currency(job.total_cost, :unit => "$") %></div>
+        </div>
+      </div>
+
+      <% @drilling_log = @job.drilling_log %>
+
+
+      <% days = @drilling_log.below_rotary.present? && @drilling_log.above_rotary.present? ? ((@drilling_log.above_rotary + @drilling_log.below_rotary) / 24).to_i : 0 %>
+      <div class="chart-block tooltip-info align-top"
+           data-title="Total Job Cost">
+        <div class="chart-title">Days on Job</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text"><%= days %></div>
+          <div class="percentage"><%= "day".pluralize(days) %></div>
+        </div>
+      </div>
+
+
+      <% if current_user.role.global_read? || @job.is_coordinator_or_creator?(current_user) %>
+          <%= link_to job_path(@job, section: "rating"), remote: true, class: "empty-link" do %>
+              <div class="chart-block tooltip-info"
+                   data-title="Job Rating is a score from 1-5 of the job performance">
+                <div class="chart-title">Rating</div>
+                <div class="donut-chart-div job-donut-chart-div rating-count-div">
+                  <%= render 'failures/rating', rating: job.rating %>
+                </div>
+              </div>
+          <% end %>
+      <% end %>
+
+
+      <hr>
+
+      <% if @drilling_log.present? %>
+        <%= render 'drilling_logs/overview_content', drilling_log: @drilling_log %>
+      <% end %>
+
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a><div>" + (item.id > 0 ? "<img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
+            }
+        });
+    }(jQuery));
+</script>
+

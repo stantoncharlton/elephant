@@ -1,5 +1,5 @@
 <% if document.access_level <= 1 || (document.access_level > 1 && !current_user.role.limit_to_assigned_jobs?) %>
-    <div id="document_<%= document.id %>">
+    <div id="document_<%= document.id %>" class='root-document'>
       <div class="field inline-form document-field document-download-message"
            data-toggle="popover"
            data-placement="top"
@@ -7,6 +7,7 @@
            data-animation="true"
            data-trigger="manual"
            title="Download">
+
         <%= s3_uploader_form post: "/documents/" + document.id.to_s, as: "document[url]", class: "inline" do %>
 
             <%= render 'documents/document_metadata', document: document %>
@@ -18,25 +19,27 @@
               </div>
             </div>
             <div class="upload-controls inline-block" id="div_upload_<%= !document.job.nil? ? document.job.id : "" %>">
-              <div class="upload-document-container" id="file_uploads">
-                <div class="document-upload-button-container">
-                  <% if document.document_type == Document::DOCUMENT %>
-                      <% if can_upload and (document.template? or !document.read_only?) %>
-                          <% if !@job || (@job and !@job.closed) %>
-                              <div class="tooltip-info upload-button-div inline-block"
-                                   data-placement="bottom" data-title="Upload new document">
-                                <%= file_field_tag :file, multiple: false, class: "file-input inline-block", id: "upload_document_browse" %>
-                                <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button inline-block align-top" %>
-                              </div>
+              <% if !in_job %>
+                  <div class="upload-document-container" id="file_uploads">
+                    <div class="document-upload-button-container">
+                      <% if document.document_type == Document::DOCUMENT %>
+                          <% if can_upload and (document.template? or !document.read_only?) %>
+                              <% if !@job || (@job and !@job.closed) %>
+                                  <div class="tooltip-info upload-button-div inline-block"
+                                       data-placement="bottom" data-title="Upload new document">
+                                    <%= file_field_tag :file, multiple: false, class: "file-input inline-block", id: "upload_document_browse" %>
+                                    <%= link_to "Upload", "#", id: "upload_document", class: "document-upload-button inline-block align-top" %>
+                                  </div>
+                              <% end %>
                           <% end %>
                       <% end %>
-                  <% end %>
-                </div>
-              </div>
+                    </div>
+                  </div>
+              <% end %>
 
-              <% if editable %>
+              <% if !in_job %>
                   <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
-                              class: "delete-button tooltip-info",
+                              class: "delete-button tooltip-info pull-right",
                               "data-placement" => "bottom",
                               "data-title" => "Delete document" %>
                   <%= link_to "order", document_path(document, reorder: "-1"), remote: true,
@@ -44,10 +47,21 @@
                               "data-placement" => "bottom",
                               "data-title" => "Move document up by 1 row" %>
               <% end %>
+
+              <% if in_job %>
+                  <div class='pull-right'>
+                    <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
+                                class: "delete-button tooltip-info",
+                                "data-placement" => "bottom",
+                                "data-title" => "Delete document" %>
+                  </div>
+              <% end %>
             </div>
 
 
-            <% if !document.template? && document.job_id.present? %>
+
+
+            <% if false %>
                 <div class="btn-group inline pull-right">
                   <a class="document-actions-button tooltip-info" data-toggle="dropdown" href="#"
                      data-placement="left" data-title="Share or Download original, template, and past revisions">
@@ -61,7 +75,7 @@
                                       "data-placement" => "left",
                                       "data-title" => "Share document to person or another company." %>
                       <% else %>
-                        <span class='help-text push-right-small'>Not shareable..</span>
+                          <span class='help-text push-right-small'>Not shareable..</span>
                       <% end %>
                     </li>
                     <% if document.url.present? %>

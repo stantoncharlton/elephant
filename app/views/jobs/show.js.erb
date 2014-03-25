@@ -1,3 +1,5 @@
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
+
 <% if params[:section] == "tools_assets" %>
     if($('#assets_loading').length > 0) {
         $('#assets_loading').after('<%= j render 'jobs/job_assets', job: @job %>');
@@ -111,9 +113,7 @@
 
 
 <% elsif params[:section] == "documents_data" %>
-    $('#documents_loading').after('<%= j render 'jobs/job_documents', job: @job %>');
-    $('#documents_loading').remove();
-
+    tray.replaceWith("<%= j render 'jobs/job_documents', job: @job %>");
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();
@@ -160,18 +160,8 @@
     $('#modal_popup').find('.modal-content').append('<%= j render 'jobs/rating', job: @job %>');
 
 <% elsif params[:section] == "overview" %>
-    $('#job_overview').replaceWith('<%= j render 'jobs/job_overview', job: @job %>');
+    tray.replaceWith("<%= j render 'jobs/tray_overview', job: @job %>");
 
-    <% if false %>
-    <% if @job.status == Job::ON_JOB %>
-    setTimeout(function() {
-        $.ajax('/jobs/' + <%= @job.id %> + "?section=overview", {
-            type: 'get',
-            dataType: 'script'
-        });
-    }, 60000);
-    <% end %>
-    <% end %>
 <% end %>
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

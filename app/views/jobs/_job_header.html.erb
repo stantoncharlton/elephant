@@ -7,6 +7,53 @@
 
 
       <div style='position: absolute; width: 100%; left: 0; right: 0; top: 212px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
+
+        <div class="btn-group inline pull-right" style='margin-right: 10px; margin-top: 5px;'>
+          <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#" style='color: #d3d3d3; padding-left: 50px;'>
+            Advanced Actions
+          </a>
+          <ul class="dropdown-menu">
+
+            <li>
+              <%= link_to "Create New Job (Rig Skid)", new_job_path(job: @job.id),
+                          remote: true,
+                          class: "dropdown-menu-link tooltip-info show-modal-button",
+                          "data-placement" => "left",
+                          "data-title" => "This will allow you to create a new job and transfer all assets, information, and people." %>
+            </li>
+
+
+            <% if @job.status == Job::COMPLETE %>
+                <li>
+                  <%= link_to "Reopen Job", @job,
+                              class: "dropdown-menu-link tooltip-info",
+                              "data-placement" => "left",
+                              "data-title" => "This will reopen the job for edit." %>
+
+                  <!--<li class="divider"></li>-->
+                </li>
+            <% end %>
+
+
+            <% if @job.is_coordinator_or_creator?(current_user) || current_user.role.district_edit? %>
+
+                <li class="divider"></li>
+
+
+                <li>
+                  <%= link_to "Delete Job", @job, method: :delete,
+                              class: "btn btn-danger white-text tooltip-info",
+                              style: "margin-left: 10px; ",
+                              data: {confirm: "Delete Job? Permanently delete job. All data and documents will be lost. This can't be undone."},
+                              "data-placement" => "left",
+                              "data-title" => "Permanently delete job. All data and documents will be lost. This can't be undone." %>
+                </li>
+            <% end %>
+
+
+          </ul>
+        </div>
+
         <% if job.well.rig.present? %>
             <%= link_to job.well.rig.name, job.well.rig, class: "job-title inline job-type-description-target orange-text",
                         style: "margin-left: 10px; font-size: 18px;",

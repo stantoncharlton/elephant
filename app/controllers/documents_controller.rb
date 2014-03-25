@@ -71,8 +71,15 @@ class DocumentsController < ApplicationController
             @issue_id = params[:issue]
             @document = Document.new
             render 'documents/new_modal'
+        elsif params["multi"].present? && params["multi"] == "true"
+            @document = Document.new
+            @document.name = params[:name]
+            @document.company = current_user.company
+            @document.job = Job.find_by_id(params[:job_id])
+            @temp_id = params[:temp_id]
+            @document.save
+            render 'documents/create_multi'
         else
-
             @document = Document.new(params[:document])
             @filename ||= File.basename(@document.url)
 
@@ -212,9 +219,9 @@ class DocumentsController < ApplicationController
             render 'error'
         end
 
-        if @document.category == Document::NOTICES
-            @document.delay.delete_notice_on_jobs @document.id
-        end
+        #if @document.category == Document::NOTICES
+        #    @document.delay.delete_notice_on_jobs @document.id
+        #end
 
         @document.document_collection.each do |document|
             if document != @document and (document.ordering || 0) > @document.ordering

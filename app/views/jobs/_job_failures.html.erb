@@ -1,6 +1,14 @@
 <% issues = job.issues.includes(:job_notes).includes(failure: :failure_master_template) %>
 <div class="page_header">
   <h1>Failures</h1>
+
+  <div class='pull-right'>
+    <%= link_to "+ New Failure", failures_path(:job_id => @job.id, :rate => "false"), remote: true,
+                class: "bluebtn btnsmall tooltip-info show-modal-button",
+                id: "add_failure",
+                "data-placement" => "bottom",
+                "data-title" => "Add failure to job" %>
+  </div>
 </div>
 
 

@@ -86,6 +86,10 @@ class WellsController < ApplicationController
                     @rig = Rig.find_by_id(params[:value])
                     @well.rig = @rig
                     @well.save
+                when "name"
+                    if !params[:value].blank?
+                        @well.update_attribute(:name, params[:value])
+                    end
             end
         else
             field_id = params[:well][:field_id]

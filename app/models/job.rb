@@ -317,6 +317,10 @@ class Job < ActiveRecord::Base
         self.well.jobs.includes(:job_template, :client, :district, :dynamic_fields).select { |j| j != self }
     end
 
+    def documents_only
+        self.documents.includes(:user, :document_template, :job, :document_shares, :document_revisions).where("documents.document_type = :document OR documents.document_type = :protected_document", document: Document::DOCUMENT, protected_document: Document::PROTECTED_DOCUMENT)
+    end
+
     def notices_documents
         self.documents.includes(:user, :document_template, :job, :document_shares, :document_revisions).where(:category => Document::NOTICES)
     end

@@ -65,8 +65,11 @@ $ ->
     $('#jobs_count').text(count)
 
 
-  $('.well-update-field').change ->
+  $('.well-update-field').live "change", ->
     if $(this).val().length > 0
-      $.ajax '/wells/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
+      $.ajax '/wells/' + $(this).attr("data-id"),
+        data: {"update_field": "true", "field": $(this).attr("data-field"), "value": $(this).val()},
+        type: 'put',
+        dataType: 'script'
 
 

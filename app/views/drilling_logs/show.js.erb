@@ -72,6 +72,8 @@ removeOldContent('<%= params[:section] %>');
     <% end %>
 <% elsif params[:section] == "drilling-rop" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_rop', drilling_log: @drilling_log %>");
+<% elsif params[:section] == "logs" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_logs', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling-runs" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_runs', drilling_log: @drilling_log %>");
 <% elsif params[:section] == "drilling-daily" %>

@@ -1,116 +1,69 @@
-<div class="page_header">
-  <h1>Documents/Logs</h1>
+<div class="remote-tray" data-tray="documents_data">
 
-  <% if !job.post_job_report_document.nil? && !job.post_job_report_document.url.nil? %>
-      <div class="pull-right">
-        <%= link_to "Post Job Report", job.post_job_report_document.full_url, class: "bluebtn", target: "_blank" %>
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading Info/Docs..." %>
+  </div>
+
+  <div class=' tray-content content-loaded'>
+
+    <div class="section-header" style="margin-top: 15px;">
+      <h1>Job Info</h1>
+    </div>
+
+      <%= render 'wells/inline_well_fields', well: job.well %>
+
+      <div class=''>
+        <% job_number = DynamicField.new(name: "Job Number", value_type: DynamicField::STRING) %>
+        <% job_number.value = job.job_number %>
+        <% job_number.job = job %>
+        <%= render 'jobs/job_custom_data_field', df: job_number, job_editable: job.status != Job::COMPLETE %>
+        <% api_number = DynamicField.new(name: "API Number", value_type: DynamicField::STRING) %>
+        <% api_number.value = job.api_number %>
+        <% api_number.job = job %>
+        <%= render 'jobs/job_custom_data_field', df: api_number, job_editable: job.status != Job::COMPLETE %>
       </div>
-  <% end %>
-</div>
 
-<% notices_documents = job.notices_documents.to_a %>
-<% if notices_documents.any? %>
-    <h3 class="document-section-header"><%= t ".notices" %></h3>
+    <br>
 
-    <div class="content" id="documents3">
-      <% notices_documents.each do |d| %>
-          <%= render 'documents/document', document: d, editable: false, can_upload: false %>
+    <div class="section-header" style="margin-top: 15px;">
+      <h1>Docs &amp; Files</h1>
+
+      <div id="multiuploader" class="inline-block align-top push-right-small" style="height: 34px;">
+        <%= s3_uploader_form post: "/documents/", as: "document[url]", class: "inline" do %>
+            <div class="upload-button-div inline-block">
+              <%= file_field_tag :file, multiple: true,
+                                 "data-job" => job.id.to_s,
+                                 class: "file-input inline-block",
+                                 id: "multifileupload",
+                                 style: "width: 142px; height: 34px;" %>
+              <%= link_to "#", class: "btn btn btn-primary white-text" do %>
+                  <i class="icon-upload icon-white"></i>
+                  <span>Upload File(s)</span>
+              <% end %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="" id="documents">
+      <% job.documents_only.order("documents.name ASC").each do |d| %>
+          <%= render 'documents/document', document: d, in_job: true %>
       <% end %>
     </div>
-<% end %>
 
-<% pre_job_documents = job.pre_job_documents.to_a %>
-<% if pre_job_documents.all? { |d| d.url.present? } %>
-    <h3 class="document-section-header status-good"><%= t ".pre_job" %></h3>
-<% else %>
-    <h3 class="document-section-header"><%= t ".pre_job" %></h3>
-<% end %>
-<div class="content" id="documents">
-  <% pre_job_documents.each do |d| %>
-      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-  <% end %>
-</div>
+    <br>
 
-<% on_job_documents = job.on_job_documents.to_a %>
-<% if on_job_documents.all? { |d| d.url.present? } %>
-    <h3 class="document-section-header status-good">On Job</h3>
-<% else %>
-    <h3 class="document-section-header">On Job</h3>
-<% end %>
-<% if job.status == Job::PRE_JOB %>
-    <div id="begin_on_job">
-      <br>
-      <div class='inline-block push-right'>
-        <%= link_to "Begin On-Job Phase", job_path(job, update_field: true, field: "begin_on_job", value: true), :method => :put, class: "bluebtn btnsmall green gray push-down" %>
-        <div class='inline-block push-down'>
-          <p class='inline-block help-text push-down'>Change job status to 'On Job'</p>
+    <% if false %>
+        <div class="push-right-small">
+          <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
+                      remote: true,
+                      class: "add-custom-document tooltip-info show-modal-button",
+                      "data-placement" => "left",
+                      "data-title" => "Add new custom document not part of original job documents" %>
+          <span class='help-text'>(client request, pricing, etc)</span>
         </div>
-      </div>
-    </div>
-<% end %>
-<div class="content" id="documents_on_job">
-  <% on_job_documents.each do |d| %>
-      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-  <% end %>
+    <% end %>
+
+  </div>
 </div>
-
-<% post_job_documents = job.post_job_documents.to_a %>
-<% if false %>
-    <%= link_to "Download All", "#", class: "activity-user-link pull-right push-down", id: "download_all_post_job" %>
-<% end %>
-<% if post_job_documents.all? { |d| d.url.present? } %>
-    <h3 class="document-section-header status-good"><%= t ".post_job" %>
-    </h3>
-<% else %>
-    <h3 class="document-section-header"><%= t ".post_job" %>
-    </h3>
-<% end %>
-<% if job.status == Job::ON_JOB %>
-    <div id="begin_post_job">
-      <br>
-      <div class='inline-block push-right'>
-        <%= link_to "Begin Post Job Phase", job_path(job, update_field: true, field: "begin_post_job", value: true), :method => :put, class: "bluebtn btnsmall gray push-down" %>
-        <div class='inline-block push-down'>
-          <p class='inline-block help-text push-down'>Change job status to 'Post Job'</p>
-        </div>
-      </div>
-    </div>
-<% end %>
-<div class="content" id="documents2">
-  <% post_job_documents.each do |d| %>
-      <%= render 'documents/document', document: d, editable: false, can_upload: @job_editable %>
-  <% end %>
-</div>
-
-<% document_shares = job.document_shares.to_a %>
-<% if document_shares.any? %>
-    <h3 class="document-section-header">Shared Documents</h3>
-
-    <div class="content" id="documents_shared">
-      <% document_shares.each do |document_share| %>
-          <%= render 'document_shares/document', document_share: document_share %>
-      <% end %>
-    </div>
-<% end %>
-
-<br>
-
-<% if @job_editable %>
-    <div class="push-right-small">
-      <%= link_to I18n.t("jobs.show.add_custom_document"), new_document_path(modal: true, job_id: @job.id),
-                  remote: true,
-                  class: "add-custom-document tooltip-info show-modal-button",
-                  "data-placement" => "left",
-                  "data-title" => "Add new custom document not part of original job documents" %>
-      <span class='help-text'>(client request, pricing, etc)</span>
-    </div>
-<% end %>
-
-<br><br>
-
-<% if false %>
-    <div class="content alert">
-      <%= image_tag "windows_logo.png", class: "job-status-avatar" %>
-      <%= link_to "Download offline desktop app (Windows only)", "https://elephant-apps.s3.amazonaws.com/desktop/Elephant.application", class: "activity-user-link" %>
-    </div>
-<% end %>

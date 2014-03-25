@@ -13,6 +13,7 @@
     <% end %>
 <% end %>
 
+<% if false %>
 <% if !document.template? && document.job_id.present? %>
     <div class="document-status">
       <% if !document.empty? %>
@@ -24,6 +25,7 @@
       <% end %>
     </div>
 <% end %>
+    <% end %>
 
 <% if !document.template? %>
     <% if document.document_type == Document::DOCUMENT %>
@@ -37,7 +39,7 @@
                         "data-placement" => "bottom",
                         "data-title" => "Click to download document" %>
         <% else %>
-            <p class="document-name document-name-container push-down"><%= document.name %></p>
+            <p class="document-name push-down"><%= document.name %></p>
         <% end %>
     <% elsif document.document_type == Document::JOB_LOG %>
         <%= link_to document.name, job_logs_path(document: document.id),

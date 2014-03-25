@@ -1,6 +1,5 @@
 <div class="" style="margin-top: 10px;">
-  <p class="job-field-title job-members-title">
-    <b>People</b>
+  <p class="job-field-title job-members-title" style='font-family: gothamboldregular;'>Team
   </p>
 
   <div class="job-members-div">
@@ -21,7 +20,7 @@
 
       <% if job_editable %>
           <div class="inline-block push-right-small">
-            <%= link_to "Add Member", "#",
+            <%= link_to "Add", "#",
                         class: "inline-block add-job-member tooltip-info",
                         id: "add_job_member",
                         "data-placement" => "bottom",
@@ -31,8 +30,8 @@
 
       <div class='inline-block push-right'>
         <%= link_to "#", class: "activity-user-link", id: "toggle_member_names" do %>
-            <span id="toggle_member_show"><i class="icon-chevron-down"></i> view names</span>
-            <span id="toggle_member_hide" class="hidden"><i class="icon-chevron-up"></i> hide names</span>
+            <span id="toggle_member_show"><i class="icon-chevron-down"></i></span>
+            <span id="toggle_member_hide" class="hidden"><i class="icon-chevron-up"></i></span>
         <% end %>
       </div>
     </div>

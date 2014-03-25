@@ -3,6 +3,7 @@
 
     <div class='' style='margin-top: 0px;'>
 
+    <% if false %>
     <div class="<%= in_form ? 'well' : '' %>">
 
       <% if false %>
@@ -64,6 +65,7 @@
       </div>
 
     </div>
+        <% end %>
 
     <div id="job_circle_div" class='pull-left' style="margin-top: 0px; margin-right: 20px;">
 
@@ -71,12 +73,12 @@
 
     <div>
 
-      <p class="job-field-title-div help-text">
+      <p class="job-field-title">
         <%= t ".status" %>
       </p>
 
       <div class='inline-block' style="width: 0px;">
-        <div class="btn-group inline-block align-top" style="margin-left: 150px; margin-top: -5px;">
+        <div class="btn-group inline-block align-top" style="margin-left: 180px; margin-top: -5px; text-align: left;">
           <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
             &nbsp;
           </a>
@@ -122,8 +124,8 @@
       </div>
 
 
-      <div class='inline-block align-top'>
-        <p class="job-field-title-div help-text">Rig</p>
+      <div class='inline-block align-top' style='margin-left: 25px;'>
+        <p class="job-field-title">Rig</p>
 
         <div class="job-field-value push-down-small">
           <% if in_form && job.well.rig.present? %>
@@ -187,14 +189,29 @@
     </div>
 
     <div class="">
-      <p class="job-field-title-div help-text"><%= t ".start_date" %></p>
+      <p class="job-field-title"><%= t ".start_date" %></p>
 
       <% if form_editable %>
           <div class="job-field-div">
             <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
                    id="job_start_date_<%= job.id.to_s %>"
-                   class="job-field-value-editable job-start-date">
+                   class="job-field-value-editable date-picker job-start-date">
           </div>
+
+          <script type="text/javascript">
+              $('.job-start-date').datepicker();
+
+              $('.job-start-date').change(function() {
+                  $.ajax('/jobs/' + $(this).attr("id").replace("job_start_date_", "") + '?start_date=' + $(this).val(), {
+                      type: 'put',
+                      dataType: 'script'
+                  });
+                  if ($('#job_time_content').length() > 0) {
+                      $('#job_time_content').addClass('hidden');
+                      return $('#job_time_loader').removeClass('hidden');
+                  }
+              });
+          </script>
       <% else %>
           <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
       <% end %>
@@ -203,19 +220,19 @@
       <div class="inline">
         <% if false %>
             <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
-                <p class="job-field-title-div help-text">Close Date</p>
+                <p class="job-field-title">Close Date</p>
 
                 <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
             <% else %>
-                <p class="job-field-title-div help-text"><%= t ".created_date" %></p>
+                <p class="job-field-title"><%= t ".created_date" %></p>
 
                 <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
             <% end %>
         <% end %>
 
-        <p class="job-field-title-div help-text">Job #</p>
+        <p class="job-field-title">Job #</p>
 
-        <p class="job-field-value"><b><%= job.job_number %></b></p>
+        <p class="job-field-value push-down-small orange-text"><b><%= job.job_number %></b></p>
 
       </div>
 

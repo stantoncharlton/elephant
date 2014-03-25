@@ -15,7 +15,7 @@ class Document < ActiveRecord::Base
     after_commit :flush_cache
 
     validates :name, presence: true, length: {maximum: 50}
-    validates :category, presence: true, length: {maximum: 50}
+    validates :category, length: {maximum: 50}
     validates :company, presence: true
 
     belongs_to :job_template #, :conditions => ['documents.template = ?', true]
@@ -140,11 +140,11 @@ class Document < ActiveRecord::Base
     end
 
     def delete_document
-        #if !self.url.blank?
-        #    s3 = AWS::S3.new
-        #    obj = s3.buckets['elephant-docs'].objects[self.url].delete
-        #    obj.to_s
-        #end
+        if !self.url.blank?
+            s3 = AWS::S3.new
+            obj = s3.buckets['elephant-docs'].objects[self.url].delete
+            obj.to_s
+        end
     end
 
     def upload_info

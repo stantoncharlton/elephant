@@ -8,12 +8,7 @@
   <i class="icon-chevron-right align-top"></i>
   &nbsp;&nbsp;&nbsp;
   <% if use_link %>
-      <% if part_membership.to.present? && part_membership.to.is_a?(Job) %>
-          <% name = part_membership.to_name + " - #{part_membership.to.job_template.name}" %>
-          <b><%= link_to name, part_membership.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => name %></b>
-      <% else %>
-          <b><%= link_to part_membership.to_name, part_membership.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => part_membership.to_name %></b>
-      <% end %>
+      <b><%= link_to part_membership.to_name, part_membership.to, class: "activity-user-link shipment-name tooltip-info", "data-title" => part_membership.to_name %></b>
   <% else %>
       <b><%= part_membership.to_name %></b>
   <% end %>

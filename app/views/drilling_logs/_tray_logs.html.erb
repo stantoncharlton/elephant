@@ -1,0 +1,101 @@
+<% entries = drilling_log.drilling_log_entries %>
+
+
+<div class="remote-tray" data-tray="logs">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading Logs..." %>
+  </div>
+
+  <div class='content tray-content content-loaded'>
+    <br>
+
+    <% if drilling_log.drilling_log_entries.any? %>
+        <div class='center'>
+          <div class="inline-block" style="width:10px;height:10px;background:#00BBCC;"></div>
+          <b>ROP</b>
+
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#eea71f;"></div>
+          <b>WOB</b>
+
+        </div>
+
+        <div id="logschart" style="width: 100%; height: <%= entries.any? ? entries.last.depth / 2 : 400  %>px;"></div>
+
+    <% else %>
+        <p class='help-text'>No log entries...</p>
+    <% end %>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+
+
+    <% rops = [] %>
+    <% last_rop = 0.0 %>
+    <% entries.each do |dl| %>
+        <% rops <<  { "date" => dl.entry_at.strftime("%k:%M"), "depth" => dl.depth.to_i, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl.rop.present? && dl.rop > 0 ? dl.rop : last_rop, "lineColor" => "#223bf2", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm } %>
+        <% if dl.rop.present? && dl.rop > 0 %>
+            <% last_rop = dl.rop %>
+        <% end %>
+    <% end %>
+
+
+    var chart = AmCharts.makeChart("logschart", {
+        "type": "serial",
+        "theme": "none",
+        "rotate": true,
+        "pathToImages": "http://www.amcharts.com/lib/3/images/",
+        "dataProvider": <%= raw rops.to_json.html_safe %>,
+        "valueAxes": [
+            {
+                "id":"ropAxis",
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+            },
+            {
+                "id":"wobAxis",
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+            }
+        ],
+        "graphs": [
+            {
+                "valueAxis": "ropAxis",
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "rop",
+                "lineColor": "#00BBCC",
+                "lineThickness": 2
+            },
+            {
+                "valueAxis": "wobAxis",
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "wob",
+                "lineColor": "#eea71f",
+                "lineThickness": 2
+            }
+        ],
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "categoryBalloonEnabled": false
+        },
+        "categoryField": "depth",
+        "categoryAxis": {
+            "parseDates": false
+        },
+        "exportConfig": {
+            "menuTop": "20px",
+            "menuRight": "20px",
+            "menuItems": [{
+                "icon": '/lib/3/images/export.png',
+                "format": 'png'
+            }]
+        }
+    });
+
+
+</script>

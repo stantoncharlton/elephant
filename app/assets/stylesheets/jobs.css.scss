@@ -70,7 +70,6 @@
 }
 
 .job-field-title {
-  color: #424242;
   font-size: 12px;
   display: inline-block;
   width: 140px;
@@ -79,7 +78,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   vertical-align: top;
-  margin-top: 5px;
+  margin-top: 10px;
+  color: #0058a8;
+  font-family: "gothambookregular";
 }
 
 .job-field-title-div {
@@ -95,7 +96,7 @@
 
 .job-field-div {
   display: inline-block;
-  width: 250px;
+  width: 280px;
 }
 
 .job-field-value {
@@ -194,14 +195,15 @@
 
 .job-field-value-editable {
   display: inline-block;
-  width: 160px;
+  width: 230px;
+  height: 30px;
   margin-right: 0px;
   margin-right: 0px;
-  border-width: 1px 1px 1px 1px;
+  border-width: 0px 0px 1px 0px;
   border-style: dotted;
   border-bottom-color: #0058a8;
   text-decoration: none;
-  font-family: "gothammediumregular";
+  font-family: "gothambookregular";
 
   &:active, &:link, &:visited {
     background: transparent;
@@ -219,6 +221,7 @@
 .job-field-title2 {
   display: inline-block;
   width: 50px;
+  font-family: gothamlightregular;
 }
 
 .job-field-long {

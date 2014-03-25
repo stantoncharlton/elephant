@@ -124,8 +124,8 @@
         <li>
           <a href="javascript:void(0);" onclick="olark('api.box.expand')"
              class='tooltip-info' data-title="Click for Live support" data-place="bottom"
-             style='width: 40px; font-size: 10px; height: 37px; background: #a35454; vertical-align: top; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff;'>
-            Live<br>Support
+             style='width: 40px; font-size: 10px; height: 27px; background: #4d4d4d; vertical-align: top; text-align: center; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff; padding-top: 20px;'>
+            Help
           </a>
           <!-- <%= link_to "Help", help_path %> -->
         </li>
@@ -202,9 +202,11 @@
                                "data-title" => "Free-form text search, type well name, job name, district, etc..." %>
         <% end %>
 
+        <% if false %>
         <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
                     "data-placement" => "bottom",
                     "data-title" => "Create complex searches for jobs based on data criteria" %>
+            <% end %>
 
     <% end %>
 
