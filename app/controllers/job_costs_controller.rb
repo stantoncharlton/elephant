@@ -28,7 +28,7 @@ class JobCostsController < ApplicationController
         date = Date.strptime("#{charge_at}", '%m/%d/%Y')
         @job_cost.charge_at = Time.zone.parse("#{date.year}-#{date.month}-#{date.day}")
         if @job_cost.save
-            @job.update_attribute(:total_cost, @job.job_costs.map { |jc| jc.price * jc.quantity }.reduce(:+))
+            @job.update_attribute(:total_cost, @job.job_costs.any? ? @job.job_costs.map { |jc| jc.price * jc.quantity }.reduce(:+) : 0.0)
         end
     end
 
@@ -42,8 +42,11 @@ class JobCostsController < ApplicationController
 
     def destroy
         @job_cost = JobCost.find_by_id(params[:id])
+        @job = @job_cost.job
         not_found unless @job_cost.present?
-        @job_cost.destroy
+        if @job_cost.destroy
+            @job.update_attribute(:total_cost, @job.job_costs.any? ? @job.job_costs.map { |jc| jc.price * jc.quantity }.reduce(:+) : 0.0)
+        end
     end
 
 end

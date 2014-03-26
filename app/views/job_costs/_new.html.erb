@@ -1,8 +1,6 @@
 <div class="">
   <%= form_for JobCost.new, remote: true do |f| %>
       <div class="form" data-form="new_cost">
-        <b>Add Charge</b>
-        <br><br>
             <%= f.hidden_field :job_id, value: @job.id %>
 
 

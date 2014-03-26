@@ -1,40 +1,35 @@
-<div class="remote-tray" data-tray="cost">
-
-  <div class="remote-loading hidden">
-    <br><br>
-    <%= render 'layouts/inline_loading', title: "Please wait, loading cost..." %>
+<% job = @job %>
+<div>
+  <div>
+    <div class='pull-right'>
+      <a id="close_cost" class='delete-button-small time-close-button'>x</a>
+    </div>
+    <h3 class='orange-text'>Costs</h3>
   </div>
 
-  <div class='content tray-content content-loaded'>
-    <div class='page_header'>
-      <h1>Cost</h1>
-    </div>
+  <br>
 
-    <br>
-
-    <%= render 'job_costs/new' %>
-    <hr>
+  <%= render 'job_costs/new' %>
+  <hr>
 
 
-    <% if @job.job_costs.empty? %>
-        <br>
+  <% if @job.job_costs.empty? %>
+      <p class="center help-text no-entries"><br>No charges...</p>
+  <% end %>
 
-        <p class="center help-text no-entries"><br>No charges...</p>
-        <br>
+
+  <div class="" id="list">
+    <% if @job.job_costs.any? %>
+        <% @job.job_costs.each_with_index do |job_cost, index| %>
+            <%= render 'job_costs/job_cost', job_cost: job_cost, index: index %>
+        <% end %>
     <% end %>
-
-
-    <div class="" id="list">
-      <% if @job.job_costs.any? %>
-          <% @job.job_costs.each_with_index do |job_cost, index| %>
-              <%= render 'job_costs/job_cost', job_cost: job_cost, index: index %>
-          <% end %>
-      <% end %>
-    </div>
-
-    <hr>
-
-    <%= render 'job_costs/totals', job: job %>
-
-    </div>
   </div>
+
+  <hr>
+
+  <%= render 'job_costs/totals', job: job %>
+
+  <br>
+
+</div>

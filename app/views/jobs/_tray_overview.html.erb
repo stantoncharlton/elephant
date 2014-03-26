@@ -89,6 +89,17 @@
 
     <%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
 
+    <div class="full-costs hidden">
+      <br>
+      <div class='well'>
+        <div id="full_cost" data-job="<%= job.id %>" data-loaded="false">
+          <div class='center'>
+            <span class="ajax-loading search-loading"><b>Loading costs...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <hr>
 
     <div class="">

@@ -161,6 +161,10 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
 <% elsif params[:section] == "overview" %>
     tray.replaceWith("<%= j render 'jobs/tray_overview', job: @job %>");
+<% elsif params[:section] == "team_list" %>
+    $('#team_list').replaceWith("<%= j render 'job_memberships/job_members_list' %>");
+<% elsif params[:section] == "full_cost" %>
+    $('#full_cost').replaceWith("<%= j render 'jobs/tray_cost' %>");
 <% end %>
 
 

@@ -29,6 +29,14 @@ $ ->
       $('.member-full-list').removeClass 'hidden'
       $('#toggle_member_show').addClass 'hidden'
       $('#toggle_member_hide').removeClass 'hidden'
+      if $('#team_list').attr('data-loaded') == 'false'
+        job_id = $('#team_list').attr('data-job')
+        $.ajax({
+          url: "/jobs/#{job_id}?section=team_list",
+          type: "GET",
+          dataType: "script"
+        });
+
     return false
 
   $('#close_members').live "click", ->
