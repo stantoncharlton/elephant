@@ -1,6 +1,6 @@
 $ ->
 
-  $('.add-member-loading-button').click ->
+  $('.add-member-loading-button').live "click", ->
     $('.member-loading').removeClass 'hidden'
     $('#new_member_form').hide()
 
@@ -31,14 +31,24 @@ $ ->
       $('#toggle_member_hide').removeClass 'hidden'
     return false
 
+  $('#close_members').live "click", ->
+    $('#toggle_member_names').attr('data-toggle', 'closed')
+    $('.member-full-list').addClass 'hidden'
+    $('#toggle_member_show').removeClass 'hidden'
+    $('#toggle_member_hide').addClass 'hidden'
+    return false
+
+
 
   $('.job-membership-type').live "click", ->
     $('.job-membership-type').each ->
-      $(this).removeClass 'activity-user-link'
-      $(this).addClass 'activity-link'
+      li = $(this).closest('li')
+      if li.hasClass 'active'
+        li.removeClass 'active'
+        $(this).addClass 'blue-text'
 
-    $(this).removeClass 'activity-link'
-    $(this).addClass 'activity-user-link'
+    $(this).closest('li').addClass 'active'
+    $(this).removeClass 'blue-text'
 
     if $(this).attr('data-type') == "elephant"
       $('#elephant_user').removeClass 'hidden'

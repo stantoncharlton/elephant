@@ -2,13 +2,71 @@
 
   <div>
     <p class='job-field-title'>Well Name</p>
-    <%= text_field_tag "", "", value: well.name,
-                       placeholder: "Well Name",
-                       class: "well-update-field job-field-value-editable tooltip-info align-top",
-                       "data-id" => well.id.to_s,
-                       "data-field" => "name",
-                       "data-placement" => "bottom",
-                       "data-title" => "Well name" %>
+
+    <div class='job-field-div'>
+      <%= text_field_tag "", "", value: well.name,
+                         placeholder: "Well Name",
+                         class: "well-update-field job-field-value-editable tooltip-info align-top",
+                         "data-id" => well.id.to_s,
+                         "data-field" => "name",
+                         "data-placement" => "bottom",
+                         "data-title" => "Well name" %>
+    </div>
+
+
+    <div class='inline-block'>
+      <div class="inline-block align-top">
+        <p class='job-field-title'>Rig</p>
+        <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
+                           placeholder: "Type rig name...",
+                           value: well.rig.present? ? well.rig.name : null,
+                           :autocomplete => 'off',
+                           "data-id" => well.id.to_s,
+                           id: "rig_name2", class: "job-field-value-editable tooltip-info align-top",
+                           "data-placement" => "top",
+                           "data-title" => "Rig Name, select from drop down based on search results" %>
+
+
+      </div>
+
+      <script type='text/javascript'>
+          var focusevent, last_selected_item, rig_focused;
+
+          last_selected_item = null;
+
+          focusevent = function (event, ui) {
+              var selected_item;
+              if (last_selected_item !== null) {
+                  $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+              }
+              selected_item = $('.item_' + ui.item.id);
+              selected_item.addClass('ui-state-hover');
+              return last_selected_item = ui.item;
+          };
+
+          $('#rig_name2').autocomplete({
+              source: $('#rig_name2').data('autocomplete-source'),
+              focus: focusevent,
+              select: function (event, ui) {
+                  if (ui.item.id > 0) {
+                      $("#rig_name2").val(ui.item.label);
+                      $.ajax('/wells/' + $("#rig_name2").attr("data-id") + '?update_field=true&field=rig_id&value=' + ui.item.id, {
+                          type: 'put',
+                          dataType: 'script'
+                      });
+                      return $("#rig_id2").val(ui.item.id);
+                  }
+              }
+          });
+
+          $('#rig_name2').data("autocomplete")._renderItem = function (ul, item) {
+              return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                      "<a><div>" + (item.id > 0 ? "<img src='/assets/rig_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>Rig</p></div></div></a>").appendTo(ul)
+          }
+
+
+      </script>
+    </div>
   </div>
 
   <div class="">

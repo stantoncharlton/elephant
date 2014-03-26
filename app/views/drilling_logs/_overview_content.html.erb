@@ -11,6 +11,7 @@
 
       <div class='pull-left push-right-small'>
         <h3 class='orange-text push-down-small'>No Data to Show</h3>
+
         <p class='push-down'>There is no data to show because the job has not started yet or there are no
           drilling log entries, yet. </p>
 
@@ -18,7 +19,7 @@
       </div>
 
       <script type='text/javascript'>
-          $('#show_log').click(function() {
+          $('#show_log').click(function () {
               $(".remote-tray-toggle[data-tray='log']").trigger("click");
               return false;
           });
@@ -38,6 +39,16 @@
         </div>
       </div>
 
+      <% days = @drilling_log.below_rotary.present? && @drilling_log.above_rotary.present? ? ((@drilling_log.above_rotary + @drilling_log.below_rotary) / 24).to_i : 0 %>
+      <div class="chart-block tooltip-info align-top"
+           data-title="Total Job Cost">
+        <div class="chart-title">Days on Job</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text chart-text"><%= days %></div>
+          <div class="percentage"><%= "day".pluralize(days) %></div>
+        </div>
+      </div>
+
       <div class="chart-block align-top tooltip-info"
            data-title="Current depth">
         <div class="chart-title">Current Depth</div>
@@ -49,14 +60,6 @@
         </div>
       </div>
 
-      <div class="chart-block tooltip-info"
-           data-title="Total feet drilled.">
-        <div class="chart-title">Total Drilled</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') %></div>
-          <div class="percentage "><span class="push-right-small">ft</span></div>
-        </div>
-      </div>
 
       <div class="chart-block tooltip-info"
            data-title="Time in hours spent rotating or sliding.">
@@ -69,21 +72,6 @@
 
 
       <br><br><br>
-
-      <div class='inline-block'>
-        <div class="chart-title">Time Breakdown</div>
-        <div class='time-chart' id="overview_time_chart" style="width: 200px; height: 200px;"></div>
-      </div>
-
-      <div class='inline-block align-top'>
-        <b>ROP Over Time</b>
-        <br><br>
-
-        <div class="tooltip-info" data-title="ROP">
-          <canvas id="canvas" height="160" width="700"></canvas>
-        </div>
-      </div>
-
 
       <div>
 
@@ -126,7 +114,6 @@
 
       <hr>
 
-      <br>
 
 
       <% active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
@@ -137,7 +124,7 @@
           <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
       <% end %>
 
-      <div class=''>
+      <div class='center'>
         <div class='inline-block alert'>
           <span><div class='well-plan'></div> Well Plan</span>
           <span class='push-right-small'><div class='active-survey'></div> Active Survey</span>
@@ -151,7 +138,7 @@
       <h1>Rotating</h1>
     </div>
     <div>
-      <div class="chart-block tooltip-info align-top"  style="margin-right: 0px;"
+      <div class="chart-block tooltip-info align-top" style="margin-right: 0px;"
            data-title="Rotary Length Percentage.">
         <div class="chart-title">Feet %</div>
         <div class="donut-chart-div">
@@ -199,7 +186,6 @@
         </div>
       </div>
     </div>
-
 
 
     <div class="page-header-small">
@@ -295,6 +281,34 @@
           <div class="donut-text "><%= drilling_log.nil? || drilling_log.above_rotary.nil? ? "-" : drilling_log.above_rotary.round(1) %></div>
           <div class="percentage ">hours</div>
         </div>
+      </div>
+    </div>
+
+    <div style='margin-top: 30px;'>
+      <div class="chart-block tooltip-info"
+           data-title="Total feet drilled.">
+        <div class="chart-title">Total Drilled</div>
+        <div class="donut-chart-div job-donut-chart-div">
+          <div class="donut-text "><%= drilling_log.nil? || drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',') %></div>
+          <div class="percentage "><span class="push-right-small">ft</span></div>
+        </div>
+      </div>
+    </div>
+
+
+    <hr>
+
+    <div class='inline-block'>
+      <div class="chart-title">Time Breakdown</div>
+      <div class='time-chart' id="overview_time_chart" style="width: 200px; height: 200px;"></div>
+    </div>
+
+    <div class='inline-block align-top'>
+      <b>ROP Over Time</b>
+      <br><br>
+
+      <div class="tooltip-info" data-title="ROP">
+        <canvas id="canvas" height="160" width="700"></canvas>
       </div>
     </div>
 

@@ -161,8 +161,8 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
 <% elsif params[:section] == "overview" %>
     tray.replaceWith("<%= j render 'jobs/tray_overview', job: @job %>");
-
 <% end %>
+
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.tooltip-info').tooltip();

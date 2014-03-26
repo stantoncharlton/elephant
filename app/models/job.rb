@@ -17,6 +17,7 @@ class Job < ActiveRecord::Base
     acts_as_xlsx
 
     after_commit :flush_cache
+    before_create :set_start_date
     before_destroy :remove_part_memberships
 
     acts_as_tenant(:company)
@@ -140,6 +141,10 @@ class Job < ActiveRecord::Base
         integer :job_membership, :multiple => true do
             unique_participants.map { |u| u.id }
         end
+    end
+
+    def set_start_date
+        self.start_date = Time.zone.now.date
     end
 
     def absolute_url
@@ -380,7 +385,7 @@ class Job < ActiveRecord::Base
             when PRE_JOB
                 "Pre Job"
             when ON_JOB
-                "On Job"
+                "In Progress"
             when POST_JOB
                 "Post Job"
             when COMPLETE

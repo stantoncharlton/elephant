@@ -1,6 +1,5 @@
 <div class="" style="margin-top: 10px;">
-  <p class="job-field-title job-members-title" style='font-family: gothamboldregular;'>Team
-  </p>
+  <div class="chart-title align-top" style='height: auto; width: auto; margin-right: 20px; margin-top: 5px;'>Team</div>
 
   <div class="job-members-div">
     <div class="member-short-list">
@@ -18,7 +17,7 @@
         <% end %>
       </div>
 
-      <% if job_editable %>
+      <% if false %>
           <div class="inline-block push-right-small">
             <%= link_to "Add", "#",
                         class: "inline-block add-job-member tooltip-info",
@@ -28,7 +27,7 @@
           </div>
       <% end %>
 
-      <div class='inline-block push-right'>
+      <div class='inline-block push-right-small'>
         <%= link_to "#", class: "activity-user-link", id: "toggle_member_names" do %>
             <span id="toggle_member_show"><i class="icon-chevron-down"></i></span>
             <span id="toggle_member_hide" class="hidden"><i class="icon-chevron-up"></i></span>
@@ -36,36 +35,44 @@
       </div>
     </div>
 
+
+  </div>
+</div>
+
+<div class="member-full-list hidden">
+  <br>
+
+  <div class='well'>
+    <div>
+      <div class='pull-right'>
+        <a id="close_members" class='delete-button-small time-close-button'>x</a>
+      </div>
+      <h3 class='orange-text'>Team Members</h3>
+    </div>
     <br>
+    <ul class="job-members-list" id="job_members_list">
+      <% job.job_memberships.includes(user: :district).each do |jm| %>
+          <% if jm.shift_type == 0 && jm.job_role_id != 6 %>
+              <%= render 'job_memberships/job_membership', job_membership: jm %>
+          <% end %>
+      <% end %>
+      <% on_location = job.job_memberships.reorder('').includes(user: :district).where("job_memberships.shift_type > 0 AND job_memberships.shift_type != 6").order("job_memberships.shift_type ASC") %>
+      <% if on_location.any? %>
+
+          <% on_location.each do |jm| %>
+              <% if jm.shift_type > 0 && jm.job_role_id != 6 %>
+                  <%= render 'job_memberships/job_membership', job_membership: jm %>
+              <% end %>
+          <% end %>
+      <% end %>
+    </ul>
+
+    <hr>
 
     <%= render 'job_memberships/fields', job: job %>
     <div class="member-loading hidden">
       <span class="ajax-loading search-loading"><b>Adding project member</b></span>
       <br><br>
     </div>
-
-    <div class="member-full-list hidden">
-      <ul class="job-members-list" id="job_members_list">
-        <% job.job_memberships.includes(user: :district).each do |jm| %>
-            <% if jm.shift_type == 0 && jm.job_role_id != 6 %>
-                <%= render 'job_memberships/job_membership', job_membership: jm %>
-            <% end %>
-        <% end %>
-        <% on_location = job.job_memberships.reorder('').includes(user: :district).where("job_memberships.shift_type > 0 AND job_memberships.shift_type != 6").order("job_memberships.shift_type ASC") %>
-        <% if on_location.any? %>
-            <div>
-              <br>
-              <p class='help-text'><i class="icon-map-marker"></i> On Location</p>
-            </div>
-            <% on_location.each do |jm| %>
-                <% if jm.shift_type > 0 && jm.job_role_id != 6 %>
-                    <%= render 'job_memberships/job_membership', job_membership: jm %>
-                <% end %>
-            <% end %>
-        <% end %>
-      </ul>
-    </div>
-
-
   </div>
 </div>

@@ -10,6 +10,55 @@
 
     <div class="section-header" style="margin-top: 15px;">
       <h1>Job Overview</h1>
+
+
+      <div class='pull-right'>
+
+        <% status_css = "label-success" %>
+        <% if job.status == Job::ON_JOB %>
+            <% status_css = "label-warning" %>
+        <% elsif job.status == Job::PRE_JOB %>
+            <% status_css = "label-info" %>
+        <% end %>
+
+        <div class="label <%= status_css %>" style="padding: 6px; padding-left: 10px; padding-right: 10px;">
+          <span><%= job.status_string %></span>
+
+          <div class='inline-block'>
+            <div class="btn-group inline-block align-top" style="text-align: left;">
+              <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+                &nbsp;
+              </a>
+              <ul class="dropdown-menu">
+                <% if job.status != Job::PRE_JOB %>
+                    <li>
+                      <%= link_to "Pre-Job",
+                                  job_path(job, update_field: true, field: "begin_pre_job", value: true), :method => :put,
+                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                    </li>
+                <% end %>
+                <% if job.status != Job::ON_JOB %>
+                    <li>
+                      <%= link_to "In-Progress",
+                                  job_path(job, update_field: true, field: "begin_on_job", value: true), :method => :put,
+                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                    </li>
+                <% end %>
+                <% if job.status != Job::POST_JOB %>
+                    <li>
+                      <%= link_to "Post-Job",
+                                  job_path(job, update_field: true, field: "begin_post_job", value: true), :method => :put,
+                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                    </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
     </div>
 
 
@@ -17,8 +66,26 @@
     <%= render 'jobs/job_process', job: @job %>
 
 
-    <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
+    <% if false %>
+        <%= render 'job_data', job: @job, form_editable: @job_editable, in_form: true, new_line_job_type: false %>
+    <% end %>
 
+
+    <div class='pull-right' style='margin-top: 5px;'>
+      <div class="chart-title" style='height: auto;'>Total Cost</div>
+
+      <div class='inline-block align-top' id='total_job_cost'
+           style='font-family: gothamboldregular; color: #14a3e5; font-size: 24px;'>
+        <%= number_to_currency(job.total_cost, :unit => "$") %>
+      </div>
+
+      <div class='inline-block push-right-small align-top'>
+        <%= link_to "#", class: "activity-user-link", id: "toggle_cost" do %>
+            <span id="toggle_cost_show"><i class="icon-chevron-down"></i></span>
+            <span id="toggle_cost_hide" class="hidden"><i class="icon-chevron-up"></i></span>
+        <% end %>
+      </div>
+    </div>
 
     <%= render 'jobs/job_members', job: @job, job_editable: @job_editable %>
 
@@ -30,60 +97,30 @@
       </div>
 
 
-      <div class="chart-block tooltip-info align-top"
-           data-title="Total Job Cost">
-        <div class="chart-title">Total Cost</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text chart-text" id='total_job_cost'><%= number_to_currency(job.total_cost, :unit => "$") %></div>
-        </div>
-      </div>
 
-      <% @drilling_log = @job.drilling_log %>
-
-
-      <% days = @drilling_log.below_rotary.present? && @drilling_log.above_rotary.present? ? ((@drilling_log.above_rotary + @drilling_log.below_rotary) / 24).to_i : 0 %>
-      <div class="chart-block tooltip-info align-top"
-           data-title="Total Job Cost">
-        <div class="chart-title">Days on Job</div>
-        <div class="donut-chart-div job-donut-chart-div">
-          <div class="donut-text chart-text"><%= days %></div>
-          <div class="percentage"><%= "day".pluralize(days) %></div>
-        </div>
-      </div>
-
-
-      <% if current_user.role.global_read? || @job.is_coordinator_or_creator?(current_user) %>
-          <%= link_to job_path(@job, section: "rating"), remote: true, class: "empty-link" do %>
-              <div class="chart-block tooltip-info"
-                   data-title="Job Rating is a score from 1-5 of the job performance">
-                <div class="chart-title">Rating</div>
-                <div class="donut-chart-div job-donut-chart-div rating-count-div">
-                  <%= render 'failures/rating', rating: job.rating %>
-                </div>
-              </div>
+      <% if false %>
+          <% if current_user.role.global_read? || @job.is_coordinator_or_creator?(current_user) %>
+              <%= link_to job_path(@job, section: "rating"), remote: true, class: "empty-link" do %>
+                  <div class="chart-block tooltip-info"
+                       data-title="Job Rating is a score from 1-5 of the job performance">
+                    <div class="chart-title">Rating</div>
+                    <div class="donut-chart-div job-donut-chart-div rating-count-div">
+                      <%= render 'failures/rating', rating: job.rating %>
+                    </div>
+                  </div>
+              <% end %>
           <% end %>
       <% end %>
 
 
-      <hr>
+      <% @drilling_log = @job.drilling_log %>
 
       <% if @drilling_log.present? %>
-        <%= render 'drilling_logs/overview_content', drilling_log: @drilling_log %>
+          <%= render 'drilling_logs/overview_content', drilling_log: @drilling_log %>
       <% end %>
 
     </div>
   </div>
 
 </div>
-
-<script type="text/javascript">
-    (function ($) {
-        $(document).ready(function () {
-            $('#district_name').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a><div>" + (item.id > 0 ? "<img src='/assets/district_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<div><p class='job-user-title'>" + item.country + ", " + item.state + "  " + item.city + "</p><p class='job-user-district'>" + item.region + "</p></div>" : "") + "</div></div></a>").appendTo(ul)
-            }
-        });
-    }(jQuery));
-</script>
 

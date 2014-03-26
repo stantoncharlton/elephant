@@ -3,247 +3,75 @@
 
     <div class='' style='margin-top: 0px;'>
 
-    <% if false %>
-    <div class="<%= in_form ? 'well' : '' %>">
-
       <% if false %>
-          <div id="job-progress-status">
-            <%= render 'jobs/job_progress_status', job: job %>
+          <div class="<%= in_form ? 'well' : '' %>">
+
+            <% if false %>
+                <div id="job-progress-status">
+                  <%= render 'jobs/job_progress_status', job: job %>
+                </div>
+            <% end %>
+
+            <div class="district-client-div">
+
+              <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+
+              <% if job.district.present? %>
+                  <% if in_form %>
+                      <%= link_to job.district.name, job.district,
+                                  class: "job-field-value-link tooltip-info",
+                                  "data-placement" => "bottom",
+                                  "data-title" => "View all jobs in " + job.district.name + " district" %>
+                  <% else %>
+                      <b class="inline"><%= job.district.name %></b>
+                  <% end %>
+              <% end %>
+
+
+
+              <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right" %>
+
+              <% if in_form %>
+                  <%= link_to job.client.name, job.client,
+                              class: "job-field-value-link tooltip-info",
+                              "data-placement" => "bottom",
+                              "data-title" => "View all jobs for " + job.client.name %>
+              <% else %>
+                  <b class="inline"><%= job.client.name %></b>
+              <% end %>
+
+
+              <%= image_tag "division_extrasmall.png", class: "job-status-avatar push-right" %>
+
+              <% if in_form %>
+                  <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
+                              class: "job-field-value-link tooltip-info",
+                              "data-placement" => "bottom",
+                              "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
+              <% else %>
+                  <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
+              <% end %>
+
+              |
+
+              <% if in_form %>
+                  <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
+                              class: "job-field-value-link tooltip-info",
+                              "data-placement" => "bottom",
+                              "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
+              <% else %>
+                  <b class="inline"><%= job.job_template.product_line.segment.name %></b>
+              <% end %>
+            </div>
+
           </div>
       <% end %>
 
-      <div class="district-client-div">
-
-        <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
-
-        <% if job.district.present? %>
-            <% if in_form %>
-                <%= link_to job.district.name, job.district,
-                            class: "job-field-value-link tooltip-info",
-                            "data-placement" => "bottom",
-                            "data-title" => "View all jobs in " + job.district.name + " district" %>
-            <% else %>
-                <b class="inline"><%= job.district.name %></b>
-            <% end %>
-        <% end %>
-
-
-
-        <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right" %>
-
-        <% if in_form %>
-            <%= link_to job.client.name, job.client,
-                        class: "job-field-value-link tooltip-info",
-                        "data-placement" => "bottom",
-                        "data-title" => "View all jobs for " + job.client.name %>
-        <% else %>
-            <b class="inline"><%= job.client.name %></b>
-        <% end %>
-
-
-        <%= image_tag "division_extrasmall.png", class: "job-status-avatar push-right" %>
-
-        <% if in_form %>
-            <%= link_to job.job_template.product_line.segment.division.name, job.job_template.product_line.segment.division,
-                        class: "job-field-value-link tooltip-info",
-                        "data-placement" => "bottom",
-                        "data-title" => "View all jobs in " + job.job_template.product_line.segment.division.name + " division" %>
-        <% else %>
-            <b class="inline"><%= job.job_template.product_line.segment.division.name %></b>
-        <% end %>
-
-        |
-
-        <% if in_form %>
-            <%= link_to job.job_template.product_line.segment.name, job.job_template.product_line.segment,
-                        class: "job-field-value-link tooltip-info",
-                        "data-placement" => "bottom",
-                        "data-title" => "View all jobs in " + job.job_template.product_line.segment.name + " segment" %>
-        <% else %>
-            <b class="inline"><%= job.job_template.product_line.segment.name %></b>
-        <% end %>
-      </div>
-
-    </div>
-        <% end %>
-
-    <div id="job_circle_div" class='pull-left' style="margin-top: 0px; margin-right: 20px;">
-
-    </div>
-
-    <div>
-
-      <p class="job-field-title">
-        <%= t ".status" %>
-      </p>
-
-      <div class='inline-block' style="width: 0px;">
-        <div class="btn-group inline-block align-top" style="margin-left: 180px; margin-top: -5px; text-align: left;">
-          <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-            &nbsp;
-          </a>
-          <ul class="dropdown-menu">
-            <% if job.status != Job::PRE_JOB %>
-                <li>
-                  <%= link_to "Change to Pre-Job",
-                              job_path(job, update_field: true, field: "begin_pre_job", value: true), :method => :put,
-                              class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
-                </li>
-            <% end %>
-            <% if job.status != Job::ON_JOB %>
-                <li>
-                  <%= link_to "Change to In-Progress",
-                              job_path(job, update_field: true, field: "begin_on_job", value: true), :method => :put,
-                              class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
-                </li>
-            <% end %>
-            <% if job.status != Job::POST_JOB %>
-                <li>
-                  <%= link_to "Change to Post-Job",
-                              job_path(job, update_field: true, field: "begin_post_job", value: true), :method => :put,
-                              class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
-                </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-
-      <div class="inline-block job-field-value push-down-small">
-        <% if job.status == Job::COMPLETE %>
-            <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Complete</span>
-        <% elsif job.status == Job::ON_JOB %>
-            <span class="label label-warning" style="padding: 4px; padding-left: 10px; padding-right: 10px;">In Progress</span>
-        <% elsif job.status == Job::PRE_JOB %>
-            <span class="label label-info" style="padding: 4px; padding-left: 10px; padding-right: 10px;">Pre-Job</span>
-        <% elsif job.status == Job::POST_JOB %>
-            <span class="label label-success" style="padding: 4px; padding-left: 10px; padding-right: 10px;"><%= job.status_string %></span>
-        <% else %>
-            <p class="current-job-status"><b><%= job.status_string %></b></p>
-        <% end %>
+      <div id="job_circle_div" class='pull-left' style="margin-top: 0px; margin-right: 20px;">
 
       </div>
 
 
-      <div class='inline-block align-top' style='margin-left: 25px;'>
-        <p class="job-field-title">Rig</p>
-
-        <div class="job-field-value push-down-small">
-          <% if in_form && job.well.rig.present? %>
-              <%= link_to job.well.rig.name, job.well.rig, class: "activity-user-link inline-block" %>
-          <% elsif in_form %>
-              <div class="inline-block align-top">
-                <%= hidden_field_tag "rig_id", "" %>
-                <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
-                                   placeholder: "Type rig name...",
-                                   :autocomplete => 'off',
-                                   "data-id" => job.well.id.to_s,
-                                   id: "rig_name2", class: "txtfield small tooltip-info align-top",
-                                   "data-placement" => "top",
-                                   "data-title" => "Rig Name, select from drop down based on search results" %>
-
-
-              </div>
-
-              <script type='text/javascript'>
-                  var focusevent, last_selected_item, rig_focused;
-
-                  last_selected_item = null;
-
-                  focusevent = function (event, ui) {
-                      var selected_item;
-                      if (last_selected_item !== null) {
-                          $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
-                      }
-                      selected_item = $('.item_' + ui.item.id);
-                      selected_item.addClass('ui-state-hover');
-                      return last_selected_item = ui.item;
-                  };
-
-                  $('#rig_name2').autocomplete({
-                      source: $('#rig_name2').data('autocomplete-source'),
-                      focus: focusevent,
-                      select: function (event, ui) {
-                          if (ui.item.id > 0) {
-                              $("#rig_name2").val(ui.item.label);
-                              $.ajax('/wells/' + $("#rig_name2").attr("data-id") + '?update_field=true&field=rig_id&value=' + ui.item.id, {
-                                  type: 'put',
-                                  dataType: 'script'
-                              });
-                              return $("#rig_id2").val(ui.item.id);
-                          }
-                      }
-                  });
-
-                  $('#rig_name2').data("autocomplete")._renderItem = function (ul, item) {
-                      return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                              "<a><div>" + (item.id > 0 ? "<img src='/assets/rig_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>Rig</p></div></div></a>").appendTo(ul)
-                  }
-
-
-              </script>
-          <% else %>
-              <p class="inline-block">-</p>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-    <div class="">
-      <p class="job-field-title"><%= t ".start_date" %></p>
-
-      <% if form_editable %>
-          <div class="job-field-div">
-            <input type="text" value="<%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %>"
-                   id="job_start_date_<%= job.id.to_s %>"
-                   class="job-field-value-editable date-picker job-start-date">
-          </div>
-
-          <script type="text/javascript">
-              $('.job-start-date').datepicker();
-
-              $('.job-start-date').change(function() {
-                  $.ajax('/jobs/' + $(this).attr("id").replace("job_start_date_", "") + '?start_date=' + $(this).val(), {
-                      type: 'put',
-                      dataType: 'script'
-                  });
-                  if ($('#job_time_content').length() > 0) {
-                      $('#job_time_content').addClass('hidden');
-                      return $('#job_time_loader').removeClass('hidden');
-                  }
-              });
-          </script>
-      <% else %>
-          <p class="job-field-value"><%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : "-" %></p>
-      <% end %>
-
-
-      <div class="inline">
-        <% if false %>
-            <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
-                <p class="job-field-title">Close Date</p>
-
-                <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
-            <% else %>
-                <p class="job-field-title"><%= t ".created_date" %></p>
-
-                <p class="job-field-value"><%= job.created_at.strftime("%m/%d/%Y") %></p>
-            <% end %>
-        <% end %>
-
-        <p class="job-field-title">Job #</p>
-
-        <p class="job-field-value push-down-small orange-text"><b><%= job.job_number %></b></p>
-
-      </div>
-
-      <% if job.status == Job::COMPLETE && !job.close_date.nil? %>
-          <div class="inline">
-            <p class="job-field-title-div help-text">Close Date</p>
-
-            <p class="job-field-value blue-text"><b><%= job.close_date.strftime("%m/%d/%Y") %></b></p>
-          </div>
-      <% end %>
-    </div>
 
 
     </div>
