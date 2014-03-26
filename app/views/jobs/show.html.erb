@@ -41,7 +41,7 @@
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
            data-tray="tools_assets"
-           data-placement="bottom" data-title="Tools/Assets & BHAs">Assets/BHAs
+           data-placement="bottom" data-title="Tools/Assets & BHAs">BHAs/Assets
         </a>
       </li>
 
@@ -65,15 +65,6 @@
       </li>
           <% end %>
 
-      <% if false %>
-      <li class="">
-        <a href="#cost" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="cost"
-           data-placement="bottom" data-title="Job Cost">Cost</a>
-      </li>
-          <% end %>
 
       <li class="">
         <a href="#reports" class="remote-tray-toggle custom-data-toggle tooltip-info"
@@ -200,6 +191,12 @@
     <div class="remote-tray" data-tray="documents_data">
       <div class="remote-loading" style="margin-top: 30px;">
         <%= render 'layouts/inline_loading', title: "Please wait, loading Info/Docs..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="tools_assets">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading Assets/BHAs..." %>
       </div>
     </div>
 

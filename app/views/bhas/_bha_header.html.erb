@@ -1,6 +1,6 @@
 <div id="bha_header" class="well">
   <% if signed_in? %>
-      <%= link_to "New BHA", new_bha_path(document: document.id),
+      <%= link_to "New BHA", new_bha_path(job: job.id),
                   class: "bluebtn btnsmall pull-right push-down-small" %>
   <% end %>
 

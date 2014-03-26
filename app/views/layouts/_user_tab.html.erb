@@ -5,7 +5,8 @@
         <%= tab.alerts "Agenda", alerts_path %>
     <% end %>
 
-    <%= tab.jobs I18n.t("jobs.index.title"), jobs_path %>
+    <%= tab.jobs "Drilling", jobs_path %>
+
     <% if !current_user.role.limit_to_assigned_jobs? %>
         <%= tab.overview "Overview", overview_path %>
     <% end %>

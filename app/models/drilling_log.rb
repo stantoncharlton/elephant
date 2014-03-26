@@ -27,11 +27,9 @@ class DrillingLog < ActiveRecord::Base
 
     validates_presence_of :company_id
     validates_presence_of :job_id
-    validates_presence_of :document_id
 
     belongs_to :company
     belongs_to :job
-    belongs_to :document
     belongs_to :well
 
     has_many :drilling_log_entries, order: "drilling_log_entries.entry_at ASC"
@@ -71,8 +69,8 @@ class DrillingLog < ActiveRecord::Base
             self.total_time = drilling_log.total_time
 
             if self.td_depth.blank? || self.td_depth == 0.0
-                if self.document.present? && self.document.job.present?
-                    active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", self.document.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first
+                if self.job.present?
+                    active_well_plan = Survey.includes(job: :well).where("wells.id = ?", self.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first
                     if active_well_plan.present? && active_well_plan.survey_points.any?
                         self.td_depth = active_well_plan.survey_points.last.measured_depth
                     end
@@ -324,13 +322,9 @@ class DrillingLog < ActiveRecord::Base
     end
 
     def start_on_job_phase
-        if self.document.present? && self.document.job.present?
-            self.document.job.well.jobs.each do |job|
-                if job.status == Job::PRE_JOB
-                    if job.documents.where(:document_type => Document::DRILLING_LOG).any?
-                        job.begin_on_job
-                    end
-                end
+        if self.job.present?
+            if self.job.status == Job::PRE_JOB
+                self.job.begin_on_job
             end
         end
     end
@@ -408,18 +402,18 @@ class DrillingLog < ActiveRecord::Base
 
                         fill_log @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now
                     when "survey"
-                        @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
                         @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
                         calculated_points_survey = @survey.calculated_points(@active_well_plan.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0)
                         fill_survey @drilling_log.job, calculated_points_survey, r
                     when "railroad"
-                        @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
-                        @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @survey = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
                         calculated_points_survey = @survey.present? ? @survey.calculated_points(@active_well_plan.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0.0) : []
                         fill_railroad @drilling_log.job, @active_well_plan, calculated_points_survey, r
                     when "railroad_certification"
-                        @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
-                        @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @survey = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
                         calculated_points_survey = @survey.present? ? @survey.calculated_points(@active_well_plan.present? && @survey.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0.0) : []
                         fill_railroad_certification @drilling_log.job, @drilling_log, @active_well_plan, @survey, calculated_points_survey, r
                     when "incident_report"

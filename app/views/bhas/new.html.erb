@@ -14,7 +14,7 @@
 
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= hidden_field_tag "[bha][document_id]", @document.id %>
+      <%= hidden_field_tag "[bha][job_id]", @job.id %>
       <% if @master_bha.present? %>
           <%= hidden_field_tag "[bha][master_bha_id]", @master_bha.id %>
       <% end %>
@@ -84,7 +84,7 @@
       <% if request.referrer.present? %>
           <%= link_to "Cancel", request.referer + '#drilling-bha', class: "bluebtn red pull-right " %>
       <% else %>
-          @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first
+          <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
           <% if @drilling_log.present? %>
               <%= link_to "Cancel", "/drilling_logs/#{@drilling_log.id}#drilling-bha", class: "bluebtn red pull-right " %>
           <% end %>

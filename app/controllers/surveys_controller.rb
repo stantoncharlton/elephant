@@ -36,7 +36,7 @@ class SurveysController < ApplicationController
 
         respond_to do |format|
             format.xlsx {
-                @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
+                @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @survey.job.well_id).first
                 excel = survey_to_excel @active_well_plan, @survey
                 send_data excel.to_stream.read, :filename => "Survey (#{@survey.document.job.name}).xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }
@@ -45,7 +45,7 @@ class SurveysController < ApplicationController
             }
             format.all {
                 if !@survey.plan? && !@survey.document.nil?
-                    @active_well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
+                    @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @survey.job.well_id).first
                     render 'surveys/show_entry'
                 else
                     render 'surveys/show'
@@ -57,7 +57,7 @@ class SurveysController < ApplicationController
     def new
         if params[:new_side_track].present? && params[:new_side_track] == "true"
             @drilling_log = DrillingLog.find_by_id(params[:drilling_log])
-            last_survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).last
+            last_survey = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).last
             @survey = Survey.new(name: (last_survey.name.to_i + 1).to_s, plan: false)
             @survey.company = current_user.company
             @survey.document = last_survey.document

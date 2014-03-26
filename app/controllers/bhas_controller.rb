@@ -6,12 +6,12 @@ class BhasController < ApplicationController
             @bha = Bha.find_by_id(params[:id])
             not_found unless @bha.present? && @bha.company == current_user.company
 
-            @bhas = Bha.includes(document: {job: :well}).where("wells.id = ?", @bha.document.job.well_id).order("bhas.created_at ASC")
+            @bhas = Bha.includes(job: :well).where("wells.id = ?", @bha.job.well_id).order("bhas.created_at ASC")
         else
-            @document = Document.find_by_id(params[:id])
-            not_found unless !@document.nil? && @document.company == current_user.company
+            @job = Job.find_by_id(params[:id])
+            not_found unless !@job.nil? && @job.company == current_user.company
 
-            @bhas = Bha.includes(document: {job: :well}).where("wells.id = ?", @document.job.well_id).order("bhas.created_at ASC")
+            @bhas = Bha.includes(job: :well).where("wells.id = ?", @job.well_id).order("bhas.created_at ASC")
 
             if params[:bha].present?
                 @bha = Bha.find_by_id(params[:bha])
@@ -34,10 +34,9 @@ class BhasController < ApplicationController
             not_found unless old_bha.company == current_user.company
             Bha.transaction do
                 @bha = Bha.new
-                @bhas = Bha.includes(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("wells.id = ?", old_bha.document.job.well_id).order("bhas.name ASC")
+                @bhas = Bha.includes(job: :well).where("bhas.master_bha_id IS NULL").where("wells.id = ?", old_bha.job.well_id).order("bhas.name ASC")
                 @bha.name = (@bhas.last.name.to_i + 1).to_s
                 @bha.company = current_user.company
-                @bha.document = old_bha.document
                 @bha.job = old_bha.job
                 @bha.save
 
@@ -61,7 +60,6 @@ class BhasController < ApplicationController
                     @bha_mwd.master_bha = @bha
                     @bha_mwd.name = @bha.name + " - Tool String"
                     @bha_mwd.company = current_user.company
-                    @bha_mwd.document = old_bha.document
                     @bha_mwd.job = old_bha.job
                     @bha_mwd.save
 
@@ -85,9 +83,7 @@ class BhasController < ApplicationController
             end
         else
             @bha = Bha.new
-
-            @document = Document.find_by_id(params[:document])
-            @job = @document.job
+            @job = Job.find_by_id(params[:job])
 
             if params[:bha].present?
                 @master_bha = Bha.find(params[:bha])
@@ -96,18 +92,16 @@ class BhasController < ApplicationController
     end
 
     def create
-        document_id = params[:bha][:document_id]
-        params[:bha].delete(:document_id)
+        job_id = params[:bha][:job_id]
+        params[:bha].delete(:job_id)
 
         master_bha_id = params[:bha][:master_bha_id]
         params[:bha].delete(:master_bha_id)
 
+        @job = Job.find_by_id(job_id)
         @bha = Bha.new(params[:bha])
         @bha.company = current_user.company
-        @bha.document = Document.find_by_id(document_id)
-        @bha.job = @bha.document.job
-        @document = @bha.document
-        @job = @bha.job
+        @bha.job = @job
         if !master_bha_id.blank?
             @master_bha = Bha.find_by_id(master_bha_id)
             @bha.master_bha = @master_bha
@@ -138,8 +132,7 @@ class BhasController < ApplicationController
 
                 @bha.delay.create_activity(current_user, Activity::CREATE_BHA)
 
-                @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
-                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+                redirect_to jobs_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'new'
             end
@@ -148,7 +141,6 @@ class BhasController < ApplicationController
 
     def edit
         @bha = Bha.find_by_id(params[:id])
-        @document = @bha.document
         @job = @bha.job
 
         @master_bha = @bha.master_bha
@@ -159,7 +151,6 @@ class BhasController < ApplicationController
         @bha = Bha.find_by_id(params[:id])
         not_found unless @bha.company == current_user.company
 
-        @document = @bha.document
         @job = @bha.job
 
         Bha.transaction do
@@ -203,8 +194,7 @@ class BhasController < ApplicationController
                 @bha.delay.create_activity(current_user, Activity::UPDATE_BHA)
 
 
-                @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @bha.document.job.well_id).first
-                redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+                redirect_to jobs_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'edit'
             end
@@ -215,13 +205,13 @@ class BhasController < ApplicationController
     def destroy
         @bha = Bha.find_by_id(params[:id])
         @original_bha = @bha
-        @document = @bha.document
+        @job = @bha.job
         not_found unless @bha.company == current_user.company
 
         if DrillingLogEntry.where(:bha_id => @bha.id).count == 0
             @bha.destroy
 
-            @bhas = Bha.where(:document_id => @document.id).order("bhas.created_at ASC")
+            @bhas = Bha.where(:job_id => @job.id).order("bhas.created_at ASC")
             @bha = @bhas.first
         else
             flash[:error] = "This BHA is attached to log entries and therefore can't be deleted. Delete the log if you really want to continue."
@@ -229,8 +219,7 @@ class BhasController < ApplicationController
 
         @original_bha.create_activity(current_user, Activity::DELETE_BHA)
 
-        @drilling_log = DrillingLog.joins(document: {job: :well}).where("jobs.well_id = ?", @original_bha.document.job.well_id).first
-        redirect_to drilling_log_path(@drilling_log, anchor: "drilling-bha", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
+        redirect_to jobs_path(@job, anchor: "tools_assets", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
     end
 
 end

@@ -1,0 +1,40 @@
+<div class="remote-tray" data-tray="tools_assets">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading Assets/BHAs..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+    <div class='' style='height: 48px;'>
+      <div class="" style="position: absolute; background: #e7e7e7; top: 312px; left: 0; width: 100%; height: 40px;">
+        <div style='margin-left: 20px; margin-top: 8px;'>
+          <% jobs = @job.well.jobs.where(:shared => true) %>
+          <div class='' style='margin-top: -2px;'>
+            <ul class="nav nav-tabs">
+              <li class='active'>
+                <%= link_to "BHAs", "#", class: "blue-text job-tab" %>
+              </li>
+              <li class=''>
+                <%= link_to "Assets", "#", class: "blue-text job-tab" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="bhas_list">
+         <%= render 'bhas/bhas_list' %>
+    </div>
+
+    <div id="assets_list">
+
+    </div>
+
+
+  </div>
+</div>
+

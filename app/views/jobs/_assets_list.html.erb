@@ -1,0 +1,247 @@
+<div>
+
+  <div class="section-header" style="margin-top: 15px;">
+
+    <div class="pull-right">
+      <div class="btn-group inline-block">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Advanced Actions
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Export as Excel", primary_tools_path(job: job.id, format: "xlsx"),
+                        target: "_blank",
+                        class: "dropdown-menu-link tooltip-info submit-form",
+                        "data-placement" => "left",
+                        "data-title" => "Export data as Microsoft Excel file." %>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h1>Assets</h1>
+
+    <% if !job.closed %>
+        <div class='inline-block push-right-small align-top push-up-small'>
+          <a id="show_assets" href="#" class="btn btn-primary white-text">
+            <i class="icon-plus-sign icon-white"></i>
+            <span>Add Asset(s)</span>
+          </a>
+        </div>
+    <% end %>
+
+  </div>
+
+  <div id="add_assets" class="hidden">
+    <% if !job.closed %>
+        <%= render 'part_memberships/new', shipment: nil, allow_inventory: current_user.role.show_inventory? %>
+    <% end %>
+  </div>
+
+  <div>
+    <h3 class='inline-block  orange-text'>
+      <% if @job.status != Job::COMPLETE %>
+          Assets On-Site
+      <% else %>
+          All Assets
+      <% end %>
+    </h3>
+
+    <div class='pull-right'>
+      <% if @job.status != Job::COMPLETE %>
+          <a href="#" class='inline-block activity-user-link' id="show_all_assets">Show All Assets</a>
+          <a href="#" class='inline-block activity-user-link hidden' id="show_onsite_assets">Show On-site Assets</a>
+          &nbsp;|&nbsp;
+      <% end %>
+      <% if !job.closed %>
+          <a id="show_shop_notes" href='#' class='activity-user-link <%= job.inventory_notes.blank? ? '' : 'hidden' %>'>Add
+            Inventory/Shop Notes</a>
+      <% end %>
+    </div>
+  </div>
+  <div id="asset_list" class='content'>
+
+    <% @job.part_memberships.includes(:part).order('name ASC').each do |pm| %>
+        <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
+    <% end %>
+
+    <% job.inbound_shipments.each do |shipment| %>
+        <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
+            <% shipment.part_memberships.where("part_memberships.to_id = ?", job.id).includes(:part, :shipment, :job).order('name ASC').each do |pm| %>
+                <div class='inline-block align-top' style="opacity: 0.35;">
+                  <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: false %>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+
+  </div>
+
+  <% if !@job.part_memberships.any? %>
+      <div id="no_assets" class='push-down center'>
+        <br><br>
+        <span class='help-text'>No assets added...</span>
+      </div>
+  <% end %>
+
+  <div class='push-down content'>
+    <br>
+
+    <div id="shop_notes" class='<%= job.inventory_notes.blank? ? 'hidden' : '' %>'>
+      <p class="inline help-text">Notes</p>
+      <%= text_field_tag "", "", value: job.inventory_notes,
+                         placeholder: "Inventory/Shop Notes...",
+                         disabled: job.closed ? true : false,
+                         class: "job-update-field txtfield full-width-well2 push-right-small primary-tool-comments",
+                         "data-id" => job.id,
+                         "data-field" => "inventory_notes" %>
+    </div>
+  </div>
+
+
+
+  <div class="section-header" style="margin-top: 15px;">
+    <h1>Shipments</h1>
+
+    <div class='push-right-small'>
+      <%= link_to "New Shipment", shipments_path(district: @job.district, job: @job),
+                  remote: true, method: :post,
+                  class: "btn btn-primary align-top push-up show-modal-button" %>
+    </div>
+  </div>
+
+  <div>
+    <h3 class='orange-text'>Inbound
+      Shipments <%= job.inbound_shipments.any? ? "(#{job.inbound_shipments.count})" : "" %></h3>
+  </div>
+  <% if job.inbound_shipments.any? %>
+      <% job.inbound_shipments.each do |shipment| %>
+          <%= render 'shipments/shipment', shipment: shipment, editable: false, show_assets: shipment.status != Shipment::COMPLETE, in_job: true %>
+          <% if shipment.accepted_at.nil? && shipment.status == Shipment::IN_TRANSIT %>
+              <%= link_to "Receive Shipment", job_path(job, update_field: true, field: "receive_shipment", value: shipment.id),
+                          remote: true, :method => :put,
+                          class: "bluebtn btnsmall green push-down receive-shipment-button" %>
+          <% end %>
+          <hr>
+      <% end %>
+  <% else %>
+      <p class='help-text push-down'>No inbound shipments...</p>
+  <% end %>
+
+
+  <div>
+    <h3 class='orange-text'>Outbound
+      Shipments <%= job.outbound_shipments.any? ? "(#{job.outbound_shipments.count})" : "" %></h3>
+  </div>
+  <div id="shipments_list" style="<%= job.outbound_shipments.any? ? "margin-top: 20px;" : "" %>">
+    <% if job.outbound_shipments.any? %>
+        <% job.outbound_shipments.each do |shipment| %>
+            <%= render 'shipments/shipment', shipment: shipment, editable: true, show_assets: shipment.status != Shipment::COMPLETE, in_job: true %>
+        <% end %>
+    <% else %>
+        <p id="no_outbound_shipments" class='help-text push-down'>No outbound shipments...</p>
+    <% end %>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+    $('.receive-shipment-button').live("click", function () {
+        $(this).remove();
+    });
+
+    $('#show_assets').live("click", function () {
+        $(this).addClass('hidden');
+        $('#add_assets').removeClass('hidden');
+        return false;
+    });
+
+    function show_assets(onsite) {
+        $('#asset_list').find('.part-membership').each(function () {
+            if (onsite && $(this).attr('data-shipping') == 'true') {
+                $(this).addClass('hidden');
+            }
+            else {
+                $(this).removeClass('hidden');
+            }
+        });
+    }
+
+    $("#show_all_assets").click(function () {
+        show_assets(false);
+        $(this).addClass('hidden');
+        $("#show_onsite_assets").removeClass('hidden');
+        return false;
+    });
+    $("#show_onsite_assets").click(function () {
+        show_assets(true);
+        $(this).addClass('hidden');
+        $("#show_all_assets").removeClass('hidden');
+        return false;
+    });
+
+    <% if @job.status != Job::COMPLETE %>
+    show_assets(true);
+
+    <% if @job.inbound_shipments.where(:status => Shipment::IN_TRANSIT).any? %>
+    $('#inbound_shipments_link').trigger('click');
+    <% end %>
+    <% end %>
+
+    $('.popover').popover({  delay: { show: 500, hide: 200 } });
+
+
+    var focusevent, last_selected_item, part_focused,
+            _this = this;
+
+    last_selected_item = null;
+
+    focusevent = function (event, ui) {
+        var selected_item;
+        if (last_selected_item !== null) {
+            $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+        }
+        selected_item = $('.item_' + ui.item.id);
+        selected_item.addClass('ui-state-hover');
+        return last_selected_item = ui.item;
+    };
+
+    $('.part-search').each(function (index, element) {
+        return $(element).autocomplete({
+            source: $(element).data('autocomplete-source'),
+            focus: focusevent,
+            select: function (event, ui) {
+                if (ui.item.id > 0) {
+                    $('#part_membership_part_id').val(ui.item.id);
+                    setTimeout(function () {
+                        $('#part_search').val(ui.item.label + ' (Serial #' + ui.item.serial_number + ')');
+                    }, 1);
+                }
+            }
+        });
+    });
+
+    part_focused = false;
+
+    $('.part-search').focusin(function () {
+        part_focused = true;
+        $(this).removeClass('ui-autocomplete-bad');
+        $(this).addClass('ui-autocomplete-typing');
+        return $(this).val('').trigger('keydown');
+    });
+
+    $('.part-search').focusout(function () {
+        if (part_focused) {
+            $(this).addClass('ui-autocomplete-bad');
+            if ($(this).val() === '') {
+                return $(this).removeClass('ui-autocomplete-typing');
+            }
+        }
+    });
+
+
+    $('.part-search').data("autocomplete")._renderItem = function (ul, item) {
+        return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                "<a><div>" + (item.id > 0 ? "<img src='/assets/tool.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong>" + (item.id > 0 ? "<p class='job-user-district pull-right help-text'>" + item.material_number + "</p>" : "") + (item.id > 0 ? "<div>" + (item.serial_number != null ? ("<p class='job-user-title'><span class='help-text'>Serial # </span><b class='orange-text'>" + item.serial_number + "</b>" + (item.district_serial_number != '' ? " / <span class='help-text'>District # </span><b class='orange-text'>" + item.district_serial_number + "</b>" : "") + "</p>") : "<p class='job-user-title'><b class='blue-text'>Master Part</b></p>") + "</div>" : "") + "</div><div style='margin: 0px;" + (item.id == -1 ? '' : "margin-left: 31px; margin-top: -5px;") + "'>" + item.status + "</div></div></a>").appendTo(ul)
+    }
+</script>

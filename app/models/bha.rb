@@ -14,13 +14,11 @@ class Bha < ActiveRecord::Base
     acts_as_tenant(:company)
 
     validates_presence_of :company
-    validates_presence_of :document_id
     validates_presence_of :job
     validates_presence_of :name
-    validates_uniqueness_of :name, :case_sensitive => false, scope: [:company_id, :document_id]
+    validates_uniqueness_of :name, :case_sensitive => false, scope: [:company_id, :job_id]
 
     belongs_to :company
-    belongs_to :document
     belongs_to :job
     belongs_to :drilling_log_entry
 
@@ -59,10 +57,8 @@ class Bha < ActiveRecord::Base
     end
 
     def create_activity user, activity
-        self.document.job.well.jobs.each do |job|
-            if job.unique_participants.where("users.id = ?", user.id).present?
-                Activity.add(user, activity, self, "#{self.name} - #{self.description}", job)
-            end
+        if self.job.unique_participants.where("users.id = ?", user.id).present?
+            Activity.add(user, activity, self, "#{self.name} - #{self.description}", self.job)
         end
     end
 

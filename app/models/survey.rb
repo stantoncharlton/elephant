@@ -13,7 +13,6 @@ class Survey < ActiveRecord::Base
                     :grid_type
 
     belongs_to :company
-    belongs_to :document
     belongs_to :job
     belongs_to :user
 

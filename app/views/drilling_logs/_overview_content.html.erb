@@ -1,7 +1,7 @@
 <div>
 
 <% issues = Issue.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id) %>
-<% @bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC") %>
+<% @bhas = Bha.joins(job: :well).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC") %>
 
 <% if drilling_log.drilling_log_entries.empty? %>
     <div class='alert'>
@@ -116,8 +116,8 @@
 
 
 
-      <% active_well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
-      <% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).order("surveys.updated_at ASC").first %>
+      <% active_well_plan = Survey.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
+      <% survey = Survey.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).order("surveys.updated_at ASC").first %>
       <% if !active_well_plan.nil? || (survey.present? && survey.no_well_plan) %>
           <%= render 'surveys/survey_charts', well_plan: active_well_plan, survey: survey, height: 350 %>
       <% else %>

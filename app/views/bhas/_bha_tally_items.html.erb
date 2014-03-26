@@ -7,7 +7,7 @@
       <br>
       <% if signed_in? && editable %>
           <div class='center'>
-            <%= link_to "New Tool String BHA", new_bha_path(document: master_bha.document.id, bha: master_bha),
+            <%= link_to "New Tool String BHA", new_bha_path(job: master_bha.job_id, bha: master_bha),
                         class: "bluebtn btnsmall" %>
           </div>
       <% end %>

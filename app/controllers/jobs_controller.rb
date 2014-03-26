@@ -220,47 +220,56 @@ class JobsController < ApplicationController
 
             if @job.save
 
-                @job.job_template.dynamic_fields.each do |dynamic_field|
-                    job_dynamic_field = DynamicField.new
-                    job_dynamic_field.name = dynamic_field.name
-                    job_dynamic_field.value_type = dynamic_field.value_type
-                    job_dynamic_field.optional = dynamic_field.optional
-                    job_dynamic_field.priority = dynamic_field.priority
-                    job_dynamic_field.predefined = dynamic_field.predefined
-                    job_dynamic_field.ordering = dynamic_field.ordering
-                    job_dynamic_field.value = dynamic_field.value
-                    job_dynamic_field.values = dynamic_field.values
-                    job_dynamic_field.template = false
-                    job_dynamic_field.dynamic_field_template = dynamic_field
-                    job_dynamic_field.job_template = @job.job_template
-                    job_dynamic_field.job = @job
-                    job_dynamic_field.company = current_user.company
-                    job_dynamic_field.save
-                end
-
-                @job.job_template.documents.each do |document|
-                    job_document = Document.new
-                    job_document.category = document.category
-                    job_document.name = document.name
-                    job_document.status = document.status
-                    job_document.access_level = document.access_level
-                    job_document.document_type = document.document_type
-                    job_document.read_only = document.read_only
-                    job_document.ordering = document.ordering
-                    job_document.template = false
-                    job_document.url = nil
-                    job_document.document_template = document
-                    job_document.job_template = @job.job_template
-                    job_document.job = @job
-
-                    if !document.primary_tool_id.blank?
-                        job_document.primary_tool_id = document.primary_tool_id
+                if false
+                    @job.job_template.dynamic_fields.each do |dynamic_field|
+                        job_dynamic_field = DynamicField.new
+                        job_dynamic_field.name = dynamic_field.name
+                        job_dynamic_field.value_type = dynamic_field.value_type
+                        job_dynamic_field.optional = dynamic_field.optional
+                        job_dynamic_field.priority = dynamic_field.priority
+                        job_dynamic_field.predefined = dynamic_field.predefined
+                        job_dynamic_field.ordering = dynamic_field.ordering
+                        job_dynamic_field.value = dynamic_field.value
+                        job_dynamic_field.values = dynamic_field.values
+                        job_dynamic_field.template = false
+                        job_dynamic_field.dynamic_field_template = dynamic_field
+                        job_dynamic_field.job_template = @job.job_template
+                        job_dynamic_field.job = @job
+                        job_dynamic_field.company = current_user.company
+                        job_dynamic_field.save
                     end
-
-                    job_document.company = current_user.company
-                    job_document.save
                 end
 
+                if false
+                    @job.job_template.documents.each do |document|
+                        job_document = Document.new
+                        job_document.category = document.category
+                        job_document.name = document.name
+                        job_document.status = document.status
+                        job_document.access_level = document.access_level
+                        job_document.document_type = document.document_type
+                        job_document.read_only = document.read_only
+                        job_document.ordering = document.ordering
+                        job_document.template = false
+                        job_document.url = nil
+                        job_document.document_template = document
+                        job_document.job_template = @job.job_template
+                        job_document.job = @job
+
+                        if !document.primary_tool_id.blank?
+                            job_document.primary_tool_id = document.primary_tool_id
+                        end
+
+                        job_document.company = current_user.company
+                        job_document.save
+                    end
+                end
+
+                @drilling_log = DrillingLog.new
+                @drilling_log.company = current_user.company
+                @drilling_log.job = @job
+                @drilling_log.well = @job.well
+                @drilling_log.save
 
                 # Add to job as creator
                 @job.add_user!(current_user, JobMembership::CREATOR)
