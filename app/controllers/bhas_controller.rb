@@ -24,9 +24,9 @@ class BhasController < ApplicationController
 
     def new
         if params[:tool].present?
-            @document = Document.find_by_id(params[:document])
-            if !@document.nil?
-                not_found unless @document.company == current_user.company
+            @job = Job.find_by_id(params[:job])
+            if !@job.nil?
+                not_found unless @job.company == current_user.company
                 @part_membership = PartMembership.find_by_id(params[:tool])
             end
         elsif params[:clone].present? && params[:clone] == "true"
@@ -132,7 +132,7 @@ class BhasController < ApplicationController
 
                 @bha.delay.create_activity(current_user, Activity::CREATE_BHA)
 
-                redirect_to jobs_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+                redirect_to job_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'new'
             end
@@ -194,7 +194,7 @@ class BhasController < ApplicationController
                 @bha.delay.create_activity(current_user, Activity::UPDATE_BHA)
 
 
-                redirect_to jobs_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+                redirect_to job_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'edit'
             end
@@ -219,7 +219,7 @@ class BhasController < ApplicationController
 
         @original_bha.create_activity(current_user, Activity::DELETE_BHA)
 
-        redirect_to jobs_path(@job, anchor: "tools_assets", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
+        redirect_to job_path(@job, anchor: "tools_assets", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
     end
 
 end

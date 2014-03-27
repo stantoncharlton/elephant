@@ -1,4 +1,4 @@
-<div>
+<div id="bha">
   <% @bhas = Bha.joins(:job).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @job.well_id).order("bhas.name ASC") %>
   <% @bha = nil %>
   <% query = URI.parse(request.url).query %>
@@ -31,10 +31,10 @@
     <% end %>
 
     <div id="bha_loader" class="push-down center hidden inline">
-      <br><br>
 
-      <div class="">
-        <span class="ajax-loading search-loading"><b>Loading..</b></span>
+      <br>
+      <div class="" style="margin-top: 30px;">
+        <span class="ajax-loading search-loading"><b>Loading BHA..</b></span>
       </div>
     </div>
   </div>

@@ -2,6 +2,11 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
 <% if params[:section] == "tools_assets" %>
     tray.replaceWith("<%= j render 'jobs/tray_assets', job: @job %>");
+<% elsif params[:section] == "bha" %>
+    $('#bha').replaceWith("<%= j render 'bhas/bhas_list' %>");
+    $('.popover').popover({  delay: { show: 500, hide: 200 } });
+<% elsif params[:section] == "assets_list" %>
+    $('#assets_list').replaceWith("<%= j render 'jobs/assets_list', job: @job %>");
 <% elsif params[:section] == "documents_data" %>
     tray.replaceWith("<%= j render 'jobs/job_documents', job: @job %>");
 <% elsif params[:section] == "notes" %>

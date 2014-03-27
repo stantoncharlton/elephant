@@ -47,7 +47,7 @@ $ ->
   $('#add_new_bha_item').live "click", ->
     $('#add_tool').addClass 'hidden'
     $('#add_tool_loader').removeClass 'hidden'
-    params = 'tool=' + $('#bha_tool_options').val() + '&document=' + $(this).attr("data-document")
+    params = 'tool=' + $('#bha_tool_options').val() + '&job=' + $(this).attr("data-job")
     $.ajax '/bhas/new?' + params, type: 'get', dataType: 'script'
     return false
 

@@ -14,10 +14,13 @@
           <div class='' style='margin-top: -2px;'>
             <ul class="nav nav-tabs">
               <li class='active'>
-                <%= link_to "BHAs", "#", class: "blue-text job-tab" %>
+                <%= link_to "BHAs", "#", class: "blue-text job-tab", id: "show_bhas_list" %>
               </li>
               <li class=''>
-                <%= link_to "Assets", "#", class: "blue-text job-tab" %>
+                <%= link_to "Assets", "#", class: "blue-text job-tab", id: "show_assets_list" %>
+              </li>
+              <li class=''>
+                <%= link_to "Request List", "#", class: "blue-text job-tab" %>
               </li>
             </ul>
           </div>
@@ -27,12 +30,41 @@
 
 
     <div id="bhas_list">
-         <%= render 'bhas/bhas_list' %>
+      <%= render 'bhas/bhas_list' %>
     </div>
 
-    <div id="assets_list">
+    <div id="assets_list" class='hidden' data-loaded="false">
+      <div id="bha_loader" class="push-down center inline">
+        <br>
 
+        <div class="" style="margin-top: 30px;">
+          <span class="ajax-loading search-loading"><b>Loading Assets..</b></span>
+        </div>
+      </div>
     </div>
+
+    <script type='text/javascript'>
+        $('#show_assets_list').click(function () {
+            $(this).parent().addClass('active');
+            $('#show_bhas_list').parent().removeClass('active');
+            $('#bhas_list').addClass('hidden');
+            $('#assets_list').removeClass('hidden');
+            if ($('#assets_list').attr('data-loaded') == 'false') {
+                $.ajax("/jobs/<%= @job.id %>?section=assets_list", {
+                    type: 'get',
+                    dataType: 'script'
+                });
+            }
+            return false;
+        });
+        $('#show_bhas_list').click(function () {
+            $(this).parent().addClass('active');
+            $('#show_assets_list').parent().removeClass('active');
+            $('#bhas_list').removeClass('hidden');
+            $('#assets_list').addClass('hidden');
+            return false;
+        });
+    </script>
 
 
   </div>

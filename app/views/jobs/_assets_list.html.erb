@@ -1,4 +1,4 @@
-<div>
+<div id="assets_list">
 
   <div class="section-header" style="margin-top: 15px;">
 
@@ -32,6 +32,8 @@
 
   </div>
 
+  <% assets = @job.part_memberships.includes(:part).order('name ASC') %>
+
   <div id="add_assets" class="hidden">
     <% if !job.closed %>
         <%= render 'part_memberships/new', shipment: nil, allow_inventory: current_user.role.show_inventory? %>
@@ -49,11 +51,10 @@
 
     <div class='pull-right'>
       <% if @job.status != Job::COMPLETE %>
-          <a href="#" class='inline-block activity-user-link' id="show_all_assets">Show All Assets</a>
+          <a href="#" class='inline-block activity-user-link' id="show_all_assets">Show All Assets (<%= assets.count %>)</a>
           <a href="#" class='inline-block activity-user-link hidden' id="show_onsite_assets">Show On-site Assets</a>
-          &nbsp;|&nbsp;
       <% end %>
-      <% if !job.closed %>
+      <% if false %>
           <a id="show_shop_notes" href='#' class='activity-user-link <%= job.inventory_notes.blank? ? '' : 'hidden' %>'>Add
             Inventory/Shop Notes</a>
       <% end %>
@@ -61,7 +62,7 @@
   </div>
   <div id="asset_list" class='content'>
 
-    <% @job.part_memberships.includes(:part).order('name ASC').each do |pm| %>
+    <% assets.each do |pm| %>
         <%= render 'part_memberships/part_membership', part_membership: pm, allow_remove: true %>
     <% end %>
 
@@ -77,36 +78,36 @@
 
   </div>
 
-  <% if !@job.part_memberships.any? %>
-      <div id="no_assets" class='push-down center'>
-        <br><br>
-        <span class='help-text'>No assets added...</span>
+  <div id="no_assets" class='push-down <%= !@job.part_memberships.any? ? "hidden" : "" %>'>
+    <span class='help-text'>No assets on-site...</span>
+  </div>
+
+  <% if false %>
+      <div class='push-down content'>
+        <br>
+
+        <div id="shop_notes" class='<%= job.inventory_notes.blank? ? 'hidden' : '' %>'>
+          <p class="inline help-text">Notes</p>
+          <%= text_field_tag "", "", value: job.inventory_notes,
+                             placeholder: "Inventory/Shop Notes...",
+                             disabled: job.closed ? true : false,
+                             class: "job-update-field txtfield full-width-well2 push-right-small primary-tool-comments",
+                             "data-id" => job.id,
+                             "data-field" => "inventory_notes" %>
+        </div>
       </div>
   <% end %>
 
-  <div class='push-down content'>
-    <br>
-
-    <div id="shop_notes" class='<%= job.inventory_notes.blank? ? 'hidden' : '' %>'>
-      <p class="inline help-text">Notes</p>
-      <%= text_field_tag "", "", value: job.inventory_notes,
-                         placeholder: "Inventory/Shop Notes...",
-                         disabled: job.closed ? true : false,
-                         class: "job-update-field txtfield full-width-well2 push-right-small primary-tool-comments",
-                         "data-id" => job.id,
-                         "data-field" => "inventory_notes" %>
-    </div>
-  </div>
-
+  <br><br>
 
 
   <div class="section-header" style="margin-top: 15px;">
     <h1>Shipments</h1>
 
-    <div class='push-right-small'>
+    <div class='push-right-small align-top'>
       <%= link_to "New Shipment", shipments_path(district: @job.district, job: @job),
                   remote: true, method: :post,
-                  class: "btn btn-primary align-top push-up show-modal-button" %>
+                  class: "btn btn-primary align-top show-modal-button" %>
     </div>
   </div>
 
@@ -163,6 +164,13 @@
             }
             else {
                 $(this).removeClass('hidden');
+            }
+
+            if ($('#asset_list').find('.part-membership:not(.hidden)').length == 0) {
+               $('#no_assets').removeClass('hidden');
+            }
+            else {
+                $('#no_assets').addClass('hidden');
             }
         });
     }
