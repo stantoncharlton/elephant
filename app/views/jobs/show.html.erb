@@ -118,9 +118,11 @@
       </li>
 
       <li class="">
-        <a href="#activity" class="job-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#history" class="remote-tray-toggle custom-data-toggle tooltip-info"
            style='padding: 10px;'
-           data-tray="activity"
+           data-id="<%= @job.id %>"
+           data-tray-controller="jobs"
+           data-tray="history"
            data-placement="bottom" data-title="Job History"><i class="icon-time"></i></a>
       </li>
 
@@ -224,41 +226,20 @@
       </div>
     </div>
 
+    <div class="remote-tray" data-tray="logs">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading logs..." %>
+      </div>
+    </div>
 
-    <%= render 'jobs/job_custom_data', job: @job, job_editable: @job_editable %>
-
-    <div class="job-tray custom-data-closed" data-tray="tools_assets">
-      <div id="assets_loading">
-        <div class="remote-loading">
-          <br><br>
-
-          <div class="loading center">
-            <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Assets...</b></span>
-            <br>
-          </div>
-          <br><br><br>
-          <br><br><br>
-        </div>
+    <div class="remote-tray" data-tray="history">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading history..." %>
       </div>
     </div>
 
 
-    <div class="job-tray custom-data-closed" data-tray="documents_data">
-      <div id="documents_loading">
-        <div class="remote-loading">
-          <br><br>
 
-          <div class="loading center">
-            <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Documents/Logs...</b></span>
-            <br>
-          </div>
-          <br><br><br>
-          <br><br><br>
-        </div>
-      </div>
-    </div>
 
     <div class="job-tray custom-data-closed" data-tray="notes">
       <div id="notes_loading">
@@ -276,37 +257,7 @@
       </div>
     </div>
 
-    <div class="job-tray custom-data-closed" data-tray="job_failures">
-      <div id="failures_loading">
-        <div class="remote-loading">
-          <br><br>
 
-          <div class="loading center">
-            <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Failures...</b></span>
-            <br>
-          </div>
-        </div>
-        <br><br><br>
-        <br><br><br>
-      </div>
-    </div>
-
-    <div class="job-tray custom-data-closed" data-tray="cost">
-      <div id="cost_loading">
-        <div class="remote-loading">
-          <br><br>
-
-          <div class="loading center">
-            <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Cost...</b></span>
-            <br>
-          </div>
-          <br><br><br>
-          <br><br><br>
-        </div>
-      </div>
-    </div>
 
     <div class="job-tray custom-data-closed" data-tray="reports">
       <div id="reports_loading">
@@ -324,9 +275,6 @@
       </div>
     </div>
 
-    <div class="job-tray custom-data-closed" data-tray="activity">
-      <%= render 'activities/paginated_activity', activities: @activities, inside_job: true %>
-    </div>
 
     <%= render 'jobs/job_time', job: @job %>
   </div>

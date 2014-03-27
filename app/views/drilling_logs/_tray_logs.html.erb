@@ -8,8 +8,11 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading Logs..." %>
   </div>
 
-  <div class='content tray-content content-loaded'>
-    <br>
+  <div class='tray-content content-loaded'>
+
+    <div class='section-header' style="margin-top: 15px;">
+      <h1>Logs</h1>
+    </div>
 
     <% if drilling_log.drilling_log_entries.any? %>
         <div class='center'>
@@ -18,6 +21,12 @@
 
           <div class="inline-block push-right-small" style="width:10px;height:10px;background:#eea71f;"></div>
           <b>WOB</b>
+
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#bc1b1b;"></div>
+          <b>Temp</b>
+
+          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#6ee384;"></div>
+          <b>Gamma</b>
 
         </div>
 
@@ -36,7 +45,7 @@
     <% rops = [] %>
     <% last_rop = 0.0 %>
     <% entries.each do |dl| %>
-        <% rops <<  { "date" => dl.entry_at.strftime("%k:%M"), "depth" => dl.depth.to_i, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl.rop.present? && dl.rop > 0 ? dl.rop : last_rop, "lineColor" => "#223bf2", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm } %>
+        <% rops <<  { "date" => dl.entry_at.strftime("%k:%M"), "depth" => dl.depth.to_i, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl.rop.present? && dl.rop > 0 ? dl.rop : last_rop, "lineColor" => "#223bf2", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm, "temp" => dl.bh_temp } %>
         <% if dl.rop.present? && dl.rop > 0 %>
             <% last_rop = dl.rop %>
         <% end %>
@@ -59,6 +68,11 @@
                 "id":"wobAxis",
                 "axisAlpha": 0,
                 "gridAlpha": 0,
+            },
+            {
+                "id":"tempAxis",
+                "axisAlpha": 0,
+                "gridAlpha": 0,
             }
         ],
         "graphs": [
@@ -76,6 +90,14 @@
                 "bulletSize": "0",
                 "valueField": "wob",
                 "lineColor": "#eea71f",
+                "lineThickness": 2
+            },
+            {
+                "valueAxis": "tempAxis",
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "temp",
+                "lineColor": "#bc1b1b",
                 "lineThickness": 2
             }
         ],

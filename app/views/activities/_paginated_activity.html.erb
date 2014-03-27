@@ -1,42 +1,4 @@
 <div id="activity_list">
-  <div class="page_header">
-    <h1>Activity</h1>
-
-    <h2>
-      <% if activities.count > 0 %>
-          <% if params[:page].present? %>
-              <%= ((Integer(params[:page]) - 1) * 20) + 1 %>
-              - <%= [((Integer(params[:page]) - 1) * 20) + 20, activities.count].min %> of <%= activities.count.to_s %>
-          <% else %>
-              1 - <%= [20, activities.count].min %> of <%= activities.count.to_s %>
-          <% end %>
-      <% end %>
-    </h2>
-
-    <div class="btn-group inline pull-right">
-      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-        Export
-      </a>
-      <ul class="dropdown-menu">
-        <li>
-          <% if inside_job %>
-              <%= link_to "Export as Excel", "/activities/#{@job.id}?job_activity=true&format=xlsx",
-                          target: "_blank",
-                          class: "dropdown-menu-link tooltip-info submit-form",
-                          "data-placement" => "left",
-                          "data-title" => "Export activity as Microsoft Excel file." %>
-          <% else %>
-              <%= link_to "Export as Excel", "/activities/#{@user.id}?user_activity=true&format=xlsx",
-                          target: "_blank",
-                          class: "dropdown-menu-link tooltip-info submit-form",
-                          "data-placement" => "left",
-                          "data-title" => "Export activity as Microsoft Excel file." %>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-
   <div id="job_activities" class="list">
     <% activities.each do |activity| %>
         <%= render 'activities/job_activity', activity: activity, inside_job: inside_job %>

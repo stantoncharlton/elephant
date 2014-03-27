@@ -67,7 +67,10 @@
             <%= render 'surveys/tie_in' %>
         <% end %>
 
-        <div>
+        <div class='section-header' style='margin-top: 15px;'>
+
+          <h1>Surveys</h1>
+
           <div class="btn-group inline pull-right push-right">
             <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
               Export
@@ -96,10 +99,12 @@
                 <%= link_to "New Sidetrack", new_survey_path(new_side_track: true, drilling_log: @drilling_log.id), class: "btn btn-default align-top push-up-small push-right-small" %>
             <% end %>
           </div>
-          <% if @active_well_plan.present? %>
-              <span><div class='well-plan'></div> Well Plan</span>
-          <% end %>
-          <span class='push-right-small'><div class='active-survey'></div> Survey</span>
+          <div class='inline-block'>
+            <% if @active_well_plan.present? %>
+                <span><div class='well-plan'></div> Well Plan</span>
+            <% end %>
+            <span class='push-right-small'><div class='active-survey'></div> Survey</span>
+          </div>
         </div>
 
         <% if @surveys.count > 1 %>
@@ -109,7 +114,6 @@
                 <%= link_to s.name, drilling_log_path(@drilling_log, anchor: "survey", survey: s.id), class: "btn  align-top push-up-small push-right-small " + (s == @survey ? "btn-primary white-text" : "btn-default") %>
             <% end %>
         <% end %>
-        <hr>
 
         <% if calculated_points_survey.any? || calculated_points.any? %>
             <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>

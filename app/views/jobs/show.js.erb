@@ -24,6 +24,11 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 <% elsif params[:section] == "surveys" %>
     <% @drilling_log = @job.drilling_log %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_survey', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "logs" %>
+    <% @drilling_log = @job.drilling_log %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_logs', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "history" %>
+    tray.replaceWith("<%= j render 'jobs/tray_history', job: @job %>");
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();
