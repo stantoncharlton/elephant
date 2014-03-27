@@ -1,0 +1,83 @@
+<div id="asset_request_list">
+
+  <div class="section-header" style="margin-top: 15px;">
+    <h1 id="part_name">Asset Request List</h1>
+
+    <% if false %>
+        <div class="push-right btn-group inline pull-right push-down">
+          <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+            Advanced Actions
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to "Export as Excel", asset_list_path(@asset_list, format: "xlsx"),
+                          target: "_blank",
+                          class: "dropdown-menu-link tooltip-info submit-form",
+                          "data-placement" => "left",
+                          "data-title" => "Export log as Microsoft Excel file." %>
+            </li>
+          </ul>
+        </div>
+    <% end %>
+
+    <% if false %>
+        <div class='pull-right'>
+          <%= render 'jobs/job_single_link', job: @asset_list.job %>
+        </div>
+    <% end %>
+  </div>
+
+
+  <div>
+    <div class="push-right-small">
+      <p class="help-text list-item-column list-item-column-short">
+        Quantity
+      </p>
+
+      <p class="help-text list-item-column list-item-column-long">
+        Description
+      </p>
+
+      <p class="help-text list-item-column list-item-column-count">
+        ID
+      </p>
+
+      <p class="help-text list-item-column list-item-column-count">
+        OD
+      </p>
+
+      <p class="help-text list-item-column list-item-column-count">
+        Length
+      </p>
+
+      <p class="help-text list-item-column list-item-column-short push-right">
+        Up
+      </p>
+
+      <p class="help-text list-item-column list-item-column-short">
+        Down
+      </p>
+
+    </div>
+    <hr>
+
+
+    <div class="" id="list">
+      <% if @asset_list.asset_list_entries.any? %>
+          <% @asset_list.asset_list_entries.each_with_index do |asset_list_entry, index| %>
+              <%= render 'asset_list_entries/asset_list_entry', asset_list_entry: asset_list_entry, index: index %>
+          <% end %>
+      <% end %>
+    </div>
+
+    <% if @asset_list.asset_list_entries.empty? %>
+        <p class="center help-text no-entries"><br>No asset entries...</p>
+    <% end %>
+
+
+
+    <%= render 'asset_lists/new' %>
+
+  </div>
+</div>
+

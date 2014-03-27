@@ -315,7 +315,7 @@ class DrillingLog < ActiveRecord::Base
 
         if window.nil?
             runs = get_runs(entries)
-            [runs[closest.run_number - 1], [previous, closest, past]]
+            [runs[closest.present? ? (closest.run_number - 1) : 0], [previous, closest, past]]
         else
             [surrounding_entries, [previous, closest, past]]
         end

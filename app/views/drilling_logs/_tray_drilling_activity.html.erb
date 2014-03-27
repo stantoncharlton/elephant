@@ -1,4 +1,4 @@
-<div class="remote-tray" data-tray="log">
+<div class="remote-tray" data-tray="drilling_activity">
 
   <div class="remote-loading hidden">
     <br><br>
@@ -24,35 +24,39 @@
         <% end %>
     <% end %>
 
-    <br>
+    <div class='section-header' style="margin-top: 20px;">
+      <h1>Drilling Activity</h1>
 
-    <%= select_tag "#",
-                   options_for_select(filter_options, 1),
-                   id: "drilling_log_filter",
-                   class: "custom-select custom-select-long align-top push-up push-right-small" %>
+      <div class='inline-block align-top push-right-small'>
+        <%= select_tag "#",
+                       options_for_select(filter_options, 1),
+                       id: "drilling_log_filter",
+                       class: "custom-select custom-select-ajax align-top push-up push-right-small" %>
+      </div>
 
-    <div class="btn-group inline pull-right push-right">
-      <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-        Import/Export
-      </a>
-      <ul class="dropdown-menu">
-        <li>
-          <%= link_to "Export as Excel", drilling_log_path(@drilling_log, format: "xlsx"),
-                      target: "_blank",
-                      class: "dropdown-menu-link tooltip-info submit-form",
-                      "data-placement" => "left",
-                      "data-title" => "Export log as Microsoft Excel file." %>
-        </li>
-        <li>
-          <%= form_for DrillingLogEntry.new, :html => {:multipart => true} do |f| %>
-              <%= f.hidden_field :drilling_log_id, value: @drilling_log.id %>
-              <a class='btn' style="background: #0058a8; color: white; margin-left: 10px; margin-right: 10px; margin-bottom: 6px;" href='javascript:;'>
-                Import Offline Log
-                <input type="file" style='position:absolute;z-index:2;top:0px;right:0px;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40" onchange="showWorkingCurtain(); $(this).closest('form').submit();">
-              </a>
-          <% end %>
-        </li>
-      </ul>
+      <div class="btn-group inline pull-right push-right">
+        <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
+          Import/Export
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%= link_to "Export as Excel", drilling_log_path(@drilling_log, format: "xlsx"),
+                        target: "_blank",
+                        class: "dropdown-menu-link tooltip-info submit-form",
+                        "data-placement" => "left",
+                        "data-title" => "Export log as Microsoft Excel file." %>
+          </li>
+          <li>
+            <%= form_for DrillingLogEntry.new, :html => {:multipart => true} do |f| %>
+                <%= f.hidden_field :drilling_log_id, value: @drilling_log.id %>
+                <a class='btn' style="background: #0058a8; color: white; margin-left: 10px; margin-right: 10px; margin-bottom: 6px;" href='javascript:;'>
+                  Import Offline Log
+                  <input type="file" style='position:absolute;z-index:2;top:0px;right:0px;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40" onchange="showWorkingCurtain(); $(this).closest('form').submit();">
+                </a>
+            <% end %>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <% if false && @drilling_log.job.status < Job::COMPLETE %>

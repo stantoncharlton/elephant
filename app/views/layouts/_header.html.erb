@@ -11,15 +11,18 @@
             <b class="caret pull-left"></b>
 
             <div class="pull-left">
-              <p class="user-name"><%= current_user.name %></p>
+              <%= render 'users/user_icon', user: current_user, use_link: false, use_name: false %>
+              <p class="user-name inline-block push-down-small"><%= current_user.name %></p>
 
-              <p class="user-title">
-                <% if current_user.admin? %>
-                    Administrator
-                <% else %>
-                    <%= current_user.title %>
-                <% end %>
-              </p>
+              <% if false %>
+                  <p class="user-title">
+                    <% if current_user.admin? %>
+                        Administrator
+                    <% else %>
+                        <%= current_user.title %>
+                    <% end %>
+                  </p>
+              <% end %>
             </div>
           </a>
           <ul class="dropdown-menu menu-width2">
@@ -124,8 +127,8 @@
         <li>
           <a href="javascript:void(0);" onclick="olark('api.box.expand')"
              class='tooltip-info' data-title="Click for Live support" data-place="bottom"
-             style='width: 40px; font-size: 10px; height: 27px; background: #4d4d4d; vertical-align: top; text-align: center; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff; padding-top: 20px;'>
-            Help
+             style='width: 40px; font-size: 10px; height: 32px; background: #4d4d4d; vertical-align: top; text-align: center; margin: 0px; margin-top: -8px; margin-right: -10px; color: #ffffff; padding-top: 10px;'>
+            <div style='margin-top: 8px;'>Help</div>
           </a>
           <!-- <%= link_to "Help", help_path %> -->
         </li>
@@ -203,10 +206,10 @@
         <% end %>
 
         <% if false %>
-        <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
-                    "data-placement" => "bottom",
-                    "data-title" => "Create complex searches for jobs based on data criteria" %>
-            <% end %>
+            <%= link_to "advanced search", new_search_path, class: "advanced-search-link tooltip-info",
+                        "data-placement" => "bottom",
+                        "data-title" => "Create complex searches for jobs based on data criteria" %>
+        <% end %>
 
     <% end %>
 

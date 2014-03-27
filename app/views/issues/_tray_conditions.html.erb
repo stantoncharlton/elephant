@@ -12,15 +12,15 @@
         <% @surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, nil) %>
     <% end %>
 
-    <div class='page_header'>
+    <div class='section-header' style="margin-top: 15px;">
       <% if drilling_log.present? %>
-          <%= link_to "View Full Drilling Report", drilling_log, class: "btn btn-default pull-right" %>
+          <%= link_to "View Full Drilling Report", job_path(@issue.job, anchor: "drilling_log"), class: "btn btn-default pull-right" %>
       <% end %>
-      <h2 class="inline">Running Conditions</h2>
+      <h1>Running Conditions</h1>
     </div>
 
     <% if drilling_log.present? %>
-        <% if @surrounding[0].any? %>
+        <% if @surrounding[0].present? && @surrounding[0].any? %>
 
             <h3 class='blue-text'>Activities</h3>
             <br>

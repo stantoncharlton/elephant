@@ -1,4 +1,4 @@
-<div class="remote-tray" data-tray="drilling-runs">
+<div class="remote-tray" data-tray="runs">
 
 <div class="remote-loading hidden">
   <br><br>
@@ -9,13 +9,9 @@
 
 <% runs = drilling_log.get_runs %>
 
-<div class='well'>
+<div class='section-header' style="margin-top: 15px;">
 
-  <h1 class="donut-text inline"><%= runs.length %></h1>
-
-  <div class='inline-block push-down push-right-small'>
-    <h3 class="inline-block">Runs</h3>
-  </div>
+  <h1 class="inline-block">Runs</h1>
 
   <% if runs.count > 5 %>
       <div class='pull-right'>
@@ -28,8 +24,8 @@
 </div>
 
 
-<% well_plan = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).first %>
-<% survey = Survey.includes(document: {job: :well}).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).first %>
+<% well_plan = Survey.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).first %>
+<% survey = Survey.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).first %>
 <% survey_points = survey.present? && well_plan.present? ? survey.calculated_points(well_plan.vertical_section_azimuth) : nil %>
 
 <% if runs.any? %>
@@ -195,7 +191,7 @@
           <% DrillingLogEntry.attribute_names.each do |attribute_name| %>
               <% if attribute_name != "id" && attribute_name != "company_id" && attribute_name != "document_id" && attribute_name != "job_id" && attribute_name != "well_id" && attribute_name != "user_id" && attribute_name != "user_name" && attribute_name != "entry_at" && attribute_name != "created_at" && attribute_name != "updated_at" && attribute_name != "activity_code" && attribute_name != "depth" && attribute_name != "comment" && attribute_name != "bha_id" && attribute_name != "usage_hours" && attribute_name != "drilling_log_id" && attribute_name != "hours" && attribute_name != "rop" && attribute_name != "course_length" %>
                   <% if attribute_name == "mud_type" %>
-                    <div><%= DrillingLogEntry.get_mud_value_string(log.ranges[attribute_name + "_max"]) %> </div>
+                      <div><%= DrillingLogEntry.get_mud_value_string(log.ranges[attribute_name + "_max"]) %> </div>
                   <% elsif attribute_name == "mwd_type" %>
                       <div><%= DrillingLogEntry.get_mwd_type_string(log.ranges[attribute_name + "_max"]) %> </div>
                   <% else %>

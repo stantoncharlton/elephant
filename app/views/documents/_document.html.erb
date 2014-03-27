@@ -19,6 +19,31 @@
               </div>
             </div>
             <div class="upload-controls inline-block" id="div_upload_<%= !document.job.nil? ? document.job.id : "" %>">
+
+              <% if !in_job %>
+                  <div class='pull-right'>
+                    <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
+                                class: "delete-button tooltip-info",
+                                "data-placement" => "bottom",
+                                "data-title" => "Delete document" %>
+                    <% if false %>
+                        <%= link_to "order", document_path(document, reorder: "-1"), remote: true,
+                                    class: "order-button tooltip-info",
+                                    "data-placement" => "bottom",
+                                    "data-title" => "Move document up by 1 row" %>
+                    <% end %>
+                  </div>
+              <% end %>
+
+              <% if in_job %>
+                  <div class='pull-right'>
+                    <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
+                                class: "delete-button tooltip-info",
+                                "data-placement" => "bottom",
+                                "data-title" => "Delete document" %>
+                  </div>
+              <% end %>
+
               <% if !in_job %>
                   <div class="upload-document-container" id="file_uploads">
                     <div class="document-upload-button-container">
@@ -37,25 +62,7 @@
                   </div>
               <% end %>
 
-              <% if !in_job %>
-                  <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
-                              class: "delete-button tooltip-info pull-right",
-                              "data-placement" => "bottom",
-                              "data-title" => "Delete document" %>
-                  <%= link_to "order", document_path(document, reorder: "-1"), remote: true,
-                              class: "order-button tooltip-info",
-                              "data-placement" => "bottom",
-                              "data-title" => "Move document up by 1 row" %>
-              <% end %>
 
-              <% if in_job %>
-                  <div class='pull-right'>
-                    <%= link_to "remove", document, method: :delete, remote: true, data: {confirm: "Remove Document?"},
-                                class: "delete-button tooltip-info",
-                                "data-placement" => "bottom",
-                                "data-title" => "Delete document" %>
-                  </div>
-              <% end %>
             </div>
 
 

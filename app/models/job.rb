@@ -599,11 +599,11 @@ class Job < ActiveRecord::Base
     end
 
     def well_plan
-        Survey.joins(document: :job).where("jobs.well_id = ?", self.well_id).where(:plan => true).first
+        Survey.joins(:job).where("jobs.well_id = ?", self.well_id).where(:plan => true).first
     end
 
     def survey
-        Survey.joins(document: :job).where("jobs.well_id = ?", self.well_id).where(:plan => false).first
+        Survey.joins(:job).where("jobs.well_id = ?", self.well_id).where(:plan => false).first
     end
 
     def self.include_models(jobs)
@@ -616,6 +616,17 @@ class Job < ActiveRecord::Base
         else
             "#{self.field.name} | #{self.well.name}"
         end
+    end
+
+    def asset_list
+        asset_list = AssetList.where(:job_id => self.id).first
+        if asset_list.nil?
+            asset_list = AssetList.new
+            asset_list.company = self.company
+            asset_list.job = self
+            asset_list.save
+        end
+        asset_list
     end
 
     def self.cached_find(id)

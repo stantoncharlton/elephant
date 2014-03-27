@@ -7,13 +7,13 @@ class SurveyProjectionsController < ApplicationController
         @survey = Survey.find_by_id(params[:survey])
         not_found unless @survey.present?
 
-        @drilling_log = @survey.document.job.drilling_log
+        @drilling_log = @survey.job.drilling_log
 
         bha = nil
         entry = @drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id IS NOT NULL").last
         bha = entry.present? ? entry.bha : nil
         if bha.nil?
-            bha = Bha.includes(document: :job).where("jobs.well_id = ?", @drilling_log.job.well_id).last
+            bha = Bha.includes(:job).where("jobs.well_id = ?", @drilling_log.job.well_id).last
         end
         @bit_to_sensor = bha.bit_to_sensor.present? ? bha.bit_to_sensor : 0.0
     end
@@ -22,8 +22,8 @@ class SurveyProjectionsController < ApplicationController
         @survey = Survey.find_by_id(params[:survey])
         not_found unless @survey.present?
 
-        @drilling_log = @survey.document.job.drilling_log
-        @well_plans = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC")
+        @drilling_log = @survey.job.drilling_log
+        @well_plans = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC")
         if @survey.present?
             @active_well_plan = @well_plans.where("surveys.well_plan_for_survey_id = ?", @survey.id).last
         end
@@ -42,7 +42,7 @@ class SurveyProjectionsController < ApplicationController
         entry = @drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id IS NOT NULL").last
         bha = entry.present? ? entry.bha : nil
         if bha.nil?
-            bha = Bha.includes(document: :job).where("jobs.well_id = ?", @drilling_log.job.well_id).last
+            bha = Bha.includes(:job).where("jobs.well_id = ?", @drilling_log.job.well_id).last
         end
         bit = bha.bit_to_sensor.present? ? bha.bit_to_sensor : 0.0
 

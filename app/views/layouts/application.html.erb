@@ -31,7 +31,7 @@
     <body class="body">
     <%= render 'layouts/header' %>
 
-    <div id="wrong_browser_alert" class="hidden" style='position:absolute; left: 0; width: 100%; top: 58px; z-index: 100;'>
+    <div id="wrong_browser_alert" class="hidden" style='position:absolute; left: 0; width: 100%; top: 54px; z-index: 100;'>
       <div class="alert alert-error2 align-top">
         <%= image_tag "error_white.png", class: "inline-block align-top" %>&nbsp;&nbsp;
         <h3 class='inline-block white-text push-right-small'>Problem with Browser</h3>
@@ -48,7 +48,7 @@
     <div class="<%= request.path == insight_path ? "" : "container" %>">
 
       <% flash.each do |key, value| %>
-          <div class="global-alert-div alert alert-<%= key %> center" style='position: absolute; left: 0; top: 58px; width: 100%; z-index: 100;'><%= value %></div>
+          <div class="global-alert-div alert alert-<%= key %> center" style='position: absolute; left: 0; top: 54px; width: 100%; z-index: 100;'><%= value %></div>
       <% end %>
 
       <%= yield %>

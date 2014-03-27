@@ -245,8 +245,8 @@ header {
 .container-header {
 
   padding: 0px;
-  height: 58px;
-  line-height: 58px;
+  height: 54px;
+  line-height: 54px;
 
   @media screen and (max-width: 1110px) {
     margin-left: 10px;
@@ -309,6 +309,10 @@ p {
   //}
 }
 
+.navbar-inner {
+  max-height: 54px;
+}
+
 .header-v-center {
   padding-top: 8px;
 }
@@ -318,10 +322,10 @@ p {
   background-repeat: no-repeat;
   background-position: 9px 2px;
   width: 140px;
-  height: 58px;
+  height: 54px;
   float: left;
   margin-right: 10px;
-  margin-top: 0px;
+  margin-top: -3px;
   margin-left: -10px;
   font-size: 1.7em;
   color: #fff;
@@ -354,12 +358,12 @@ p {
   margin: 0px;
   padding: 0px;
   margin-left: 10px;
-  height: 58px;
-  line-height: 58px;
+  height: 54px;
+  line-height: 54px;
   display: inline-block;
 
   .current {
-    background: url(image_path('nav_selected.png'));
+    background: #f79305; //url(image_path('nav_selected.png'));
     color: white;
   }
 
@@ -370,8 +374,8 @@ p {
 
 .admin_tab li {
   display: inline-block;
-  height: 58px;
-  line-height: 58px;
+  height: 54px;
+  line-height: 54px;
   margin-right: 0px;
   padding-left: 0px;
   padding-right: 0px;
@@ -391,8 +395,8 @@ p {
 .admin_tab a {
 
   padding: 20px 18px 20px 18px;
-  height: 58px;
-  line-height: 58px;
+  height: 54px;
+  line-height: 54px;
 
   font-family: "gothambookregular";
 
@@ -444,7 +448,7 @@ p {
 .alerts-icon-container {
   position: relative;
   width: 45px;
-  height: 58px;
+  height: 54px;
 
   margin-left: 65px;
 
@@ -456,7 +460,7 @@ p {
 
 .messages-icon-link {
   width: 45px;
-  height: 58px;
+  height: 54px;
   display: inline-block;
   margin: 0px;
   padding: 0px;
@@ -543,7 +547,7 @@ p {
 }
 
 .menu-width {
-  min-width: 150px;
+  min-width: 180px;
 }
 
 .menu-width2 {

@@ -1,0 +1,41 @@
+<div class="remote-tray" data-tray="failures">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading failures..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+    <% issues = job.issues.includes(:job_notes).includes(failure: :failure_master_template) %>
+
+    <div class="section-header" style="margin-top: 15px;">
+      <h1>Failures</h1>
+
+      <div class='push-right-small align-top'>
+        <%= link_to failures_path(:job_id => @job.id, :rate => "false"), remote: true,
+                    class: "btn btn-primary align-top white-text tooltip-info show-modal-button",
+                    id: "add_failure",
+                    "data-placement" => "bottom",
+                    "data-title" => "Add failure to job" do %>
+            <i class="icon-plus-sign icon-white"></i>
+            <span>Add Failure</span>
+        <% end %>
+      </div>
+    </div>
+
+
+    <% if !issues.any? %>
+        <p class='center help-text empty-failure-list'>
+          No failures...
+        </p>
+    <% end %>
+    <div id="failures_list">
+      <% issues.each do |issue| %>
+          <%= render 'issues/issue', issue: issue, show_job: false %>
+      <% end %>
+    </div>
+
+
+  </div>
+</div>

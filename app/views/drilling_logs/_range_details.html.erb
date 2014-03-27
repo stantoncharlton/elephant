@@ -374,38 +374,16 @@
 
 <div>
   <div class='inline-block'>
-    <div class='run-detail help-text'>Bat 1 Amps</div>
-    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_1_amps_max"], max: log.ranges["battery_1_amps_min"] %>&nbsp;<span class='help-text'>Ah</span>
-    </div>
+    <div class='run-detail help-text'>Battery AHR</div>
+    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_ahr_max"], max: log.ranges["battery_ahr_min"] %>&nbsp;<span class='help-text'>Ahr</span></div>
   </div>
-
-  <div class='inline-block'>
-    <div class='run-detail help-text'>Bat 1 AHR</div>
-    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_1_ahr_max"], max: log.ranges["battery_1_ahr_min"] %>&nbsp;<span class='help-text'>Ah</span></div>
-  </div>
-
-</div>
-<div>
-
-  <div class='inline-block'>
-    <div class='run-detail help-text'>Bat 2 Amps</div>
-    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_2_amps_max"], max: log.ranges["battery_2_amps_min"] %>&nbsp;<span class='help-text'>Ah</span>
-    </div>
-  </div>
-
-  <div class='inline-block'>
-    <div class='run-detail help-text'>Bat 2 AHR</div>
-    <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_2_ahr_max"], max: log.ranges["battery_2_ahr_min"] %>&nbsp;<span class='help-text'>Ah</span></div>
-  </div>
-
-</div>
-<div>
 
   <div class='inline-block'>
     <div class='run-detail help-text'>Battery Volts</div>
     <div class='run-detail'><%= render 'drilling_logs/range_span', min: log.ranges["battery_volts_min"], max: log.ranges["battery_volts_max"] %>&nbsp;<span class='help-text'>volts</span>
     </div>
   </div>
+
 </div>
 
 </div>

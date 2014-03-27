@@ -1,13 +1,13 @@
-<div class="remote-tray" data-tray="survey">
+<div class="remote-tray" data-tray="surveys">
 
   <div class="remote-loading hidden">
     <br><br>
-    <%= render 'layouts/inline_loading', title: "Please wait, loading survey..." %>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading surveys..." %>
   </div>
 
   <div class='content tray-content content-loaded'>
 
-    <% @surveys = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
+    <% @surveys = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
     <% query = URI.parse(request.referrer).query %>
     <% if !query.blank? %>
         <% p = CGI.parse(query) %>
@@ -18,7 +18,7 @@
     <% if @survey.nil? %>
         <% @survey = @surveys.last %>
     <% end %>
-    <% @well_plans = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
+    <% @well_plans = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
     <% if @survey.present? %>
         <% @active_well_plan = @well_plans.where("surveys.well_plan_for_survey_id = ?", @survey.id).last %>
     <% end %>
@@ -27,10 +27,9 @@
     <% end %>
 
     <% if @survey.nil? %>
-        <% @document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::SURVEY).last %>
         <% @survey = Survey.new(name: "1", plan: false) %>
         <% @survey.company = current_user.company %>
-        <% @survey.document = @document %>
+        <% @survey.job = @job %>
         <% @survey.save %>
     <% end %>
 
@@ -48,14 +47,13 @@
         </div>
 
 
-        <% document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
-        <% if !document.nil? %>
+        <% if !@active_well_plan.nil? %>
             <br>
-            <%= link_to "Update " + document.name, "/surveys?document=" + document.id.to_s, class: "bluebtn" %>
+            <%= link_to "Update Well Plan", "/surveys?job=" + @job.id.to_s, class: "bluebtn" %>
         <% end %>
 
         <div class='inline-block push-right-small'>
-          <%= link_to "Straight Well/No Well Plan", job_path(@drilling_log.document.job, update_field: true, field: "no_well_plan", value: true),
+          <%= link_to "Straight Well/No Well Plan", job_path(@drilling_log.job, update_field: true, field: "no_well_plan", value: true),
                       :method => :put,
                       class: "bluebtn gray" %>
         </div>
@@ -88,8 +86,7 @@
           <div class='pull-right'>
             <% if @survey.no_well_plan %>
                 <b>No Well Plan</b>
-                <% document = Document.where("documents.job_id = ?", @drilling_log.document.job_id).where("documents.document_type = ?", Document::WELL_PLAN).last %>
-                <%= link_to "Add", "/surveys?document=" + document.id.to_s, class: "btn btn-default align-top push-right-small" %>
+                <%= link_to "Add", "/surveys/new?job_id=" + @job.id.to_s, class: "btn btn-default align-top push-right-small" %>
             <% else %>
                 <% if false %>
                     <p class='inline-block help-text align-top'>plan <%= @survey.name %></p>
@@ -175,10 +172,10 @@
     <% end %>
 
     <script type='text/javascript'>
-        <% if @survey.present? && @survey.document.job.status == Job::ON_JOB %>
-        setTimeout(function () {
+        <% if @survey.present? && @survey.job.status == Job::ON_JOB %>
+        setInterval(function () {
             $.ajax({
-                url: "/surveys/<%= @survey.id %>",
+                url: "/surveys/<%= @survey.id %>?recent_only=true",
                 type: "GET",
                 dataType: "script"
             });

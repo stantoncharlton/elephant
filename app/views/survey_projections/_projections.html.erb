@@ -3,9 +3,9 @@
   <h3>Projections</h3>
 </div>
 
-<% @drilling_log = @survey.document.job.drilling_log %>
+<% @drilling_log = @survey.job.drilling_log %>
 
-<% @well_plans = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
+<% @well_plans = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
 <% if @survey.present? %>
     <% @active_well_plan = @well_plans.where("surveys.well_plan_for_survey_id = ?", @survey.id).last %>
 <% end %>

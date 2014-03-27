@@ -12,8 +12,8 @@
         <% @surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, 2.hours) %>
     <% end %>
 
-    <div class='page_header'>
-      <h2 class="inline">BHA</h2>
+    <div class='section-header' style="margin-top: 15px;">
+      <h1>BHA</h1>
     </div>
 
     <% if drilling_log.present? && @surrounding[1].any? %>

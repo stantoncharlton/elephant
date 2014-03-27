@@ -4,26 +4,17 @@ class SurveysController < ApplicationController
     include SurveysHelper
 
     def index
-        if params[:document].present?
-            @document = Document.find_by_id(params[:document])
-            not_found unless !@document.nil?
+        if params[:job].present?
+            @job = Job.find_by_id(params[:job])
+            not_found unless !@job.nil?
 
-            if @document.document_type == Document::SURVEY
-                @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @document.job.well_id).first
-            elsif @document.document_type == Document::WELL_PLAN
-                @survey = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @document.job.well_id).first
-            end
-            #@survey = Survey.find_by_document_id(@document.id)
+            @survey = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @job.well_id).first
             if @survey.nil?
-                if @document.document_type == Document::SURVEY
-                    @survey = Survey.new(name: @document.name, plan: false)
-                    @survey.company = current_user.company
-                    @survey.document = @document
-                    @survey.save
-                    redirect_to @survey
-                else
-                    redirect_to new_survey_path(document_id: @document)
-                end
+                @survey = Survey.new(plan: false)
+                @survey.company = current_user.company
+                @survey.job = @job
+                @survey.save
+                redirect_to @survey
             else
                 redirect_to @survey
             end
@@ -44,7 +35,7 @@ class SurveysController < ApplicationController
 
             }
             format.all {
-                if !@survey.plan? && !@survey.document.nil?
+                if !@survey.plan?
                     @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @survey.job.well_id).first
                     render 'surveys/show_entry'
                 else
@@ -60,7 +51,7 @@ class SurveysController < ApplicationController
             last_survey = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).last
             @survey = Survey.new(name: (last_survey.name.to_i + 1).to_s, plan: false)
             @survey.company = current_user.company
-            @survey.document = last_survey.document
+            @survey.job = last_survey.job
             @survey.save
             redirect_to drilling_log_path(@drilling_log, anchor: "survey", survey: @survey.id)
         else
@@ -69,8 +60,8 @@ class SurveysController < ApplicationController
             @import_tie_on = true
             @plan = true
 
-            if params[:document_id].present?
-                @document = Document.find_by_id(params[:document_id])
+            if params[:job_id].present?
+                @job = Job.find_by_id(params[:job_id])
             end
 
             if params["modal"].present? && params["modal"] == "true"
@@ -82,9 +73,9 @@ class SurveysController < ApplicationController
     end
 
     def create
-        if params[:document_id].present?
-            @document = Document.find_by_id(params[:document_id])
-            not_found unless @document.company == current_user.company
+        if params[:job_id].present?
+            @job = Job.find_by_id(params[:job_id])
+            not_found unless @job.company == current_user.company
         end
 
         Survey.transaction do
@@ -100,7 +91,6 @@ class SurveysController < ApplicationController
 
             @survey = Survey.new(params[:survey])
             @survey.company = current_user.company
-            @survey.document = @document
             @survey.plan = true
             @survey.north_type = Survey::GRID
 
@@ -161,13 +151,13 @@ class SurveysController < ApplicationController
                 end
 
                 if @survey.survey_points.any?
-                    drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @survey.document.job.well_id).first
+                    drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @survey.job.well_id).first
                     if drilling_log.present?
                         drilling_log.update_attribute(:td_depth, @survey.survey_points.last.measured_depth)
                     end
                 end
 
-                @actual_survey = Survey.includes(document: :job).where(:plan => false).where("jobs.well_id = ?", @survey.document.job.well_id).first
+                @actual_survey = Survey.includes(:job).where(:plan => false).where("jobs.well_id = ?", @survey.job.well_id).first
                 if @actual_survey.present? && @actual_survey.no_well_plan
                     @actual_survey.no_well_plan = false
                     @actual_survey.save
@@ -198,12 +188,12 @@ class SurveysController < ApplicationController
         @survey = Survey.find(params[:id])
         @plan = true
 
-        @surveys = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @survey.document.job.well_id).order("surveys.created_at ASC")
+        @surveys = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @survey.job.well_id).order("surveys.created_at ASC")
         if @surveys.count > 1
             old_survey = @survey
             @survey = Survey.new
             @survey.company = current_user.company
-            @survey.document = old_survey.document
+            @survey.job = old_survey.job
             @survey.plan = true
             @survey.north_type = Survey::GRID
         end
@@ -282,7 +272,7 @@ class SurveysController < ApplicationController
                 survey_point
             end
 
-            @actual_survey = Survey.includes(document: :job).where(:plan => false).where("jobs.well_id = ?", @survey.document.job.well_id).first
+            @actual_survey = Survey.includes(:job).where(:plan => false).where("jobs.well_id = ?", @survey.job.well_id).first
             if @actual_survey.present? && @actual_survey.no_well_plan
                 @actual_survey.no_well_plan = false
                 @actual_survey.save

@@ -27,11 +27,17 @@
   <div class="users-info">
 
     <h1 class="page-title users-info"><%= @user.name %></h1>
-    <b class="users-info"><%= @user.email %></b>
-    <br><br>
 
-    <h2 class="users-info"><%= @user.title %></h2>
-    <hr>
+    <div>
+    <h3 class="blue-text"><%= @user.phone_number %></h3>
+    </div>
+
+    <div class='push-down'>
+    <%= link_to @user.email, "mailto:" + @user.email, class: "activity-user-link tooltip-info",
+                "data-placement" => "bottom",
+                "data-title" => "Send Email to " + @user.name %>
+    </div>
+
 
     <div class="">
       <% if @user.district.present? %>
@@ -51,27 +57,13 @@
     <% end %>
 
 
-    <hr>
-
-    <div class="message-box">
-      <%= link_to "SEND MESSAGE", new_conversation_path(to_user_id: @user.id), class: "bluebtn tooltip-info",
-                  "data-placement" => "bottom",
-                  "data-title" => "Send Elephant message to " + @user.name %>
-      <div class="inline push-right-small">
-        <%= link_to "EMAIL", "mailto:" + @user.email, class: "bluebtn gray tooltip-info",
-                    "data-placement" => "bottom",
-                    "data-title" => "Send Email to " + @user.name %>
-
-        <h3 class="blue-text push-right-small"><%= @user.phone_number %></h3>
-
-      </div>
-    </div>
   </div>
 
 </div>
 
 <div>
   <br><br><br>
+
 
   <% if @user.role_id.nil? %>
       <br><br>

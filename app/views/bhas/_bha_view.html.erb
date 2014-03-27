@@ -5,7 +5,7 @@
   </div>
 
   <div class='push-down'>
-    <%= render 'drilling_logs/bha', bha: bha, drilling_log: DrillingLog.includes(document: {job: :well}).where("wells.id = ?", bha.job.well.id).first %>
+    <%= render 'drilling_logs/bha', bha: bha, drilling_log: DrillingLog.includes(job: :well).where("wells.id = ?", bha.job.well.id).first %>
   </div>
 
   <br>

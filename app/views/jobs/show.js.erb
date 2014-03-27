@@ -1,14 +1,29 @@
 tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
-<% if params[:section] == "tools_assets" %>
+<% if params[:section] == "assets" %>
     tray.replaceWith("<%= j render 'jobs/tray_assets', job: @job %>");
 <% elsif params[:section] == "bha" %>
     $('#bha').replaceWith("<%= j render 'bhas/bhas_list' %>");
     $('.popover').popover({  delay: { show: 500, hide: 200 } });
 <% elsif params[:section] == "assets_list" %>
     $('#assets_list').replaceWith("<%= j render 'jobs/assets_list', job: @job %>");
-<% elsif params[:section] == "documents_data" %>
-    tray.replaceWith("<%= j render 'jobs/job_documents', job: @job %>");
+<% elsif params[:section] == "asset_request_list" %>
+    <% @asset_list = @job.asset_list %>
+    $('#asset_request_list').replaceWith("<%= j render 'asset_lists/list', job: @job %>");
+<% elsif params[:section] == "info" %>
+    tray.replaceWith("<%= j render 'jobs/tray_documents', job: @job %>");
+<% elsif params[:section] == "failures" %>
+    tray.replaceWith("<%= j render 'jobs/tray_failures', job: @job %>");
+<% elsif params[:section] == "runs" %>
+    <% @drilling_log = @job.drilling_log %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_runs', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "drilling_activity" %>
+    <% @drilling_log = @job.drilling_log %>
+    <% @bhas = Bha.joins(job: :well).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC") %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_drilling_activity', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "surveys" %>
+    <% @drilling_log = @job.drilling_log %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_survey', job: @job, drilling_log: @drilling_log %>");
 <% elsif params[:section] == "notes" %>
     $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
     $('#notes_loading').remove();

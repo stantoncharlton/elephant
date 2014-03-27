@@ -22,9 +22,9 @@ $('#alert').modal({show:true});
     <% elsif  @document.category == Document::POST_JOB %>
         $('#documents2').append("<%= j render 'documents/document', document: @document, editable: false, can_upload: true %>");
     <% elsif @document.category == Document::PART_REDRESS %>
-        $('#documents_part_redress').append("<%= j render(@document, editable: false, can_upload: true) %>");
+        $('#documents_part_redress').append("<%= j render(@document, editable: false, can_upload: true, in_job: false) %>");
     <% elsif @document.category == Document::ISSUES %>
-        $('#documents_issue').append("<%= j render(@document, editable: false, can_upload: true) %>");
+        $('#documents_issue').append("<%= j render(@document, editable: false, can_upload: true, in_job: false) %>");
     <% end %>
 
 

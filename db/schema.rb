@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140226021441) do
+ActiveRecord::Schema.define(:version => 20140327220551) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -368,8 +368,6 @@ ActiveRecord::Schema.define(:version => 20140226021441) do
     t.decimal  "bh_temp"
     t.decimal  "fl_temp"
     t.decimal  "water_loss"
-    t.decimal  "battery_1_amps"
-    t.decimal  "battery_2_amps"
     t.decimal  "battery_volts"
     t.decimal  "rop"
     t.decimal  "course_length",    :default => 0.0
@@ -377,13 +375,11 @@ ActiveRecord::Schema.define(:version => 20140226021441) do
     t.decimal  "stroke_length"
     t.decimal  "pump_efficiency"
     t.decimal  "gallons_stroke"
-    t.decimal  "casing_size"
     t.integer  "mwd_type",         :default => 1
     t.decimal  "em_hertz"
     t.decimal  "em_cycles"
     t.decimal  "em_amps"
-    t.decimal  "battery_1_ahr"
-    t.decimal  "battery_2_ahr"
+    t.decimal  "battery_ahr"
     t.string   "survey_sequence"
     t.string   "logging_sequence"
     t.decimal  "pulse_width"

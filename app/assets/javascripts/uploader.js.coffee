@@ -1,12 +1,14 @@
 jQuery ->
   connectUploadEvents()
 
+  #        if $(e.target).attr('multiple') == 'false'
+
 connectUploadEvents = ->
   $('[id=fileupload]').live "DOMActivate", ->
-    if $(this).attr('multiple') == 'false'
+    if $('#multifileupload').length == 0
       $(this).fileupload
         add: (e, data) ->
-        #types = /(\.|\/)(*)$/i
+          #types = /(\.|\/)(*)$/i
           file = data.files[0]
           if true # types.test(file.type) || types.test(file.name)
             $(e.target).find(".document-info").hide()

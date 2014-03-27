@@ -40,7 +40,6 @@
 
 <% if !show_job && issue.job_notes.any? %>
     <div class='push-down-small'>
-      <i class="icon-comment"></i>
       <% job_note = issue.job_notes.first %>
 
       <% names = job_note.user.present? ? job_note.user.name.split : [] %>

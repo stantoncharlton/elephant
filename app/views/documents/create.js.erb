@@ -17,7 +17,7 @@ $('#alert').modal({show:true});
 <% elsif @document.category == Document::NOTICES %>
     $("#documents3").append("<%= j render(@document, editable: true, can_upload: true) %>");
 <% elsif @document.category == Document::PRIMARY_TOOL %>
-    $('#documents_primary_tool_<%= @document.primary_tool_id %>').append("<%= j render(@document, editable: true, can_upload: true) %>");
+    $('#documents_primary_tool_<%= @document.primary_tool_id %>').append("<%= j render(@document, editable: true, can_upload: true, in_job: false) %>");
 
 <% end %>
 

@@ -1,13 +1,14 @@
 <% provide(:title, "Issue") %>
 
-<div style='height: 50px;'>
+<div style='height: 46px;'>
   <div class="map-container"
-       style='position:absolute; left: 0; top: 58px; width:100%; height:82px;  background: #7c7c7c;'>
+       style='position:absolute; left: 0; top: 54px; width:100%; height:82px;  background: #7c7c7c;'>
     <div id='map' class='dark'></div>
   </div>
 
-  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 90px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
+  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 86px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
     <h2 class="job-title inline white-text" style="margin-left: 10px;">Incident</h2>
+
     <div class='inline-block push-right-small align-top push-down-small'>
       <span class="label label-success status-open <%= @issue.status == Issue::OPEN ? "" : "hidden" %>" style="padding: 5px; padding-left: 10px; padding-right: 10px;">OPEN</span>
       <span class="label label-important status-closed <%= @issue.status == Issue::CLOSED ? "" : "hidden" %>" style="padding: 5px; padding-left: 10px; padding-right: 10px;">CLOSED</span>
@@ -52,51 +53,51 @@
 
 
 <div style='height: 52px;'>
-<div style='position: absolute; left: 0; width: 100%; height: 52px;'>
-<ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
+  <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
+    <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
 
-  <li class="active">
-    <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="overview"
-       data-id="<%= @issue.id %>"
-       data-tray-controller="issues"
-       data-placement="bottom" data-title="Description/Notes">Overview
-    </a>
-  </li>
+      <li class="active">
+        <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="overview"
+           data-id="<%= @issue.id %>"
+           data-tray-controller="issues"
+           data-placement="bottom" data-title="Description/Notes">Overview
+        </a>
+      </li>
 
-  <li class="">
-    <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="notes"
-       data-id="<%= @issue.id %>"
-       data-tray-controller="issues"
-       data-placement="bottom" data-title="Description/Notes">Description/Notes</a>
-  </li>
+      <li class="">
+        <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="notes"
+           data-id="<%= @issue.id %>"
+           data-tray-controller="issues"
+           data-placement="bottom" data-title="Description/Notes">Description/Notes</a>
+      </li>
 
-  <li class="">
-    <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="conditions"
-       data-id="<%= @issue.id %>"
-       data-tray-controller="issues"
-       data-placement="bottom" data-title="Past Occurrences">Running Conditions</a>
-  </li>
+      <li class="">
+        <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="conditions"
+           data-id="<%= @issue.id %>"
+           data-tray-controller="issues"
+           data-placement="bottom" data-title="Past Occurrences">Running Conditions</a>
+      </li>
 
-  <li class="">
-    <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="bha"
-       data-id="<%= @issue.id %>"
-       data-tray-controller="issues"
-       data-placement="bottom" data-title="BHA">BHA</a>
-  </li>
+      <li class="">
+        <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="bha"
+           data-id="<%= @issue.id %>"
+           data-tray-controller="issues"
+           data-placement="bottom" data-title="BHA">BHA</a>
+      </li>
 
-  <li class="">
-    <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
-       data-tray="past_occurrences"
-       data-id="<%= @issue.id %>"
-       data-tray-controller="issues"
-       data-placement="bottom" data-title="Past Occurrences">Past Occurrences</a>
-  </li>
-</ul>
-</div>
+      <li class="">
+        <a href="#" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray="past_occurrences"
+           data-id="<%= @issue.id %>"
+           data-tray-controller="issues"
+           data-placement="bottom" data-title="Past Occurrences">Past Occurrences</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
 
@@ -109,152 +110,205 @@
 
 <div class="remote-tray" data-tray="overview">
 
-  <div class='page_header'>
-    <h1>Incident Overview</h1>
-  </div>
+<div class='section-header' style="margin-top: 20px;">
+  <h1>Incident Overview</h1>
 
-  <% limit_access = current_user.role.limit_to_assigned_jobs? %>
+  <div class='inline-block push-right-small align-top' style="height: 35px;">
 
-  <div class='well'>
-
-    <div class='inline-block pull-right'>
-
-      <% if !limit_access %>
-          <div class="">
-            <%= check_box_tag "accountable", "", @issue.accountable,
-                              class: "regular-checkbox issue-update-field",
-                              id: "accountable",
-                              "data-id" => @issue.id,
-                              "data-field" => "accountable" %>
-            <label for="accountable"></label>
-
-            <p class="checkbox-label">Accountable</p>
-          </div>
-      <% end %>
-
-      <% if false %>
-          <%= render 'issues/part', issue: @issue, no_link: false %>
-      <% end %>
-    </div>
-
-    <% if !limit_access %>
-        <div>
-
-          <% found_pm = @issue.job.part_memberships.where("part_memberships.part_id = ?", @issue.part_id).first %>
-
-          <div id="edit_failure_fields" class="<%= @issue.failure_id.present? ? "hidden" : "" %>">
-            <%= select_tag "failure_id", options_for_select(@issue.job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }, @issue.failure_id),
-                           prompt: "Select a Failure...",
-                           class: "inline-block custom-select-long custom-select custom-select-ajax issue-update-field",
-                           "data-id" => @issue.id,
-                           "data-field" => "failure_id" %>
-
-            <div class=''>
-
-
-              <% options = @issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] } %>
-              <% options << ["No Responsible Asset", 0] %>
-              <%= select_tag "part_membership_id", options_for_select(options, found_pm.present? ? found_pm.id : nil),
-                             prompt: "(Optional) Select asset...",
-                             class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
-                             "data-id" => @issue.id,
-                             "data-field" => "part_membership_id" %>
-
-              <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }, @issue.responsible_by_id),
-                             prompt: "(Optional) Responsible personnel...",
-                             class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
-                             "data-id" => @issue.id,
-                             "data-field" => "responsible_by_id" %>
-
-            </div>
-          </div>
-
-          <div id="show_failure_values" class="<%= @issue.failure_id.present? ? "" : "hidden" %>">
-
-            <% if @issue.failure_id.present? %>
-                <h3><%= @issue.failure.failure_master_template.text %></h3>
-
-                <br>
-                <% if found_pm.present? && found_pm.part.present? %>
-                    <div class='inline-block'>
-                      <%= render 'part_memberships/part_membership', part_membership: found_pm, allow_remove: false %>
-                    </div>
-                <% end %>
-
-                <% if  @issue.responsible_by_id.present? %>
-                    <div class='inline-block push-right'>
-                      <%= render 'users/icon', user: @issue.responsible_by %><%= render 'activities/user', user: @issue.responsible_by %>
-                    </div>
-                <% end %>
-            <% end %>
-          </div>
+    <% if @issue.status == Issue::OPEN %>
+        <div class="inline-block">
+          <%= link_to "#", "data-id" => @issue.id, class: "btn btn-success white-text close-case-link" do %>
+              <i class="icon-ok-sign icon-white "></i>
+              <span>Close Incident</span>
+          <% end %>
+          <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
         </div>
     <% end %>
 
-    <div>
-      <div class="content" id="documents_issue">
-        <% @issue.documents.each do |document| %>
-            <%= render 'documents/document', document: document, editable: false, can_upload: true %>
+    <div class='inline-block align-top <%= @issue.status == Issue::OPEN ? "push-right-small" : "" %> report' data-report="incident_report">
+
+      <div class="inline-block generating-report hidden">
+        <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
+
+        <div class="inline-block progress progress-info progress-striped active push-down">
+          <div class="bar" style="width: 400px;"></div>
+        </div>
+      </div>
+
+      <div class='generate-report-div inline-block'>
+        <% @drilling_log = @issue.job.drilling_log %>
+        <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
+            <%= hidden_field_tag "report", "", value: true %>
+            <%= hidden_field_tag "report_name", "", value: "incident_report" %>
+            <%= hidden_field_tag "type", "", value: @issue.id %>
+
+            <%= f.submit "Generate Report",
+                         class: "btn btn-primary generate-report align-top" %>
         <% end %>
       </div>
-      <%= link_to "Add Document", new_document_path(modal: true, issue: @issue.id),
-                  remote: true,
-                  class: "add-custom-document tooltip-info show-modal-button",
-                  "data-placement" => "left",
-                  "data-title" => "Add new document" %>
-      <span class='help-text'>(failure report, etc)</span>
+
+
+      <%= link_to "#",
+                  class: "btn btn-primary download-report align-top hidden" do %>
+          <i class="icon-arrow-down icon-white"></i>
+          <span>Downlaod</span>
+      <% end %>
+
+
     </div>
-    <hr>
-
-    <% if @issue.status == Issue::OPEN && !limit_access %>
-        <div>
-          <div class='report' data-report="incident_report">
-            <div class='pull-right'>
-
-              <div class="inline-block generating-report hidden">
-                <b class='inline-block blue-text align-top push-down'>Generating...&nbsp;</b>
-
-                <div class="inline-block progress progress-info progress-striped active push-down">
-                  <div class="bar" style="width: 400px;"></div>
-                </div>
-              </div>
-
-              <div class='generate-report-div inline-block'>
-                <% @drilling_log = @issue.job.drilling_log %>
-                <%= form_for @drilling_log, :method => :get, class: "inline-block", remote: true do |f| %>
-                    <%= hidden_field_tag "report", "", value: true %>
-                    <%= hidden_field_tag "report_name", "", value: "incident_report" %>
-                    <%= hidden_field_tag "type", "", value: @issue.id %>
-
-                    <%= f.submit "Generate Report",
-                                 class: "bluebtn btnsmall gray generate-report align-top" %>
-                <% end %>
-              </div>
 
 
-              <%= link_to "Download", "#",
-                          class: "bluebtn btnsmall green download-report align-top hidden" %>
+  </div>
+</div>
 
-            </div>
+<% limit_access = current_user.role.limit_to_assigned_jobs? %>
 
-          </div>
+<div class=''>
 
-          <div class="push-right-small">
-            <%= link_to "CLOSE Incident Case", "#", "data-id" => @issue.id, class: "bluebtn green close-case-link" %>
-            <span class="hidden ajax-loading issue-closing-loading"><b>Closing...</b></span>
-          </div>
+  <div class='inline-block pull-right'>
 
+    <% if !limit_access %>
+        <div class="">
+          <%= check_box_tag "accountable", "", @issue.accountable,
+                            class: "regular-checkbox issue-update-field",
+                            id: "accountable",
+                            "data-id" => @issue.id,
+                            "data-field" => "accountable" %>
+          <label for="accountable"></label>
 
+          <p class="checkbox-label">Accountable</p>
         </div>
     <% end %>
 
+    <% if false %>
+        <%= render 'issues/part', issue: @issue, no_link: false %>
+    <% end %>
+  </div>
+
+  <% if !limit_access %>
+      <div>
+
+        <% found_pm = @issue.job.part_memberships.where("part_memberships.part_id = ?", @issue.part_id).first %>
+
+        <div id="edit_failure_fields" class="<%= @issue.failure_id.present? ? "hidden" : "" %>">
+          <%= select_tag "failure_id", options_for_select(@issue.job.job_template.failures.collect { |f| [f.failure_master_template.text, f.id] }, @issue.failure_id),
+                         prompt: "Select a Failure...",
+                         class: "inline-block custom-select-long custom-select custom-select-ajax issue-update-field",
+                         "data-id" => @issue.id,
+                         "data-field" => "failure_id" %>
+
+          <div class=''>
+
+
+            <% options = @issue.job.part_memberships.collect { |p| [p.name + (p.serial_number.blank? ? '' : ' (' + p.serial_number + ')'), p.id] } %>
+            <% options << ["No Responsible Asset", 0] %>
+            <%= select_tag "part_membership_id", options_for_select(options, found_pm.present? ? found_pm.id : nil),
+                           prompt: "(Optional) Select asset...",
+                           class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
+                           "data-id" => @issue.id,
+                           "data-field" => "part_membership_id" %>
+
+            <%= select_tag "responsible_by_id", options_for_select(@issue.job.job_memberships.select { |jm| jm.user.present? && (jm.job_role_id == JobMembership::FIELD || jm.job_role_id == JobMembership::SHOP) }.collect { |jm| [jm.user.name, jm.user_id] }, @issue.responsible_by_id),
+                           prompt: "(Optional) Responsible personnel...",
+                           class: "inline-block custom-select custom-select-ajax inline-block issue-update-field align-top",
+                           "data-id" => @issue.id,
+                           "data-field" => "responsible_by_id" %>
+
+          </div>
+
+          <br>
+        </div>
+
+        <div id="show_failure_values" class="<%= @issue.failure_id.present? ? "" : "hidden" %>">
+
+          <% if @issue.failure_id.present? %>
+              <h3 class="warning-text"><%= @issue.failure.failure_master_template.text %></h3>
+
+              <br>
+              <% if found_pm.present? && found_pm.part.present? %>
+                  <div class='inline-block'>
+                    <%= render 'part_memberships/part_membership', part_membership: found_pm, allow_remove: false %>
+                  </div>
+              <% end %>
+
+              <% if  @issue.responsible_by_id.present? %>
+                  <div class='inline-block push-right'>
+                    <%= render 'users/icon', user: @issue.responsible_by %><%= render 'activities/user', user: @issue.responsible_by %>
+                  </div>
+              <% end %>
+          <% end %>
+        </div>
+
+
+        <div>
+          <% if @issue.job_notes.any? %>
+              <div class='push-down-small'>
+                <% job_note = @issue.job_notes.first %>
+
+                <% names = job_note.user.present? ? job_note.user.name.split : [] %>
+                <div class="member-icon align-top" style='width: 22px; height: 22px;'>
+                  <p style='font-size: 10px; margin-top: 3px;'>
+                    <% if names.any? %>
+                        <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                    <% else %>
+                        -
+                    <% end %>
+                  </p>
+                </div>
+                &nbsp;
+
+                <div class='inline'><%= job_note.text %></div>
+              </div>
+          <% end %>
+
+          <br>
+
+          <% drilling_log = @issue.job.drilling_log %>
+          <% if drilling_log.present? %>
+              <% surrounding = drilling_log.get_surrounding_entries(@issue.failure_at, 2.hours) %>
+              <% if drilling_log.present? && surrounding[1].any? && surrounding[1].first.present? %>
+                  <% bha = surrounding[1].first.bha %>
+
+                  <% if bha.present? %>
+                      <b class='blue-text'>BHA</b> <%= bha.name %> <%= bha.description.present? ? " - #{bha.description}" : '' %>
+                      <br>
+                  <% end %>
+                  <% if !surrounding[1].first.run_number.blank? %>
+                      <b class='blue-text'>Run</b>&nbsp;&nbsp;<%= surrounding[1].first.run_number %>
+                  <% end %>
+              <% end %>
+          <% end %>
+
+          <hr>
+        </div>
+      </div>
+  <% end %>
+
+
+  <div style="margin-top: 15px;">
+    <div class="" id="documents_issue">
+      <% @issue.documents.each do |document| %>
+          <%= render 'documents/document', document: document, editable: false, can_upload: true, in_job: false %>
+      <% end %>
+    </div>
+    <%= link_to new_document_path(modal: true, issue: @issue.id),
+                remote: true,
+                class: "btn btn-default tooltip-info show-modal-button push-down",
+                "data-placement" => "left",
+                "data-title" => "Add new document" do %>
+        <i class="icon-plus-sign "></i>
+        <span>Add</span>
+    <% end %>
   </div>
 
 
-  <div>
-    <%= render 'jobs/job_progress_link', job: @issue.job, show_summary_data: false, job_name: false %>
-    <br>
-  </div>
+</div>
+
+
+<div style="margin-top: 20px;">
+  <%= render 'jobs/job_progress_link', job: @issue.job, show_summary_data: false, job_name: false %>
+  <br>
+</div>
 
 </div>
 
@@ -294,8 +348,8 @@
 
 <script type='text/javascript'>
 
-    $('.generate-report').each(function() {
-        $(this).click(function() {
+    $('.generate-report').each(function () {
+        $(this).click(function () {
             report = $(this).closest('.report');
             report.find('.generating-report').removeClass('hidden');
             $(this).addClass('hidden');
