@@ -50,6 +50,10 @@
 
   <% if show_map %>
       <script type='text/javascript'>
+          <% if @jobs.empty? %>
+          var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+          map.attributionControl = false;
+          <% else %>
           var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
           map.markerLayer.setGeoJSON([]);
           map.attributionControl = false;
@@ -140,6 +144,8 @@
               }
               map._onResize();
               return false;
+              <% end %>
+
           });
       </script>
   <% end %>
