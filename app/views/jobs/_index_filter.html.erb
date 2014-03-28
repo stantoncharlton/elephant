@@ -52,7 +52,10 @@
       <script type='text/javascript'>
           <% if @jobs.empty? %>
           var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
+          map.markerLayer.setGeoJSON([]);
           map.attributionControl = false;
+          map.scrollWheelZoom.disable();
+          map.setZoom(8);
           <% else %>
           var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
           map.markerLayer.setGeoJSON([]);
