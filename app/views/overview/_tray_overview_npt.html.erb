@@ -1,4 +1,4 @@
-<% @npt_current_year = DrillingLog.joins(:document).where("documents.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.npt").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @npt_current_year = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").average("drilling_logs.npt").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 
 <div id="overview_npt" data-loaded='true'>
 
@@ -73,7 +73,7 @@
     <% points = [] %>
     <% points2 = [] %>
     <% rigs.each do |rig| %>
-    <% npts = DrillingLog.includes(document: { job: { well: :rig }}).joins(:document).where("drilling_logs.created_at >= ?", Date.today - 1.year).where("rigs.id = ?", rig.id) %>
+    <% npts = DrillingLog.includes(job: { well: :rig }).where("drilling_logs.created_at >= ?", Date.today - 1.year).where("rigs.id = ?", rig.id) %>
     <% npts.each do |dl| %>
     <% points << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.strftime("%W"), "npt_#{rig.id}" => dl.npt.round(1) } %>
     <% end %>

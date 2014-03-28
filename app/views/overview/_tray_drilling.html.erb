@@ -1,4 +1,4 @@
-<% @rops_current_year = DrillingLog.joins(:document).where("documents.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").where("drilling_logs.drilling_rop > 0").average("drilling_logs.drilling_rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
+<% @rops_current_year = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).select("date_trunc('month', drilling_logs.created_at) as DATE").group("date_trunc('month', drilling_logs.created_at)").where("drilling_logs.drilling_rop > 0").average("drilling_logs.drilling_rop").map { |k, v| {Date.strptime(k).month => v} }.reduce(:merge) %>
 <% total_rop = 0.0 %>
 <% if !@rops_current_year.nil? %>
     <% @rops_current_year.each do |r| %>
@@ -6,7 +6,7 @@
     <% end %>
 <% end %>
 
-<% total_feet = DrillingLog.joins(:document).where("documents.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).sum("drilling_logs.total_drilled") %>
+<% total_feet = DrillingLog.where("drilling_logs.job_id IN (#{@jobs_sql})").where("drilling_logs.created_at >= ?", Date.today - 1.year).sum("drilling_logs.total_drilled") %>
 <% accountable_issues = Issue.where("issues.job_id IN (#{@jobs_sql})").where("issues.accountable is TRUE").where("issues.created_at >= ?", Date.today - 1.year).count %>
 
 <div id="overview_drilling" data-loaded='true'>
@@ -120,7 +120,7 @@
     <% points = [] %>
     <% points2 = [] %>
     <% rigs.each do |rig| %>
-    <% rops = DrillingLog.includes(document: { job: { well: :rig }}).joins(:document).where("drilling_logs.created_at >= ?", Date.today - 1.year).where("drilling_logs.drilling_rop > 0").where("rigs.id = ?", rig.id) %>
+    <% rops = DrillingLog.includes(job: { well: :rig }).where("drilling_logs.created_at >= ?", Date.today - 1.year).where("drilling_logs.drilling_rop > 0").where("rigs.id = ?", rig.id) %>
     <% rops.each do |dl| %>
     <% points << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.strftime("%W"), "rop_#{rig.id}" => dl.rotate_rop.round(1) } %>
     <% points2 << { "rig_#{rig.id}" => rig.name, "day_#{rig.id}" => dl.created_at.strftime("%W"), "rop_#{rig.id}" => dl.slide_rop.round(1) } %>

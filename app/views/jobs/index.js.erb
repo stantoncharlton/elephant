@@ -8,15 +8,15 @@
 $('#map').replaceWith("<div id='map' class='dark'></div>");
 
 <% if params[:section] == "my_jobs" %>
-<% @jobs = current_user.jobs %>
+    <% @jobs = current_user.jobs %>
 <% elsif params[:section] == "pre_job" %>
-<% @jobs = @jobs.where("jobs.status = ?", Job::PRE_JOB) %>
+    <% @jobs = @jobs.where("jobs.status = ?", Job::PRE_JOB) %>
 <% elsif params[:section] == "in_progress" %>
-<% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
+    <% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
 <% elsif params[:section] == "post_job" %>
-<% @jobs = @jobs.where("jobs.status = ?", Job::POST_JOB) %>
+    <% @jobs = @jobs.where("jobs.status = ?", Job::POST_JOB) %>
 <% elsif params[:section] == "complete" %>
-<% @jobs = @jobs.where("jobs.status = ?", Job::COMPLETE) %>
+    <% @jobs = @jobs.where("jobs.status = ?", Job::COMPLETE) %>
 <% end %>
 
 $('#jobs').removeClass("hidden");
