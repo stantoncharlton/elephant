@@ -91,6 +91,19 @@
     (function ($) {
         $(document).ready(function () {
 
+            $('.custom-data-input').change(function() {
+                var conversion;
+                conversion = $(this).closest('.job-field-div').find('.job-field-conversion');
+                if (conversion) {
+                    conversion.remove();
+                }
+                return $.ajax('/dynamic_fields/' + $(this).attr("id").replace("dynamic_field_", "") + '?value=' + $(this).val() + "&job=" + $(this).attr('data-job') + "&name=" + $(this).attr('data-name'), {
+                    type: 'put',
+                    dataType: 'script'
+                });
+            });
+
+
             var client_focused, focusevent, last_selected_item;
 
             last_selected_item = null;
