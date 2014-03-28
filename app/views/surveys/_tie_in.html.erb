@@ -1,6 +1,6 @@
-<div id="survey_tie_in" class='alert'>
-  <h3 class='orange-text push-down-small'>Tie-In Point</h3>
-  <b>Please add tie-in information before continuing</b>
+<div id="survey_tie_in" class=''>
+  <h3 class='orange-text push-down-small'>Tie-In</h3>
+  <b>Please add tie-in information</b>
   <br><br>
 
   <div class="form" data-form="new_tie_in">
@@ -22,10 +22,14 @@
                  data-title="Date gyro survey was taken">
 
 
+          <script type='text/javascript'>
+            $('.date-picker').datepicker();
+          </script>
+
 
           <%= select_tag "north_type",
                          options_for_select([["Grid North", Survey::GRID], ["True North", Survey::TRUE], ["Magnetic North", Survey::MAGNETIC]], Survey::GRID),
-                         class: "custom-select push-right tooltip-info align-top",
+                         class: "custom-select custom-select-ajax push-right tooltip-info align-top",
                          "data-title" => "North Type",
                          placeholder: "North Type" %>
 
@@ -101,7 +105,7 @@
 
 
         <%= f.submit "Create Tie-In Point",
-                     class: "bluebtn pull-right form-loading-on-click",
+                     class: "btn btn-success pull-right form-loading-on-click",
                      "data-form" => "new_tie_in" %>
         <br><br><br>
     <% end %>

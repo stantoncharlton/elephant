@@ -1,6 +1,6 @@
 <% provide(:title, "New BHA") %>
 
-<div class="page_header">
+<div class="section-header">
   <% if !@master_bha.present? %>
       <h1 id="part_name">New Bottom Hole Assembly</h1>
   <% else %>
@@ -30,7 +30,7 @@
       <div class="form" id="add_tool" data-form="add_tool">
         <% options = [] %>
         <% # Includes only jobs with BHA       %>
-        <% PartMembership.includes(job: :well).includes(job: :documents).where("wells.id = ?", @job.well_id).where("documents.document_type = ?", Document::BOTTOM_HOLE_ASSEMBLY).order("part_memberships.name ASC").each do |p| %>
+        <% PartMembership.includes(job: :well).where("wells.id = ?", @job.well_id).order("part_memberships.name ASC").each do |p| %>
             <% options << [p.name + ' - ' + p.serial_number, p.id] %>
         <% end %>
 
@@ -40,7 +40,7 @@
               <div class='pull-left push-right-small push-down-small'>
                 <h3 class='orange-text'>No tools/assets on well...</h3>
 
-                <p>You must first add assets or accept shipments on the job page to add them here.</p>
+                <p>You must first add assets or accept shipments to add them here.</p>
               </div>
               <br><br><br>
             </div>
@@ -52,11 +52,15 @@
                            "data-form" => "add_tool",
                            "data-placement" => "bottom",
                            "data-title" => "Add tool to BHA",
-                           prompt: "Add tool to BHA..." %>
+                           prompt: "Select asset to add..." %>
 
-            <%= link_to "Add", "#", id: "add_new_bha_item",
+            &nbsp;
+            <%= link_to  "#", id: "add_new_bha_item",
                         "data-job" => @job.id.to_s,
-                        class: "bluebtn btnsmall" %>
+                        class: "btn btn-primary white-text align-top" do %>
+                <i class="icon-plus-sign icon-white"></i>
+                <span>Add Assets</span>
+            <% end %>
         <% end %>
 
       </div>
@@ -78,11 +82,11 @@
 
       <hr>
 
-      <%= f.submit "Save", class: "bluebtn pull-right push-right-small form-loading-on-click",
+      <%= f.submit "Save BHA", class: "btn btn-success pull-right push-right-small form-loading-on-click",
                    "data-form" => "new_bha" %>
 
       <% if request.referrer.present? %>
-          <%= link_to "Cancel", request.referer + '#drilling-bha', class: "bluebtn red pull-right " %>
+          <%= link_to "Cancel", request.referer + '#assets', class: "btn btn-default pull-right " %>
       <% else %>
           <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
           <% if @drilling_log.present? %>

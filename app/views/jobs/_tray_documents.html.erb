@@ -11,18 +11,36 @@
       <h1>Job Info</h1>
     </div>
 
-      <%= render 'wells/inline_well_fields', well: job.well %>
+    <%= render 'wells/inline_well_fields', well: job.well %>
 
-      <div class=''>
-        <% job_number = DynamicField.new(name: "Job Number", value_type: DynamicField::STRING) %>
-        <% job_number.value = job.job_number %>
-        <% job_number.job = job %>
-        <%= render 'jobs/job_custom_data_field', df: job_number, job_editable: job.status != Job::COMPLETE %>
-        <% api_number = DynamicField.new(name: "API Number", value_type: DynamicField::STRING) %>
-        <% api_number.value = job.api_number %>
-        <% api_number.job = job %>
-        <%= render 'jobs/job_custom_data_field', df: api_number, job_editable: job.status != Job::COMPLETE %>
-      </div>
+    <div class=''>
+      <% job_number = DynamicField.new(name: "Job Number", value_type: DynamicField::STRING) %>
+      <% job_number.value = job.job_number %>
+      <% job_number.job = job %>
+      <%= render 'jobs/job_custom_data_field', df: job_number, job_editable: job.status != Job::COMPLETE %>
+      <% api_number = DynamicField.new(name: "API Number", value_type: DynamicField::STRING) %>
+      <% api_number.value = job.api_number %>
+      <% api_number.job = job %>
+      <%= render 'jobs/job_custom_data_field', df: api_number, job_editable: job.status != Job::COMPLETE %>
+    </div>
+
+    <div>
+      <p class="job-field-title">Customer</p>
+      <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
+                         placeholder: "Type a customer name...",
+                         value: !@job.client.nil? ? @job.client.name : nil,
+                         id: "client_name", class: "job-field-value-editable" %>
+
+      <% if current_user.role.district_edit? %>
+          <%= link_to new_client_path, remote: true,
+                      class: "btn btn-default tooltip-info show-modal-button", id: "new_customer_link",
+                      style: "border-style: none; box-shadow: 0px 0px 0px #000;",
+                      "data-placement" => "bottom",
+                      "data-title" => "Create new customer" do %>
+              <i class="icon-plus-sign"></i>
+          <% end %>
+      <% end %>
+    </div>
 
     <br>
 
@@ -67,3 +85,65 @@
 
   </div>
 </div>
+
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+
+            var client_focused, focusevent, last_selected_item;
+
+            last_selected_item = null;
+
+            focusevent = function(event, ui) {
+                var selected_item;
+                if (last_selected_item !== null) {
+                    $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
+                }
+                selected_item = $('.item_' + ui.item.id);
+                selected_item.addClass('ui-state-hover');
+                return last_selected_item = ui.item;
+            };
+
+            $('#client_name').autocomplete({
+                source: $('#client_name').data('autocomplete-source'),
+                focus: focusevent,
+                select: function(event, ui) {
+                    if (ui.item.id > 0) {
+                        $("#client_name").val(ui.item.label);
+                        $.ajax("/jobs/<%= @job.id %>" + '?update_field=true&field=client_id&value=' + ui.item.id, {
+                            type: 'put',
+                            dataType: 'script'
+                        });
+                        return $("#client_id").val(ui.item.id);
+                    }
+                }
+            });
+
+            client_focused = false;
+
+            $('#client_name').focusin(function() {
+                client_focused = true;
+                $('#client_name').removeClass('ui-autocomplete-bad');
+                $('#client_name').addClass('ui-autocomplete-typing');
+                //$('#client_name').val('');
+                return $('#client_id').val('');
+            });
+
+            $('#client_name').focusout(function() {
+                if (client_focused && $('#client_id').val() === '') {
+                    $('#client_name').addClass('ui-autocomplete-bad');
+                    if ($('#client_name').val() === '') {
+                        return $('#client_name').removeClass('ui-autocomplete-typing');
+                    }
+                }
+            });
+
+
+            $('#client_name').data("autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                        "<a><div>" + (item.id > 0 ? "<img src='/assets/user_avatar_client_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>" + (item.country ? item.country : "&nbsp;") + "</p></div></div></a>").appendTo(ul)
+            }
+        });
+    }(jQuery));
+</script>

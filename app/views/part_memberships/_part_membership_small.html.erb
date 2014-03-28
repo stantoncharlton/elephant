@@ -2,7 +2,7 @@
      class="inline-block align-top part-membership"
      data-shipping="<%= part_membership.shipping? ? "true" : "false" %>">
   <% if current_user.role.access_to_inventory? %>
-      <%= link_to part_membership.part.present? ? part_membership.part : part_membership.job.present? ? job_path(part_membership.job, anchor: 'tools_assets') : jobs_path,
+      <%= link_to part_membership.part.present? ? part_membership.part : part_membership.job.present? ? job_path(part_membership.job, anchor: 'assets') : jobs_path,
                   target: "_blank",
                   class: "part-box2 popover " + (part_membership.part_type == PartMembership::ACCESSORY ? "part-box-accessory" : "") + ' ' + (@make_green.present? && @make_green ? 'green' : ''),
                   style: "height: 30px; width: 130px;",

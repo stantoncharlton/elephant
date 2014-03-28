@@ -25,8 +25,8 @@ if ($('#well_name_id').length != 0) {
     <% end %>
 
     <% if @query.blank? || @wells.count == 0 %>
-    $('.alert').addClass('hidden');
+    $('.alert-box').addClass('hidden');
     <% else %>
-    $('.alert').removeClass('hidden');
+    $('.alert-box').removeClass('hidden');
     <% end %>
 }

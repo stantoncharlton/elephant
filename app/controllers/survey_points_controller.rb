@@ -13,7 +13,7 @@ class SurveyPointsController < ApplicationController
         params[:survey_point].delete(:measured_depth)
 
         @survey = Survey.find_by_id(survey_id)
-        @well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first
+        @well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @survey.job.well_id).first
 
         @survey_point = SurveyPoint.new(params[:survey_point])
         @survey_point.survey = @survey

@@ -10,7 +10,7 @@ class UsersController < ApplicationController
             format.html { @users = User.from_company(current_user.company).includes(:district, :company).paginate(page: params[:page], limit: 20) }
             format.js {
                 if params[:search].length == 0
-                    @users = User.from_company(current_user.company).paginate(page: params[:page], limit: 20)
+                    @users = User.from_company(current_user.company).where(:admin => false).paginate(page: params[:page], limit: 20)
                 elsif params[:search].length > 1
                     @users = User.search(params, current_user.company).results
                 end

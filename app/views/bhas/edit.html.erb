@@ -1,7 +1,7 @@
 <% provide(:title, "Edit BHA") %>
 
-<div class="page_header">
-  <h1 id="part_name">Edit Bottom Hole Assembly</h1>
+<div class="section-header">
+  <h1 id="part_name">Update Bottom Hole Assembly</h1>
 
   <% df = DynamicField.new %>
   <% df.value_type = DynamicField::LENGTH_IN %>
@@ -35,7 +35,7 @@
         <% serial = '' %>
         <% options = [] %>
         <% # Includes only jobs with BHA  %>
-        <% PartMembership.includes(job: :well).includes(job: :documents).where("wells.id = ?", @job.well_id).where("documents.document_type = ?", Document::BOTTOM_HOLE_ASSEMBLY).order("part_memberships.name ASC").each do |p| %>
+        <% PartMembership.includes(job: :well).where("wells.id = ?", @job.well_id).order("part_memberships.name ASC").each do |p| %>
             <% options << [p.name + ' - ' + p.serial_number, p.id] %>
         <% end %>
         <%= select_tag "Add Tool", options_for_select(options),
@@ -44,11 +44,15 @@
                        "data-form" => "add_tool",
                        "data-placement" => "bottom",
                        "data-title" => "Add tool to BHA",
-                       prompt: "Add tool to BHA..." %>
+                       prompt: "Select asset to add..." %>
 
-        <%= link_to "Add", "#", id: "add_new_bha_item",
-                    "data-job" => @job.id.to_s,
-                    class: "bluebtn btnsmall" %>
+        &nbsp;
+        <%= link_to  "#", id: "add_new_bha_item",
+                     "data-job" => @job.id.to_s,
+                     class: "btn btn-primary white-text align-top" do %>
+            <i class="icon-plus-sign icon-white"></i>
+            <span>Add Assets</span>
+        <% end %>
       </div>
       <div id="add_tool_loader" class="hidden" data-form="add_tool">
         <span class="ajax-loading search-loading"><b>Adding Tool...</b></span>
@@ -56,10 +60,10 @@
 
       <hr>
 
-      <%= f.submit "Save", class: "bluebtn pull-right push-right-small form-loading-on-click",
+      <%= f.submit "Save BHA", class: "btn btn-success pull-right push-right-small form-loading-on-click",
                    "data-form" => "new_bha" %>
 
-      <%= link_to "Cancel", request.referer + '#drilling-bha', class: "bluebtn red pull-right" %>
+      <%= link_to "Cancel", request.referer + '#assets', class: "btn btn-default pull-right" %>
 
 
       <br><br>

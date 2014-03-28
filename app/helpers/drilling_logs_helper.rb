@@ -160,7 +160,6 @@ module DrillingLogsHelper
         end
 
 
-
         r.add_field "T1", drilling_log.drilling_rop.nil? ? "-" : drilling_log.drilling_rop.round(1)
         r.add_field "T2", drilling_log.total_drilled.nil? ? "-" : number_with_delimiter(drilling_log.total_drilled.to_i, :delimiter => ',')
         r.add_field "T3", drilling_log.drilling_time.nil? ? "-" : drilling_log.drilling_time.round(1)
@@ -179,7 +178,6 @@ module DrillingLogsHelper
         total_cost = job.well.jobs.sum("jobs.total_cost").to_f
         r.add_field "C1", range_cost.nil? ? '-' : number_to_currency(range_cost, :unit => "$")
         r.add_field "C2", number_to_currency(total_cost, :unit => "$")
-
 
 
         r.add_field "R1", drilling_log.rotary_footage_pct.nil? ? "-" : (drilling_log.rotary_footage_pct * 100).round(1)
@@ -506,7 +504,7 @@ module DrillingLogsHelper
         end
 
         if job.present?
-            jobs_sql = Survey.includes(document: :job).where("jobs.well_id = ?", job.well_id).select("jobs.id").to_sql
+            jobs_sql = Survey.includes(:job).where("jobs.well_id = ?", job.well_id).select("jobs.id").to_sql
             users = JobMembership.includes(:job, :user).where("job_memberships.job_id IN (#{jobs_sql})").where("job_memberships.job_role_id = ?", JobMembership::FIELD)
             if users.any?
                 r.add_field "NAMES", users.collect { |jm| jm.user.present? ? jm.user.name : '' }.to_sentence
@@ -538,10 +536,17 @@ module DrillingLogsHelper
             r.add_field "TIE_IN_EW", "#{tie_in.east_west}"
 
             first = entries[1]
-            r.add_field "D1", "#{first.measured_depth}"
-            r.add_field "INC1", "#{first.inclination}"
-            r.add_field "AZI1", "#{first.azimuth}"
-            r.add_field "DATE1", "#{first.created_at.strftime("%m/%d/%Y")}"
+            if first.present?
+                r.add_field "D1", "#{first.measured_depth}"
+                r.add_field "INC1", "#{first.inclination}"
+                r.add_field "AZI1", "#{first.azimuth}"
+                r.add_field "DATE1", "#{first.created_at.strftime("%m/%d/%Y")}"
+            else
+                r.add_field "D1", "0.0"
+                r.add_field "INC1", "0.0"
+                r.add_field "AZI1", "0.0"
+                r.add_field "DATE1", ""
+            end
 
             last = entries.last
             r.add_field "D2", "#{last.measured_depth}"
@@ -579,8 +584,8 @@ module DrillingLogsHelper
 
             wb.add_worksheet(:name => "Daily Activity", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|
                 sheet.add_row ['Daily Activity', '', '', '', ''], :style => title_cell
-                sheet.add_row [drilling_log.document.job.field.name + ' | ' + drilling_log.document.job.well.name, '', '', '', ''], :style => title_cell
-                sheet.add_row [drilling_log.document.job.well.rig.present? ? drilling_log.document.job.well.rig.name : '', '', '', '', ''], :style => title_cell
+                sheet.add_row [drilling_log.job.field.name + ' | ' + drilling_log.job.well.name, '', '', '', ''], :style => title_cell
+                sheet.add_row [drilling_log.job.well.rig.present? ? drilling_log.job.well.rig.name : '', '', '', '', ''], :style => title_cell
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
 
 

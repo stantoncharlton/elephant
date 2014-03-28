@@ -12,19 +12,11 @@
       <div class='pull-left push-right-small'>
         <h3 class='orange-text push-down-small'>No Data to Show</h3>
 
-        <p class='push-down'>There is no data to show because the job has not started yet or there are no
-          drilling log entries, yet. </p>
+        <p class='push-down'>There is no data to show because the job has not started yet or there is no drilling data. </p>
 
-        <%= link_to "Add Log", "#", id: "show_log", class: "bluebtn btnsmall gray push-down-small" %>
       </div>
 
-      <script type='text/javascript'>
-          $('#show_log').click(function () {
-              $(".remote-tray-toggle[data-tray='log']").trigger("click");
-              return false;
-          });
-      </script>
-      <br><br><br><br><br><br><br>
+      <br><br><br><br>
     </div>
     <br><br>
 <% else %>

@@ -7,33 +7,26 @@
 <% end %>
 
 
-<div class="page_header">
-  <h1>Update user</h1>
+<div class="section-header">
+  <h1>Update User</h1>
 
-  <div class="btn-group inline pull-right">
-    <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Advanced Actions
-    </a>
-    <ul class="dropdown-menu">
-
-      <li>
-        <%= link_to "Delete User", @user, method: :delete,
-                    data: {confirm: "Delete User " + @user.name + "?"},
-                    class: "dropdown-menu-link tooltip-info",
-                    "data-placement" => "left",
-                    "data-title" => "Permanently delete user. Jobs and data created will still exist however." %>
-      </li>
-
-
-    </ul>
-  </div>
+  <%= link_to "Delete User", @user, method: :delete,
+              data: {confirm: "Delete User " + @user.name + "?"},
+              class: "btn btn-danger white-text tooltip-info pull-right",
+              "data-placement" => "left",
+              "data-title" => "Permanently delete user. Jobs and data created will still exist however." %>
 </div>
 
 <div class="form">
 <%= form_for(@user) do |f| %>
     <%= render 'fields', f: f %>
-    <%= f.submit "Save User", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+
+      <hr>
+
+    <%= f.submit "Save User", class: "btn btn-primary pull-right push-right-small tooltip-info form-loading-on-click",
                  "data-title" => "Save user and return to list of all users"%>
+
+
 <% end %>
 </div>
 

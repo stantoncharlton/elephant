@@ -388,6 +388,9 @@ class DrillingLog < ActiveRecord::Base
                             entries = @drilling_log.drilling_log_entries
                             bha = entries.last.bha
                         end
+                        if bha.nil?
+                            bha = Bha.new
+                        end
 
                         fill_bha_report @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now, bha, 1
                     when "daily_activity"
@@ -403,7 +406,7 @@ class DrillingLog < ActiveRecord::Base
                         fill_log @drilling_log.job, entries, r, entries.any? ? entries.first.entry_at : Time.zone.now, entries.any? ? entries.last.entry_at : Time.zone.now
                     when "survey"
                         @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @drilling_log.job.well_id).first
-                        @survey = Survey.includes(document: {job: :well}).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
+                        @survey = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).first
                         calculated_points_survey = @survey.calculated_points(@active_well_plan.present? && !@survey.no_well_plan ? @active_well_plan.vertical_section_azimuth : 0)
                         fill_survey @drilling_log.job, calculated_points_survey, r
                     when "railroad"

@@ -169,6 +169,8 @@ class JobsController < ApplicationController
             field_id = params[:job][:field_id]
             params[:job].delete(:field_id)
 
+            @field = Field.find_by_id(field_id)
+
             well_id = params[:job][:well_id]
             params[:job].delete(:well_id)
         end
@@ -206,11 +208,18 @@ class JobsController < ApplicationController
                 end
                 @job.well = @new_well
             else
+
+                @well = Well.new
+                @well.field = @field
+                @well.name = params[:well_name]
+                @well.save
+
+                @job.well = @new_well
                 @job.client = Client.find_by_id(client_id)
                 @job.job_template = JobTemplate.find_by_id(job_template_id)
                 @job.district = District.find_by_id(district_id)
-                @job.field = Field.find_by_id(field_id)
-                @job.well = Well.find_by_id(well_id)
+                @job.field = @field
+                @job.well = @well
             end
 
 
@@ -361,6 +370,10 @@ class JobsController < ApplicationController
                     if request.format == "html"
                         redirect_to @job
                     end
+                when "client_id"
+                    @client = Client.find_by_id(params[:value])
+                    @job.client = @client
+                    @job.save
                 when "begin_on_job"
                     @job.update_attribute(:status, Job::ON_JOB)
                     Activity.add(current_user, Activity::BEGIN_ON_JOB, @job, nil, @job)

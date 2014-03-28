@@ -11,12 +11,12 @@ $('#modal_popup').height(0);
 
     <% if @shipment.from.present? && @shipment.from_type == Job.name && @shipment.part_memberships.any?  %>
     if($('#asset_list').length > 0) {
-        tray  =$('.job-tray[data-tray=tools_assets]');
+        tray  =$('.job-tray[data-tray=assets]');
         tray.find("*").remove();
         tray.append("<%= j render 'layouts/inline_loading', title: "Loading..." %>");
         tray.find('.loading').removeClass('hidden');
         $.ajax({
-            url: "/jobs/" + <%= @shipment.from.id.to_s %> +"?section=tools_assets",
+            url: "/jobs/" + <%= @shipment.from.id.to_s %> +"?section=assets",
             type: "GET",
             dataType: "script"
         });

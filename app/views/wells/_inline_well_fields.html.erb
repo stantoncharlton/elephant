@@ -19,7 +19,7 @@
         <p class='job-field-title'>Rig</p>
         <%= text_field_tag "", "", data: {autocomplete_source: rigs_path},
                            placeholder: "Type rig name...",
-                           value: well.rig.present? ? well.rig.name : null,
+                           value: well.rig.present? ? well.rig.name : nil,
                            :autocomplete => 'off',
                            "data-id" => well.id.to_s,
                            id: "rig_name2", class: "job-field-value-editable tooltip-info align-top",

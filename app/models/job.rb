@@ -23,11 +23,9 @@ class Job < ActiveRecord::Base
     acts_as_tenant(:company)
 
     validates_presence_of :company
-    validates_presence_of :client
-    validates_presence_of :district
-    validates_presence_of :field
-    validates_presence_of :well
-    validates_presence_of :job_template
+    validates_presence_of :district_id
+    validates_presence_of :field_id
+    validates_presence_of :well_id
 
     validates :inventory_notes, length: {maximum: 500}
 
@@ -86,25 +84,13 @@ class Job < ActiveRecord::Base
         text :rig_name, :as => :code_textp do
             well.rig.present? ? well.rig.name : ""
         end
-        text :product_line_name, :as => :code_textp do
-            job_template.product_line.name
-        end
-        text :segment_name, :as => :code_textp do
-            job_template.product_line.segment.name
-        end
-        text :division_name, :as => :code_textp do
-            job_template.product_line.segment.division.name
-        end
-        text :job_template_name, :as => :code_textp do
-            job_template.name
-        end
 
         text :district_name, :as => :code_textp do
             district.present? ? district.name : ""
         end
 
         text :client_name, :as => :code_textp do
-            client.name
+            client.present? ? client.name : ""
         end
 
         text :job_number, :as => :code_textp do
@@ -124,16 +110,7 @@ class Job < ActiveRecord::Base
         integer :client_id
         integer :field_id
         integer :district_id
-        integer :job_template_id
-        integer :product_line_id do
-            job_template.product_line.id
-        end
-        integer :segment_id do
-            job_template.product_line.segment.id
-        end
-        integer :division_id do
-            job_template.product_line.segment.division.id
-        end
+
         integer :master_district_id do
             district.present? ? district.master_district_id : -1
         end
@@ -144,7 +121,7 @@ class Job < ActiveRecord::Base
     end
 
     def set_start_date
-        self.start_date = Time.zone.now.date
+        self.start_date = Time.zone.now.to_date
     end
 
     def absolute_url

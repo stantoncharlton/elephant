@@ -90,6 +90,7 @@ class SurveysController < ApplicationController
             end
 
             @survey = Survey.new(params[:survey])
+            @survey.job = @job
             @survey.company = current_user.company
             @survey.plan = true
             @survey.north_type = Survey::GRID
@@ -170,7 +171,7 @@ class SurveysController < ApplicationController
                 if params[:active_well].present? && params[:active_well] == "true"
                     render 'surveys/create_modal'
                 else
-                    redirect_to @survey
+                    redirect_to job_path(@job, anchor: "surveys")
                 end
             end
         end

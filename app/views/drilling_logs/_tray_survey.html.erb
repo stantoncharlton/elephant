@@ -5,7 +5,7 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading surveys..." %>
   </div>
 
-  <div class='content tray-content content-loaded'>
+  <div class='tray-content content-loaded'>
 
     <% @surveys = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", @drilling_log.job.well_id).order("surveys.created_at ASC") %>
     <% query = URI.parse(request.referrer).query %>
@@ -34,38 +34,34 @@
     <% end %>
 
     <% if (@active_well_plan.nil? || @active_well_plan.survey_points.empty?) && !@survey.no_well_plan %>
-        <br>
 
-        <div class='alert'>
-          <h3 class='orange-text push-down'>No Well Plan, Please Update</h3>
-          <br>
+        <div class='section-header' style='margin-top: 15px;'>
+          <h1>Surveys</h1>
+        </div>
 
-          <p>If you are drilling a straight well, there is no need for a well plan.</p>
+        <div class=''>
+          <h3 class='orange-text push-down'>No Well Plan</h3>
 
-          <p>If you don't currently have a well plan, please upload at a later time, and continue with 'No well plan'
-            for now.</p>
+          <p>Update or continue without a well plan.</p>
+
         </div>
 
 
-        <% if !@active_well_plan.nil? %>
+        <% if @active_well_plan.nil? %>
             <br>
-            <%= link_to "Update Well Plan", "/surveys?job=" + @job.id.to_s, class: "bluebtn" %>
+            <%= link_to "Update Well Plan", "/surveys/new?job_id=" + @job.id.to_s, class: "btn btn-primary white-text" %>
         <% end %>
 
         <div class='inline-block push-right-small'>
-          <%= link_to "Straight Well/No Well Plan", job_path(@drilling_log.job, update_field: true, field: "no_well_plan", value: true),
+          <%= link_to "Continue Without Well Plan", job_path(@drilling_log.job, update_field: true, field: "no_well_plan", value: true),
                       :method => :put,
-                      class: "bluebtn gray" %>
+                      class: "btn btn-default" %>
         </div>
     <% else %>
 
         <% calculated_points = @survey.no_well_plan ? [] : @active_well_plan.survey_points %>
         <% calculated_points_survey = @survey.calculated_points(@survey.no_well_plan ? 0 : @active_well_plan.vertical_section_azimuth) %>
 
-
-        <% if @survey.survey_points.empty? %>
-            <%= render 'surveys/tie_in' %>
-        <% end %>
 
         <div class='section-header' style='margin-top: 15px;'>
 
@@ -99,13 +95,17 @@
                 <%= link_to "New Sidetrack", new_survey_path(new_side_track: true, drilling_log: @drilling_log.id), class: "btn btn-default align-top push-up-small push-right-small" %>
             <% end %>
           </div>
-          <div class='inline-block'>
+          <div class='inline-block push-right-small'>
             <% if @active_well_plan.present? %>
                 <span><div class='well-plan'></div> Well Plan</span>
             <% end %>
             <span class='push-right-small'><div class='active-survey'></div> Survey</span>
           </div>
         </div>
+
+        <% if @survey.survey_points.empty? %>
+            <%= render 'surveys/tie_in' %>
+        <% end %>
 
         <% if @surveys.count > 1 %>
             <hr>
@@ -115,10 +115,8 @@
             <% end %>
         <% end %>
 
-        <% if calculated_points_survey.any? || calculated_points.any? %>
-            <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>
-            <div id="chartdiv2" class='inline-block' style="width: 420px; height: 400px;"></div>
-        <% end %>
+        <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>
+        <div id="chartdiv2" class='inline-block' style="width: 420px; height: 400px;"></div>
 
 
         <div class='push-down'>
@@ -170,7 +168,7 @@
             <%= render 'surveys/survey_entry' %>
         <% end %>
 
-        <% if !@survey.survey_points.empty? %>
+        <% if @survey.present? || @active_well_plan.present?  %>
             <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
         <% end %>
     <% end %>

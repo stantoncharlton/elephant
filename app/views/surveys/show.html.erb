@@ -1,17 +1,13 @@
 <% provide(:title, @survey.name) %>
 
-<div class="page_header">
+<div class="section-header">
 
 
   <div class="btn-group pull-right push-right push-down">
     <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
-      Advanced Actions
+     Export
     </a>
     <ul class="dropdown-menu">
-      <li>
-        <%= link_to "Edit", edit_survey_path(@survey), class: "dropdown-menu-link" %>
-      </li>
-      <li class="divider"></li>
       <li>
         <%= link_to "Export to Excel", @survey,
                     class: "dropdown-menu-link tooltip-info",
@@ -21,16 +17,15 @@
     </ul>
   </div>
 
-  <div class='pull-right'>
-    <%= render 'jobs/job_multi_link', job: @survey.job %>
-  </div>
-
   <h1>Well Plan</h1>
 </div>
 
 <div>
   <div class='pull-right'>
-    <%= link_to "View/Add Survey", job_path(@survey.job, :anchor => "surveys"), class: "btn btn-info white-text " %>
+    <%= link_to job_path(@survey.job, :anchor => "surveys"), class: "btn btn-info white-text " do %>
+        <i class="icon-plus-sign icon-white"></i>
+        <span>Add Surveys</span>
+    <% end %>
     <%= link_to "Update Well Plan", edit_survey_path(@survey), class: "btn btn-default push-right-small" %>
   </div>
 

@@ -13,7 +13,7 @@ $('body').append("<%= j render 'layouts/modal_error', title: "Failed to add surv
 $('#alert').modal({show: true});
 <% else %>
 
-<% @drilling_log = DrillingLog.joins(document: :job).where("jobs.well_id = ?", @survey.document.job.well_id).first %>
+<% @drilling_log = DrillingLog.joins(:job).where("jobs.well_id = ?", @survey.job.well_id).first %>
 <% @survey_points = @survey.calculated_points(@survey.no_well_plan ? 0 : @well_plan.vertical_section_azimuth).to_a  %>
 <% if @survey_points.last == @survey_point %>
 $("#survey_list").append("<%= j render 'survey_points/survey_point', point: @survey_points.last, last_point: @survey_points.count > 1 ? @survey_points[@survey_points.count - 2] : @survey_points.last %>");

@@ -1,27 +1,27 @@
-<div class="page_header">
+<div class="section-header">
   <h1>Well Plan</h1>
 </div>
 
 <div class="form" data-form="new_well_plan">
   <%= form_for @survey, :html=> {:multipart=>true} do |f| %>
 
-      <%= hidden_field_tag "document_id", "document_id", value: @document.id %>
+      <%= hidden_field_tag "job_id", "job_id", value: @job.id %>
       <%= f.hidden_field :plan, value: @plan %>
 
-      <div class='alert'>
+      <div class=''>
         <h3 class='orange-text'>Import New Plan</h3>
-
         <p>Select the Compass <b>.txt</b> well plan file for upload...</p>
       </div>
 
 
+      <br>
       <div style="position:relative;">
         <a class='btn btn-info' href='javascript:;'>
           Choose File...
-          <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val());'>
+          <input type="file" style='height: 34px; position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val());'>
         </a>
-        <br>
-        <span class='label label-info push-down' id="upload-file-info">No file chosen...</span>
+        <br><br>
+        <span class='label label-default push-down' style="opacity: 0.4; padding: 5px; padding-left: 10px; padding-right: 10px;" id="upload-file-info">No file chosen...</span>
       </div>
 
       <% if false %>
@@ -31,7 +31,7 @@
       <hr>
       <div class="content actions">
         <%= f.submit "Import Well Plan",
-                     class: "bluebtn pull-right form-loading-on-click",
+                     class: "btn btn-success pull-right form-loading-on-click",
                      "data-form" => "new_well_plan" %>
       </div>
 

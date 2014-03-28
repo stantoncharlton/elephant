@@ -132,7 +132,7 @@ class BhasController < ApplicationController
 
                 @bha.delay.create_activity(current_user, Activity::CREATE_BHA)
 
-                redirect_to job_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+                redirect_to job_path(@job, anchor: "assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'new'
             end
@@ -194,7 +194,7 @@ class BhasController < ApplicationController
                 @bha.delay.create_activity(current_user, Activity::UPDATE_BHA)
 
 
-                redirect_to job_path(@job, anchor: "tools_assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
+                redirect_to job_path(@job, anchor: "assets", bha: @bha.master_bha.present? ? @bha.master_bha : @bha)
             else
                 render 'edit'
             end
@@ -219,7 +219,7 @@ class BhasController < ApplicationController
 
         @original_bha.create_activity(current_user, Activity::DELETE_BHA)
 
-        redirect_to job_path(@job, anchor: "tools_assets", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
+        redirect_to job_path(@job, anchor: "assets", bha: @bha.present? && @bha.master_bha.present? ? @bha.master_bha : @bha)
     end
 
 end

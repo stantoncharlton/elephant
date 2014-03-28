@@ -1,6 +1,6 @@
 <% provide(:title, "New Job") %>
 
-<div class="page_header">
+<div class="section-header" style="margin-top: 10px;">
   <h1>New Job</h1>
 </div>
 
@@ -8,11 +8,11 @@
 <div class="form" data-form="new-job-form">
   <%= form_for(@job) do |f| %>
       <%= render 'fields', f: f %>
-      <%= f.submit "Create Job", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+      <%= f.submit "Create Job", class: "btn btn-success pull-right tooltip-info form-loading-on-click",
                    "data-form" => "new-job-form",
                    "data-title" => "Create new job. You edit/add more job information on next page." %>
 
-      <%= link_to "Cancel", :back, class: "bluebtn pull-right btnheight gray push-left-small tooltip-info",
+      <%= link_to "Cancel", :back, class: "btn btn-default pull-right push-left-small tooltip-info",
                   "data-title" => "Cancel new job and go back" %>
   <% end %>
 </div>

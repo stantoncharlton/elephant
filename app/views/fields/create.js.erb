@@ -18,12 +18,14 @@ $('#job_field_id').append($("<option></option>")
         .text('<%= @field.name %>'));
 $('#job_field_id').find("option[value='<%= @field.id %>']").attr('selected','selected');
 
-$('#job_field_id').removeAttr("disabled");
-$('#job_field_id').css("opacity", "1");
+$('#job_field_id').trigger("change");
 
-$('#job_well_id').attr("disabled");
-$('#job_well_id').css("opacity", ".3");
-$('#job_well_id').empty();
+//$('#job_field_id').removeAttr("disabled");
+//$('#job_field_id').css("opacity", "1");
+
+//$('#job_well_id').attr("disabled");
+//$('#job_well_id').css("opacity", ".3");
+//$('#job_well_id').empty();
 
 
 <% end %>

@@ -1,14 +1,15 @@
-<div class="page_header">
+<div class="section-header">
   <h1>Company Directory</h1>
 
-  <h2 class="paginated-count">
-    <%= render 'layouts/paged_header', items: @users %>
-  </h2>
-
   <% if current_user.role.district_edit? %>
-      <%= link_to "+ Add New User", new_user_path, class: "bluebtn page_header_button tooltip-info",
+      <div class='inline-block push-right-small align-top'>
+      <%= link_to new_user_path, class: "btn btn-primary white-text tooltip-info",
                   "data-placement" => "bottom",
-                  "data-title" => "Create new user" %>
+                  "data-title" => "Create new user" do %>
+          <i class="icon-plus-sign icon-white"></i>
+          <span>Add User</span>
+      <% end %>
+      </div>
   <% end %>
 </div>
 
