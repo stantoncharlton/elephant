@@ -103,13 +103,6 @@
 </div>
 
 <script type="text/javascript">
-    <% if @jobs.empty? %>
-    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
-    map.markerLayer.setGeoJSON([]);
-    map.attributionControl = false;
-    map.scrollWheelZoom.disable();
-    map.setZoom(8);
-    <% end %>
 
     <% if !current_user.role.limit_to_assigned_jobs? %>
     $('#jobs_loading').removeClass('hidden');
