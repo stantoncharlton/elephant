@@ -1,11 +1,11 @@
-<div>
-  <div class="page_header">
-    <h1>Daily Notes</h1>
+<div id="daily">
+  <div class="section-header" style="margin-top: 15px;">
+    <h1>Daily &amp; Notes</h1>
   </div>
 
-  <div class="content">
+  <div class="">
     <div class="field">
-      <% if job_editable %>
+      <% if true %>
           <%= form_for(JobNote.new, :html => {class: "", id: "new_note_form"}, remote: true) do |f| %>
               <div class="new-product-line well">
                 <div class="form" data-form="new-note-form">
@@ -66,10 +66,11 @@
                   </div>
 
                   <div>
-                    <%= f.submit "Add note", class: "bluebtn btnsmall inline pull-right tooltip-info form-loading-on-click",
+                    <%= f.submit "Add note", class: "btn btn-primary white-text inline pull-right tooltip-info form-loading-on-click",
                                  "data-form" => "new-note-form",
                                  "data-placement" => "bottom",
-                                 "data-title" => "Add new note/action" %>
+                                 "data-title" => "Add new note/action",
+                                style: "margin-top: 10px;" %>
 
                     <div class='inline-block align-top hidden pull-left' id="assign_note_user">
                       <%= image_tag "user_avatar_extrasmall.png", class: "job-status-avatar push-down align-top" %>

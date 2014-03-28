@@ -29,51 +29,12 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
     tray.replaceWith("<%= j render 'drilling_logs/tray_logs', job: @job, drilling_log: @drilling_log %>");
 <% elsif params[:section] == "history" %>
     tray.replaceWith("<%= j render 'jobs/tray_history', job: @job %>");
-<% elsif params[:section] == "notes" %>
-    $('#notes_loading').after('<%= j render 'jobs/job_notes', job: @job, job_editable: @job_editable %>');
-    $('#notes_loading').remove();
-<% elsif params[:section] == "cost" %>
-    $('#cost_loading').after('<%= j render 'jobs/tray_cost', job: @job, job_editable: @job_editable %>');
-    $('#cost_loading').remove();
-    $('.date-picker').datepicker();
 <% elsif params[:section] == "reports" %>
-    $('#reports_loading').after('<%= j render 'jobs/tray_reports', job: @job, job_editable: @job_editable %>');
-    $('#reports_loading').remove();
-
-    $('.generate-report').each(function() {
-        $(this).click(function() {
-            report = $(this).closest('.report');
-            report.find('.generating-report').removeClass('hidden');
-            $(this).addClass('hidden');
-            $(this).closest('.generate-report-div').addClass('hidden');
-        });
-    });
-
-
-    $('.report-type').change(function() {
-        report = $(this).closest('.report');
-        report.find('.generate-report').removeClass('hidden');
-        report.find('.download-report').addClass('hidden');
-    });
-<% elsif params[:section] == "job_failures" %>
-    if($('#failures_loading').length > 0) {
-        $('#failures_loading').after('<%= j render 'jobs/job_failures', job: @job %>');
-        $('#failures_loading').remove();
-    }
-    else {
-        var tray = $(".job-tray[data-tray='failures']");
-        tray.find('*').remove();
-        tray.append('<%= j render 'jobs/job_failures', job: @job %>');
-    }
-<% elsif params[:section] == "rating" %>
-    if($('#map').length > 0) {
-        $('#map').hide();
-    }
-    $('#modal_popup').css('visibility', 'visible');
-    $('#modal_popup').height($(document).height() + 100);
-    $('#modal_popup').find('.modal-popup').css('margin-top', 100);
-    $('#modal_popup').find('.modal-content').append('<%= j render 'jobs/rating', job: @job %>');
-
+    tray.replaceWith("<%= j render 'jobs/tray_reports', job: @job %>");
+<% elsif params[:section] == "daily" %>
+    $('#daily').replaceWith("<%= j render 'jobs/daily', job: @job %>");
+<% elsif params[:section] == "timesheet" %>
+    $('#timesheet').replaceWith("<%= j render 'jobs/timesheet', job: @job %>");
 <% elsif params[:section] == "overview" %>
     tray.replaceWith("<%= j render 'jobs/tray_overview', job: @job %>");
 <% elsif params[:section] == "team_list" %>

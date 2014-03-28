@@ -309,12 +309,12 @@ module DrillingLogsHelper
             r.add_field "VVV6", ""
 
             r.add_field "H4", "MWD"
-            r.add_field "PPP7", "Battery 1 Amps"
-            r.add_field "VVV7", range_span(drilling_log.ranges["battery_1_amps_max"], drilling_log.ranges["battery_1_amps_min"]) + " amps"
-            r.add_field "PPP8", "Battery 2 Amps"
-            r.add_field "VVV8", range_span(drilling_log.ranges["battery_2_amps_max"], drilling_log.ranges["battery_2_amps_min"]) + " amps"
-            r.add_field "PPP9", "Battery Volts"
-            r.add_field "VVV9", range_span(drilling_log.ranges["battery_volts_min"], drilling_log.ranges["battery_volts_max"]) + " volts"
+            r.add_field "PPP7", "Battery AHR"
+            r.add_field "VVV7", range_span(drilling_log.ranges["battery_ahr_max"], drilling_log.ranges["battery_ahr_min"]) + " ahr"
+            r.add_field "PPP8", "Battery Volts"
+            r.add_field "VVV8", range_span(drilling_log.ranges["battery_volts_min"], drilling_log.ranges["battery_volts_max"]) + " volts"
+            r.add_field "PPP9", ""
+            r.add_field "VVV9", ""
         else
 
         end

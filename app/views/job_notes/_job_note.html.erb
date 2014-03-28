@@ -79,15 +79,19 @@
       <% elsif job_note.note_type == JobNote::ACTIVITY_REPORT %>
           <% note_activity_report = NoteActivityReport.where(:job_note_id => job_note.id).first %>
           <b class='label label-info'>Daily Activity Report</b><br>
-            <div class='activity-report-root'>
-              <div><p><a href='#' class='user-link pull-right activity-report-show-all'>Show Full Report</a></p></div>
-              <div class='past-day hidden'><p class="inline-block list-item-column-short"><b>Past day</b></p><%= note_activity_report.past %></div>
-              <div><p class="inline-block list-item-column-short present-day hidden"><b class=''>Present</b></p><%= note_activity_report.present %></div>
-              <div class='next-day hidden'><p class="inline-block list-item-column-short"><b>Next day</b></p><%= note_activity_report.future %></div>
-            </div>
+
+          <div class='activity-report-root'>
+            <div><p><a href='#' class='user-link pull-right activity-report-show-all'>Show Full Report</a></p></div>
+            <div class='past-day hidden'>
+              <p class="inline-block list-item-column-short"><b>Past day</b></p><%= note_activity_report.past %></div>
+            <div><p class="inline-block list-item-column-short present-day hidden"><b class=''>Present</b>
+            </p><%= note_activity_report.present %></div>
+            <div class='next-day hidden'>
+              <p class="inline-block list-item-column-short"><b>Next day</b></p><%= note_activity_report.future %></div>
+          </div>
       <% elsif job_note.note_type == JobNote::ASSET_REQUEST %>
           <b class='label'>
-             Asset Request</b><br><br>
+            Asset Request</b><br><br>
           <%= job_note.text %>
       <% else %>
           <%= job_note.text %>
@@ -97,20 +101,22 @@
 
     <br>
 
-    <div id="job_note_comments_<%= job_note.id %>" class="all-comments-box ">
-      <% job_note.comments.each do |comment| %>
-          <%= render 'job_note_comments/comment', comment: comment %>
-      <% end %>
-    </div>
+    <% if false %>
+        <div id="job_note_comments_<%= job_note.id %>" class="all-comments-box ">
+          <% job_note.comments.each do |comment| %>
+              <%= render 'job_note_comments/comment', comment: comment %>
+          <% end %>
+        </div>
 
-    <%= form_for JobNoteComment.new, remote: true do |f| %>
-        <%= f.hidden_field :job_note_id, value: job_note.id %>
-        <%= f.text_field :text,
-                         placeholder: "Type to add a comment...",
-                         id: "job_note_comment_text_" + job_note.id.to_s,
-                         class: "job-field-value-editable custom-data-input light-text note-comment job-note-comment-box tooltip-info",
-                         "data-placement" => "bottom",
-                         "data-title" => "Click to add comment" %>
+        <%= form_for JobNoteComment.new, remote: true do |f| %>
+            <%= f.hidden_field :job_note_id, value: job_note.id %>
+            <%= f.text_field :text,
+                             placeholder: "Type to add a comment...",
+                             id: "job_note_comment_text_" + job_note.id.to_s,
+                             class: "job-field-value-editable custom-data-input light-text note-comment job-note-comment-box tooltip-info",
+                             "data-placement" => "bottom",
+                             "data-title" => "Click to add comment" %>
+        <% end %>     '
     <% end %>
 
   </ul>

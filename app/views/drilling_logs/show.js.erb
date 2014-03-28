@@ -128,14 +128,14 @@ removeOldContent('<%= params[:section] %>');
                     else {
                         setTimeout(function() {
                             check(report_id);
-                        }, 1000 * 8);
+                        }, 1000 * 4);
                     }
                 }
             });
         }
         setTimeout(function() {
           check("<%= @report_id %>");
-        }, 1000 * 8);
+        }, 1000 * 4);
     }
     }(jQuery));
 <% end %>

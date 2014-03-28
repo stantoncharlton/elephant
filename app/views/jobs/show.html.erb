@@ -66,13 +66,6 @@
           <% end %>
 
 
-      <li class="">
-        <a href="#reports" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="reports"
-           data-placement="bottom" data-title="Daily & Reports">Reports</a>
-      </li>
 
 
       <% if false %>
@@ -118,6 +111,14 @@
       </li>
 
       <li class="">
+        <a href="#reports" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-id="<%= @job.id %>"
+           data-tray-controller="jobs"
+           data-tray="reports"
+           data-placement="bottom" data-title="Reports, Daily, & Time">Reporting</a>
+      </li>
+
+      <li class="">
         <a href="#history" class="remote-tray-toggle custom-data-toggle tooltip-info"
            style='padding: 10px;'
            data-id="<%= @job.id %>"
@@ -125,6 +126,7 @@
            data-tray="history"
            data-placement="bottom" data-title="Job History"><i class="icon-time"></i></a>
       </li>
+
 
 
 
@@ -208,6 +210,12 @@
       </div>
     </div>
 
+    <div class="remote-tray" data-tray="reports">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading reports..." %>
+      </div>
+    </div>
+
     <div class="remote-tray" data-tray="runs">
       <div class="remote-loading" style="margin-top: 30px;">
         <%= render 'layouts/inline_loading', title: "Please wait, loading runs..." %>
@@ -239,44 +247,6 @@
     </div>
 
 
-
-
-    <div class="job-tray custom-data-closed" data-tray="notes">
-      <div id="notes_loading">
-        <div class="remote-loading">
-          <br><br>
-
-          <div class="loading center">
-            <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Daily Notes...</b></span>
-            <br>
-          </div>
-          <br><br><br>
-          <br><br><br>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="job-tray custom-data-closed" data-tray="reports">
-      <div id="reports_loading">
-        <div class="remote-loading">
-          <br><br>
-
-          <div class="loading center">
-            <br><br>
-            <span class="ajax-loading search-loading"><b>Loading Reports...</b></span>
-            <br>
-          </div>
-          <br><br><br>
-          <br><br><br>
-        </div>
-      </div>
-    </div>
-
-
-    <%= render 'jobs/job_time', job: @job %>
   </div>
 </div>
 
