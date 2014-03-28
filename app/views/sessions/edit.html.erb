@@ -1,7 +1,7 @@
 <% provide(:title, 'Create Password') %>
 <div class="content">
 
-  <div class="page_header">
+  <div class="section-header">
     <h1>
       <% if params[:new_account] == "true" %>
           Welcome To Elephant
@@ -27,7 +27,7 @@
           </div>
       <% end %>
 
-      <div class="well">
+      <div class="">
         <div class="content">
           <% if params[:new_account] == "true" %>
               <div class="<%= !params[:email].blank? ? "hidden" : "" %>">
@@ -64,7 +64,7 @@
       </div>
 
       <div>
-        <%= f.submit "Update Password", class: "bluebtn pull-right" %>
+        <%= f.submit "Update Password", class: "btn btn-success pull-right" %>
       </div>
 
   <% end %>

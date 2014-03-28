@@ -53,11 +53,11 @@ class StaticPagesController < ApplicationController
         if params[:accept].present?
             if params[:accept] == "true"
                 current_user.update_attribute(:accepted_tou, true)
-                if !signed_in_admin?
-                    redirect_to tutorial_path
-                else
+                #if !signed_in_admin?
+                #    redirect_to tutorial_path
+                #else
                     redirect_to root_url
-                end
+                #end
             elsif params[:accept] == "false"
                 sign_out
                 redirect_to root_url

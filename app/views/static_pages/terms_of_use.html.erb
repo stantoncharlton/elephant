@@ -1,6 +1,6 @@
 <% provide(:title, 'Terms of Use') %>
 
-<div class="page_header">
+<div class="section-header">
   <h1>Terms of Use</h1>
 </div>
 
@@ -46,10 +46,10 @@
     </div>
   </div>
 
-  <%= link_to "Accept", terms_of_use_path(:accept => "true"), class: "bluebtn pull-right tooltip-info",
+  <%= link_to "Accept", terms_of_use_path(:accept => "true"), class: "btn btn-primary pull-right tooltip-info",
               "data-title" => "Cancel new message and go back"%>
 
-  <%= link_to "Cancel", terms_of_use_path(:accept => "false"), class: "bluebtn pull-right red push-left-small tooltip-info",
+  <%= link_to "Cancel", terms_of_use_path(:accept => "false"), class: "btn btn-danger pull-right red push-left-small tooltip-info",
               "data-title" => "Cancel new message and go back"%>
 </div>
 
