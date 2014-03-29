@@ -5,22 +5,19 @@
     <%= render 'layouts/inline_loading', title: "Please wait, loading suppliers..." %>
   </div>
 
-  <div class="content tray-content content-loaded">
+  <div class="tray-content content-loaded">
 
-    <div class='well'>
+    <div class='section-header' style="margin-top: 15px;">
+
+      <h1>Suppliers</h1>
 
       <% if current_user.role.add_remove_inventory? %>
-          <%= link_to "New Supplier", new_supplier_path(district: @district),
-                      class: "bluebtn tooltip-info pull-right",
-                      "data-placement" => "left",
-                      "data-title" => "Create new supplier" %>
+          <%= link_to new_supplier_path(district: @district),
+                      class: "btn btn-default align-top pull-right" do %>
+              <i class="icon-plus-sign"></i>
+              <span>New Supplier</span>
+          <% end %>
       <% end %>
-
-      <h1 class="donut-text inline"><%= @district.suppliers.count %></h1>
-
-      <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Suppliers</h3>
-      </div>
     </div>
 
     <div id="parts" class="list">

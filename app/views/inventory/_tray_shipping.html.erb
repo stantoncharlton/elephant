@@ -11,32 +11,33 @@
     <% shipments = Shipment.includes(part_memberships: { part: :master_part }).includes(part_memberships: :shipment).where(:district_id => @district.id).order("status ASC, created_at DESC") %>
     <% shippers = Shipper.where(:district_id => @district.id).order("name ASC") %>
 
-    <div class='well'>
-      <h1 class="donut-text inline"><%= shipments.where("shipments.status != ?", Shipment::COMPLETE).count %></h1>
+    <div class='section-header' style="margin-top: 15px;">
+      <h1>Shipments</h1>
 
-      <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Shipments</h3>
+      <div class='push-right-small align-top'>
+        <%= link_to shipments_path(district: @district),
+                    method: :post,
+                    class: "btn btn-primary white-text align-top" do %>
+            <i class="icon-plus-sign icon-white"></i>
+            <span>New Shipment</span>
+        <% end %>
       </div>
+
 
       <% if false %>
           <div class='pull-right push-right'>
             <%= link_to "New Shipment", shipments_path(district: @district),
                         remote: true, method: :post,
-                        class: "bluebtn show-modal-button" %>
+                        class: "btn btn-default show-modal-button" %>
           </div>
       <% end %>
       <% if true %>
-          <div class='pull-right push-right'>
-            <%= link_to "New Shipment", shipments_path(district: @district),
-                        method: :post,
-                        class: "bluebtn" %>
-          </div>
+
       <% end %>
 
-      <div class='pull-right align-top' style='margin-top: 15px;'>
-        <%= link_to shippers_path(district: @district.id), class: "activity-user-link" do %>
-            View Shippers
-            (<%= shippers.count %>)
+      <div class='pull-right align-top'>
+        <%= link_to shippers_path(district: @district.id), class: "btn btn-default align-top" do %>
+            Open Shippers
         <% end %>
       </div>
     </div>

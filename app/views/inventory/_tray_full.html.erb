@@ -13,31 +13,9 @@
 
     <% groups = @parts.where(:rental => false).group_by { |part| part.master_part_id } %>
 
-    <div class='well'>
+    <div class='section-header' style="margin-top: 15px;">
 
-      <% if current_user.role.add_remove_inventory? %>
-          <%= link_to "New Asset Type", new_part_path(template: true, district: @district),
-                      class: "bluebtn tooltip-info pull-right",
-                      "data-placement" => "bottom",
-                      "data-title" => "Create new asset type" %>
-      <% end %>
-
-      <h1 class="donut-text inline"><%= @parts.where(:rental => false).count %></h1>
-
-      <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Assets</h3>
-      </div>
-
-      <h1 class="donut-text inline push-right"><%= groups.count %></h1>
-
-      <div class='inline-block push-down push-right-small'>
-        <h3 class="inline-block">Types</h3>
-      </div>
-    </div>
-
-    <div class="">
-
-      <div class="btn-group inline pull-right push-right-small">
+      <div class="btn-group inline pull-right push-right-small push-down">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
           Advanced Actions
         </a>
@@ -60,12 +38,23 @@
         </ul>
       </div>
 
+      <h1>Full Asset List</h1>
+
+      <% if current_user.role.add_remove_inventory? %>
+
+          <%= link_to new_part_path(template: true, district: @district),
+                      class: "btn btn-default align-top pull-right" do %>
+              <i class="icon-plus-sign"></i>
+              <span>New Asset Type</span>
+          <% end %>
+      <% end %>
+
     </div>
+
     <% if false %>
         <%= render 'inventory/statistics', parts: Part.where("parts.master_part_id IN (#{@parts.select(:id).to_sql})"), show_rentals: false %>
     <% end %>
 
-    <br>
 
     <% master_parts = [] %>
     <% groups.each do |group| %>
@@ -79,7 +68,14 @@
           <div id="asset_type_<%= master_part.id %>" class="asset-type">
 
             <% if params[:show_all].nil? || params[:show_all] == "false" %>
-                <%= link_to "list assets", part_path(master_part, show_inline: true), remote: true, class: "activity-user-link pull-right align-top push-down asset-load-full-list" %>
+                <%= link_to part_path(master_part, show_inline: true),
+                            remote: true,
+                            style: "padding: 8px; padding-left: 20px; padding-right: 20px; ",
+                            class: "activity-user-link pull-right align-top push-down asset-load-full-list tooltip-info",
+                            "data-placement" => "bottom",
+                            "data-title" => "Expand to show assets" do %>
+                    <i class="icon-chevron-down"></i>
+                <% end %>
             <% end %>
 
             <%= link_to master_part, class: "job-link" do %>

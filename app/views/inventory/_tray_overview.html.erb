@@ -7,10 +7,14 @@
 
   <div class="tray-content content-loaded">
 
+    <div class='section-header' style="margin-top: 15px;">
+      <h1>Overview</h1>
+    </div>
 
-    <div class='content'>
+    <div class=''>
 
 
+      <% if false %>
       <% if @district.present? %>
           <div class="">
             <b class="inline">District</b>
@@ -72,6 +76,8 @@
                            prompt: "Select by name..." %>
           </div>
       <% end %>
+
+      <% end %>
     </div>
 
     <%= render 'inventory/statistics', parts: @parts, show_rentals: current_user.role.district_read?, district: @district %>
@@ -87,11 +93,13 @@
   </div>
 
 
-  <script type="text/javascript">
+
+  <script type='text/javascript'>
       $.ajax('/inventory/' + <%= @district.id %> + "?section=overview_status", {
           type: 'get',
           dataType: 'script'
       });
   </script>
+
 
 </div>

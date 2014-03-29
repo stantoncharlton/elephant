@@ -1,39 +1,43 @@
 <% provide(:title, "Inventory") %>
 
-<div style='height: 46px;'>
+<div style='height: 14px;'>
   <div class="map-container"
-       style='position:absolute; left: 0; top: 54px; width:100%; height:82px; background: #7c7c7c;'>
+       style='position:absolute; left: 0; top: 54px; width:100%; height:50px; background: #5d5d5d;'>
+
 
   </div>
 
-  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 86px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
+  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 54px; height: 40px; background: #03669e; padding-top: 10px;'>
 
     <div class='pull-right align-top' style='margin-top: -5px;'>
 
-      <% if current_user.role.global_read? %>
-          <div class="pull-right">
-            <div class=''>
-              <div class="district-jump">
-                <%= hidden_field_tag "district_id", id: "district_id" %>
+      <% if false %>
+          <% if current_user.role.global_read? %>
+              <div class="pull-right">
+                <div class=''>
+                  <div class="district-jump">
+                    <%= hidden_field_tag "district_id", id: "district_id" %>
+                  </div>
+
+                  <div class='pull-right'>
+                    <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
+                    <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
+                                       placeholder: "Type a district name...",
+                                       style: "background: rgba(255, 255, 255, 0.0); color: #fff; border-width: 0px;",
+                                       id: "district_name",
+                                       value: @district.present? ? @district.name : nil,
+                                       class: "txtfield small tooltip-info district-jump-to",
+                                       "data-placement" => "bottom",
+                                       "data-title" => "District Name, type to change" %>
+
+                  </div>
+
+                </div>
               </div>
-
-              <div class='pull-right'>
-                <%= image_tag "district_extrasmall.png", class: "job-status-avatar" %>
-                <%= text_field_tag "", "", data: {autocomplete_source: districts_path},
-                                   placeholder: "Type a district name...",
-                                   style: "background: rgba(255, 255, 255, 0.0); color: #fff; border-width: 0px;",
-                                   id: "district_name",
-                                   value: @district.present? ? @district.name : nil,
-                                   class: "txtfield small tooltip-info district-jump-to",
-                                   "data-placement" => "bottom",
-                                   "data-title" => "District Name, type to change" %>
-
-              </div>
-
-            </div>
-          </div>
+          <% end %>
       <% end %>
 
+      <% if false %>
       <div class='inline-block'>
         <div class="filter-search-box">
           <% if @district.present? %>
@@ -55,9 +59,10 @@
           <% end %>
         </div>
       </div>
+          <% end %>
     </div>
 
-    <h2 class="job-title inline white-text" style="margin-left: 10px;">Inventory</h2>
+    <h2 class="job-title inline white-text" style="margin-left: 10px;">Assets</h2>
   </div>
 </div>
 
@@ -225,6 +230,8 @@
             });
         }, 1);
     }
+
+
 </script>
 
 
