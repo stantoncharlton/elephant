@@ -17,7 +17,7 @@
       <% if current_job.nil? || current_job != activity.job %>
           <% current_job = activity.job %>
 
-          <% if current_job.job_template.present? %>
+          <% if current_job.present? %>
               <%= link_to "https://www.elephant-cloud.com/jobs/" + current_job.id.to_s, class: "job-status job-link tooltip-info",
                           "data-placement" => "left",
                           "data-title" => "Click to open job" do %>

@@ -128,9 +128,7 @@
 
 <div id="jobs" class="list">
   <% !@jobs.nil? && @jobs.each do |job| %>
-      <% if job.job_template.present? %>
           <%= render 'jobs/job_progress_link', job: job %>
-      <% end %>
   <% end %>
 </div>
 
