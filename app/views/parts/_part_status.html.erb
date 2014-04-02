@@ -2,7 +2,7 @@
   <div class="form" data-form="update-part-status">
     <% if part.status == Part::AVAILABLE %>
         <% if part.rental %>
-            <span class="status-good"><%= "Returned to Supplier" %></span>
+            <h3 class="inline status-good"><%= "Returned to Supplier" %></h3>
         <% else %>
             <div class='pull-right'>
               <div class='inline-block align-top push-down'><b>Warehouse</b></div>
@@ -13,7 +13,7 @@
                              "data-controller" => "parts",
                              "data-field" => "warehouse_id" %>
             </div>
-            <span class="status-good"><%= part.status_string %></span>
+            <h3 class="inline status-good"><%= part.status_string %></h3>
         <% end %>
     <% elsif part.status == Part::ON_JOB %>
         <span class=""><h3 style='font-size: 15px;'>Asset <%= part.status_string %></h3></span>
@@ -21,7 +21,7 @@
 
         <%= render 'parts/part_run', job: part.current_job, index: 0 %>
     <% elsif part.status == Part::SHIPPING %>
-        <span class="warning-text"><b>Shipping</b></span>
+        <h3 class="inline warning-text"><b>Shipping</b></h3>
 
         <% if part.current_shipment.present? %>
             <br>
@@ -44,7 +44,7 @@
                          "data-controller" => "parts",
                          "data-field" => "warehouse_id" %>
         </div>
-        <span class="warning-text"><%= part.status_string %></span>
+        <h3 class="inline-block warning-text"><%= part.status_string %></h3>
         <span>for <%= time_ago_in_words(part.updated_at) %></span>
 
         <% redress = PartRedress.where(:part_id => part.id).order("created_at ASC").last %>
@@ -77,12 +77,22 @@
                           {},
                           name: "notes",
                           placeholder: "Notes/Comments about service or problems",
-                          class: "txtfield job-description-text full-width tooltip-info",
+                          class: "txtfield job-description-text tooltip-info",
+                          style: "width: 920px;",
                           "data-placement" => "bottom",
                           "data-title" => "Notes for maintenance" %>
 
+            <%= link_to new_document_path(modal: true, part_redress: redress.id),
+                        remote: true,
+                        class: "btn btn-primary white-text tooltip-info show-modal-button",
+                        "data-placement" => "left",
+                        "data-title" => "Add new document" do %>
+                <i class="icon-plus-sign icon-white"></i>
+                <span>Add Document</span>
+            <% end %>
+
             <%= f.submit "Add Note",
-                         class: "bluebtn btnsmall pull-right tooltip-info form-loading-on-click",
+                         class: "btn btn-primary white-text pull-right tooltip-info form-loading-on-click",
                          "data-form" => "update-part-status",
                          "data-placement" => "bottom",
                          "data-title" => "Add Note" %>
@@ -93,33 +103,29 @@
             <div class="">
               <br>
 
-              <div class="content" id="documents_part_redress">
+              <div class="" id="documents_part_redress">
                 <% redress.documents.each do |d| %>
-                    <%= render 'documents/document', document: d, editable: false, can_upload: true %>
+                    <%= render 'documents/document', document: d, editable: false, can_upload: true, in_job: false %>
                 <% end %>
               </div>
 
-              <%= link_to "Add Document", new_document_path(modal: true, part_redress: redress.id),
-                          remote: true,
-                          class: "add-custom-document tooltip-info show-modal-button",
-                          "data-placement" => "left",
-                          "data-title" => "Add new document" %>
-              <span class='help-text'>(quality check, repairs, etc)</span>
+
               <br><br>
             </div>
         <% end %>
 
+
         <%= form_for part, method: :put, remote: true do |f| %>
 
             <%= hidden_field_tag :cleaned, "true" %>
-            <%= f.submit "Asset Finished Maintenance (Cleaned)",
-                         class: "bluebtn green tooltip-info form-loading-on-click",
+            <%= f.submit "Asset Completed Maintenance",
+                         class: "btn btn-success pull-right tooltip-info form-loading-on-click",
                          "data-form" => "update-part-status",
                          "data-placement" => "bottom",
                          "data-title" => "Receive cleaned/ready" %>
         <% end %>
     <% else %>
-        <span class="warning-text"><%= part.status_string %></span>
+        <h3 class="inline warning-text"><%= part.status_string %></h3>
     <% end %>
 
     <% if part.status == Part::AVAILABLE && !part.rental %>
@@ -128,7 +134,7 @@
 
           <%= link_to "Start Asset Maintenance", part_path(part, start_redress: true, part_page: true), method: :put,
                       remote: true,
-                      class: "bluebtn green tooltip-info form-loading-on-click",
+                      class: "btn btn-success pull-right tooltip-info form-loading-on-click",
                       "data-form" => "update-part-status",
                       "data-placement" => "bottom",
                       "data-title" => "Start asset maintenance" %>

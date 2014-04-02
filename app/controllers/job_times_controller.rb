@@ -64,7 +64,7 @@ class JobTimesController < ApplicationController
 
     def update
         @job = Job.find_by_id(params[:id])
-        not_found unless @job.company == current_user.company
+        not_found unless @job.present? && @job.company == current_user.company
         @user = User.find_by_id(Integer(params[:user]))
         not_found unless @user.company == current_user.company
 

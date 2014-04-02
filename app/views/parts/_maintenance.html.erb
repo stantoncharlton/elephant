@@ -4,19 +4,25 @@
         <div class='part-number-container inline-block'>
           <%= image_tag 'tool.png' %>
         </div>
+        <span style='font-size: 15px; color: #1d94d2;'>Maintenance</span>
         &nbsp;
     <% end %>
 
-    <%= redress.received_at.strftime("%m/%d/%Y") %>
-    <% if !redress.finished_redress_at.nil? %>
-        -  <%= redress.finished_redress_at.strftime("%m/%d/%Y") %>
-    <% end %>
 
-    <div class='inline-block push-right-small pull-right'>
-      <%= render 'users/icon', user: redress.received_by %>
+    <div class='pull-right'>
+       <span style='font-size: 20px; color: #1d94d2; font-family: gothamlightregular;'>
+            <%= redress.received_at.strftime("%m/%d/%Y") %>
+        </span>
+
+      <span class='help-text'>(<%= distance_of_time_in_words(redress.received_at, redress.finished_redress_at.present? ? redress.finished_redress_at : Time.zone.now) %>)</span>
+
+
+      <div class='inline-block push-right-small'>
+        <%= render 'users/icon', user: redress.received_by %>
+      </div>
     </div>
 
-    <span class='help-text pull-right push-down-small'>Duration - <%= (redress.received_at.present? && redress.finished_redress_at.present?) ? distance_of_time_in_words(redress.received_at, redress.finished_redress_at) + "" : '' %></span>
+
 
   </div>
 
@@ -24,19 +30,32 @@
   <div class='content'>
 
 
-    <b class='blue-text'>Notes</b>
+    <b class='orange-text'>Notes</b>
 
     <div>
       <% if redress.notes.any? %>
           <div class=''>
             <% redress.notes.each do |note| %>
                 <div>
-                  <div class='pull-right'>
-                    <span class='help-text'><%= note.created_at.strftime("%m/%d/%Y %l:%M %p") %></span>
-                    <div class='push-right-small'>
-                      <%= render 'users/icon', user: note.user %>
-                    </div>
+                  <% names = note.user.present? ? note.user.name.split : [] %>
+
+                  <div class='pull-right' style='font-weight: normal; font-family: gothambookregular; font-size: 12px;'>
+                    <%= note.created_at.strftime("%m/%d/%Y %l:%M %p") %>
                   </div>
+
+
+                  <div class="member-icon align-top" style='width: 22px; height: 22px;'
+                       style="background: #<%= note.user.present? ? note.user.color : '' %>;">
+                    <p style='font-size: 10px; margin-top: 3px;'>
+                      <% if names.any? %>
+                          <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+                      <% else %>
+                          -
+                      <% end %>
+                    </p>
+                  </div>
+
+
                   <div class='inline-block align-top push-down-small'>
                     <%= note.text %>
                   </div>
@@ -49,7 +68,7 @@
     </div>
 
     <br>
-    <b class='blue-text'>Documents</b>
+    <b class='orange-text'>Documents</b>
 
     <div>
       <% documents = redress.documents %>

@@ -3,10 +3,9 @@
 
     <% redresses = PartRedress.where(:part_id => part.id).order("created_at DESC") %>
 
-    <div class='content'>
-      <div class='page_header'>
+    <div class=''>
+      <div class='section-header' style="margin-top: 30px;">
         <h1 class="inline">Maintenance Records</h1>
-        <span class="help-text push-right-small">(<%= redresses.count %>)</span>
       </div>
 
 

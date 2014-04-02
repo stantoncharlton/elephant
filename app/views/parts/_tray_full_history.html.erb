@@ -1,8 +1,7 @@
 <div class='remote-tray' data-tray="full_history">
-  <div class="content tray-content content-loaded">
-  <div class="page_header">
-      <h1>Full History</h1>
-      <b class='push-right-small'>Run &amp; Maintenance</b>
+  <div class="tray-content content-loaded">
+  <div class="section-header" style="margin-top: 30px;">
+      <h1>Run History</h1>
     </div>
 
     <% redresses = PartRedress.where(:part_id => part.id).order("created_at DESC") %>

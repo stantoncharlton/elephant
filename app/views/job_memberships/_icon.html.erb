@@ -1,7 +1,8 @@
 <% names = job_membership.user.present? ? job_membership.user.name.split : ( job_membership.user_name.present? ? job_membership.user_name.split : []) %>
 <% if job_membership.user.present? %>
     <%= link_to job_membership.user, id: "job_membership_icon_" + job_membership.id.to_s,
-                class: "member-icon tooltip-info " + job_membership.icon_css_style,
+                class: "member-icon tooltip-info ",
+                style: "background: #" + (job_membership.color) + ";",
                 "data-placement" => "bottom",
                 "data-html" => true, "data-title" => "<div class='activity-tooltip'><h2 class='white-text'>" +
                     job_membership.user.name + "</h2>" +
@@ -17,7 +18,8 @@
         </p>
     <% end %>
 <% else %>
-    <div id="job_membership_icon_<%= job_membership.id %>" class="member-icon <%= job_membership.icon_css_style %> tooltip-info"
+    <div id="job_membership_icon_<%= job_membership.id %>" class="member-icon tooltip-info"
+         style="background: #<%= job_membership.color %>;"
          data-placement="bottom" data-html="true"
          data-title="<div class='activity-tooltip'><h2 class='white-text'><%= job_membership.user_name %></h2><span class='member-tooltip <%= job_membership.icon_css_style %>'><%= job_membership.role_title %></span></div>">
       <p>

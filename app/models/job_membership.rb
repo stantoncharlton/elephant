@@ -169,6 +169,16 @@ class JobMembership < ActiveRecord::Base
     end
 
 
+    def color
+        if self.user.present? && !self.user.name.blank?
+            Digest::MD5.hexdigest(self.user.name)[0..5]
+        elsif !self.user_name.blank?
+            Digest::MD5.hexdigest(self.user_name)[0..5]
+        else
+            'd3d3d3'
+        end
+    end
+
     private
     def after_save
         update_counter_cache

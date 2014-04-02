@@ -1,7 +1,7 @@
 <div class='remote-tray' data-tray="asset_activity">
-  <div class="content tray-content content-loaded">
-  <div class='page_header'>
-      <h1 class="inline">Activity</h1>
+  <div class="tray-content content-loaded">
+  <div class='section-header' style="margin-top: 30px;">
+      <h1>Activity</h1>
     </div>
 
     <% activities = AssetActivity.where(:part_id => @part.id).order("created_at DESC") %>
@@ -19,7 +19,8 @@
             <div class="activity-avatar-box-small">
               <% names = activity.user.present? ? activity.user.name.split : activity.user_name.split %>
               <div class="inline-block">
-                <div class="member-icon-large <%= @job_membership.present? ? @job_membership.icon_css_style : "" %> tooltip-info">
+                <div class="member-icon-large tooltip-info"
+                     style="background: #<%= activity.user.color %>;">
                   <p>
                     <% if names.any? %>
                         <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

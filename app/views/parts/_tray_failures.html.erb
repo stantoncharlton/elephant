@@ -1,14 +1,13 @@
 <div class='remote-tray' data-tray="asset_failures">
-  <div class="content tray-content content-loaded">
+  <div class="tray-content content-loaded">
 
-  <div class='page_header'>
+  <div class='section-header' style="margin-top: 30px;">
       <h1 class="inline">Failures</h1>
-      <span class="help-text push-right-small">(<%= part.issues.count %>)</span>
     </div>
 
 
     <% if !part.issues.any? %>
-        <p class='center help-text'>
+        <p class='center help-text' style="margin-top: 30px;">
           No failures...
         </p>
     <% end %>

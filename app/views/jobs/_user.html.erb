@@ -8,7 +8,8 @@
                         (job_membership.user.district.present? ? job_membership.user.district.name : "-") + "</p></div>" do %>
             <% if include_icon %>
                 <% names = job_membership.user.present? ? job_membership.user.name.split : job_membership.user_name.split %>
-                <div class="member-icon <%= job_membership.icon_css_style %>">
+                <div class="member-icon"
+                     style="background: #<%= job_membership.color %>;">
                   <p>
                     <% if names.any? %>
                         <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

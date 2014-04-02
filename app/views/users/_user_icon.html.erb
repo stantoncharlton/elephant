@@ -10,7 +10,7 @@
                             user.title.to_s + "</h2><p>" +
                             (user.district.present? ? user.district.name : "-") + "</p></div>" do %>
             <div style="height: 30px; pointer-events: none;">
-              <div class="member-icon align-top member-icon-day">
+              <div class="member-icon align-top member-icon-day" style="background: #<%= user.present? ? user.color : '' %>;">
                 <p>
                   <% if names.any? %>
                       <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
@@ -28,7 +28,7 @@
             </div>
         <% end %>
     <% else %>
-        <div class="member-icon align-top">
+        <div class="member-icon align-top" style="background: #<%= user.present? ? user.color : '' %>;">
           <p>
             <% if names.any? %>
                 <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

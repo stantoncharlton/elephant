@@ -2,6 +2,7 @@
     <% names = user.present? ? user.name.split : [] %>
     <%= link_to user,
                 class: "member-icon tooltip-info",
+                style: "background: #" + (user.present? ? user.color : '') + ";",
                 "data-placement" => "bottom",
                 "data-html" => true,
                 "data-title" => "<div class='activity-tooltip'><h2 class='white-text'>" +
