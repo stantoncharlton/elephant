@@ -6,19 +6,13 @@
 
   <div class='inline-block'>
     <div class="job-status-name">
-      <% if job_name %>
-          <div class="push-down job-status-name">
-            <h2 class="job-title job-title4 inline"><%= job.job_template.name %></h2>
-          </div>
-      <% else %>
-          <div class="push-down job-status-name">
-            <h2 class="job-title job-title4 inline"><%= job.field.name %></h2>
+      <div class="push-down job-status-name">
+        <h2 class="job-title job-title4 inline"><%= job.field.name %></h2>
 
-            <p class="job-title-divider2">|</p>
+        <p class="job-title-divider2">|</p>
 
-            <h2 class="job-title job-title4 inline"><%= job.well.name %></h2>
-          </div>
-      <% end %>
+        <h2 class="job-title job-title4 inline"><%= job.well.name %></h2>
+      </div>
     </div>
     <br>
 
@@ -80,7 +74,8 @@
               ft</p>
 
             <p class='inline-block push-right-small'>
-              <b><%= drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).to_i  : 0 %></b> days
+              <b><%= drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).to_i : 0 %></b>
+              days
             </p>
             <% if false %>
 

@@ -39,7 +39,7 @@
         <%= image_tag "district_extrasmall.png", class: "job-status-avatar push-right-small" %>
         <%= link_to @well.field.district.name, @well.field.district, class: "activity-user-link inline" %>
 
-        <% if @well.jobs.any? %>
+        <% if @well.jobs.any? && @well.jobs.first.client.present? %>
             <div class="inline-block ">
               <%= image_tag "user_avatar_client_extrasmall.png", class: "job-status-avatar push-right-small" %>
               <%= link_to @well.jobs.first.client.name, @well.jobs.first.client, class: "activity-user-link inline" %>
@@ -204,47 +204,16 @@
 <% end %>
 
 
-<% if !current_user.role.limit_to_assigned_jobs? %>
-    <% options = [] %>
-    <% options << ["All Jobs", 0] %>
-    <% if !current_user.role.no_assigned_jobs? && current_user.jobs.any? %>
-        <% options << ["Only My Jobs", 1] %>
-    <% end %>
-    <% options << ["Pre-Job", 2] %>
-    <% options << ["In-Progress", 3] %>
-    <% options << ["Post-Job", 4] %>
-
-        <div class='pull-right push-up push-right-small'>
-          <%= select_tag "Divisions", options_for_select(@divisions),
-                         class: "custom-select tooltip-info job-type-select align-top push-up",
-                         "data-placement" => "bottom",
-                         "data-title" => "Filter list by division",
-                         prompt: "Filter by division..." %>
-        </div>
-
-    <div class="pull-right push-up">
-      <%= select_tag "jobs_filter", options_for_select(options, 0),
-                     id: "jobs_filter",
-                     class: "inline  custom-select tooltip-info align-top push-up",
-                     "data-placement" => "right",
-                     "data-title" => "Filter which jobs are shown..." %>
-    </div>
-
-<% end %>
-
 <br><br>
 
 <div id="jobs">
   <% @jobs.includes(dynamic_fields: :dynamic_field_template).includes(:field, :well, :documents, :district, :client, :job_template => {:primary_tools => :tool}).includes(job_template: {product_line: {segment: :division}}).each do |job| %>
-      <% if job.job_template.present? %>
-          <%= link_to job, class: "job-status job-link job-link2 tooltip-info",
-                      id: "division_" + job.job_template.product_line.segment.division_id.to_s,
-                      "data-status" => job.status,
-                      "data-member" => job.user_is_member?(current_user),
-                      "data-placement" => "left",
-                      "data-title" => "Click to open job" do %>
-              <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: true %>
-          <% end %>
+      <%= link_to job, class: "job-status job-link job-link2 tooltip-info",
+                  "data-status" => job.status,
+                  "data-member" => job.user_is_member?(current_user),
+                  "data-placement" => "left",
+                  "data-title" => "Click to open job" do %>
+          <%= render 'jobs/job_progress', job: job, show_summary_data: true, job_name: true %>
       <% end %>
   <% end %>
 </div>
