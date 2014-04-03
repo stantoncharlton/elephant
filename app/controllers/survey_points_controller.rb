@@ -70,7 +70,7 @@ class SurveyPointsController < ApplicationController
                     @survey_point.save
                 end
             else
-                @survey_point.errors.add(:survey, "fields can't be empty")
+                @survey_point.errors.add(:survey, "fields can't be empty. Or, depth can't be the same as last survey.")
             end
         end
 

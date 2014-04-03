@@ -402,7 +402,7 @@ class JobsController < ApplicationController
                     if survey
                         @survey = Survey.find_by_id(survey.id)
                         @survey.update_attribute(:no_well_plan, true)
-                        redirect_to drilling_log_path(@job.drilling_log, anchor: "survey")
+                        redirect_to job_path(@job, anchor: "surveys")
                     end
             end
         else
