@@ -89,16 +89,15 @@ class DrillingLogEntriesController < ApplicationController
                         drilling_log_entry.activity_code = get_activity_code(row[4])
                         drilling_log_entry.drilling_log = @drilling_log
                         drilling_log_entry.company = current_user.company
-                        drilling_log_entry.job = @drilling_log.document.job
+                        drilling_log_entry.job = @drilling_log.job
                         drilling_log_entry.user = current_user
                         drilling_log_entry.user_name = current_user.name
                         if !row[3].blank?
-                            bha = Bha.includes(document: {job: :well}).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
+                            bha = Bha.includes(job: :well).where("wells.id = ?", @drilling_log.job.well_id).where("bhas.name = ?", row[3].to_i.to_s).first
                             if bha.nil?
                                 bha = Bha.new
                                 bha.name = row[3].to_i.to_s
                                 bha.company = current_user.company
-                                bha.document = Document.includes(job: :well).where(:document_type => Document::BOTTOM_HOLE_ASSEMBLY).where("wells.id = ?", @drilling_log.job.well_id).last
                                 bha.job = @drilling_log.job
                                 bha.save
                             end
@@ -135,7 +134,7 @@ class DrillingLogEntriesController < ApplicationController
                 @drilling_log.recalculate
 
 
-                bhas = Bha.joins(document: {job: :well}).where("wells.id = ?", @drilling_log.job.well_id)
+                bhas = Bha.joins(job: :well).where("wells.id = ?", @drilling_log.job.well_id)
                 bhas.each do |bha|
                     bha.delay.update_usage
                 end
@@ -174,7 +173,7 @@ class DrillingLogEntriesController < ApplicationController
                 @drilling_log_entry = DrillingLogEntry.new(params[:drilling_log_entry])
                 @drilling_log_entry.drilling_log = @drilling_log
                 @drilling_log_entry.company = current_user.company
-                @drilling_log_entry.job = @drilling_log.document.job
+                @drilling_log_entry.job = @drilling_log.job
                 @drilling_log_entry.user = current_user
                 @drilling_log_entry.user_name = current_user.name
                 @drilling_log_entry.depth = depth.to_s.gsub(/,/, '').to_f
