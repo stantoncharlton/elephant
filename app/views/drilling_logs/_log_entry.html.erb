@@ -10,9 +10,15 @@
         <div class="pull-right">
           <%= f.select :bha_id, options_for_select(options, @last_entry.present? ? @last_entry.bha_id : nil),
                        {prompt: "Select BHA..."},
-                       class: "inline  custom-select custom-select-ajax tooltip-info",
+                       class: "inline-block custom-select custom-select-ajax tooltip-info",
                        "data-placement" => "right",
                        "data-title" => "Current Bottom Hole Assembly" %>
+
+          <%= link_to new_bha_path(job: @drilling_log.job_id),
+                      class: "btn btn-default inline-block align-top push-down-small",
+                      style: "border-style: none; box-shadow: 0px 0px 0px #000; background: transparent;" do %>
+              <i class="icon-plus-sign"></i>
+          <% end %>
         </div>
 
         <div>

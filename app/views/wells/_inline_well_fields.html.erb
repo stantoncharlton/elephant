@@ -26,6 +26,16 @@
                            "data-placement" => "top",
                            "data-title" => "Rig Name, select from drop down based on search results" %>
 
+        <% if current_user.role.district_edit? %>
+            <%= link_to rigs_path,
+                        class: "btn btn-default tooltip-info align-top push-down-small",
+                        style: "border-style: none; box-shadow: 0px 0px 0px #000; opacity: 0.5;",
+                        "data-placement" => "bottom",
+                        "data-title" => "New Rig" do %>
+                <i class="icon-plus-sign"></i>
+            <% end %>
+        <% end %>
+
 
       </div>
 

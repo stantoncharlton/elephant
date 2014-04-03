@@ -19,11 +19,9 @@
     <div id="similar_customer"></div>
   </div>
 
-  <hr>
-
-  <div class="field stripe">
+  <div class="field stripe hidden">
     <%= f.label :country_id, class: "field-title" %>
-    <%= f.select :country_id, @countries.sort_by { |c| c.name }.collect { |p| [p.name, p.id] },
+    <%= f.select :country_id, options_for_select(@countries.sort_by { |c| c.name }.collect { |p| [p.name, p.id] }, 233),
                  prompt: "Select a Country..." %>
   </div>
 

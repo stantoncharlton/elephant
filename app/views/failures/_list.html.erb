@@ -1,6 +1,6 @@
 <div class="form" data-form="failures_list">
   <%= form_for Issue.new, remote: true do |f| %>
-      <div class="page_header failure-page-header ">
+      <div class="section-header">
         <h1>New Failure</h1>
       </div>
 
@@ -53,12 +53,12 @@
         <b class='blue-text'>Description of failure</b>
       </div>
       <%= text_area_tag "description", "",
-                        style: "width: 556px !important;",
                         placeholder: "Description, Notes, or Reason",
-                        class: "txtfield job-notes-text custom-select-long push-down-small" %>
+                        style: "width: 575px;",
+                        class: "txtfield job-notes-text push-down-small" %>
 
-      <div class="content actions">
-        <%= f.submit "Add Failure", class: "bluebtn pull-right form-loading-on-click",
+      <div class="actions">
+        <%= f.submit "Add Failure", class: "btn btn-success pull-right form-loading-on-click",
                      "data-form" => "failures_list" %>
       </div>
   <% end %>
