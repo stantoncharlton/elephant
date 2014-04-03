@@ -1,7 +1,7 @@
-<div style="margin-top: -40px;">
+<div style="">
 <div class="form" data-form="new_shipment">
 
-<div class="page_header">
+<div class="section-header">
   <% if !new && editable %>
       <%= link_to "Delete Shipment", shipment,
                   method: :delete, remote: true,
@@ -44,7 +44,7 @@
 
 <%= form_for shipment, remote: true do |f| %>
 
-    <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status != Shipment::COMPLETE && shipment.from.present? %>
+    <% if !shipment.from_editable && shipment.from_type == "Job" && shipment.status == Shipment::CREATING && shipment.from.present? %>
         <div class="job-shipment-list">
           <% shipment_assets = shipment.part_memberships.to_a %>
           <% part_memberships = shipment.from.part_memberships.where(:shipping => false).to_a %>
@@ -97,7 +97,7 @@
     <hr>
 
 
-    <div class="content">
+    <div class="">
 
       <% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
       <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
@@ -108,11 +108,30 @@
       <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
 
 
-      <% if shipment.status != Shipment::COMPLETE %>
-          <%= f.submit "Send",
-                       class: "bluebtn green push-right-small pull-right form-loading-on-click save-button",
-                       "data-form" => "new_shipment" %>
-      <% end %>
+      <div class='pull-right'>
+        <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+        <% if shippers.any? %>
+            <% if shipment.status == Shipment::COMPLETE %>
+                <div class='inline-block align-top'><%= shipment.shipper.present? ? shipment.shipper.name : '' %></div>
+            <% else %>
+
+                <div class='inline-block'>
+                  <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
+                                 placeholder: "Shipper",
+                                 style: "max-width: 100px;",
+                                 class: "custom-select" %>
+                </div>
+            <% end %>
+
+        <% end %>
+
+        <% if shipment.status != Shipment::COMPLETE %>
+            <%= f.submit "Send",
+                         class: "btn btn-success push-right-small align-top form-loading-on-click save-button",
+                         "data-form" => "new_shipment" %>
+        <% end %>
+
+      </div>
 
       <div style="margin-left: -10px;">
         <% if shipment.from.present? && shipment.to.present? %>
@@ -218,24 +237,7 @@
             </div>
         <% end %>
 
-        <div class='pull-left' style="margin-left: 310px; margin-bottom: -10px;">
-          <% shippers = shipment.district.shippers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-          <% if shippers.any? %>
-              <% if shipment.status == Shipment::COMPLETE %>
-                  <div class='inline-block align-top'><%= shipment.shipper.present? ? shipment.shipper.name : '' %></div>
-              <% else %>
 
-                  <div class='inline-block'>
-                    <%= select_tag "shipper_id", options_for_select(shippers, shipment.shipper_id),
-                                   placeholder: "Shipper",
-                                   class: "custom-select" %>
-                  </div>
-                  <p class='inline-block help-text align-top push-down'>&nbsp;&nbsp;shipper</p>
-              <% end %>
-
-          <% end %>
-
-        </div>
       </div>
 
     </div>
