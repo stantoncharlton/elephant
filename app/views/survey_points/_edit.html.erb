@@ -1,8 +1,8 @@
-<div class="page_header">
+<div class="section-header">
   <% if survey_point.tie_on? %>
-      <h1>Edit Tie-In</h1>
+      <h1>Update Tie-In</h1>
   <% else %>
-      <h1>Edit Point</h1>
+      <h1>Update Point</h1>
   <% end %>
 </div>
 
@@ -153,9 +153,9 @@
         <% end %>
 
       </div>
-      <div class="content actions">
+      <div class="actions">
         <%= f.submit "Update Point",
-                     class: "bluebtn pull-right form-loading-on-click",
+                     class: "btn btn-success pull-right form-loading-on-click",
                      "data-form" => "edit_survey_point" %>
       </div>
   <% end %>

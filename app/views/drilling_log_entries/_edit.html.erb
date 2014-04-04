@@ -1,5 +1,5 @@
-<div class="page_header">
-  <h1>Edit Entry</h1>
+<div class="section-header">
+  <h1>Update Entry</h1>
 </div>
 
 <div class="form" data-form="edit_drilling_log_entry">
@@ -10,7 +10,7 @@
       <div>
 
 
-        <div class='push-down'>
+        <div class=''>
           <input type="text" value="<%= drilling_log_entry.entry_at.strftime("%m/%d/%Y") %>"
                  name="date"
                  id="entry_date"
@@ -80,7 +80,7 @@
       </div>
       <div class="content actions">
         <%= f.submit "Update Entry",
-                     class: "bluebtn pull-right form-loading-on-click",
+                     class: "btn btn-success pull-right form-loading-on-click",
                      "data-form" => "edit_drilling_log_entry" %>
       </div>
   <% end %>
@@ -92,3 +92,7 @@
   <span class="ajax-loading search-loading"><b>Saving log entry...</b></span>
   <br>
 </div>
+
+<script type="text/javascript">
+    $('.date-picker').datepicker();
+</script>
