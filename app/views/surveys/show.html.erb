@@ -81,7 +81,7 @@
       <div class="list-item-column list-item-column-short"><%= point.north_south.round(2) %></div>
       <div class="list-item-column list-item-column-short"><%= point.east_west.round(2) %></div>
 
-      <div class="list-item-column list-item-column-count"><%= point.dog_leg_severity.round(2) %></div>
+      <div class="list-item-column list-item-column-count"><%= point.dog_leg_severity.present? ? point.dog_leg_severity.round(2) : "-" %></div>
 
       <% last_point = point %>
     </div>

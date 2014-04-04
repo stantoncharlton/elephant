@@ -47,10 +47,8 @@
         </div>
 
 
-        <% if @active_well_plan.nil? %>
-            <br>
-            <%= link_to "Update Well Plan", "/surveys/new?job_id=" + @job.id.to_s, class: "btn btn-primary white-text" %>
-        <% end %>
+        <br>
+        <%= link_to "Update Well Plan", "/surveys/new?job_id=" + @job.id.to_s, class: "btn btn-primary white-text" %>
 
         <div class='inline-block push-right-small'>
           <%= link_to "Continue Without Well Plan", job_path(@drilling_log.job, update_field: true, field: "no_well_plan", value: true),
@@ -168,7 +166,7 @@
             <%= render 'surveys/survey_entry' %>
         <% end %>
 
-        <% if @survey.present? || @active_well_plan.present?  %>
+        <% if @survey.present? || @active_well_plan.present? %>
             <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
         <% end %>
     <% end %>
