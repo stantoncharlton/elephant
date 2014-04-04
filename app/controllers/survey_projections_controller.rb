@@ -15,7 +15,10 @@ class SurveyProjectionsController < ApplicationController
         if bha.nil?
             bha = Bha.includes(:job).where("jobs.well_id = ?", @drilling_log.job.well_id).last
         end
-        @bit_to_sensor = bha.bit_to_sensor.present? ? bha.bit_to_sensor : 0.0
+        @bit_to_sensor = 0
+        if bha.present?
+            @bit_to_sensor = bha.bit_to_sensor.present? ? bha.bit_to_sensor : 0.0
+        end
     end
 
     def create
@@ -44,7 +47,10 @@ class SurveyProjectionsController < ApplicationController
         if bha.nil?
             bha = Bha.includes(:job).where("jobs.well_id = ?", @drilling_log.job.well_id).last
         end
-        bit = bha.bit_to_sensor.present? ? bha.bit_to_sensor : 0.0
+        @bit_to_sensor = 0
+        if bha.present?
+            @bit_to_sensor = bha.bit_to_sensor.present? ? bha.bit_to_sensor : 0.0
+        end
 
         case params[:type]
             when "current"
@@ -66,7 +72,7 @@ class SurveyProjectionsController < ApplicationController
                 @tvd = @new_point.true_vertical_depth
                 @dls = @new_point.dog_leg_severity
             when "bit"
-                @new_point = Survey.calculate_point(SurveyPoint.new(measured_depth: last_point.measured_depth + bit, inclination: last_point.inclination, azimuth: last_point.azimuth), last_point, vertical_section)
+                @new_point = Survey.calculate_point(SurveyPoint.new(measured_depth: last_point.measured_depth + @bit_to_sensor, inclination: last_point.inclination, azimuth: last_point.azimuth), last_point, vertical_section)
                 @md = @new_point.measured_depth
                 @inc = @new_point.inclination
                 @azi = @new_point.azimuth
@@ -115,7 +121,7 @@ class SurveyProjectionsController < ApplicationController
         @tvd_delta = @tvd - last_point.true_vertical_depth
         @dls_delta = @dls - last_point.dog_leg_severity
 
-        bit_point = Survey.calculate_point(SurveyPoint.new(measured_depth: @md + bit, inclination: @inc, azimuth: @azi), @new_point, vertical_section)
+        bit_point = Survey.calculate_point(SurveyPoint.new(measured_depth: @md + @bit_to_sensor, inclination: @inc, azimuth: @azi), @new_point, vertical_section)
         @md_bit = bit_point.measured_depth
 
     end
