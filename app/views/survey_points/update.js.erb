@@ -10,7 +10,7 @@ $('#alert').modal({show: true});
 
 <% if @survey_point.present? %>
     <% @survey = @survey_point.survey %>
-    <% @well_plan = Survey.includes(document: {job: :well}).where(:plan => true).where("wells.id = ?", @survey.document.job.well_id).first %>
+    <% @well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @survey.job.well_id).first %>
     <% if @survey.present? && @well_plan.present? %>
         <% calculated_points_survey = @survey.calculated_points(@well_plan.vertical_section_azimuth) %>
         $('#survey_list').replaceWith("<%= j render 'surveys/survey_list', points: calculated_points_survey %>");

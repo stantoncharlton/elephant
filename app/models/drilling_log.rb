@@ -386,7 +386,9 @@ class DrillingLog < ActiveRecord::Base
                             entries = @drilling_log.drilling_log_entries.where("drilling_log_entries.bha_id = ?", bha.id).to_a
                         else
                             entries = @drilling_log.drilling_log_entries
-                            bha = entries.last.bha
+                            if entries.any?
+                                bha = entries.last.bha
+                            end
                         end
                         if bha.nil?
                             bha = Bha.new

@@ -26,7 +26,7 @@
       <div class="" id="list">
         <% @bha.bha_items.each do |bha_item| %>
             <% if bha_item.tool.present? %>
-                <%= render 'bhas/bha_tool', bha_item: bha_item, tool: bha_item.tool, document: @document %>
+                <%= render 'bhas/bha_tool', bha_item: bha_item, tool: bha_item.tool, job: @job %>
             <% end %>
         <% end %>
       </div>

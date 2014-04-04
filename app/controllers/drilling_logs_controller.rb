@@ -35,10 +35,10 @@ class DrillingLogsController < ApplicationController
     include DrillingLogsHelper
 
     def index
-        if params[:document].present?
-            @document = Document.find_by_id(params[:document])
+        if params[:job].present?
+            @job = Job.find_by_id(params[:job])
             not_found unless !@document.nil?
-            @drilling_log = DrillingLog.includes(document: :job).where("jobs.well_id = ?", @document.job.well_id).last
+            @drilling_log = DrillingLog.includes(:job).where("jobs.well_id = ?", @job.well_id).last
 
             cookies[:return_job] = params[:return_job]
 
@@ -46,9 +46,8 @@ class DrillingLogsController < ApplicationController
                 if @document.document_type == Document::DRILLING_LOG
                     @drilling_log = DrillingLog.new
                     @drilling_log.company = current_user.company
-                    @drilling_log.job = @document.job
-                    @drilling_log.well = @document.job.well
-                    @drilling_log.document = @document
+                    @drilling_log.job = @job
+                    @drilling_log.well = @job.well
                     @drilling_log.save
                     redirect_to @drilling_log
                 end

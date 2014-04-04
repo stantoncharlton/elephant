@@ -53,7 +53,7 @@
 
           <div class='push-down-small'>
             <div class='list-item-column4 align-top push-down-small'><b>BHA</b></div>
-            <% @bhas = Bha.joins(document: {job: :well}).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", drilling_log_entry.drilling_log.job.well_id).order("bhas.name ASC") %>
+            <% @bhas = Bha.joins(job: :well).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", drilling_log_entry.drilling_log.job.well_id).order("bhas.name ASC") %>
             <% options = @bhas.collect { |bha| [bha.name + (!bha.description.blank? ? " - " + bha.description : ""), bha.id] } %>
             <% options << ["None (Out-hole)", nil] %>
             <div class="inline-block">

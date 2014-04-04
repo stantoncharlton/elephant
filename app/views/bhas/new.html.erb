@@ -68,18 +68,6 @@
         <span class="ajax-loading search-loading"><b>Adding Tool...</b></span>
       </div>
 
-      <% if false %>
-          <div class="content">
-            <% @document.job.job_template.primary_tools.where(:job_id => @document.job.id).where(:template => false).includes(:tool).order("tools.name ASC").each do |primary_tool| %>
-                <%= render 'bhas/bha_tool', tool: primary_tool, document: @document, f: f %>
-            <% end %>
-
-            <% @document.job.secondary_tools.includes(:tool).order("tools.name ASC").each do |secondary_tool| %>
-                <%= render 'bhas/bha_tool', tool: secondary_tool, document: @document, f: f %>
-            <% end %>
-          </div>
-      <% end %>
-
       <hr>
 
       <%= f.submit "Save BHA", class: "btn btn-success pull-right push-right-small form-loading-on-click",

@@ -10,6 +10,7 @@ $ ->
 
 
   $('#drilling_log_filter').live "change", ->
+    data_id = $(this).attr('data-id')
     selection = $(this).find('option:selected').val()
     $('.log-entry-hidden').addClass 'hidden'
     if selection == 'recent'
@@ -26,12 +27,17 @@ $ ->
         $(this).show()
     else if selection == 'all'
       $('.log-entry-group').each ->
+        if $(this).attr('data-loaded') == "false"
+          data_date = $(this).attr('data-date')
+          $.ajax "/drilling_logs/#{data_id}?section=log2&date=#{data_date}", type: "get", dataType: "script"
         $(this).show()
       $('.drilling-log-entry').each ->
         $(this).show()
     else
       $('.log-entry-group').each ->
         if $(this).attr('data-date') == selection
+          if $(this).attr('data-loaded') == "false"
+            $.ajax "/drilling_logs/#{data_id}?section=log2&date=#{selection}", type: "get", dataType: "script"
           $(this).show()
           $(this).find('.drilling-log-entry').each ->
             $(this).show()
