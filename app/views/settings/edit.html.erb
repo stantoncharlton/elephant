@@ -3,10 +3,10 @@
 
 <%= form_for(@user, :url => "/settings/" + @user.id.to_s) do |f| %>
 
-    <div class="page_header">
+    <div class="section-header">
       <h1><%= t ".title" %></h1>
 
-      <%= f.submit "Save Settings", class: "bluebtn pull-right" %>
+      <%= f.submit "Save Settings", class: "btn btn-success pull-right" %>
     </div>
 
 
@@ -19,7 +19,7 @@
     <div class="content">
       <div class="">
         <%= link_to "Change password", update_password_path(email: current_user.email),
-                    class: "bluebtn gray" %>
+                    class: "btn btn-default" %>
       </div>
       <br>
 
@@ -42,7 +42,7 @@
 
         <div class="content">
           <div class="">
-            <%= f.check_box :send_daily_activity, checked: true,
+            <%= f.check_box :send_daily_activity,
                             class: "regular-checkbox", id: "checkbox_1" %>
             <label for="checkbox_1"></label>
 
@@ -81,17 +81,19 @@
 
         <div class="content">
           <div class="">
-            <%= f.label :language, class: "field-title" %>
+            <%= f.label :language, class: "field-title align-top push-down" %>
             <%= f.select :language, options_for_select([["English", "en-US"]], @user.language),
-                         html: {class: "long-select"},
+                         {},
+                         class: "custom-select custom-select-long align-top",
                          default: "en-US" %>
           </div>
 
-          <div class="">
-            <%= f.label :time_zone, class: "field-title" %>
+          <div class="push-down-small">
+            <%= f.label :time_zone, class: "field-title align-top push-down" %>
             <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.all,
-                                   html: {class: "long-select"},
-                                   default: "Central Time (US & Canada)" %>
+                                   {},
+                                   class: "custom-select custom-select-long align-top",
+                                    default: "Central Time (US & Canada)" %>
           </div>
         </div>
 
@@ -215,8 +217,8 @@
 
     <br><br>
 
-    <%= f.submit "Save Settings", class: "bluebtn pull-right" %>
+    <%= f.submit "Save Settings", class: "btn btn-success pull-right" %>
 
-    <%= link_to "Cancel", root_path, class: "bluebtn pull-right btnheight gray push-left-small" %>
+    <%= link_to "Cancel", root_path, class: "btn btn-default pull-right push-left-small" %>
 
 <% end %>
