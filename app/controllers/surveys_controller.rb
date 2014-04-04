@@ -252,7 +252,18 @@ class SurveysController < ApplicationController
                 return
             end
 
-            if true #Compass File
+            compass = true
+            if contents.start_with?("H")
+                compass = false
+                lines = contents.split("\r\n")
+                lines.each_with_index do |line, index|
+                    if !line.start_with?('H')
+                        entry_lines << line
+                    elsif line.start_with?('H VSECT ANGLE')
+                        @survey.vertical_section_azimuth = line[1..-1].split(':')[1].strip!
+                    end
+                end
+            else
                 lines = contents.split("\r\n")
 
                 dividers = 0
@@ -276,6 +287,7 @@ class SurveysController < ApplicationController
                 sp.destroy
             end
 
+            last_point = nil
             entry_lines.each_with_index do |line, index|
                 parts = line.gsub('/\s+/m', ' ').strip.split(' ')
                 survey_point = SurveyPoint.new
@@ -284,19 +296,33 @@ class SurveysController < ApplicationController
                 survey_point.user_name = current_user.name
                 survey_point.survey = @survey
                 survey_point.comment = nil
-                survey_point.measured_depth = parts[1].to_d
-                survey_point.inclination = parts[2].to_d
-                survey_point.azimuth = parts[3].to_d
-                survey_point.course_length = parts[4].to_d
-                survey_point.true_vertical_depth = parts[5].to_d
-                survey_point.vertical_section = parts[6].to_d
-                survey_point.north_south = parts[7].to_d
-                survey_point.east_west = parts[8].to_d
-                survey_point.closure_distance = parts[9].to_d
-                survey_point.closure_angle = parts[10].to_d
-                survey_point.dog_leg_severity = parts[11].to_d
+
+                if compass
+                    survey_point.measured_depth = parts[1].to_d
+                    survey_point.inclination = parts[2].to_d
+                    survey_point.azimuth = parts[3].to_d
+                    survey_point.course_length = parts[4].to_d
+                    survey_point.true_vertical_depth = parts[5].to_d
+                    survey_point.vertical_section = parts[6].to_d
+                    survey_point.north_south = parts[7].to_d
+                    survey_point.east_west = parts[8].to_d
+                    survey_point.closure_distance = parts[9].to_d
+                    survey_point.closure_angle = parts[10].to_d
+                    survey_point.dog_leg_severity = parts[11].to_d
+                else
+                    survey_point.measured_depth = parts[0].to_d
+                    survey_point.inclination = parts[1].to_d
+                    survey_point.azimuth = parts[2].to_d
+                    survey_point.true_vertical_depth = parts[3].to_d
+                    survey_point.north_south = parts[4].to_d
+                    survey_point.east_west = parts[5].to_d
+
+                    survey_point = Survey.calculate_point survey_point, last_point, @survey.vertical_section_azimuth
+                end
+
                 survey_point.save
                 survey_point
+                last_point = survey_point
             end
 
             @actual_survey = Survey.includes(:job).where(:plan => false).where("jobs.well_id = ?", @survey.job.well_id).first
