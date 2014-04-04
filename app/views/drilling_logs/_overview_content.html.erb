@@ -107,11 +107,20 @@
       <hr>
 
 
+      <% @surveys = Survey.includes(job: :well).where(:plan => false).where("wells.id = ?", drilling_log.job.well_id).order("surveys.created_at ASC") %>
+      <% if @survey.nil? %>
+          <% @survey = @surveys.last %>
+      <% end %>
+      <% @well_plans = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", drilling_log.job.well_id).order("surveys.created_at ASC") %>
+      <% if @survey.present? %>
+          <% @active_well_plan = @well_plans.where("surveys.well_plan_for_survey_id = ?", @survey.id).last %>
+      <% end %>
+      <% if @active_well_plan.nil? %>
+          <% @active_well_plan = @well_plans.last %>
+      <% end %>
 
-      <% active_well_plan = Survey.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where(:plan => true).order("surveys.updated_at ASC").first %>
-      <% survey = Survey.includes(job: :well).where("wells.id = ?", drilling_log.job.well_id).where(:plan => false).order("surveys.updated_at ASC").first %>
-      <% if !active_well_plan.nil? || (survey.present? && survey.no_well_plan) %>
-          <%= render 'surveys/survey_charts', well_plan: active_well_plan, survey: survey, height: 350 %>
+      <% if !@active_well_plan.nil? || (@survey.present? && @survey.no_well_plan) %>
+          <%= render 'surveys/survey_charts', well_plan: @active_well_plan, survey: @survey, height: 350, section: "overview" %>
       <% else %>
           <div id="survey_charts"><p class='help-text center'>No active well plan set...</p></div>
       <% end %>

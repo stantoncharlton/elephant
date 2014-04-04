@@ -113,8 +113,8 @@
             <% end %>
         <% end %>
 
-        <div id="chartdiv" class='inline-block' style="width: 420px; height: 400px;"></div>
-        <div id="chartdiv2" class='inline-block' style="width: 420px; height: 400px;"></div>
+        <div id="chartdiv_survey" class='inline-block' style="width: 420px; height: 400px;"></div>
+        <div id="chartdiv2_survey" class='inline-block' style="width: 420px; height: 400px;"></div>
 
 
         <div class='push-down'>
@@ -167,7 +167,7 @@
         <% end %>
 
         <% if @survey.present? || @active_well_plan.present? %>
-            <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points %>
+            <%= render 'surveys/charting', calculated_points_survey: calculated_points_survey, calculated_points: calculated_points, section: "survey" %>
         <% end %>
     <% end %>
 
