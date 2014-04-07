@@ -32,23 +32,42 @@
               <ul class="dropdown-menu">
                 <% if job.status != Job::PRE_JOB %>
                     <li>
-                      <%= link_to "Pre-Job",
-                                  job_path(job, update_field: true, field: "begin_pre_job", value: true), :method => :put,
-                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                      <%= link_to job_path(job, update_field: true, field: "begin_pre_job", value: true), :method => :put,
+                                  class: "inline-block dropdown-menu-link tooltip-info", "data-placement" => "left",
+                                  "data-title" => "Change job status" do %>
+                                    <div style='display:inline-block; width: 10px; height: 10px; background: #3a87ad; margin-right: 10px;'></div>
+                                    <span style="font-family: gothambookregular;">Pre Job</span>
+                              <% end %>
                     </li>
                 <% end %>
                 <% if job.status != Job::ON_JOB %>
                     <li>
-                      <%= link_to "In-Progress",
-                                  job_path(job, update_field: true, field: "begin_on_job", value: true), :method => :put,
-                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                      <%= link_to job_path(job, update_field: true, field: "begin_on_job", value: true), :method => :put,
+                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left",
+                                  "data-title" => "Change job status" do %>
+                                        <div style='display:inline-block; width: 10px; height: 10px; background: #f89406; margin-right: 10px;'></div>
+                                        <span style="font-family: gothambookregular;">In Progress</span>
+                                  <% end %>
                     </li>
                 <% end %>
                 <% if job.status != Job::POST_JOB %>
                     <li>
-                      <%= link_to "Post-Job",
-                                  job_path(job, update_field: true, field: "begin_post_job", value: true), :method => :put,
-                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left", "data-title" => "Change job status" %>
+                      <%= link_to job_path(job, update_field: true, field: "begin_post_job", value: true), :method => :put,
+                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left",
+                                  "data-title" => "Change job status" do %>
+                                            <div style='display:inline-block; width: 10px; height: 10px; background: #468847; margin-right: 10px;'></div>
+                                            <span style="font-family: gothambookregular;">Post Job</span>
+                                  <% end %>
+                    </li>
+                <% end %>
+                <% if job.status != Job::COMPLETE %>
+                    <li>
+                      <%= link_to job_path(job, update_field: true, field: "close_job", value: true), :method => :put,
+                                  class: "dropdown-menu-link tooltip-info", "data-placement" => "left",
+                                  "data-title" => "Change job status" do %>
+                                            <div style='display:inline-block; width: 10px; height: 10px; background: #468847; margin-right: 10px;'></div>
+                                            <span style="font-family: gothambookregular;">Complete</span>
+                                  <% end %>
                     </li>
                 <% end %>
               </ul>
@@ -63,7 +82,6 @@
 
 
     <%= render 'jobs/duplicate_warning', job: @job %>
-    <%= render 'jobs/job_process', job: @job %>
 
 
     <% if false %>

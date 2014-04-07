@@ -1,71 +1,54 @@
-<div class="login">
+<div class="login" style='margin-top: 100px; width: 327px; margin-left: auto; margin-right: auto;'>
 
-  <h1>Account Login</h1>
+  <%= image_tag "elephant_mark.png", style: "margin-bottom: 20px;" %>
 
-  <% if !flash.any? %>
-      <h2>Access your Elephant Account</h2>
-  <% end %>
 
-  <% flash.each do |key, value| %>
-      <br>
+  <h1 style='color: #ffffff; font-family: gothamlightregular;'>Login</h1>
 
-      <div class="alert alert-<%= key %> loginrightmargin"><b><%= value %></b>
-        <%= image_tag "error_red.png", class: "login-error" %>
-      </div>
+  <div class="form" data-form="login" style=''>
 
-  <% end %>
-
-  <div class="form">
     <%= form_for(:session, url: sessions_path, autocomplete: "on") do |f| %>
 
-        <%= f.label :email %>
         <%= f.text_field :email, placeholder: "Type Email",
                          value: params[:email],
                          class: "input-controls tooltip-info",
                          "data-placement" => "bottom",
                          "data-title" => "Email address" %>
 
-        <%= f.label :password %>
-        <%= link_to "Forgot Password?", reset_password_path, tabindex: "4",
-                    class: "tooltip-info forgot-password",
-                    "data-placement" => "bottom",
-                    "data-title" => "Request to reset your Elephant password" %>
         <%= f.password_field :password, placeholder: "Type Password",
                              class: "input-controls tooltip-info",
                              "data-placement" => "bottom",
                              "data-title" => "Password" %>
 
-        <div class="lastrow">
+        <div class="" style='width: 320px; margin-left: auto; margin-right: auto; text-align: left;'>
 
+          <%= link_to "Forgot Password?", reset_password_path, tabindex: "4",
+                      class: "tooltip-info white-text",
+                      style: "font-size: 14px;" %>
 
-          <%= f.submit "LOGIN", class: "bluebtn loginright tooltip-info form-loading-on-click",
-                       "data-placement" => "bottom",
-                       "data-title" => "Log into your elephant account" %>
+          <%= f.submit "LOGIN", class: "btn btn-success form-loading-on-click pull-right",
+                       style: "padding-left: 20px; padding-right: 20px;",
+                       "data-form" => "login" %>
         </div>
 
-        <br><br><br><br><br><br><br><br>
 
-        <div class='help'>
-          <%= link_to "Having Problems?", "mailto:support@elephant-cloud.com?subject=I'm Having Problems!",
-                      class: "tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Are you having problems?" %>
-          <br>
-          <%= link_to "Need help logging in?", "mailto:support@elephant-cloud.com?subject=I Need Help Logging In",
-                      class: "tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Is there a problem logging in?" %>
-          <br>
-          <%= link_to "Account Support?", "mailto:support@elephant-cloud.com?subject=I'm Having Problems with my Account",
-                      class: "tooltip-info",
-                      "data-placement" => "bottom",
-                      "data-title" => "Need help with your account?" %>
-        </div>
+        <% flash.each do |key, value| %>
+            <br><br>
+
+            <div class="">
+              <%= image_tag "error_red.png" %>
+              <b style='line-height: 25px; font-size: 15px;'><%= value %></b>
+            </div>
+
+        <% end %>
 
     <% end %>
   </div>
 
-  <div class="white-text">
-    <%= render 'layouts/inline_loading', title: "Logging in..." %>
+  <div class="form-loading hidden" data-form="login">
+    <div class='' style="margin-left: 60px;">
+      <%= render 'layouts/inline_loading', title: "Signing In..." %>
+    </div>
   </div>
+
 </div>

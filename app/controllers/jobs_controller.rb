@@ -390,6 +390,10 @@ class JobsController < ApplicationController
                 when "close_job"
                     @job.update_attribute(:status, Job::COMPLETE)
                     Activity.add(current_user, Activity::JOB_APPROVED_TO_CLOSE, @job, nil, @job)
+                    @job.update_attribute(:close_date, DateTime.now)
+                    if request.format == "html"
+                        redirect_to @job
+                    end
                 when "rating"
                     @job.update_attribute(:rating, params[:value])
                     Activity.add(self.current_user, Activity::JOB_RATING, @job, @job.rating.to_i, @job)

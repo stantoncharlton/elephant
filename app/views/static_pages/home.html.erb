@@ -1,119 +1,272 @@
-<% provide(:title, 'Elephant Software Home') %>
+<% provide(:title, 'Elephant Big Data') %>
 
-<div>
+<div class='home'>
 
-  <div class='body-background' alt='Elephant is a solutions package created for the energy industry to achieve high quality processes. Elephant uses the latest software technology and every communication channel available to gather, organize, and save data that is used to achieve total communication, process standardization, information delivery, and failure reduction.'></div>
+<div class='hero'>
 
-  <div class='home-shadow'></div>
-
-  <div class='footer'>
-    <a href="tel://817-500-0360">817-500-0360</a>
-    <a href='/privacy'>Privacy</a>
-    <a href='/terms'>Terms of Use</a>
-    <a href='/copyright'>Copyright</a>
+  <div class='pull-right' style='margin-top: 40px; margin-right: 0px;'>
+    <%= link_to "Sign In", "#",
+                id: "show_sign_in",
+                class: "sign-in-button align-top" %>
   </div>
 
-  <% if !@news.nil? && @news.any? %>
-      <div class='news' data-index='0'>
-        <div class='news-header'>News</div>
-        <div class='news-title'><%= @news.first[0] %></div>
-        <p class='news-summary'><%= @news.first[1] %></p>
-        <a class='news-link' href="<%= @news.first[2] %>" target="_blank">Read More</a>
-        <a id='back_news' class='push-right tooltip-info' data-title="Previous News Item" href='#'><i class="icon-arrow-left icon-white"></i></a>
-        <a id='forward_news' class='push-right-small tooltip-info' data-title="Next News Item" href='#'><i class="icon-arrow-right icon-white"></i></a>
-      </div>
-  <% end %>
+  <div id="hero_content">
+    <%= image_tag "home_logo_large.png", class: "logo", style: "margin-left: 130px;" %>
 
-  <div class='home-box'>
-    <%= image_tag "home_logo.png" %>
-
-    <div class='description'>
-      We connect the dots to create insight in the energy industry.
-    </div>
-
-    <div class='links'>
-
-      <div class='link'>
-        <a href="/features">What We Offer</a>
-      </div>
-      <div class='link'>
-        <a href="/sales">Sales &amp; Contact</a>
-      </div>
-      <div class='link'>
-        <a class='' href="/about">Company Information</a>
-      </div>
-
-    </div>
-
+    <p style='color: #FFFFFF;  font-size: 26px; font-family: gothamlightregular; opacity: 0.9;'>
+      The digital oilfield in the cloud</p>
   </div>
 
-  <div class="sign-box-background"></div>
-  <div class="signin-box">
+
+  <div id="sign_in" class='sign-in hidden'>
+
+    <div class='pull-right' style='margin-top: 30px; margin-right: 30px;'>
+      <%= link_to "Help?", "mailto:support@elephant-cloud.com?subject=I'm Having Problems!",
+                  class: "white-text align-top" %>
+
+      <a id="hide_sign_in" class='delete-button-small time-close-button align-top'
+         style='margin-left: 30px; margin-top: -3px;'>x</a>
+    </div>
+
+
     <%= render 'sessions/signin' %>
-  </div>
 
-  <!--
-  <div class="quote">
-    <p><span class=" inline">
-      Complete asset &amp; operations solution <br> for the Exploration & Production sector of the Oil & Gas industry.</span>
-      <a class="link" href="/features">Learn more »</a>
-    </p>
-    <br>
-    <a href="tel:1-817-500-0360" class="phone">1-817-500-0360</a>
   </div>
-  -->
 
 </div>
 
-<script type="text/javascript">
+<div class='' style='margin-top: 80px;'>
 
-    <% if !@news.nil? && @news.any? %>
-    var news_index = 0;
-    var news_running = true;
 
-    var news = [];
-    <% @news.each do |item| %>
-    news.push(['<%= item[0] %>', '<%= item[1] %>', '<%= item[2] %>']);
+  <p class='pull-right' style="margin-top: 120px; width: 400px; margin-right: 70px; line-height: 35px;">
+    <span style='font-size: 32px; text-transform: uppercase;'>Elephant</span>
+    is a platform for making sense of oilfield drilling operations.
+
+    <br><br>
+
+    Whether real-time or historical, we are producing forecasts and insight to improve speed and efficiency.
+
+
+  </p>
+
+  <%= image_tag "screen1.jpg", class: "" %>
+
+</div>
+
+<div style='margin-top: 60px;' class='center'>
+  <%= image_tag "home_divider.jpg", class: "" %>
+</div>
+
+<div style='margin-top: 80px;'>
+
+  <div style="margin-top: 100px; max-width: 900px; margin-left: auto; margin-right: auto;">
+    <p style='max-width: 900px;'>
+      Elephant works by combining drilling sensor big data and machine learning algorithms to determine drilling
+      anomalies, asset maintenance points, and real-time trend discovery. We create intensive statistical analysis
+      that
+      is instantly available.
+    </p>
+  </div>
+
+  <div style="text-align: center; margin-top:70px;">
+    <%= image_tag "screen3.jpg", style: "" %>
+  </div>
+
+</div>
+
+
+<div style='margin-top: 80px;'>
+  <div class='center'>
+    <h1 style='font-family: gothamlightregular;'>Features</h1>
+  </div>
+  <div style='margin-top: 60px;' class='center'>
+    <%= image_tag "home_divider.jpg", class: "" %>
+  </div>
+
+  <div class='center' style='margin-top: 30px;'>
+    <a href="#" class='feature-icon feature-icon-active' data-feature="5">
+      <%= image_tag "feature_icon_3.png" %>
+    </a>
+    <a href="#" class='feature-icon' data-feature="1">
+      <%= image_tag "feature_icon_1.png" %>
+    </a>
+    <a href="#" class='feature-icon' data-feature="2">
+      <%= image_tag "feature_icon_2.png" %>
+    </a>
+    <a href="#" class='feature-icon' data-feature="3">
+      <%= image_tag "feature_icon_5.png" %>
+    </a>
+    <a href="#" class='feature-icon' data-feature="4">
+      <%= image_tag "feature_icon_4.png" %>
+    </a>
+    <a href="#" class='feature-icon' data-feature="6">
+      <%= image_tag "feature_icon_6.png" %>
+    </a>
+    <a href="#" class='feature-icon' data-feature="7">
+      <%= image_tag "feature_icon_7.png" %>
+    </a>
+
+  </div>
+
+  <div style="margin-top: 50px;">
+
+    <div class='hidden feature-tray' data-feature="1">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_1.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Top-down, bottom-up organizational transparency</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature1.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+    <div class='hidden feature-tray' data-feature="2">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_2.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Complete standardized document, data, communication, and asset management</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature2.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+    <div class='hidden feature-tray' data-feature="3">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_5.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Real time asset, operation, and employee performance analytics combined with leading key performance
+          indicators</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature3.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+    <div class='hidden feature-tray' data-feature="4">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_4.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Failure Issue management and resolution</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature4.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+    <div class=' feature-tray' data-feature="5">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_3.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Predictive Insight</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature5.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+    <div class='hidden feature-tray' data-feature="6">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_6.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Extensive searching, reporting, and information browsing</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature6.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+    <div class='hidden feature-tray' data-feature="7">
+      <div class='pull-left' style="margin-top: 150px; max-width: 300px; margin-left: 100px;">
+        <%= image_tag "feature_icon_7.png" %>
+        <div style="width: 250px; height: 2px; background: #bbbaba; margin-bottom: 20px;"></div>
+        <p>Real time wellsite status</p>
+      </div>
+
+      <div style="text-align: right; margin-top:0px;">
+        <%= image_tag "feature7.jpg", style: "right: 0;" %>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<div class='footer' style='margin-top: 100px;'>
+
+  <div style="text-align: center">
+    <%= image_tag "elephant_mark.png", style: "margin-top: 150px;" %>
+
+    <p style='margin-top: 20px; color: #FFFFFF;'>
+      Elephant is dedicated to re-envisioning the world of oilfield drilling.
+    </p>
+
+    <%= image_tag "home_divider2.png", style: "margin-top: 30px; margin-bottom: 30px;" %>
+
+    <p style=' color: #a9a9a9;'>Contact</p>
+
+    <div>
+      <p style=' color: #FFFFFF;'>
+        817 - 500 - 0360
+
+        <span style='margin-left: 10px; margin-right: 10px; opacity: 0.5;'>|</span>
+
+        <a href="mailto:info@elephant-cloud.com" class='white-text'>info@elephant-cloud.com</a>
+      </p>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+</div>
+
+<script type='text/javascript'>
+    $('#show_sign_in').click(function () {
+        $('#show_sign_in').hide();
+        $('#hero_content').hide();
+        $('#sign_in').removeClass('hidden');
+        $('#session_email').trigger('focus');
+        return false;
+    });
+    $('#hide_sign_in').click(function () {
+        $('#show_sign_in').show();
+        $('#hero_content').show();
+        $('#sign_in').addClass('hidden');
+        return false;
+    });
+
+    <% if flash.present? && flash.any? %>
+    $('#show_sign_in').trigger('click');
     <% end %>
 
-    (function ($) {
-        load_news = function (index) {
-            var item = news[index];
-            $('.news-title').text(item[0]);
-            $('.news-summary').text(item[1]);
-            $('.news-link').attr('href', item[2]);
-        }
+    $('.feature-icon').click(function () {
+        var feature = $(this).attr('data-feature');
 
-        rotate_news = function () {
-            if (news_running) {
-                news_index++;
-                if (news_index > 4) {
-                    news_index = 0;
-                }
-                load_news(news_index);
-                setTimeout(rotate_news, 10500);
-            }
-        }
-        setTimeout(rotate_news, 10500);
+        $('.feature-icon').each(function () {
+            $(this).removeClass('feature-icon-active');
+        });
+        $(this).addClass('feature-icon-active');
 
-        $('#back_news').click(function () {
-            news_running = false;
-            news_index--;
-            if (news_index < 0) {
-                news_index = 4;
+        $('.feature-tray').each(function () {
+            if ($(this).attr('data-feature') == feature) {
+                $(this).removeClass('hidden');
             }
-            load_news(news_index);
-            return false;
-        });
-        $('#forward_news').click(function () {
-            news_running = false;
-            news_index++;
-            if (news_index > 4) {
-                news_index = 0;
+            else {
+                $(this).addClass('hidden');
             }
-            load_news(news_index);
-            return false;
         });
-    }(jQuery));
-    <% end %>
+        return false;
+    });
 </script>

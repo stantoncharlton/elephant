@@ -9,7 +9,7 @@
 
   <% end %>
 
-  <div class="form" style="margin-left: 65px;">
+  <div class="form" style="margin-left: 90px;">
     <%= form_for(:session, url: sessions_path, autocomplete: "on", remote: true) do |f| %>
 
         <%= f.text_field :email, placeholder: "Type Email",
@@ -28,7 +28,8 @@
         <div class="lastrow">
 
 
-          <%= f.submit "LOGIN", class: "bluebtn loginright tooltip-info form-loading-on-click",
+          <%= f.submit "LOGIN", class: "bluebtn pull-right tooltip-info form-loading-on-click",
+                       style: "margin-right: 90px;",
                        "data-placement" => "bottom",
                        "data-title" => "Log into your elephant account" %>
         </div>

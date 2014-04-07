@@ -478,15 +478,15 @@ class Job < ActiveRecord::Base
         Activity.add(user, Activity::JOB_APPROVED_TO_CLOSE, self, nil, self)
 
 
-        self.part_memberships.each do |part_membership|
-            if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
-                if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job == self
-                    part_membership.part.current_job = nil
-                    part_membership.part.status = Part::AVAILABLE
-                    part_membership.part.save
-                end
-            end
-        end
+        #self.part_memberships.each do |part_membership|
+        #    if part_membership.part_type == PartMembership::INVENTORY && part_membership.part.present?
+        #        if part_membership.part.status == Part::ON_JOB && part_membership.part.current_job == self
+        #            part_membership.part.current_job = nil
+        #            part_membership.part.status = Part::AVAILABLE
+        #            part_membership.part.save
+        #        end
+        #    end
+        #end
 
         #self.unique_participants.each do |participant|
         #    participant.send_job_completed_email(self)

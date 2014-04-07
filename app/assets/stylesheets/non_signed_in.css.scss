@@ -1,292 +1,10 @@
-.body-non-signed-in {
-
-  margin: 0px;
-  padding-top: 140px;
-
-  .container-reset {
-    margin: 0px;
-    padding: 0px;
-  }
-
-  .home-shadow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 500px;
-
-    background:  url(image_path('home_shadow.png'));
-
-    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('home_shadow.png')}, sizingMethod='scale');
-  }
-
-  .home-box {
-    position: absolute;
-    left: 50px;
-    top: 50px;
-    width: 400px;
-
-    .description {
-      font-size: 28px;
-      color: #c7c7c7;
-      text-shadow: 1px 1px 1px #000000;
-      line-height: 35px;
-      margin-top: 20px;
-      font-family: "gothamlightregular" !important;
-    }
-
-    .links {
-      margin-top: 50px;
-      .link {
-        margin-bottom: 30px;
-        a {
-          padding: 8px;
-          font-size: 24px;
-          color: #FFFFFF;
-          text-shadow: 1px 1px 1px #000000;
-          font-family: "gothamlightregular" !important;
-
-          &:link, &:visited {
-            background: #2b83de;
-          }
-          &:hover {
-            background: #6fb5fd;
-            text-decoration: none;
-          }
-        }
-        p {
-          font-size: 16px;
-          color: #FFFFFF;
-          text-shadow: 1px 1px 1px #000000;
-        }
-      }
-    }
-  }
-
-  .news {
-    position: absolute;
-    bottom: 100px;
-    left: 50px;
-    width: 400px;
-    color: #FFFFFF;
-    font-family: "gothamlightregular" !important;
-    text-shadow: 1px 1px 1px #000000;
-
-    @media screen and (max-height: 750px) {
-      display: none;
-    }
-
-    margin-top: 80px;
-
-    .news-header {
-      margin-bottom: 15px;
-    }
-
-    .news-title {
-      font-family: "gothamboldregular" !important;
-    }
-
-    .news-summary {
-      font-family: "gothamlightregular" !important;
-    }
-
-    a {
-      &:link, &:visited {
-        color: #2b83de;
-        background: transparent;
-      }
-      &:hover {
-        color: #2b83de;
-        background: transparent;
-        text-decoration: none;
-      }
-    }
-  }
-
-  .footer {
-    position: absolute;
-    bottom: 10px;
-    left: 50px;
-    height: 30;
-
-    a {
-      color: #FFFFFF;
-      text-shadow: 1px 1px 1px #000000;
-      font-family: "gothamlightregular" !important;
-      margin-right: 20px;
-    }
-  }
-}
-
-.body-background {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-
-  background: #000000 url(image_path('background.jpg')) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
-
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background2.jpg')}, sizingMethod='scale');
-  height: 100%;
-
-  @media only screen and (max-device-width: 768px) {
-    background: #000000 url(image_path('background-small.jpg')) no-repeat center center fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-  }
-}
-
-#kenburns_fallback {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background: #000000 url(image_path('background.jpg')) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
-
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background.jpg')}, sizingMethod='scale');
-}
-
-#kenburns {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  @media only screen and (max-device-width: 768px) {
-    width: 1200px;
-  }
-}
-
-.login-now-btn {
-  margin-top: 6px;
-}
-
-.body-about-non-signed-in {
-  background: #666666;
-
-  margin: 0px;
-  padding-top: 60px;
-
-  .container-reset {
-    margin: 0px;
-    padding: 0px;
-  }
-}
-
-.body-sales {
-  background: #0d365a;
-  padding-top: 50px;
-}
-
-.non-signed-in-header {
-  font-size: 15px;
-  margin-right: 30px;
-  font-family: "gothammediumregular" !important;
-  text-transform: uppercase;
-}
-
-.non-signed-in-header-right {
-  margin-right: 70px;
-}
-
-.non-signed-in-header-link {
-  a, li {
-    font-size: 15px;
-    font-family: "gothammediumregular" !important;
-    text-transform: uppercase;
-    margin-left: 6px;
-    margin-right: 6px;
-  }
-}
-
-.login {
-  //background: url(image_path('login_box.png')) no-repeat;
-  padding: 20px;
-  padding-top: 40px;
-  padding-right: 0px;
-  width: 363px;
-  height: 514px;
-  margin-top: 0px;
-
-  .help {
-    float: right;
-    margin-right: 40px;
-    text-align: right;
-    font-family: "gothamlightregular" !important;
-    color: #FFFFFF;
-
-    a {
-
-      &:link, &:visited {
-        background: transparent;
-        color: #FFFFFF;
-      }
-      &:hover {
-        background: transparent;
-        color: #FFFFFF;
-      }
-    }
-  }
-}
-
-.login h1 {
-  text-align: left;
-  font-family: "gothamboldregular";
-  font-weight: normal;
-  font-size: 32px;
-  color: #FFFFFF;
-  text-shadow: 1px 1px 1px #000000;
-  margin-bottom: 10px;
-}
-
-.login h2 {
-  text-align: left;
-  font-family: "gothamlightregular";
-  font-size: 17px;
-  color: #cccccc;
-  margin-bottom: 56px;
-}
-
-.forgot-password {
-  display: inline;
-  color: #b9b9b9;
-  float: right;
-  margin-right: 86px;
-
-  &:link, &:visited {
-    color: #b9b9b9;
-  }
-  &:hover {
-    background: transparent;
-    color: #81c0f9;
-  }
-}
-
-.login label {
-  font-family: "gothamboldregular";
-  font-size: 18px;
-  color: #FFFFFF;
-  text-shadow: 1px 1px 1px #000000;
-  margin-bottom: 10px;
-  display: inline;
-}
-
 .login .input-controls {
   border-radius: 0px;
   height: 48px;
   width: 305px;
   padding: 0px 10px 0px 10px;
   background: rgba(255, 255, 255, 1.0);
+  margin: 0px;
   margin-top: 10px;
   margin-bottom: 25px;
   display: block;
@@ -295,22 +13,6 @@
   font-size: 16px;
   font-family: "gothammediumregular";
 
-}
-
-.login .checkbox {
-  border-radius: 0px;
-  height: 27px;
-  width: 27px;
-  background: #FFFFFF;
-  margin-right: 0px;
-
-}
-
-.login .checkbox-label {
-  display: inline;
-  font-size: 16px;
-  color: #FFFFFF;
-  font-family: "gothamlightregular";
 }
 
 .login input::-webkit-input-placeholder {
@@ -334,472 +36,120 @@
   font-family: "gothambookregular";
 }
 
-.loginright {
-  float: right;
-  margin-right: 36px;
-}
+.body-non-signed-in {
+  margin: 0px;
+  padding: 0px;
 
-.loginrightmargin {
-  margin-right: 36px;
-}
-
-.sign-box-background {
-  position: absolute;
-  //float: right;
+  background: #f6f6f6;
   top: 0;
-  right: 0;
-  width: 403px;
   height: 100%;
-  background: #000000;
-  opacity: .5;
-  //margin-left: 50%;
+  width: 100%;
 }
 
-.signin-box {
-  position: absolute;
-  //float: right;
-  top: 0;
-  right: 0;
-  margin-right: 0px;
-  //margin-left: 50%;
-}
-
-.quote {
-
-  background: url(image_path('blurb.png')) no-repeat top left;
-
-  width: 420px;
-  height: 135px;
-  margin-left: 20px;
-  position: absolute;
-  bottom: 60px;
-  padding: 16px 30px 16px 50px;
-
-  .bolder {
-    font-family: "gothamboldregular";
-    font-weight: normal;
-    font-size: 22px;
-    line-height: 20px;
-    color: #FFFFFF;
-  }
+.home {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1300px;
+  background: #FFFFFF;
+  height: 100%;
 
   p {
-    margin-right: 48px;
-    text-align: left;
-    color: #FFF;
-    font-size: 18px;
-    font-family: "gothambookregular";
-    margin-bottom: 0px;
-  }
-
-  .phone {
-    margin-top: 0px;
-    font-family: "gothamboldregular";
-    text-transform: UPPERCASE;
-    color: #FFFFFF;
-    font-size: 28px;
-  }
-
-  .link {
-    &:link, &:visited {
-      color: #95cdff;
-    }
-    &:hover {
-      background: transparent;
-      text-decoration: none;
-      color: #7abbf6;
-    }
+    font-family: 'gothambookregular';
+    color: #212121;
+    font-size: 20px;
+    line-height: 35px;
   }
 }
 
-.body-about {
-  background: #000000 url(image_path('rig.jpg')) no-repeat center center fixed;
+.hero {
+  background: #000000 url(image_path('background.jpg')) no-repeat top center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  background-attachment: fixed;
-  margin: 0px;
-  padding-top: 140px;
+  height: 600px;
 
-  .container-reset {
-    margin: 0px;
-    padding: 0px;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('background.jpg')}, sizingMethod='scale');
+
+  text-align: center;
+
+  color: #ffffff;
+  font-family: 'gothamlightregular';
+  font-size: 20px;
+
+
+  .logo {
+    margin-right: auto;
+    margin-top: 200px;
+    margin-bottom: 30px;
   }
 }
 
-.gotham-bold {
-  font-family: "gothamboldregular";
+.sign-in {
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  width: 100%;
+  max-width: 1300px;
+  height: 600px;
 }
 
-.about-div {
-  color: #000000;
+.sign-in-button  {
 
-  margin: 0px;
-  padding: 0px;
-  //text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
+  background: #ffcc00;
+  margin-right: 0px;
+  margin-top: 40px;
+  font-size: 26px;
+  padding-left: 20px;
+  padding-right: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #ffffff;
 
-  p {
-    font-size: 16px;
-    line-height: 25px;
-    font-family: "gothamlightregular";
+  &:link, &:visited {
+    background: #ffcc00;
+    color: #FFFFFF;
   }
-
-  h1, h2 {
-    text-align: left !important;
-
-    color: #000000;
-    //text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
-    font-family: "gothamboldregular";
-  }
-  h3 {
-    font-size: 26px;
-    color: #81c0f9;
-    //text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
-    font-family: "gothamboldregular";
-  }
-}
-
-.sales-email {
   &:hover {
+    background: #ffa800;
+    color: #FFFFFF;
     text-decoration: none;
-
-    p {
-      color: #FFFFFF;
-      text-decoration: none;
-    }
   }
 }
 
-.elephant-about {
+.feature-icon {
+
   display: inline-block;
-  background: #81c0f9;
-  color: #FFFFFF !important;
-  text-shadow: 1px 1px 1px rgba(1, 1, 1, .6);
-  padding: 10px;
-  margin-bottom: 15px;
-}
+  width: 92px;
+  height: 92px;
 
-.elephant-about-red {
-  background: #fa563b;
-}
+  border-radius: 8px;
 
-.elephant-about-blue {
-  background: #3b71fa;
-}
 
-.elephant-about-orange {
-  background: #f3b623;
-}
-
-.elephant-about-p1 {
-  color: #666666;
-  text-align: left;
-  font-family: "gothambookregular" !important;
-  font-size: 26px !important;
-
-  .quote-mark {
-    font-size: 35px;
-    font-family: "gothamboldregular";
-  }
-
-  .elephant-name {
-    text-transform: uppercase;
-    font-family: "gothamboldregular";
-    color: #81c0f9;
-    font-size: 36px;
-  }
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 18px;
-  }
-}
-
-.about-p1-white {
-  color: #FFFFFF;
-  font-size: 22px !important;
-}
-
-.features-part-1 {
-  background: #000000 url(image_path('features_background2.jpg')) no-repeat top center fixed;
-  background-size: 100% auto;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('features_background2.jpg')}, sizingMethod='scale');
-
-  width: 100%;
-  padding-top: 200px;
-  padding-bottom: 350px;
-
-  @media screen and (max-width: 1024px) {
-    background: #000000 url(image_path('features_background2.jpg')) no-repeat;
-    background-size: cover;
-    min-width: 1050px;
-    max-height: 550px;
-  }
-
-  p {
-    text-shadow: 1px 1px 4px #000000;
-  }
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 18px;
-  }
-}
-
-.about-part-6 {
-  background: #000000 url(image_path('software.jpg')) no-repeat 0px 0px fixed;
-  background-size: 100% auto;
-  background-size: cover;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('about_background.jpg')}, sizingMethod='scale');
-
-  height: 457px;
-
-  @media screen and (max-width: 1024px) {
-    height: 0px;
-  }
-}
-
-.about-part-2 {
-  background: #FFFFFF;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 18px;
-  }
-}
-
-.about-part-3 {
-  background: #2f363b;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-
-  color: #FFFFFF;
-
-  h1 {
-    text-transform: uppercase;
-    color: #99c7f0;
-    font-size: 18px;
-  }
-  p {
-    color: #FFFFFF;
-  }
-
-  li {
-    text-transform: none;
-  }
-}
-
-.about-part-4 {
-  background: #467595;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-
-  color: #FFFFFF;
-
-  p {
-    color: #FFFFFF;
-  }
-
-  h1 {
-    text-transform: uppercase;
-    color: #FFFFFF;
-    font-size: 18px;
-  }
-}
-
-.about-part-5 {
-  background: #FFFFFF;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 18px;
-  }
-}
-
-.features-part-6 {
-  background: #d8f3fc;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-
-  h1 {
-    text-transform: uppercase;
-    font-size: 18px;
-  }
-}
-
-.features-part-7 {
-  background: #b40606;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-  color: #FFFFFF;
-
-  .elephant-about-p1 {
-    color: #FFFFFF;
-  }
-  h1 {
-    color: #FFFFFF;
-    text-transform: uppercase;
-    font-size: 18px;
-  }
-}
-
-.features-gray-background {
-  background: #eafdfb !important;
-}
-
-.sales-part-1 {
-  background: #0d365a;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 60px;
-
-  color: #FFFFFF;
-
-  .connect {
-    font-family: "gothamboldregular";
-    text-transform: UPPERCASE;
-    color: #FFFFFF;
-    font-size: 12px;
-  }
-
-  .phone {
-    font-family: "gothamboldregular";
-    text-transform: UPPERCASE;
-    color: #FFFFFF;
-    font-size: 28px;
-  }
-
-  .email {
-    display: inline;
-    margin-left: 5px;
-    font-family: "gothambookregular";
-    color: #c1c1c1;
-    font-size: 12px;
-  }
-
-  .address {
-    font-family: "gothammediumregular";
-    text-transform: UPPERCASE;
-    color: #FFFFFF;
-    font-size: 11px;
-    margin: 0px;
-    line-height: 13px;
-  }
-
-  .hr-line {
-    background: #0058a8;
-    height: 4px;
-    margin-top: 30px;
-    width: 100%;
-  }
-
-  .bubble {
-    margin-top: 20px;
-    margin-left: 250px;
-  }
-
-  h1 {
-    color: #FFFFFF;
-  }
-
-  p {
-    color: #FFFFFF;
-  }
-  h2 {
-    color: #b4e3f9;
-  }
-}
-
-.sales-part-2 {
-  background: #05192b;
-  width: 100%;
-  min-width: 1050px;
-  padding-top: 40px;
-  padding-bottom: 100px;
-}
-
-.phone-link {
-  font-family: "gothamboldregular";
-  text-transform: UPPERCASE;
-  color: #0058a8;
-  font-size: 28px;
-}
-
-.login-error {
-  float: right;
-  vertical-align: top;
-  margin-right: -25px;
-}
-
-a[href^=tel] {
-  color: inherit;
-  text-decoration: none;
-}
-
-.about-part-1 {
-  background: #000000 url(image_path('about_background.jpg')) no-repeat top center fixed;
-  background-size: 100% auto;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('about_background.jpg')}, sizingMethod='scale');
-
-  width: 100%;
-  padding-top: 30px;
-  padding-bottom: 323px;
-
-  @media screen and (max-width: 1024px) {
-    background: #000000 url(image_path('about_background.jpg')) no-repeat center top fixed;
-    background-size: 1050px 550px;
-    min-width: 1050px;
-  }
-
-  p {
-    font-size: 45px;
-    line-height: 45px;
-    color: #FFFFFF;
-    text-shadow: 1px 1px 1px #6b5510;
-    font-family: "gothambookregular";
-    margin: 0px;
-  }
-
-  .header {
+  &:link, &:visited {
     background: transparent;
-    font-family: "gothamboldregular";
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 36px;
     color: #FFFFFF;
-    text-shadow: 1px 1px 4px #000000;
-    margin: 0px;
-    margin-top: 20px;
+  }
+  &:hover {
+    background: #ffa800;
+    color: #FFFFFF;
+    text-decoration: none;
   }
 }
 
-.empty-checkbox {
-  margin-top: -5px !important;
-  margin-right: 20px;
-  display: inline-block;
-  vertical-align: top;
+.feature-icon-active {
+  &:link, &:visited {
+    background: #a6def9;
+    color: #FFFFFF;
+  }
 }
 
-.empty-checkbox-text {
-  width: 850px;
-  display: inline-block;
-  vertical-align: top;
 
+.footer {
+  background: #0b0c0e;
+  width: 100%;
+  height: 530px;
 }
+
+
+
