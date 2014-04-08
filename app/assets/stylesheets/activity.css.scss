@@ -74,6 +74,15 @@
   }
 }
 
+.no-underline {
+  &:active, &:link, &:visited {
+    text-decoration: none;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .activity-link {
   display: inline-block;
   margin-right: 0px;

@@ -534,7 +534,6 @@
     map.scrollWheelZoom.disable();
     $('.mapbox-info-toggle').remove();
 
-
     var geoJson = [];
 
     <% coordinates_for_zoom = [] %>
@@ -581,7 +580,6 @@
     <% end %>
     map.fitBounds(bounds);
     zoom = Math.round(map.getZoom());
-    map.setZoom(zoom - 1);
     <% if coordinates_for_zoom.count == 1 %>
     if (zoom > 8) {
         map.setZoom(8);
@@ -612,7 +610,6 @@
         e.layer.closePopup();
     });
 
-    $('.mapbox-info-toggle').remove();
 </script>
 
 

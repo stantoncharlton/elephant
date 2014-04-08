@@ -1,7 +1,7 @@
 <% if user.present? %>
     <% names = user.present? ? user.name.split : [] %>
     <% if use_link %>
-        <%= link_to user, class: 'activity-user-link tooltip-info align-top push-up',
+        <%= link_to user, class: 'activity-user-link no-underline tooltip-info align-top push-up',
                     target: "_blank",
                     "data-placement" => "bottom",
                     "data-html" => true,

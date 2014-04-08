@@ -8,8 +8,8 @@
 <div>
   <div class="form" data-form="new_shipment">
 
-    <div class="page_header">
-      <h1 class='inline-block'>Shipment</h1>
+    <div class="section-header">
+      <h1 class='inline-block' style="margin-right: 10px;">Shipment</h1>
       <% if shipment.status == Shipment::IN_TRANSIT %>
           <h3 class='inline-block warning-text'>In Transit</h3>
       <% elsif shipment.status == Shipment::AWAITING_SHIPMENT %>
@@ -93,26 +93,26 @@
                 <%= link_to "Delete", shipment,
                             method: :delete,
                             data: {confirm: "Permanently Delete Shipment?"},
-                            class: "bluebtn gray form-loading-on-click",
+                            class: "btn btn-default form-loading-on-click",
                             style: "margin-right: 15px;",
                             "data-form" => "new_shipment" %>
 
                 <%= f.submit "Save",
                              "data-commit" => "save",
-                             class: "bluebtn set-commit form-loading-on-click",
+                             class: "btn btn-primary set-commit form-loading-on-click",
                              style: "margin-right: 15px;",
                              "data-form" => "new_shipment" %>
 
                 <% if shipment.status == Shipment::IN_TRANSIT && shipment_assets.select { |pm| pm.to_type != Job.name }.any? %>
                     <%= f.submit "Receive Shipment",
                                  "data-commit" => "receive",
-                                 class: "bluebtn green set-commit form-loading-on-click",
+                                 class: "btn btn-success set-commit form-loading-on-click",
                                  "data-form" => "new_shipment" %>
                 <% end %>
                 <% if shipment.status != Shipment::IN_TRANSIT %>
                     <%= f.submit "Send Shipment",
                                  "data-commit" => "send",
-                                 class: "bluebtn green set-commit form-loading-on-click",
+                                 class: "btn btn-success set-commit form-loading-on-click",
                                  "data-form" => "new_shipment" %>
                 <% end %>
               </div>

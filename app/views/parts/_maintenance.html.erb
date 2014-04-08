@@ -1,27 +1,16 @@
 <div>
   <div>
-    <% if index < 7 %>
-        <div class='part-number-container inline-block'>
-          <%= image_tag 'tool.png' %>
-        </div>
-        <span style='font-size: 15px; color: #1d94d2;'>Maintenance</span>
-        &nbsp;
-    <% end %>
+    <div class='part-number-container inline-block'>
+      <%= image_tag 'tool.png' %>
+    </div>
+    <span style='font-size: 20px; color: #1d94d2; font-family: gothambookregular;'>Maintenance</span>
 
 
     <div class='pull-right'>
        <span style='font-size: 20px; color: #1d94d2; font-family: gothamlightregular;'>
             <%= redress.received_at.strftime("%m/%d/%Y") %>
         </span>
-
-      <span class='help-text'>(<%= distance_of_time_in_words(redress.received_at, redress.finished_redress_at.present? ? redress.finished_redress_at : Time.zone.now) %>)</span>
-
-
-      <div class='inline-block push-right-small'>
-        <%= render 'users/icon', user: redress.received_by %>
-      </div>
     </div>
-
 
 
   </div>
@@ -29,23 +18,51 @@
 
   <div class='content'>
 
+    <b class='orange-text'>Details</b>
+
+
+    <div style='margin-top: 5px;'>
+      <div class='inline-block'>
+        <% names = redress.received_by.present? ? redress.received_by.name.split : [] %>
+        <div class="member-icon align-top"
+             style="width: 22px; height: 22px; background: #<%= redress.received_by.present? ? redress.received_by.color : '' %>;">
+          <p style='font-size: 10px; margin-top: 3px;'>
+            <% if names.any? %>
+                <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
+            <% else %>
+                -
+            <% end %>
+          </p>
+        </div>
+        <%= render 'activities/user', user: redress.received_by %>
+      </div>
+
+      <div class='inline-block' style="margin-left: 30px; font-family: gothambookregular;">
+        Duration -
+        <span class='blue-text'><%= distance_of_time_in_words(redress.received_at, redress.finished_redress_at.present? ? redress.finished_redress_at : Time.zone.now) %></span>
+
+      </div>
+    </div>
+
+    <br>
+
 
     <b class='orange-text'>Notes</b>
 
-    <div>
+    <div style='margin-top: 5px;'>
       <% if redress.notes.any? %>
           <div class=''>
             <% redress.notes.each do |note| %>
                 <div>
                   <% names = note.user.present? ? note.user.name.split : [] %>
 
-                  <div class='pull-right' style='font-weight: normal; font-family: gothambookregular; font-size: 12px;'>
-                    <%= note.created_at.strftime("%m/%d/%Y %l:%M %p") %>
+                  <div class='pull-right' style='font-weight: normal; font-family: gothambookregular; font-size: 12px; color: #c4c4c4;'>
+                    <%= note.created_at.strftime("%m/%d %l:%M %p") %>
                   </div>
 
 
-                  <div class="member-icon align-top" style='width: 22px; height: 22px;'
-                       style="background: #<%= note.user.present? ? note.user.color : '' %>;">
+                  <div class="member-icon align-top"
+                       style="width: 22px; height: 22px; background: #<%= note.user.present? ? note.user.color : '' %>;">
                     <p style='font-size: 10px; margin-top: 3px;'>
                       <% if names.any? %>
                           <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>
@@ -70,7 +87,7 @@
     <br>
     <b class='orange-text'>Documents</b>
 
-    <div>
+    <div style='margin-top: 5px;'>
       <% documents = redress.documents %>
       <% if documents.any? %>
           <div class="content">

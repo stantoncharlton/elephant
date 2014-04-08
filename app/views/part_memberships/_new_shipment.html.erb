@@ -9,13 +9,13 @@
   <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
 
 
-  <div class='form' data-form="new-asset-form">
+  <div class='form well' data-form="new-asset-form">
     <%= form_for PartMembership.new, remote: true do |f| %>
 
         <%= f.hidden_field :shipment_id, value: shipment.id %>
         <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
 
-        <div class='push-down'>
+        <div class=''>
           <ul class="nav nav-pills selection-nav">
             <% if allow_inventory %>
                 <li class='active'>
@@ -103,7 +103,7 @@
 
         <div class='push-down'>
 
-          <div class='inline-block id-od-box'>
+          <div class='inline-block id-od-box' style="background: #FFFFFF;">
             <p class='inline-block' style='font-size: 9px; vertical-align: top; margin-left:3px;'>ID</p>
             <%= text_field_tag "id", "",
                                placeholder: "ID",
@@ -127,6 +127,7 @@
             <b><i class="icon-arrow-up"></i></b>
             <%= select_tag "up", options_for_select(BhaItem.options),
                            class: "custom-select-ajax bha-value2 align-top push-up",
+                           style: "background: transparent;",
                            placeholder: "Up" %>
           </div>
 
@@ -134,13 +135,14 @@
             <b><i class="icon-arrow-down"></i></b>
             <%= select_tag "down", options_for_select(BhaItem.options),
                            class: "custom-select-ajax bha-value2 align-top push-up",
+                           style: "background: transparent;",
                            placeholder: "Down" %>
           </div>
         </div>
 
         <br><br>
 
-        <%= f.submit "+ Add to Shipment", class: "bluebtn btnsmall inline-block pull-right  tooltip-info form-loading-on-click",
+        <%= f.submit "Add to Shipment", class: "btn btn-primary inline-block pull-right  tooltip-info form-loading-on-click",
                      "data-form" => "new-asset-form",
                      "data-placement" => "bottom",
                      "data-title" => "Add new asset" %>

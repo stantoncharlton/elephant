@@ -19,7 +19,8 @@
     <% end %>
 
     <% if jobs.any? || redresses.any? %>
-        <br><br>
+
+        <br>
 
         <% all_items = jobs.to_a %>
         <% redresses.each do |r| %>
@@ -39,13 +40,19 @@
                   <%= render 'parts/maintenance', redress: item, index: index %>
               <% elsif item.is_a?(Shipment) %>
                   <div>
-                    <i class="icon-random"></i>       &nbsp;&nbsp;
-                    <div class='inline-block align-top'>
-                      <%= item.created_at.strftime("%m/%d/%Y") %>
+                    <div class='part-number-container inline-block'>
+                      <%= image_tag 'shipment.png' %>
+                    </div>
+                    <span style='font-size: 20px; color: #1d94d2; font-family: gothambookregular;'>Shipment</span>
+                    <div class='pull-right'>
+                       <span style='font-size: 20px; color: #1d94d2; font-family: gothamlightregular;'>
+                            <%= item.created_at.strftime("%m/%d/%Y") %>
+                        </span>
                     </div>
                     <%= render 'shipments/shipment', shipment: item, editable: item.status != Shipment::COMPLETE, show_assets: false, in_job: true %>
 
                   </div>
+                  <hr>
               <% end %>
               <br>
           <% end %>

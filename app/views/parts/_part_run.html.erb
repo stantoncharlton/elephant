@@ -6,31 +6,46 @@
         <%= image_tag 'map_marker.png' %>
         <p><%= index + 1 %></p>
       </div>
-      &nbsp;
+  <% else %>
+      <div class='part-number-container inline-block'>
+        <%= image_tag 'map_marker.png' %>
+      </div>
   <% end %>
 
-  <div class='inline-block align-top push-down-small'>
-    <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y") %>
+  <div class='inline-block align-top push-down-small' style="margin-left: 2px;">
+    <span style='font-size: 20px; color: #1d94d2; font-family: gothambookregular;'>Job</span>
   </div>
 
-  <div class="pull-right">
-    <% part_membership = @part.part_memberships.where(:job_id => job.id).first %>
-    <% if part_membership.present? && part_membership.track_usage? %>
-        <b><%= @part.part_memberships.where(:job_id => job.id).first.usage %> hours</b>
-    <% end %>
+  <div class='pull-right'>
+       <span style='font-size: 20px; color: #1d94d2; font-family: gothamlightregular;'>
+            <%= job.start_date.present? ? job.start_date.strftime("%m/%d/%Y") : job.created_at.strftime("%m/%d/%Y") %>
+        </span>
   </div>
-
-  <div class='inline-block pull-right'>
-    <div class="donut-chart-div job-donut-chart-div">
-      <% bha = Bha.joins(job: :well).joins(bha_items: {tool: :part}).where("wells.id = ?", job.well_id).where("parts.id = ?", @part.id).first %>
-      <div class="donut-text part-on-hand"><%= bha.present? && bha.below_rotary.present? ? bha.below_rotary.round(1) : "0.0" %></div>
-      <div class="percentage ">hours</div>
-    </div>
-  </div>
-  <br><br>
-
-
-  <%= render 'jobs/job_progress_link', job: job %>
-
-  <br>
 </div>
+
+<div class="inline-block">
+  <% part_membership = @part.part_memberships.where(:job_id => job.id).first %>
+  <% if part_membership.present? && part_membership.track_usage? %>
+      <b><%= @part.part_memberships.where(:job_id => job.id).first.usage %> hours</b>
+  <% end %>
+</div>
+
+<div class='inline-block'>
+  <div class="donut-chart-div job-donut-chart-div">
+    <% bha = Bha.joins(job: :well).joins(bha_items: {tool: :part}).where("wells.id = ?", job.well_id).where("parts.id = ?", @part.id).first %>
+    <div class="donut-text part-on-hand"><%= bha.present? && bha.below_rotary.present? ? bha.below_rotary.round(1) : "0.0" %></div>
+    <div class="percentage ">hours</div>
+  </div>
+</div>
+
+
+<div class='inline-block align-top push-down-small'>
+  <%= render 'jobs/job_single_link', job: job %>
+</div>
+
+
+
+
+</div>
+
+<hr>

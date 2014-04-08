@@ -10,8 +10,8 @@
   <div class="modal-footer">
     <%= link_to "remove", job_membership, method: :delete, remote: true,
                 data: {confirm: "Remove " + job_membership.user.name + " from job?", dismiss: "modal"},
-                class: "redbtn btnsmall pull-right" %>
+                class: "btn btn-danger pull-right" %>
 
-    <button class="bluebtn btnsmall pull-right" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true">Cancel</button>
   </div>
 </div>
