@@ -15,9 +15,9 @@
         <%= f.text_field :serial_number, placeholder: "Serial Number", class: "txtfield small", autofocus: true %>
         <%= f.text_field :district_serial_number, placeholder: "Optional District Serial Number", class: "txtfield small" %>
 
-        <%= f.submit "Add", class: "bluebtn btnsmall form-loading-on-click",
+        <%= f.submit "Add", class: "btn btn-primary form-loading-on-click",
                      "data-form" => "new_part" %>
-        <%= link_to "Cancel", "#", id: "cancel_part", class: "bluebtn btnsmall red" %>
+        <%= link_to "Cancel", "#", id: "cancel_part", class: "btn btn-default" %>
 
       </div>
 

@@ -24,6 +24,7 @@ $('#alert').modal({show:true});
     <% end %>
 <% else %>
     if($('.part-status').length > 0) {
+        $('#inline_part_status').replaceWith("<%= j render 'parts/inline_part_status' %>");
         $('.part-status').replaceWith('<%= j render 'parts/part_status', part: @part %>');
         <% if @part_redressed.present? && @part_redressed && @part_redress.job.present? %>
             if($('#part_run_<%= @part_redress.job.id %>').length > 0) {

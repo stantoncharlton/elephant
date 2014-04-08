@@ -13,15 +13,11 @@
                              "data-controller" => "parts",
                              "data-field" => "warehouse_id" %>
             </div>
-            <h3 class="inline status-good"><%= part.status_string %></h3>
         <% end %>
     <% elsif part.status == Part::ON_JOB %>
-        <span class=""><h3 style='font-size: 15px;'>Asset <%= part.status_string %></h3></span>
-        <br>
 
-        <%= render 'parts/part_run', job: part.current_job, index: 0 %>
+        <%= render 'jobs/job_progress_link', job: part.current_job %>
     <% elsif part.status == Part::SHIPPING %>
-        <h3 class="inline warning-text"><b>Shipping</b></h3>
 
         <% if part.current_shipment.present? %>
             <br>
@@ -44,8 +40,7 @@
                          "data-controller" => "parts",
                          "data-field" => "warehouse_id" %>
         </div>
-        <h3 class="inline-block warning-text"><%= part.status_string %></h3>
-        <span>for <%= time_ago_in_words(part.updated_at) %></span>
+        <span>Maintenance Duration -  <span class='blue-text'><%= time_ago_in_words(part.updated_at) %></span></span>
 
         <% redress = PartRedress.where(:part_id => part.id).order("created_at ASC").last %>
 
@@ -130,11 +125,10 @@
 
     <% if part.status == Part::AVAILABLE && !part.rental %>
         <div>
-          <br><br>
 
           <%= link_to "Start Asset Maintenance", part_path(part, start_redress: true, part_page: true), method: :put,
                       remote: true,
-                      class: "btn btn-success pull-right tooltip-info form-loading-on-click",
+                      class: "btn btn-primary tooltip-info form-loading-on-click",
                       "data-form" => "update-part-status",
                       "data-placement" => "bottom",
                       "data-title" => "Start asset maintenance" %>

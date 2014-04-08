@@ -297,11 +297,14 @@
         <span class="help-text">Material Number:</span> <span id="material_number"><%= @part.material_number %></span>
         <% if @part.template? && current_user.role.add_remove_inventory? %>
             <br><br>
-            <%= link_to "+ Add Asset", "#",
-                        class: "bluebtn page_header_button tooltip-info",
+            <%= link_to "#",
+                        class: "btn btn-primary white-text tooltip-info",
                         id: "new_part_link",
                         "data-placement" => "bottom",
-                        "data-title" => "Create new asset under this material number" %>
+                        "data-title" => "Create new asset under this material number" do %>
+                <i class="icon-plus-sign icon-white"></i>
+                <span>Add Asset</span>
+            <% end %>
         <% end %>
       </div>
 
@@ -376,6 +379,9 @@
 
         <div class='section-header' style="margin-top: 15px;">
           <h1>Asset Overview</h1>
+
+
+          <%= render 'parts/inline_part_status' %>
         </div>
 
         <div class="">

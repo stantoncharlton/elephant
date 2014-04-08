@@ -1,0 +1,11 @@
+<div id="inline_part_status" class='pull-right push-down-small'>
+  <% if @part.status == Part::AVAILABLE %>
+      <span class='label' style='padding: 10px; padding-left: 20px; padding-right: 20px; background: #28af35; font-size: 14px;'>Available</span>
+  <% elsif @part.status == Part::ON_JOB %>
+      <span class='label' style='padding: 10px; padding-left: 20px; padding-right: 20px; background: #4db0e3; font-size: 14px;'>On Job</span>
+  <% elsif @part.status == Part::SHIPPING %>
+      <span class='label' style='padding: 10px; padding-left: 20px; padding-right: 20px; background: #f2c641; font-size: 14px;'>Shipping</span>
+  <% elsif @part.status == Part::IN_REDRESS %>
+      <span class='label' style='padding: 10px; padding-left: 20px; padding-right: 20px; background: #f25241; font-size: 14px;'>In Maintenance</span>
+  <% end %>
+</div>
