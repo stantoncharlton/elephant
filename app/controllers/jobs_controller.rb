@@ -35,7 +35,11 @@ class JobsController < ApplicationController
                        :methods => [:status_string, :status_percentage],
                        include: {
                                :field => {except: [:created_at, :updated_at, :company_id]},
-                               :well => {except: [:created_at, :updated_at, :company_id]},
+                               :well => {
+                                       include: {
+                                            :rig =>  {except: [:created_at, :updated_at, :company_id]}
+                                       },
+                                       except: [:created_at, :updated_at, :company_id] },
                                :district => {except: [:created_at, :updated_at, :company_id]},
                                :company => {except: [:created_at, :updated_at, :company_id]},
                                :client => {except: [:created_at, :updated_at, :company_id]},

@@ -21,11 +21,10 @@ class ApplicationController < ActionController::Base
 
 
     def session_expiry
-        #if !request.headers['x-access-token'].blank? && current_user
-
-        #else
-        get_session_time_left
-        #end
+        if !request.headers['x-access-token'].blank? && current_user
+        else
+            get_session_time_left
+        end
     end
 
     private
@@ -52,7 +51,7 @@ class ApplicationController < ActionController::Base
 
 
     def set_current_user_for_observer
-            UserObserver.current_user = current_user
+        UserObserver.current_user = current_user
     end
 
 
