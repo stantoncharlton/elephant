@@ -8,12 +8,11 @@
   <div class="tray-content content-loaded">
 
 
-    <br>
 
 
     <% groups = @parts.where(:rental => false).group_by { |part| part.master_part_id } %>
 
-    <div class='section-header' style="margin-top: 15px;">
+    <div class='section-header' style="margin-top: 20px;">
 
       <div class="btn-group inline pull-right push-right-small push-down">
         <a class="custom-data-toggle-jobs" data-toggle="dropdown" href="#">
@@ -38,7 +37,7 @@
         </ul>
       </div>
 
-      <h1>Full Asset List</h1>
+      <h1>Owned Assets</h1>
 
       <% if current_user.role.add_remove_inventory? %>
 

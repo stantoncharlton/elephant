@@ -16,7 +16,9 @@ class PartMembership < ActiveRecord::Base
                     :down,
                     :from_name,
                     :to_name,
-                    :asset_type
+                    :asset_type,
+                    :charge_type,
+                    :price
 
 
     require 'digest/md5'
@@ -102,6 +104,8 @@ class PartMembership < ActiveRecord::Base
         part_membership.inner_diameter = inner_diameter
         part_membership.outer_diameter = outer_diameter
         part_membership.length = length
+        part_membership.charge_type = charge_type
+        part_membership.price = price
         part_membership
     end
 

@@ -9,6 +9,13 @@
   <div class="form" data-form="new_shipment">
 
     <div class="section-header">
+
+      <div class='pull-right push-down-small align-top'>
+        <% if shipment.user.present? %>
+            <%= render 'users/user_icon', user: shipment.user, use_name: false, use_link: true %>
+        <% end %>
+      </div>
+
       <h1 class='inline-block' style="margin-right: 10px;">Shipment</h1>
       <% if shipment.status == Shipment::IN_TRANSIT %>
           <h3 class='inline-block warning-text'>In Transit</h3>
@@ -34,7 +41,10 @@
           <%= render 'part_memberships/new_shipment', shipment: shipment, allow_inventory: true %>
         </div>
         <% if shipment_assets.any? %>
-            <a id='show_shipment_add' href='#' class='bluebtn'>Add Asset</a>
+            <a id='show_shipment_add' href='#' class='btn btn-primary white-text'>
+              <i class="icon-plus-sign icon-white"></i>
+              <span>Add Asset</span>
+            </a>
         <% end %>
     <% else %>
     <% end %>
@@ -175,6 +185,7 @@
 <script type='text/javascript'>
     (function ($) {
         $(document).ready(function () {
+
             var oldHide = $.fn.popover.Constructor.prototype.hide;
 
             $.fn.popover.Constructor.prototype.hide = function () {
@@ -190,6 +201,7 @@
             };
 
             $('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
+
         });
     }(jQuery));
 </script>

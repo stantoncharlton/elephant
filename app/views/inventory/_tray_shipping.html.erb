@@ -11,7 +11,7 @@
     <% shipments = Shipment.includes(part_memberships: { part: :master_part }).includes(part_memberships: :shipment).where(:district_id => @district.id).order("status ASC, created_at DESC") %>
     <% shippers = Shipper.where(:district_id => @district.id).order("name ASC") %>
 
-    <div class='section-header' style="margin-top: 15px;">
+    <div class='section-header' style="margin-top: 20px;">
       <h1>Shipments</h1>
 
       <div class='push-right-small align-top'>

@@ -677,6 +677,8 @@ footer ul li {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+
+  box-shadow:none !important;
 }
 .btn:focus {
   outline: thin dotted;

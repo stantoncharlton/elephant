@@ -12,7 +12,7 @@ $('#alert').css('z-index', '10000');
 if($('#asset_list').hasClass('regenerate')) {
     <% if @part_membership.shipment.present? %>
     $('#asset_list').replaceWith('<%= j render 'shipments/grouped_list', shipment: @part_membership.shipment, editable: @part_membership.shipment.status != Shipment::COMPLETE %>');
-    $('#asset_list').$('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
+    $('#asset_list').find('.part-membership').find('.popover').popover({  delay: { show: 500, hide: 200 } });
     <% end %>
 }
 else {

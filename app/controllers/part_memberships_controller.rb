@@ -26,8 +26,12 @@ class PartMembershipsController < ApplicationController
         part_type = params[:part_membership][:part_type]
         params[:part_membership].delete(:part_type)
 
+        price = params[:part_membership][:price]
+        params[:part_membership].delete(:price)
+
         @part_membership = PartMembership.new(params[:part_membership])
         @part_membership.company = current_user.company
+        @part_membership.price = price.to_s.gsub(/,/, '').to_f
 
         case part_type
             when 'inventory'

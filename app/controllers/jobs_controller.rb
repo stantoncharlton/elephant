@@ -43,35 +43,6 @@ class JobsController < ApplicationController
                                :district => {except: [:created_at, :updated_at, :company_id]},
                                :company => {except: [:created_at, :updated_at, :company_id]},
                                :client => {except: [:created_at, :updated_at, :company_id]},
-                               :dynamic_fields => {except: [:created_at, :updated_at, :company_id]},
-                               :job_template => {
-                                       include: {
-                                               :post_job_report_documents => {except: [:created_at, :updated_at]},
-                                               :product_line => {
-                                                       include: {
-                                                               :segment => {
-                                                                       include: {:division => {except: [:created_at, :updated_at, :company_id]}},
-                                                                       except: [:created_at, :updated_at, :company_id]
-                                                               }
-                                                       },
-                                                       except: [:created_at, :updated_at, :segment_id, :company_id]
-                                               },
-                                               :primary_tools => {
-                                                       include: {:tool => {}}
-                                               }
-                                       },
-                                       except: [:created_at, :updated_at, :product_line_id, :company_id]
-                               },
-                               :documents => {
-                                       :methods => :full_url,
-                                       include: {
-                                               :document_template => {
-                                                       :methods => :full_url,
-                                               },
-                                               :user => {except: [:created_at, :updated_at, :password_digest, :remember_token, :elephant_admin, :create_password]}
-                                       }
-                               },
-                               :job_notes => {}
 
                        }
             }

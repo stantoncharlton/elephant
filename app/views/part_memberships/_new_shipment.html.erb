@@ -1,220 +1,245 @@
 <div class='add-new-asset'>
 
-  <% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
-  <% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-  <% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
-  <% if !shipment.from_editable %>
-      <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
-  <% end %>
-  <% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
+<% jobs_array = shipment.district.jobs.includes(:field, well: :rig).where("jobs.status = :pre_job OR jobs.status = :on_job", pre_job: Job::PRE_JOB, on_job: Job::ON_JOB) %>
+<% warehouses = shipment.district.warehouses.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+<% suppliers = shipment.district.suppliers.collect { |w| [w.name, w.id] }.sort_by { |k| k[0] } %>
+<% if !shipment.from_editable %>
+    <% jobs_array = jobs_array.select { |j| j != shipment.from } %>
+<% end %>
+<% jobs = jobs_array.collect { |w| [(w.well.rig.present? ? w.well.rig.name + ' - ' : '') + w.field.name + ' | ' + w.well.name, w.id] }.sort_by { |k| k[0] } %>
 
 
-  <div class='form well' data-form="new-asset-form">
-    <%= form_for PartMembership.new, remote: true do |f| %>
+<div class='form well' data-form="new-asset-form">
+<%= form_for PartMembership.new, remote: true do |f| %>
 
-        <%= f.hidden_field :shipment_id, value: shipment.id %>
-        <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
+    <%= f.hidden_field :shipment_id, value: shipment.id %>
+    <%= f.hidden_field :part_type, id: "part_type", value: "inventory" %>
 
-        <div class=''>
-          <ul class="nav nav-pills selection-nav">
-            <% if allow_inventory %>
-                <li class='active'>
-                  <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
-                </li>
-            <% end %>
-            <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
-              <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="rental">Rental</a>
+    <div class=''>
+      <ul class="nav nav-pills selection-nav">
+        <% if allow_inventory %>
+            <li class='active'>
+              <a href="#" class='change-asset-type' data-type="inventory">Owned Asset</a>
             </li>
-            <li class="push-right-small">
-              <a href="#" id="accessory_tab" class='change-asset-type blue-text' data-type="accessory">Saleable</a>
-            </li>
-          </ul>
-        </div>
+        <% end %>
+        <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
+          <a href="#" id="rental_tab" class='change-asset-type blue-text' data-type="rental">Rental</a>
+        </li>
+        <li class="push-right-small">
+          <a href="#" id="accessory_tab" class='change-asset-type blue-text' data-type="accessory">Saleable</a>
+        </li>
+      </ul>
+    </div>
 
-        <div class='inline-block asset-type-form align-top' data-type="inventory">
-          <%= f.hidden_field :part_id %>
-          <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: shipment.present? ? shipment.district_id : @job.district.id, show_master: false)},
-                             placeholder: "Find by Serial #, Material #, or Name",
-                             class: "txtfield search-query tooltip-info part-search txtfield-long align-top",
-                             id: "part_search",
-                             "data-placement" => "bottom",
-                             "data-title" => "Asset Serial #, Material #, or Name" %>
-
-        </div>
-
-        <div class='inline-block asset-type-form align-top hidden' data-type="rental">
-          <%= text_field_tag "rental_manufacturer", "",
-                             placeholder: "Manufacturer",
-                             class: "txtfield asset-input  tooltip-info align-top",
-                             "data-placement" => "bottom",
-                             "data-title" => "Manufacturer Name" %>
-
-          <%= text_field_tag "rental_name", "",
-                             placeholder: "Asset Name",
-                             class: "txtfield asset-input  tooltip-info align-top",
-                             "data-placement" => "bottom",
-                             "data-title" => "Asset Name" %>
-
-          <%= text_field_tag "rental_serial_number", "",
-                             placeholder: "Serial Number",
-                             class: "txtfield asset-input  tooltip-info align-top",
-                             "data-placement" => "bottom",
-                             "data-title" => "Serial Number" %>
-
-          <%= hidden_field_tag "rental_district_id", shipment.present? ? shipment.district_id : @job.district.id %>
-
-          <div class="inline-block tooltip-info align-top push-down-small"
-               data-title="Tool Type">
-            <%= image_tag "tool.png", class: "inline-block push-down-small" %>
-            <%= select_tag "rental_asset_type",
-                           options_for_select(BhaItem.type_options),
-                           class: "custom-select-ajax bha-value2 align-top",
-                           placeholder: "Type" %>
-          </div>
-
-        </div>
+    <div style='border-style: dashed; border-width: 0px; border-bottom-width: 1px; height: 1px; border-color: #666; margin-top: -8px; margin-bottom: 10px;'></div>
 
 
-      <div class='inline-block asset-type-form align-top hidden' data-type="accessory">
-        <%= text_field_tag "accessory_name", "",
-                           placeholder: "Asset Name",
-                           class: "txtfield asset-input  tooltip-info align-top",
-                           "data-placement" => "bottom",
-                           "data-title" => "Asset Name" %>
+    <div class='inline-block asset-type-form align-top' data-type="inventory">
+      <%= f.hidden_field :part_id %>
+      <%= text_field_tag "", "", data: {autocomplete_source: parts_path(district_id: shipment.present? ? shipment.district_id : @job.district.id, show_master: false)},
+                         placeholder: "Find by Serial #, Material #, or Name",
+                         class: "txtfield search-query tooltip-info part-search txtfield-long align-top",
+                         id: "part_search",
+                         "data-placement" => "bottom",
+                         "data-title" => "Asset Serial #, Material #, or Name" %>
 
-        <%= text_field_tag "accessory_serial_number", "",
-                           placeholder: "Serial Number",
-                           class: "txtfield asset-input  tooltip-info align-top",
-                           "data-placement" => "bottom",
-                           "data-title" => "Serial Number" %>
+    </div>
 
-        <div class="inline-block tooltip-info align-top push-down-small"
-             data-title="Tool Type">
-          <%= image_tag "tool.png", class: "inline-block push-down-small" %>
-          <%= select_tag "accessory_asset_type",
-                         options_for_select(BhaItem.type_options),
-                         class: "custom-select-ajax bha-value2 align-top",
-                         placeholder: "Type" %>
-        </div>
+    <div class='inline-block asset-type-form align-top hidden' data-type="rental">
+      <%= text_field_tag "rental_manufacturer", "",
+                         placeholder: "Manufacturer",
+                         class: "txtfield asset-input  tooltip-info align-top",
+                         "data-placement" => "bottom",
+                         "data-title" => "Manufacturer Name" %>
 
+      <%= text_field_tag "rental_name", "",
+                         placeholder: "Asset Name",
+                         class: "txtfield asset-input  tooltip-info align-top",
+                         "data-placement" => "bottom",
+                         "data-title" => "Asset Name" %>
+
+      <%= text_field_tag "rental_serial_number", "",
+                         placeholder: "Serial Number",
+                         class: "txtfield asset-input  tooltip-info align-top",
+                         "data-placement" => "bottom",
+                         "data-title" => "Serial Number" %>
+
+      <%= hidden_field_tag "rental_district_id", shipment.present? ? shipment.district_id : @job.district.id %>
+
+      <div class="inline-block tooltip-info align-top push-down-small"
+           data-title="Tool Type">
+        <%= image_tag "tool.png", class: "inline-block push-down-small" %>
+        <%= select_tag "rental_asset_type",
+                       options_for_select(BhaItem.type_options),
+                       class: "custom-select-ajax bha-value2 align-top",
+                       style: "background: transparent;",
+                       placeholder: "Type" %>
       </div>
 
-        <br>
+    </div>
 
-        <div class='push-down'>
 
-          <div class='inline-block id-od-box' style="background: #FFFFFF;">
-            <p class='inline-block' style='font-size: 9px; vertical-align: top; margin-left:3px;'>ID</p>
-            <%= text_field_tag "id", "",
-                               placeholder: "ID",
-                               class: "txtfield bha-value id-od tooltip-info",
-                               "data-placement" => "bottom",
-                               "data-title" => "ID (Inner Diameter) of Asset" %>
-            <p class='inline-block' style='font-size: 9px; vertical-align: top;'>OD</p>
-            <%= text_field_tag "od", "",
-                               placeholder: "OD",
-                               class: "txtfield bha-value id-od tooltip-info",
-                               "data-placement" => "bottom",
-                               "data-title" => "OD (Outer Diameter) of Asset" %>
-            <%= text_field_tag "length", "",
-                               placeholder: "Length",
-                               class: "txtfield bha-value id-od tooltip-info",
-                               "data-placement" => "bottom",
-                               "data-title" => "Length of Asset" %>
-          </div>
+    <div class='inline-block asset-type-form align-top hidden' data-type="accessory">
+      <%= text_field_tag "accessory_name", "",
+                         placeholder: "Asset Name",
+                         class: "txtfield asset-input  tooltip-info align-top",
+                         "data-placement" => "bottom",
+                         "data-title" => "Asset Name" %>
 
-          <div class="inline-block push-right-small tooltip-info" data-title="Upward connection">
-            <b><i class="icon-arrow-up"></i></b>
-            <%= select_tag "up", options_for_select(BhaItem.options),
-                           class: "custom-select-ajax bha-value2 align-top push-up",
-                           style: "background: transparent;",
-                           placeholder: "Up" %>
-          </div>
+      <%= text_field_tag "accessory_serial_number", "",
+                         placeholder: "Serial Number",
+                         class: "txtfield asset-input  tooltip-info align-top",
+                         "data-placement" => "bottom",
+                         "data-title" => "Serial Number" %>
 
-          <div class="inline-block push-right-small push-down tooltip-info" data-title="Downward connection">
-            <b><i class="icon-arrow-down"></i></b>
-            <%= select_tag "down", options_for_select(BhaItem.options),
-                           class: "custom-select-ajax bha-value2 align-top push-up",
-                           style: "background: transparent;",
-                           placeholder: "Down" %>
-          </div>
+      <div class="inline-block tooltip-info align-top push-down-small"
+           data-title="Tool Type">
+        <%= image_tag "tool.png", class: "inline-block push-down-small" %>
+        <%= select_tag "accessory_asset_type",
+                       options_for_select(BhaItem.type_options),
+                       class: "custom-select-ajax bha-value2 align-top",
+                       style: "background: transparent;",
+                       placeholder: "Type" %>
+      </div>
+
+    </div>
+
+    <br>
+
+    <div class='push-down'>
+
+      <div class='inline-block id-od-box' style="background: #FFFFFF;">
+        <p class='inline-block' style='font-size: 9px; vertical-align: top; margin-left:3px;'>ID</p>
+        <%= text_field_tag "id", "",
+                           placeholder: "ID",
+                           class: "txtfield bha-value id-od tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "ID (Inner Diameter) of Asset" %>
+        <p class='inline-block' style='font-size: 9px; vertical-align: top;'>OD</p>
+        <%= text_field_tag "od", "",
+                           placeholder: "OD",
+                           class: "txtfield bha-value id-od tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "OD (Outer Diameter) of Asset" %>
+        <%= text_field_tag "length", "",
+                           placeholder: "Length",
+                           class: "txtfield bha-value id-od tooltip-info",
+                           "data-placement" => "bottom",
+                           "data-title" => "Length of Asset" %>
+      </div>
+
+      <div class="inline-block push-right-small tooltip-info" data-title="Upward connection">
+        <b><i class="icon-arrow-up"></i></b>
+        <%= select_tag "up", options_for_select(BhaItem.options),
+                       class: "custom-select-ajax bha-value2 align-top push-up",
+                       style: "background: transparent;",
+                       placeholder: "Up" %>
+      </div>
+
+      <div class="inline-block push-right-small push-down tooltip-info" data-title="Downward connection">
+        <b><i class="icon-arrow-down"></i></b>
+        <%= select_tag "down", options_for_select(BhaItem.options),
+                       class: "custom-select-ajax bha-value2 align-top push-up",
+                       style: "background: transparent;",
+                       placeholder: "Down" %>
+      </div>
+
+      <div>
+        <div style='width: 100px; margin-top: 10px;'>
+          <b class='orange-text'>Cost</b>
         </div>
 
-        <br><br>
-
-        <%= f.submit "Add to Shipment", class: "btn btn-primary inline-block pull-right  tooltip-info form-loading-on-click",
-                     "data-form" => "new-asset-form",
-                     "data-placement" => "bottom",
-                     "data-title" => "Add new asset" %>
-
-        <div>
-
-          <div class='inline-block'>
-            <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
-                         {}, style: "width: 100px !important;",
-                         id: "shipment_from_select",
-                         class: "custom-select" %>
-
-
-            <div id="from_warehouses" class='inline-block'>
-              <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
-                             placeholder: "Select from..",
-                             class: "custom-select" %>
-            </div>
-
-            <div id="from_suppliers" class='inline-block hidden'>
-              <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
-                             placeholder: "Select from..",
-                             class: "custom-select" %>
-            </div>
-
-            <div id="from_jobs" class='inline-block hidden'>
-              <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
-                             class: "custom-select",
-                             placeholder: "Select from.." %>
-            </div>
-          </div>
-
-          &nbsp;
-          <div class='inline-block align-top push-down'>
-            <i class="icon-chevron-right"></i>
-          </div>
-          &nbsp;
-
-          <div class='inline-block'>
-            <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
-                         {}, style: "width: 100px !important;",
-                         id: "shipment_to_select",
-                         class: "custom-select" %>
-
-            <div id="to_warehouses" class='inline-block hidden'>
-              <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
-                             placeholder: "Select to..",
-                             class: "custom-select" %>
-            </div>
-
-            <div id="to_suppliers" class='inline-block hidden'>
-              <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
-                             placeholder: "Select to..",
-                             class: "custom-select" %>
-            </div>
-
-            <div id="to_jobs" class='inline-block'>
-              <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
-                             class: "custom-select",
-                             placeholder: "Select to.." %>
-            </div>
-          </div>
+        <div class="inline-block align-top">
+          <%= f.select :charge_type, options_for_select([["Day", JobCost::DAY], ["Job", JobCost::JOB], ["Hour", JobCost::HOUR], ["Item", JobCost::ITEM]]),
+                       {},
+                       style: "margin-right: 10px;",
+                       class: "custom-select align-top" %>
         </div>
 
+        <%= f.text_field :price, placeholder: "$0.00",
+                         value: nil,
+                         class: "txtfield tooltip-info align-top",
+                         style: "width: 100px !important; min-width: 0px; ",
+                         "data-placement" => "bottom",
+                         "data-title" => "Price" %>
+      </div>
+    </div>
 
-    <% end %>
-  </div>
-
-  <div class="form-loading hidden" data-form="new-asset-form">
-    <%= render 'layouts/inline_loading', title: "Adding asset..." %>
     <br><br>
-  </div>
+
+    <%= f.submit "Add to Shipment", class: "btn btn-primary inline-block pull-right  tooltip-info form-loading-on-click",
+                 "data-form" => "new-asset-form",
+                 "data-placement" => "bottom",
+                 "data-title" => "Add new asset" %>
+
+    <div>
+
+      <div class='inline-block'>
+        <%= f.select :from_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.from_type.present? ? shipment.from_type : Warehouse.name),
+                     {}, style: "width: 100px !important;",
+                     id: "shipment_from_select",
+                     class: "custom-select" %>
+
+
+        <div id="from_warehouses" class='inline-block'>
+          <%= select_tag "from_id_warehouse", options_for_select(warehouses, shipment.from_id),
+                         placeholder: "Select from..",
+                         class: "custom-select" %>
+        </div>
+
+        <div id="from_suppliers" class='inline-block hidden'>
+          <%= select_tag "from_id_supplier", options_for_select(suppliers, shipment.from_id),
+                         placeholder: "Select from..",
+                         class: "custom-select" %>
+        </div>
+
+        <div id="from_jobs" class='inline-block hidden'>
+          <%= select_tag "from_id_job", options_for_select(jobs, shipment.from_id),
+                         class: "custom-select",
+                         placeholder: "Select from.." %>
+        </div>
+      </div>
+
+      &nbsp;
+      <div class='inline-block align-top push-down'>
+        <i class="icon-chevron-right"></i>
+      </div>
+      &nbsp;
+
+      <div class='inline-block'>
+        <%= f.select :to_type, options_for_select([["Warehouse", Warehouse.name], ["Supplier", Supplier.name], ["Job", Job.name]], shipment.to_type.present? ? shipment.to_type : Job.name),
+                     {}, style: "width: 100px !important;",
+                     id: "shipment_to_select",
+                     class: "custom-select" %>
+
+        <div id="to_warehouses" class='inline-block hidden'>
+          <%= select_tag "to_id_warehouse", options_for_select(warehouses, shipment.to_id),
+                         placeholder: "Select to..",
+                         class: "custom-select" %>
+        </div>
+
+        <div id="to_suppliers" class='inline-block hidden'>
+          <%= select_tag "to_id_supplier", options_for_select(suppliers, shipment.to_id),
+                         placeholder: "Select to..",
+                         class: "custom-select" %>
+        </div>
+
+        <div id="to_jobs" class='inline-block'>
+          <%= select_tag "to_id_job", options_for_select(jobs, shipment.to_id),
+                         class: "custom-select",
+                         placeholder: "Select to.." %>
+        </div>
+      </div>
+    </div>
+
+
+<% end %>
+</div>
+
+<div class="form-loading hidden" data-form="new-asset-form">
+  <%= render 'layouts/inline_loading', title: "Adding asset..." %>
+  <br><br>
+</div>
 </div>
 
 <% if !allow_inventory %>
@@ -228,12 +253,12 @@
         $(document).ready(function () {
 
 
-            $('#shipment_from_select').change(function() {
+            $('#shipment_from_select').change(function () {
                 var current_value = $(this).find('option:selected').val();
                 $('#from_warehouses').addClass('hidden');
                 $('#from_suppliers').addClass('hidden');
                 $('#from_jobs').addClass('hidden');
-                if(current_value == "Warehouse") {
+                if (current_value == "Warehouse") {
                     $('#from_warehouses').removeClass('hidden');
                 }
                 else if (current_value == "Supplier") {
@@ -245,12 +270,12 @@
                 return false;
             });
 
-            $('#shipment_to_select').change(function() {
+            $('#shipment_to_select').change(function () {
                 var current_value = $(this).find('option:selected').val();
                 $('#to_warehouses').addClass('hidden');
                 $('#to_suppliers').addClass('hidden');
                 $('#to_jobs').addClass('hidden');
-                if(current_value == "Warehouse") {
+                if (current_value == "Warehouse") {
                     $('#to_warehouses').removeClass('hidden');
                 }
                 else if (current_value == "Supplier") {

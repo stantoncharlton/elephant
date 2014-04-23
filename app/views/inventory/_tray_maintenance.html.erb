@@ -13,9 +13,10 @@
     <% parts_grouped = part_redresses.group_by { |pr| pr.received_at.to_date } %>
     <% parts_grouped = parts_grouped.sort_by { |g| g[0] } %>
 
-    <div class='section-header' style="margin-top: 15px;">
+    <div class='section-header' style="margin-top: 20px;">
       <h1 class="inline">In Maintenance</h1>
     </div>
+    <br>
 
     <div id="parts" class="list">
       <% parts_grouped.each_with_index do |part_group, i| %>

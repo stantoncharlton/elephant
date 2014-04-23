@@ -1,8 +1,4 @@
 <div class='add-new-asset'>
-  <% if !shipment.present? %>
-      <h3>Add New Asset</h3>
-  <% end %>
-
   <div class='form' data-form="new-asset-form">
     <%= form_for PartMembership.new, remote: true do |f| %>
 
@@ -17,7 +13,7 @@
           <ul class="nav nav-pills selection-nav">
             <% if allow_inventory %>
                 <li class='active'>
-                  <a href="#" class='change-asset-type' data-type="inventory">Inventory</a>
+                  <a href="#" class='change-asset-type' data-type="inventory">Owned Asset</a>
                 </li>
             <% end %>
             <li class=" <%= !allow_inventory ? " " : "push-right-small" %>">
@@ -28,6 +24,8 @@
             </li>
           </ul>
         </div>
+
+        <div style='border-style: dashed; border-width: 0px; border-bottom-width: 1px; height: 1px; border-color: #666; margin-top: -8px; margin-bottom: 10px;'></div>
 
         <div class='inline-block asset-type-form align-top' data-type="inventory">
           <%= f.hidden_field :part_id %>
@@ -139,6 +137,27 @@
             <%= select_tag "down", options_for_select(BhaItem.options),
                            class: "custom-select-ajax bha-value2 align-top push-up",
                            placeholder: "Down" %>
+          </div>
+
+          <div>
+            <div style='width: 100px; margin-top: 10px;'>
+              <b class='orange-text'>Cost</b>
+            </div>
+
+            <div class="inline-block align-top">
+              <%= f.select :charge_type, options_for_select([["Day", JobCost::DAY], ["Job", JobCost::JOB], ["Hour", JobCost::HOUR], ["Item", JobCost::ITEM]]),
+                           {},
+                           style: "margin-right: 10px;",
+                           class: "custom-select custom-select-ajax align-top",
+                           placeholder: "Up" %>
+            </div>
+
+            <%= f.text_field :price, placeholder: "$0.00",
+                             value: nil,
+                             class: "txtfield tooltip-info align-top",
+                             style: "width: 100px !important; min-width: 0px;",
+                             "data-placement" => "bottom",
+                             "data-title" => "Price" %>
           </div>
         </div>
 
