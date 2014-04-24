@@ -31,7 +31,7 @@
         </div>
       </div>
 
-      <% days = @drilling_log.below_rotary.present? && @drilling_log.above_rotary.present? ? ((@drilling_log.above_rotary + @drilling_log.below_rotary) / 24).to_i : 0 %>
+      <% days = @drilling_log.below_rotary.present? && @drilling_log.above_rotary.present? ? ((@drilling_log.above_rotary + @drilling_log.below_rotary) / 24).ceil : 0 %>
       <div class="chart-block tooltip-info align-top"
            data-title="Total Job Cost">
         <div class="chart-title">Days on Job</div>

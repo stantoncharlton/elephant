@@ -131,7 +131,7 @@ ElephantWebApp::Application.routes.draw do
     resources :asset_lists, only: [:index, :show]
     resources :asset_list_entries, only: [:show, :new, :create, :edit, :update, :destroy]
 
-    resources :job_costs, only: [:show, :new, :create, :edit, :update, :destroy]
+    resources :job_costs, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
     match '/report_status/:id', to: 'reports#status', :via => :get
 

@@ -606,6 +606,10 @@ class Job < ActiveRecord::Base
         asset_list
     end
 
+    def update_cost
+        self.update_attribute(:total_cost, JobCost.job_total(self))
+    end
+
     def self.cached_find(id)
         Rails.cache.fetch([name, id], expires_in: 10.minutes) { find(id) }
     end

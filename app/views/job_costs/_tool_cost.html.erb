@@ -1,0 +1,31 @@
+<div id="tool_cost_<%= part_membership.id %>" style="<%= index % 2 != 0 ? 'background: #d9f9fb;' : '' %>">
+
+  <div style="margin-left: 0px;  max-height: 50px; padding-left: 5px;">
+
+    <div style='margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px; font-size: 13px;'>
+      <div class='inline-block' style="width: 125px">
+        <b class='orange-text'>Asset</b>
+      </div>
+      <div class='inline-block' style="width: 87px">
+        <b class=''><%= JobCost.charge_type_string(part_membership.charge_type) %></b>
+      </div>
+      <div class='inline-block' style="width: 64px">
+        <b class=''><%= quantity %></b>
+      </div>
+      <div class='inline-block' style="width: 324px">
+        <span class=''><%= part_membership.name %> - <%= part_membership.serial_number %></span>
+      </div>
+      <div class='inline-block' style="width: 100px">
+        <b class='blue-text <%= part_membership.price < 0 ? "warning-test" : "" %>'><%= number_to_currency(part_membership.price * quantity.to_f, :unit => "$") %></b>
+      </div>
+      <div class='inline-block' style="width: 100px">
+        <% if quantity.to_f != 1.0 %>
+            <p class='inline-block help-text push-right-small'>
+              (<%= number_to_currency(part_membership.price, :unit => "$") %>)
+            </p>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>

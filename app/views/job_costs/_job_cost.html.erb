@@ -1,4 +1,4 @@
-<div id="job_cost_<%= job_cost.id %>" style="<%= index % 2 != 0 ? 'background: #e7f9fa;' : '' %>">
+<div id="job_cost_<%= job_cost.id %>" style="<%= index % 2 != 0 ? 'background: #d9f9fb;' : '' %>">
 
   <% if true %>
       <div class="btn-group inline-block align-top pull-right push-down-small" style='margin-right: 5px;'>
@@ -21,14 +21,14 @@
       </div>
   <% end %>
 
-  <div style="margin-left: 0px;  max-height: 50px;">
+  <div style="margin-left: 0px;  max-height: 50px; padding-left: 5px;">
 
     <div style='margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px; font-size: 13px;'>
       <div class='inline-block' style="width: 125px">
         <b class=''><%= job_cost.charge_at.in_time_zone.strftime("%m/%d/%Y") %></b>
       </div>
       <div class='inline-block' style="width: 87px">
-        <b class=''><%= job_cost.charge_type_string %></b>
+        <b class=''><%= JobCost.charge_type_string(job_cost.charge_type) %></b>
       </div>
       <div class='inline-block' style="width: 64px">
         <b class=''><%= job_cost.quantity.to_f == job_cost.quantity.to_i ? job_cost.quantity.to_i : job_cost.quantity.to_f %></b>
@@ -37,11 +37,13 @@
         <span class=''><%= job_cost.description %></span>
       </div>
       <div class='inline-block' style="width: 100px">
-        <b class='blue-text <%= job_cost.price < 0 ? "warning-test" : "" %>'><%= number_to_currency(job_cost.price, :unit => "$") %></b>
+        <b class='blue-text <%= job_cost.price < 0 ? "warning-test" : "" %>'><%= number_to_currency(job_cost.price * job_cost.quantity.to_f, :unit => "$") %></b>
       </div>
       <div class='inline-block' style="width: 100px">
         <% if job_cost.quantity.to_f != 1.0 %>
-            <p class='inline-block help-text push-right-small'>(<%= number_to_currency(job_cost.price * job_cost.quantity.to_f, :unit => "$") %>)</p>
+            <p class='inline-block help-text push-right-small'>
+            (<%= number_to_currency(job_cost.price, :unit => "$") %>)
+            </p>
         <% end %>
       </div>
     </div>

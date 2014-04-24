@@ -36,7 +36,7 @@ $.rails.allowAction = (element) ->
   $('.modal-backdrop').css('z-index', '10000000000')
 
   $link.click ->
-    $modal_html.find('.close').trigger 'click'
+    $modal_html.find('.delete-button-small').trigger 'click'
 
   # Prevent the original link from working
   return false

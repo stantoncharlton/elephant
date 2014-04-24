@@ -25,8 +25,33 @@ class JobCost < ActiveRecord::Base
     HOUR = 3
     ITEM = 4
 
-    def charge_type_string
-        case self.charge_type
+    def self.job_total(job)
+        costs = 0.0
+        if job.present?
+            if job.job_costs.any?
+                costs = job.job_costs.map { |jc| jc.price * jc.quantity }.reduce(:+)
+            end
+
+            parts = job.part_memberships.where("part_memberships.price IS NOT NULL AND part_memberships.price > 0")
+            if parts.any?
+                days = job.drilling_log.below_rotary.present? && job.drilling_log.above_rotary.present? ? ((job.drilling_log.above_rotary + job.drilling_log.below_rotary) / 24).ceil : 0
+                parts.each do |pm|
+                    quantity = 1.0
+                    if pm.charge_type == JobCost::DAY
+                        quantity = days
+                    elsif pm.charge_type == JobCost::HOUR && pm.part.present?
+                        quantity = pm.part.below_rotary.ceil
+                    end
+
+                    costs += quantity * pm.price
+                end
+            end
+        end
+        costs
+    end
+
+    def self.charge_type_string(charge_type)
+        case charge_type
             when DAY
                 "Day"
             when JOB

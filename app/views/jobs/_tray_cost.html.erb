@@ -13,7 +13,9 @@
   <hr>
 
 
-  <% if @job.job_costs.empty? %>
+  <% parts = @job.part_memberships.where("part_memberships.price IS NOT NULL AND part_memberships.price > 0") %>
+
+  <% if @job.job_costs.empty? && parts.empty? %>
       <p class="center help-text no-entries"><br>No charges...</p>
   <% end %>
 
@@ -26,7 +28,30 @@
     <% end %>
   </div>
 
+  <div>
+    <% days = @job.drilling_log.below_rotary.present? && @job.drilling_log.above_rotary.present? ? ((@job.drilling_log.above_rotary + @job.drilling_log.below_rotary) / 24).ceil : 0 %>
+
+    <% if @job.job_costs.any? && parts.any? %>
+        <hr>
+    <% end %>
+
+    <% parts.each_with_index do |pm, index| %>
+        <% quantity = 1.0 %>
+        <% if pm.charge_type == JobCost::DAY %>
+            <% quantity = days %>
+        <% elsif pm.charge_type == JobCost::HOUR && pm.part.present? %>
+            <% quantity = pm.part.below_rotary.ceil %>
+        <% end %>
+        <%= render 'job_costs/tool_cost', part_membership: pm, index: index, quantity: quantity %>
+
+    <% end %>
+  </div>
+
   <hr>
+
+  <div>
+    <%= link_to "Export As Excel", job_costs_path(job: @job, format: "xlsx"), class: "activity-user-link pull-left", target: "_blank" %>
+  </div>
 
   <%= render 'job_costs/totals', job: job %>
 

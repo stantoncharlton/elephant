@@ -1,5 +1,23 @@
 class JobCostsController < ApplicationController
-    before_filter :signed_in_user, only: [:show, :new, :create, :edit, :update, :destroy]
+    before_filter :signed_in_user, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+
+    include JobCostsHelper
+
+    def index
+        @job = Job.find_by_id(params[:job])
+        not_found unless @job.present?
+
+        respond_to do |format|
+            format.html {
+            }
+            format.js {
+            }
+            format.xlsx {
+                excel = job_costs_to_excel @job
+                send_data excel.to_stream.read, :filename => "Costs - #{@job.name}.xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+            }
+        end
+    end
 
     def show
 
@@ -28,7 +46,7 @@ class JobCostsController < ApplicationController
         date = Date.strptime("#{charge_at}", '%m/%d/%Y')
         @job_cost.charge_at = Time.zone.parse("#{date.year}-#{date.month}-#{date.day}")
         if @job_cost.save
-            @job.update_attribute(:total_cost, @job.job_costs.any? ? @job.job_costs.map { |jc| jc.price * jc.quantity }.reduce(:+) : 0.0)
+            @job.update_cost
         end
     end
 
@@ -45,7 +63,7 @@ class JobCostsController < ApplicationController
         @job = @job_cost.job
         not_found unless @job_cost.present?
         if @job_cost.destroy
-            @job.update_attribute(:total_cost, @job.job_costs.any? ? @job.job_costs.map { |jc| jc.price * jc.quantity }.reduce(:+) : 0.0)
+            @job.update_cost
         end
     end
 

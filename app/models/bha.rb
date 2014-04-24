@@ -54,6 +54,8 @@ class Bha < ActiveRecord::Base
         if !self.tool_string.nil?
             self.tool_string.update_usage
         end
+
+        self.job.delay.update_cost
     end
 
     def create_activity user, activity
