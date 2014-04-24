@@ -3,7 +3,8 @@ class Shipment < ActiveRecord::Base
                     :status,
                     :from_name,
                     :to_name,
-                    :from_editable
+                    :from_editable,
+                    :part_memberships_count
 
     acts_as_tenant(:company)
 

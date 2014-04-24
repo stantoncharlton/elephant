@@ -8,7 +8,7 @@
   <div class="content tray-content content-loaded">
 
     <% parts = @parts.where(:status => Part::SHIPPING) %>
-    <% shipments = Shipment.includes(part_memberships: { part: :master_part }).includes(part_memberships: :shipment).where(:district_id => @district.id).order("status ASC, created_at DESC") %>
+    <% shipments = Shipment.includes(part_memberships: { part: :master_part }).includes(part_memberships: :shipment).where(:district_id => @district.id).where("shipments.part_memberships_count > 0 OR shipments.status > 1").order("shipments.status ASC, shipments.created_at DESC") %>
     <% shippers = Shipper.where(:district_id => @district.id).order("name ASC") %>
 
     <div class='section-header' style="margin-top: 20px;">

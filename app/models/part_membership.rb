@@ -38,7 +38,7 @@ class PartMembership < ActiveRecord::Base
     belongs_to :primary_tool
     belongs_to :supplier
     belongs_to :company
-    belongs_to :shipment
+    belongs_to :shipment, counter_cache: true
     belongs_to :job_part_membership, class_name: "PartMembership"
 
     belongs_to :from, :polymorphic => true
