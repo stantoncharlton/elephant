@@ -20,7 +20,7 @@
               <% names = activity.user.present? ? activity.user.name.split : activity.user_name.split %>
               <div class="inline-block">
                 <div class="member-icon-large tooltip-info"
-                     style="background: #<%= activity.user.color %>;">
+                     style="background: #<%= activity.user.present? ? activity.user.color : "606060" %>;">
                   <p>
                     <% if names.any? %>
                         <%= names.count > 1 ? names.first[0, 1] + names.last[0, 1] : names.first[0, 1] %>

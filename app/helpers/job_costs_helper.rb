@@ -36,7 +36,7 @@ module JobCostsHelper
                                    jc.quantity.to_f == jc.quantity.to_i ? jc.quantity.to_i : jc.quantity.to_f,
                                    jc.description,
                                    jc.price * jc.quantity.to_f,
-                                   jc.quantity.to_f != 1.0 ? jc.price : jc.price], :style => index % 2 == 0 ? [cell1, cell1, cell1, cell1, cell1_bold, cell1_money] : [cell2, cell2, cell2, cell2, cell2_bold, cell2_money], :types => [:string, :string, :string, :string, :float, :float]
+                                   jc.quantity.to_f != 1.0 ? jc.price : jc.price], :style => index % 2 == 0 ? [cell1, cell1, cell1, cell1, cell1_bold, cell1_money] : [cell2, cell2, cell2, cell2, cell2_bold, cell2_money], :types => [:string, :string, :integer, :string, :float, :float]
                 end
 
                 parts = job.part_memberships.where("part_memberships.price IS NOT NULL AND part_memberships.price > 0")
@@ -57,7 +57,7 @@ module JobCostsHelper
                                        quantity,
                                        "#{pm.name} - #{pm.serial_number}",
                                        pm.price * quantity.to_f,
-                                       quantity.to_f != 1.0 ? pm.price : jc.price], :style => index % 2 == 0 ? [cell1, cell1, cell1, cell1, cell1_bold, cell1_money] : [cell2, cell2, cell2, cell2, cell2_bold, cell2_money], :types => [:string, :string, :string, :string, :float, :float]
+                                       quantity.to_f != 1.0 ? pm.price : jc.price], :style => index % 2 == 0 ? [cell1, cell1, cell1, cell1, cell1_bold, cell1_money] : [cell2, cell2, cell2, cell2, cell2_bold, cell2_money], :types => [:string, :string, :integer, :string, :float, :float]
                     end
                 end
 
