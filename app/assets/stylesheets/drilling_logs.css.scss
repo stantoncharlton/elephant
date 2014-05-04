@@ -1,5 +1,3 @@
-
-
 .chart-daily {
   float: right;
   display: inline-block;
@@ -7,7 +5,6 @@
   height: 80px;
   margin-top: 5px;
 }
-
 
 .time-chart {
   margin-top: -30px;
@@ -48,3 +45,58 @@
     background: #e4e4e4;
   }
 }
+
+.live-column {
+  width: 130px;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+
+}
+
+.live-block {
+  height: 75px;
+  width: 100%;
+  text-align: left;
+  background: #f5f3f3;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dbdbdb;
+  padding: 7px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 5px;
+
+  .live-label {
+    font-size: 13px;
+    font-family: gothammediumregular;
+    color: #000000;
+    text-align: left;
+    height: 20px;
+
+  }
+  .live-data {
+    padding-top: 10px;
+    font-size: 30px;
+    font-family: gothamboldregular;
+    color: #000000;
+    text-align: center;
+    height: 20px;
+    color: #000000;
+  }
+
+  .live-unit {
+    font-size: 11px;
+    font-family: gothambookregular;
+    color: #000000;
+    text-align: right;
+  }
+
+  .live-line {
+    height: 3px;
+    width: 100%;
+    background: transparent;
+  }
+}
+

@@ -17,10 +17,12 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 <% elsif params[:section] == "runs" %>
     <% @drilling_log = @job.drilling_log %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_runs', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "activity" %>
+    tray.replaceWith("<%= j render 'jobs/tray_activity', job: @job %>");
 <% elsif params[:section] == "drilling_activity" %>
     <% @drilling_log = @job.drilling_log %>
     <% @bhas = Bha.joins(job: :well).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC") %>
-    tray.replaceWith("<%= j render 'drilling_logs/tray_drilling_activity', job: @job, drilling_log: @drilling_log %>");
+    $('#activity_list').replaceWith("<%= j render 'drilling_logs/tray_drilling_activity', job: @job, drilling_log: @drilling_log %>");
 <% elsif params[:section] == "surveys" %>
     <% @drilling_log = @job.drilling_log %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_survey', job: @job, drilling_log: @drilling_log %>");

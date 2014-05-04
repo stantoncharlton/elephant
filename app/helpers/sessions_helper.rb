@@ -31,9 +31,11 @@ module SessionsHelper
         else
             @current_user ||= User.find_by_remember_token(cookies[:remember_token])
 
-            if @current_user.nil? && !request.headers['x-access-token'].blank?
-                api_key = ApiKey.find_by_access_token(request.headers['x-access-token'])
-                if api_key.present? && api_key.user_id == request.headers['x-user'].to_i
+            if @current_user.nil? && (!request.headers['x-access-token'].blank? || !request.params['x_access_token'].blank?)
+                x_access_token = !request.headers['x-access-token'].blank? ? request.headers['x-access-token'] : request.params['x_access_token']
+                x_user = !request.headers['x-user'].blank? ? request.headers['x-user'] : request.params['x_user']
+                api_key = ApiKey.find_by_access_token(x_access_token)
+                if api_key.present? && api_key.user_id == x_user.to_i
                     @api_request = true
                     @current_user ||= api_key.user
                     self.current_user = @current_user

@@ -81,7 +81,7 @@ class Rig < ActiveRecord::Base
 
     def self.get_rig_rops time_range
         months = []
-        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, drilling_logs.updated_at as date, wells.rig_id as rig_id, drilling_logs.npt as npt, coalesce(drilling_logs.total_time, 0) as total_time, rigs.name as rig_name, coalesce(jobs.failures_count, 0) as failures")
+        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, drilling_logs.updated_at as date, wells.rig_id as rig_id, drilling_logs.npt as npt, coalesce(drilling_logs.total_time, 0) as total_time, rigs.name as rig_name, coalesce(jobs.failures_count, 0) as failures, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost")
         result = result.group_by { |d| Date.strptime(d.date, '%Y-%m-%d').month }
 
         12.times do |m|
@@ -95,17 +95,22 @@ class Rig < ActiveRecord::Base
             avg_rop = 0
             failures = 0
             npt = 0
+            max_depth = 0
+            cost = 0
             total_time = 0
             group[1].each do |dl|
                 avg_rop += dl[:rop]
                 npt += dl[:npt]
                 total_time += dl[:total_time].to_f
                 failures += dl[:failures].to_i
+                max_depth += dl[:max_depth].to_f
+                cost += dl[:cost].to_i
             end
             if group[1].any?
                 hash[:avg_rop] = (avg_rop.to_f / group[1].length.to_f).round(1)
                 hash[:npt] = (npt / total_time.to_f * 100).round(1)
                 hash[:failures] = failures
+                hash[:cost] = (cost.to_f / max_depth.to_f).round(2)
             end
 
             rigs.each do |rig_group|
@@ -114,6 +119,54 @@ class Rig < ActiveRecord::Base
                     sum += r[:rop]
                 end
                 hash[rig_group[0]] = (sum.to_f / rig_group[1].count.to_f).round(1)
+            end
+        end
+
+        months
+    end
+
+    def self.get_rig_costs time_range
+        months = []
+        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("coalesce(drilling_logs.drilling_rop, 0) AS rop, drilling_logs.updated_at as date, wells.rig_id as rig_id, drilling_logs.npt as npt, coalesce(drilling_logs.total_time, 0) as total_time, rigs.name as rig_name, coalesce(jobs.failures_count, 0) as failures, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost")
+        result = result.group_by { |d| Date.strptime(d.date, '%Y-%m-%d').month }
+
+        12.times do |m|
+            months << {month: Date::MONTHNAMES[m + 1]}
+        end
+        result.each do |group|
+            hash = months[group[0] - 1]
+
+            rigs = group[1].group_by { |dl| dl[:rig_name] }
+
+            avg_rop = 0
+            failures = 0
+            npt = 0
+            max_depth = 0
+            cost = 0
+            total_time = 0
+            group[1].each do |dl|
+                avg_rop += dl[:rop]
+                npt += dl[:npt]
+                total_time += dl[:total_time].to_f
+                failures += dl[:failures].to_i
+                max_depth += dl[:max_depth].to_f
+                cost += dl[:cost].to_i
+            end
+            if group[1].any?
+                hash[:avg_rop] = (avg_rop.to_f / group[1].length.to_f).round(1)
+                hash[:npt] = (npt / total_time.to_f * 100).round(1)
+                hash[:failures] = failures
+                hash[:cost] = (cost.to_f / max_depth.to_f).round(2)
+            end
+
+            rigs.each do |rig_group|
+                cost = 0
+                feet = 0
+                rig_group[1].each do |r|
+                    cost += r.cost.to_f
+                    feet += r.max_depth.to_f
+                end
+                hash[rig_group[0]] = (cost  / feet).round(2)
             end
         end
 

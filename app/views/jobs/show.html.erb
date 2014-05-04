@@ -90,7 +90,7 @@
         <a href="#drilling_activity" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
-           data-tray="drilling_activity"
+           data-tray="activity"
            data-placement="bottom" data-title="Drilling Activity">Activity</a>
       </li>
 
@@ -222,9 +222,9 @@
       </div>
     </div>
 
-    <div class="remote-tray" data-tray="drilling_activity">
+    <div class="remote-tray" data-tray="activity">
       <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading drilling activity..." %>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading activity..." %>
       </div>
     </div>
 

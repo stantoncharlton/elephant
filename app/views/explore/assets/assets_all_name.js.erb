@@ -2,6 +2,8 @@ $('#explore_loading').addClass('hidden');
 $('#main_chart').removeClass('hidden');
 
 graphs = [];
+
+<% if @chart_type == 1 %>
 graphs.push({
     "valueAxis": "v1",
     "balloonText": "[[asset_name]]<br><b>[[title]]</b><br><span style='font-size:14px'><b>[[value]]</b> ft/hr</span>",
@@ -73,6 +75,54 @@ var chart = AmCharts.makeChart("main_chart", {
         "titleColor": "#fff"
     }
 });
+
+<% elsif @chart_type == 2 %>
+
+
+graphs.push({
+    "valueAxis": "v1",
+    "balloonText": "[[asset_name]]<br><b>[[title]]</b><br><span style='font-size:14px'><b>[[value]]</b> $/ft</span>",
+    "fillColors": "#3caaf0",
+    "lineColor": "#0a354a",
+    "fillAlphas": 1.0,
+    "lineAlpha": 1.0,
+    "type": "column",
+    "title": "Cost",
+    "valueField": "cost"
+});
+
+var chart = AmCharts.makeChart("main_chart", {
+    "type": "serial",
+    "theme": "light",
+    "dataProvider": <%= get_all_assets_rops(@time_range, @option.to_i).to_json.html_safe %>,
+    "valueAxes": [
+        {
+            "id":"v1",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0,
+            "position": "left",
+            "title": "Cost",
+            "color": "#fff",
+            "axisColor": "#fff",
+            "titleColor": "#fff"
+
+        }
+    ],
+    "graphs": graphs,
+    "categoryField": "asset_name",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+        "gridAlpha": 0,
+        "position": "bottom",
+        "labelRotation": "35",
+        "color": "#fff",
+        "axisColor": "#fff",
+        "titleColor": "#fff"
+    }
+});
+
+<% end %>
 
 
 

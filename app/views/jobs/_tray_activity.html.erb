@@ -1,0 +1,68 @@
+<div class="remote-tray" data-tray="activity">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading Activity..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+    <div class='' style='height: 48px;'>
+      <div class="" style="position: absolute; background: #e7e7e7;left: 0; width: 100%; height: 40px;">
+        <div style='margin-left: 20px; margin-top: 8px;'>
+          <div class='' style='margin-top: -2px;'>
+            <ul class="nav nav-tabs">
+              <li class='active'>
+                <%= link_to "Live", "#", class: "blue-text job-tab job-sub-tab", id: "show_live_activity" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Activity", "#", class: "blue-text job-tab job-sub-tab", id: "show_activity" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="live_list">
+      <%= render 'drilling_logs/live' %>
+    </div>
+
+    <div id="activity_list" class='hidden' data-loaded="false">
+      <div id="activity_list_loader" class="push-down center inline">
+        <br>
+        <div class="" style="margin-top: 30px;">
+          <span class="ajax-loading search-loading"><b>Loading Activity..</b></span>
+        </div>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+        $('#show_activity').click(function () {
+            $('.job-sub-tab').each(function() { $(this).parent().removeClass('active');  });
+            $(this).parent().addClass('active');
+            $('#live_list').addClass('hidden');
+            $('#asset_request_list').addClass('hidden');
+            $('#activity_list').removeClass('hidden');
+            if ($('#activity_list').attr('data-loaded') == 'false') {
+                $.ajax("/jobs/<%= @job.id %>?section=drilling_activity", {
+                    type: 'get',
+                    dataType: 'script'
+                });
+            }
+            return false;
+        });
+        $('#show_live_activity').click(function () {
+            $('.job-sub-tab').each(function() { $(this).parent().removeClass('active');  });
+            $(this).parent().addClass('active');
+            $('#live_list').removeClass('hidden');
+            $('#activity_list').addClass('hidden');
+            return false;
+        });
+    </script>
+
+
+  </div>
+</div>
+

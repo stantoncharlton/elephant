@@ -10,6 +10,7 @@ class ExploreController < ApplicationController
 
         if request.format == "js"
             @time_range = params[:time_range]
+            @chart_type = params[:chart_type].to_i
             @option = params[:option]
             case params[:compare].to_i
                 when 1
