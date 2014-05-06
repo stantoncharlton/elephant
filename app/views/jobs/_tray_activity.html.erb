@@ -16,7 +16,7 @@
                 <%= link_to "Live", "#", class: "blue-text job-tab job-sub-tab", id: "show_live_activity" %>
               </li>
               <li class='push-right-small'>
-                <%= link_to "Activity", "#", class: "blue-text job-tab job-sub-tab", id: "show_activity" %>
+                <%= link_to "Activity", "#", class: "blue-text job-tab job-sub-tab", id: "show_past_activity" %>
               </li>
             </ul>
           </div>
@@ -39,11 +39,10 @@
     </div>
 
     <script type='text/javascript'>
-        $('#show_activity').click(function () {
+        $('#show_past_activity').click(function () {
             $('.job-sub-tab').each(function() { $(this).parent().removeClass('active');  });
             $(this).parent().addClass('active');
             $('#live_list').addClass('hidden');
-            $('#asset_request_list').addClass('hidden');
             $('#activity_list').removeClass('hidden');
             if ($('#activity_list').attr('data-loaded') == 'false') {
                 $.ajax("/jobs/<%= @job.id %>?section=drilling_activity", {

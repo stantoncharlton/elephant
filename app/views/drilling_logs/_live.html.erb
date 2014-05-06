@@ -1,4 +1,12 @@
-<div style="position: absolute; left: 0; width: 100%; padding: 10px;">
+<div class="center" style='margin-top: 100px;'>
+  <%= image_tag "warning.png", class: "pull-left push-down" %>
+  <div class='pull-left push-right-small push-down-small'>
+    <h3 class='orange-text'>No real-time wellsite WITS data...</h3>
+  </div>
+  <br><br><br>
+</div>
+
+<div style="position: absolute; left: 0; width: 100%; padding: 10px;" class='hidden'>
 <div class='live-column'>
 
   <div class='live-block'>
@@ -81,6 +89,16 @@
     <div class='live-data' style="color: #449f72;">14.9</div>
     <div class='live-unit'>kLbs</div>
   </div>
+
+
+  <div class='hidden'>
+    <div id="live_chart_1" style="width: 100%; height: 400px;"></div>
+  </div>
+
+
+  <div>
+    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
+  </div>
 </div>
 
 
@@ -105,6 +123,10 @@
     <div class='live-data' style="color: #449f72;">26</div>
     <div class='live-unit'>percent</div>
   </div>
+
+  <div>
+    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
+  </div>
 </div>
 
 <div class='live-column'>
@@ -127,6 +149,10 @@
     <div class='live-line' style='background: #449f72;'></div>
     <div class='live-data' style="color: #449f72;">657</div>
     <div class='live-unit'>units</div>
+  </div>
+
+  <div>
+    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
   </div>
 </div>
 
@@ -151,6 +177,10 @@
     <div class='live-data' style="color: #449f72;">167</div>
     <div class='live-unit'>API</div>
   </div>
+
+  <div>
+    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
+  </div>
 </div>
 
 <div class='live-column'>
@@ -174,6 +204,10 @@
     <div class='live-data' style="color: #449f72;">37</div>
     <div class='live-unit'>bbl</div>
   </div>
+
+  <div>
+    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
+  </div>
 </div>
 
 
@@ -198,19 +232,28 @@
     <div class='live-data' style="color: #449f72;">37</div>
     <div class='live-unit'>bbl</div>
   </div>
+
+  <div>
+    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
+  </div>
 </div>
 
 </div>
 
 
-<div style='height: 700px;'></div>
+<div class='hidden' style='height: 700px;'></div>
 
 <script type="text/javascript">
 
+  <% if false %>
     var pusher = new Pusher('9f7a931d636464d8a7c3', {  });
     var channel = pusher.subscribe('private-wits');
     channel.bind('client-my-event', function (data) {
         alert(data.message);
     });
 
+  <% end %>
 </script>
+
+
+
