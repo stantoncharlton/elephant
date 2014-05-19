@@ -1,0 +1,128 @@
+<div id='column_<%= column_name %>' class='live-column'>
+  <div id='<%= data[0][:id] %>' class='live-block'>
+    <div class='live-label'><%= data[0][:name] %></div>
+    <div class='live-line' style='background: #238fda;'></div>
+    <div class='live-data' style="color: #238fda;"><%= data[0][:value] %></div>
+    <div class='live-unit'><%= data[0][:units] %></div>
+  </div>
+
+  <div id='<%= data[1][:id] %>' class='live-block'>
+    <div class='live-label'><%= data[1][:name] %></div>
+    <div class='live-line' style='background: #e77813;'></div>
+    <div class='live-data' style="color: #e77813;"><%= data[1][:value] %></div>
+    <div class='live-unit'><%= data[1][:units] %></div>
+  </div>
+
+  <div id='<%= data[2][:id] %>' class='live-block'>
+    <div class='live-label'><%= data[2][:name] %></div>
+    <div class='live-line' style='background: #449f72;'></div>
+    <div class='live-data' style="color: #449f72;"><%= data[2][:value] %></div>
+    <div class='live-unit'><%= data[2][:units] %></div>
+  </div>
+
+
+  <div class='live-chart' >
+    <div id="chart_<%= column_name %>" style="width: 100%; height: 400px;"></div>
+
+  </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    AmCharts.makeChart("chart_<%= column_name %>",
+            {
+                "type": "serial",
+                "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+                "categoryField": "category",
+                "rotate": true,
+                "autoMarginOffset": 0,
+                "autoMargins": false,
+                "marginBottom": 0,
+                "marginLeft": 0,
+                "marginRight": 0,
+                "marginTop": 0,
+                "sequencedAnimation": false,
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "axisColor": "#D7E0E0",
+                    "fillAlpha": 0.21,
+                    "fontSize": -3,
+                    "gridAlpha": 0.07,
+                    "labelsEnabled": false,
+                    "minorGridAlpha": 0,
+                    "showFirstLabel": false,
+                    "showLastLabel": false,
+                    "tickLength": 0,
+                    "titleBold": false
+                },
+                "trendLines": [],
+                "graphs": [
+                    {
+                        "balloonText": "[[title]] of [[category]]:[[value]]",
+                        "id": "AmGraph-1",
+                        "title": "graph 1",
+                        "valueField": "column-1"
+                    },
+                    {
+                        "balloonText": "[[title]] of [[category]]:[[value]]",
+                        "bulletBorderThickness": -14,
+                        "id": "AmGraph-2",
+                        "title": "graph 2",
+                        "valueField": "column-2"
+                    }
+                ],
+                "guides": [],
+                "valueAxes": [
+                    {
+                        "id": "ValueAxis-1",
+                        "autoGridCount": false,
+                        "axisAlpha": 0,
+                        "labelsEnabled": false,
+                        "titleFontSize": -6
+                    }
+                ],
+                "allLabels": [],
+                "balloon": {},
+                "titles": [],
+                "dataProvider": [
+                    {
+                        "category": "category 1",
+                        "column-1": 8,
+                        "column-2": 5
+                    },
+                    {
+                        "category": "category 2",
+                        "column-1": 6,
+                        "column-2": 7
+                    },
+                    {
+                        "category": "category 3",
+                        "column-1": 2,
+                        "column-2": 3
+                    },
+                    {
+                        "category": "category 4",
+                        "column-1": 1,
+                        "column-2": 3
+                    },
+                    {
+                        "category": "category 5",
+                        "column-1": 2,
+                        "column-2": 1
+                    },
+                    {
+                        "category": "category 6",
+                        "column-1": 3,
+                        "column-2": 2
+                    },
+                    {
+                        "category": "category 7",
+                        "column-1": 6,
+                        "column-2": 8
+                    }
+                ]
+            }
+    );
+</script>

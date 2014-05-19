@@ -54,6 +54,28 @@
 
 }
 
+.live-chart {
+  width: 145px;
+  height: 400px;
+  margin-top: 10px;
+}
+
+.live-bit-depth {
+  width: 100%;
+  text-align: left;
+  background: #f5f3f3;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dbdbdb;
+  padding: 7px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 5px;
+
+  height: 568px;
+}
+
 .live-block {
   height: 75px;
   width: 100%;

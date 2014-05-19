@@ -1,259 +1,114 @@
-<div class="center" style='margin-top: 100px;'>
-  <%= image_tag "warning.png", class: "pull-left push-down" %>
-  <div class='pull-left push-right-small push-down-small'>
-    <h3 class='orange-text'>No real-time wellsite WITS data...</h3>
-  </div>
-  <br><br><br>
-</div>
+<% if false %>
+    <div class="center" style='margin-top: 100px;'>
+      <%= image_tag "warning.png", class: "pull-left push-down" %>
+      <div class='pull-left push-right-small push-down-small'>
+        <h3 class='orange-text'>No real-time wellsite WITS data...</h3>
+      </div>
+      <br><br><br>
+    </div>
+<% end %>
 
-<div style="position: absolute; left: 0; width: 100%; padding: 10px;" class='hidden'>
-<div class='live-column'>
+<div style="position: absolute; left: 0; width: 100%; padding: 10px;">
+  <div class='live-column'>
 
-  <div class='live-block'>
-    <div class='live-label'>Hole Depth</div>
-    <div class='live-line'></div>
-    <div class='live-data'>2030</div>
-    <div class='live-unit'>feet</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Hole Depth</div>
+      <div class='live-line'></div>
+      <div class='live-data'>2030</div>
+      <div class='live-unit'>feet</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Flow</div>
-    <div class='live-data'>26</div>
-    <div class='live-unit'>percent</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Flow</div>
+      <div class='live-data'>26</div>
+      <div class='live-unit'>percent</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Strokes 1</div>
-    <div class='live-data'>31.8</div>
-    <div class='live-unit'>spm</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Strokes 1</div>
+      <div class='live-data'>31.8</div>
+      <div class='live-unit'>spm</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Strokes 2</div>
-    <div class='live-data'>32.0</div>
-    <div class='live-unit'>spm</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Strokes 2</div>
+      <div class='live-data'>32.0</div>
+      <div class='live-unit'>spm</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Gain Loss</div>
-    <div class='live-data'>0.01</div>
-    <div class='live-unit'>bbl</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Gain Loss</div>
+      <div class='live-data'>0.01</div>
+      <div class='live-unit'>bbl</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Total Mud</div>
-    <div class='live-data'>27</div>
-    <div class='live-unit'>bbl</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Total Mud</div>
+      <div class='live-data'>27</div>
+      <div class='live-unit'>bbl</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Trip Mud</div>
-    <div class='live-data'>37</div>
-    <div class='live-unit'>bbl</div>
-  </div>
+    <div class='live-block'>
+      <div class='live-label'>Trip Mud</div>
+      <div class='live-data'>37</div>
+      <div class='live-unit'>bbl</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Bit Hours</div>
-    <div class='live-data'>22</div>
-    <div class='live-unit'>hours</div>
-  </div>
-</div>
-
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>Bit Depth</div>
-    <div class='live-line'></div>
-    <div class='live-data'>2030</div>
-    <div class='live-unit'>feet</div>
-  </div>
-</div>
-
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>Hookload</div>
-    <div class='live-line' style='background: #238fda;'></div>
-    <div class='live-data' style="color: #238fda;">42.0</div>
-    <div class='live-unit'>kLbs</div>
+    <div class='live-block'>
+      <div class='live-label'>Bit Hours</div>
+      <div class='live-data'>22</div>
+      <div class='live-unit'>hours</div>
+    </div>
   </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Weight on Bit</div>
-    <div class='live-line' style='background: #e77813;'></div>
-    <div class='live-data' style="color: #e77813;">14.9</div>
-    <div class='live-unit'>kLbs</div>
-  </div>
+  <div class='live-column'>
+    <div class='live-block'>
+      <div class='live-label'>Bit Depth</div>
+      <div class='live-line'></div>
+      <div class='live-data'>2030</div>
+      <div class='live-unit'>feet</div>
+    </div>
 
-  <div class='live-block'>
-    <div class='live-label'>Weight on Bit</div>
-    <div class='live-line' style='background: #449f72;'></div>
-    <div class='live-data' style="color: #449f72;">14.9</div>
-    <div class='live-unit'>kLbs</div>
+
+    <div class='live-bit-depth'>
+
+    </div>
   </div>
 
 
-  <div class='hidden'>
-    <div id="live_chart_1" style="width: 100%; height: 400px;"></div>
-  </div>
+  <%= render 'drilling_logs/live_column', column_name: '1', data: [{ name: "Hookload", units: "kLbs", value: "0.0" }, { name: "Weight on Bit", units: "kLbs", value: "0.0" }, { name: "Weight on Bit", units: "kLbs", value: "0.0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '2', data: [{ name: "Pump Pressure", units: "psi", value: "0.0" }, { name: "Diff. Pressure", units: "psi", value: "0" }, { name: "Flow", units: "percent", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '3', data: [{ name: "ROP", units: "ft/hr", value: "0.0" }, { name: "Pason Gas", units: "units", value: "0" }, { name: "Pason Gas no Lag", units: "units", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '4', data: [{ name: "Torque", units: "ft-lb", value: "0" }, { name: "Rotary", units: "rpm", value: "0.0" }, { name: "Gamma", units: "API", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '5', data: [{ name: "Trip Speed", units: "ft/hr", value: "0.0" }, { name: "Block Height", units: "feet", value: "0.0" }, { name: "Trip Mud", units: "bbl", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '6', data: [{ name: "Trip Speed", units: "ft/hr", value: "0.0" }, { name: "Block Height", units: "feet", value: "0.0" }, { name: "Trip Mud", units: "bbl", value: "0" }] %>
 
+  <% if false %>
 
-  <div>
-    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
-  </div>
+  <%= render 'drilling_logs/live_column', column_name: '1', data: [{ name: "Hookload", units: "kLbs", value: "42.0" }, { name: "Weight on Bit", units: "kLbs", value: "14.9" }, { name: "Weight on Bit", units: "kLbs", value: "14.9" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '2', data: [{ name: "Pump Pressure", units: "psi", value: "2644.7" }, { name: "Diff. Pressure", units: "psi", value: "726" }, { name: "Flow", units: "percent", value: "26" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '3', data: [{ name: "ROP", units: "ft/hr", value: "27.0" }, { name: "Pason Gas", units: "units", value: "835" }, { name: "Pason Gas no Lag", units: "units", value: "657" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '4', data: [{ name: "Torque", units: "ft-lb", value: "726" }, { name: "Rotary", units: "rpm", value: "51.0" }, { name: "Gamma", units: "API", value: "167" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '5', data: [{ name: "Trip Speed", units: "ft/hr", value: "335.0" }, { name: "Block Height", units: "feet", value: "37.7" }, { name: "Trip Mud", units: "bbl", value: "37" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '6', data: [{ name: "Trip Speed", units: "ft/hr", value: "335.0" }, { name: "Block Height", units: "feet", value: "37.7" }, { name: "Trip Mud", units: "bbl", value: "37" }] %>
+
+      <% end %>
 </div>
 
 
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>Pump Pressure</div>
-    <div class='live-line' style='background: #238fda;'></div>
-    <div class='live-data' style="color: #238fda;">2644.7</div>
-    <div class='live-unit'>psi</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Diff. Pressure</div>
-    <div class='live-line' style='background: #e77813;'></div>
-    <div class='live-data' style="color: #e77813;">726</div>
-    <div class='live-unit'>psi</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Flow</div>
-    <div class='live-line' style='background: #449f72;'></div>
-    <div class='live-data' style="color: #449f72;">26</div>
-    <div class='live-unit'>percent</div>
-  </div>
-
-  <div>
-    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
-  </div>
-</div>
-
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>ROP</div>
-    <div class='live-line' style='background: #238fda;'></div>
-    <div class='live-data' style="color: #238fda;">27.0</div>
-    <div class='live-unit'>ft/hr</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Pason Gas</div>
-    <div class='live-line' style='background: #e77813;'></div>
-    <div class='live-data' style="color: #e77813;">835</div>
-    <div class='live-unit'>units</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Pason Gas no Lag</div>
-    <div class='live-line' style='background: #449f72;'></div>
-    <div class='live-data' style="color: #449f72;">657</div>
-    <div class='live-unit'>units</div>
-  </div>
-
-  <div>
-    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
-  </div>
-</div>
-
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>Torque</div>
-    <div class='live-line' style='background: #238fda;'></div>
-    <div class='live-data' style="color: #238fda;">726</div>
-    <div class='live-unit'>ft-lb</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Rotary</div>
-    <div class='live-line' style='background: #e77813;'></div>
-    <div class='live-data' style="color: #e77813;">51.0</div>
-    <div class='live-unit'>rpm</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Gamma</div>
-    <div class='live-line' style='background: #449f72;'></div>
-    <div class='live-data' style="color: #449f72;">167</div>
-    <div class='live-unit'>API</div>
-  </div>
-
-  <div>
-    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
-  </div>
-</div>
-
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>Trip Speed</div>
-    <div class='live-line' style='background: #238fda;'></div>
-    <div class='live-data' style="color: #238fda;">335.0</div>
-    <div class='live-unit'>ft/hr</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Block Height</div>
-    <div class='live-line' style='background: #e77813;'></div>
-    <div class='live-data' style="color: #e77813;">37.7</div>
-    <div class='live-unit'>feet</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Trip Mud</div>
-    <div class='live-line' style='background: #449f72;'></div>
-    <div class='live-data' style="color: #449f72;">37</div>
-    <div class='live-unit'>bbl</div>
-  </div>
-
-  <div>
-    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
-  </div>
-</div>
-
-
-<div class='live-column'>
-  <div class='live-block'>
-    <div class='live-label'>Trip Speed</div>
-    <div class='live-line' style='background: #238fda;'></div>
-    <div class='live-data' style="color: #238fda;">335.0</div>
-    <div class='live-unit'>ft/hr</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Block Height</div>
-    <div class='live-line' style='background: #e77813;'></div>
-    <div class='live-data' style="color: #e77813;">37.7</div>
-    <div class='live-unit'>feet</div>
-  </div>
-
-  <div class='live-block'>
-    <div class='live-label'>Trip Mud</div>
-    <div class='live-line' style='background: #449f72;'></div>
-    <div class='live-data' style="color: #449f72;">37</div>
-    <div class='live-unit'>bbl</div>
-  </div>
-
-  <div>
-    <%= image_tag "live_chart.PNG", style: "width: 140px; margin-top: 10px; margin-left: 5px;" %>
-  </div>
-</div>
-
-</div>
-
-
-<div class='hidden' style='height: 700px;'></div>
+<div style='height: 700px;'></div>
 
 <script type="text/javascript">
 
-  <% if false %>
     var pusher = new Pusher('9f7a931d636464d8a7c3', {  });
     var channel = pusher.subscribe('private-wits');
-    channel.bind('client-my-event', function (data) {
+    channel.bind('client-wits', function (data) {
         alert(data.message);
     });
 
-  <% end %>
 </script>
+
+
 
 
 

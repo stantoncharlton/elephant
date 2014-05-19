@@ -63,4 +63,31 @@ class JobCost < ActiveRecord::Base
         end
     end
 
+    # Temp method to populate costs
+    def self.add_to_job job, cost
+        if job.present?
+            current_user = User.find(85)
+            drilling_log = job.drilling_log
+
+            if drilling_log.present? && drilling_log.below_rotary
+                days = drilling_log.below_rotary.present? && drilling_log.above_rotary.present? ? ((drilling_log.above_rotary + drilling_log.below_rotary) / 24).ceil : 0
+
+                job.job_costs.each do |jc|
+                    jc.destroy
+                end
+                job_cost = JobCost.new
+                job_cost.charge_type = JobCost::JOB
+                job_cost.company = current_user.company
+                job_cost.user = current_user
+                job_cost.job = job
+                job_cost.quantity = 1
+                job_cost.price = days * cost
+                job_cost.charge_at = job.created_at
+                job_cost.save
+                job.update_cost
+            end
+        end
+    end
+
+
 end

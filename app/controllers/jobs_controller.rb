@@ -37,9 +37,9 @@ class JobsController < ApplicationController
                                :field => {except: [:created_at, :updated_at, :company_id]},
                                :well => {
                                        include: {
-                                            :rig =>  {except: [:created_at, :updated_at, :company_id]}
+                                               :rig => {except: [:created_at, :updated_at, :company_id]}
                                        },
-                                       except: [:created_at, :updated_at, :company_id] },
+                                       except: [:created_at, :updated_at, :company_id]},
                                :district => {except: [:created_at, :updated_at, :company_id]},
                                :company => {except: [:created_at, :updated_at, :company_id]},
                                :client => {except: [:created_at, :updated_at, :company_id]},
@@ -89,11 +89,19 @@ class JobsController < ApplicationController
         @job = Job.new
         @job.district = current_user.district
 
-        if !@job.district.nil? && !@job.district.master_district.nil?
+        if !@job.district.nil?
             @fields = []
-            @job.district.master_district.districts.includes(:fields).each do |d|
-                d.fields.each do |field|
-                    @fields << field
+            if !@job.district.master_district.nil?
+                @job.district.master_district.districts.includes(:fields).each do |d|
+                    d.fields.each do |field|
+                        @fields << field
+                    end
+                end
+            else
+                @job.district.districts.includes(:fields).each do |d|
+                    d.fields.each do |field|
+                        @fields << field
+                    end
                 end
             end
         else
