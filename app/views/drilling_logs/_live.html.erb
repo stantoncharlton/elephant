@@ -8,8 +8,8 @@
     </div>
 <% end %>
 
-<div style="position: absolute; left: 0; width: 100%; padding: 10px;">
-  <div class='live-column'>
+<div style="position: absolute; left: 0; width: 100%; padding: 0px;">
+  <div class='live-column' style='margin-left: 10px;'>
 
     <div class='live-block'>
       <div class='live-label'>Hole Depth</div>
@@ -72,16 +72,80 @@
 
     <div class='live-bit-depth'>
 
+
+      <div class='mark' style='padding-top: 170px;'>
+        <div class='time'>17:30</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2010</div>
+      </div>
+
+      <div class='mark'>
+        <div class='time'>17:45</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2015</div>
+      </div>
+
+      <div class='mark'>
+        <div class='time'>18:00</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2020</div>
+      </div>
+
+
+      <div class='mark'>
+        <div class='time'>18:15</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2025</div>
+      </div>
+
+      <div class='mark'>
+        <div class='time'>18:30</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2030</div>
+      </div>
+      <div class='mark'>
+        <div class='time'>18:45</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2035</div>
+      </div>
+
+      <div class='mark'>
+        <div class='time'>19:00</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2040</div>
+      </div>
+
+
+      <div class='mark'>
+        <div class='time'>19:15</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2045</div>
+      </div>
+
+      <div class='mark'>
+        <div class='time'>19:30</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2050</div>
+      </div>
+
+      <div class='mark'>
+        <div class='time'>19:45</div>
+        <%= image_tag "live_chart_drill_axis.png" %>
+        <div class='depth'>2055</div>
+      </div>
+
+
+
     </div>
   </div>
 
 
-  <%= render 'drilling_logs/live_column', column_name: '1', data: [{ name: "Hookload", units: "kLbs", value: "0.0" }, { name: "Weight on Bit", units: "kLbs", value: "0.0" }, { name: "Weight on Bit", units: "kLbs", value: "0.0" }] %>
-  <%= render 'drilling_logs/live_column', column_name: '2', data: [{ name: "Pump Pressure", units: "psi", value: "0.0" }, { name: "Diff. Pressure", units: "psi", value: "0" }, { name: "Flow", units: "percent", value: "0" }] %>
-  <%= render 'drilling_logs/live_column', column_name: '3', data: [{ name: "ROP", units: "ft/hr", value: "0.0" }, { name: "Pason Gas", units: "units", value: "0" }, { name: "Pason Gas no Lag", units: "units", value: "0" }] %>
-  <%= render 'drilling_logs/live_column', column_name: '4', data: [{ name: "Torque", units: "ft-lb", value: "0" }, { name: "Rotary", units: "rpm", value: "0.0" }, { name: "Gamma", units: "API", value: "0" }] %>
-  <%= render 'drilling_logs/live_column', column_name: '5', data: [{ name: "Trip Speed", units: "ft/hr", value: "0.0" }, { name: "Block Height", units: "feet", value: "0.0" }, { name: "Trip Mud", units: "bbl", value: "0" }] %>
-  <%= render 'drilling_logs/live_column', column_name: '6', data: [{ name: "Trip Speed", units: "ft/hr", value: "0.0" }, { name: "Block Height", units: "feet", value: "0.0" }, { name: "Trip Mud", units: "bbl", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '1', data: [{ id: "hookload", name: "Hookload", units: "kLbs", value: "0.0" },           { id: "wob", name: "Weight on Bit", units: "kLbs", value: "0.0" },      { id: "wob2", name: "Weight on Bit", units: "kLbs", value: "0.0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '2', data: [{ id: "ppressure", name: "Pump Pressure", units: "psi", value: "0.0" },      { id: "diff", name: "Diff. Pressure", units: "psi", value: "0" },       { id: "flow", name: "Flow", units: "percent", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '3', data: [{ id: "rop", name: "ROP", units: "ft/hr", value: "0.0" },                    { id: "pgas", name: "Pason Gas", units: "units", value: "0" },          { id: "pgasno", name: "Pason Gas no Lag", units: "units", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '4', data: [{ id: "torque", name: "Torque", units: "ft-lb", value: "0" },                { id: "rotary", name: "Rotary", units: "rpm", value: "0.0" },           { id: "gamma", name: "Gamma", units: "API", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '5', data: [{ id: "tripspeed", name: "Trip Speed", units: "ft/hr", value: "0.0" },       { id: "block", name: "Block Height", units: "feet", value: "0.0" },     { id: "tripmud", name: "Trip Mud", units: "bbl", value: "0" }] %>
+  <%= render 'drilling_logs/live_column', column_name: '6', data: [{ id: "tripspeed", name: "Trip Speed", units: "ft/hr", value: "0.0" },       { id: "block", name: "Block Height", units: "feet", value: "0.0" },     { id: "tripmud", name: "Trip Mud", units: "bbl", value: "0" }] %>
 
   <% if false %>
 
