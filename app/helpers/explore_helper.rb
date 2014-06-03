@@ -39,7 +39,7 @@ module ExploreHelper
 
     def get_all_rigs_rops time_range
         rigs = []
-        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 3.months).select("distinct on(rigs.id) rigs.id, rigs.name as rig_name, avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.failures_count, 0)) as failures, sum(coalesce(jobs.total_cost, 0)) as cost").group("rigs.id, rigs.name")
+        result = DrillingLog.joins(job: {well: :rig}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("distinct on(rigs.id) rigs.id, rigs.name as rig_name, avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.failures_count, 0)) as failures, sum(coalesce(jobs.total_cost, 0)) as cost").group("rigs.id, rigs.name")
 
         result.each do |group|
             rigs << {
@@ -55,7 +55,7 @@ module ExploreHelper
     def get_all_assets_rops time_range, group
         assets = []
 
-        result = DrillingLog.joins(drilling_log_entries: { bha: { bha_items: :tool } }).joins(:job).where("drilling_logs.updated_at >= ?", Date.today - 3.months).select("distinct on(asset_name) part_memberships.name as asset_name, avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.total_cost, 0)) as cost").group("asset_name")
+        result = DrillingLog.joins(drilling_log_entries: { bha: { bha_items: :tool } }).joins(:job).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("distinct on(asset_name) part_memberships.name as asset_name, avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.total_cost, 0)) as cost").group("asset_name")
         if group == 1
             result = result.where("LOWER(part_memberships.name) LIKE '%bit%'")
         elsif group == 2
