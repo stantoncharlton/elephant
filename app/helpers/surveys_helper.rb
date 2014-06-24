@@ -30,7 +30,7 @@ module SurveysHelper
 
             wb.add_worksheet(:name => "Survey", :page_margins => margins, :page_setup => setup, :print_options => options) do |sheet|
                 sheet.add_row ['Survey', '', '', '', ''], :style => title_cell
-                sheet.add_row [survey.document.job.name, '', '', '', ''], :style => title_cell2
+                sheet.add_row [survey.job.name, '', '', '', ''], :style => title_cell2
                 sheet.add_row ['', '', '', '', ''], :style => title_cell
                 if calculated_points_survey.any?
                     sheet.add_row ["Total Correction: #{survey.total_correction} \t\t\t North Type: #{survey.north_type == Survey::GRID ? "Grid" : (survey.north_type == Survey::TRUE ? "True" : "Magnetic")} \t\t\t V Sec Azimuth: #{well_plan.present? && well_plan.vertical_section_azimuth.present? ? well_plan.vertical_section_azimuth : '-'}", '', "", '', ''], :style => title_cell2

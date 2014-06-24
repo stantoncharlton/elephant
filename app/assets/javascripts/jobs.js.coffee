@@ -174,45 +174,115 @@ $ ->
       $.ajax '/parts/' + $(this).attr('data-id') + "?section=asset_activity", type: 'get', dataType: 'script'
     event.preventDefault()
 
-  $('.remote-tray-toggle').click (event) ->
-    $('.remote-tray-toggle').closest('li').removeClass 'active'
+  $('.remote-tray-toggle').live "click", (event) ->
+
+    main_tray_name = $(this).attr('data-tray')
+    main_controller = $(this).attr('data-tray-controller')
+    main_id = $(this).attr('data-id')
+    if main_id == null
+      main_id = 0
+
+    child_tray_name = ''
+    child_controller = ''
+    child_id = 0
+
+    child_name = $(this).attr('data-tray-child')
+    parent_name = $(this).attr('data-tray-parent')
+    if typeof(child_name) == "undefined"
+      child_name = null
+    if typeof(parent_name) == "undefined"
+      parent_name = null
+
     $('.remote-tray').addClass 'custom-data-closed'
+
+    parent_tray_nav = $('.parent-tray-nav')
+    parent_tray_nav.find('.remote-tray-toggle').closest('li').removeClass 'active'
+
+    if child_name != null
+      child_tray_name = $(this).attr('data-tray-child')
+      child_controller = main_controller
+      child_id = main_id
+
+    if parent_name != null
+      child_tray_nav = $('.child-tray-nav')
+      child_tray_nav.find('.remote-tray-toggle').closest('li').removeClass 'active'
+      child_tray_name = main_tray_name
+      child_controller = main_controller
+      child_id = main_id
+      parent_tray_nav_item = $(".remote-tray-toggle[data-tray=" + parent_name + "]")
+      parent_tray_nav_item.attr('data-tray-child', $(this).attr('data-tray'))
+      parent_tray_nav_item.closest('li').addClass 'active'
+      main_tray_name = parent_tray_nav_item.attr('data-tray')
+      main_controller = parent_tray_nav_item.attr('data-tray-controller')
+      main_id = parent_tray_nav_item.attr('data-id')
+      if main_id == null
+        main_id = 0
+
     $(this).closest('li').addClass 'active'
 
-    tray_name = $(this).attr('data-tray')
-    controller = $(this).attr('data-tray-controller')
-    id = $(this).attr('data-id')
-    if id == null
-      id = 0
 
-    if tray_name.length > 0 && controller.length > 0
-      tray = $(".remote-tray[data-tray=" + tray_name + "]")
-      tray.removeClass 'custom-data-closed'
-      #document.location.hash = tray_name
-      if window.history && window.history.pushState
-        history.replaceState({}, "", '#' + tray_name)
+    if main_tray_name.length > 0 && main_controller.length > 0
+      # Show Main Tray
+      main_tray = $(".remote-tray[data-tray=" + main_tray_name + "]")
+      main_tray.removeClass 'custom-data-closed'
 
-      if tray.find('.tray-content').hasClass 'content-loaded'
-        tray.find('.tray-content').show()
-        tray.find('.remote-loading').addClass 'hidden'
-        tray.find('.loading').addClass 'hidden'
-      else
-        tray.find('.tray-content').hide()
-        tray.find('.remote-loading').removeClass 'hidden'
-        tray.find('.loading').removeClass 'hidden'
-
-        if id > 0
-          $.ajax '/' + controller + '/' + id + "?section=" + tray_name, type: 'get', dataType: 'script'
+      if window.history && window.history.pushState# && parent_name == null
+        if parent_name != null
+          history.replaceState({}, "", '#' + child_tray_name)
         else
-          $.ajax '/' + controller + "?section=" + tray_name, type: 'get', dataType: 'script'
+          history.replaceState({}, "", '#' + main_tray_name)
+
+      if main_tray.find('.tray-content').hasClass 'content-loaded'
+        main_tray.find('.tray-content').show()
+        main_tray.find('.remote-loading').addClass 'hidden'
+        main_tray.find('.loading').addClass 'hidden'
+      else
+        main_tray.find('.tray-content').hide()
+        main_tray.find('.remote-loading').removeClass 'hidden'
+        main_tray.find('.loading').removeClass 'hidden'
+        if main_id > 0
+          $.ajax '/' + main_controller + '/' + main_id + "?section=" + main_tray_name, type: 'get', dataType: 'script'
+        else
+          $.ajax '/' + main_controller + "?section=" + main_tray_name, type: 'get', dataType: 'script'
+
+      # Load Child, if there is one
+      if child_tray_name != null && child_tray_name != ''
+        child_tray = $(".remote-tray[data-tray=" + child_tray_name + "]")
+        child_tray.removeClass 'custom-data-closed'
+        if child_tray.find('.tray-content').hasClass 'content-loaded'
+          child_tray.find('.tray-content').show()
+          child_tray.find('.remote-loading').addClass 'hidden'
+          child_tray.find('.loading').addClass 'hidden'
+        else
+          child_tray.find('.tray-content').hide()
+          child_tray.find('.remote-loading').removeClass 'hidden'
+          child_tray.find('.loading').removeClass 'hidden'
+          if child_id > 0
+            $.ajax '/' + child_controller + '/' + child_id + "?section=" + child_tray_name, type: 'get', dataType: 'script'
+          else
+            $.ajax '/' + child_controller + "?section=" + child_tray_name, type: 'get', dataType: 'script'
 
     event.preventDefault()
 
+
   if document.location.hash != ''
-    if $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").length != 0
-      $(".job-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
-    else if $(".remote-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").length != 0
-      $(".remote-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
+    tray_name = document.location.hash.replace('#', '')
+    if $(".job-tray-toggle[data-tray=" + tray_name + "]").length != 0
+      $(".job-tray-toggle[data-tray=" + tray_name + "]").trigger "click"
+    else if $(".remote-tray-toggle[data-tray=" + tray_name + "]").length != 0
+      tray_nav_item = $(".remote-tray-toggle[data-tray=" + tray_name + "]")
+      parent_name = tray_nav_item.attr('data-tray-parent')
+      if typeof(parent_name) == "undefined"
+        parent_name = null
+      if parent_name != null
+        child_tray_nav = $('.child-tray-nav')
+        child_tray_nav.find('.remote-tray-toggle').closest('li').removeClass 'active'
+        tray_nav_item.closest('li').addClass 'active'
+        parent_item = $(".remote-tray-toggle[data-tray=" + parent_name + "]")
+        parent_item.attr('data-tray-child', tray_name)
+        parent_item.trigger "click"
+      else
+        $(".remote-tray-toggle[data-tray=" + tray_name + "]").trigger "click"
 
 
   #$('#add_failure').click ->

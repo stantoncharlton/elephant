@@ -11,12 +11,42 @@
       <div class="" style="position: absolute; background: #e7e7e7;left: 0; width: 100%; height: 40px;">
         <div style='margin-left: 20px; margin-top: 8px;'>
           <div class='' style='margin-top: -2px;'>
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs child-tray-nav">
               <li class='active'>
-                <%= link_to "Live", "#", class: "blue-text job-tab job-sub-tab", id: "show_live_activity" %>
+                <%= link_to "Live", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "live",
+                            "data-tray-parent" => "activity",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle",
+                            id: "show_live_activity" %>
               </li>
               <li class='push-right-small'>
-                <%= link_to "Activity", "#", class: "blue-text job-tab job-sub-tab", id: "show_past_activity" %>
+                <%= link_to "Summary", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "summary",
+                            "data-tray-parent" => "activity",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle",
+                            id: "show_past_activity" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Runs", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "runs",
+                            "data-tray-parent" => "activity",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle",
+                            id: "show_past_activity" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Surveys", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "surveys",
+                            "data-tray-parent" => "activity",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle",
+                            id: "show_past_activity" %>
               </li>
             </ul>
           </div>
@@ -25,41 +55,29 @@
     </div>
 
 
-    <div id="live_list">
-      <%= render 'drilling_logs/live' %>
-    </div>
-
-    <div id="activity_list" class='hidden' data-loaded="false">
-      <div id="activity_list_loader" class="push-down center inline">
-        <br>
-        <div class="" style="margin-top: 30px;">
-          <span class="ajax-loading search-loading"><b>Loading Activity..</b></span>
-        </div>
+    <div class="remote-tray" data-tray="live">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading live activity..." %>
       </div>
     </div>
 
-    <script type='text/javascript'>
-        $('#show_past_activity').click(function () {
-            $('.job-sub-tab').each(function() { $(this).parent().removeClass('active');  });
-            $(this).parent().addClass('active');
-            $('#live_list').addClass('hidden');
-            $('#activity_list').removeClass('hidden');
-            if ($('#activity_list').attr('data-loaded') == 'false') {
-                $.ajax("/jobs/<%= @job.id %>?section=drilling_activity", {
-                    type: 'get',
-                    dataType: 'script'
-                });
-            }
-            return false;
-        });
-        $('#show_live_activity').click(function () {
-            $('.job-sub-tab').each(function() { $(this).parent().removeClass('active');  });
-            $(this).parent().addClass('active');
-            $('#live_list').removeClass('hidden');
-            $('#activity_list').addClass('hidden');
-            return false;
-        });
-    </script>
+    <div class="remote-tray" data-tray="summary">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading summary..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="runs">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading runs..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="surveys">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading surveys..." %>
+      </div>
+    </div>
 
 
   </div>

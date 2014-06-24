@@ -29,7 +29,7 @@ class SurveysController < ApplicationController
             format.xlsx {
                 @active_well_plan = Survey.includes(job: :well).where(:plan => true).where("wells.id = ?", @survey.job.well_id).first
                 excel = survey_to_excel @active_well_plan, @survey
-                send_data excel.to_stream.read, :filename => "Survey (#{@survey.document.job.name}).xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+                send_data excel.to_stream.read, :filename => "Survey (#{@survey.job.name}).xlsx", :type => "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
             }
             format.js {
 
