@@ -62,6 +62,10 @@ class Job < ActiveRecord::Base
     has_many :outbound_shipments_part_memberships, order: "created_at DESC", class_name: "PartMembership", foreign_key: "from_id"
     has_many :outbound_shipments, through: :outbound_shipments_part_memberships, source: :shipment, uniq: true
 
+    belongs_to :drilling_company, class_name: "Client"
+    belongs_to :directional_drilling_company, class_name: "Client"
+    belongs_to :fluids_company, class_name: "Client"
+
     ACTIVE = 1
 
     PRE_JOB = 5

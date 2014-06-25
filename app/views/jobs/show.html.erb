@@ -21,6 +21,7 @@
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
            data-tray="analysis"
+           data-tray-child="general"
            data-placement="bottom" data-title="Analysis">Analysis
         </a>
       </li>
@@ -34,16 +35,26 @@
         </a>
       </li>
 
-      <% if false %>
       <li class="">
-        <a href="#info" class="remote-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#activity" class="remote-tray-toggle remote-tray-sub-nav custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
-           data-tray="info"
-           data-placement="bottom" data-title="Custom job data and values"><%= "Job Info" %>
-        </a>
+           data-tray="activity"
+           data-tray-child="live"
+           data-placement="bottom" data-title="Activity">Activity</a>
       </li>
-          <% end %>
+
+
+      <% if false %>
+          <li class="">
+            <a href="#info" class="remote-tray-toggle custom-data-toggle tooltip-info"
+               data-id="<%= @job.id %>"
+               data-tray-controller="jobs"
+               data-tray="info"
+               data-placement="bottom" data-title="Custom job data and values"><%= "Job Info" %>
+            </a>
+          </li>
+      <% end %>
 
       <li class="">
         <a href="#assets" class="remote-tray-toggle custom-data-toggle tooltip-info"
@@ -55,66 +66,12 @@
       </li>
 
       <li class="">
-        <a href="#failures" class="remote-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#fluids" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
-           data-tray="failures"
-           data-placement="bottom" data-title="Job Failures">Alerts/Failures
-        </a>
+           data-tray="fluids"
+           data-placement="bottom" data-title="Fluids">Fluids</a>
       </li>
-
-      <% if false %>
-      <li class="">
-        <a href="#notes" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="notes"
-           data-placement="bottom" data-title="Daily Status, Requests, Notes, and Tasks for this job">Daily
-        </a>
-      </li>
-          <% end %>
-
-
-
-
-      <% if false %>
-      <li class="">
-        <a href="#time" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="time"
-           data-placement="bottom" data-title="Time/Scheduling">Timesheet</a>
-      </li>
-          <% end %>
-
-      <% if false %>
-      <li class="">
-        <a href="#runs" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="runs"
-           data-placement="bottom" data-title="Runs">Runs</a>
-      </li>
-      <% end %>
-
-      <li class="">
-        <a href="#activity" class="remote-tray-toggle remote-tray-sub-nav custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="activity"
-           data-tray-child="live"
-           data-placement="bottom" data-title="Activity">Activity</a>
-      </li>
-
-      <% if false %>
-      <li class="">
-        <a href="#surveys" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="surveys"
-           data-placement="bottom" data-title="Surveys">Surveys</a>
-      </li>
-      <% end %>
 
       <li class="">
         <a href="#logs" class="remote-tray-toggle custom-data-toggle tooltip-info"
@@ -123,6 +80,17 @@
            data-tray="logs"
            data-placement="bottom" data-title="Gamma Logs, etc">Geology</a>
       </li>
+
+      <li class="">
+        <a href="#failures" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-id="<%= @job.id %>"
+           data-tray-controller="jobs"
+           data-tray="failures"
+           data-placement="bottom" data-title="Job Failures">Alerts/Failures
+        </a>
+      </li>
+
+
 
       <li class="">
         <a href="#reports" class="remote-tray-toggle custom-data-toggle tooltip-info"
@@ -142,9 +110,6 @@
       </li>
 
 
-
-
-
     </ul>
   </div>
 </div>
@@ -152,49 +117,47 @@
 
 <% if false %>
 
-<div class='' style='height: 40px;'>
+    <div class='' style='height: 40px;'>
 
-  <div class="" style="position: absolute; background: #e7e7e7; top: 0px; left: 0; width: 100%; height: 40px;">
-
-
+      <div class="" style="position: absolute; background: #e7e7e7; top: 0px; left: 0; width: 100%; height: 40px;">
 
 
-    <div style='margin-left: 20px; margin-top: 8px;'>
-      <% jobs = @job.well.jobs.where(:shared => true) %>
-      <% if jobs.count > 1 %>
-          <div class='' style='margin-top: -2px;'>
-            <ul class="nav nav-tabs">
-              <div class='pull-right align-top push-down-small' style='margin-right: 30px;'>
-                <div class='inline-block' style='margin-right: 4px; background: #b5b5b5; border-radius: 100px; width: 20px; height: 20px; color: #ffffff; text-align: center;'><%= jobs.count.to_s %></div>
-                <b>Jobs</b>
+        <div style='margin-left: 20px; margin-top: 8px;'>
+          <% jobs = @job.well.jobs.where(:shared => true) %>
+          <% if jobs.count > 1 %>
+              <div class='' style='margin-top: -2px;'>
+                <ul class="nav nav-tabs">
+                  <div class='pull-right align-top push-down-small' style='margin-right: 30px;'>
+                    <div class='inline-block' style='margin-right: 4px; background: #b5b5b5; border-radius: 100px; width: 20px; height: 20px; color: #ffffff; text-align: center;'><%= jobs.count.to_s %></div>
+                    <b>Jobs</b>
+                  </div>
+                  <% jobs.each_with_index do |j| %>
+                      <li class='<%= @job == j ? "active" : "" %>'>
+                        <%= link_to j, class: "blue-text job-tab" do %>
+                            <b><%= j.job_template.name %></b>
+                        <% end %>
+                  <% end %>
+                </ul>
               </div>
-              <% jobs.each_with_index do |j| %>
-                  <li class='<%= @job == j ? "active" : "" %>'>
-                    <%= link_to j, class: "blue-text job-tab" do %>
-                        <b><%= j.job_template.name %></b>
-                    <% end %>
-              <% end %>
-            </ul>
-          </div>
-      <% else %>
-          <%= link_to @job.job_template.product_line.name, @job.job_template.product_line, class: "job-title3 inline job-type-description-target empty-link",
-                      "data-placement" => "bottom",
-                      "data-html" => true,
-                      "data-title" => "<div>Product Line <b>" + @job.job_template.product_line.name + "</b></div>" %>
+          <% else %>
+              <%= link_to @job.job_template.product_line.name, @job.job_template.product_line, class: "job-title3 inline job-type-description-target empty-link",
+                          "data-placement" => "bottom",
+                          "data-html" => true,
+                          "data-title" => "<div>Product Line <b>" + @job.job_template.product_line.name + "</b></div>" %>
 
-          <p class="inline "> - </p>
+              <p class="inline "> - </p>
 
-          <%= link_to @job.job_template.name, @job.job_template, class: "job-title3 inline job-type-description-target empty-link",
-                      "data-placement" => "bottom",
-                      "data-html" => true,
-                      "data-title" => "<div>Job System <b>" + @job.job_template.name + "</b>, Click to view all jobs</div>" %>
-      <% end %>
+              <%= link_to @job.job_template.name, @job.job_template, class: "job-title3 inline job-type-description-target empty-link",
+                          "data-placement" => "bottom",
+                          "data-html" => true,
+                          "data-title" => "<div>Job System <b>" + @job.job_template.name + "</b>, Click to view all jobs</div>" %>
+          <% end %>
+        </div>
+
+      </div>
     </div>
 
-  </div>
-</div>
-
-    <% end %>
+<% end %>
 
 
 <div id="job_<%= @job.id %>" class="job-main-div">
@@ -231,9 +194,9 @@
     </div>
 
 
-    <div class="remote-tray" data-tray="activity">
-      <%= render 'jobs/tray_activity' %>
-    </div>
+    <%= render 'jobs/tray_activity' %>
+
+    <%= render 'jobs/tray_analysis' %>
 
 
     <div class="remote-tray" data-tray="logs">
@@ -278,7 +241,7 @@
     (function ($) {
         $(document).ready(function () {
 
-            $('.job-tab').click(function() {
+            $('.job-tab').click(function () {
                 $(this).attr("href", $(this).attr("href") + window.location.hash);
             });
 

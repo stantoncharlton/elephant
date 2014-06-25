@@ -357,6 +357,18 @@ class JobsController < ApplicationController
                     @client = Client.find_by_id(params[:value])
                     @job.client = @client
                     @job.save
+                when "drilling_company"
+                    @client = Client.find_by_id(params[:value])
+                    @job.drilling_company = @client
+                    @job.save
+                when "directional_drilling_company"
+                    @client = Client.find_by_id(params[:value])
+                    @job.directional_drilling_company = @client
+                    @job.save
+                when "fluids_company"
+                    @client = Client.find_by_id(params[:value])
+                    @job.fluids_company = @client
+                    @job.save
                 when "begin_on_job"
                     @job.update_attribute(:status, Job::ON_JOB)
                     Activity.add(current_user, Activity::BEGIN_ON_JOB, @job, nil, @job)

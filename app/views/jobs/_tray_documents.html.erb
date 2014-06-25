@@ -24,19 +24,61 @@
       <%= render 'jobs/job_custom_data_field', df: api_number, job_editable: job.status != Job::COMPLETE %>
     </div>
 
-    <div>
-      <p class="job-field-title">Customer</p>
+    <div class="section-header" style="margin-top: 15px;">
+      <h1>Contractors</h1>
+    </div>
+    <div class="inline-block">
+      <p class="job-field-title">Drilling</p>
       <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
-                         placeholder: "Type a customer name...",
-                         value: !@job.client.nil? ? @job.client.name : nil,
-                         id: "client_name", class: "job-field-value-editable" %>
+                         placeholder: "Type a contractor name...",
+                         value: !@job.drilling_company.nil? ? @job.drilling_company.name : nil,
+                         id: "drilling_company",
+                         class: "job-field-value-editable contractor-field" %>
 
       <% if current_user.role.district_edit? %>
           <%= link_to new_client_path, remote: true,
                       class: "btn btn-default tooltip-info show-modal-button", id: "new_customer_link",
                       style: "border-style: none; box-shadow: 0px 0px 0px #000; opacity: 0.5;",
                       "data-placement" => "bottom",
-                      "data-title" => "Create new customer" do %>
+                      "data-title" => "Create new contractor" do %>
+              <i class="icon-plus-sign"></i>
+          <% end %>
+      <% end %>
+    </div>
+
+    <div class="inline-block">
+      <p class="job-field-title">Directional Drilling</p>
+      <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
+                         placeholder: "Type a contractor name...",
+                         value: !@job.directional_drilling_company.nil? ? @job.directional_drilling_company.name : nil,
+                         id: "directional_drilling_company",
+                         class: "job-field-value-editable contractor-field" %>
+
+      <% if current_user.role.district_edit? %>
+          <%= link_to new_client_path, remote: true,
+                      class: "btn btn-default tooltip-info show-modal-button", id: "new_customer_link",
+                      style: "border-style: none; box-shadow: 0px 0px 0px #000; opacity: 0.5;",
+                      "data-placement" => "bottom",
+                      "data-title" => "Create new contractor" do %>
+              <i class="icon-plus-sign"></i>
+          <% end %>
+      <% end %>
+    </div>
+
+    <div class="inline-block">
+      <p class="job-field-title">Fluids</p>
+      <%= text_field_tag "", "", data: {autocomplete_source: clients_path},
+                         placeholder: "Type a contractor name...",
+                         value: !@job.fluids_company.nil? ? @job.fluids_company.name : nil,
+                         id: "fluids_company",
+                         class: "job-field-value-editable contractor-field" %>
+
+      <% if current_user.role.district_edit? %>
+          <%= link_to new_client_path, remote: true,
+                      class: "btn btn-default tooltip-info show-modal-button", id: "new_customer_link",
+                      style: "border-style: none; box-shadow: 0px 0px 0px #000; opacity: 0.5;",
+                      "data-placement" => "bottom",
+                      "data-title" => "Create new contractor" do %>
               <i class="icon-plus-sign"></i>
           <% end %>
       <% end %>
@@ -104,59 +146,70 @@
             });
 
 
-            var client_focused, focusevent, last_selected_item;
 
-            last_selected_item = null;
+            function wireContractor(id_name, field_value) {
+                id_name = "#" + id_name;
 
-            focusevent = function(event, ui) {
-                var selected_item;
-                if (last_selected_item !== null) {
-                    $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
-                }
-                selected_item = $('.item_' + ui.item.id);
-                selected_item.addClass('ui-state-hover');
-                return last_selected_item = ui.item;
-            };
+                var client_focused, focusevent, last_selected_item;
 
-            $('#client_name').autocomplete({
-                source: $('#client_name').data('autocomplete-source'),
-                focus: focusevent,
-                select: function(event, ui) {
-                    if (ui.item.id > 0) {
-                        $("#client_name").val(ui.item.label);
-                        $.ajax("/jobs/<%= @job.id %>" + '?update_field=true&field=client_id&value=' + ui.item.id, {
-                            type: 'put',
-                            dataType: 'script'
-                        });
-                        return $("#client_id").val(ui.item.id);
+                last_selected_item = null;
+
+                focusevent = function(event, ui) {
+                    var selected_item;
+                    if (last_selected_item !== null) {
+                        $('.item_' + last_selected_item.id).removeClass('ui-state-hover');
                     }
-                }
-            });
+                    selected_item = $('.item_' + ui.item.id);
+                    selected_item.addClass('ui-state-hover');
+                    return last_selected_item = ui.item;
+                };
 
-            client_focused = false;
-
-            $('#client_name').focusin(function() {
-                client_focused = true;
-                $('#client_name').removeClass('ui-autocomplete-bad');
-                $('#client_name').addClass('ui-autocomplete-typing');
-                //$('#client_name').val('');
-                return $('#client_id').val('');
-            });
-
-            $('#client_name').focusout(function() {
-                if (client_focused && $('#client_id').val() === '') {
-                    $('#client_name').addClass('ui-autocomplete-bad');
-                    if ($('#client_name').val() === '') {
-                        return $('#client_name').removeClass('ui-autocomplete-typing');
+                $(id_name).autocomplete({
+                    source: $(id_name).data('autocomplete-source'),
+                    focus: focusevent,
+                    select: function(event, ui) {
+                        if (ui.item.id > 0) {
+                            $(this).val(ui.item.label);
+                            $.ajax("/jobs/<%= @job.id %>" + '?update_field=true&field=' + field_value + '&value=' + ui.item.id, {
+                                type: 'put',
+                                dataType: 'script'
+                            });
+                            return $(this).val(ui.item.id);
+                        }
                     }
+                });
+
+                client_focused = false;
+
+                $(id_name).focusin(function() {
+                    client_focused = true;
+                    $(id_name).removeClass('ui-autocomplete-bad');
+                    $(id_name).addClass('ui-autocomplete-typing');
+                    //$('#client_name').val('');
+                    return $(id_name).val();
+                });
+
+                $(id_name).focusout(function() {
+                    if (client_focused && $('#client_id').val() === '') {
+                        $(id_name).addClass('ui-autocomplete-bad');
+                        if ($(id_name).val() === '') {
+                            return $(id_name).removeClass('ui-autocomplete-typing');
+                        }
+                    }
+                });
+
+
+                $(id_name).data("autocomplete")._renderItem = function (ul, item) {
+                    return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
+                            "<a><div>" + (item.id > 0 ? "<img src='/assets/user_avatar_client_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>" + (item.country ? item.country : "&nbsp;") + "</p></div></div></a>").appendTo(ul)
                 }
-            });
-
-
-            $('#client_name').data("autocomplete")._renderItem = function (ul, item) {
-                return $("<li class='item_" + item.id + "'></li>").data("item.autocomplete", item).append(
-                        "<a><div>" + (item.id > 0 ? "<img src='/assets/user_avatar_client_extrasmall.png' class='job-member-avatar pull-left'>" : "") + "</div><div><div class='job-user'><strong>" + item.value + " </strong></div><div><p>" + (item.country ? item.country : "&nbsp;") + "</p></div></div></a>").appendTo(ul)
             }
+
+            wireContractor("drilling_company", "drilling_company");
+            wireContractor("directional_drilling_company", "directional_drilling_company");
+            wireContractor("fluids_company", "fluids_company");
+
+
         });
     }(jQuery));
 </script>

@@ -199,6 +199,8 @@ $ ->
     parent_tray_nav.find('.remote-tray-toggle').closest('li').removeClass 'active'
 
     if child_name != null
+      child_tray_nav = $('.child-tray-nav')
+      child_tray_nav.find('.remote-tray-toggle').closest('li').removeClass 'active'
       child_tray_name = $(this).attr('data-tray-child')
       child_controller = main_controller
       child_id = main_id
@@ -249,6 +251,7 @@ $ ->
       if child_tray_name != null && child_tray_name != ''
         child_tray = $(".remote-tray[data-tray=" + child_tray_name + "]")
         child_tray.removeClass 'custom-data-closed'
+        $('.remote-tray-toggle[data-tray=' + child_tray_name + ']').closest('li').addClass 'active'
         if child_tray.find('.tray-content').hasClass 'content-loaded'
           child_tray.find('.tray-content').show()
           child_tray.find('.remote-loading').addClass 'hidden'

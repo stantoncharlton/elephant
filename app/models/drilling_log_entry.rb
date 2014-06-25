@@ -220,7 +220,7 @@ class DrillingLogEntry < ActiveRecord::Base
             when CHANGE_BHA
                 "#bc88d4"
             when POOH
-                "#f7464a"
+                "#fc9e59"
             when SHORT_TRIP
                 "#4d5360"
             when TIH
@@ -250,7 +250,7 @@ class DrillingLogEntry < ActiveRecord::Base
             when OTHER
                 "#121212"
             when RIG_REPAIR
-                "#c57765"
+                "#e4c410"
             when PIPE_STUCK
                 "#d75e33"
             when FISHING

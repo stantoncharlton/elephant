@@ -1,0 +1,67 @@
+<div class="remote-tray custom-data-closed" data-tray="analysis">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading analysis..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+    <div class='' style='height: 48px;'>
+      <div class="" style="position: absolute; background: #e7e7e7;left: 0; width: 100%; height: 40px;">
+        <div style='margin-left: 20px; margin-top: 8px;'>
+          <div class='' style='margin-top: -2px;'>
+            <ul class="nav nav-tabs child-tray-nav">
+              <li class='active'>
+                <%= link_to "General", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "general",
+                            "data-tray-parent" => "analysis",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Time", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "time",
+                            "data-tray-parent" => "analysis",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Comparison", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "comparison",
+                            "data-tray-parent" => "analysis",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="remote-tray" data-tray="general">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading general analysis..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="time">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading time analysis..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="comparison">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading comparison analysis..." %>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+

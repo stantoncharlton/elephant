@@ -12,6 +12,13 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
     $('#asset_request_list').replaceWith("<%= j render 'asset_lists/list', job: @job %>");
 <% elsif params[:section] == "info" %>
     tray.replaceWith("<%= j render 'jobs/tray_documents', job: @job %>");
+<% elsif params[:section] == "analysis" %>
+    tray.replaceWith("<%= j render 'jobs/tray_analysis', job: @job %>");
+<% elsif params[:section] == "general" %>
+    tray.replaceWith("<%= j render 'jobs/tray_general_analysis', job: @job %>");
+<% elsif params[:section] == "time" %>
+    <% @drilling_log = @job.drilling_log %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_npt', job: @job, drilling_log: @drilling_log %>");
 <% elsif params[:section] == "failures" %>
     tray.replaceWith("<%= j render 'jobs/tray_failures', job: @job %>");
 <% elsif params[:section] == "runs" %>
