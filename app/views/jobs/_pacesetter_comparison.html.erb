@@ -1,0 +1,114 @@
+
+<div class="page-header-small" style="margin-top: 15px;">
+  <h1><%= title %></h1>
+</div>
+
+<div>
+  <div class="chart-block tooltip-info"
+       data-title="Average Total Rate of Penetration.">
+    <div class="chart-title">ROP</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text"><%= drilling_log.nil? || drilling_log.drilling_rop.nil? ? "-" : drilling_log.drilling_rop.round(1) %></div>
+      <div class="percentage">ft/hr</div>
+    </div>
+  </div>
+
+
+  <div class="chart-block tooltip-info"
+       data-title="Non-Productive Time (excluding Stand-By Out-hole)">
+    <div class="chart-title">NPT</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text"><%= drilling_log.nil? ? "-" : drilling_log.npt.to_f.round(1) %></div>
+      <div class="percentage ">hours</div>
+    </div>
+  </div>
+
+  <div class="chart-block tooltip-info"
+       data-title="Speed Rating">
+    <div class="chart-title">Cost</div>
+    <div class="donut-chart-div job-donut-chart-div">
+      <div class="donut-text">$<%= number_with_delimiter(number_with_precision(job.total_cost, :precision => 0), :delimiter => ',') %></div>
+      <div class="percentage "><%= "" %></div>
+    </div>
+  </div>
+
+
+  <div id="<%= title %>_chart" style="width: 100%; height: 160px;"></div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    var chart = AmCharts.makeChart("<%= title %>_chart", {
+        "type": "serial",
+        "startDuration": 0,
+        "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+        "categoryField": "value",
+        "rotate": true,
+        "startDuration": 1,
+        "categoryAxis": {
+            "gridPosition": "start",
+            "position": "left"
+        },
+        "trendLines": [],
+        "graphs": [
+            {
+                "balloonText": "Target:[[value]]",
+                "fillAlphas": 0.8,
+                "id": "AmGraph-1",
+                "lineAlpha": 0.2,
+                "title": "Target",
+                "type": "column",
+                "valueField": "target",
+                "lineColor": "#a3a3a3"
+            },
+            {
+                "balloonText": "Actual:[[value]]",
+                "fillAlphas": 0.8,
+                "id": "AmGraph-2",
+                "lineAlpha": 0.2,
+                "title": "Actual",
+                "type": "column",
+                "valueField": "actual",
+                "lineColorField": "lineColor",
+                "fillColorsField": "lineColor"
+            }
+        ],
+        "guides": [],
+        "valueAxes": [
+            {
+                "id": "ValueAxis-1",
+                "position": "top",
+                "axisAlpha": 0,
+                labelFunction: function (value, valueString, axis) {
+                    return '';
+                }
+            }
+        ],
+        "allLabels": [],
+        "balloon": {},
+        "titles": [],
+        "dataProvider": [
+            {
+                "value": "ROP",
+                "target": 23.5,
+                "actual": 18.1,
+                "lineColor": "#fd2400"
+            },
+            {
+                "value": "NPT",
+                "target": 26.2,
+                "actual": 22.8,
+                "lineColor": "#378ddd"
+            },
+            {
+                "value": "Cost",
+                "target": 30.1,
+                "actual": 23.9,
+                "lineColor": "#378ddd"
+            }
+        ]
+    });
+
+</script>

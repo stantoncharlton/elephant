@@ -11,26 +11,35 @@
   <div class='tray-content content-loaded'>
 
     <div class='section-header' style="margin-top: 15px;">
-      <h1>Logs</h1>
+      <h1>Geology</h1>
     </div>
 
     <% if drilling_log.drilling_log_entries.any? %>
-        <div class='center'>
-          <div class="inline-block" style="width:10px;height:10px;background:#00BBCC;"></div>
-          <b>ROP</b>
 
-          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#eea71f;"></div>
-          <b>WOB</b>
-
-          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#bc1b1b;"></div>
-          <b>Temp</b>
-
-          <div class="inline-block push-right-small" style="width:10px;height:10px;background:#6ee384;"></div>
-          <b>Gamma</b>
-
+        <div class='inline-block' style="width: 160px;">
+          <div class='center'>Gamma</div>
+          <div id="gamma_chart" style="width: 160px; height: 1000px;"></div>
         </div>
 
-        <div id="logschart" style="width: 100%; height: <%= entries.any? ? entries.last.depth / 2 : 400  %>px;"></div>
+        <div class='inline-block' style="width: 100px; margin-left: 0px;">
+          <div class='center'>WOB</div>
+          <div id="wob_chart" style="width: 100px; height: 1000px;"></div>
+        </div>
+
+        <div class='inline-block' style="width: 100px;">
+          <div class='center'>Temp</div>
+          <div id="temp_chart" style="width: 100px; height: 1000px;"></div>
+        </div>
+
+        <div class='inline-block' style="width: 100px;">
+          <div class='center'>ROP</div>
+          <div id="rop_chart" style="width: 100px; height: 1000px;"></div>
+        </div>
+
+        <div class='inline-block' style="width: 100px;">
+          <div class='center'>RPM</div>
+          <div id="rpm_chart" style="width: 100px; height: 1000px;"></div>
+        </div>
 
     <% else %>
         <p class='help-text'>No log entries...</p>
@@ -45,58 +54,38 @@
     <% rops = [] %>
     <% last_rop = 0.0 %>
     <% entries.each do |dl| %>
-        <% rops <<  { "date" => dl.entry_at.strftime("%k:%M"), "depth" => dl.depth.to_i, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl.rop.present? && dl.rop > 0 ? dl.rop : last_rop, "lineColor" => "#223bf2", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm, "temp" => dl.bh_temp } %>
-        <% if dl.rop.present? && dl.rop > 0 %>
-            <% last_rop = dl.rop %>
-        <% end %>
+    <% rops <<  { "date" => dl.entry_at.strftime("%k:%M"), "depth" => dl.depth.to_i, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl.rop.present? && dl.rop > 0 ? dl.rop : last_rop, "lineColor" => "#223bf2", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm, "temp" => dl.bh_temp } %>
+    <% if dl.rop.present? && dl.rop > 0 %>
+    <% last_rop = dl.rop %>
+    <% end %>
     <% end %>
 
 
-    var chart = AmCharts.makeChart("logschart", {
+    var chart = AmCharts.makeChart("gamma_chart", {
         "type": "serial",
         "theme": "none",
         "rotate": true,
+        "autoMarginOffset": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "marginTop": 10,
         "dataProvider": <%= raw rops.to_json.html_safe %>,
         "valueAxes": [
             {
-                "id":"ropAxis",
                 "axisAlpha": 0,
                 "gridAlpha": 0,
-            },
-            {
-                "id":"wobAxis",
-                "axisAlpha": 0,
-                "gridAlpha": 0,
-            },
-            {
-                "id":"tempAxis",
-                "axisAlpha": 0,
-                "gridAlpha": 0,
+                labelFunction: function (value, valueString, axis) {
+                    return '';
+                }
             }
         ],
         "graphs": [
             {
-                "valueAxis": "ropAxis",
                 "bullet": "round",
                 "bulletSize": "0",
                 "valueField": "rop",
                 "lineColor": "#00BBCC",
-                "lineThickness": 2
-            },
-            {
-                "valueAxis": "wobAxis",
-                "bullet": "round",
-                "bulletSize": "0",
-                "valueField": "wob",
-                "lineColor": "#eea71f",
-                "lineThickness": 2
-            },
-            {
-                "valueAxis": "tempAxis",
-                "bullet": "round",
-                "bulletSize": "0",
-                "valueField": "temp",
-                "lineColor": "#bc1b1b",
                 "lineThickness": 2
             }
         ],
@@ -107,14 +96,181 @@
         "categoryField": "depth",
         "categoryAxis": {
             "parseDates": false
+        }
+    });
+
+    var chart = AmCharts.makeChart("wob_chart", {
+        "type": "serial",
+        "theme": "none",
+        "rotate": true,
+        "autoMarginOffset": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "marginTop": 10,
+        "dataProvider": <%= raw rops.to_json.html_safe %>,
+        "valueAxes": [
+            {
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "labelsEnabled": false,
+                labelFunction: function (value, valueString, axis) {
+                    return '';
+                }
+            }
+        ],
+        "graphs": [
+            {
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "wob",
+                "lineColor": "#00BBCC",
+                "lineThickness": 2
+            }
+        ],
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "categoryBalloonEnabled": false
         },
-        "exportConfig": {
-            "menuTop": "20px",
-            "menuRight": "20px",
-            "menuItems": [{
-                "icon": '/lib/3/images/export.png',
-                "format": 'png'
-            }]
+        "categoryField": "depth",
+        "categoryAxis": {
+            "parseDates": false,
+            "labelsEnabled": false,
+            labelFunction: function (value, valueString, axis) {
+                return '';
+            }
+        }
+    });
+
+
+    var chart = AmCharts.makeChart("temp_chart", {
+        "type": "serial",
+        "theme": "none",
+        "rotate": true,
+        "autoMarginOffset": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "marginTop": 10,
+        "dataProvider": <%= raw rops.to_json.html_safe %>,
+        "valueAxes": [
+            {
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "labelsEnabled": false,
+                labelFunction: function (value, valueString, axis) {
+                    return '';
+                }
+            }
+        ],
+        "graphs": [
+            {
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "temp",
+                "lineColor": "#00BBCC",
+                "lineThickness": 2
+            }
+        ],
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "categoryBalloonEnabled": false
+        },
+        "categoryField": "depth",
+        "categoryAxis": {
+            "parseDates": false,
+            "labelsEnabled": false,
+            labelFunction: function (value, valueString, axis) {
+                return '';
+            }
+        }
+    });
+
+
+    var chart = AmCharts.makeChart("rop_chart", {
+        "type": "serial",
+        "theme": "none",
+        "rotate": true,
+        "autoMarginOffset": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "marginTop": 10,
+        "dataProvider": <%= raw rops.to_json.html_safe %>,
+        "valueAxes": [
+            {
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "labelsEnabled": false,
+                labelFunction: function (value, valueString, axis) {
+                    return '';
+                }
+            }
+        ],
+        "graphs": [
+            {
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "rop",
+                "lineColor": "#00BBCC",
+                "lineThickness": 2
+            }
+        ],
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "categoryBalloonEnabled": false
+        },
+        "categoryField": "depth",
+        "categoryAxis": {
+            "parseDates": false,
+            "labelsEnabled": false,
+            labelFunction: function (value, valueString, axis) {
+                return '';
+            }
+        }
+    });
+
+
+    var chart = AmCharts.makeChart("rpm_chart", {
+        "type": "serial",
+        "theme": "none",
+        "rotate": true,
+        "autoMarginOffset": 0,
+        "marginBottom": 0,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "marginTop": 10,
+        "dataProvider": <%= raw rops.to_json.html_safe %>,
+        "valueAxes": [
+            {
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "labelsEnabled": false,
+                labelFunction: function (value, valueString, axis) {
+                    return '';
+                }
+            }
+        ],
+        "graphs": [
+            {
+                "bullet": "round",
+                "bulletSize": "0",
+                "valueField": "rpm",
+                "lineColor": "#00BBCC",
+                "lineThickness": 2
+            }
+        ],
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "categoryBalloonEnabled": false
+        },
+        "categoryField": "depth",
+        "categoryAxis": {
+            "parseDates": false,
+            "labelsEnabled": false,
+            labelFunction: function (value, valueString, axis) {
+                return '';
+            }
         }
     });
 
