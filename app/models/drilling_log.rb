@@ -229,6 +229,61 @@ class DrillingLog < ActiveRecord::Base
         hash
     end
 
+
+    def get_times2(entries = self.drilling_log_entries.to_a)
+        hours = []
+
+        current_hour = {hour: 0}
+        current_hour_index = 0
+        total_hour_time = 0
+        if entries.any?
+            last_entry = entries.first
+            entries.each do |entry|
+                time = ((entry.entry_at - last_entry.entry_at) / 60 / 60).to_f
+
+                usage_time = 0
+                overage = total_hour_time + time > 1
+                if total_hour_time + time > 1
+                    usage_time = 1 - total_hour_time
+                else
+                    usage_time = time
+                end
+
+                if current_hour.has_key?(entry.activity_code)
+                    #    sub_hash = current_hour[entry.activity_code]
+                    current_hour[entry.activity_code] = (current_hour[entry.activity_code]  + usage_time).round(2)
+                    #    sub_hash[:entries] += 1
+                else
+                    current_hour.merge!(entry.activity_code => usage_time.round(2))
+                end
+
+                total_hour_time += usage_time
+
+                if total_hour_time == 1
+                    hours << current_hour
+                    current_hour_index += 1
+                    current_hour = {hour: current_hour_index}
+
+                    if overage
+                        total_hour_time = time - usage_time
+                        current_hour.merge!(entry.activity_code => usage_time.round(2))
+                    else
+                        total_hour_time = 0
+                    end
+                end
+
+
+                last_entry = entry
+            end
+        end
+
+        hours
+    end
+
+    def add_time()
+
+    end
+
     def get_runs(entries = self.drilling_log_entries.to_a)
         runs = []
 
