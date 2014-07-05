@@ -19,6 +19,8 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 <% elsif params[:section] == "time" %>
     <% @drilling_log = @job.drilling_log %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_npt', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "comparison" %>
+    tray.replaceWith("<%= j render 'jobs/tray_comparison_analysis', job: @job %>");
 <% elsif params[:section] == "failures" %>
     tray.replaceWith("<%= j render 'jobs/tray_failures', job: @job %>");
 <% elsif params[:section] == "runs" %>
@@ -53,13 +55,6 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 <% elsif params[:section] == "full_cost" %>
     $('#full_cost').replaceWith("<%= j render 'jobs/tray_cost' %>");
 <% end %>
-
-link = $(".remote-tray-toggle[data-tray='<%= params[:section] %>']");
-if(link.hasClass('remote-tray-sub-nav'))    {
-    tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
-    //tray.find('.sub-tray').find('.active').find('a').trigger('click');
-}
-
 
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {

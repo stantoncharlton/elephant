@@ -1,0 +1,102 @@
+<% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
+<% @jobs = current_user.jobs_list %>
+<% @jobs = Job.include_models(@jobs).includes(well: :drilling_log) %>
+
+
+<div class="remote-tray" data-tray="depth">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading charts..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+
+    <div style='margin: 0px; left: 0; top: 0px; bottom: 0px; padding: 0px; height: 100%; width: 100%; background: #202020; position: absolute; '>
+
+      <div style="width: 250px; min-height: 100%; background: #202020; float: left;">
+
+        <div style="padding: 15px;">
+          <div>
+            <div class='filter-label white-text' style='font-family: gothamlightregular; font-size: 20px; text-transform: uppercase;'>
+              <b>DEPTH</b></div>
+            <p class='white-text'>Choose filters to explore different data facets</p>
+          </div>
+
+          <br>
+
+          <div class='filter-label'>Compare</div>
+          <div>
+            <%= select_tag "depth", options_for_select([["Cost", 1], ["Production", 3], ["Counties", 2]]),
+                           "data-field" => "depth",
+                           "data-active" => "true",
+                           class: "custom-select-ajax custom-select-explore depth-value" %>
+          </div>
+
+
+        </div>
+      </div>
+
+
+      <div id="depth_chart" style="height: 100%; background: #202020;"></div>
+
+
+      <div id='depth_loading' style='position: absolute; top: 40%; left: 50%; right: auto;'>
+        <%= image_tag "blue_logo_small.png" %>
+        <br>
+        <span class="ajax-loading search-loading push-right-small white-text"><b>Loading Chart...</b></span>
+      </div>
+
+
+    </div>
+
+    <script type='text/javascript'>
+
+
+        var update_explore;
+
+        update_explore = function () {
+            var query_string;
+            $('#depth_loading').removeClass('hidden');
+            $('#depth_chart').addClass('hidden');
+            query_string = '';
+            $('.depth-value').each(function () {
+                if ($(this).val().length > 0 && $(this).attr('data-active') === 'true') {
+                    return query_string += $(this).attr('data-field') + '=' + $(this).val() + '&';
+                }
+            });
+            return $.ajax('/insight?' + query_string, {
+                type: 'get',
+                dataType: 'script'
+            });
+        };
+
+        $('.depth-value').change(function () {
+            var compare_value;
+            if ($(this).attr('data-field') === 'compare') {
+                compare_value = $(this).val();
+                $('.depth-value[data-field=option]').each(function () {
+                    if ($(this).attr('data-compare') === compare_value) {
+                        $(this).attr('data-active', 'true');
+                        return $(this).closest("div").removeClass("hidden");
+                    } else {
+                        $(this).attr('data-active', 'false');
+                        return $(this).closest("div").addClass("hidden");
+                    }
+                });
+            }
+            if (document.readyState === 'complete') {
+                return update_explore();
+            }
+        });
+
+        if ($('#depth_chart').length > 0) {
+            update_explore();
+        }
+    </script>
+
+
+  </div>
+</div>
+

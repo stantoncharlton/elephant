@@ -8,7 +8,11 @@ class ExploreController < ApplicationController
     def index
         not_found unless current_user.role.global_read?
 
-        if request.format == "js"
+        if request.format == "js" && params[:section].blank?
+            if params[:depth].present?
+                render 'explore/depth/depth'
+                return
+            end
             @time_range = params[:time_range]
             @chart_type = params[:chart_type].to_i
             @option = params[:option]

@@ -251,7 +251,7 @@ class DrillingLog < ActiveRecord::Base
 
                 if current_hour.has_key?(entry.activity_code)
                     #    sub_hash = current_hour[entry.activity_code]
-                    current_hour[entry.activity_code] = (current_hour[entry.activity_code]  + usage_time).round(2)
+                    current_hour[entry.activity_code] = (current_hour[entry.activity_code] + usage_time).round(2)
                     #    sub_hash[:entries] += 1
                 else
                     current_hour.merge!(entry.activity_code => usage_time.round(2))
@@ -280,8 +280,33 @@ class DrillingLog < ActiveRecord::Base
         hours
     end
 
-    def add_time()
+    def get_connection_times(entries = self.drilling_log_entries.to_a)
+        connections = []
 
+        connections << { :time => entries.first.entry_at.beginning_of_day, :duration => 0 }
+
+        total_hour_time = 0
+
+        if entries.any?
+            last_entry = entries.first
+            entries.each do |entry|
+                time = ((entry.entry_at - last_entry.entry_at) / 60 / 60).to_f
+
+                if entry.activity_code == DrillingLogEntry::CONNECTION || entry.activity_code == DrillingLogEntry::CONNECTION_SURVEY
+                    connections << { :time => entry.entry_at, :duration => (time * 60).round(1) }
+                end
+
+                total_hour_time += time
+
+                if total_hour_time > 24
+                    break
+                end
+
+                last_entry = entry
+            end
+        end
+
+        connections
     end
 
     def get_runs(entries = self.drilling_log_entries.to_a)

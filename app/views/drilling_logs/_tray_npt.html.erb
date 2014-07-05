@@ -7,11 +7,28 @@
 
   <div class="content tray-content content-loaded">
 
+    <% entries = @drilling_log.drilling_log_entries.includes(:bha).to_a %>
+    <% dates = entries.group_by { |item| item.entry_at.in_time_zone(Time.zone).to_date } %>
+    <% filter_options = [] %>
+    <% dates.each_with_index do |d, index| %>
+        <% filter_options << [d[0].strftime("%A %m/%d/%Y"), d[0].strftime("%m/%d/%Y")] %>
+    <% end %>
+
     <div class="section-header" style="margin-top: 15px;">
       <h1>Time Analysis</h1>
+
+      <div class='inline-block align-top pull-right'>
+        <%= select_tag "#",
+                       options_for_select(filter_options, 0),
+                       id: "drilling_log_filter",
+                       "data-id" => @drilling_log.id.to_s,
+                       class: "custom-select custom-select-ajax align-top push-up push-right-small" %>
+      </div>
     </div>
 
     <div id="time_chart" style="width: 100%; height: 400px; display: inline-block"></div>
+
+    <div id="connections_chart" style="width: 100%; height: 200px; display: inline-block"></div>
 
     <br><br>
 
@@ -251,5 +268,68 @@
             }
         }
     });
+
+
+
+
+  var graphs = [];
+
+  <% options = DrillingLogEntry.options %>
+  <% options.each do |option| %>
+  <% if option.length == 2 && option[1] != -1 %>
+  <% code = option[1] %>
+
+  graphs.push({
+      "balloonText": "<b>[[title]]</b><br><span style='font-size:14px;'>[[value]] hours ([[percents]]%)</span>",
+      "fillAlphas": 0.9,
+      "fontSize": 11,
+      "lineThickness": 0.5,
+      "lineAlpha": 1.0,
+      "lineColor": "#666",
+      "fillColors": "<%= DrillingLogEntry.activity_code_color(code) %>",
+      "title": "<%= option[0] %>",
+      "type": "column",
+      "valueField": "<%= code %>"
+  });
+
+  <% end %>
+  <% end %>
+
+  var chart = AmCharts.makeChart("connections_chart", {
+      "type": "serial",
+      "theme": "none",
+      "plotAreaFillAlphas": 0.2,
+      "plotAreaFillColors": "#FFFF00",
+      "dataProvider": <%= raw drilling_log.get_connection_times.to_json.html_safe %>,
+      "valueAxes": [{
+          "axisAlpha": 0,
+          "gridAlpha": 0,
+          "labelsEnabled": true,
+          "position": "left"
+      }],
+      "graphs": [
+          {
+              "balloonText": "[[value]] minutes",
+              "fillAlphas": 0.9,
+              "fontSize": 11,
+              "lineThickness": 3,
+              "lineAlpha": 1.0,
+              "title": "Time",
+              "type": "column",
+              "valueField": "duration"
+          }
+      ],
+      "marginTop": 30,
+      "marginRight": 0,
+      "marginLeft": 0,
+      "marginBottom": 40,
+      "autoMargins": false,
+      "categoryField": "time",
+      "categoryAxis": {
+          "parseDates": true,
+          "minPeriod": "mm",
+          "equalSpacing": false
+      }
+  });
 
 </script>

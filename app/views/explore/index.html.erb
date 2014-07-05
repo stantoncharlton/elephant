@@ -1,39 +1,88 @@
-<% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
+<% provide(:title, "Insight") %>
 
-<div style='margin: 0px; left: 0; top: 54px; bottom: 120px; padding: 0px; height: calc(100% - 54px); width: 100%; background: #202020; position: absolute; '>
+<div style='height: 52px;'>
+  <div style='position: absolute; top:54px; left: 0; width: 100%; height: 52px;'>
+    <ul class="nav nav-pills alert alert-nav alert-nav-shrink parent-tray-nav" style='border-radius: 0px; border-width: 0px;'>
 
-  <div style="width: 250px; min-height: 100%; background: #202020; float: left;">
-       <%= render 'explore/filter' %>
+
+      <li class="active">
+        <a href="#charts" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="charts"
+           data-placement="bottom" data-title="Charts">Charts
+        </a>
+      </li>
+
+      <li class="">
+        <a href="#maps" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="maps"
+           data-placement="bottom" data-title="Maps">Maps
+        </a>
+      </li>
+
+      <li class="">
+        <a href="#depth" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="depth"
+           data-placement="bottom" data-title="Depth">Depth
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+
+<div style='margin: 0px; left: 0; top: 106px; bottom: 120px; padding: 0px; height: calc(100% - 106px); width: 100%; background: #202020; position: absolute; '>
+
+
+  <div class="remote-tray" data-tray="charts">
+    <div class="remote-loading white" style="margin-top: 30px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading charts..." %>
+    </div>
   </div>
 
-  <div id="main_chart" style="height: 100%; background: #202020;"></div>
 
+  <div class="remote-tray" data-tray="maps">
+    <div class="remote-loading white" style="margin-top: 30px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading maps..." %>
+    </div>
+  </div>
 
-  <div id='explore_loading' style='position: absolute; top: 40%; left: 50%; right: auto;'>
-    <%= image_tag "blue_logo_small.png" %>
-    <br>
-    <span class="ajax-loading search-loading push-right-small white-text"><b>Loading Chart...</b></span>
+  <div class="remote-tray" data-tray="depth">
+    <div class="remote-loading" style="margin-top: 30px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading depth..." %>
+    </div>
   </div>
 
 </div>
 
-<script type='text/javascript'>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+
+            if (document.location.hash == '') {
+                tray = $(".remote-tray[data-tray='charts']");
+                tray.find('.content').hide();
+                tray.find('.remote-loading').removeClass('hidden');
+                tray.find('.loading').removeClass('hidden');
+                setTimeout(function () {
+                    $.ajax({
+                        url: "/insight?section=charts",
+                        type: "GET",
+                        dataType: "script"
+                    });
+                }, 1);
+            }
+
+        });
+    }(jQuery));
+
     $('html, body').css({
         'overflow': 'hidden',
         'height': '100%'
     });
-</script>
-
-
-<script type='text/javascript'>
-
-
-  //function handleClick(event)
-  //{
-  //    alert(event.item.category + ": " + event.item.values.value);
-  //}
-  //chart.addListener("clickGraphItem", handleClick);
-
-
-
 </script>

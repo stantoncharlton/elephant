@@ -1,0 +1,21 @@
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
+
+<% if params[:section] == "charts" %>
+    tray.replaceWith("<%= j render 'explore/tray_charts' %>");
+<% elsif params[:section] == "maps" %>
+    tray.replaceWith("<%= j render 'explore/tray_maps' %>");
+<% elsif params[:section] == "depth" %>
+    tray.replaceWith("<%= j render 'explore/tray_depth' %>");
+<% end %>
+
+
+if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
+    $('.tooltip-info').tooltip();
+}
+
+$('.custom-select-ajax').each(function() {
+    span_tag = $(this).next('span');
+    if($(this).prop("tagName").toLowerCase() == 'select' && span_tag.length <= 0 && !span_tag.hasClass('customSelect')) {
+        $(this).customSelect();
+    }
+});

@@ -1,0 +1,357 @@
+<% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
+<% @jobs = current_user.jobs_list %>
+<% @jobs = Job.include_models(@jobs).includes(well: :drilling_log) %>
+<% @jobs = @jobs.joins(well: { field: :state }).where("states.name = 'Texas'") %>
+
+
+
+<div class="remote-tray" data-tray="maps">
+
+  <div class="remote-loading hidden white">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading charts..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+
+    <div style='margin: 0px; left: 0; top: 0px; bottom: 0px; padding: 0px; height: 100%; width: 100%; background: #202020; position: absolute; '>
+
+      <div style="width: 250px; min-height: 100%; background: #202020; float: left;">
+
+        <div style="padding: 15px;">
+          <div>
+            <div class='filter-label white-text' style='font-family: gothamlightregular; font-size: 20px; text-transform: uppercase;'>
+              <b>MAPS</b></div>
+            <p class='white-text'>Choose filters to explore different data facets</p>
+          </div>
+
+          <br>
+
+          <div class='filter-label'>Compare</div>
+          <div>
+            <%= select_tag "compare", options_for_select([["Cost", 1], ["Production", 3], ["Counties", 2]]),
+                           "data-field" => "compare",
+                           "data-active" => "true",
+                           class: "custom-select-ajax custom-select-explore explore-value" %>
+          </div>
+
+
+          <style type='text/css'>
+              .gradiation {
+                  background: #49db00;
+                  background: -moz-linear-gradient(left,  #49db00 0%, #ff0000 100%);
+                  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#49db00), color-stop(100%,#ff0000));
+                  background: -webkit-linear-gradient(left,  #49db00 0%,#ff0000 100%);
+                  background: -o-linear-gradient(left,  #49db00 0%,#ff0000 100%);
+                  background: -ms-linear-gradient(left,  #49db00 0%,#ff0000 100%);
+                  background: linear-gradient(to right,  #49db00 0%,#ff0000 100%);
+                  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#49db00', endColorstr='#ff0000',GradientType=1 );
+              }
+
+          </style>
+
+          <br>
+          <div style='color: #ffffff; font-family: gothambookregular; font-size: 10px; height: 20px;'>
+            <div style='float: left;'>Lowest</div>
+            <div style='float: right;'>Highest</div>
+          </div>
+          <div style='width:100%; height: 25px;' class='gradiation'></div>
+
+
+        </div>
+      </div>
+
+      <div id="maps" style="height: 100%; width: 100%; background: #202020;">
+
+        <div class="map-container"
+             style='position:absolute; left: 0; top: 0px; width:100%; height:100%; margin-left: 250px;'>
+          <div id='map' class='dark'></div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <script type='text/javascript'>
+
+
+        var update_explore;
+
+        update_explore = function () {
+            var query_string;
+            $('#explore_loading').removeClass('hidden');
+            $('#main_chart').addClass('hidden');
+            query_string = '';
+            $('.explore-value').each(function () {
+                if ($(this).val().length > 0 && $(this).attr('data-active') === 'true') {
+                    return query_string += $(this).attr('data-field') + '=' + $(this).val() + '&';
+                }
+            });
+            return $.ajax('/insight?' + query_string, {
+                type: 'get',
+                dataType: 'script'
+            });
+        };
+
+        $('.explore-value').change(function () {
+            var compare_value;
+            if ($(this).attr('data-field') === 'compare') {
+                compare_value = $(this).val();
+                $('.explore-value[data-field=option]').each(function () {
+                    if ($(this).attr('data-compare') === compare_value) {
+                        $(this).attr('data-active', 'true');
+                        return $(this).closest("div").removeClass("hidden");
+                    } else {
+                        $(this).attr('data-active', 'false');
+                        return $(this).closest("div").addClass("hidden");
+                    }
+                });
+            }
+            if (document.readyState === 'complete') {
+                return update_explore();
+            }
+        });
+
+        if ($('#main_chart').length > 0) {
+            update_explore();
+        }
+
+
+    </script>
+
+
+    <script type='text/javascript'>
+
+        function Rainbow()
+        {
+            var gradients = null;
+            var minNum = 0;
+            var maxNum = 100;
+            var colours = ['ff0000', 'ffff00', '00ff00', '0000ff'];
+            setColours(colours);
+
+            function setColours (spectrum)
+            {
+                if (spectrum.length < 2) {
+                    throw new Error('Rainbow must have two or more colours.');
+                } else {
+                    var increment = (maxNum - minNum)/(spectrum.length - 1);
+                    var firstGradient = new ColourGradient();
+                    firstGradient.setGradient(spectrum[0], spectrum[1]);
+                    firstGradient.setNumberRange(minNum, minNum + increment);
+                    gradients = [ firstGradient ];
+
+                    for (var i = 1; i < spectrum.length - 1; i++) {
+                        var colourGradient = new ColourGradient();
+                        colourGradient.setGradient(spectrum[i], spectrum[i + 1]);
+                        colourGradient.setNumberRange(minNum + increment * i, minNum + increment * (i + 1));
+                        gradients[i] = colourGradient;
+                    }
+
+                    colours = spectrum;
+                    return this;
+                }
+            }
+
+            this.setColors = this.setColours;
+
+            this.setSpectrum = function ()
+            {
+                setColours(arguments);
+                return this;
+            }
+
+            this.setSpectrumByArray = function (array)
+            {
+                setColours(array);
+                return this;
+            }
+
+            this.colourAt = function (number)
+            {
+                if (isNaN(number)) {
+                    throw new TypeError(number + ' is not a number');
+                } else if (gradients.length === 1) {
+                    return gradients[0].colourAt(number);
+                } else {
+                    var segment = (maxNum - minNum)/(gradients.length);
+                    var index = Math.min(Math.floor((Math.max(number, minNum) - minNum)/segment), gradients.length - 1);
+                    return gradients[index].colourAt(number);
+                }
+            }
+
+            this.colorAt = this.colourAt;
+
+            this.setNumberRange = function (minNumber, maxNumber)
+            {
+                if (maxNumber > minNumber) {
+                    minNum = minNumber;
+                    maxNum = maxNumber;
+                    setColours(colours);
+                } else {
+                    throw new RangeError('maxNumber (' + maxNumber + ') is not greater than minNumber (' + minNumber + ')');
+                }
+                return this;
+            }
+        }
+
+        function ColourGradient()
+        {
+            var startColour = 'ff0000';
+            var endColour = '0000ff';
+            var minNum = 0;
+            var maxNum = 100;
+
+            this.setGradient = function (colourStart, colourEnd)
+            {
+                startColour = getHexColour(colourStart);
+                endColour = getHexColour(colourEnd);
+            }
+
+            this.setNumberRange = function (minNumber, maxNumber)
+            {
+                if (maxNumber > minNumber) {
+                    minNum = minNumber;
+                    maxNum = maxNumber;
+                } else {
+                    throw new RangeError('maxNumber (' + maxNumber + ') is not greater than minNumber (' + minNumber + ')');
+                }
+            }
+
+            this.colourAt = function (number)
+            {
+                return calcHex(number, startColour.substring(0,2), endColour.substring(0,2))
+                        + calcHex(number, startColour.substring(2,4), endColour.substring(2,4))
+                        + calcHex(number, startColour.substring(4,6), endColour.substring(4,6));
+            }
+
+            function calcHex(number, channelStart_Base16, channelEnd_Base16)
+            {
+                var num = number;
+                if (num < minNum) {
+                    num = minNum;
+                }
+                if (num > maxNum) {
+                    num = maxNum;
+                }
+                var numRange = maxNum - minNum;
+                var cStart_Base10 = parseInt(channelStart_Base16, 16);
+                var cEnd_Base10 = parseInt(channelEnd_Base16, 16);
+                var cPerUnit = (cEnd_Base10 - cStart_Base10)/numRange;
+                var c_Base10 = Math.round(cPerUnit * (num - minNum) + cStart_Base10);
+                return formatHex(c_Base10.toString(16));
+            }
+
+            formatHex = function (hex)
+            {
+                if (hex.length === 1) {
+                    return '0' + hex;
+                } else {
+                    return hex;
+                }
+            }
+
+            function isHexColour(string)
+            {
+                var regex = /^#?[0-9a-fA-F]{6}$/i;
+                return regex.test(string);
+            }
+
+            function getHexColour(string)
+            {
+                if (isHexColour(string)) {
+                    return string.substring(string.length - 6, string.length);
+                }
+            }
+        }
+
+
+        var map = L.mapbox.map('map', 'elephant.im6cakbc');
+        map.markerLayer.setGeoJSON([]);
+        map.attributionControl = false;
+        map.scrollWheelZoom.disable();
+
+        $('.mapbox-info-toggle').remove();
+
+        var geoJson = [];
+
+
+        var geoJsonData = {
+            type: "FeatureCollection",
+            features: []
+        };
+
+        <% coordinates_for_zoom = [] %>
+        <% @jobs.each do |job| %>
+        <% if !job.well.location.blank? %>
+        <% x = job.well.x_location %>
+        <% y = job.well.y_location  %>
+        <% coordinates_for_zoom << [y, x] %>
+
+        geoJsonData.features.push({
+            type: 'Feature',
+            properties: {
+                title: '<%= job.field.name + ' | ' + job.well.name %>',
+                url: '/jobs/' + <%= job.id %>
+            },
+            geometry: {
+                type: 'Point',
+                coordinates:  [<%= x %>, <%= y %>]
+            }
+        });
+        <% end %>
+        <% end %>
+
+
+        var rainbow = new Rainbow();
+        rainbow.setNumberRange(0, 1);
+        rainbow.setSpectrum('#49db00', '#ff0000');
+
+        var geoJson = L.geoJson(geoJsonData, {
+            pointToLayer: function(feature, latlng) {
+                var circleColor = '#' + rainbow.colourAt(Math.random());
+                return L.circleMarker(latlng, {
+                    color: circleColor,
+                    fillColor: circleColor,
+                    radius: 30.0
+                })
+            }
+        }).addTo(map);
+
+
+        //map.markerLayer.setGeoJSON(geoJson);
+
+        map.markerLayer.on('click', function (e) {
+            map.panTo(e.layer.getLatLng());
+        });
+        map.markerLayer.on('click', function (e) {
+            e.layer.unbindPopup();
+            window.location = e.layer.feature.properties.url;
+        });
+
+        var bounds = [];
+        <% if coordinates_for_zoom.any? %>
+        <% coordinates_for_zoom.each do |c| %>
+        bounds.push([<%= c[0] %>, <%= c[1] %>]);
+        <% end %>
+        map.fitBounds(bounds);
+        <% end %>
+
+
+        map.markerLayer.on('mouseover', function (e) {
+            e.layer.openPopup();
+        });
+        map.markerLayer.on('mouseout', function (e) {
+            e.layer.closePopup();
+        });
+
+        $('.mapbox-info-toggle').remove();
+
+    </script>
+
+
+  </div>
+</div>
+

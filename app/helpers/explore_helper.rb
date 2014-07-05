@@ -73,4 +73,16 @@ module ExploreHelper
         assets
     end
 
+    def get_well_costs
+        costs = []
+
+        result = DrillingLog.joins(job: {well: :rig}).select("wells.name, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost").order("max_depth").where("max_depth > 0")
+
+        result.each do |r|
+            costs << { depth: r[:max_depth], cost: r[:cost] }
+        end
+
+        costs
+    end
+
 end
