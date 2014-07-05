@@ -9,7 +9,7 @@ class ExploreController < ApplicationController
         not_found unless current_user.role.global_read?
 
         if request.format == "js" && params[:section].blank?
-            if params[:depth].present?
+            if params[:depth_tray].present?
                 render 'explore/depth/depth'
                 return
             end

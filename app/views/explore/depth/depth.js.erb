@@ -1,73 +1,87 @@
 $('#depth_loading').addClass('hidden');
 $('#depth_chart').removeClass('hidden');
 
-graphs = [];
-
-graphs.push({
-    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'> <b>$[[value]]</b></span>",
-    "bullet": "square",
-    "dashLengthField": "dashLengthLine",
-    "lineThickness": 0,
-    "bulletSize": 10,
-    "bulletBorderAlpha": 1,
-    "bulletColor": "#ff0000",
-    "useLineColorForBulletBorder": true,
-    "bulletBorderThickness": 3,
-    "fillAlphas": 0,
-    "lineAlpha": 0.5,
-    "color": "#ff0000",
-    "title": "Cost",
-    "valueField": "cost"
-});
-
-
 <% costs = get_well_costs() %>
-<% total  = 0 %>
+
+<% n = costs.count %>
+<% sum = 0 %>
+<% x = 0 %>
+<% y = 0 %>
+<% c_sum = 0 %>
+<% min_x = costs.first[:depth] %>
+<% max_x = costs.first[:depth] %>
 <% costs.each do |c| %>
-    <% total += c[:cost].to_f %>
+    <% sum += (c[:depth] * c[:cost].to_f) %>
+    <% x += c[:depth] %>
+    <% y += c[:cost].to_f %>
+    <% c_sum += c[:depth] * c[:depth] %>
+    <% min_x = [c[:depth], min_x].min %>
+    <% max_x = [c[:depth], max_x].max %>
 <% end %>
-<% average = total.to_f / costs.count.to_f %>
+<% a =  n * sum %>
+<% b = x * y %>
+<% c = n * c_sum %>
+<% d = x * x %>
+<% m = (a - b) / (c - d)  %>
+<% e = y %>
+<% f = m * x %>
+<% b2 = (e - f) / n %>
+
+<% start_y = (m * min_x) + b2 %>
+<% end_y = (m * max_x) + b2 %>
 
 
 var chart = AmCharts.makeChart("depth_chart", {
-    "type": "serial",
-    "theme": "light",
-    "dataProvider": <%= costs.to_json.html_safe %>,
-    "valueAxes": [
+    "type": "xy",
+    "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+    "sequencedAnimation": false,
+    "theme": "black",
+    "trendLines": [
         {
-            "axisAlpha": 0.3,
-            "gridAlpha": 0,
-            "position": "left",
-            "title": "Cost",
-            "color": "#fff",
-            "axisColor": "#fff",
-            "titleColor": "#fff",
-            "guides": [
-                {
-                    value: <%= average %>,
-                    lineColor: "#CC0000",
-                    dashLength: 4,
-                    inside: true,
-                    lineAlpha: 1
-                }
-
-            ]
-
+            "finalValue": <%= end_y %>,
+            "finalXValue": <%= max_x %>,
+            "id": "TrendLine-1",
+            "initialValue": <%= start_y %>,
+            "initialXValue": <%= min_x %>,
+            "lineColor": "#FF6600",
+            "lineThickness": 2
         }
     ],
-    "graphs": graphs,
-    "categoryField": "depth",
-    "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha": 0.5,
-        "gridAlpha": 0,
-        "position": "bottom",
-        "title": "Depth",
-        "color": "#fff",
-        "axisColor": "#fff",
-        "titleColor": "#fff",
-        "equalSpacing": false
-    }
+    "graphs": [
+        {
+            "balloonText": "$[[cost]]",
+            "bullet": "round",
+            "id": "AmGraph-1",
+            "lineAlpha": 0,
+            "lineColor": "#b0de09",
+            "xField": "depth",
+            "yField": "cost"
+        }
+    ],
+    "guides": [],
+    "valueAxes": [
+        {
+            "id": "ValueAxis-1",
+            "axisAlpha": 0,
+            "axisColor": "#FFFFFF",
+            "color": "#fff",
+            "titleColor": "#fff",
+            "gridColor": "#FFFFFF"
+        },
+        {
+            "id": "ValueAxis-2",
+            "position": "bottom",
+            "axisAlpha": 0,
+            "axisColor": "#FFFFFF",
+            "color": "#fff",
+            "titleColor": "#fff",
+            "gridColor": "#FFFFFF"
+        }
+    ],
+    "allLabels": [],
+    "balloon": {},
+    "titles": [],
+    "dataProvider": <%= costs.to_json.html_safe %>
 });
 
 

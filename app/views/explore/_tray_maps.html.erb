@@ -30,10 +30,10 @@
 
           <div class='filter-label'>Compare</div>
           <div>
-            <%= select_tag "compare", options_for_select([["Cost", 1], ["Production", 3], ["Counties", 2]]),
-                           "data-field" => "compare",
+            <%= select_tag "maps", options_for_select([["Cost", 1], ["Production", 3], ["Counties", 2]]),
+                           "data-field" => "maps",
                            "data-active" => "true",
-                           class: "custom-select-ajax custom-select-explore explore-value" %>
+                           class: "custom-select-ajax custom-select-explore maps-value" %>
           </div>
 
 
@@ -76,47 +76,6 @@
 
     <script type='text/javascript'>
 
-
-        var update_explore;
-
-        update_explore = function () {
-            var query_string;
-            $('#explore_loading').removeClass('hidden');
-            $('#main_chart').addClass('hidden');
-            query_string = '';
-            $('.explore-value').each(function () {
-                if ($(this).val().length > 0 && $(this).attr('data-active') === 'true') {
-                    return query_string += $(this).attr('data-field') + '=' + $(this).val() + '&';
-                }
-            });
-            return $.ajax('/insight?' + query_string, {
-                type: 'get',
-                dataType: 'script'
-            });
-        };
-
-        $('.explore-value').change(function () {
-            var compare_value;
-            if ($(this).attr('data-field') === 'compare') {
-                compare_value = $(this).val();
-                $('.explore-value[data-field=option]').each(function () {
-                    if ($(this).attr('data-compare') === compare_value) {
-                        $(this).attr('data-active', 'true');
-                        return $(this).closest("div").removeClass("hidden");
-                    } else {
-                        $(this).attr('data-active', 'false');
-                        return $(this).closest("div").addClass("hidden");
-                    }
-                });
-            }
-            if (document.readyState === 'complete') {
-                return update_explore();
-            }
-        });
-
-        if ($('#main_chart').length > 0) {
-            update_explore();
-        }
 
 
     </script>
