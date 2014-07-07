@@ -1,11 +1,5 @@
 <div style="padding: 15px;">
-  <div>
-    <div class='filter-label white-text' style='font-family: gothamlightregular; font-size: 20px; text-transform: uppercase;'>
-      <b>Insight</b></div>
-    <p class='white-text'>Choose filters to explore different data facets</p>
-  </div>
 
-  <br>
 
   <div class='filter-label'>Compare</div>
   <div>
@@ -50,14 +44,6 @@
                      "data-active" => "false",
                      class: "custom-select-ajax custom-select-explore explore-value" %>
     </div>
-  </div>
-
-  <div class='filter-label'>Chart Type</div>
-  <div>
-    <%= select_tag "chart_type", options_for_select([["Performance", 1], ["Cost", 2]]),
-                   "data-field" => "chart_type",
-                   "data-active" => "true",
-                   class: "custom-select-ajax custom-select-explore explore-value" %>
   </div>
 
   <div class='filter-label'>Time Range</div>

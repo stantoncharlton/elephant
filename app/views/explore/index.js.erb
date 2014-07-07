@@ -1,11 +1,25 @@
 tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
-<% if params[:section] == "charts" %>
-    tray.replaceWith("<%= j render 'explore/tray_charts' %>");
+$('.remote-tray').each(function() {
+    var sub_tray = $(this);
+    if(sub_tray.attr('data-tray') != '<%= params[:section] %>') {
+        var content = sub_tray.find('.tray-content');
+        if(content.hasClass('content-loaded')) {
+            content.removeClass('content-loaded');
+            content.find('*').remove();
+        }
+    }
+});
+
+
+<% if params[:section] == "performance" %>
+    tray.replaceWith("<%= j render 'explore/tray_performance' %>");
+<% elsif params[:section] == "cost" %>
+    tray.replaceWith("<%= j render 'explore/tray_cost' %>");
 <% elsif params[:section] == "maps" %>
     tray.replaceWith("<%= j render 'explore/tray_maps' %>");
-<% elsif params[:section] == "depth" %>
-    tray.replaceWith("<%= j render 'explore/tray_depth' %>");
+<% elsif params[:section] == "programs" %>
+    tray.replaceWith("<%= j render 'explore/tray_programs' %>");
 <% end %>
 
 

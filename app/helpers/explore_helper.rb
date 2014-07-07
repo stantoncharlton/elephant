@@ -20,7 +20,7 @@ module ExploreHelper
         result = DrillingLog.joins(job: {well: {field: :state}}).where("drilling_logs.updated_at >= ?", Date.today - 1.year).where("concat(fields.county, ', ', states.name) = ?", county).select("avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, avg(coalesce(drilling_logs.rotate_rop, 0)) AS rotate_rop, avg(coalesce(drilling_logs.slide_rop, 0)) AS slide_rop, date_trunc('month', drilling_logs.updated_at) as date, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(jobs.failures_count, 0)) as failures, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.total_cost, 0)) as cost").group("date")
 
         12.times do |index|
-            months << { month: Date::MONTHNAMES[index + 1] }
+            months << {month: Date::MONTHNAMES[index + 1]}
         end
         result.each do |group|
             month = Date.strptime(group[:date]).month
@@ -55,7 +55,7 @@ module ExploreHelper
     def get_all_assets_rops time_range, group
         assets = []
 
-        result = DrillingLog.joins(drilling_log_entries: { bha: { bha_items: :tool } }).joins(:job).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("distinct on(asset_name) part_memberships.name as asset_name, avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.total_cost, 0)) as cost").group("asset_name")
+        result = DrillingLog.joins(drilling_log_entries: {bha: {bha_items: :tool}}).joins(:job).where("drilling_logs.updated_at >= ?", Date.today - 1.year).select("distinct on(asset_name) part_memberships.name as asset_name, avg(coalesce(drilling_logs.drilling_rop, 0)) AS rop, sum(drilling_logs.npt) as npt, sum(drilling_logs.total_time) as total_time, sum(coalesce(drilling_logs.max_depth, 0)) as max_depth, sum(coalesce(jobs.total_cost, 0)) as cost").group("asset_name")
         if group == 1
             result = result.where("LOWER(part_memberships.name) LIKE '%bit%'")
         elsif group == 2
@@ -76,13 +76,47 @@ module ExploreHelper
     def get_well_costs
         costs = []
 
-        result = DrillingLog.joins(job: {well: :rig}).select("wells.name, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost").order("max_depth").where("max_depth > 0")
+        result = DrillingLog.joins(job: {well: { field: :state }}).select("wells.name, concat(fields.county, ', ', states.name) as county_name, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost").order("max_depth").where("max_depth > 0")
 
         result.each do |r|
-            costs << { depth: r[:max_depth], cost: r[:cost] }
+            costs << { depth: r[:max_depth], cost: r[:cost], county: r[:county_name], color: '#' + Digest::MD5.hexdigest(r[:county_name])[0..5]}
         end
 
         costs
     end
+
+    def get_trend_line(series, x_attribute, y_attribute)
+        x_attribute = x_attribute.to_sym
+        y_attribute = y_attribute.to_sym
+        n = series.count
+        sum = 0
+        x = 0
+        y = 0
+        c_sum = 0
+        min_x = series.first[x_attribute]
+        max_x = series.first[x_attribute]
+        series.each do |c|
+            sum += (c[x_attribute] * c[y_attribute].to_f)
+            x += c[x_attribute]
+            y += c[y_attribute].to_f
+            c_sum += c[x_attribute] * c[x_attribute]
+            min_x = [c[x_attribute], min_x].min
+            max_x = [c[x_attribute], max_x].max
+        end
+        a = n * sum
+        b = x * y
+        c = n * c_sum
+        d = x * x
+        m = (a - b) / (c - d)
+        e = y
+        f = m * x
+        b2 = (e - f) / n
+
+        start_y = (m * min_x) + b2
+        end_y = (m * max_x) + b2
+
+        [min_x, start_y, max_x, end_y]
+    end
+
 
 end

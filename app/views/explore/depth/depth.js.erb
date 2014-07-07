@@ -3,57 +3,53 @@ $('#depth_chart').removeClass('hidden');
 
 <% costs = get_well_costs() %>
 
-<% n = costs.count %>
-<% sum = 0 %>
-<% x = 0 %>
-<% y = 0 %>
-<% c_sum = 0 %>
-<% min_x = costs.first[:depth] %>
-<% max_x = costs.first[:depth] %>
-<% costs.each do |c| %>
-    <% sum += (c[:depth] * c[:cost].to_f) %>
-    <% x += c[:depth] %>
-    <% y += c[:cost].to_f %>
-    <% c_sum += c[:depth] * c[:depth] %>
-    <% min_x = [c[:depth], min_x].min %>
-    <% max_x = [c[:depth], max_x].max %>
+<% trend_line = get_trend_line(costs, "depth", "cost") %>
+
+var trendLines = [];
+<% counties = Field.joins(:state).where("fields.county != ''").select("DISTINCT concat(fields.county, ', ', states.name) as county_name") %>
+<% counties.each do |c| %>
+<% puts c[:county_name] %>
+<% county_costs = costs.select { |c1| c1[:county].downcase == c[:county_name].downcase } %>
+<% if county_costs.count > 1 %>
+<% tl = get_trend_line(county_costs, "depth", "cost") %>
+trendLines.push({
+    "finalValue": <%= tl[3] %>,
+    "finalXValue": <%= tl[2] %>,
+    "initialValue": <%= tl[1] %>,
+    "initialXValue": <%= tl[0] %>,
+    "lineColor": "#<%= Digest::MD5.hexdigest(c[:county_name])[0..5] %>",
+    "lineThickness": 2
+});
 <% end %>
-<% a =  n * sum %>
-<% b = x * y %>
-<% c = n * c_sum %>
-<% d = x * x %>
-<% m = (a - b) / (c - d)  %>
-<% e = y %>
-<% f = m * x %>
-<% b2 = (e - f) / n %>
+<% end %>
 
-<% start_y = (m * min_x) + b2 %>
-<% end_y = (m * max_x) + b2 %>
-
+/*
+ [
+ {
+ "finalValue": <%= trend_line[3] %>,
+ "finalXValue": <%= trend_line[2] %>,
+ "id": "TrendLine-1",
+ "initialValue": <%= trend_line[1] %>,
+ "initialXValue": <%= trend_line[0] %>,
+ "lineColor": "#FF6600",
+ "lineThickness": 2
+ }
+ ]
+ */
 
 var chart = AmCharts.makeChart("depth_chart", {
     "type": "xy",
     "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
     "sequencedAnimation": false,
     "theme": "black",
-    "trendLines": [
-        {
-            "finalValue": <%= end_y %>,
-            "finalXValue": <%= max_x %>,
-            "id": "TrendLine-1",
-            "initialValue": <%= start_y %>,
-            "initialXValue": <%= min_x %>,
-            "lineColor": "#FF6600",
-            "lineThickness": 2
-        }
-    ],
+    "trendLines": trendLines,
     "graphs": [
         {
             "balloonText": "$[[cost]]",
             "bullet": "round",
+            "colorField": "color",
             "id": "AmGraph-1",
             "lineAlpha": 0,
-            "lineColor": "#b0de09",
             "xField": "depth",
             "yField": "cost"
         }

@@ -1,10 +1,9 @@
 <% @rig_names = Rig.select("rigs.id as rig_id, rigs.name as rig_name") %>
 
-<div class="remote-tray" data-tray="charts">
+<div class="remote-tray" data-tray="cost">
 
-  <div class="remote-loading hidden">
-    <br><br>
-    <%= render 'layouts/inline_loading', title: "Please wait, loading charts..." %>
+  <div class="remote-loading hidden white" style="margin-top: 250px; color: white !important;">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading cost..." %>
   </div>
 
   <div class='tray-content content-loaded'>
@@ -50,7 +49,7 @@
                     return query_string += $(this).attr('data-field') + '=' + $(this).val() + '&';
                 }
             });
-            return $.ajax('/insight?' + query_string, {
+            return $.ajax('/insight?chart_type=2&' + query_string, {
                 type: 'get',
                 dataType: 'script'
             });

@@ -6,10 +6,18 @@
 
 
       <li class="active">
-        <a href="#charts" class="remote-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#performance" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-tray-controller="insight"
-           data-tray="charts"
-           data-placement="bottom" data-title="Charts">Charts
+           data-tray="performance"
+           data-placement="bottom" data-title="Performance">Performance
+        </a>
+      </li>
+
+      <li>
+        <a href="#cost" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="cost"
+           data-placement="bottom" data-title="Performance">Cost
         </a>
       </li>
 
@@ -22,10 +30,34 @@
       </li>
 
       <li class="">
-        <a href="#depth" class="remote-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#programs" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-tray-controller="insight"
-           data-tray="depth"
-           data-placement="bottom" data-title="Depth">Depth
+           data-tray="programs"
+           data-placement="bottom" data-title="Programs">Programs
+        </a>
+      </li>
+
+      <li class="">
+        <a href="#assets" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="assets"
+           data-placement="bottom" data-title="Assets">Assets
+        </a>
+      </li>
+
+      <li class="">
+        <a href="#fluids" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="fluids"
+           data-placement="bottom" data-title="Fluids">Fluids
+        </a>
+      </li>
+
+      <li class="">
+        <a href="#contractors" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="contractors"
+           data-placement="bottom" data-title="Contractors">Contractors
         </a>
       </li>
 
@@ -38,22 +70,35 @@
 <div style='margin: 0px; left: 0; top: 106px; bottom: 120px; padding: 0px; height: calc(100% - 106px); width: 100%; background: #202020; position: absolute; '>
 
 
-  <div class="remote-tray" data-tray="charts">
-    <div class="remote-loading white" style="margin-top: 30px; color: white !important;">
-      <%= render 'layouts/inline_loading', title: "Please wait, loading charts..." %>
+  <div class="remote-tray" data-tray="performance">
+    <div class="remote-loading white" style="margin-top: 250px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading performance..." %>
+    </div>
+  </div>
+
+  <div class="remote-tray" data-tray="cost">
+    <div class="remote-loading white" style="margin-top: 250px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading cost..." %>
     </div>
   </div>
 
 
   <div class="remote-tray" data-tray="maps">
-    <div class="remote-loading white" style="margin-top: 30px; color: white !important;">
+    <div class="remote-loading white" style="margin-top: 250px; color: white !important;">
       <%= render 'layouts/inline_loading', title: "Please wait, loading maps..." %>
     </div>
   </div>
 
-  <div class="remote-tray" data-tray="depth">
-    <div class="remote-loading" style="margin-top: 30px; color: white !important;">
-      <%= render 'layouts/inline_loading', title: "Please wait, loading depth..." %>
+  <div class="remote-tray" data-tray="programs">
+    <div class="remote-loading" style="margin-top: 250px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading programs..." %>
+    </div>
+  </div>
+
+
+  <div class="remote-tray" data-tray="contractors">
+    <div class="remote-loading" style="margin-top: 250px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading contractors..." %>
     </div>
   </div>
 
@@ -65,13 +110,13 @@
         $(document).ready(function () {
 
             if (document.location.hash == '') {
-                tray = $(".remote-tray[data-tray='charts']");
+                tray = $(".remote-tray[data-tray='performance']");
                 tray.find('.content').hide();
                 tray.find('.remote-loading').removeClass('hidden');
                 tray.find('.loading').removeClass('hidden');
                 setTimeout(function () {
                     $.ajax({
-                        url: "/insight?section=charts",
+                        url: "/insight?section=performance",
                         type: "GET",
                         dataType: "script"
                     });

@@ -3,11 +3,10 @@
 <% @jobs = Job.include_models(@jobs).includes(well: :drilling_log) %>
 
 
-<div class="remote-tray" data-tray="depth">
+<div class="remote-tray" data-tray="programs">
 
-  <div class="remote-loading hidden">
-    <br><br>
-    <%= render 'layouts/inline_loading', title: "Please wait, loading charts..." %>
+  <div class="remote-loading hidden white" style="margin-top: 250px; color: white !important;">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading programs..." %>
   </div>
 
   <div class='tray-content content-loaded'>
@@ -18,22 +17,41 @@
       <div style="width: 250px; min-height: 100%; background: #202020; float: left;">
 
         <div style="padding: 15px;">
-          <div>
-            <div class='filter-label white-text' style='font-family: gothamlightregular; font-size: 20px; text-transform: uppercase;'>
-              <b>DEPTH</b></div>
-            <p class='white-text'>Choose filters to explore different data facets</p>
-          </div>
 
-          <br>
 
           <div class='filter-label'>Compare</div>
           <div>
-            <%= select_tag "depth", options_for_select([["Cost", 1], ["Production", 3], ["Counties", 2]]),
+            <%= select_tag "depth", options_for_select([["Counties", 1], ["Programs", 2], ["Rigs", 2]]),
                            "data-field" => "depth",
                            "data-active" => "true",
                            class: "custom-select-ajax custom-select-explore depth-value" %>
           </div>
 
+          <div class='filter-label'>Options</div>
+          <div>
+            <% options = [["All Counties", 0]] %>
+            <% @rig_names.each do |rn| %>
+                <% options << [rn[:rig_name], rn[:rig_id]] %>
+            <% end %>
+            <div>
+              <%= select_tag "option", options_for_select(options),
+                             "data-field" => "option",
+                             "data-compare" => "1",
+                             "data-active" => "true",
+                             class: "custom-select-ajax custom-select-explore explore-value" %>
+            </div>
+          </div>
+
+
+          <div style="margin-top: 20px;">
+            <% counties = Field.joins(:state).where("fields.county != ''").select("DISTINCT concat(fields.county, ', ', states.name) as county_name") %>
+            <% counties.each do |c| %>
+                <div style='color: #d6d6d6; font-family: gothambookregular;'>
+                  <div class='inline-block' style="width: 10px; height: 10px; margin-right: 10px;  background: #<%= Digest::MD5.hexdigest(c[:county_name])[0..5] %>"></div>
+                  <%= c[:county_name] %>
+                </div>
+            <% end %>
+          </div>
 
         </div>
       </div>
@@ -54,9 +72,9 @@
     <script type='text/javascript'>
 
 
-        var update_explore;
+        var update_depth;
 
-        update_explore = function () {
+        update_depth = function () {
             var query_string;
             $('#depth_loading').removeClass('hidden');
             $('#depth_chart').addClass('hidden');
@@ -87,12 +105,12 @@
                 });
             }
             if (document.readyState === 'complete') {
-                return update_explore();
+                return update_depth();
             }
         });
 
         if ($('#depth_chart').length > 0) {
-            update_explore();
+            update_depth();
         }
     </script>
 

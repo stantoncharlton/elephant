@@ -153,10 +153,31 @@
   height: 400px;
 }
 
-.footer {
-  background: #0b0c0e;
+.call-out2 {
+
+  background: #404040 url(image_path('call_out_background.jpg')) no-repeat top center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('call_out_background.jpg')}, sizingMethod='scale');
+
   width: 100%;
+  height: 654px;
+}
+
+.footer {
+  background: #0b0c0e url(image_path('footer_background.jpg')) no-repeat top center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   height: 530px;
+  width: 100%;
+
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=#{image_path('footer_background.jpg')}, sizingMethod='scale');
+
 }
 
 
