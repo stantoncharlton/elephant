@@ -220,6 +220,11 @@
     chart.write("ropchart");
 
 
+
+
+
+
+
     // Depth
     var chart = new AmCharts.AmSerialChart();
     chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
@@ -232,10 +237,11 @@
 
     var categoryAxis = chart.categoryAxis;
     categoryAxis.parseDates = false;
-    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
+    categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
     categoryAxis.dashLength = 1;
     categoryAxis.gridAlpha = 0.15;
     categoryAxis.axisColor = "#DADADA";
+    categoryAxis.title = "Days";
     categoryAxis.labelFunction = function (value, valueString, axis) {
         return '';
     };

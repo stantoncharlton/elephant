@@ -89,6 +89,7 @@
     <% end %>
 
 
+
     <div class='pull-right' style='margin-top: 5px;'>
       <div class="chart-title" style='height: auto;'>Total Cost</div>
 
@@ -142,6 +143,11 @@
       <% end %>
 
 
+      <div id="td_chart" style="width: 100%; height: 49px; background-color: #FFFFFF;" ></div>
+
+
+      <br>
+
       <% @drilling_log = @job.drilling_log %>
 
       <% if @drilling_log.present? %>
@@ -152,4 +158,85 @@
   </div>
 
 </div>
+
+<script type="text/javascript">
+    AmCharts.makeChart("td_chart",
+            {
+                "type": "serial",
+                "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+                "categoryField": "category",
+                "rotate": true,
+                "autoMarginOffset": 0,
+                "columnWidth": 1,
+                "marginBottom": 0,
+                "marginLeft": 0,
+                "marginRight": 30,
+                "marginTop": 0,
+                "plotAreaBorderColor": "#FFFFFF",
+                "startDuration": 0,
+                "theme": "default",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "axisColor": "#FFFFFF",
+                    "labelFrequency": 20,
+                    "parseDates": false
+                },
+                "trendLines": [],
+                "graphs": [
+                    {
+                        "balloonText": "Total Drilled <b>[[depth]]</b> ft",
+                        "fillAlphas": 1,
+                        "fillColors": "#2E7EB7",
+                        "lineColor": "#FFFFFF",
+                        "type": "column",
+                        "valueField": "depth"
+                    },
+                    {
+                        "balloonText": "TD <b>[[td]]</b> ft",
+                        "fillAlphas": 1,
+                        "fillColors": "#114B74",
+                        "lineColor": "#FFFFFF",
+                        "type": "column",
+                        "valueField": "to_td"
+                    }
+                ],
+                "guides": [],
+                "valueAxes": [
+                    {
+                        "axisTitleOffset": 0,
+                        "id": "ValueAxis-1",
+                        "maximum": <%= @drilling_log.td_depth.to_i %>,
+                        "minimum": 0,
+                        "position": "bottom",
+                        "precision": 0,
+                        "stackType": "regular",
+                        "synchronizationMultiplier": 0,
+                        "autoGridCount": false,
+                        "axisColor": "#CDCDCD",
+                        "gridAlpha": 0,
+                        "gridColor": "#FFFFFF",
+                        "gridCount": 10,
+                        "gridThickness": 0,
+                        "minHorizontalGap": 0,
+                        "minorGridAlpha": 0,
+                        "minVerticalGap": 0,
+                        "tickLength": 0,
+                        "title": "",
+                        "labelFrequency": 2
+                    }
+                ],
+                "allLabels": [],
+                "balloon": {},
+                "titles": [],
+                "dataProvider": [
+                    {
+                        "category": "",
+                        "depth": <%= @drilling_log.max_depth.to_i %>,
+                        "td": <%= @drilling_log.td_depth.to_i %>,
+                        "to_td": <%= @drilling_log.td_depth.to_i - @drilling_log.max_depth.to_i %>
+                    }
+                ]
+            }
+    );
+</script>
 

@@ -17,7 +17,12 @@
 
     <% if drilling_log.drilling_log_entries.any? %>
 
-        <div id="depth_chart" style="width: 100%; height: 400px; display: inline-block"></div>
+        <div id="comp_chart" style="width: 100%; height: 500px; display: inline-block"></div>
+
+        <div id="comp_chart2" style="width: 100%; height: 400px; display: inline-block"></div>
+
+
+        <div id="comp_chart3" style="width: 100%; height: 400px; display: inline-block"></div>
 
     <% else %>
         <p class='help-text'>No drilling log entries...</p>
@@ -28,80 +33,186 @@
 
 <script type='text/javascript'>
 
+    var graphs = [];
 
-    <% drilling_log = @drilling_log %>
-    <% if drilling_log.drilling_log_entries.any? %>
-    <% rops = [] %>
-    <% depth = [] %>
-    <% last_entry = drilling_log.drilling_log_entries.first %>
-    <% max_depth = 0 %>
-    <% drilling_log.drilling_log_entries.each do |dl| %>
-    <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
-    <% if dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING || time > 0.2 %>
-    <% rops <<  { "date" => dl.entry_at.strftime("%m/%d/%Y %k:%M"), "time" => time > 0  ? time.round(2) : 0.0, "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "rop" => dl == last_entry || (dl.activity_code != DrillingLogEntry::SLIDING && dl.activity_code != DrillingLogEntry::DRILLING) ? 0.0 : dl.rop.present? && dl.rop < 2000 ? dl.rop.round(2) : 0.0, "lineColor" => dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING ? (dl.activity_code == DrillingLogEntry::DRILLING ? "#00BBCC" : "#223bf2") : "#f24922", "bulletSize" => (dl.activity_code == DrillingLogEntry::POOH && last_entry.activity_code != DrillingLogEntry::POOH)  ? 11 : 0, "bulletColor" => dl.activity_code == DrillingLogEntry::CHANGE_BHA  ? "#000000" : "#f24922", "wob" => dl.wob, "flow" => dl.flow, "rpm" => dl.rotary_rpm, "depth" => dl.depth } %>
+    <% series = [] %>
+    <% drilling_logs = DrillingLog.joins(job: {well: {field: :state}}).where("concat(fields.county, ', ', states.name) = ?", @job.drilling_log.job.well.field.county + ', ' + @job.drilling_log.job.well.field.state.name) %>
+    <% puts ".............." + drilling_logs.count.to_s %>
+    <% drilling_logs.each do |dl| %>
+
+        graphs.push({
+            "balloonText": "$[[depth_<%= dl.job_id %>]] ft [[time_<%= dl.job_id %>]]" ,
+            "bullet": "none",
+            "color": "#666",
+            "lineAlpha": 1,
+            "lineThickness": <%= dl.job_id == @job.id ? 3.5 : 1 %>,
+            "lineColor": "<%= '#' + Digest::MD5.hexdigest(dl.job.name)[0..5] %>",
+            "xField": "time_<%= dl.job_id %>",
+            "yField": "depth_<%= dl.job_id %>",
+            "title": "<%= dl.job.name %>"
+        });
+
+        <% entries = dl.drilling_log_entries %>
+        <% last_entry = entries.first %>
+        <% last_time = 0 %>
+        <% max_depth = 0 %>
+        <% total_time = 0 %>
+        <% entries.each do |dl| %>
+            <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
+            <% total_time += time %>
+            <% if total_time > (last_time + 10) && dl.activity_code != DrillingLogEntry::CONNECTION && dl.activity_code != DrillingLogEntry::CONNECTION_SURVEY && dl.activity_code != DrillingLogEntry::MWD_SURVEY %>
+                <% series << {"time_#{dl.job_id}" => total_time, "depth_#{dl.job_id}" => dl.depth >= max_depth ? dl.depth : max_depth} %>
+                <% last_time = total_time %>
+            <% end %>
+            <% max_depth = [max_depth, dl.depth].max %>
+            <% last_entry = dl %>
+        <% end %>
     <% end %>
-    <% if dl.activity_code != DrillingLogEntry::CONNECTION && dl.activity_code != DrillingLogEntry::CONNECTION_SURVEY && dl.activity_code != DrillingLogEntry::MWD_SURVEY %>
-    <% depth <<  { "date" => dl.entry_at.strftime("%m/%d/%Y %k:%M"), "activity" => DrillingLogEntry.activity_code_string(dl.activity_code), "depth" => dl.depth >= max_depth ? dl.depth : max_depth, "bullet" => (dl.activity_code == DrillingLogEntry::REAMING || dl.activity_code == DrillingLogEntry::PIPE_STUCK || dl.activity_code == DrillingLogEntry::WIRELINE || dl.activity_code == DrillingLogEntry::RIG_REPAIR || dl.activity_code == DrillingLogEntry::FISHING || dl.activity_code == DrillingLogEntry::RIG_SERVICE_INHOLE || dl.activity_code == DrillingLogEntry::POOH )  ? "round" : "", "color" => DrillingLogEntry.activity_code_color(dl.activity_code), "lineColor" =>  (dl.activity_code == DrillingLogEntry::DRILLING || dl.activity_code == DrillingLogEntry::SLIDING) ? "#ec8133" : DrillingLogEntry.activity_code_color(dl.activity_code) } %>
+
+    var chart = AmCharts.makeChart("comp_chart", {
+        "type": "xy",
+        "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+        "sequencedAnimation": false,
+        "graphs": graphs,
+        "guides": [],
+        "valueAxes": [
+            {
+                "id": "ValueAxis-1",
+                "position": "left",
+                "title": "Depth",
+                "reversed": true
+            },
+            {
+                "id": "ValueAxis-2",
+                "position": "bottom",
+                "title": "Time"
+
+            }
+        ],
+        "allLabels": [],
+        "balloon": {},
+        "titles": [],
+        "legend": {
+            "useGraphSettings": true
+        },
+        "dataProvider": <%= series.to_json.html_safe %>
+    });
+
+
+
+
+
+
+    graphs = [];
+
+    <% series = [] %>
+    <% drilling_logs = DrillingLog.joins(job: {well: {field: :state}}).where("concat(states.name) = ?", @job.drilling_log.job.well.field.state.name) %>
+    <% drilling_logs.each do |dl| %>
+
+    graphs.push({
+        "balloonText": "$[[depth_<%= dl.job_id %>]] ft [[time_<%= dl.job_id %>]]" ,
+        "bullet": "none",
+        "color": "#666",
+        "lineAlpha": 1,
+        "lineThickness": <%= dl.job_id == @job.id ? 3.5 : 1 %>,
+        "lineColor": "<%= '#' + Digest::MD5.hexdigest(dl.job.name)[0..5] %>",
+        "xField": "time_<%= dl.job_id %>",
+        "yField": "depth_<%= dl.job_id %>",
+        "title": "<%= dl.job.name %>"
+    });
+
+    <% entries = dl.drilling_log_entries %>
+    <% last_entry = entries.first %>
+    <% last_time = 0 %>
+    <% max_depth = 0 %>
+    <% total_time = 0 %>
+    <% entries.each do |dl| %>
+    <% time = (dl.entry_at - last_entry.entry_at).to_f / 60.0 / 60.0 %>
+    <% total_time += time %>
+    <% if total_time > (last_time + 10) && dl.activity_code != DrillingLogEntry::CONNECTION && dl.activity_code != DrillingLogEntry::CONNECTION_SURVEY && dl.activity_code != DrillingLogEntry::MWD_SURVEY %>
+    <% series << {"time_#{dl.job_id}" => total_time, "depth_#{dl.job_id}" => dl.depth >= max_depth ? dl.depth : max_depth} %>
+    <% last_time = total_time %>
     <% end %>
     <% max_depth = [max_depth, dl.depth].max %>
     <% last_entry = dl %>
     <% end %>
-
-
-    // Depth
-    var chart = new AmCharts.AmSerialChart();
-    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
-    chart.dataProvider = <%= raw depth.to_json.html_safe %>;
-    chart.categoryField = "date";
-    chart.dataDateFormat = "MM/DD/YYYY H:NN";
-
-    // AXES
-    // category
-
-    var categoryAxis = chart.categoryAxis;
-    categoryAxis.parseDates = false;
-    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
-    categoryAxis.dashLength = 1;
-    categoryAxis.gridAlpha = 0.15;
-    categoryAxis.axisColor = "#DADADA";
-    categoryAxis.labelFunction = function (value, valueString, axis) {
-        return '';
-    };
-
-
-    // value
-    var valueAxis = new AmCharts.ValueAxis();
-    valueAxis.axisColor = "#DADADA";
-    valueAxis.dashLength = 1;
-    valueAxis.position = "left";
-    valueAxis.reversed = true;
-    //valueAxis.logarithmic = true; // this line makes axis logarithmic
-    chart.addValueAxis(valueAxis);
-
-    // GRAPH
-    graph = new AmCharts.AmGraph();
-    graph.type = "line";
-    graph.bulletBorderAlpha = 1;
-    graph.bulletBorderThickness = 2;
-    graph.bulletField = "bullet";
-    graph.bulletSizeField = "bulletSize";
-    graph.balloonText = "<b>[[activity]]</b><br>Depth [[depth]] ft";
-    graph.title = "Depth";
-    graph.valueField = "depth";
-    graph.lineThickness = 3;
-    graph.lineColorField = "lineColor";
-    chart.addGraph(graph);
-
-
-    // CURSOR
-    var chartCursor = new AmCharts.ChartCursor();
-    chartCursor.cursorPosition = "mouse";
-    chart.addChartCursor(chartCursor);
-
-    chart.write("depth_chart");
-
-
-
-
     <% end %>
+
+    var chart = AmCharts.makeChart("comp_chart2", {
+        "type": "xy",
+        "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+        "sequencedAnimation": false,
+        "graphs": graphs,
+        "guides": [],
+        "valueAxes": [
+            {
+                "id": "ValueAxis-1",
+                "position": "left",
+                "title": "Depth",
+                "reversed": true
+            },
+            {
+                "id": "ValueAxis-2",
+                "position": "bottom",
+                "title": "Time"
+
+            }
+        ],
+        "allLabels": [],
+        "balloon": {},
+        "titles": [],
+        "dataProvider": <%= series.to_json.html_safe %>
+    });
+
+
+
+
+
+
+
+
+    <% costs = [] %>
+    <% result = DrillingLog.joins(job: {well: { field: :state }}).select("jobs.id as job_id, wells.name, concat(fields.name, ' - ', wells.name) as well_name, concat(fields.county, ', ', states.name) as county_name, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost").order("max_depth").where("max_depth > 0").where("concat(states.name) = ?", @job.drilling_log.job.well.field.state.name) %>
+    <% result.each do |r| %>
+            <% costs << { depth: r[:max_depth], cost: r[:cost], county: r[:county_name], color: '#' + Digest::MD5.hexdigest(r[:county_name])[0..5], well_name: r[:well_name], bulletSize: r[:job_id].to_i == @job.id ? 15 : 8} %>
+    <% end %>
+
+
+    var chart = AmCharts.makeChart("comp_chart3", {
+        "type": "xy",
+        "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+        "sequencedAnimation": false,
+        "graphs": [
+            {
+                "balloonText": "<b>[[well_name]]</b> $[[cost]]",
+                "bullet": "round",
+                "bulletSizeField": "bulletSize",
+                "colorField": "color",
+                "id": "AmGraph-1",
+                "lineAlpha": 0,
+                "xField": "cost",
+                "yField": "depth"
+            }
+        ],
+        "guides": [],
+        "valueAxes": [
+            {
+                "id": "ValueAxis-1",
+                "position": "left",
+                "title": "Depth",
+                "reversed": true
+            },
+            {
+                "id": "ValueAxis-2",
+                "position": "bottom",
+                "title": "Cost"
+
+            }
+        ],
+        "allLabels": [],
+        "balloon": {},
+        "titles": [],
+        "dataProvider": <%= costs.to_json.html_safe %>
+    });
+
 </script>

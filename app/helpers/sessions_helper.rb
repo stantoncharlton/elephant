@@ -84,7 +84,16 @@ module SessionsHelper
 
 
     def redirect_back_or(default)
-        redirect_to(session[:return_to] || default)
+        if session[:return_to].present?
+            uri = URI.parse(session[:return_to])
+            if !uri.nil? && uri.path != '/pusher/auth'
+                redirect_to(session[:return_to] || default)
+            else
+                redirect_to(default)
+            end
+        else
+            redirect_to(default)
+        end
         session.delete(:return_to)
     end
 
