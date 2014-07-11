@@ -276,6 +276,40 @@
                 }, 1);
             }
 
+            function update_map(open, speed) {
+                if(open) {
+                    $("#map_header").animate( { height: "166px" }, speed);
+                    $("#job_header").animate( { top: "208px" }, speed);
+                    $("#job_header").animate( { "background-color": "rgba(0, 0, 0, 0.4)" }, speed);
+                    $(".map-container").animate( { height: "202px" }, speed);
+                }
+                else
+                {
+                    $("#map_header").animate( { height: "12px" }, speed);
+                    $("#job_header").animate( { top: "54px" }, speed);
+                    $("#job_header").animate( { "background-color": "rgba(0, 0, 0, 0.7)" }, speed);
+                    $(".map-container").animate( { height: "54px" }, speed);
+
+                }
+            }
+
+            if (document.location.hash == '' || document.location.hash == '#overview') {
+                update_map(true, 0);
+            }
+            else {
+                update_map(false, 0);
+            }
+
+            $('.remote-tray-toggle').live("click", function(){
+                if($(this).attr('data-tray') == 'overview') {
+                    update_map(true, 200);
+                }
+                else {
+                    update_map(false, 200);
+                }
+
+            });
+
         });
     }(jQuery));
 </script>
@@ -310,83 +344,6 @@
         }
         oldHide.call(this, arguments);
     };
-
-    var map = L.mapbox.map('map', 'elephant.map-vum3on5g');
-    map.attributionControl = false;
-    map.scrollWheelZoom.disable();
-
-    var geoJson = [];
-    geoJson.push({
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [<%= @job.well.x_location %>, <%= @job.well.y_location %>]
-        },
-        "properties": {
-            title: '<%= @job.well.field.name + ' | ' + @job.well.name %>',
-            'marker-size': 'medium',
-            'marker-color': '#0058a8'
-            //'marker-symbol': '1'
-        }
-    });
-
-    map.markerLayer.setGeoJSON(geoJson);
-
-    map.markerLayer.on('click', function (e) {
-        ///map.panTo(e.layer.getLatLng());
-    });
-
-    var bounds = [];
-    bounds.push([<%= @job.well.y_location %>, <%= @job.well.x_location %>]);
-    map.fitBounds(bounds);
-    map.setZoom(6);
-    //zoom = Math.round(map.getZoom());
-    //if (zoom > 8) {
-    //    map.setZoom(8);
-    //}
-
-
-    map.markerLayer.on('mouseover', function (e) {
-        //e.layer.openPopup();
-    });
-    map.markerLayer.on('mouseout', function (e) {
-        //e.layer.closePopup();
-    });
-
-    $('.expand-map-box').live("click", function () {
-        if ($('.expand-text').text() == 'expand') {
-            $('.expand-text').text('collapse');
-            $('.map-container').css('height', '500px');
-            $('.map-views').removeClass('hidden');
-        }
-        else {
-            $('.expand-text').text('expand');
-            $('.map-container').css('height', '80px');
-            $('.map-views').addClass('hidden');
-        }
-        map._onResize();
-        return false;
-    });
-
-    $('.map-area-view').live("click", function () {
-        layer = L.mapbox.tileLayer('elephant.map-vum3on5g');
-        layer.addTo(map);
-        map.setZoom(6);
-        map._onResize();
-        return false;
-    });
-
-    $('.map-site-view').live("click", function () {
-        layer = L.mapbox.tileLayer('elephant.map-6f5p6pfx');
-        layer.addTo(map);
-        map.setZoom(13);
-        map.fitBounds(bounds);
-        map._onResize();
-        return false;
-    });
-
-    $('.mapbox-info-toggle').remove();
-
 
 </script>
 

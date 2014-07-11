@@ -1,9 +1,4 @@
 <div>
-  <% if show_stats && !current_user.role.limit_to_assigned_jobs? %>
-      <div class="well">
-        <%= render 'jobs/index_parts/jobs_count', jobs: @jobs %>
-      </div>
-  <% end %>
 
 
   <%= render 'jobs/index_list' %>
