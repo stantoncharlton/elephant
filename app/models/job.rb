@@ -11,6 +11,7 @@ class Job < ActiveRecord::Base
                     :failures_count,
                     :total_cost,
                     :proposed_cost,
+                    :perfect_well_ratio,
                     :shared
 
     include PostJobReportHelper
@@ -597,6 +598,10 @@ class Job < ActiveRecord::Base
         else
             "#{self.field.name} | #{self.well.name}"
         end
+    end
+
+    def well_name
+        "#{self.field.name} - #{self.well.name}"
     end
 
     def asset_list

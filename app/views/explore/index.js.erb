@@ -20,6 +20,10 @@ $('.remote-tray').each(function() {
     tray.replaceWith("<%= j render 'explore/tray_maps' %>");
 <% elsif params[:section] == "programs" %>
     tray.replaceWith("<%= j render 'explore/tray_programs' %>");
+<% elsif params[:section] == "failures" %>
+    tray.replaceWith("<%= j render 'explore/tray_failures' %>");
+<% elsif params[:section] == "perfect_well" %>
+    tray.replaceWith("<%= j render 'explore/tray_pwr' %>");
 <% end %>
 
 

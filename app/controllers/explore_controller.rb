@@ -13,6 +13,14 @@ class ExploreController < ApplicationController
                 render 'explore/depth/depth'
                 return
             end
+            if params[:failure_tray].present?
+                render 'explore/depth/failures'
+                return
+            end
+            if params[:perfect_well].present?
+                render 'explore/depth/pwr'
+                return
+            end
             @time_range = params[:time_range]
             @chart_type = params[:chart_type].to_i
             @option = params[:option]

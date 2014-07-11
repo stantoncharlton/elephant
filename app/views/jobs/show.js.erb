@@ -1,15 +1,16 @@
 tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 
-<% if params[:section] == "assets" %>
-    tray.replaceWith("<%= j render 'jobs/tray_assets', job: @job %>");
-<% elsif params[:section] == "bha" %>
-    $('#bha').replaceWith("<%= j render 'bhas/bhas_list' %>");
+<% if params[:section] == "bha" %>
+    tray.replaceWith("<%= j render 'jobs/tray_bha' %>");
     $('.popover').popover({  delay: { show: 500, hide: 200 } });
-<% elsif params[:section] == "assets_list" %>
-    $('#assets_list').replaceWith("<%= j render 'jobs/assets_list', job: @job %>");
-<% elsif params[:section] == "asset_request_list" %>
-    <% @asset_list = @job.asset_list %>
-    $('#asset_request_list').replaceWith("<%= j render 'asset_lists/list', job: @job %>");
+<% elsif params[:section] == "assets" %>
+    tray.replaceWith("<%= j render 'jobs/tray_assets2', job: @job %>");
+<% elsif params[:section] == "hole_size" %>
+    tray.replaceWith("<%= j render 'jobs/tray_hole_size', job: @job %>");
+<% elsif params[:section] == "casing" %>
+    tray.replaceWith("<%= j render 'jobs/tray_casing', job: @job %>");
+<% elsif params[:section] == "request_list" %>
+    tray.replaceWith("<%= j render 'jobs/tray_request_list', job: @job %>");
 <% elsif params[:section] == "info" %>
     tray.replaceWith("<%= j render 'jobs/tray_documents', job: @job %>");
 <% elsif params[:section] == "analysis" %>
@@ -21,6 +22,8 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
     tray.replaceWith("<%= j render 'drilling_logs/tray_npt', job: @job, drilling_log: @drilling_log %>");
 <% elsif params[:section] == "comparison" %>
     tray.replaceWith("<%= j render 'jobs/tray_comparison_analysis', job: @job %>");
+<% elsif params[:section] == "characteristics" %>
+    tray.replaceWith("<%= j render 'jobs/tray_characteristics', job: @job %>");
 <% elsif params[:section] == "failures" %>
     tray.replaceWith("<%= j render 'jobs/tray_failures', job: @job %>");
 <% elsif params[:section] == "runs" %>
@@ -40,6 +43,8 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 <% elsif params[:section] == "logs" %>
     <% @drilling_log = @job.drilling_log %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_logs', job: @job, drilling_log: @drilling_log %>");
+<% elsif params[:section] == "fluids" %>
+    tray.replaceWith("<%= j render 'jobs/tray_fluids', job: @job %>");
 <% elsif params[:section] == "history" %>
     tray.replaceWith("<%= j render 'jobs/tray_history', job: @job %>");
 <% elsif params[:section] == "reports" %>

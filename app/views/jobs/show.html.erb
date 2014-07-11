@@ -57,11 +57,12 @@
       <% end %>
 
       <li class="">
-        <a href="#assets" class="remote-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#characteristics" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
-           data-tray="assets"
-           data-placement="bottom" data-title="Tools/Assets & BHAs">BHAs
+           data-tray="characteristics"
+           data-tray-child="bha"
+           data-placement="bottom" data-title="Characteristics">Characteristics
         </a>
       </li>
 
@@ -78,7 +79,7 @@
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
            data-tray="logs"
-           data-placement="bottom" data-title="Gamma Logs, etc">Geology</a>
+           data-placement="bottom" data-title="Gamma Logs, etc">Logs</a>
       </li>
 
       <li class="">
@@ -86,7 +87,7 @@
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
            data-tray="failures"
-           data-placement="bottom" data-title="Job Failures">Alerts/Failures
+           data-placement="bottom" data-title="Job Failures">Alarms/Failures
         </a>
       </li>
 
@@ -175,11 +176,7 @@
       </div>
     </div>
 
-    <div class="remote-tray" data-tray="assets">
-      <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading Assets/BHAs..." %>
-      </div>
-    </div>
+    <%= render 'jobs/tray_characteristics' %>
 
     <div class="remote-tray" data-tray="failures">
       <div class="remote-loading" style="margin-top: 30px;">
@@ -198,6 +195,12 @@
 
     <%= render 'jobs/tray_analysis' %>
 
+
+    <div class="remote-tray" data-tray="fluids">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading fluids..." %>
+      </div>
+    </div>
 
     <div class="remote-tray" data-tray="logs">
       <div class="remote-loading" style="margin-top: 30px;">

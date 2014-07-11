@@ -74,7 +74,7 @@
                    "data-form" => "new_bha" %>
 
       <% if request.referrer.present? %>
-          <%= link_to "Cancel", request.referer + '#assets', class: "btn btn-default pull-right " %>
+          <%= link_to "Cancel", request.referer + '#bha', class: "btn btn-default pull-right " %>
       <% else %>
           <% @drilling_log = DrillingLog.includes(job: :well).where("wells.id = ?", @job.well_id).first %>
           <% if @drilling_log.present? %>

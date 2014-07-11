@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140626193610) do
+ActiveRecord::Schema.define(:version => 20140709024139) do
 
   create_table "activities", :force => true do |t|
     t.integer  "company_id"
@@ -671,6 +671,7 @@ ActiveRecord::Schema.define(:version => 20140626193610) do
     t.integer  "drilling_company_id"
     t.integer  "directional_drilling_company_id"
     t.integer  "fluids_company_id"
+    t.float    "perfect_well_ratio"
   end
 
   add_index "jobs", ["client_id"], :name => "index_jobs_on_client_id"

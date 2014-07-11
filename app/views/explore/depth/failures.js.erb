@@ -1,0 +1,53 @@
+$('#depth_loading').addClass('hidden');
+$('#depth_chart').removeClass('hidden');
+
+<% incidents = get_incidents() %>
+
+var chart = AmCharts.makeChart("depth_chart", {
+    "type": "serial",
+    "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
+    "sequencedAnimation": false,
+    "categoryField": "date",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "minPeriod": "MM",
+        "axisColor": "#FFFFFF",
+        "color": "#fff",
+        "titleColor": "#fff",
+        "gridColor": "#FFFFFF",
+        "labelsEnabled": false
+    },
+    "theme": "black",
+    "graphs": [
+        {
+            "balloonText": "<b>[[name]]</b>",
+            "bullet": "round",
+            "colorField": "color",
+            "id": "AmGraph-1",
+            "lineAlpha": 0,
+            "valueField": "depth"
+        }
+    ],
+    "guides": [],
+    "valueAxes": [
+        {
+            "id": "ValueAxis-1",
+            "axisAlpha": 0,
+            "reversed": true,
+            "axisColor": "#FFFFFF",
+            "color": "#fff",
+            "titleColor": "#fff",
+            "gridColor": "#FFFFFF"
+        }
+    ],
+    "allLabels": [],
+    "balloon": {},
+    "titles": [],
+    "dataProvider": <%= incidents.to_json.html_safe %>
+});
+
+
+
+
+
+

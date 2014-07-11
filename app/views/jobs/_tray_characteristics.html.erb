@@ -1,0 +1,109 @@
+<div class="remote-tray custom-data-closed" data-tray="characteristics">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading characteristics..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+    <div class='' style='height: 48px;'>
+      <div class="" style="position: absolute; background: #e7e7e7;left: 0; width: 100%; height: 40px;">
+        <div style='margin-left: 20px; margin-top: 8px;'>
+          <div class='' style='margin-top: -2px;'>
+            <ul class="nav nav-tabs child-tray-nav">
+              <li class='active'>
+                <%= link_to "BHAs", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "bha",
+                            "data-tray-parent" => "characteristics",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Assets", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "assets",
+                            "data-tray-parent" => "characteristics",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Hole-Size", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "hole_size",
+                            "data-tray-parent" => "characteristics",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Casing", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "casing",
+                            "data-tray-parent" => "characteristics",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Geology", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "geology",
+                            "data-tray-parent" => "characteristics",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Request List", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "request_list",
+                            "data-tray-parent" => "characteristics",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="remote-tray" data-tray="bha">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading BHAs..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="assets">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading assets..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="hole_size">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading hole-size program..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="casing">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading casing program..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="geology">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading geology..." %>
+      </div>
+    </div>
+
+    <div class="remote-tray" data-tray="request_list">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading asset request list..." %>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+

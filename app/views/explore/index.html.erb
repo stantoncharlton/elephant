@@ -38,6 +38,14 @@
       </li>
 
       <li class="">
+        <a href="#perfect_well" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="perfect_well"
+           data-placement="bottom" data-title="Programs">Perfect-Well
+        </a>
+      </li>
+
+      <li class="">
         <a href="#assets" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-tray-controller="insight"
            data-tray="assets"
@@ -60,6 +68,15 @@
            data-placement="bottom" data-title="Contractors">Contractors
         </a>
       </li>
+
+      <li class="">
+        <a href="#failures" class="remote-tray-toggle custom-data-toggle tooltip-info"
+           data-tray-controller="insight"
+           data-tray="failures"
+           data-placement="bottom" data-title="Contractors">Failures
+        </a>
+      </li>
+
 
     </ul>
   </div>
@@ -95,10 +112,22 @@
     </div>
   </div>
 
+  <div class="remote-tray" data-tray="perfect_well">
+    <div class="remote-loading" style="margin-top: 250px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading perfect-well analysis..." %>
+    </div>
+  </div>
+
 
   <div class="remote-tray" data-tray="contractors">
     <div class="remote-loading" style="margin-top: 250px; color: white !important;">
       <%= render 'layouts/inline_loading', title: "Please wait, loading contractors..." %>
+    </div>
+  </div>
+
+  <div class="remote-tray" data-tray="failures">
+    <div class="remote-loading" style="margin-top: 250px; color: white !important;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading failures..." %>
     </div>
   </div>
 

@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
     before_filter :signed_in_user, only: [:new, :create, :index, :show]
-    before_filter :signed_in_admin, only: [:edit, :update, :destroy]
+    before_filter :signed_in_user_not_field, only: [:edit, :update, :destroy]
     set_tab :clients
 
     def index

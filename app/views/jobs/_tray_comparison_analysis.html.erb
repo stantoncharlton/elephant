@@ -46,10 +46,10 @@
             "color": "#666",
             "lineAlpha": 1,
             "lineThickness": <%= dl.job_id == @job.id ? 3.5 : 1 %>,
-            "lineColor": "<%= '#' + Digest::MD5.hexdigest(dl.job.name)[0..5] %>",
+            "lineColor": "<%= '#' + Digest::MD5.hexdigest(dl.job.well_name)[0..5] %>",
             "xField": "time_<%= dl.job_id %>",
             "yField": "depth_<%= dl.job_id %>",
-            "title": "<%= dl.job.name %>"
+            "title": "<%= dl.job.well_name %>"
         });
 
         <% entries = dl.drilling_log_entries %>
@@ -115,10 +115,10 @@
         "color": "#666",
         "lineAlpha": 1,
         "lineThickness": <%= dl.job_id == @job.id ? 3.5 : 1 %>,
-        "lineColor": "<%= '#' + Digest::MD5.hexdigest(dl.job.name)[0..5] %>",
+        "lineColor": "<%= '#' + Digest::MD5.hexdigest(dl.job.well_name)[0..5] %>",
         "xField": "time_<%= dl.job_id %>",
         "yField": "depth_<%= dl.job_id %>",
-        "title": "<%= dl.job.name %>"
+        "title": "<%= dl.job.well_name %>"
     });
 
     <% entries = dl.drilling_log_entries %>

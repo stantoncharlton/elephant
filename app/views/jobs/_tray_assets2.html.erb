@@ -1,0 +1,14 @@
+<div class="remote-tray" data-tray="assets">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading assets..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+
+    <%= render 'jobs/assets_list', job: @job %>
+
+  </div>
+</div>

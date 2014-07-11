@@ -119,4 +119,32 @@ module ExploreHelper
     end
 
 
+    def get_incidents
+        incidents = []
+
+        result = Issue.joins(failure: :failure_master_template).all
+
+        result.each do |r|
+            name = r.failure.failure_master_template.text
+            incidents << { date: r.failure_at, type: r.failure.failure_master_template_id, name: name, color: '#' + Digest::MD5.hexdigest(name)[0..5], depth: [*2000..16000].sample }
+        end
+
+        incidents
+    end
+
+    def get_perfect_well_ratios
+        pwr = []
+
+        result = DrillingLog.joins(job: {well: { field: :state }}).select("wells.name, jobs.perfect_well_ratio as pwr, concat(fields.county, ', ', states.name) as county_name, coalesce(drilling_logs.max_depth, 0) as max_depth, coalesce(jobs.total_cost, 0) as cost").order("jobs.created_at").where("max_depth > 0")
+
+        sequence = 1
+        result.each do |r|
+            pwr << { perfect_well_ratio: r[:pwr].to_f.round(2), sequence: sequence, depth: r[:max_depth], cost: r[:cost], county: r[:county_name], color: '#' + Digest::MD5.hexdigest(r[:county_name])[0..5]}
+            sequence += 1
+        end
+
+        pwr
+    end
+
+
 end

@@ -1,0 +1,120 @@
+<% @jobs = current_user.jobs_list %>
+<% @jobs = Job.include_models(@jobs).includes(well: :drilling_log) %>
+
+<% failures = Failure.where(:template => true) %>
+
+<div class="remote-tray" data-tray="failures">
+
+  <div class="remote-loading hidden white" style="margin-top: 250px; color: white !important;">
+    <%= render 'layouts/inline_loading', title: "Please wait, loading failures..." %>
+  </div>
+
+  <div class='tray-content content-loaded'>
+
+
+    <div style='margin: 0px; left: 0; top: 0px; bottom: 0px; padding: 0px; height: 100%; width: 100%; background: #202020; position: absolute; '>
+
+      <div style="width: 250px; min-height: 100%; background: #202020; float: left;">
+
+        <div style="padding: 15px;">
+
+
+          <div class='filter-label'>Compare</div>
+          <div>
+            <%= select_tag "depth", options_for_select([["Failures", 1], ["Programs", 2], ["Rigs", 2]]),
+                           "data-field" => "depth",
+                           "data-active" => "true",
+                           class: "custom-select-ajax custom-select-explore depth-value" %>
+          </div>
+
+          <div class='filter-label'>Options</div>
+          <div>
+            <% options = [["All Failures", 0]] %>
+            <% failures.each do |f| %>
+                <% options << [f.text, f.id] %>
+            <% end %>
+            <div>
+              <%= select_tag "option", options_for_select(options),
+                             "data-field" => "option",
+                             "data-compare" => "1",
+                             "data-active" => "true",
+                             class: "custom-select-ajax custom-select-explore explore-value" %>
+            </div>
+          </div>
+
+
+          <div style="margin-top: 20px;">
+
+            <% failures.each do |f| %>
+                <div style='color: #d6d6d6; font-family: gothambookregular;'>
+                  <div class='inline-block' style="width: 10px; height: 10px; margin-right: 10px;  background: #<%= Digest::MD5.hexdigest(f.text)[0..5] %>"></div>
+                  <%= f.text %>
+                </div>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="depth_chart" style="height: 100%; background: #202020;"></div>
+
+
+      <div id='depth_loading' style='position: absolute; top: 40%; left: 50%; right: auto;'>
+        <%= image_tag "blue_logo_small.png" %>
+        <br>
+        <span class="ajax-loading search-loading push-right-small white-text"><b>Loading Chart...</b></span>
+      </div>
+
+
+    </div>
+
+    <script type='text/javascript'>
+
+
+        var update_depth;
+
+        update_depth = function () {
+            var query_string;
+            $('#depth_loading').removeClass('hidden');
+            $('#depth_chart').addClass('hidden');
+            query_string = '';
+            $('.depth-value').each(function () {
+                if ($(this).val().length > 0 && $(this).attr('data-active') === 'true') {
+                    return query_string += $(this).attr('data-field') + '=' + $(this).val() + '&';
+                }
+            });
+            return $.ajax('/insight?failure_tray=true' + query_string, {
+                type: 'get',
+                dataType: 'script'
+            });
+        };
+
+        $('.depth-value').change(function () {
+            var compare_value;
+            if ($(this).attr('data-field') === 'compare') {
+                compare_value = $(this).val();
+                $('.depth-value[data-field=option]').each(function () {
+                    if ($(this).attr('data-compare') === compare_value) {
+                        $(this).attr('data-active', 'true');
+                        return $(this).closest("div").removeClass("hidden");
+                    } else {
+                        $(this).attr('data-active', 'false');
+                        return $(this).closest("div").addClass("hidden");
+                    }
+                });
+            }
+            if (document.readyState === 'complete') {
+                return update_depth();
+            }
+        });
+
+        if ($('#depth_chart').length > 0) {
+            update_depth();
+        }
+    </script>
+
+
+  </div>
+</div>
+
