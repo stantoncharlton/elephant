@@ -16,7 +16,7 @@ function removeOldContent(section) {
     });
 }
 
-removeOldContent('<%= params[:section] %>');
+//removeOldContent('<%= params[:section] %>');
 
 <% if params[:section] == "drilling-overview" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_overview', drilling_log: @drilling_log %>");

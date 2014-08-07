@@ -2,6 +2,10 @@ class IssuesController < ApplicationController
     before_filter :signed_in_user, only: [:create, :edit, :update]
     before_filter :signed_in_user_not_field, only: [:index, :show, :destroy]
 
+
+    set_tab :incidents
+
+
     def index
         @issues = Issue.where(:company_id => current_user.company).order("issues.status ASC, issues.created_at DESC")
         if current_user.district.present?

@@ -1,0 +1,36 @@
+<div class='remote-tray' data-tray='wells'>
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading wells..." %>
+  </div>
+
+
+  <div class='tray-content content-loaded'>
+    <div class='section-header'>
+
+      <h1 class='inline-block'>Wells</h1>
+
+      <div class='inline-block align-top pull-right'>
+        <%= link_to new_job_path, class: "btn btn-primary tooltip-info align-top",
+                    style: "margin-left: 40px; margin-top: -3px;",
+                    "data-placement" => "bottom",
+                    "data-title" => "Create new job" do %>
+            <i class="icon-plus-sign icon-white"></i>
+            <span class='white-text'>New Well</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="jobs" style='margin-top: 20px;'>
+      <%= render 'jobs/index_list' %>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

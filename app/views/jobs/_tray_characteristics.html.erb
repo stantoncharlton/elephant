@@ -44,6 +44,7 @@
                             "data-tray-parent" => "characteristics",
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
+              <% if false %>
               <li class='push-right-small'>
                 <%= link_to "Geology", "#",
                             "data-id" => @job.id,
@@ -52,6 +53,7 @@
                             "data-tray-parent" => "characteristics",
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
+                  <% end %>
               <li class='push-right-small'>
                 <%= link_to "Request List", "#",
                             "data-id" => @job.id,

@@ -1,8 +1,11 @@
-<div id="activity_list" class="remote-tray" data-tray="summary">
+<div id="activity_list" class="remote-tray" data-tray="rig_activity">
+
+  <% @drilling_log = @job.drilling_log %>
+  <% @bhas = Bha.joins(job: :well).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC") %>
 
   <div class="remote-loading hidden">
     <br><br>
-    <%= render 'layouts/inline_loading', title: "Please wait, loading logs..." %>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading activity..." %>
   </div>
 
   <div class='tray-content content-loaded'>
@@ -109,9 +112,9 @@
           <div class="no-job-log-entries alert">
             <%= image_tag "warning.png", class: "pull-left push-down" %>
             <div class='pull-left push-right-small push-down-small'>
-              <h3 class='orange-text'>No activity entries...</h3>
+              <h3 class='orange-text'>No Activity...</h3>
 
-              <p>Add entry from below or import from menu.</p>
+              <p>No drilling data</p>
             </div>
             <br><br><br>
           </div>
@@ -135,7 +138,10 @@
     </div>
 
 
-    <%= render 'drilling_logs/log_entry' %>
+    <% if false %>
+    <%= render 'drilling_logs/log_entry', job: @job, drilling_log: @job.drilling_log %>
+        <% end %>
+
 
   </div>
 </div>

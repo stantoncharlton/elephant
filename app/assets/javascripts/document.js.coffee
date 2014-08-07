@@ -4,10 +4,10 @@ $ ->
     setTimeout fn, time
 
   $('.download-link').live "click", ->
-    $(this).closest('.document-download-message').popover('show')
-    link = $(this)
-    delay 2000, ->
-      link.closest('.document-download-message').popover('hide')
+    popover = $(this).closest('.document-download-message')
+    #popover.popover('show')
+    #delay 1000, ->
+    #  popover.popover('toggle')
 
 
   $('#download_all_post_job').live "click", ->

@@ -106,6 +106,7 @@
     map.attributionControl = false;
     map.scrollWheelZoom.disable();
 
+    <% if @job.well.x_location.present? && @job.well.x_location != 0.0 %>
     var geoJson = [];
     geoJson.push({
         "type": "Feature",
@@ -127,6 +128,7 @@
         ///map.panTo(e.layer.getLatLng());
     });
 
+
     var bounds = [];
     bounds.push([<%= @job.well.y_location %>, <%= @job.well.x_location %>]);
     map.fitBounds(bounds);
@@ -135,6 +137,8 @@
     //if (zoom > 8) {
     //    map.setZoom(8);
     //}
+
+    <% end %>
 
 
     map.markerLayer.on('mouseover', function (e) {

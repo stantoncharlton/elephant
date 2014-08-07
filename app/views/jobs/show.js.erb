@@ -17,9 +17,10 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
     tray.replaceWith("<%= j render 'jobs/tray_analysis', job: @job %>");
 <% elsif params[:section] == "general" %>
     tray.replaceWith("<%= j render 'jobs/tray_general_analysis', job: @job %>");
+<% elsif params[:section] == "kpi" %>
+    tray.replaceWith("<%= j render 'drilling_logs/tray_npt', job: @job %>");
 <% elsif params[:section] == "time" %>
-    <% @drilling_log = @job.drilling_log %>
-    tray.replaceWith("<%= j render 'drilling_logs/tray_npt', job: @job, drilling_log: @drilling_log %>");
+    tray.replaceWith("<%= j render 'jobs/tray_time_analysis', job: @job %>");
 <% elsif params[:section] == "comparison" %>
     tray.replaceWith("<%= j render 'jobs/tray_comparison_analysis', job: @job %>");
 <% elsif params[:section] == "characteristics" %>
@@ -29,13 +30,11 @@ tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
 <% elsif params[:section] == "runs" %>
     <% @drilling_log = @job.drilling_log %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_runs', job: @job, drilling_log: @drilling_log %>");
-<% elsif params[:section] == "activity" %>
-    tray.replaceWith("<%= j render 'jobs/tray_activity', job: @job %>");
+<% elsif params[:section] == "running_data" %>
+    tray.replaceWith("<%= j render 'jobs/tray_running_data', job: @job %>");
 <% elsif params[:section] == "live" %>
     tray.replaceWith("<%= j render 'drilling_logs/live', job: @job %>");
-<% elsif params[:section] == "summary" %>
-    <% @drilling_log = @job.drilling_log %>
-    <% @bhas = Bha.joins(job: :well).where("bhas.master_bha_id IS NULL").where("jobs.well_id = ?", @drilling_log.job.well_id).order("bhas.name ASC") %>
+<% elsif params[:section] == "rig_activity" %>
     tray.replaceWith("<%= j render 'drilling_logs/tray_drilling_activity', job: @job, drilling_log: @drilling_log %>");
 <% elsif params[:section] == "surveys" %>
     <% @drilling_log = @job.drilling_log %>

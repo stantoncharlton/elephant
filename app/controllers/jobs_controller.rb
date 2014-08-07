@@ -89,6 +89,9 @@ class JobsController < ApplicationController
         @job = Job.new
         @job.district = current_user.district
 
+        @rig = nil
+        @well_name = ''
+
         if !@job.district.nil?
             @fields = []
             if !@job.district.master_district.nil?
@@ -151,11 +154,14 @@ class JobsController < ApplicationController
 
             field_id = params[:job][:field_id]
             params[:job].delete(:field_id)
-
             @field = Field.find_by_id(field_id)
+
+            @rig = Rig.find_by_id(params[:rig_id])
 
             well_id = params[:job][:well_id]
             params[:job].delete(:well_id)
+
+            @well_name = params[:well_name]
         end
 
         Job.transaction do
@@ -192,16 +198,34 @@ class JobsController < ApplicationController
                 @job.well = @new_well
             else
 
-                @well = Well.new
-                @well.field = @field
-                @well.name = params[:well_name]
-                @well.save
-
-                @job.well = @new_well
                 @job.client = Client.find_by_id(client_id)
                 @job.job_template = JobTemplate.find_by_id(job_template_id)
-                @job.district = District.find_by_id(district_id)
+                @job.district = District.find_by_id(district_id) || current_user.district
                 @job.field = @field
+
+                @well = Well.new
+                @well.field = @field
+                @well.name = @well_name
+                @well.rig = @rig
+                if !@well.save
+                    puts "Error.////////////"
+                    puts @well.errors.full_messages
+                    if !@job.district.nil? && !@job.district.master_district.nil?
+                        @fields = []
+                        @job.district.master_district.districts.each do |d|
+                            d.fields.each do |field|
+                                @fields << field
+                            end
+                        end
+                    else
+                        @fields = Array.new
+                    end
+                    @job.errors.add(:well, "name already exists")
+                    render 'new'
+                    return
+                end
+
+
                 @job.well = @well
             end
 

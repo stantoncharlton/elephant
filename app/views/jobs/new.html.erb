@@ -1,24 +1,24 @@
-<% provide(:title, "New Job") %>
+<% provide(:title, "New Well") %>
 
 <div class="section-header" style="margin-top: 10px;">
-  <h1>New Job</h1>
+  <h1>New Well</h1>
 </div>
 
 
 <div class="form" data-form="new-job-form">
   <%= form_for(@job) do |f| %>
       <%= render 'fields', f: f %>
-      <%= f.submit "Create Job", class: "btn btn-success pull-right tooltip-info form-loading-on-click",
+      <%= f.submit "Create Well", class: "btn btn-success pull-right tooltip-info form-loading-on-click",
                    "data-form" => "new-job-form",
-                   "data-title" => "Create new job. You edit/add more job information on next page." %>
+                   "data-title" => "Create new well. You edit/add more job information on next page." %>
 
       <%= link_to "Cancel", :back, class: "btn btn-default pull-right push-left-small tooltip-info",
-                  "data-title" => "Cancel new job and go back" %>
+                  "data-title" => "Cancel new well and go back" %>
   <% end %>
 </div>
 
 <div class="form-loading hidden" data-form="new-job-form">
-  <%= render "layouts/inline_loading", title: "Creating job, please wait" %>
+  <%= render "layouts/inline_loading", title: "Creating well, please wait" %>
 </div>
 
 

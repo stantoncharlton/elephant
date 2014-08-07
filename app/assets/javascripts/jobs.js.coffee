@@ -179,7 +179,7 @@ $ ->
     main_tray_name = $(this).attr('data-tray')
     main_controller = $(this).attr('data-tray-controller')
     main_id = $(this).attr('data-id')
-    if main_id == null
+    if typeof(main_id) == "undefined" ||  main_id == null
       main_id = 0
 
     child_tray_name = ''

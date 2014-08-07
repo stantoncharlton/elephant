@@ -14,7 +14,7 @@ class Document < ActiveRecord::Base
 
     after_commit :flush_cache
 
-    validates :name, presence: true, length: {maximum: 50}
+    validates :name, presence: true, length: {maximum: 150}
     validates :category, length: {maximum: 50}
     validates :company, presence: true
 

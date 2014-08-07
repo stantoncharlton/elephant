@@ -21,7 +21,15 @@
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
               <li class='push-right-small'>
-                <%= link_to "Time", "#",
+                <%= link_to "KPIs", "#",
+                            "data-id" => @job.id,
+                            "data-tray-controller" => "jobs",
+                            "data-tray" => "kpi",
+                            "data-tray-parent" => "analysis",
+                            class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
+              </li>
+              <li class='push-right-small'>
+                <%= link_to "Time Savings", "#",
                             "data-id" => @job.id,
                             "data-tray-controller" => "jobs",
                             "data-tray" => "time",
@@ -49,9 +57,15 @@
       </div>
     </div>
 
+    <div class="remote-tray" data-tray="kpi">
+      <div class="remote-loading" style="margin-top: 30px;">
+        <%= render 'layouts/inline_loading', title: "Please wait, loading KPI analysis..." %>
+      </div>
+    </div>
+
     <div class="remote-tray" data-tray="time">
       <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading time analysis..." %>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading time savings analysis..." %>
       </div>
     </div>
 

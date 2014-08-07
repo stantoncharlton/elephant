@@ -1,0 +1,34 @@
+<div class='remote-tray' data-tray='status'>
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading live status..." %>
+  </div>
+
+
+  <div class='tray-content content-loaded '>
+
+    <div class='section-header'>
+      <h1>Live Status</h1>
+    </div>
+
+    <div id='outer_container'>
+      <div id='inner_container' >
+        <%= render 'overview/tray_jobs' %>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+
+            $('#outer_container').height($('#inner_container').height());
+
+
+        });
+    }(jQuery));
+</script>

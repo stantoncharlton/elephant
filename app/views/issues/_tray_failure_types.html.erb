@@ -9,7 +9,7 @@
     <% failures = Failure.includes(:failure_master_template).joins(:issues).select("failures.*, count(issues.id) AS issues_count").group("failures.failure_master_template_id").order("count(issues.id) DESC").count("failures.failure_master_template_id") %>
 
     <div class='content'>
-      <div class='page_header'>
+      <div class='section-header'>
         <h1 class="inline">Failure Types</h1>
         <span class="help-text push-right-small">(<%= failures.count %>)</span>
       </div>

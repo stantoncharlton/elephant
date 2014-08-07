@@ -24,10 +24,12 @@
     </div>
   </div>
 
-  <div class="push-down-small job-progress-data-item">
-    <%= image_tag "user_avatar_extrasmall.png", class: "" %>
-    <p class='inline-block align-top push-down'><%= job.job_memberships_count %></p>
-  </div>
+  <% if false %>
+      <div class="push-down-small job-progress-data-item">
+        <%= image_tag "user_avatar_extrasmall.png", class: "" %>
+        <p class='inline-block align-top push-down'><%= job.job_memberships_count %></p>
+      </div>
+  <% end %>
 
   <% if !job_name %>
       <div class="job-progress-data-item push-down">

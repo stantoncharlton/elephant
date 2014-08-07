@@ -31,17 +31,17 @@
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
            data-tray="info"
-           data-placement="bottom" data-title="Information & Documents">Job Info
+           data-placement="bottom" data-title="Information & Documents">Info
         </a>
       </li>
 
       <li class="">
-        <a href="#activity" class="remote-tray-toggle remote-tray-sub-nav custom-data-toggle tooltip-info"
+        <a href="#running_data" class="remote-tray-toggle remote-tray-sub-nav custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
-           data-tray="activity"
+           data-tray="running_data"
            data-tray-child="live"
-           data-placement="bottom" data-title="Activity">Activity</a>
+           data-placement="bottom" data-title="Running Data">Running Data</a>
       </li>
 
 
@@ -62,24 +62,8 @@
            data-tray-controller="jobs"
            data-tray="characteristics"
            data-tray-child="bha"
-           data-placement="bottom" data-title="Characteristics">Characteristics
+           data-placement="bottom" data-title="Characteristics">Well Design
         </a>
-      </li>
-
-      <li class="">
-        <a href="#fluids" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="fluids"
-           data-placement="bottom" data-title="Fluids">Fluids</a>
-      </li>
-
-      <li class="">
-        <a href="#logs" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="logs"
-           data-placement="bottom" data-title="Gamma Logs, etc">Logs</a>
       </li>
 
       <li class="">
@@ -191,22 +175,11 @@
     </div>
 
 
-    <%= render 'jobs/tray_activity' %>
+    <%= render 'jobs/tray_running_data' %>
 
     <%= render 'jobs/tray_analysis' %>
 
 
-    <div class="remote-tray" data-tray="fluids">
-      <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading fluids..." %>
-      </div>
-    </div>
-
-    <div class="remote-tray" data-tray="logs">
-      <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading logs..." %>
-      </div>
-    </div>
 
     <div class="remote-tray" data-tray="history">
       <div class="remote-loading" style="margin-top: 30px;">

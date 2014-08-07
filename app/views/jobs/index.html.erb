@@ -1,123 +1,103 @@
 <% provide(:title, I18n.t("jobs.index.title")) %>
 
-<div style='height: 214px;'>
-  <div class="map-container"
-       style='position:absolute; left: 0; top: 54px; width:100%; height:250px; box-shadow: 0px 1px 3px #979797; background: #5b5b5b;'>
-    <div id='map' class='dark'></div>
 
-    <% if false %>
-        <div class='corners'>
-          <div class="corner tlcorner"></div>
-          <div class="corner trcorner"></div>
-          <div class="corner brcorner"></div>
-          <div class="corner blcorner"></div>
-        </div>
-    <% end %>
 
-    <% if false %>
-        <div class='expand-map-box'>
-          <%= link_to "#" do %>
-              <span class='expand-text'>expand</span> <i class="icon-resize-vertical icon-white"></i>&nbsp;
-          <% end %>
-        </div>
-    <% end %>
-  </div>
+<div style='height: 40px;'>
+  <div style='position: absolute; left: 0; width: 100%; height: 52px; top: 54px;'>
+    <ul class="nav nav-pills alert alert-nav alert-nav-shrink parent-tray-nav" style='border-radius: 0px; border-width: 0px;'>
 
-  <div style='position: absolute; width: 100%; left: 0; right: 0; top: 255px; height: 40px; background-color:rgba(0, 0, 0, 0.4); padding-top: 10px;'>
-    <%= link_to new_job_path, class: "btn btn-default pull-right tooltip-info",
-                style: "margin-right: 20px; margin-top: -3px;",
-                "data-placement" => "bottom",
-                "data-title" => "Create new job" do %>
-        <i class="icon-plus-sign"></i>
-        <span>Add Job</span>
-    <% end %>
+      <li class="active">
+        <a href="#status" class="remote-tray-toggle custom-data-toggle"
+           data-tray-controller="jobs"
+           data-tray="status">Live Status</a>
+      </li>
 
-    <h2 class="job-title inline white-text" style="margin-left: 10px;">Jobs</h2>
+      <li>
+        <a href="#wells" class="remote-tray-toggle custom-data-toggle"
+           data-tray-controller="jobs"
+           data-tray="wells">Wells</a>
+      </li>
+
+
+      <li class="">
+        <a href="#rigs" class="remote-tray-toggle custom-data-toggle "
+           data-tray-controller="jobs"
+           data-tray="rigs">Rigs</a>
+      </li>
+
+      <li class="">
+        <a href="#programs" class="remote-tray-toggle custom-data-toggle "
+           data-tray-controller="jobs"
+           data-tray="programs">Programs</a>
+      </li>
+
+      <li class="">
+        <a href="#map" class="remote-tray-toggle custom-data-toggle "
+           data-tray-controller="jobs"
+           data-tray="map">Map</a>
+      </li>
+
+    </ul>
   </div>
 </div>
 
-<% any_member_jobs = current_user.jobs.any? %>
-<% if !current_user.role.limit_to_assigned_jobs? %>
-    <div style='height: 52px;'>
-      <div style='position: absolute; left: 0; width: 100%; height: 52px;'>
-        <ul class="nav nav-pills alert alert-nav" style='border-radius: 0px; border-width: 0px;'>
+<div class="">
 
-          <li class="active">
-            <a href="#overview" class="job-tray-toggle custom-data-toggle loading-jobs"
-               data-tray-controller="jobs"
-               data-tray="overview">Overview</a>
-          </li>
-
-          <li>
-            <a href="#pre_job" class="job-tray-toggle custom-data-toggle loading-jobs"
-               data-tray-controller="jobs"
-               data-tray="pre_job">
-              <div style='display:inline-block; width: 10px; height: 10px; background: #3a87ad;'></div>
-              Pre-Job</a>
-          </li>
-
-
-          <li class="<%= any_member_jobs ? '' : 'active' %>">
-            <a href="#in_progress" class="job-tray-toggle custom-data-toggle loading-jobs"
-               data-tray-controller="jobs"
-               data-tray="in_progress">
-              <div style='display:inline-block; width: 10px; height: 10px; background: #f89406;'></div>
-              In-Progress</a>
-          </li>
-
-          <li class="">
-            <a href="#post_job" class="job-tray-toggle custom-data-toggle loading-jobs"
-               data-tray-controller="jobs"
-               data-tray="post_job">
-              <div style='display:inline-block; width: 10px; height: 10px; background: #468847;'></div>
-              Post-Job</a>
-          </li>
-
-          <li class="">
-            <a href="#complete" class="job-tray-toggle custom-data-toggle loading-jobs"
-               data-tray-controller="jobs"
-               data-tray="complete">Complete</a>
-          </li>
-
-        </ul>
-      </div>
+  <div class="remote-tray" data-tray="status">
+    <div class="remote-loading" style="margin-top: 30px;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading live status..." %>
     </div>
-<% end %>
+  </div>
 
+  <div class="remote-tray" data-tray="wells">
+    <div class="remote-loading" style="margin-top: 30px;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading wells..." %>
+    </div>
+  </div>
 
-<div id="jobs" style='margin-top: 20px;'>
-  <% if current_user.role.limit_to_assigned_jobs? %>
-      <% @jobs = current_user.jobs.where("(jobs.status >= 1 AND jobs.status < 50) OR (jobs.status = :status_closed AND jobs.close_date >= :close_date)", status_closed: Job::COMPLETE, close_date: (Time.now - 5.days)) %>
-      <%= render 'jobs/index_filter', show_stats: false, show_map: true %>
-  <% end %>
+  <div class="remote-tray" data-tray="rigs">
+    <div class="remote-loading" style="margin-top: 30px;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading rigs..." %>
+    </div>
+  </div>
+
+  <div class="remote-tray" data-tray="programs">
+    <div class="remote-loading" style="margin-top: 30px;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading programs..." %>
+    </div>
+  </div>
+
+  <div class="remote-tray" data-tray="map">
+    <div class="remote-loading" style="margin-top: 30px;">
+      <%= render 'layouts/inline_loading', title: "Please wait, loading map..." %>
+    </div>
+  </div>
+
 </div>
 
-<div id="jobs_loading" class="center hidden">
-  <br>
-  <br>
-  <br>
-  <br>
-  <span class="ajax-loading search-loading"><b>Loading Jobs...</b>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-  <br>
-</div>
+
 
 <script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
 
-    <% if !current_user.role.limit_to_assigned_jobs? %>
-    $('#jobs_loading').removeClass('hidden');
-    if (document.location.hash == '') {
-        setTimeout(function () {
-            $.ajax({
-                <% if any_member_jobs %>
-                url: "/jobs?section=my_jobs",
-                <% else %>
-                url: "/jobs?section=in_progress",
-                <% end %>
-                type: "GET",
-                dataType: "script"
-            });
-        }, 1);
-    }
-    <% end %>
+            if (document.location.hash == '') {
+                tray = $(".remote-tray[data-tray='status']");
+                tray.find('.content').hide();
+                tray.find('.remote-loading').removeClass('hidden');
+                tray.find('.loading').removeClass('hidden');
+                setTimeout(function () {
+                    $.ajax({
+                        url: "/jobs?section=status",
+                        type: "GET",
+                        dataType: "script"
+                    });
+                }, 1);
+            }
+
+        });
+    }(jQuery));
 </script>
+
+
 

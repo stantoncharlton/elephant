@@ -23,6 +23,10 @@ class Rig < ActiveRecord::Base
         end
     end
 
+    def current_job
+        Job.includes(:well).where("wells.rig_id = ?", self.id).order("jobs.created_at").last
+    end
+
     def self.search(options, company)
         Sunspot.search(Rig) do
             fulltext options[:search].present? ? options[:search] : options[:term]

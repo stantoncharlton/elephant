@@ -5,9 +5,9 @@
 
 
 
-    <%= tab.inventory "Alarms", inventory_index_path %>
+    <%= tab.alarms "Alarms", inventory_index_path %>
 
-    <%= tab.inventory "Incidents", inventory_index_path %>
+    <%= tab.incidents "Incidents", issues_path %>
 
     <% if current_user.role.global_read? %>
         <%= tab.insight "Trends", insight_path %>

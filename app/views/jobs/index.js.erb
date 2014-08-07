@@ -1,30 +1,24 @@
-<% if false %>
-    $("#jobs_search input").removeClass("ajax-loading");
-    <% if @jobs.present? %>
-    $("#jobs_list").replaceWith("<%= j render 'jobs/index_list' %>");
-    <% end %>
+tray = $(".remote-tray[data-tray='<%= params[:section] %>']");
+
+<% if params[:section] == "status" %>
+    tray.replaceWith("<%= j render 'jobs/index_status' %>");
+<% elsif params[:section] == "wells" %>
+    tray.replaceWith("<%= j render 'jobs/index_wells' %>");
+<% elsif params[:section] == "rigs" %>
+    tray.replaceWith("<%= j render 'jobs/index_rigs' %>");
+<% elsif params[:section] == "map" %>
+    tray.replaceWith("<%= j render 'jobs/index_maps' %>");
 <% end %>
-
-$('#map').replaceWith("<div id='map' class='dark'></div>");
-
-<% if params[:section] == "my_jobs" %>
-    <% @jobs = current_user.jobs %>
-<% elsif params[:section] == "pre_job" %>
-    <% @jobs = @jobs.where("jobs.status = ?", Job::PRE_JOB) %>
-<% elsif params[:section] == "in_progress" %>
-    <% @jobs = @jobs.where("jobs.status = ?", Job::ON_JOB) %>
-<% elsif params[:section] == "post_job" %>
-    <% @jobs = @jobs.where("jobs.status = ?", Job::POST_JOB) %>
-<% elsif params[:section] == "complete" %>
-    <% @jobs = @jobs.where("jobs.status = ?", Job::COMPLETE) %>
-<% end %>
-
-$('#jobs').removeClass("hidden");
-$('#jobs_loading').addClass("hidden");
-$('#jobs').find('*').remove();
-$('#jobs').append("<%= j render 'jobs/index_filter', show_stats: params[:section] != "complete", show_map: true %>");
 
 
 if (!window.matchMedia || !window.matchMedia("(max-device-width: 1024px)").matches) {
     $('.tooltip-info').tooltip();
 }
+
+$('.custom-select-ajax').each(function() {
+    span_tag = $(this).next('span');
+    if($(this).prop("tagName").toLowerCase() == 'select' && span_tag.length <= 0 && !span_tag.hasClass('customSelect')) {
+        $(this).customSelect();
+    }
+});
+

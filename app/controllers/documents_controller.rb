@@ -73,7 +73,10 @@ class DocumentsController < ApplicationController
             render 'documents/new_modal'
         elsif params["multi"].present? && params["multi"] == "true"
             @document = Document.new
-            @document.name = params[:name]
+            @document.name = File.basename(params[:name], ".*" )
+            if params[:name].length > 149
+                @document.name = @document.name[0..149]
+            end
             @document.company = current_user.company
             @document.job = Job.find_by_id(params[:job_id])
             @temp_id = params[:temp_id]

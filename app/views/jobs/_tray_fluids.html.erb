@@ -24,6 +24,14 @@
 
     <b>No fluid reports...</b>
 
+    <br><br>
+
+
+
+    <% @drilling_log = @job.drilling_log %>
+
+    <%= render 'drilling_logs/fluid_entry' %>
+
 
   </div>
 </div>

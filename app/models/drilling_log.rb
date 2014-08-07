@@ -243,35 +243,47 @@ class DrillingLog < ActiveRecord::Base
 
                 usage_time = 0
                 overage = total_hour_time + time > 1
-                if total_hour_time + time > 1
+                if overage
                     usage_time = 1 - total_hour_time
                 else
                     usage_time = time
                 end
 
+                puts usage_time
+
                 if current_hour.has_key?(entry.activity_code)
-                    #    sub_hash = current_hour[entry.activity_code]
                     current_hour[entry.activity_code] = (current_hour[entry.activity_code] + usage_time).round(2)
-                    #    sub_hash[:entries] += 1
                 else
                     current_hour.merge!(entry.activity_code => usage_time.round(2))
                 end
 
                 total_hour_time += usage_time
 
-                if total_hour_time == 1
+                while total_hour_time == 1 do
                     hours << current_hour
                     current_hour_index += 1
                     current_hour = {hour: current_hour_index}
+                    total_hour_time = 0
+
 
                     if overage
-                        total_hour_time = time - usage_time
-                        current_hour.merge!(entry.activity_code => usage_time.round(2))
-                    else
-                        total_hour_time = 0
+                        time = time - usage_time
+                        overage = total_hour_time + time > 1
+                        if overage
+                            usage_time = 1 - total_hour_time
+                        else
+                            usage_time = time
+                        end
+
+                        if current_hour.has_key?(entry.activity_code)
+                            current_hour[entry.activity_code] = (current_hour[entry.activity_code] + usage_time).round(2)
+                        else
+                            current_hour.merge!(entry.activity_code => usage_time.round(2))
+                        end
+
+                        total_hour_time += usage_time
                     end
                 end
-
 
                 last_entry = entry
             end
