@@ -1,9 +1,4 @@
-<div class="remote-tray custom-data-closed" data-tray="analysis">
-
-  <div class="remote-loading hidden">
-    <br><br>
-    <%= render 'layouts/inline_loading', title: "Please wait, loading analysis..." %>
-  </div>
+<div class="remote-tray" data-tray="well_info">
 
   <div class='tray-content content-loaded'>
 
@@ -13,35 +8,35 @@
           <div class='' style='margin-top: -2px;'>
             <ul class="nav nav-tabs child-tray-nav">
               <li class='active'>
-                <%= link_to "General", "#",
+                <%= link_to "Overview", "#",
                             "data-id" => @job.id,
                             "data-tray-controller" => "jobs",
-                            "data-tray" => "general",
-                            "data-tray-parent" => "analysis",
+                            "data-tray" => "overview",
+                            "data-tray-parent" => "well_info",
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
               <li class='push-right-small'>
-                <%= link_to "KPIs", "#",
+                <%= link_to "Info", "#",
                             "data-id" => @job.id,
                             "data-tray-controller" => "jobs",
-                            "data-tray" => "kpi",
-                            "data-tray-parent" => "analysis",
+                            "data-tray" => "info",
+                            "data-tray-parent" => "well_info",
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
               <li class='push-right-small'>
-                <%= link_to "Time Savings", "#",
+                <%= link_to "Documents", "#",
                             "data-id" => @job.id,
                             "data-tray-controller" => "jobs",
-                            "data-tray" => "time",
-                            "data-tray-parent" => "analysis",
+                            "data-tray" => "documents",
+                            "data-tray-parent" => "well_info",
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
               <li class='push-right-small'>
-                <%= link_to "Comparison", "#",
+                <%= link_to "Costs", "#",
                             "data-id" => @job.id,
                             "data-tray-controller" => "jobs",
-                            "data-tray" => "comparison",
-                            "data-tray-parent" => "analysis",
+                            "data-tray" => "costs",
+                            "data-tray-parent" => "well_info",
                             class: "blue-text job-tab job-sub-tab remote-tray-toggle" %>
               </li>
             </ul>
@@ -51,27 +46,27 @@
     </div>
 
 
-    <div class="remote-tray custom-data-closed" data-tray="general">
+    <div class="remote-tray" data-tray="overview">
       <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading general analysis..." %>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
       </div>
     </div>
 
-    <div class="remote-tray custom-data-closed" data-tray="kpi">
+    <div class="remote-tray custom-data-closed" data-tray="info">
       <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading KPI analysis..." %>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading info..." %>
       </div>
     </div>
 
-    <div class="remote-tray custom-data-closed" data-tray="time">
+    <div class="remote-tray custom-data-closed" data-tray="documents">
       <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading time savings analysis..." %>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading documents..." %>
       </div>
     </div>
 
-    <div class="remote-tray custom-data-closed" data-tray="comparison">
+    <div class="remote-tray custom-data-closed" data-tray="costs">
       <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading comparison analysis..." %>
+        <%= render 'layouts/inline_loading', title: "Please wait, loading costs..." %>
       </div>
     </div>
 

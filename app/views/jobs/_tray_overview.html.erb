@@ -8,8 +8,9 @@
   <div class=' tray-content content-loaded'>
 
 
+
     <div class="section-header" style="margin-top: 15px;">
-      <h1>Job Overview</h1>
+      <h1>Overview</h1>
 
 
       <div class='pull-right'>
@@ -95,13 +96,6 @@
       <div class='inline-block align-top' id='total_job_cost'
            style='font-family: gothamboldregular; color: #14a3e5; font-size: 36px;'>
         <%= number_to_currency(job.total_cost, :unit => "$") %>
-      </div>
-
-      <div class='inline-block push-right-small align-top'>
-        <%= link_to "#", class: "activity-user-link", id: "toggle_cost" do %>
-            <span id="toggle_cost_show"><i class="icon-chevron-down"></i></span>
-            <span id="toggle_cost_hide" class="hidden"><i class="icon-chevron-up"></i></span>
-        <% end %>
       </div>
     </div>
 

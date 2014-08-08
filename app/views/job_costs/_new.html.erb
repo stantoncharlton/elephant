@@ -36,7 +36,7 @@
         <div class="inline-block align-top">
           <%= f.select :charge_type, options_for_select([["Day", JobCost::DAY], ["Job", JobCost::JOB], ["Hour", JobCost::HOUR], ["Item", JobCost::ITEM]]),
                        {},
-                       style: "max-width: 60px; margin-right: 10px;",
+                       style: "max-width: 80px; margin-right: 10px;",
                        class: "custom-select custom-select-ajax align-top",
                        placeholder: "Up" %>
         </div>
@@ -61,7 +61,7 @@
                          "data-title" => "Price" %>
 
 
-        <%= f.submit "Add Charge", class: "btn btn-primary inline-block tooltip-info form-loading-on-click",
+        <%= f.submit "Add Charge", class: "btn btn-success inline-block tooltip-info form-loading-on-click",
                      style: "margin: 0px;",
                      "data-form" => "new_cost",
                      "data-placement" => "bottom",

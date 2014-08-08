@@ -1,0 +1,144 @@
+<div class="remote-tray" data-tray="costs">
+
+  <div class="remote-loading hidden">
+    <br><br>
+    <%= render 'layouts/inline_loading', title: "Please wait, loading costs..." %>
+  </div>
+
+  <div class=' tray-content content-loaded'>
+
+
+    <% job = @job %>
+    <div>
+      <div class='section-header' style="margin-top: 15px;">
+
+        <div class='pull-right'>
+          <div>
+            <%= link_to "Export As Excel", job_costs_path(job: @job, format: "xlsx"), class: "activity-user-link pull-left", target: "_blank" %>
+          </div>
+        </div>
+
+        <h1>Costs</h1>
+
+        <div class='inline-block push-right-small align-top push-down-small'>
+          <%= link_to "#",
+                      class: "btn btn-primary white-text push-right-small",
+                        id: "add_new_cost_button" do %>
+              <i class="icon-plus-sign icon-white"></i>
+              <span>Add Cost</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class='well hidden' id="add_new_cost">
+        <h3 style="margin-bottom: 10px;">Add Cost</h3>
+        <%= render 'job_costs/new' %>
+      </div>
+
+      <div id="cost_chart" style="width: 100%; height: 140px; display: inline-block"></div>
+
+      <br>
+
+
+      <hr>
+
+
+      <% parts = @job.part_memberships.where("part_memberships.price IS NOT NULL AND part_memberships.price > 0") %>
+
+      <% if @job.job_costs.empty? && parts.empty? %>
+          <p class="center help-text no-entries"><br>No charges...</p>
+      <% end %>
+
+
+      <div class="" id="list">
+        <% if @job.job_costs.any? %>
+            <% @job.job_costs.each_with_index do |job_cost, index| %>
+                <%= render 'job_costs/job_cost', job_cost: job_cost, index: index %>
+            <% end %>
+        <% end %>
+      </div>
+
+      <div>
+        <% days = @job.drilling_log.below_rotary.present? && @job.drilling_log.above_rotary.present? ? ((@job.drilling_log.above_rotary + @job.drilling_log.below_rotary) / 24).ceil : 0 %>
+
+        <% if @job.job_costs.any? && parts.any? %>
+            <hr>
+        <% end %>
+
+        <% parts.each_with_index do |pm, index| %>
+            <% quantity = 1.0 %>
+            <% if pm.charge_type == JobCost::DAY %>
+                <% quantity = days %>
+            <% elsif pm.charge_type == JobCost::HOUR && pm.part.present? %>
+                <% quantity = pm.part.below_rotary.ceil %>
+            <% end %>
+            <%= render 'job_costs/tool_cost', part_membership: pm, index: index, quantity: quantity %>
+
+        <% end %>
+      </div>
+
+      <hr>
+
+
+
+      <%= render 'job_costs/totals', job: job %>
+
+      <br>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<script type='text/javascript'>
+
+  $('#add_new_cost_button').live("click", function(e) {
+      $(this).hide();
+      $('#add_new_cost').removeClass('hidden');
+      e.preventDefault();
+  });
+
+    var chart = AmCharts.makeChart("cost_chart", {
+        "type": "serial",
+        "theme": "none",
+        "dataProvider": <%= raw JobCost.get_costs_per_day(@job).to_json.html_safe %>,
+        "valueAxes": [
+            {
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "labelsEnabled": false,
+                "position": "left"
+            }
+        ],
+        "graphs": [
+            {
+                "balloonText": "<b>$[[value]]</b><br>[[time]]",
+                "fillAlphas": 0.9,
+                "fillColors": "#0e648c",
+                "fontSize": 11,
+                "lineThickness": 0,
+                "lineAlpha": 1.0,
+                "title": "Time",
+                "type": "column",
+                "valueField": "cost"
+            }
+        ],
+        "marginTop": 0,
+        "marginRight": 0,
+        "marginLeft": 0,
+        "marginBottom": 0,
+        "autoMargins": false,
+        "categoryField": "time",
+        "categoryAxis": {
+            "parseDates": true,
+            "minPeriod": "DD",
+            "equalSpacing": false,
+            "labelsEnabled": false,
+            "gridColor": ""
+        }
+    });
+
+</script>

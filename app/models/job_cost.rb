@@ -89,5 +89,24 @@ class JobCost < ActiveRecord::Base
         end
     end
 
+    def self.get_costs_per_day job
+
+        costs = []
+
+        costs << { cost: 34000, time: "1/1/2014" }
+        costs << { cost: 89000, time: "1/2/2014" }
+        costs << { cost: 23000, time: "1/3/2014" }
+        costs << { cost: 43000, time: "1/4/2014" }
+        costs << { cost: 41000, time: "1/5/2014" }
+        costs << { cost: 47000, time: "1/6/2014" }
+        costs << { cost: 23000, time: "1/7/2014" }
+        costs << { cost: 108000, time: "1/8/2014" }
+        costs << { cost: 89000, time: "1/9/2014" }
+        costs << { cost: 45000, time: "1/10/2014" }
+        costs << { cost: 34000, time: "1/11/2014" }
+
+        costs
+    end
+
 
 end

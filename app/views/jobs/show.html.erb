@@ -8,11 +8,12 @@
 
 
       <li class="active">
-        <a href="#overview" class="remote-tray-toggle custom-data-toggle tooltip-info"
+        <a href="#well_info" class="remote-tray-toggle custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
-           data-tray="overview"
-           data-placement="bottom" data-title="Job Overview">Overview
+           data-tray="well_info"
+           data-tray-child="overview"
+           data-placement="bottom" data-title="Well Info">Well Info
         </a>
       </li>
 
@@ -27,15 +28,6 @@
       </li>
 
       <li class="">
-        <a href="#info" class="remote-tray-toggle custom-data-toggle tooltip-info"
-           data-id="<%= @job.id %>"
-           data-tray-controller="jobs"
-           data-tray="info"
-           data-placement="bottom" data-title="Information & Documents">Info
-        </a>
-      </li>
-
-      <li class="">
         <a href="#running_data" class="remote-tray-toggle remote-tray-sub-nav custom-data-toggle tooltip-info"
            data-id="<%= @job.id %>"
            data-tray-controller="jobs"
@@ -44,17 +36,6 @@
            data-placement="bottom" data-title="Running Data">Running Data</a>
       </li>
 
-
-      <% if false %>
-          <li class="">
-            <a href="#info" class="remote-tray-toggle custom-data-toggle tooltip-info"
-               data-id="<%= @job.id %>"
-               data-tray-controller="jobs"
-               data-tray="info"
-               data-placement="bottom" data-title="Custom job data and values"><%= "Job Info" %>
-            </a>
-          </li>
-      <% end %>
 
       <li class="">
         <a href="#characteristics" class="remote-tray-toggle custom-data-toggle tooltip-info"
@@ -148,17 +129,8 @@
 <div id="job_<%= @job.id %>" class="job-main-div">
   <div class="">
 
-    <div class="remote-tray" data-tray="overview">
-      <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading overview..." %>
-      </div>
-    </div>
 
-    <div class="remote-tray" data-tray="info">
-      <div class="remote-loading" style="margin-top: 30px;">
-        <%= render 'layouts/inline_loading', title: "Please wait, loading Info/Docs..." %>
-      </div>
-    </div>
+    <%= render 'jobs/tray_well_info' %>
 
     <%= render 'jobs/tray_characteristics' %>
 
@@ -236,7 +208,7 @@
             }
 
             if (document.location.hash == '') {
-                tray = $(".remote-tray[data-tray='overview']");
+                tray = $(".remote-tray[data-tray='well_info']");
                 tray.find('.content').hide();
                 tray.find('.remote-loading').removeClass('hidden');
                 tray.find('.loading').removeClass('hidden');
@@ -266,7 +238,7 @@
                 }
             }
 
-            if (document.location.hash == '' || document.location.hash == '#overview') {
+            if (document.location.hash == '' || document.location.hash == '#well_info') {
                 update_map(true, 0);
             }
             else {
@@ -274,7 +246,7 @@
             }
 
             $('.remote-tray-toggle').live("click", function(){
-                if($(this).attr('data-tray') == 'overview') {
+                if($(this).attr('data-tray') == 'well_info' || $(this).attr('data-tray') == 'overview' || $(this).attr('data-tray') == 'info' || $(this).attr('data-tray') == 'documents' || $(this).attr('data-tray') == 'costs') {
                     update_map(true, 200);
                 }
                 else {
