@@ -31,6 +31,9 @@
       </div>
 
       <div class='well hidden' id="add_new_cost">
+        <div class='pull-right'>
+          <a id="close_add_cost" class='delete-button-small time-close-button'>x</a>
+        </div>
         <h3 style="margin-bottom: 10px;">Add Cost</h3>
         <%= render 'job_costs/new' %>
       </div>
@@ -98,6 +101,12 @@
   $('#add_new_cost_button').live("click", function(e) {
       $(this).hide();
       $('#add_new_cost').removeClass('hidden');
+      e.preventDefault();
+  });
+
+  $('#close_add_cost').live("click", function(e) {
+      $('#add_new_cost_button').show();
+      $('#add_new_cost').addClass('hidden');
       e.preventDefault();
   });
 
