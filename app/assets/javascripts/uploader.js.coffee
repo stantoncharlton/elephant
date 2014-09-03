@@ -4,7 +4,7 @@ jQuery ->
   #        if $(e.target).attr('multiple') == 'false'
 
 connectUploadEvents = ->
-  $('[id=fileupload]').live "DOMActivate", ->
+  $('[id=fileupload]').on "DOMActivate", ->
     if $('#multifileupload').length == 0
       $(this).fileupload
         add: (e, data) ->
@@ -56,7 +56,7 @@ connectUploadEvents = ->
           console.log("Upload failed:")
           console.log(data)
 
-  $('[id=multifileupload]').live "DOMActivate", ->
+  $('[id=multifileupload]').on "DOMActivate", ->
     $(this).fileupload
       add: (e, data) ->
         #types = /(\.|\/)(*)$/i

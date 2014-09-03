@@ -34,7 +34,7 @@ $ ->
         $(this).closest('.search-field').find("input[id=district_id]").val(ui.item.id)
 
 
-  $('.search-constraint-data-type').live "change", ->
+  $('.search-constraint-data-type').on "change", ->
 
     $(this).closest('.search-field').find('.search-constraint-second').hide();
     $(this).closest('.search-field').find('.search-job-type').hide();
@@ -67,21 +67,21 @@ $ ->
     if $(this).val() == '2' || $(this).val() == '1' || $(this).val() == '5' || $(this).val() == '6'
       $.ajax '/search?data_type=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
-  $('.search-constraint-division-select').live "change", ->
+  $('.search-constraint-division-select').on "change", ->
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&division=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
-  $('.search-constraint-segment-select').live "change", ->
+  $('.search-constraint-segment-select').on "change", ->
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&segment=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
-  $('.search-constraint-product-line-select').live "change", ->
+  $('.search-constraint-product-line-select').on "change", ->
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&product_line=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
-  $('.search-constraint-job-template-select').live "change", ->
+  $('.search-constraint-job-template-select').on "change", ->
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&job_template=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id"), dataType: 'script'
 
-  $('.search-constraint-field-select').live "change", ->
+  $('.search-constraint-field-select').on "change", ->
     job_id = $(this).closest('.search-field').find('[id=job_job_template_id]').val()
     $.ajax '/search?data_type=' + $(this).closest('.search-field').find('.search-constraint-data-type').val() + '&field=' + $(this).val() + "&div_name=" + $(this).closest('.search-field').attr("id") + "&job_template=" + job_id, dataType: 'script'
 
-  $('.submit-form').live "click", ->
+  $('.submit-form').on "click", ->
     $(this).closest('form').submit()

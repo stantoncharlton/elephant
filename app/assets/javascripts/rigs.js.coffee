@@ -1,5 +1,5 @@
 $ ->
 
-  $('#new_rig_link').live "click", ->
+  $('#new_rig_link').on "click", ->
     $('#modal_popup').find(".modal-content").children().remove()
     return false
