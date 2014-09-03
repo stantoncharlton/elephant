@@ -1,5 +1,5 @@
 $(function () {
-    $("#users th a, #users .pagination a").live("click", function () {
+    $("#users th a, #users .pagination a").on("click", function () {
         $.getScript(this.href);
         return false;
     });
@@ -18,7 +18,7 @@ $(function () {
         return false;
     });
 
-    $("#clients th a, #clients .pagination a").live("click", function () {
+    $("#clients th a, #clients .pagination a").on("click", function () {
         $.getScript(this.href);
         return false;
     });
@@ -27,7 +27,7 @@ $(function () {
         return false;
     });
 
-    $("#districts th a, #districts .pagination a").live("click", function () {
+    $("#districts th a, #districts .pagination a").on("click", function () {
         $.getScript(this.href);
         return false;
     });
@@ -58,7 +58,7 @@ $(function () {
         return false;
     });
 
-    $('#clear_job_search').live("click", function() {
+    $('#clear_job_search').on("click", function() {
         $("#jobs_search input").val('');
         $("#jobs_search input").trigger('keyup');
         return false;

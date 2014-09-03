@@ -10,8 +10,8 @@ development:
   database: db/development
   pool: 5
   timeout: 5000
-  username: t23
-  password:
+  username: postgres
+  password: admin
 
 
 # Warning: The database defined as "test" will be erased and
@@ -24,8 +24,8 @@ test:
   database: db/test
   pool: 5
   timeout: 5000
-  username: t23
-  password:
+  username: postgres
+  password: admin
 
 
 production:

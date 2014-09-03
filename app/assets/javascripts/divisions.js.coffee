@@ -19,7 +19,7 @@ $ ->
 
       #$(this).closest("form").submit()
 
-  $('.div-expand-toggle').live "click", ->
+  $('.div-expand-toggle').on "click", ->
     content = $(this).closest('.div-expand-root').find('.div-toggle-content:first')
     header = $(this).closest('.div-expand-root').find('.header:first')
 

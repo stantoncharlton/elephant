@@ -1,10 +1,10 @@
 $ ->
 
-  $('.add-member-loading-button').live "click", ->
+  $('.add-member-loading-button').on "click", ->
     $('.member-loading').removeClass 'hidden'
     $('#new_member_form').hide()
 
-  $('#add_job_member').live "click", ->
+  $('#add_job_member').on "click", ->
     $('#new_member_name').val('')
     $('#new_member_id').val('')
     $('#add_job_member').hide()
@@ -12,13 +12,13 @@ $ ->
     $('#new_member_name').focus()
     return false
 
-  $('#cancel_add_member').live "click", ->
+  $('#cancel_add_member').on "click", ->
     $('#new_member_form').addClass 'hidden'
     $('#add_job_member').show()
     $('#new_member_form').hide()
     return false
 
-  $('#toggle_member_names').live "click", ->
+  $('#toggle_member_names').on "click", ->
     if $(this).attr('data-toggle') == "open"
       $(this).attr('data-toggle', 'closed')
       $('.member-full-list').addClass 'hidden'
@@ -39,7 +39,7 @@ $ ->
 
     return false
 
-  $('#close_members').live "click", ->
+  $('#close_members').on "click", ->
     $('#toggle_member_names').attr('data-toggle', 'closed')
     $('.member-full-list').addClass 'hidden'
     $('#toggle_member_show').removeClass 'hidden'
@@ -48,7 +48,7 @@ $ ->
 
 
 
-  $('.job-membership-type').live "click", ->
+  $('.job-membership-type').on "click", ->
     $('.job-membership-type').each ->
       li = $(this).closest('li')
       if li.hasClass 'active'

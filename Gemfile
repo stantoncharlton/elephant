@@ -10,7 +10,8 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem "tabs_on_rails"
 gem "mail", "2.4.4"
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 2.3.0'
+# gem 'jquery-ui-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-timepicker-rails-addon'
 gem 'aws-sdk'
@@ -40,6 +41,9 @@ gem 'acts_as_tenant'
 gem 'rollout'
 gem 'pusher'
 gem 'rmagick', :require => 'RMagick'
+
+gem 'roadie-rails'
+gem 'rubyzip', "0.9.9"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

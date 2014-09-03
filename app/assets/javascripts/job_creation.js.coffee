@@ -53,14 +53,14 @@ $ ->
         $('#rig_name').removeClass 'ui-autocomplete-typing'
 
 
-  $('.close-modal').live "click", ->
+  $('.close-modal').on "click", ->
     popup = $(this).closest('.modal-popup-background')
     popup.css "visibility", "hidden"
     popup.find(".modal-content").children().remove()
     popup.height(0)
     return false
 
-  $('#close_modal').live "click", ->
+  $('#close_modal').on "click", ->
     if $('#map').length > 0
       $('#map').show()
     $('#modal_popup').css "visibility", "hidden"
@@ -68,7 +68,7 @@ $ ->
     $('#modal_popup').height(0)
     return false
 
-  $('#close_modal2').live "click", ->
+  $('#close_modal2').on "click", ->
     if $('#map').length > 0 && $('#modal_popup').css('visibility') == 'hidden'
       $('#map').show()
     $('#modal_popup2').css "visibility", "hidden"
@@ -83,7 +83,7 @@ $ ->
     else
       alert('Select a District First')
 
-  $('.modal-popup-background').live "click", (e) ->
+  $('.modal-popup-background').on "click", (e) ->
     if e.target.id == 'modal_popup'
       $(this).find('#close_modal').trigger "click"
 
@@ -161,7 +161,7 @@ $ ->
     $.ajax '/fields?district_id=' + $('#job_district_id').val(), dataType: 'script'
 
 
-  $('.job-type-selection').live "click", ->
+  $('.job-type-selection').on "click", ->
     $('.job-type-selection').removeClass('job-type-selected')
     $(this).addClass('job-type-selected')
     $val = $(this).attr('id').replace('job_template_', '')
@@ -171,7 +171,7 @@ $ ->
     $('body').animate({scrollTop : $(document).height()}, 'slow');
     return false
 
-  $('.tool-type-selection').live "click", ->
+  $('.tool-type-selection').on "click", ->
     if $(this).hasClass 'tool-type-selected'
       $(this).removeClass('tool-type-selected')
     else
@@ -201,7 +201,7 @@ $ ->
     return false
 
 
-  $('.form-loading-on-click').live "click", ->
+  $('.form-loading-on-click').on "click", ->
     if $(this).attr('data-form').length > 0
       data = $(this).attr('data-form')
       form = $('.form[data-form=' + data + ']')
@@ -219,12 +219,12 @@ $ ->
       $('.form').hide()
       $('body').animate({scrollTop : 0},'slow');
 
-  $('.ajax-form-loading-on-click').live "click", ->
+  $('.ajax-form-loading-on-click').on "click", ->
     $('.ajax-loading').removeClass 'hidden'
     $('.ajax-form').hide()
 
 
-  $('#show_tool_filter').live "click", ->
+  $('#show_tool_filter').on "click", ->
     $(this).addClass 'hidden'
     $('.tool-filter').removeClass 'hidden'
     return false

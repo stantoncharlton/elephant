@@ -1,6 +1,6 @@
 $ ->
 
-  $('#activity_code_select').live "change", ->
+  $('#activity_code_select').on "change", ->
     current_value = $(this).find('option:selected').val()
     if current_value == '4' || current_value == '13'
       $('#survey_entry').removeClass 'hidden'
@@ -9,7 +9,7 @@ $ ->
     return false
 
 
-  $('#drilling_log_filter').live "change", ->
+  $('#drilling_log_filter').on "change", ->
     data_id = $(this).attr('data-id')
     selection = $(this).find('option:selected').val()
     $('.log-entry-hidden').addClass 'hidden'
@@ -45,14 +45,14 @@ $ ->
           $(this).hide()
     return false
 
-  $('#add_new_entry_jump').live "click", ->
+  $('#add_new_entry_jump').on "click", ->
     $("html, body").animate({ scrollTop: $(document).height() }, "fast")
     return false
 
   if $('#checkbox_override_date').is(':checked')
     $('.date-fields').removeClass 'hidden'
 
-  $('.toggle-content-link').live "click", ->
+  $('.toggle-content-link').on "click", ->
 
     content = $(this).next('.toggle-content')
     if content.length > 0
@@ -63,7 +63,7 @@ $ ->
     return false
 
 
-  $('.sub-tray-link').live "click", ->
+  $('.sub-tray-link').on "click", ->
     $('.sub-tray-link').each ->
       li = $(this).closest('li')
       if li.hasClass 'active'

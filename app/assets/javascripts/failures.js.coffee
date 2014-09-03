@@ -1,6 +1,6 @@
 $ ->
 
-  $('.star-button').live "mouseenter", ->
+  $('.star-button').on "mouseenter", ->
     level = $(this).attr('level')
     $('.star-button').each ->
       if $(this).attr('level') <= level
@@ -8,11 +8,11 @@ $ ->
       else
         $(this).removeClass 'star-button-hover'
 
-  $('.star-button').live "mouseleave", ->
+  $('.star-button').on "mouseleave", ->
     $('.star-button').each ->
       $(this).removeClass 'star-button-hover'
 
-  $('.star-button').live "click", ->
+  $('.star-button').on "click", ->
     level = $(this).attr('level')
     #$('.star-button-level').text(level)
     $('#value').val(level)
@@ -23,7 +23,7 @@ $ ->
         $(this).removeClass 'star-button-filled'
     return false
 
-  #$('.failure-checkbox').live "click", ->
+  #$('.failure-checkbox').on "click", ->
   #  if $(this).is(':checked')
   #    $(this).closest('.field').find('.failure-reference').removeClass 'hidden'
   #  else
