@@ -1,5 +1,5 @@
 $ ->
-  $('.range-validator').on "keyup", ->
+  $('.range-validator').live "keyup", ->
     value = parseFloat($(this).val())
     if value < parseFloat($(this).attr('data-minimum')) || value > parseFloat($(this).attr('data-maximum'))
       $(this).addClass 'ui-autocomplete-bad'

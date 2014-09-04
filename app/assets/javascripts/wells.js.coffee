@@ -4,7 +4,7 @@ $ ->
     box.addClass 'ui-autocomplete-bad'
     alert("Invalid Well Location. Please format like:\n'28 25 43.426 N, 99 30 53.148 W'\nor '28.42, -99.51'")
 
-  $('.map-latlong-text-entry').on "change", ->
+  $('.map-latlong-text-entry').live "change", ->
     latlong = $(this).val().trim()
     if latlong.length > 0
       parts = latlong.split(',')
@@ -24,7 +24,7 @@ $ ->
             return bad_well $(this)
 
 
-  $('.map-latlong-text-entry').on "keyup", ->
+  $('.map-latlong-text-entry').live "keyup", ->
     if $(this).hasClass 'ui-autocomplete-bad'
       $(this).removeClass 'ui-autocomplete-bad'
     if $(this).val().length > 0
@@ -32,13 +32,13 @@ $ ->
     else
       $('.map-latlong-link').addClass 'hidden'
 
-  $('.map-latlong-link').on "click", ->
+  $('.map-latlong-link').live "click", ->
     $(this).attr 'href', 'http://maps.google.com/maps?z=10&q=' + $('.map-latlong-text-entry').val()
 
   if $('#offshore_checkbox').is(':checked')
     $('#offshore_fields').css('display', 'inline')
 
-  $('#offshore_checkbox').on "click", ->
+  $('#offshore_checkbox').live "click", ->
     if $(this).is(':checked')
       $('#offshore_fields').css('display', 'inline')
     else
@@ -65,7 +65,7 @@ $ ->
     $('#jobs_count').text(count)
 
 
-  $('.well-update-field').on "change", ->
+  $('.well-update-field').live "change", ->
     if $(this).val().length > 0
       $.ajax '/wells/' + $(this).attr("data-id"),
         data: {"update_field": "true", "field": $(this).attr("data-field"), "value": $(this).val()},

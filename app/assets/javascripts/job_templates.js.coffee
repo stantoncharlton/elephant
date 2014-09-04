@@ -36,7 +36,7 @@ $ ->
 
     event.preventDefault()
 
-  $('.document-upload-button').on "click", ->
+  $('.document-upload-button').live "click", ->
     if $.browser.mozilla
       $(this).prev().removeClass 'file-input'
       $(this).prev().trigger "click"
@@ -45,7 +45,7 @@ $ ->
       $(this).prev().trigger "click"
     return false
 
-  $('.document-upload-button').on "hover", ->
+  $('.document-upload-button').live "hover", ->
     $(this).css('cursor','hand');
 
   $('.job-type-tray-toggle').click ->
@@ -60,7 +60,7 @@ $ ->
   if document.location.hash != ''
     $(".job-type-tray-toggle[data-tray=" + document.location.hash.replace('#', '') + "]").trigger "click"
 
-  $('.show-modal-button').on "click", ->
+  $('.show-modal-button').live "click", ->
     if $('#map').length > 0
       $('#map').hide()
     $('#modal_popup').css('visibility', 'visible')
@@ -75,7 +75,7 @@ $ ->
     $('#modal_popup').find('.loading').removeClass 'hidden'
     return false
 
-  $('.show-modal-button2').on "click", ->
+  $('.show-modal-button2').live "click", ->
     if $('#map').length > 0
       $('#map').hide()
     popup = $('#modal_popup2')
@@ -86,7 +86,7 @@ $ ->
     popup.find('.loading').removeClass 'hidden'
     return false
 
-  $('.add-new-document-button').on "click", ->
+  $('.add-new-document-button').live "click", ->
     $('#new_documents_added').removeClass 'hidden'
     oldValue = $('#new_documents_added_names').text()
     if oldValue == ''
@@ -94,39 +94,39 @@ $ ->
     else
       $('#new_documents_added_names').text(oldValue + ', ' +  $(this).closest('.inline-form').find('[id=new_document_name]').val())
 
-  $('.add-new-document-tool-link').on "click", ->
+  $('.add-new-document-tool-link').live "click", ->
     $(this).closest('.root-tool').find('.add-new-document-tool').removeClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').addClass 'hidden'
     return false
 
-  $('.cancel-add-document-tool').on "click", ->
+  $('.cancel-add-document-tool').live "click", ->
     $(this).closest('.root-tool').find('input[id=new_document_name]').val('').trigger('focusout')
     $(this).closest('.root-tool').find('.add-new-document-tool').addClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
     return false
 
-  $('.add-new-document-tool-button').on "click", ->
+  $('.add-new-document-tool-button').live "click", ->
     $(this).closest('.root-tool').find('.add-new-document-tool').addClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
 
 
-  $('.add-new-part-tool-link').on "click", ->
+  $('.add-new-part-tool-link').live "click", ->
     $(this).closest('.root-tool').find('.add-new-part-tool').removeClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').addClass 'hidden'
     return false
 
-  $('.cancel-add-part-tool').on "click", ->
+  $('.cancel-add-part-tool').live "click", ->
     $(this).closest('.root-tool').find('input[id=new_part_material_number]').val('').trigger('focusout')
     $(this).closest('.root-tool').find('.add-new-part-tool').addClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
     return false
 
-  $('.add-new-part-tool-button').on "click", ->
+  $('.add-new-part-tool-button').live "click", ->
     $(this).closest('.root-tool').find('.add-new-part-tool').addClass 'hidden'
     $(this).closest('.root-tool').find('.tool-add-links').removeClass 'hidden'
 
 
-  $('#track_accessories').on "click", ->
+  $('#track_accessories').live "click", ->
     $.ajax '/job_templates/' + $(this).attr('data-job-template'),
       data: {track_accessories: $(this).is(':checked')},
       type: 'put', dataType: 'script'

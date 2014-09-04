@@ -24,7 +24,7 @@ jQuery ->
 
   $('.conversation-link:first div:first').addClass 'message-selected'
 
-  $('#messages_icon_div').on "mouseover", ->
+  $('#messages_icon_div').live "mouseover", ->
     $('#messages_window').removeClass('hidden')
     $('#messages_window').css('z-index', 1000000000)
     $('#messages_window').css('left', $(this).position().left - 80)
@@ -36,7 +36,7 @@ jQuery ->
       $('#conversation_messages_list').scrollTop($('#conversation_messages_list').height() + 10000)
       $.ajax '/conversations/?open_only=true', type: 'get', dataType: 'script'
 
-  $('#messages_icon_div').on "mouseout",  ->
+  $('#messages_icon_div').live "mouseout",  ->
     setTimeout ->
       if !$('#messages_window').is(':hover')
         $('html').css('overflow', 'auto')
@@ -45,10 +45,10 @@ jQuery ->
         $('#messages_window').removeClass('hidden')
     , 100
 
-  $('#messages_window').on "mouseover",  ->
+  $('#messages_window').live "mouseover",  ->
     $('html').css('overflow', 'hidden')
 
-  $('#messages_window').on "mouseout",  ->
+  $('#messages_window').live "mouseout",  ->
     setTimeout ->
       on_autocomplete = $('#new_message').is(':visible') && $('ul.ui-autocomplete').is(':hover')
       if !$('#messages_window').is(':hover') && !on_autocomplete
@@ -58,13 +58,13 @@ jQuery ->
         $('#messages_window').removeClass('hidden')
     , 100
 
-  $('#new_conversation_link').on "click", ->
+  $('#new_conversation_link').live "click", ->
     $(this).addClass 'hidden'
     $('#messages_full_window').addClass 'hidden'
     $('#new_message').removeClass 'hidden'
     return false
 
-  $('#close_new_message').on "click", ->
+  $('#close_new_message').live "click", ->
     $('#new_conversation_link').removeClass 'hidden'
     $('#messages_full_window').removeClass 'hidden'
     $('#new_message').addClass 'hidden'

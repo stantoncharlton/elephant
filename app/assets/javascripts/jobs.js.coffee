@@ -14,19 +14,19 @@ $ ->
 
 
 
-  $('#close_job a').on "click", ->
+  $('#close_job a').live "click", ->
     $('#close_job').addClass 'hidden'
     if $('.current-job-status').length > 0
       $('.current-job-status').text('Complete')
     return false
 
-  $('#begin_on_job a').on "click", ->
+  $('#begin_on_job a').live "click", ->
     $('#begin_on_job').addClass 'hidden'
     if $('.current-job-status').length > 0
       $('.current-job-status').text('On Job')
     return false
 
-  $('#begin_post_job a').on "click", ->
+  $('#begin_post_job a').live "click", ->
     $('#begin_post_job').addClass 'hidden'
     if $('.current-job-status').length > 0
       $('.current-job-status').text('Post Job')
@@ -60,11 +60,11 @@ $ ->
 
 
 
-  $('.job-member-list-item').on "mouseenter", ->
+  $('.job-member-list-item').live "mouseenter", ->
     $(this).find('.job-member-edit-button').css('visibility', 'visible')
     $(this).find('.delete-button-small').css('visibility', 'visible')
 
-  $('.job-member-list-item').on "mouseleave", ->
+  $('.job-member-list-item').live "mouseleave", ->
     $(this).find('.job-member-edit-button').css('visibility', 'hidden')
     $(this).find('.delete-button-small').css('visibility', 'hidden')
 
@@ -174,7 +174,7 @@ $ ->
       $.ajax '/parts/' + $(this).attr('data-id') + "?section=asset_activity", type: 'get', dataType: 'script'
     event.preventDefault()
 
-  $('.remote-tray-toggle').on "click", (event) ->
+  $('.remote-tray-toggle').live "click", (event) ->
 
     main_tray_name = $(this).attr('data-tray')
     main_controller = $(this).attr('data-tray-controller')
@@ -306,14 +306,14 @@ $ ->
 #if $('#job_activities')
 #  $.ajax '/activities' + '?job_id=' + $(this).val(), type: 'put', dataType: 'script'
 
-  $('.expand-job-description').on "click", ->
+  $('.expand-job-description').live "click", ->
     $(this).remove()
     $('.job-description-custom-data-div').css("max-height", 100000)
     return false
 
 
 
-  $('.change-asset-type').on "click", ->
+  $('.change-asset-type').live "click", ->
     $('.change-asset-type').each ->
       li = $(this).closest('li')
       if li.hasClass 'active'
@@ -332,27 +332,27 @@ $ ->
     return false
 
 
-  $('#complete_job').on "click", ->
+  $('#complete_job').live "click", ->
     $.ajax '/jobs/' + $(this).attr('data-id') + "?section=rating", type: 'get', dataType: 'script'
     return true
 
 
-  $('.job-update-field').on "change", ->
+  $('.job-update-field').live "change", ->
     if $(this).val().length > 0
       $.ajax '/jobs/' + $(this).attr("data-id") + '?update_field=true&field=' + $(this).attr("data-field") + '&value=' + $(this).val(), type: 'put', dataType: 'script'
 
-  $('#confirm-assets').on "click", ->
+  $('#confirm-assets').live "click", ->
     div = $(this).closest('div')
     div.addClass 'hidden'
     div.next('div').removeClass 'hidden'
     return false
-  $('#confirm-assets-undo').on "click", ->
+  $('#confirm-assets-undo').live "click", ->
     div = $(this).closest('div')
     div.addClass 'hidden'
     div.prev('div').removeClass 'hidden'
     return false
 
-  $('#jobs_filter').on "change", ->
+  $('#jobs_filter').live "change", ->
     value = $(this).find('option:selected').val()
     $('.job-link').each ->
       $(this).show()
@@ -375,7 +375,7 @@ $ ->
 
 
 
-  $('.loading-jobs').on 'click', (event)  ->
+  $('.loading-jobs').live 'click', (event)  ->
     $('#jobs').addClass 'hidden'
     $('#jobs_loading').removeClass 'hidden'
     $('#jobs_loading').find('.loading').removeClass 'hidden'

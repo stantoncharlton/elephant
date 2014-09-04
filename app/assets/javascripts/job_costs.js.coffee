@@ -1,6 +1,6 @@
 $ ->
 
-  $('#toggle_cost').on "click", ->
+  $('#toggle_cost').live "click", ->
     if $(this).attr('data-toggle') == "open"
       $(this).attr('data-toggle', 'closed')
       $('.full-costs').addClass 'hidden'
@@ -21,7 +21,7 @@ $ ->
 
     return false
 
-  $('#close_cost').on "click", ->
+  $('#close_cost').live "click", ->
     $('#toggle_cost').attr('data-toggle', 'closed')
     $('.full-costs').addClass 'hidden'
     $('#toggle_cost_show').removeClass 'hidden'

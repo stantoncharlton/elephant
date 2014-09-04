@@ -4,12 +4,12 @@ $ ->
   $('#new_note_id').keydown ->
     $('#new_note_id').css('height', $('#new_note_id'))
 
-  $('.note-comment').on 'focus', ->
+  $('.note-comment').live 'focus', ->
     $(this).css('opacity', '1.0')
 
 
 
-  $('.change-note-type').on "click", ->
+  $('.change-note-type').live "click", ->
     $('.change-note-type').each ->
       li = $(this).closest('li')
       if li.hasClass 'active'
@@ -48,7 +48,7 @@ $ ->
 
   $('.change-note-type[data-note=report]').trigger('click')
 
-  $('.activity-report-show-all').on "click", ->
+  $('.activity-report-show-all').live "click", ->
     root = $(this).closest('.activity-report-root')
     $(this).addClass 'hidden'
     root.find('.past-day').removeClass 'hidden'

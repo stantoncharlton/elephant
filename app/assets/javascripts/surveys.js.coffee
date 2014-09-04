@@ -1,6 +1,6 @@
 $ ->
 
-  $('#import_tie_on').on "click", ->
+  $('#import_tie_on').live "click", ->
     if $(this).is(':checked')
       $('#tie_on_fields').addClass "hidden"
     else

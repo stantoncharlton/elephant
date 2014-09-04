@@ -14,7 +14,7 @@ class Timesheet
 
 $ ->
 
-  $('.day-button-schedule').on "click", ->
+  $('.day-button-schedule').live "click", ->
     job = $(this).attr('data-job')
     user = $(this).attr('data-user')
     date = $(this).attr('data-day')
@@ -53,7 +53,7 @@ $ ->
     return false
 
 
-  $('.time-close-button').on "click", ->
+  $('.time-close-button').live "click", ->
     popup = $(this).closest('.timesheet')
     main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + '][data-job=' + popup.attr('data-job') + ']')
     job = main_button.attr('data-job')
@@ -71,19 +71,19 @@ $ ->
       type: 'put', dataType: 'script'
     return false
 
-  $('.time-decrease-button').on "click", ->
+  $('.time-decrease-button').live "click", ->
     unit = parseFloat($(this).attr('data-unit'))
     new_value = parseFloat($('.time-confirm-button').val()) - unit
     if new_value >= 0
       $('.time-confirm-button').val(new_value)
     return false
 
-  $('.time-increase-button').on "click", ->
+  $('.time-increase-button').live "click", ->
     unit = parseFloat($(this).attr('data-unit'))
     $('.time-confirm-button').val(parseFloat($('.time-confirm-button').val()) + unit)
     return false
 
-  $('.time-confirm-button').on "click", ->
+  $('.time-confirm-button').live "click", ->
     popup = $(this).closest('.timesheet')
     main_button = $('.day-button[data-user=' + popup.attr('data-user') + '][data-day=' + popup.attr('data-day') + '][data-job=' + popup.attr('data-job') + ']')
     job = main_button.attr('data-job')
@@ -105,7 +105,7 @@ $ ->
     return false
 
 
-  $('.start-job-time-loader').on "click", ->
+  $('.start-job-time-loader').live "click", ->
     $('#job_time_loader').removeClass 'hidden'
     return false
 
