@@ -86,6 +86,7 @@ group :test do
 end
 
 group :production do
+  gem 'sass-rails',   '~> 3.2.3'
 end
 
 
